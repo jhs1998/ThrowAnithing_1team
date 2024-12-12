@@ -16,17 +16,22 @@ public class IdleState : PlayerState
 
     public override void Update()
     {
-        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         Debug.Log("Idle");
+
+        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         if (moveDir != Vector3.zero) 
         {
             _player.ChangeState(PlayerController.State.Run);
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            _player.ChangeState(PlayerController.State.MeleeAttack);
         }
     }
 
 
     public override void Exit()
     {
-        Debug.Log("Idle ³¡");
+        
     }
 }

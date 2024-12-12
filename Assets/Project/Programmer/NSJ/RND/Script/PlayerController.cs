@@ -67,6 +67,11 @@ public class PlayerController : MonoBehaviour
         _states[(int)_curState].Enter();
     }
 
+    public void AttackMelee()
+    {
+        Debug.Log("근접공격!");
+    }
+
 
     /// <summary>
     /// TPS 시점 카메라 회전
