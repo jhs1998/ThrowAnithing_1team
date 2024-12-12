@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerState : BaseState
 {
-    PlayerController _player;
+    protected PlayerController _player;
 
     public PlayerState(PlayerController controller)
     {
