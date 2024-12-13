@@ -18,7 +18,10 @@ public class MeleeAttackState : PlayerState
         {
             _player.View.SetTrigger(PlayerView.Parameter.MeleeAttack);
         }
-
+        else
+        {
+            _player.Model.ComboCount++;
+        }        
         CoroutineHandler.StartRoutine(MeleeAttackRoutine());
     }
 
@@ -64,6 +67,7 @@ public class MeleeAttackState : PlayerState
         }
         else
         {
+            _player.Model.ComboCount = 0;
             _player.ChangeState(PlayerController.State.Idle);
         }
         

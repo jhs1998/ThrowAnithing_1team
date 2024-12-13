@@ -1,4 +1,5 @@
 
+using Assets.Project.Programmer.NSJ.RND.Script;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,10 +9,20 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Rigidbody Rb;
 
     Collider[] colliders = new Collider[20];
-    [SerializeField] public float AttackBufferTime;
-    [SerializeField] private float _range;
-    [SerializeField] private float _angle;
 
+    #region 공격 관련 필드
+    [System.Serializable]
+    struct AttackStruct
+    {
+        public float AttackBufferTime;
+        public Transform MuzzlePoint;
+        public GameObject ThrowPrefab;
+    }
+    [SerializeField] private AttackStruct _attackStruct;
+    private Transform _muzzltPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
+    private GameObject _throwPrefab { get { return _attackStruct.ThrowPrefab; } set { _attackStruct.ThrowPrefab = value; } }
+    public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
+    #endregion
     #region Camera 관련 필드
     /// <summary>
     /// 카메라 관련
@@ -70,13 +81,21 @@ public class PlayerController : MonoBehaviour
         _curState = state;
         _states[(int)_curState].Enter();
     }
+
+    public void ThrowObject()
+    {
+        GameObject throwObject = Instantiate(_throwPrefab, _muzzltPoint.position, _muzzltPoint.rotation);
+        Rigidbody rb = throwObject.GetComponent<Rigidbody>();
+        rb.AddForce(throwObject.transform.forward * 10f ,ForceMode.Impulse);
+    }
+
     public void AttackMelee()
     {
         // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
         // 1. 전방에 있는 몬스터 확인
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
         Vector3 attackPos = playerPos;
-        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, _range, colliders, 1<<4);
+        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, colliders, 1<<4);
         for (int i = 0; i < hitCount; i++) 
         {
             // 2. 각도 내에 있는지 확인
@@ -87,28 +106,33 @@ public class PlayerController : MonoBehaviour
 
             Vector3 targetDir = (destination - source).normalized;
             float targetAngle =  Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
-            if (targetAngle > _angle * 0.5f)
+            if (targetAngle > Model.Angle * 0.5f)
                 continue;
 
-           Debug.Log($"{colliders[i].gameObject.name} 근접공격");
+            IHit hit = colliders[i].GetComponent<IHit>();
+
+            int attackDamage = (int)(Model.Damage * Model.DamageMultiplier);
+            hit.TakeDamage(attackDamage);
         }
     }
 
     private void OnDrawGizmos()
     {
+        if (Model == null)
+            return;
         //거리
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
         Vector3 attackPos = playerPos;
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPos, _range);
+        Gizmos.DrawWireSphere(attackPos, Model.Range);
 
         //각도
-        Vector3 rightDir= Quaternion.Euler(0, _angle * 0.5f, 0) * transform.forward;
-        Vector3 leftDir = Quaternion.Euler(0, _angle * -0.5f, 0) * transform.forward;
+        Vector3 rightDir= Quaternion.Euler(0, Model.Angle * 0.5f, 0) * transform.forward;
+        Vector3 leftDir = Quaternion.Euler(0, Model.Angle * -0.5f, 0) * transform.forward;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position,transform.position + rightDir * _range );
-        Gizmos.DrawLine(transform.position, transform.position + leftDir * _range );
+        Gizmos.DrawLine(transform.position,transform.position + rightDir * Model.Range);
+        Gizmos.DrawLine(transform.position, transform.position + leftDir * Model.Range);
     }
     /// <summary>
     /// TPS 시점 카메라 회전

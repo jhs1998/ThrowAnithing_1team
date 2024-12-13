@@ -714,12 +714,43 @@ Transform:
   m_GameObject: {fileID: 795032231}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.078, y: 0.744, z: 0.581}
+  m_LocalPosition: {x: 0.078, y: 0.744, z: 4.049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &799354069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 799354070}
+  m_Layer: 0
+  m_Name: MuzzlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &799354070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799354069}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.17364825, y: 0, z: 0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 1.341, z: 0.586}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1580089692}
+  m_LocalEulerAnglesHint: {x: -20, y: 0, z: 0}
 --- !u!1 &1279094442
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,6 +991,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 5
+  Melee:
+    MaxComboCount: 3
+    ComboCount: 0
+    MeleeAttack:
+    - Range: 1.5
+      Angle: 90
+      Damage: 1
+    - Range: 1.5
+      Angle: 120
+      Damage: 0.7
+    - Range: 1.5
+      Angle: 150
+      Damage: 1.5
 --- !u!114 &1580089691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -975,10 +1019,10 @@ MonoBehaviour:
   Model: {fileID: 0}
   View: {fileID: 0}
   Rb: {fileID: 0}
-  AttackBufferTime: 0.5
-  MaxMeleeComboCount: 0
-  _range: 1
-  _angle: 120
+  _attackStruct:
+    AttackBufferTime: 0.5
+    MuzzlePoint: {fileID: 799354070}
+    ThrowPrefab: {fileID: 5895376409544608816, guid: 87dcd70e2f44b03449aa16b5b85e3ea3, type: 3}
   _cameraStruct:
     CamaraArm: {fileID: 199049299}
     CameraPos: {fileID: 387948606}
@@ -999,6 +1043,7 @@ Transform:
   m_Children:
   - {fileID: 1377193541}
   - {fileID: 199049299}
+  - {fileID: 799354070}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1580089693
