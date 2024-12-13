@@ -1,5 +1,4 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
-using System.Runtime.CompilerServices;
+
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,6 +6,11 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
+
+    Collider[] colliders = new Collider[20];
+    [SerializeField] public float AttackBufferTime;
+    [SerializeField] private float _range;
+    [SerializeField] private float _angle;
 
     #region Camera 관련 필드
     /// <summary>
@@ -66,13 +70,46 @@ public class PlayerController : MonoBehaviour
         _curState = state;
         _states[(int)_curState].Enter();
     }
-
     public void AttackMelee()
     {
-        Debug.Log("근접공격!");
+        // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
+        // 1. 전방에 있는 몬스터 확인
+        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+        Vector3 attackPos = playerPos;
+        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, _range, colliders, 1<<4);
+        for (int i = 0; i < hitCount; i++) 
+        {
+            // 2. 각도 내에 있는지 확인
+            Vector3 source = transform.position;
+            source.y = 0;
+            Vector3 destination = colliders[i].transform.position;
+            destination.y = 0;
+
+            Vector3 targetDir = (destination - source).normalized;
+            float targetAngle =  Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
+            if (targetAngle > _angle * 0.5f)
+                continue;
+
+           Debug.Log($"{colliders[i].gameObject.name} 근접공격");
+        }
     }
 
+    private void OnDrawGizmos()
+    {
+        //거리
+        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+        Vector3 attackPos = playerPos;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPos, _range);
 
+        //각도
+        Vector3 rightDir= Quaternion.Euler(0, _angle * 0.5f, 0) * transform.forward;
+        Vector3 leftDir = Quaternion.Euler(0, _angle * -0.5f, 0) * transform.forward;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position,transform.position + rightDir * _range );
+        Gizmos.DrawLine(transform.position, transform.position + leftDir * _range );
+    }
     /// <summary>
     /// TPS 시점 카메라 회전
     /// </summary>

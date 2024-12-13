@@ -16,12 +16,12 @@ public class RunState : PlayerState
 
     public override void Enter()
     {
-        PlayAnimation(true);
+        _player.View.SetBool(PlayerView.Parameter.Run, true);
     }
 
     public override void Update()
     {
-        Debug.Log("Run");
+        //Debug.Log("Run");
         InputKey();
         CheckChangeState();
     }
@@ -33,7 +33,7 @@ public class RunState : PlayerState
 
     public override void Exit()
     {
-        PlayAnimation(false);
+        _player.View.SetBool(PlayerView.Parameter.Run, false);
         _player.Rb.velocity = Vector3.zero;
     }
 
@@ -67,19 +67,14 @@ public class RunState : PlayerState
     private void CheckChangeState()
     {
         if (_moveDir == Vector3.zero)
-        {
+        {         
             _player.ChangeState(PlayerController.State.Idle);
         }
         
-        else if (Input.GetMouseButtonDown(0))
+        else if (Input.GetButtonDown("Fire1"))
         {
             _player.ChangeState(PlayerController.State.MeleeAttack);
         }
     }
 
-
-    private void PlayAnimation(bool value)
-    {
-        _player.View.SetBool(PlayerView.Parameter.MoveSpeed, value);
-    } 
 }

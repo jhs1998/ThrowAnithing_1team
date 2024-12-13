@@ -1,10 +1,27 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerView : MonoBehaviour
 {
-    public enum Parameter { MoveSpeed, MeleeAttack, Size }
+    public enum Parameter {Idle, Run, MeleeAttack, ComboAttack, Size }
 
-    public bool IsAnimationFinish;
+    private bool _isAnimationFinish;
+    public bool IsAnimationFinish
+    {
+        get
+        {
+            bool answer = _isAnimationFinish;
+            if (_isAnimationFinish == true)
+            {
+                _isAnimationFinish = false;
+            }
+            return answer;
+        }
+        set
+        {
+            _isAnimationFinish = value;
+        }
+    }
 
     [SerializeField] PlayerPanel _panel;
 
@@ -33,12 +50,22 @@ public class PlayerView : MonoBehaviour
         _animator.SetInteger(_animatorHashes[(int)animation], value);
     }
 
+    public int GetInteger(Parameter animation)
+    {
+        return _animator.GetInteger(_animatorHashes[(int)animation]);
+    }
+
     /// <summary>
     /// 플레이어 애니메이션 SetBool
     /// </summary>
     public void SetBool(Parameter animation, bool value)
     {
         _animator.SetBool(_animatorHashes[(int)animation], value);
+    }
+
+    public bool GetBool(Parameter animation)
+    {
+        return _animator.GetBool(_animatorHashes[(int)animation]);
     }
 
     /// <summary>
@@ -48,6 +75,10 @@ public class PlayerView : MonoBehaviour
     {
         _animator.SetFloat(_animatorHashes[(int)animation], value);
     }
+    public float GetFloat(Parameter animation)
+    {
+        return _animator.GetFloat(_animatorHashes[(int)animation]);
+    }
 
     public void SetIsAnimationFinish()
     {
@@ -56,7 +87,10 @@ public class PlayerView : MonoBehaviour
 
     private void Init()
     {
-        _animatorHashes[(int)Parameter.MoveSpeed] = Animator.StringToHash("IsMove");
+        _animatorHashes[(int)Parameter.Idle] = Animator.StringToHash("Idle");
+        _animatorHashes[(int)Parameter.Run] = Animator.StringToHash("Run");
+        _animatorHashes[(int)Parameter.ComboAttack] = Animator.StringToHash("ComboAttack");
         _animatorHashes[(int)Parameter.MeleeAttack] = Animator.StringToHash("MeleeAttack");
+
     }
 }
