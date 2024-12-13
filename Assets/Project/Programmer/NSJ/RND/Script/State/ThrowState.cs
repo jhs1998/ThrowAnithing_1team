@@ -1,22 +1,22 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeAttackState : PlayerState
+public class ThrowState : PlayerState
 {
     private float _atttackBufferTime;
     private bool _isCombe;
     private bool _isChangeAttack;
-    public MeleeAttackState(PlayerController controller) : base(controller)
+    public ThrowState(PlayerController controller) : base(controller)
     {
         _atttackBufferTime = _player.AttackBufferTime;
     }
-
     public override void Enter()
     {
         _isChangeAttack = false;
-        if (_player.View.GetBool(PlayerView.Parameter.MeleeCombo) == false)
+        if (_player.View.GetBool(PlayerView.Parameter.ThrowCombo) == false)
         {
-            _player.View.SetTrigger(PlayerView.Parameter.MeleeAttack);
+            _player.View.SetTrigger(PlayerView.Parameter.ThrowAttack);
         }
         else
         {
@@ -40,31 +40,29 @@ public class MeleeAttackState : PlayerState
         yield return null;
         float timeCount = _atttackBufferTime;
         while (_player.View.IsAnimationFinish == false)
-        {       
+        {
             // 공격 버퍼
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire2"))
             {
                 // 다음 공격 대기
                 _isCombe = true;
-                _player.View.SetBool(PlayerView.Parameter.MeleeCombo, true);
+                _player.View.SetBool(PlayerView.Parameter.ThrowCombo, true);
                 timeCount = _atttackBufferTime;
             }
-            else if (Input.GetButtonDown("Fire2"))
+            else if (Input.GetButtonDown("Fire1"))
             {
-                // 던지기 공격 전환
+                // 근접 공격 전환
                 _isCombe = false;
                 _isChangeAttack = true;
-                _player.View.SetBool(PlayerView.Parameter.MeleeCombo, false);
+                _player.View.SetBool(PlayerView.Parameter.ThrowCombo, false);
                 timeCount = _atttackBufferTime;
             }
-
-            // 버퍼 타이머
             timeCount -= Time.deltaTime;
             if (timeCount <= 0)
             {
                 // 다음 공격 취소
                 _isCombe = false;
-                _player.View.SetBool(PlayerView.Parameter.MeleeCombo, false);
+                _player.View.SetBool(PlayerView.Parameter.ThrowCombo, false);
                 timeCount = _atttackBufferTime;
             }
 
@@ -73,12 +71,12 @@ public class MeleeAttackState : PlayerState
 
         if (_isCombe == true)
         {
-            _player.ChangeState(PlayerController.State.MeleeAttack);
+            _player.ChangeState(PlayerController.State.ThrowAttack);
         }
         else if (_isChangeAttack == true)
         {
             _player.Model.ComboCount = 0;
-            _player.ChangeState(PlayerController.State.ThrowAttack);
+            _player.ChangeState(PlayerController.State.MeleeAttack);
         }
         else
         {

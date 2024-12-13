@@ -3,7 +3,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerView : MonoBehaviour
 {
-    public enum Parameter {Idle, Run, MeleeAttack, ComboAttack, Size }
+    public enum Parameter {Idle, Run, MeleeAttack, MeleeCombo, ThrowAttack,ThrowCombo, Size }
 
     private bool _isAnimationFinish;
     public bool IsAnimationFinish
@@ -89,8 +89,9 @@ public class PlayerView : MonoBehaviour
     {
         _animatorHashes[(int)Parameter.Idle] = Animator.StringToHash("Idle");
         _animatorHashes[(int)Parameter.Run] = Animator.StringToHash("Run");
-        _animatorHashes[(int)Parameter.ComboAttack] = Animator.StringToHash("ComboAttack");
+        _animatorHashes[(int)Parameter.MeleeCombo] = Animator.StringToHash("MeleeCombo");
         _animatorHashes[(int)Parameter.MeleeAttack] = Animator.StringToHash("MeleeAttack");
-
+        _animatorHashes[(int)Parameter.ThrowAttack] = Animator.StringToHash("ThrowAttack");
+        _animatorHashes[(int)Parameter.ThrowCombo] = Animator.StringToHash("ThrowCombo");
     }
 }

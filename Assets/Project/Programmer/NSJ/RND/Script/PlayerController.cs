@@ -16,11 +16,11 @@ public class PlayerController : MonoBehaviour
     {
         public float AttackBufferTime;
         public Transform MuzzlePoint;
-        public GameObject ThrowPrefab;
+        public ThrowObject ThrowPrefab;
     }
     [SerializeField] private AttackStruct _attackStruct;
     private Transform _muzzltPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
-    private GameObject _throwPrefab { get { return _attackStruct.ThrowPrefab; } set { _attackStruct.ThrowPrefab = value; } }
+    private ThrowObject _throwPrefab { get { return _attackStruct.ThrowPrefab; } set { _attackStruct.ThrowPrefab = value; } }
     public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
     #endregion
     #region Camera 관련 필드
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
     private bool _isVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove;} set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
-    public enum State { Idle, Run, MeleeAttack, Size }
+    public enum State { Idle, Run, MeleeAttack, ThrowAttack,  Size }
 
     private PlayerState[] _states = new PlayerState[(int)State.Size];
     private State _curState;
@@ -75,6 +75,9 @@ public class PlayerController : MonoBehaviour
         _states[(int)_curState].FixedUpdate();
     }
 
+    /// <summary>
+    /// 상태 변경
+    /// </summary>
     public void ChangeState(State state)
     {
         _states[(int)_curState].Exit();
@@ -82,13 +85,18 @@ public class PlayerController : MonoBehaviour
         _states[(int)_curState].Enter();
     }
 
+    /// <summary>
+    /// 오브젝트 던지기 공격
+    /// </summary>
     public void ThrowObject()
     {
-        GameObject throwObject = Instantiate(_throwPrefab, _muzzltPoint.position, _muzzltPoint.rotation);
-        Rigidbody rb = throwObject.GetComponent<Rigidbody>();
-        rb.AddForce(throwObject.transform.forward * 10f ,ForceMode.Impulse);
+        ThrowObject throwObject = Instantiate(_throwPrefab, _muzzltPoint.position, _muzzltPoint.rotation);
+        throwObject.Shoot();   
     }
 
+    /// <summary>
+    /// 근접 공격
+    /// </summary>
     public void AttackMelee()
     {
         // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
@@ -141,6 +149,7 @@ public class PlayerController : MonoBehaviour
     {
         float angleX = Input.GetAxis("Mouse X");
         float angleY = default;
+        // 체크시 마우스 상하도 가능
         if (_isVerticalCameraMove == true)
             angleY = Input.GetAxis("Mouse Y");
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
@@ -150,7 +159,7 @@ public class PlayerController : MonoBehaviour
         CamareArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
     }
 
-
+    // 초기 설정 ============================================================================================================================================ //
     /// <summary>
     /// 초기 설정
     /// </summary>
@@ -168,6 +177,7 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.Idle] = new IdleState(this);                 // Idle
         _states[(int)State.Run] = new RunState(this);                   // 이동(달리기)
         _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // 근접공격
+        _states[(int)State.ThrowAttack] = new ThrowState(this);
     }
 
     /// <summary>

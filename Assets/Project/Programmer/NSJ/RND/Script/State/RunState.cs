@@ -69,11 +69,14 @@ public class RunState : PlayerState
         if (_moveDir == Vector3.zero)
         {         
             _player.ChangeState(PlayerController.State.Idle);
-        }
-        
+        }       
         else if (Input.GetButtonDown("Fire1"))
         {
             _player.ChangeState(PlayerController.State.MeleeAttack);
+        }
+        else if (Input.GetButtonDown("Fire2"))
+        {
+            _player.ChangeState(PlayerController.State.ThrowAttack);
         }
     }
 

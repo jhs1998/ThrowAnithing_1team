@@ -28,6 +28,10 @@ public class IdleState : PlayerState
         {
             _player.ChangeState(PlayerController.State.MeleeAttack);
         }
+        else if (Input.GetButtonDown("Fire2"))
+        {
+            _player.ChangeState(PlayerController.State.ThrowAttack);
+        }
     }
 
     public override void Exit()
