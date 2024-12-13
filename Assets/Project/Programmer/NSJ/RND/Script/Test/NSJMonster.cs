@@ -7,9 +7,11 @@ public class NSJMonster : MonoBehaviour, IHit
 {
     [SerializeField] private int _hp;
     private Renderer _renderer;
+    private Color _origin;
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();        
+        _origin = _renderer.material.color;
     }
     public void TakeDamage(int damage)
     {
@@ -21,11 +23,11 @@ public class NSJMonster : MonoBehaviour, IHit
 
     IEnumerator HitRoutine()
     {
-        Color origin = _renderer.material.color;
+   
         _renderer.material.color = Color.yellow;
 
         yield return 0.2f.GetDelay();
 
-        _renderer.material.color = origin;
+        _renderer.material.color = _origin;
     }
 }

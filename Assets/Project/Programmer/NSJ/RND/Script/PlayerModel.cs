@@ -8,7 +8,6 @@ public class PlayerModel : MonoBehaviour
     [System.Serializable]
     public struct MeleeStruct
     {
-        public int MaxComboCount;
         [HideInInspector] public int ComboCount;
         public MeleeAttackStruct[] MeleeAttack;
     }
@@ -19,15 +18,15 @@ public class PlayerModel : MonoBehaviour
         [Range(0, 360)] public float Angle;
         [Range(0, 5)] public float Damage;
     }
+    [Header("근접공격 관련 필드")]
     [SerializeField] public MeleeStruct Melee;
-    public int MaxComboCount { get { return Melee.MaxComboCount; } }
-    public int ComboCount
+    public int MeleeComboCount
     {
         get { return Melee.ComboCount; }
         set
         {
             Melee.ComboCount = value;
-            if (Melee.ComboCount >= Melee.MaxComboCount)
+            if (Melee.ComboCount >= Melee.MeleeAttack.Length)
             {
                 Melee.ComboCount = 0;
             }

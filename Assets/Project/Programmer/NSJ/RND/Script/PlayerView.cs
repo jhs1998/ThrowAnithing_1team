@@ -3,7 +3,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerView : MonoBehaviour
 {
-    public enum Parameter {Idle, Run, MeleeAttack, MeleeCombo, ThrowAttack,ThrowCombo, Size }
+    public enum Parameter { Idle, Run, MeleeAttack, MeleeCombo, ThrowAttack, ThrowCombo, Size }
 
     private bool _isAnimationFinish;
     public bool IsAnimationFinish
@@ -81,7 +81,7 @@ public class PlayerView : MonoBehaviour
     }
 
     public void SetIsAnimationFinish()
-    {
+    { 
         IsAnimationFinish = true;
     }
 

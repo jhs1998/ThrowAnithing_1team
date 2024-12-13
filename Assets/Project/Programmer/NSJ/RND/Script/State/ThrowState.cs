@@ -20,7 +20,7 @@ public class ThrowState : PlayerState
         }
         else
         {
-            _player.Model.ComboCount++;
+            _player.Model.MeleeComboCount++;
         }
         CoroutineHandler.StartRoutine(MeleeAttackRoutine());
     }
@@ -37,6 +37,14 @@ public class ThrowState : PlayerState
 
     IEnumerator MeleeAttackRoutine()
     {
+        if (_player.IsAttackFoward == true)
+        {
+            // 카메라 방향으로 플레이어가 바라보게
+            _player.transform.rotation = _player.CamareArm.rotation;
+            // 카메라는 다시 로컬 기준 0,0,0 의 방향
+            _player.CamareArm.localRotation = Quaternion.identity;
+        }
+
         yield return null;
         float timeCount = _atttackBufferTime;
         while (_player.View.IsAnimationFinish == false)
@@ -75,12 +83,12 @@ public class ThrowState : PlayerState
         }
         else if (_isChangeAttack == true)
         {
-            _player.Model.ComboCount = 0;
+            _player.Model.MeleeComboCount = 0;
             _player.ChangeState(PlayerController.State.MeleeAttack);
         }
         else
         {
-            _player.Model.ComboCount = 0;
+            _player.Model.MeleeComboCount = 0;
             _player.ChangeState(PlayerController.State.Idle);
         }
 

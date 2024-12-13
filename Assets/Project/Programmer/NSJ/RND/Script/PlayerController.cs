@@ -14,14 +14,17 @@ public class PlayerController : MonoBehaviour
     [System.Serializable]
     struct AttackStruct
     {
+        public float AttackHeight;
         public float AttackBufferTime;
         public Transform MuzzlePoint;
         public ThrowObject ThrowPrefab;
     }
+    [Header("공격 관련 필드")]
     [SerializeField] private AttackStruct _attackStruct;
+    public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
+    private float _attackHeight { get { return _attackStruct.AttackHeight;} set { _attackStruct.AttackHeight = value; } }
     private Transform _muzzltPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
     private ThrowObject _throwPrefab { get { return _attackStruct.ThrowPrefab; } set { _attackStruct.ThrowPrefab = value; } }
-    public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
     #endregion
     #region Camera 관련 필드
     /// <summary>
@@ -35,11 +38,22 @@ public class PlayerController : MonoBehaviour
         [Range(0f, 5f)] public float CameraRotateSpeed;
         public bool IsVerticalCameraMove;
     }
+    [Header("카메라 관련 필드")]
     [SerializeField] private CameraStruct _cameraStruct;
     public Transform CamareArm { get { return _cameraStruct.CamaraArm; } set { _cameraStruct.CamaraArm = value; } }
     private Transform _cameraPos { get { return _cameraStruct.CameraPos; } set { _cameraStruct.CameraPos = value; } }
     private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
     private bool _isVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove;} set { _cameraStruct.IsVerticalCameraMove = value; } }
+    #endregion
+    #region 테스트 관련 필드
+    [System.Serializable]
+    public struct TestStruct
+    {
+        public bool IsAttackForward;
+    }
+    [Header("테스트 관련 필드")]
+    [SerializeField] private TestStruct _testStruct;
+    public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
     public enum State { Idle, Run, MeleeAttack, ThrowAttack,  Size }
 
@@ -101,7 +115,7 @@ public class PlayerController : MonoBehaviour
     {
         // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
         // 1. 전방에 있는 몬스터 확인
-        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
         Vector3 attackPos = playerPos;
         int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, colliders, 1<<4);
         for (int i = 0; i < hitCount; i++) 
@@ -129,7 +143,7 @@ public class PlayerController : MonoBehaviour
         if (Model == null)
             return;
         //거리
-        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
         Vector3 attackPos = playerPos;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPos, Model.Range);
