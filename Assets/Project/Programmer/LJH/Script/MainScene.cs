@@ -103,14 +103,24 @@ public class MainScene : BaseUI
 
                 case 3:
                     Debug.Log("게임 종료 선택_게임 종료");
-                    //Todo : 게임종료 만들어야함
+                    ExitGame();
                     break;
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ExitGame();
             Debug.Log("게임 종료 선택_게임 종료");
-        //Todo : 게임종료 만들어야함
+        } 
+    }
+
+    void ExitGame()
+    {
+        //Comment : 유니티 에디터상에서 종료
+        UnityEditor.EditorApplication.isPlaying = false;
+        //Comment : 빌드 상에서 종료
+        Application.Quit();
     }
 
 }
