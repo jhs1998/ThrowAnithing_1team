@@ -26,7 +26,7 @@ public class CoroutineHandler : MonoBehaviour
     /// <summary>
     /// 코루틴 중지
     /// </summary>
-    public static void StopRoutine(IEnumerator enumerator)
+    public static void StopRoutine(Coroutine enumerator)
     {
         Instance.StopCoroutine(enumerator);
     }

@@ -779,6 +779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hp: 100
+  _debuffList: []
 --- !u!1 &799354069
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,7 +830,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1020107221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -843,6 +844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hp: 100
+  _debuffList: []
 --- !u!65 &1020107222
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -948,7 +950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1139209155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -962,6 +964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hp: 100
+  _debuffList: []
 --- !u!65 &1139209156
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1290,17 +1293,22 @@ MonoBehaviour:
   MoveSpeed: 5
   Melee:
     ComboCount: 0
+    Damage: 10
     MeleeAttack:
     - Range: 1.5
       Angle: 90
-      Damage: 1
-    - Range: 2
+      DamageMultiplier: 1
+    - Range: 1.75
       Angle: 120
-      Damage: 0.2
-    - Range: 2.5
+      DamageMultiplier: 0.2
+    - Range: 2
       Angle: 150
-      Damage: 1.5
-  Damage: 10
+      DamageMultiplier: 1.5
+  Throw:
+    Damage: 10
+    BoomRadius: 1.5
+  HitAdditionals:
+  - {fileID: 11400000, guid: 79fe61496a0365b4e9c3eeec8cf15416, type: 2}
 --- !u!114 &1580089691
 MonoBehaviour:
   m_ObjectHideFlags: 0

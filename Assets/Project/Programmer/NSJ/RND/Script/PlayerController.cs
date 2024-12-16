@@ -2,6 +2,8 @@
 using Assets.Project.Programmer.NSJ.RND.Script;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerModel))]
+[RequireComponent(typeof(PlayerView))]
 public class PlayerController : MonoBehaviour
 {
     [HideInInspector] public PlayerModel Model;
@@ -22,7 +24,7 @@ public class PlayerController : MonoBehaviour
     [Header("공격 관련 필드")]
     [SerializeField] private AttackStruct _attackStruct;
     public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
-    private float _attackHeight { get { return _attackStruct.AttackHeight;} set { _attackStruct.AttackHeight = value; } }
+    private float _attackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
     private Transform _muzzltPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
     private ThrowObject _throwPrefab { get { return _attackStruct.ThrowPrefab; } set { _attackStruct.ThrowPrefab = value; } }
     #endregion
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour
     public Transform CamareArm { get { return _cameraStruct.CamaraArm; } set { _cameraStruct.CamaraArm = value; } }
     private Transform _cameraPos { get { return _cameraStruct.CameraPos; } set { _cameraStruct.CameraPos = value; } }
     private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
-    private bool _isVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove;} set { _cameraStruct.IsVerticalCameraMove = value; } }
+    private bool _isVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
     #region 테스트 관련 필드
     [System.Serializable]
@@ -55,7 +57,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TestStruct _testStruct;
     public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
-    public enum State { Idle, Run, MeleeAttack, ThrowAttack,  Size }
+    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Size }
 
     private PlayerState[] _states = new PlayerState[(int)State.Size];
     private State _curState;
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Camera.main.transform.SetParent(_cameraPos,true);
+        Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)_curState].Enter();
     }
 
@@ -105,7 +107,8 @@ public class PlayerController : MonoBehaviour
     public void ThrowObject()
     {
         ThrowObject throwObject = Instantiate(_throwPrefab, _muzzltPoint.position, _muzzltPoint.rotation);
-        throwObject.Shoot();   
+        throwObject.Init(Model.Throw, Model.HitAdditionals);
+        throwObject.Shoot();
     }
 
     /// <summary>
@@ -117,8 +120,8 @@ public class PlayerController : MonoBehaviour
         // 1. 전방에 있는 몬스터 확인
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
         Vector3 attackPos = playerPos;
-        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, colliders, 1<<4);
-        for (int i = 0; i < hitCount; i++) 
+        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, colliders, 1 << 4);
+        for (int i = 0; i < hitCount; i++)
         {
             // 2. 각도 내에 있는지 확인
             Vector3 source = transform.position;
@@ -127,15 +130,20 @@ public class PlayerController : MonoBehaviour
             destination.y = 0;
 
             Vector3 targetDir = (destination - source).normalized;
-            float targetAngle =  Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
+            float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
             if (targetAngle > Model.Angle * 0.5f)
                 continue;
 
             IHit hit = colliders[i].GetComponent<IHit>();
 
-            int attackDamage = (int)(Model.Damage * Model.DamageMultiplier);
+            int attackDamage = (int)(Model.MeleeDamage * Model.DamageMultiplier);
             hit.TakeDamage(attackDamage);
         }
+    }
+
+    public void AddHitAdditional(HitAdditional hitAdditional)
+    {
+        Model.HitAdditionals.Add(hitAdditional);
     }
 
     private void OnDrawGizmos()
@@ -149,11 +157,11 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(attackPos, Model.Range);
 
         //각도
-        Vector3 rightDir= Quaternion.Euler(0, Model.Angle * 0.5f, 0) * transform.forward;
+        Vector3 rightDir = Quaternion.Euler(0, Model.Angle * 0.5f, 0) * transform.forward;
         Vector3 leftDir = Quaternion.Euler(0, Model.Angle * -0.5f, 0) * transform.forward;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position,transform.position + rightDir * Model.Range);
+        Gizmos.DrawLine(transform.position, transform.position + rightDir * Model.Range);
         Gizmos.DrawLine(transform.position, transform.position + leftDir * Model.Range);
     }
     /// <summary>
