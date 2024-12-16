@@ -53,4 +53,6 @@ public class PlayerModel : MonoBehaviour
     [Space(10)]
     public List<HitAdditional> HitAdditionals;
 
+    [Space(10)]
+    public Stack<ThrowObjectData> ThrowObjects = new Stack<ThrowObjectData>();
 }

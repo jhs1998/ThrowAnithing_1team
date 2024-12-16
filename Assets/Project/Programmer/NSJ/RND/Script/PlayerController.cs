@@ -84,6 +84,17 @@ public class PlayerController : MonoBehaviour
         _states[(int)_curState].Update();
 
         RotateCamera();
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ThrowObjectData newData = new ThrowObjectData();
+            ThrowObject throwObject = Instantiate(_throwPrefab);
+            newData.Prefab = throwObject.Data.Prefab;
+            Debug.Log(newData.Prefab);
+            Model.ThrowObjects.Push(newData);
+            //Destroy(throwObject.gameObject);
+            Debug.Log($"하나 생성. {Model.ThrowObjects.Count}");
+        }
     }
 
     private void FixedUpdate()
@@ -106,9 +117,15 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void ThrowObject()
     {
-        ThrowObject throwObject = Instantiate(_throwPrefab, _muzzltPoint.position, _muzzltPoint.rotation);
-        throwObject.Init(Model.Throw, Model.HitAdditionals);
-        throwObject.Shoot();
+        if(Model.ThrowObjects.Count > 0)
+        {
+            ThrowObjectData data = Model.ThrowObjects.Pop();
+            Debug.Log(data.Prefab);
+            ThrowObject throwObject = Instantiate(data.Prefab, _muzzltPoint.position, _muzzltPoint.rotation);
+            throwObject.Init(Model.Throw, Model.HitAdditionals);
+            throwObject.Shoot();
+            Debug.Log($"하나 꺼내서 발싸 {Model.ThrowObjects.Count}");
+        }
     }
 
     /// <summary>

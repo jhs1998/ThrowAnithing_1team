@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class ThrowObject : MonoBehaviour
 {
-    [SerializeField] private List<HitAdditional> _hitAdditionals = new List<HitAdditional>();
+    public ThrowObjectData Data;
 
+    [SerializeField] private List<HitAdditional> _hitAdditionals = new List<HitAdditional>();
+    [SerializeField]private bool _canAttack;
     private Rigidbody _rb;
     private int _damage;
     private float _radius;
@@ -14,12 +16,17 @@ public class ThrowObject : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _canAttack = true;
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 4)
         {
             HitTarget();
+        }
+        else
+        {
+            _canAttack = false;
         }
     }
 
@@ -37,6 +44,9 @@ public class ThrowObject : MonoBehaviour
 
     private void HitTarget()
     {
+        if (_canAttack == false)
+            return;
+
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _radius, _overlapCollider, 1 << 4);
         if (hitCount > 0)
         {
@@ -78,4 +88,10 @@ public class ThrowObject : MonoBehaviour
         }
     }
 
+}
+
+[System.Serializable]
+public class ThrowObjectData
+{
+    public ThrowObject Prefab;
 }

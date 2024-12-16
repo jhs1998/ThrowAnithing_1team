@@ -1,11 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Zenject.SpaceFighter;
-using static UnityEngine.Rendering.DebugUI;
 
 public class RunState : PlayerState
 {
@@ -49,7 +42,9 @@ public class RunState : PlayerState
         // 카메라 방향으로 플레이어가 바라보게
         _player.transform.rotation = _player.CamareArm.rotation;
         // 카메라는 다시 로컬 기준 0,0,0 의 방향
-        _player.CamareArm.localRotation = Quaternion.identity;
+        if (_player.CamareArm.parent != null)
+            _player.CamareArm.localRotation = Quaternion.identity;
+
         _player.CamareArm.SetParent(null);
 
         // 입력한 방향쪽을 플레이어가 바라봄
@@ -67,9 +62,9 @@ public class RunState : PlayerState
     private void CheckChangeState()
     {
         if (_moveDir == Vector3.zero)
-        {         
+        {
             _player.ChangeState(PlayerController.State.Idle);
-        }       
+        }
         else if (Input.GetButtonDown("Fire1"))
         {
             _player.ChangeState(PlayerController.State.MeleeAttack);
