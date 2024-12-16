@@ -1,17 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
+public enum CurState
+{
+    main,
+    optionDepth1,
+    optionDepth2,
+};
 public class MainScene : BaseUI
 {
+    protected CurState curState;
+
+    //메인 화면
+    protected GameObject main;
+    //메뉴 버튼
+    GameObject[] menuButtons;
+
     GameObject continueImage;
     GameObject newImage;
     GameObject optionImage;
     GameObject exitImage;
 
-    //메뉴 버튼 배열
-    GameObject[] menuButtons;
+    //옵션 패널
+    GameObject option;
+
+    //나가기 팝업
+    GameObject exitPopUpObj;
+    GameObject[] exitButtons;
+
+    GameObject exitYes;
+    GameObject exitNo;
+
+    int exitNum;
 
     //메뉴 선택하는 배열의 인덱스(현재 선택된 메뉴)
     int curMenu;
@@ -28,20 +51,44 @@ public class MainScene : BaseUI
 
     private void Update()
     {
-        MenuSelect();
-        SelectedEnter();
+        Debug.Log(curState);
+        if (curState == CurState.main)
+        {
+            MenuSelect();
+
+            SelectedEnter();
+
+            if (exitPopUpObj.activeSelf)
+                ExitPopUp();
+        }
+
+
+        
     }
 
     // Comment : 초기화 용도의 함수
     void Init()
     {
+        main = GetUI("MainButtons");
+       // curState = CurState.main;
+
         menuButtons = new GameObject[4];
         menuButtons[0] = continueImage = GetUI("ContinueImage");
         menuButtons[1] = newImage = GetUI("NewImage");
         menuButtons[2] = optionImage = GetUI("OptionImage");
         menuButtons[3] = exitImage = GetUI("ExitImage");
 
+        exitButtons = new GameObject[2];
+        exitButtons[0] = exitYes = GetUI("YesImage");
+        exitButtons[1] = exitNo = GetUI("NoImage");
+
+        exitPopUpObj = GetUI("ExitPopUp");
+
+        option = GetUI("Background_option");
+        
+        
         curMenu = 0;
+        exitNum = 0;
     }
 
     // Comment : W/S 또는 위/아래 화살표 키를 이용해 메뉴 변경 가능 함수
@@ -50,32 +97,32 @@ public class MainScene : BaseUI
     {
         if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
-            menuButtons[curMenu].gameObject.SetActive(false);
+            menuButtons[curMenu].SetActive(false);
 
             if (curMenu == 3)
             {
                 curMenu = 0;
-                menuButtons[curMenu].gameObject.SetActive(true);
+                menuButtons[curMenu].SetActive(true);
                 return;
             }
 
             curMenu++;
-            menuButtons[curMenu].gameObject.SetActive(true);
+            menuButtons[curMenu].SetActive(true);
         }
 
         else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            menuButtons[curMenu].gameObject.SetActive(false);
+            menuButtons[curMenu].SetActive(false);
 
             if (curMenu == 0)
             {
                 curMenu = 3;
-                menuButtons[curMenu].gameObject.SetActive(true);
+                menuButtons[curMenu].SetActive(true);
                 return;
             }
 
             curMenu--;
-            menuButtons[curMenu].gameObject.SetActive(true);
+            menuButtons[curMenu].SetActive(true);
         }
     }
 
@@ -98,23 +145,54 @@ public class MainScene : BaseUI
 
                 case 2:
                     Debug.Log("옵션 선택_옵션 팝업 노출");
+                    option.SetActive(true);
+                    curState = CurState.optionDepth1;
                     //Todo : 옵션 팝업 만들어야함
                     break;
 
                 case 3:
                     Debug.Log("게임 종료 선택_게임 종료");
-                    ExitGame();
+                    exitPopUpObj.SetActive(true);
                     break;
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ExitGame();
+            exitPopUpObj.SetActive(true);
             Debug.Log("게임 종료 선택_게임 종료");
-        } 
+        }
     }
 
+    void ExitPopUp()
+    {
+
+        switch (exitNum)
+        {
+            case 0:
+                exitButtons[exitNum].GetComponent<Image>().color = Color.black;
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitNum = 1;
+                }
+                if (Input.GetKeyDown(KeyCode.E))
+                    ExitGame();
+                break;
+
+            case 1:
+                exitNo.GetComponent<Image>().color = Color.black;
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    exitNo.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitNum = 0;
+                }
+                if (Input.GetKeyDown(KeyCode.E))
+                    exitPopUpObj.SetActive(false);
+                break;
+
+        }
+    }
     void ExitGame()
     {
         //Comment : 유니티 에디터상에서 종료
