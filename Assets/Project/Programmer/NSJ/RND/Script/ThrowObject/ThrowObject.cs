@@ -26,7 +26,7 @@ public class ThrowObject : MonoBehaviour
             {
                 HitTarget();
             }
-            else
+            else if((collision.gameObject.tag != "Player"))
             {
                 _canAttack = false;
             }

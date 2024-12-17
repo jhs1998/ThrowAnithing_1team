@@ -4,7 +4,8 @@ using UnityEngine;
 using Zenject;
 
 public class PlayerModel : MonoBehaviour
-{   
+{
+    [Inject]
     public PlayerData Data;
     public float MoveSpeed { get { return Data.MoveSpeed; }  set{ Data.MoveSpeed = value; } }
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
@@ -76,11 +77,6 @@ public class PlayerModel : MonoBehaviour
         return data;
     }
 
-    [Inject]
-    private void Init(PlayerData data)
-    {
-        Data = data;
-    }
 }
 
 [System.Serializable]
