@@ -719,12 +719,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerData:
-    MoveSpeed: 0
-    Damage: 0
-    MaxThrowCount: 0
+    MoveSpeed: 5
+    Damage: 10
+    MaxThrowCount: 10
     CurThrowCount: 0
     ThrowObjectStack: []
-    HitAdditionals: []
+    HitAdditionals:
+    - {fileID: 11400000, guid: af501e983656e644d848f3f2fcd173eb, type: 2}
+    - {fileID: 11400000, guid: 79fe61496a0365b4e9c3eeec8cf15416, type: 2}
   _throwObjects:
   - {fileID: 7538824707032196102, guid: 6e8b02d6136299e4ca096ffb4a225359, type: 3}
   - {fileID: 1445512193542668747, guid: 81b8a805c6f11d94791d9d3dc7686a97, type: 3}
@@ -1953,6 +1955,84 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e8b02d6136299e4ca096ffb4a225359, type: 3}
+--- !u!1 &1889090233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1889090236}
+  - component: {fileID: 1889090235}
+  - component: {fileID: 1889090234}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1889090234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889090233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 242bf39245aa98f43b62c4fde74aea62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  container: {fileID: 442451261}
+--- !u!114 &1889090235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889090233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 1889090234}
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!4 &1889090236
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889090233}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1965086662
 GameObject:
   m_ObjectHideFlags: 0
@@ -2184,6 +2264,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: Data.HitAdditionals.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7904341024521288259, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.1
@@ -2241,7 +2325,6 @@ SceneRoots:
   - {fileID: 1020107225}
   - {fileID: 1139209159}
   - {fileID: 554188633}
-  - {fileID: 442451262}
   - {fileID: 226197496}
   - {fileID: 2089404916}
   - {fileID: 554288336}
@@ -2256,3 +2339,5 @@ SceneRoots:
   - {fileID: 949774547}
   - {fileID: 986345337}
   - {fileID: 1613490912}
+  - {fileID: 1889090236}
+  - {fileID: 442451262}

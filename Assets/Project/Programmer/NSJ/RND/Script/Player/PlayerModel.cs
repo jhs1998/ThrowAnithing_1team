@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 public class PlayerModel : MonoBehaviour
-{
-    [SerializeField] public PlayerData Data;
+{   
+    public PlayerData Data;
     public float MoveSpeed { get { return Data.MoveSpeed; }  set{ Data.MoveSpeed = value; } }
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
     public int MaxThrowCount { get { return Data.MaxThrowCount; } set { Data.MaxThrowCount = value; } }
@@ -75,20 +76,10 @@ public class PlayerModel : MonoBehaviour
         return data;
     }
 
-    public void Start()
+    [Inject]
+    private void InitInJection(PlayerData data)
     {
-        if (DataContainer.Instance != null) 
-        {
-            if(DataContainer.Instance.PlayerData == null)
-            {
-                DataContainer.Instance.PlayerData = Data;
-            }
-            else
-            {
-                Data = DataContainer.Instance.PlayerData;
-            }
-            
-        }
+        Data = data;
     }
 }
 
@@ -107,4 +98,3 @@ public class PlayerData
 
     public List<HitAdditional> HitAdditionals;
 }
-

@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         public Transform CamaraArm;
         public Transform CameraPos;
+        [Range(0f, 50f)] public float CameraRotateAngle;
         [Range(0f, 5f)] public float CameraRotateSpeed;
         public bool IsVerticalCameraMove;
     }
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CameraStruct _cameraStruct;
     public Transform CamareArm { get { return _cameraStruct.CamaraArm; } set { _cameraStruct.CamaraArm = value; } }
     private Transform _cameraPos { get { return _cameraStruct.CameraPos; } set { _cameraStruct.CameraPos = value; } }
+    private float _cameraRotateAngle { get { return _cameraStruct.CameraRotateAngle; } set { _cameraStruct.CameraRotateAngle = value; } }
     private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
     private bool _isVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
@@ -173,6 +175,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 추가 공격효과 추가
+    /// </summary>
+    /// <param name="hitAdditional"></param>
     public void AddHitAdditional(HitAdditional hitAdditional)
     {
         Model.HitAdditionals.Add(hitAdditional);
@@ -209,8 +215,11 @@ public class PlayerController : MonoBehaviour
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
         float x = camAngle.x - mouseDelta.y;
-        x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 340f, 361f);
+        x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
         CamareArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
+
+        // 머즐포인트 각도조절
+        _muzzltPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 
     // 초기 설정 ============================================================================================================================================ //

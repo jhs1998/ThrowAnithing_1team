@@ -6,6 +6,7 @@ public class DataContainer : MonoBehaviour
 {
     public static DataContainer Instance;
 
+    // TODO : 젠젝트로 변환 시도
     public PlayerData PlayerData;
 
 
@@ -15,7 +16,6 @@ public class DataContainer : MonoBehaviour
     private void Awake()
     {
         InitSingleTon();
-        PlayerData = null;
 
         foreach (ThrowObject throwObject in _throwObjects)
         {

@@ -40,9 +40,13 @@ public class ThrowState : PlayerState
         if (_player.IsAttackFoward == true)
         {
             // 카메라 방향으로 플레이어가 바라보게
-            _player.transform.rotation = _player.CamareArm.rotation;
-            // 카메라는 다시 로컬 기준 0,0,0 의 방향
-            _player.CamareArm.localRotation = Quaternion.identity;
+            Quaternion cameraRot = Quaternion.Euler(0, _player.CamareArm.eulerAngles.y, 0);
+            _player.transform.rotation = cameraRot;
+            // 카메라는 다시 로컬 기준 전방 방향
+            if (_player.CamareArm.parent != null)
+            {
+                _player.CamareArm.localRotation = Quaternion.Euler(_player.CamareArm.localRotation.eulerAngles.x, 0, 0);
+            }
         }
 
         yield return null;
