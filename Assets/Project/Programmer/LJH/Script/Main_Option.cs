@@ -17,7 +17,6 @@ public class Main_Option : MainScene
 
     GameObject inputImage;
 
-
     int depth1_cur;
 
     void Start()
@@ -73,7 +72,7 @@ public class Main_Option : MainScene
         {
             depth1[depth1_cur].GetComponent<TMP_Text>().color = Color.white;
 
-            if (depth1_cur == 4)
+            if (depth1_cur == depth1.Length-1)
             {
                 depth1_cur = 0;
                 depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
@@ -90,7 +89,7 @@ public class Main_Option : MainScene
 
             if (depth1_cur == 0)
             {
-                depth1_cur = 4;
+                depth1_cur = depth1.Length - 1;
                 depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
                 return;
             }
@@ -145,10 +144,10 @@ public class Main_Option : MainScene
         depth1 = new GameObject[5];
 
         depth1[0] = gamePlay = GetUI("GamePlay");
-        depth1[1] = gamePlay = GetUI("Language");
-        depth1[2] = gamePlay = GetUI("Sound");
-        depth1[3] = gamePlay = GetUI("Input");
-        depth1[4] = gamePlay = GetUI("Exit");
+        depth1[1] = language = GetUI("Language");
+        depth1[2] = sound = GetUI("Sound");
+        depth1[3] = input = GetUI("Input");
+        depth1[4] = exit = GetUI("Exit");
 
         inputImage = GetUI("InputImage");
 

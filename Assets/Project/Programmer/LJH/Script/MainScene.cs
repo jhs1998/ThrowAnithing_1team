@@ -7,12 +7,13 @@ using UnityEngine.UI;
 public enum CurState
 {
     main,
+    _continue,
     optionDepth1,
     optionDepth2,
 };
 public class MainScene : BaseUI
 {
-    protected CurState curState;
+    protected CurState curState { get; private set; }
 
     //메인 화면
     protected GameObject main;
@@ -23,6 +24,9 @@ public class MainScene : BaseUI
     GameObject newImage;
     GameObject optionImage;
     GameObject exitImage;
+
+    //이어하기 패널
+    GameObject main_continue;
 
     //옵션 패널
     GameObject option;
@@ -38,6 +42,8 @@ public class MainScene : BaseUI
 
     //메뉴 선택하는 배열의 인덱스(현재 선택된 메뉴)
     int curMenu;
+
+    protected bool isOption;
     private void Awake()
     {
         Bind();
@@ -51,6 +57,9 @@ public class MainScene : BaseUI
 
     private void Update()
     {
+        if (!option.activeSelf && !main_continue.activeSelf)
+            curState = CurState.main;
+
         Debug.Log(curState);
         if (curState == CurState.main)
         {
@@ -61,7 +70,6 @@ public class MainScene : BaseUI
             if (exitPopUpObj.activeSelf)
                 ExitPopUp();
         }
-
 
         
     }
@@ -84,11 +92,15 @@ public class MainScene : BaseUI
 
         exitPopUpObj = GetUI("ExitPopUp");
 
+        main_continue = GetUI("Background_continue");
+
         option = GetUI("Background_option");
         
         
         curMenu = 0;
         exitNum = 0;
+
+        
     }
 
     // Comment : W/S 또는 위/아래 화살표 키를 이용해 메뉴 변경 가능 함수
@@ -99,7 +111,7 @@ public class MainScene : BaseUI
         {
             menuButtons[curMenu].SetActive(false);
 
-            if (curMenu == 3)
+            if (curMenu == menuButtons.Length-1)
             {
                 curMenu = 0;
                 menuButtons[curMenu].SetActive(true);
@@ -116,7 +128,7 @@ public class MainScene : BaseUI
 
             if (curMenu == 0)
             {
-                curMenu = 3;
+                curMenu = menuButtons.Length - 1;
                 menuButtons[curMenu].SetActive(true);
                 return;
             }
@@ -136,6 +148,8 @@ public class MainScene : BaseUI
                 case 0:
                     Debug.Log("계속하기 선택_슬롯 선택 팝업 노출");
                     //Todo : 슬롯 선택 팝업 만들어야함 > 백엔드와 협업 필요할 듯
+                    main_continue.SetActive(true);
+                    curState = CurState._continue;
                     break;
 
                 case 1:
