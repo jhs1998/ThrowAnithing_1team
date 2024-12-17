@@ -1,6 +1,10 @@
 
 using Assets.Project.Programmer.NSJ.RND.Script;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Zenject;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
@@ -62,7 +66,6 @@ public class PlayerController : MonoBehaviour
     private PlayerState[] _states = new PlayerState[(int)State.Size];
     private State _curState;
 
-
     private void Awake()
     {
         Init();
@@ -70,6 +73,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        InitUIEvent();
         Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)_curState].Enter();
     }
@@ -87,13 +91,14 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ThrowObjectData newData = new ThrowObjectData();
             ThrowObject throwObject = Instantiate(_throwPrefab);
-            newData.Prefab = throwObject.Data.Prefab;
-            Debug.Log(newData.Prefab);
-            Model.ThrowObjects.Push(newData);
-            //Destroy(throwObject.gameObject);
-            Debug.Log($"하나 생성. {Model.ThrowObjects.Count}");
+            Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
+            Destroy(throwObject.gameObject);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SceneManager.LoadScene(1);
         }
     }
 
@@ -113,18 +118,28 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// 오브젝트 줍기
+    /// </summary>
+    public void AddThrowObject(ThrowObject throwObject)
+    {
+        if(Model.CurThrowCount < Model.MaxThrowCount)
+        {
+            Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
+            Destroy(throwObject.gameObject);
+        }
+    }
+
+    /// <summary>
     /// 오브젝트 던지기 공격
     /// </summary>
     public void ThrowObject()
     {
-        if(Model.ThrowObjects.Count > 0)
+        if(Model.ThrowObjectStack.Count > 0)
         {
-            ThrowObjectData data = Model.ThrowObjects.Pop();
-            Debug.Log(data.Prefab);
-            ThrowObject throwObject = Instantiate(data.Prefab, _muzzltPoint.position, _muzzltPoint.rotation);
-            throwObject.Init(Model.Throw, Model.HitAdditionals);
+            ThrowObjectData data = Model.PopThrowObject();
+            ThrowObject throwObject = Instantiate(DataContainer.GetThrowObject(data.ID), _muzzltPoint.position, _muzzltPoint.rotation);
+            throwObject.Init(Model.Damage,Model.BoomRadius, Model.HitAdditionals);
             throwObject.Shoot();
-            Debug.Log($"하나 꺼내서 발싸 {Model.ThrowObjects.Count}");
         }
     }
 
@@ -153,7 +168,7 @@ public class PlayerController : MonoBehaviour
 
             IHit hit = colliders[i].GetComponent<IHit>();
 
-            int attackDamage = (int)(Model.MeleeDamage * Model.DamageMultiplier);
+            int attackDamage = (int)(Model.Damage * Model.DamageMultiplier);
             hit.TakeDamage(attackDamage);
         }
     }
@@ -205,7 +220,7 @@ public class PlayerController : MonoBehaviour
     private void Init()
     {
         InitGetComponent();
-        InitPlayerStates();
+        InitPlayerStates();   
     }
 
     /// <summary>
@@ -216,7 +231,18 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.Idle] = new IdleState(this);                 // Idle
         _states[(int)State.Run] = new RunState(this);                   // 이동(달리기)
         _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // 근접공격
-        _states[(int)State.ThrowAttack] = new ThrowState(this);
+        _states[(int)State.ThrowAttack] = new ThrowState(this);         // 투척공격
+    }
+
+    /// <summary>
+    /// UI이벤트 설정
+    /// </summary>
+    private void InitUIEvent()
+    {
+        Model.CurThrowCountSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => View.UpdateText(View.Panel.ThrowCount, $"{x} / {Model.MaxThrowCount}"));
+        View.UpdateText(View.Panel.ThrowCount, $"{Model.CurThrowCount} / {Model.MaxThrowCount}");
     }
 
     /// <summary>

@@ -1,8 +1,10 @@
+using TMPro;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerView : MonoBehaviour
 {
+    public PlayerPanel Panel;
     public enum Parameter { Idle, Run, MeleeAttack, MeleeCombo, ThrowAttack, ThrowCombo, Size }
 
     private bool _isAnimationFinish;
@@ -23,7 +25,6 @@ public class PlayerView : MonoBehaviour
         }
     }
 
-    [SerializeField] PlayerPanel _panel;
 
     [SerializeField] Animator _animator;
 
@@ -33,7 +34,7 @@ public class PlayerView : MonoBehaviour
     {
         Init();
     }
-
+    // 애니메이션 =========================================================================================================//
     /// <summary>
     /// 플레이어 애니메이션 SetTrigger
     /// </summary>
@@ -83,6 +84,14 @@ public class PlayerView : MonoBehaviour
     public void SetIsAnimationFinish()
     { 
         IsAnimationFinish = true;
+    }
+  
+
+    // UI ================================================================================================================//
+
+    public void UpdateText(TMP_Text target, string text)
+    {
+        target.SetText(text);
     }
 
     private void Init()

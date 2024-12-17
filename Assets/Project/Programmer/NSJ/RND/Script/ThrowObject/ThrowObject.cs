@@ -6,7 +6,7 @@ public class ThrowObject : MonoBehaviour
     public ThrowObjectData Data;
 
     [SerializeField] private List<HitAdditional> _hitAdditionals = new List<HitAdditional>();
-    [SerializeField]private bool _canAttack;
+    [SerializeField] private bool _canAttack;
     private Rigidbody _rb;
     private int _damage;
     private float _radius;
@@ -20,20 +20,31 @@ public class ThrowObject : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == 4)
+        if (_canAttack == true)
         {
-            HitTarget();
+            if (collision.gameObject.layer == 4)
+            {
+                HitTarget();
+            }
+            else
+            {
+                _canAttack = false;
+            }
         }
         else
         {
-            _canAttack = false;
+            if (collision.gameObject.tag == "Player")
+            {
+                PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+                player.AddThrowObject(this);        
+            }
         }
     }
 
-    public void Init(PlayerModel.ThrowStruct throwStruct, List<HitAdditional> hitAdditionals)
+    public void Init(int damage,float radius, List<HitAdditional> hitAdditionals)
     {
-        _damage = throwStruct.Damage;
-        _radius = throwStruct.BoomRadius;
+        _damage = damage;
+        _radius = radius;
         AddHitAdditional(hitAdditionals);
     }
 
@@ -81,7 +92,7 @@ public class ThrowObject : MonoBehaviour
             if (index >= _hitAdditionals.Count)
                 return;
 
-            if(index == -1)
+            if (index == -1)
             {
                 _hitAdditionals.Add(hitAdditional);
             }
@@ -93,5 +104,5 @@ public class ThrowObject : MonoBehaviour
 [System.Serializable]
 public class ThrowObjectData
 {
-    public ThrowObject Prefab;
+    public int ID;
 }
