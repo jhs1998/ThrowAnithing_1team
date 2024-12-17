@@ -77,7 +77,7 @@ public class PlayerModel : MonoBehaviour
     }
 
     [Inject]
-    private void InitInJection(PlayerData data)
+    private void Init(PlayerData data)
     {
         Data = data;
     }

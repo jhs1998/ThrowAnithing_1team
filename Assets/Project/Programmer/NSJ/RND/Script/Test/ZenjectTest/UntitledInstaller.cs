@@ -7,6 +7,7 @@ namespace Assets.Project.Programmer.NSJ.RND.Script.Test.ZenjectTest
     public class UntitledInstaller : MonoInstaller
     {
         [SerializeField] JenjectTester tester;
+        [SerializeField] JenjectMonster monster;
 
         Item item;
         public override void InstallBindings()
@@ -15,9 +16,16 @@ namespace Assets.Project.Programmer.NSJ.RND.Script.Test.ZenjectTest
                 .Bind<JenjectTester>()
                 .FromInstance(tester);
 
-            Container.Bind<IDamagable>()
+            Container
+                .Bind<IDamagable>()
                 .To<Item>()
                 .FromInstance(item);
+
+            Container
+                .BindFactory<JenjectMonster, JenjectFactory>()
+                .FromComponentInNewPrefab(monster)
+                .WithGameObjectName("Monster")
+                .UnderTransformGroup("Monsters");
         }
     }
 

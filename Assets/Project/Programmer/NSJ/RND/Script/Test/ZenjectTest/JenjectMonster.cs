@@ -10,4 +10,9 @@ namespace Assets.Project.Programmer.NSJ.RND.Script.ZenjectTest
         [Inject]
         [SerializeField] JenjectTester tester;
     }
+
+    public class JenjectFactory : PlaceholderFactory<JenjectMonster>
+    {
+
+    }
 }
