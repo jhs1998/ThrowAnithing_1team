@@ -58,7 +58,9 @@ public class RunState : PlayerState
         transform.rotation = Quaternion.LookRotation(moveDir);
 
         // 플레이어 이동
+        Vector3 originRb = Rb.velocity;
         Rb.velocity = transform.forward * Model.MoveSpeed;
+        Rb.velocity = new Vector3(Rb.velocity.x, originRb.y, Rb.velocity.z);
 
         Player.CamareArm.SetParent(Player.transform);
     }

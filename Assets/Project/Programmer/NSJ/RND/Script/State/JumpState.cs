@@ -1,34 +1,60 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class JumpState : PlayerState
 {
+    private float _jumpPower;
+
+    Coroutine _jumpRoutine;
     public JumpState(PlayerController controller) : base(controller)
     {
         View.OnJumpEvent += Jump;
+        _jumpPower = controller.Model.JumpPower;
     }
 
     public override void Enter()
     {
-        View.SetTrigger(PlayerView.Parameter.Jump);
+
+        if (_jumpRoutine == null)
+        {
+            _jumpRoutine = CoroutineHandler.StartRoutine(JumpRoutine());
+        }
+    }
+    public override void Exit()
+    {
+        if (_jumpRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_jumpRoutine);
+            _jumpRoutine = null;
+        }
     }
 
     public override void FixedUpdate()
     {
-        
+
     }
 
     private void Jump()
     {
-        Rb.AddForce(Vector3.up * 5f , ForceMode.Impulse);
+        Rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
     }
-    
-    private void CheckGround()
+
+    IEnumerator JumpRoutine()
     {
-        if(Physics.Raycast(transform.position, Vector3.down, 0.2f))
+        View.SetTrigger(PlayerView.Parameter.Jump);
+        while (true)
         {
-            // TODO: 지면 체크 로직
+            if (Rb.velocity.y < 0)
+            {
+                if (Physics.Raycast(transform.position, Vector3.down, 1f))
+                {
+                    // TODO: 지면 체크 로직
+                    View.SetTrigger(PlayerView.Parameter.Landing);
+                    Player.ChangeState(PlayerController.State.Idle);
+                    yield break;
+                }
+            }
+            yield return 0.02f.GetDelay();
         }
     }
 }

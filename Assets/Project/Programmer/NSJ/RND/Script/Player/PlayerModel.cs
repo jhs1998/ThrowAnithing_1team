@@ -6,7 +6,9 @@ using Zenject;
 public class PlayerModel : MonoBehaviour
 {   
     public PlayerData Data;
+
     public float MoveSpeed { get { return Data.MoveSpeed; }  set{ Data.MoveSpeed = value; } }
+    public float JumpPower;
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
     public int MaxThrowCount { get { return Data.MaxThrowCount; } set { Data.MaxThrowCount = value; } }
     public int CurThrowCount { get { return Data.CurThrowCount; } 
