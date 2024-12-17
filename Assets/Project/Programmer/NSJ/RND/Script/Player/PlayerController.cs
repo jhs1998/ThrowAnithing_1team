@@ -13,8 +13,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
-
-    Collider[] colliders = new Collider[20];
+  
 
     #region 공격 관련 필드
     [System.Serializable]
@@ -28,8 +27,8 @@ public class PlayerController : MonoBehaviour
     [Header("공격 관련 필드")]
     [SerializeField] private AttackStruct _attackStruct;
     public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
-    private float _attackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
-    private Transform _muzzltPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
+    public Transform MuzzletPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
+    public float AttackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
     private ThrowObject _throwPrefab { get { return _attackStruct.ThrowPrefab; } set { _attackStruct.ThrowPrefab = value; } }
     #endregion
     #region Camera 관련 필드
@@ -63,7 +62,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TestStruct _testStruct;
     public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
-    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Size }
+    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Jump,Size }
 
     private PlayerState[] _states = new PlayerState[(int)State.Size];
     private State _curState;
@@ -119,6 +118,24 @@ public class PlayerController : MonoBehaviour
         _states[(int)_curState].Enter();
     }
 
+    #region Instantiate 대리 메서드
+    public T InstantiateObject<T>(T instance) where T : Component
+    {
+        T instanceObject = Instantiate(instance);
+        return instanceObject;
+    }
+    public T InstantiateObject<T>(T instance, Transform parent) where T : Component
+    {
+        T instanceObject = Instantiate(instance,parent);
+        return instanceObject;
+    }
+    public T InstantiateObject<T>(T instance, Vector3 pos, Quaternion rot) where T : Component
+    {
+        T instanceObject = Instantiate(instance,pos,rot);
+        return instanceObject;
+    }
+    #endregion
+
     /// <summary>
     /// 오브젝트 줍기
     /// </summary>
@@ -128,50 +145,6 @@ public class PlayerController : MonoBehaviour
         {
             Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
             Destroy(throwObject.gameObject);
-        }
-    }
-
-    /// <summary>
-    /// 오브젝트 던지기 공격
-    /// </summary>
-    public void ThrowObject()
-    {
-        if(Model.ThrowObjectStack.Count > 0)
-        {
-            ThrowObjectData data = Model.PopThrowObject();
-            ThrowObject throwObject = Instantiate(DataContainer.GetThrowObject(data.ID), _muzzltPoint.position, _muzzltPoint.rotation);
-            throwObject.Init(Model.Damage,Model.BoomRadius, Model.HitAdditionals);
-            throwObject.Shoot();
-        }
-    }
-
-    /// <summary>
-    /// 근접 공격
-    /// </summary>
-    public void AttackMelee()
-    {
-        // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
-        // 1. 전방에 있는 몬스터 확인
-        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
-        Vector3 attackPos = playerPos;
-        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, colliders, 1 << 4);
-        for (int i = 0; i < hitCount; i++)
-        {
-            // 2. 각도 내에 있는지 확인
-            Vector3 source = transform.position;
-            source.y = 0;
-            Vector3 destination = colliders[i].transform.position;
-            destination.y = 0;
-
-            Vector3 targetDir = (destination - source).normalized;
-            float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
-            if (targetAngle > Model.Angle * 0.5f)
-                continue;
-
-            IHit hit = colliders[i].GetComponent<IHit>();
-
-            int attackDamage = (int)(Model.Damage * Model.DamageMultiplier);
-            hit.TakeDamage(attackDamage);
         }
     }
 
@@ -189,7 +162,7 @@ public class PlayerController : MonoBehaviour
         if (Model == null)
             return;
         //거리
-        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
+        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + AttackHeight, transform.position.z);
         Vector3 attackPos = playerPos;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPos, Model.Range);
@@ -219,7 +192,7 @@ public class PlayerController : MonoBehaviour
         CamareArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
 
         // 머즐포인트 각도조절
-        _muzzltPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 
     // 초기 설정 ============================================================================================================================================ //
@@ -241,6 +214,7 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.Run] = new RunState(this);                   // 이동(달리기)
         _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // 근접공격
         _states[(int)State.ThrowAttack] = new ThrowState(this);         // 투척공격
+        _states[(int)State.Jump] = new JumpState(this);
     }
 
     /// <summary>

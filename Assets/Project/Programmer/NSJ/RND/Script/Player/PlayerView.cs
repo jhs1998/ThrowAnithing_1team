@@ -1,11 +1,18 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerView : MonoBehaviour
 {
     public PlayerPanel Panel;
-    public enum Parameter { Idle, Run, MeleeAttack, MeleeCombo, ThrowAttack, ThrowCombo, Size }
+    public enum Parameter { Idle, Run, MeleeAttack, MeleeCombo, ThrowAttack, ThrowCombo, Jump, Landing,Size }
+
+    #region 애니메이션 관련 이벤트
+    public event UnityAction OnThrowAttackEvent;
+    public event UnityAction OnMeleeAttackEvent;
+    public event UnityAction OnJumpEvent;
+    #endregion
 
     private bool _isAnimationFinish;
     public bool IsAnimationFinish
@@ -86,6 +93,23 @@ public class PlayerView : MonoBehaviour
         IsAnimationFinish = true;
     }
   
+    /// <summary>
+    /// 점프 타이밍에 호출
+    /// </summary>
+    public void OnJump()
+    {
+        OnJumpEvent?.Invoke();
+    }
+
+    public void OnThrowAttack()
+    {
+        OnThrowAttackEvent?.Invoke();
+    }
+
+    public void OnMeleeAttack()
+    {
+        OnMeleeAttackEvent?.Invoke();
+    }
 
     // UI ================================================================================================================//
 
@@ -102,5 +126,7 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.MeleeAttack] = Animator.StringToHash("MeleeAttack");
         _animatorHashes[(int)Parameter.ThrowAttack] = Animator.StringToHash("ThrowAttack");
         _animatorHashes[(int)Parameter.ThrowCombo] = Animator.StringToHash("ThrowCombo");
+        _animatorHashes[(int)Parameter.Jump] = Animator.StringToHash("Jump");
+        _animatorHashes[(int)Parameter.Landing] = Animator.StringToHash("Landing");
     }
 }

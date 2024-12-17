@@ -4,8 +4,7 @@ using UnityEngine;
 using Zenject;
 
 public class PlayerModel : MonoBehaviour
-{
-    [Inject]
+{   
     public PlayerData Data;
     public float MoveSpeed { get { return Data.MoveSpeed; }  set{ Data.MoveSpeed = value; } }
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
@@ -77,6 +76,11 @@ public class PlayerModel : MonoBehaviour
         return data;
     }
 
+    // TODO : 일단 젠젝트 실패, 싱글톤으로 구현 후 이후에 리팩토링 
+    private void Start()
+    {
+        Data= DataContainer.Instance.PlayerData;
+    }
 }
 
 [System.Serializable]

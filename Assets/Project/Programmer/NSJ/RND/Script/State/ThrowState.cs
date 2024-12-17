@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class ThrowState : PlayerState
 {
+    private Transform _muzzlePoint;
     private float _atttackBufferTime;
     private bool _isCombe;
     private bool _isChangeAttack;
     public ThrowState(PlayerController controller) : base(controller)
     {
-        _atttackBufferTime = _player.AttackBufferTime;
+        _atttackBufferTime = Player.AttackBufferTime;
+        _muzzlePoint = controller.MuzzletPoint;
+
+        View.OnThrowAttackEvent += ThrowObject;
     }
     public override void Enter()
     {
         _isChangeAttack = false;
-        if (_player.View.GetBool(PlayerView.Parameter.ThrowCombo) == false)
+        if (View.GetBool(PlayerView.Parameter.ThrowCombo) == false)
         {
-            _player.View.SetTrigger(PlayerView.Parameter.ThrowAttack);
+            View.SetTrigger(PlayerView.Parameter.ThrowAttack);
         }
         else
         {
-            _player.Model.MeleeComboCount++;
+            Model.MeleeComboCount++;
         }
         CoroutineHandler.StartRoutine(MeleeAttackRoutine());
     }
@@ -35,30 +39,44 @@ public class ThrowState : PlayerState
 
     }
 
+
+    /// <summary>
+    /// 오브젝트 던지기 공격
+    /// </summary>
+    public void ThrowObject()
+    {
+        if (Model.ThrowObjectStack.Count > 0)
+        {
+            ThrowObjectData data = Model.PopThrowObject();
+            ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(data.ID), _muzzlePoint.position, _muzzlePoint.rotation);
+            throwObject.Init(Model.Damage, Model.BoomRadius, Model.HitAdditionals);
+            throwObject.Shoot();
+        }
+    }
     IEnumerator MeleeAttackRoutine()
     {
-        if (_player.IsAttackFoward == true)
+        if (Player.IsAttackFoward == true)
         {
             // 카메라 방향으로 플레이어가 바라보게
-            Quaternion cameraRot = Quaternion.Euler(0, _player.CamareArm.eulerAngles.y, 0);
-            _player.transform.rotation = cameraRot;
+            Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
+            transform.rotation = cameraRot;
             // 카메라는 다시 로컬 기준 전방 방향
-            if (_player.CamareArm.parent != null)
+            if (Player.CamareArm.parent != null)
             {
-                _player.CamareArm.localRotation = Quaternion.Euler(_player.CamareArm.localRotation.eulerAngles.x, 0, 0);
+                Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
             }
         }
 
         yield return null;
         float timeCount = _atttackBufferTime;
-        while (_player.View.IsAnimationFinish == false)
+        while (View.IsAnimationFinish == false)
         {
             // 공격 버퍼
             if (Input.GetButtonDown("Fire2"))
             {
                 // 다음 공격 대기
                 _isCombe = true;
-                _player.View.SetBool(PlayerView.Parameter.ThrowCombo, true);
+                View.SetBool(PlayerView.Parameter.ThrowCombo, true);
                 timeCount = _atttackBufferTime;
             }
             else if (Input.GetButtonDown("Fire1"))
@@ -66,7 +84,7 @@ public class ThrowState : PlayerState
                 // 근접 공격 전환
                 _isCombe = false;
                 _isChangeAttack = true;
-                _player.View.SetBool(PlayerView.Parameter.ThrowCombo, false);
+                View.SetBool(PlayerView.Parameter.ThrowCombo, false);
                 timeCount = _atttackBufferTime;
             }
             timeCount -= Time.deltaTime;
@@ -74,7 +92,7 @@ public class ThrowState : PlayerState
             {
                 // 다음 공격 취소
                 _isCombe = false;
-                _player.View.SetBool(PlayerView.Parameter.ThrowCombo, false);
+                View.SetBool(PlayerView.Parameter.ThrowCombo, false);
                 timeCount = _atttackBufferTime;
             }
 
@@ -83,17 +101,17 @@ public class ThrowState : PlayerState
 
         if (_isCombe == true)
         {
-            _player.ChangeState(PlayerController.State.ThrowAttack);
+            Player.ChangeState(PlayerController.State.ThrowAttack);
         }
         else if (_isChangeAttack == true)
         {
-            _player.Model.MeleeComboCount = 0;
-            _player.ChangeState(PlayerController.State.MeleeAttack);
+            Model.MeleeComboCount = 0;
+            Player.ChangeState(PlayerController.State.MeleeAttack);
         }
         else
         {
-            _player.Model.MeleeComboCount = 0;
-            _player.ChangeState(PlayerController.State.Idle);
+            Model.MeleeComboCount = 0;
+            Player.ChangeState(PlayerController.State.Idle);
         }
 
     }

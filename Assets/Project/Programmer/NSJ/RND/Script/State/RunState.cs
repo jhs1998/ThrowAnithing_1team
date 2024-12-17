@@ -9,7 +9,7 @@ public class RunState : PlayerState
 
     public override void Enter()
     {
-        _player.View.SetBool(PlayerView.Parameter.Run, true);
+        Player.View.SetBool(PlayerView.Parameter.Run, true);
     }
 
     public override void Update()
@@ -26,8 +26,8 @@ public class RunState : PlayerState
 
     public override void Exit()
     {
-        _player.View.SetBool(PlayerView.Parameter.Run, false);
-        _player.Rb.velocity = Vector3.zero;
+        View.SetBool(PlayerView.Parameter.Run, false);
+        Player.Rb.velocity = Vector3.zero;
     }
 
     private void InputKey()
@@ -40,42 +40,42 @@ public class RunState : PlayerState
     private void Run()
     {
         // 카메라 방향으로 플레이어가 바라보게
-        Quaternion cameraRot = Quaternion.Euler(0, _player.CamareArm.eulerAngles.y, 0);
-        _player.transform.rotation = cameraRot;
+        Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
+        transform.rotation = cameraRot;
         // 카메라는 다시 로컬 기준 전방 방향
-        if (_player.CamareArm.parent != null)
+        if (Player.CamareArm.parent != null)
         {
-            _player.CamareArm.localRotation = Quaternion.Euler(_player.CamareArm.localRotation.eulerAngles.x, 0, 0);
+            Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
            
 
-        _player.CamareArm.SetParent(null);
+        Player.CamareArm.SetParent(null);
 
         // 입력한 방향쪽을 플레이어가 바라봄
-        Vector3 moveDir = _player.transform.forward * _moveDir.z + _player.transform.right * _moveDir.x;
+        Vector3 moveDir = transform.forward * _moveDir.z + transform.right * _moveDir.x;
         if (moveDir == Vector3.zero)
             return;
-        _player.transform.rotation = Quaternion.LookRotation(moveDir);
+        transform.rotation = Quaternion.LookRotation(moveDir);
 
         // 플레이어 이동
-        _player.Rb.velocity = _player.transform.forward * _player.Model.MoveSpeed;
+        Rb.velocity = transform.forward * Model.MoveSpeed;
 
-        _player.CamareArm.SetParent(_player.transform);
+        Player.CamareArm.SetParent(Player.transform);
     }
 
     private void CheckChangeState()
     {
         if (_moveDir == Vector3.zero)
         {
-            _player.ChangeState(PlayerController.State.Idle);
+            Player.ChangeState(PlayerController.State.Idle);
         }
         else if (Input.GetButtonDown("Fire1"))
         {
-            _player.ChangeState(PlayerController.State.MeleeAttack);
+            Player.ChangeState(PlayerController.State.MeleeAttack);
         }
         else if (Input.GetButtonDown("Fire2"))
         {
-            _player.ChangeState(PlayerController.State.ThrowAttack);
+            Player.ChangeState(PlayerController.State.ThrowAttack);
         }
     }
 
