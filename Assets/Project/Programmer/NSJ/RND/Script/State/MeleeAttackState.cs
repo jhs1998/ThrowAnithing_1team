@@ -10,6 +10,8 @@ public class MeleeAttackState : PlayerState
     private float _attackHeight;
 
     Collider[] colliders = new Collider[20];
+
+    Coroutine _meleeRoutine;
     public MeleeAttackState(PlayerController controller) : base(controller)
     {
         _atttackBufferTime = Player.AttackBufferTime;
@@ -31,7 +33,12 @@ public class MeleeAttackState : PlayerState
         {
             Model.MeleeComboCount++;
         }
-        CoroutineHandler.StartRoutine(MeleeAttackRoutine());
+
+        if(_meleeRoutine == null)
+        {
+            _meleeRoutine = CoroutineHandler.StartRoutine(MeleeAttackRoutine());
+        }
+      
     }
 
     public override void Update()
@@ -41,7 +48,11 @@ public class MeleeAttackState : PlayerState
 
     public override void Exit()
     {
-
+        if (_meleeRoutine != null) 
+        {
+            CoroutineHandler.StopRoutine(_meleeRoutine);
+            _meleeRoutine = null;
+        }
     }
 
 

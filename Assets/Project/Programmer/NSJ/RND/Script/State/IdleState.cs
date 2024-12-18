@@ -1,6 +1,3 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class IdleState : PlayerState
@@ -22,13 +19,13 @@ public class IdleState : PlayerState
 
         Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         // 이동키 입력시 Run
-        if (moveDir != Vector3.zero) 
+        if (moveDir != Vector3.zero)
         {
             ChangeState(PlayerController.State.Run);
         }
         // 1번 공격키 입력시 근접공격
         else if (Input.GetButtonDown("Fire1"))
-        {   
+        {
             ChangeState(PlayerController.State.MeleeAttack);
         }
         // 2번 공격키 입력시 투척 공격
@@ -42,14 +39,14 @@ public class IdleState : PlayerState
             ChangeState(PlayerController.State.Jump);
         }
         // 공중에서 y축 물리값 음수일때 추락
-        else if (Player.IsGround == false && Rb.velocity.y < 0)
+        else if (Player.IsGround == false && Rb.velocity.y <= -2f)
         {
             ChangeState(PlayerController.State.Fall);
         }
     }
     public override void FixedUpdate()
     {
-      
+
     }
 
     public override void Exit()

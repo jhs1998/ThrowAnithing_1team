@@ -1,11 +1,6 @@
-
-using Assets.Project.Programmer.NSJ.RND.Script;
 using UniRx;
-using UniRx.Triggers;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Zenject;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
@@ -62,7 +57,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TestStruct _testStruct;
     public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
-    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Jump,Fall,Size }
+    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Jump, Fall, Dash, Size }
 
     private PlayerState[] _states = new PlayerState[(int)State.Size];
     public State CurState;
@@ -89,21 +84,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(CurState);
+
         _states[(int)CurState].Update();
 
+        CheckAnyState();
         RotateCamera();
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ThrowObject throwObject = Instantiate(_throwPrefab);
-            Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
-            Destroy(throwObject.gameObject);
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SceneManager.LoadScene(1);
-        }
+        TestInput();
     }
 
     private void FixedUpdate()
@@ -146,12 +134,12 @@ public class PlayerController : MonoBehaviour
     }
     public T InstantiateObject<T>(T instance, Transform parent) where T : Component
     {
-        T instanceObject = Instantiate(instance,parent);
+        T instanceObject = Instantiate(instance, parent);
         return instanceObject;
     }
     public T InstantiateObject<T>(T instance, Vector3 pos, Quaternion rot) where T : Component
     {
-        T instanceObject = Instantiate(instance,pos,rot);
+        T instanceObject = Instantiate(instance, pos, rot);
         return instanceObject;
     }
     #endregion
@@ -161,7 +149,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void AddThrowObject(ThrowObject throwObject)
     {
-        if(Model.CurThrowCount < Model.MaxThrowCount)
+        if (Model.CurThrowCount < Model.MaxThrowCount)
         {
             Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
             Destroy(throwObject.gameObject);
@@ -177,6 +165,13 @@ public class PlayerController : MonoBehaviour
         Model.HitAdditionals.Add(hitAdditional);
     }
 
+    private void CheckAnyState()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
+        {
+            ChangeState(PlayerController.State.Dash);
+        }
+    }
 
     /// <summary>
     /// TPS 시점 카메라 회전
@@ -206,15 +201,30 @@ public class PlayerController : MonoBehaviour
         // 살짝위에서 쏨
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
 
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down,out RaycastHit hit , 0.4f))
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 0.4f))
         {
-            Debug.Log("지면");
+            //Debug.Log("지면");
             IsGround = true;
         }
         else
         {
-            Debug.Log("공중");
+            // Debug.Log("공중");
             IsGround = false;
+        }
+    }
+
+    private void TestInput()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ThrowObject throwObject = Instantiate(_throwPrefab);
+            Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
+            Destroy(throwObject.gameObject);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SceneManager.LoadScene(1);
         }
     }
 
@@ -225,7 +235,7 @@ public class PlayerController : MonoBehaviour
     private void Init()
     {
         InitGetComponent();
-        InitPlayerStates();   
+        InitPlayerStates();
     }
 
     /// <summary>
@@ -238,7 +248,8 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // 근접공격
         _states[(int)State.ThrowAttack] = new ThrowState(this);         // 투척공격
         _states[(int)State.Jump] = new JumpState(this);                 // 점프
-        _states[(int)State.Fall] = new FallState(this);
+        _states[(int)State.Fall] = new FallState(this);                 // 추락
+        _states[(int)State.Dash] = new DashState(this);                 // 대쉬
     }
 
     /// <summary>

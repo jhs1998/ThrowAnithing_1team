@@ -6,7 +6,18 @@ using static UnityEngine.Rendering.DebugUI;
 public class PlayerView : MonoBehaviour
 {
     public PlayerPanel Panel;
-    public enum Parameter { Idle, Run, MeleeAttack, MeleeCombo, ThrowAttack, ThrowCombo, Jump, Fall,Landing,Size }
+    public enum Parameter { 
+        Idle, 
+        Run,
+        MeleeAttack,
+        MeleeCombo, 
+        ThrowAttack, 
+        ThrowCombo, 
+        Jump, 
+        Fall,
+        Landing,
+        Dash,
+        Size }
 
     #region 애니메이션 관련 이벤트
     public event UnityAction OnThrowAttackEvent;
@@ -129,5 +140,6 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.Jump] = Animator.StringToHash("Jump");
         _animatorHashes[(int)Parameter.Fall] = Animator.StringToHash("Fall");
         _animatorHashes[(int)Parameter.Landing] = Animator.StringToHash("Landing");
+        _animatorHashes[(int)Parameter.Dash] = Animator.StringToHash("Dash");
     }
 }

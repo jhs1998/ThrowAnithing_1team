@@ -8,6 +8,8 @@ public class ThrowState : PlayerState
     private float _atttackBufferTime;
     private bool _isCombe;
     private bool _isChangeAttack;
+
+    Coroutine _throwRoutine;
     public ThrowState(PlayerController controller) : base(controller)
     {
         _atttackBufferTime = Player.AttackBufferTime;
@@ -19,6 +21,7 @@ public class ThrowState : PlayerState
     {
         Player.Rb.velocity = Vector3.zero;
         _isChangeAttack = false;
+        // 첫 공격 시 첫 공격 애니메이션 실행
         if (View.GetBool(PlayerView.Parameter.ThrowCombo) == false)
         {
             View.SetTrigger(PlayerView.Parameter.ThrowAttack);
@@ -27,7 +30,13 @@ public class ThrowState : PlayerState
         {
             Model.MeleeComboCount++;
         }
-        CoroutineHandler.StartRoutine(MeleeAttackRoutine());
+
+
+        if(_throwRoutine == null)
+        {
+            _throwRoutine = CoroutineHandler.StartRoutine(MeleeAttackRoutine());
+        }
+        
     }
 
     public override void Update()
@@ -37,7 +46,11 @@ public class ThrowState : PlayerState
 
     public override void Exit()
     {
-
+        if(_throwRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_throwRoutine);
+            _throwRoutine = null;
+        }
     }
 
 
