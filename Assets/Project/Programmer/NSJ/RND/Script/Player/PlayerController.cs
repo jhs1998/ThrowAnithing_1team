@@ -2,6 +2,7 @@
 using Assets.Project.Programmer.NSJ.RND.Script;
 using UniRx;
 using UniRx.Triggers;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -13,7 +14,6 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
-  
 
     #region 공격 관련 필드
     [System.Serializable]
@@ -62,10 +62,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TestStruct _testStruct;
     public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
-    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Jump,Size }
+    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Jump,Fall,Size }
 
     private PlayerState[] _states = new PlayerState[(int)State.Size];
-    private State _curState;
+    public State CurState;
+    public State PrevState;
+
+    public bool IsGround; // 지면 접촉 여부
 
     private void Awake()
     {
@@ -76,17 +79,17 @@ public class PlayerController : MonoBehaviour
     {
         InitUIEvent();
         Camera.main.transform.SetParent(_cameraPos, true);
-        _states[(int)_curState].Enter();
+        _states[(int)CurState].Enter();
     }
 
     private void OnDisable()
     {
-        _states[(int)_curState].Exit();
+        _states[(int)CurState].Exit();
     }
 
     private void Update()
     {
-        _states[(int)_curState].Update();
+        _states[(int)CurState].Update();
 
         RotateCamera();
 
@@ -105,7 +108,23 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _states[(int)_curState].FixedUpdate();
+        _states[(int)CurState].FixedUpdate();
+        CheckGround();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_states[(int)CurState] == null)
+            return;
+        _states[(int)CurState].OnDrawGizmos();
+
+        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
+
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 0.4f))
+        {
+            Gizmos.DrawLine(CheckPos, hit.point);
+            Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
+        }
     }
 
     /// <summary>
@@ -113,9 +132,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void ChangeState(State state)
     {
-        _states[(int)_curState].Exit();
-        _curState = state;
-        _states[(int)_curState].Enter();
+        _states[(int)CurState].Exit();
+        PrevState = CurState;
+        CurState = state;
+        _states[(int)CurState].Enter();
     }
 
     #region Instantiate 대리 메서드
@@ -157,24 +177,7 @@ public class PlayerController : MonoBehaviour
         Model.HitAdditionals.Add(hitAdditional);
     }
 
-    private void OnDrawGizmos()
-    {
-        if (Model == null)
-            return;
-        //거리
-        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + AttackHeight, transform.position.z);
-        Vector3 attackPos = playerPos;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPos, Model.Range);
 
-        //각도
-        Vector3 rightDir = Quaternion.Euler(0, Model.Angle * 0.5f, 0) * transform.forward;
-        Vector3 leftDir = Quaternion.Euler(0, Model.Angle * -0.5f, 0) * transform.forward;
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + rightDir * Model.Range);
-        Gizmos.DrawLine(transform.position, transform.position + leftDir * Model.Range);
-    }
     /// <summary>
     /// TPS 시점 카메라 회전
     /// </summary>
@@ -193,6 +196,26 @@ public class PlayerController : MonoBehaviour
 
         // 머즐포인트 각도조절
         MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+    }
+
+    /// <summary>
+    /// 지면 체크
+    /// </summary>
+    private void CheckGround()
+    {
+        // 살짝위에서 쏨
+        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
+
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down,out RaycastHit hit , 0.4f))
+        {
+            Debug.Log("지면");
+            IsGround = true;
+        }
+        else
+        {
+            Debug.Log("공중");
+            IsGround = false;
+        }
     }
 
     // 초기 설정 ============================================================================================================================================ //
@@ -214,7 +237,8 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.Run] = new RunState(this);                   // 이동(달리기)
         _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // 근접공격
         _states[(int)State.ThrowAttack] = new ThrowState(this);         // 투척공격
-        _states[(int)State.Jump] = new JumpState(this);
+        _states[(int)State.Jump] = new JumpState(this);                 // 점프
+        _states[(int)State.Fall] = new FallState(this);
     }
 
     /// <summary>

@@ -26,8 +26,7 @@ public class RunState : PlayerState
 
     public override void Exit()
     {
-        View.SetBool(PlayerView.Parameter.Run, false);
-        Player.Rb.velocity = Vector3.zero;
+        View.SetBool(PlayerView.Parameter.Run, false);   
     }
 
     private void InputKey()
@@ -45,9 +44,10 @@ public class RunState : PlayerState
         // 카메라는 다시 로컬 기준 전방 방향
         if (Player.CamareArm.parent != null)
         {
+            // 카메라 흔들림 버그 잡아주는 코드
+            Player.CamareArm.localPosition = new Vector3(0, Player.CamareArm.localPosition.y, 0);
             Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
-           
 
         Player.CamareArm.SetParent(null);
 
@@ -67,17 +67,30 @@ public class RunState : PlayerState
 
     private void CheckChangeState()
     {
+        // 이동키 입력이 없을때 평상시 모드
         if (_moveDir == Vector3.zero)
         {
-            Player.ChangeState(PlayerController.State.Idle);
+            ChangeState(PlayerController.State.Idle);
         }
+        // 1번 공격키 입력시 근접 공격
         else if (Input.GetButtonDown("Fire1"))
         {
-            Player.ChangeState(PlayerController.State.MeleeAttack);
+            ChangeState(PlayerController.State.MeleeAttack);
         }
+        // 2번 공격키 입력 시 투척 공격
         else if (Input.GetButtonDown("Fire2"))
         {
-            Player.ChangeState(PlayerController.State.ThrowAttack);
+            ChangeState(PlayerController.State.ThrowAttack);
+        }
+        // 지면에서 점프 키 입력 시 점프
+        else if (Player.IsGround == true && Input.GetButtonDown("Jump"))
+        {
+            ChangeState(PlayerController.State.Jump);
+        }
+        // 공중에서 떨어질 시 추락
+        else if (Player.IsGround == false && Rb.velocity.y < 0)
+        {
+            ChangeState(PlayerController.State.Fall);
         }
     }
 

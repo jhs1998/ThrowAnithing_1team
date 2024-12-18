@@ -1577,11 +1577,11 @@ Transform:
   m_GameObject: {fileID: 1123301858}
   serializedVersion: 2
   m_LocalRotation: {x: -0.33267987, y: -0, z: -0, w: 0.94303983}
-  m_LocalPosition: {x: 3.3477395, y: -0.72, z: 4.87}
-  m_LocalScale: {x: 5.9056, y: 5.9056, z: 5.9056}
+  m_LocalPosition: {x: 0, y: -0.20658359, z: -0.5791114}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1935840516}
   m_LocalEulerAnglesHint: {x: -38.863, y: 0, z: 0}
 --- !u!1 &1139209154
 GameObject:
@@ -1782,6 +1782,7 @@ Transform:
   - {fileID: 1965086663}
   - {fileID: 324415720}
   - {fileID: 1326934241}
+  - {fileID: 1935840516}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1326934240
@@ -2073,7 +2074,7 @@ GameObject:
   - component: {fileID: 1935840514}
   - component: {fileID: 1935840513}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: aa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2158,12 +2159,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1935840512}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.3477395, y: 0.46, z: 8.25}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.87, y: -1.7061999, z: 33.86}
   m_LocalScale: {x: 5.9056, y: 5.9056, z: 5.9056}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
+  m_Children:
+  - {fileID: 1123301862}
+  m_Father: {fileID: 1311134762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1965086662
 GameObject:
@@ -2282,10 +2284,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: JumpPower
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 7904341024521288259, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.1
@@ -2356,5 +2354,3 @@ SceneRoots:
   - {fileID: 29822408}
   - {fileID: 1001360232}
   - {fileID: 1022303363}
-  - {fileID: 1123301862}
-  - {fileID: 1935840516}

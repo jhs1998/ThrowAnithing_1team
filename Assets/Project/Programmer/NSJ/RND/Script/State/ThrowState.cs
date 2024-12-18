@@ -17,6 +17,7 @@ public class ThrowState : PlayerState
     }
     public override void Enter()
     {
+        Player.Rb.velocity = Vector3.zero;
         _isChangeAttack = false;
         if (View.GetBool(PlayerView.Parameter.ThrowCombo) == false)
         {
@@ -99,19 +100,22 @@ public class ThrowState : PlayerState
             yield return null;
         }
 
+        // 콤보 선입력이 되었을 때 다시 투척 공격
         if (_isCombe == true)
         {
-            Player.ChangeState(PlayerController.State.ThrowAttack);
+            ChangeState(PlayerController.State.ThrowAttack);
         }
+        // 공격 키 입력이 바뀌었을 때 근접공격
         else if (_isChangeAttack == true)
         {
             Model.MeleeComboCount = 0;
-            Player.ChangeState(PlayerController.State.MeleeAttack);
+            ChangeState(PlayerController.State.MeleeAttack);
         }
+        // 아무 입력도 없었을 때 평상시 모드
         else
         {
             Model.MeleeComboCount = 0;
-            Player.ChangeState(PlayerController.State.Idle);
+            ChangeState(PlayerController.State.Idle);
         }
 
     }

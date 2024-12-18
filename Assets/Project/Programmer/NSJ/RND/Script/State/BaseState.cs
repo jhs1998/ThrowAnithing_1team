@@ -10,5 +10,6 @@ namespace Assets.Project.Programmer.NSJ.RND.Script.State
         public virtual void Update() { }
         public virtual void FixedUpdate() { }
         public virtual void Exit() { }
+        public virtual void OnDrawGizmos() { }
     }
 }

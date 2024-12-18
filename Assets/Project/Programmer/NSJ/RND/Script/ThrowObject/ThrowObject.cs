@@ -50,7 +50,7 @@ public class ThrowObject : MonoBehaviour
 
     public void Shoot()
     {
-        _rb.AddForce(transform.forward * 10f, ForceMode.Impulse);
+        _rb.AddForce(transform.forward * 20f, ForceMode.Impulse);
     }
 
     private void HitTarget()

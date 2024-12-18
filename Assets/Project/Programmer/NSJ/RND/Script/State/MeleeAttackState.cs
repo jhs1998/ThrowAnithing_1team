@@ -20,6 +20,7 @@ public class MeleeAttackState : PlayerState
 
     public override void Enter()
     {
+        Player.Rb.velocity = Vector3.zero;
         _isChangeAttack = false;
         if (View.GetBool(PlayerView.Parameter.MeleeCombo) == false)
         {
@@ -124,20 +125,42 @@ public class MeleeAttackState : PlayerState
             yield return null;
         }
 
+        // 콤보선입력 되었을때 다시 근접 공격 
         if (_isCombe == true)
         {
-            Player.ChangeState(PlayerController.State.MeleeAttack);
+            ChangeState(PlayerController.State.MeleeAttack);
         }
+        // 어택 명령이 바뀌었을 때 투척 공격
         else if (_isChangeAttack == true)
         {
             Model.MeleeComboCount = 0;
-            Player.ChangeState(PlayerController.State.ThrowAttack);
+            ChangeState(PlayerController.State.ThrowAttack);
         }
+        // 아무 입력도 없었을 때 평상시모드
         else
         {
             Model.MeleeComboCount = 0;
-            Player.ChangeState(PlayerController.State.Idle);
+            ChangeState(PlayerController.State.Idle);
         }
 
+    }
+
+    public override void OnDrawGizmos()
+    {
+        if (Model == null)
+            return;
+        //거리
+        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
+        Vector3 attackPos = playerPos;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPos, Model.Range);
+
+        //각도
+        Vector3 rightDir = Quaternion.Euler(0, Model.Angle * 0.5f, 0) * transform.forward;
+        Vector3 leftDir = Quaternion.Euler(0, Model.Angle * -0.5f, 0) * transform.forward;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + rightDir * Model.Range);
+        Gizmos.DrawLine(transform.position, transform.position + leftDir * Model.Range);
     }
 }
