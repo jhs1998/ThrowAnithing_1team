@@ -13,7 +13,7 @@ public enum CurState
 };
 public class MainScene : BaseUI
 {
-    protected CurState curState { get; private set; }
+    public CurState curState { get; protected set; }
 
     //메인 화면
     protected GameObject main;

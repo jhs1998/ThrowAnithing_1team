@@ -14,8 +14,11 @@ public class Main_Option : MainScene
     GameObject input;
     GameObject exit;
 
-
-    GameObject inputImage;
+    //옵션 Depth2 바인딩
+    GameObject gameplayPannel;
+    GameObject languagePannel;
+    GameObject soundPannel;
+    GameObject inputPannel;
 
     int depth1_cur;
 
@@ -27,9 +30,13 @@ public class Main_Option : MainScene
 
     private void Update()
     {
+        if (curState == CurState.optionDepth1)
+            return;
+
         OptionTitle();
         Depth1_Select();
         SelectedEnter();
+
     }
 
     void OptionTitle()
@@ -59,10 +66,32 @@ public class Main_Option : MainScene
                 break;
         }
 
-        if (depth1_cur == 3)
-            inputImage.SetActive(true);
+        OptionD2Show();
+
+    }
+
+    void OptionD2Show()
+    {
+        if (depth1_cur == 0)
+            gameplayPannel.SetActive(true);
         else
-            inputImage.SetActive(false);
+            gameplayPannel.SetActive(false);
+
+        if (depth1_cur == 1)
+            languagePannel.SetActive(true);
+        else
+            languagePannel.SetActive(false);
+
+        if (depth1_cur == 2)
+            soundPannel.SetActive(true);
+        else
+            soundPannel.SetActive(false);
+
+        if (depth1_cur == 3)
+            inputPannel.SetActive(true);
+        else
+            inputPannel.SetActive(false);
+
 
     }
 
@@ -72,7 +101,7 @@ public class Main_Option : MainScene
         {
             depth1[depth1_cur].GetComponent<TMP_Text>().color = Color.white;
 
-            if (depth1_cur == depth1.Length-1)
+            if (depth1_cur == depth1.Length - 1)
             {
                 depth1_cur = 0;
                 depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
@@ -107,17 +136,15 @@ public class Main_Option : MainScene
             {
                 case 0:
                     Debug.Log("게임플레이 선택");
-                    //Todo : 슬롯 선택 팝업 만들어야함 > 백엔드와 협업 필요할 듯
+                    curState = CurState.optionDepth2;
                     break;
 
                 case 1:
                     Debug.Log("언어 선택");
-                    //Todo : 게임 화면으로 이동 만들어야함
                     break;
 
                 case 2:
                     Debug.Log("소리 선택");
-                    //Todo : 옵션 팝업 만들어야함
                     break;
 
                 case 3:
@@ -139,6 +166,7 @@ public class Main_Option : MainScene
         }
     }
 
+
     private void Init()
     {
         depth1 = new GameObject[5];
@@ -149,7 +177,10 @@ public class Main_Option : MainScene
         depth1[3] = input = GetUI("Input");
         depth1[4] = exit = GetUI("Exit");
 
-        inputImage = GetUI("InputImage");
+        gameplayPannel = GetUI("GamePlayPackage");
+        languagePannel = GetUI("LanguagePackage");
+        soundPannel = GetUI("SoundPackage");
+        inputPannel = GetUI("InputImage");
 
         depth1_cur = 0;
     }
