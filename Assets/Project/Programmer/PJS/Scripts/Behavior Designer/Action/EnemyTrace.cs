@@ -2,9 +2,9 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
 
-public class MoveTest : Action
+public class EnemyTrace : Action
 {
-    [SerializeField] float speed;               // 몬스터 이동속도
+    [SerializeField] SharedFloat speed;         // 몬스터 이동속도
     [SerializeField] SharedTransform player;    // 플레이어
     [SerializeField] SharedFloat dist;
 
@@ -17,7 +17,7 @@ public class MoveTest : Action
         else if(dir > dist.Value)
             return TaskStatus.Failure;
 
-        transform.position = Vector3.MoveTowards(transform.position, player.Value.position, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, player.Value.position, speed.Value * Time.deltaTime);
         transform.LookAt(player.Value);
         return TaskStatus.Running;
     }
