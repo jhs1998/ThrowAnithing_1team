@@ -5,16 +5,23 @@ using UnityEngine.UI;
 
 public class SceneLoading : MonoBehaviour
 {
-    Coroutine loadingRoutine;
-    [SerializeField] Slider loadingBar;
-    [SerializeField] Button loadingButton;
+    Coroutine loadingRoutine; //로딩 코루틴
+    [SerializeField] Image loadingImage; //로딩중에만 나타날 이미지
+    [SerializeField] Slider loadingBar; //로딩중임을 알려주는 프로그레스 바
+
+
+    private void Start()
+    {
+        loadingImage.gameObject.SetActive(false);
+    }
+
 
     public void ChangeScene(int SceneNum)
     {
-
         if (loadingRoutine != null)
             return;
 
+        loadingImage.gameObject.SetActive(true);
         loadingRoutine = StartCoroutine(LoadingRoutine(SceneNum));
     }
 
@@ -37,7 +44,7 @@ public class SceneLoading : MonoBehaviour
             }
             else
             {
-                //로딩 완료
+                //로딩 완료 (바로 넘어가지는 코드)
                 //Debug.Log("loading success");
                 //oper.allowSceneActivation = true;
                 break;
@@ -56,8 +63,7 @@ public class SceneLoading : MonoBehaviour
         }
         Debug.Log("loading success");
         while (time >= 5f)
-        {
-            loadingButton.gameObject.SetActive(false);
+        {            
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -69,11 +75,6 @@ public class SceneLoading : MonoBehaviour
         }
 
     }
-
-
-
-
-
 
 
 
