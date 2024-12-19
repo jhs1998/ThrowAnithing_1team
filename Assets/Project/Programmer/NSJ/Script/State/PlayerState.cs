@@ -25,6 +25,8 @@ public class PlayerState : BaseState
         Rb = controller.Rb;
     }
 
+    public virtual void OnDash() { }
+
     protected void ChangeState(PlayerController.State state)
     {
         Player.ChangeState(state);

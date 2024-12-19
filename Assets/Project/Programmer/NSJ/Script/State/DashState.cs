@@ -7,6 +7,7 @@ public class DashState : PlayerState
     private Vector3 _moveDir;
     public DashState(PlayerController controller) : base(controller)
     {
+        
     }
 
     public override void Enter()
@@ -51,7 +52,7 @@ public class DashState : PlayerState
         }
         transform.rotation = Quaternion.LookRotation(moveDir);
             
-        Rb.velocity = transform.forward * Model.MoveSpeed * 3;
+        Rb.velocity = transform.forward * Model.DashPower;
         Player.CamareArm.SetParent(transform);
     }
 

@@ -61,10 +61,8 @@ public class FallState : PlayerState
         yield return 0.1f.GetDelay();
         while (Player.IsGround == false)
         {
-
-
             // 관성 유지, 벽에 박아서 속도가 사라지면 관성 사라짐
-            if (Rb.velocity.x > 0.01f && Rb.velocity.z > 0.01f)
+            if (Mathf.Abs(Rb.velocity.x) > 0.01f && Mathf.Abs(Rb.velocity.z) > 0.01f)
             {
                 Rb.velocity = new Vector3(_inertia.x, Rb.velocity.y, _inertia.z);
             }   

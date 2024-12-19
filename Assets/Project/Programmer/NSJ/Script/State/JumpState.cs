@@ -3,12 +3,10 @@ using UnityEngine;
 
 public class JumpState : PlayerState
 {
-    private float _jumpPower;
 
     public JumpState(PlayerController controller) : base(controller)
     {
         View.OnJumpEvent += Jump;
-        _jumpPower = controller.Model.JumpPower;
     }
 
     public override void Enter()
@@ -37,7 +35,7 @@ public class JumpState : PlayerState
         tempVelocity.y = 0;
         Rb.velocity = tempVelocity;
 
-        Rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+        Rb.AddForce(Vector3.up * Model.JumpPower, ForceMode.Impulse);
         // 점프 이후 바로 추락 모드 실행
         ChangeState(PlayerController.State.Fall);
     }

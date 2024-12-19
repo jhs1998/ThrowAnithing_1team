@@ -281,7 +281,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.125
   m_TransitionOffset: 0
   m_ExitTime: 0.70000005
-  m_HasExitTime: 0
+  m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -391,7 +391,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: JumpingUp
-  m_Speed: 1.5
+  m_Speed: 2.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7654005761289170425}
@@ -474,7 +474,7 @@ AnimatorStateMachine:
     m_Position: {x: 130, y: 890, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3205286040627790185}
-    m_Position: {x: 470, y: 190, z: 0}
+    m_Position: {x: 460, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5497321421010495149}
     m_Position: {x: 480, y: 260, z: 0}
@@ -489,13 +489,13 @@ AnimatorStateMachine:
     m_Position: {x: 250, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5214849679589822405}
-    m_Position: {x: 710, y: 220, z: 0}
+    m_Position: {x: 720, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1809626344504026894}
-    m_Position: {x: 710, y: 170, z: 0}
+    m_Position: {x: 630, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5506715538731248601}
-    m_Position: {x: 720, y: 280, z: 0}
+    m_Position: {x: 690, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8505377929591593858}
     m_Position: {x: 920, y: 160, z: 0}
@@ -960,7 +960,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Falling Idle
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 394874768079899453}
@@ -1042,8 +1042,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: 87600857149076391}
   - {fileID: -2003570579852706256}
-  m_StateMachineBehaviours:
-  - {fileID: -1495731631392082817}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1124,9 +1123,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.5
+  m_TransitionDuration: 0.125
   m_TransitionOffset: 0
-  m_ExitTime: 0.70000005
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

@@ -26,7 +26,7 @@ public class RunState : PlayerState
 
     public override void Exit()
     {
-        View.SetBool(PlayerView.Parameter.Run, false);   
+        View.SetBool(PlayerView.Parameter.Run, false);
     }
 
     private void InputKey()
@@ -38,6 +38,7 @@ public class RunState : PlayerState
 
     private void Run()
     {
+
         // 카메라 방향으로 플레이어가 바라보게
         Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
         transform.rotation = cameraRot;
@@ -49,7 +50,7 @@ public class RunState : PlayerState
             Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
 
-        Player.CamareArm.SetParent(null);
+        Quaternion cameraTempRot = Player.CamareArm.rotation;
 
         // 입력한 방향쪽을 플레이어가 바라봄
         Vector3 moveDir = transform.forward * _moveDir.z + transform.right * _moveDir.x;
@@ -58,11 +59,14 @@ public class RunState : PlayerState
         transform.rotation = Quaternion.LookRotation(moveDir);
 
         // 플레이어 이동
-        Vector3 originRb = Rb.velocity;
-        Rb.velocity = transform.forward * Model.MoveSpeed;
-        Rb.velocity = new Vector3(Rb.velocity.x, originRb.y, Rb.velocity.z);
+        if (Player.IsGround == true)
+        {
+            Vector3 originRb = Rb.velocity;
+            Rb.velocity = transform.forward * Model.MoveSpeed;
+            Rb.velocity = new Vector3(Rb.velocity.x, originRb.y, Rb.velocity.z);
+        }
 
-        Player.CamareArm.SetParent(Player.transform);
+        Player.CamareArm.rotation = cameraTempRot;
     }
 
     private void CheckChangeState()
@@ -88,7 +92,7 @@ public class RunState : PlayerState
             ChangeState(PlayerController.State.Jump);
         }
         // 공중에서 떨어질 시 추락
-        else if (Player.IsGround == false && Rb.velocity.y <= -2f)
+        else if (Player.IsGround == false && Rb.velocity.y <= -1f)
         {
             ChangeState(PlayerController.State.Fall);
         }

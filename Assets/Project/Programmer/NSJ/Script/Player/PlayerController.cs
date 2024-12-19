@@ -1,5 +1,6 @@
 using UniRx;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerModel))]
@@ -10,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
 
+    #region 이벤트
+    #endregion
     #region 공격 관련 필드
     [System.Serializable]
     struct AttackStruct
@@ -46,6 +49,24 @@ public class PlayerController : MonoBehaviour
     private float _cameraRotateAngle { get { return _cameraStruct.CameraRotateAngle; } set { _cameraStruct.CameraRotateAngle = value; } }
     private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
     private bool _isVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
+    #endregion
+    #region 감지 관련 필드
+    [System.Serializable]
+    struct CheckStruct
+    {
+        public Transform GroundCheckPos;
+        public WallCheckStruct WallCheckPos;
+    }
+    [System.Serializable]
+    struct WallCheckStruct
+    {
+        public Transform Head;
+        public Transform Chest;
+        public Transform Foot;
+    }
+    [SerializeField] private CheckStruct _checkStruct;
+    private Transform _groundCheckPos => _checkStruct.GroundCheckPos;
+    private WallCheckStruct _wallCheckPos => _checkStruct.WallCheckPos;
     #endregion
     #region 테스트 관련 필드
     [System.Serializable]
@@ -104,13 +125,8 @@ public class PlayerController : MonoBehaviour
             return;
         _states[(int)CurState].OnDrawGizmos();
 
-        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 0.4f))
-        {
-            Gizmos.DrawLine(CheckPos, hit.point);
-            Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
-        }
+        DrawCheckGround();
+        //DrawWallCheck(); 
     }
 
     /// <summary>
@@ -169,6 +185,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
         {
+            _states[(int)CurState].OnDash();
             ChangeState(PlayerController.State.Dash);
         }
     }
@@ -199,9 +216,9 @@ public class PlayerController : MonoBehaviour
     private void CheckGround()
     {
         // 살짝위에서 쏨
-        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
+        Vector3 CheckPos = _groundCheckPos.position;
 
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 0.4f))
+        if (Physics.SphereCast(CheckPos, 0.25f, Vector3.down, out RaycastHit hit, 0.4f))
         {
             //Debug.Log("지면");
             IsGround = true;
@@ -212,6 +229,37 @@ public class PlayerController : MonoBehaviour
             IsGround = false;
         }
     }
+
+    private void DrawCheckGround()
+    {
+        Gizmos.color = Color.yellow;
+
+        Vector3 CheckPos = _groundCheckPos.position;
+
+        if (Physics.SphereCast(CheckPos, 0.25f, Vector3.down, out RaycastHit hit, 0.4f))
+        {
+            Gizmos.DrawLine(CheckPos, hit.point);
+            Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
+        }
+    }
+
+    //private void DrawWallCheck()
+    //{
+    //    Gizmos.color = Color.green;
+
+    //    if(Physics.Raycast(_wallCheckPos.Head.position, _wallCheckPos.Head.forward, out RaycastHit hitHead,0.4f))
+    //    {
+    //        Gizmos.DrawLine(_wallCheckPos.Head.position, hitHead.point);
+    //    }
+    //    if (Physics.Raycast(_wallCheckPos.Chest.position, _wallCheckPos.Head.forward, out RaycastHit hitChest, 0.4f))
+    //    {
+    //        Gizmos.DrawLine(_wallCheckPos.Chest.position, hitChest.point);
+    //    }
+    //    if (Physics.Raycast(_wallCheckPos.Foot.position, _wallCheckPos.Head.forward, out RaycastHit hitFoot, 0.4f))
+    //    {
+    //        Gizmos.DrawLine(_wallCheckPos.Foot.position, hitFoot.point);
+    //    }
+    //}
 
     private void TestInput()
     {
