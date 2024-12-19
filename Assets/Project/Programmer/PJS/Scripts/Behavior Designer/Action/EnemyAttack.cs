@@ -1,9 +1,10 @@
-using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
+using BehaviorDesigner.Runtime;
+using BehaviorDesigner.Runtime.Tasks;
 
-public class EnemyDead : Action
+public class EnemyAttack : Action
 {
-    [SerializeField] Animator anim;
+	[SerializeField] Animator anim;
 
     public override void OnAwake()
     {
@@ -12,12 +13,13 @@ public class EnemyDead : Action
 
     public override TaskStatus OnUpdate()
     {
-        anim.SetBool("Deadth", true);
+        //anim.SetTrigger("Attack");
+        anim.SetBool("Attack 0", true);
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Zombie Death") &&
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack") &&
             anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
-            gameObject.SetActive(false);
+            anim.SetBool("Attack 0", false);
             return TaskStatus.Success;
         }
 
