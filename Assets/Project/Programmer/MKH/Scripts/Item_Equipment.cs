@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace MKH
 {
-    [SerializeField] public struct EquipmentEffect
+    [Serializable] public struct EquipmentEffect
     {
         [Header("추가 공격력")]
         [SerializeField] private float mDamage;
@@ -25,10 +26,12 @@ namespace MKH
         }
     }
 
-    [CreateAssetMenu(fileName = "Item", menuName = "Add Item / Item(Equipment)")]
+    [CreateAssetMenu(fileName = "Item", menuName = "Add Item/Item(Equipment)")]
     public class Item_Equipment : Item
     {
-        [SerializeField] private EquipmentEffect mEffect;
+        [Space(50)]
+        [Header("장비 아이템 효과")]
+        [SerializeField] EquipmentEffect mEffect;
 
         public EquipmentEffect Effect { get { return mEffect; } }
     }
