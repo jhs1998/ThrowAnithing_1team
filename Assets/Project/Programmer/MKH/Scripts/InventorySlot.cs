@@ -1,6 +1,6 @@
-using MKH;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,11 +28,13 @@ namespace MKH
             mItemImage.color = color;
         }
 
+        // 아이템 들어갈 타입
         public bool IsMask(Item item)
         {
             return ((int)item.Type & (int)mSlotMask) == 0 ? false : true;
         }
 
+        // 아이템 습득
         public void AddItem(Item item)
         {
             mItem = item;
@@ -41,6 +43,7 @@ namespace MKH
             SetColor(1);
         }
 
+        // 아이템 사용
         public void ClearSlot()
         {
             mItem = null;
@@ -55,6 +58,7 @@ namespace MKH
                 if(mItem.Type >= ItemType.Helmet && mItem.Type <= ItemType.Necklace)
                 {
                     ChangeEquipmentSlot();
+                    ClearSlot();
                 }
             }
         }
@@ -62,14 +66,6 @@ namespace MKH
         public void ChangeEquipmentSlot()
         {
             itemActionManager.UseItem(mItem);
-        }
-
-        public void Click()
-        {
-            if(Input.GetKeyDown(KeyCode.C))
-            {
-                UseItem();
-            }
         }
     }
 }
