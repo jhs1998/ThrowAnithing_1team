@@ -29,14 +29,14 @@ public class GlobalPlayerData
 public class UserDataManager : MonoBehaviour
 {
     // 싱글톤
-    //public static UserDataManager instance;
+    public static UserDataManager instance;
     // 플레이어 데이터 생성
     public GlobalPlayerData nowPlayer = new GlobalPlayerData();
     // 세이브 파일 저장 경로
     public string path;
     // 현재 슬롯번호
     public int nowSlot;
-    /*
+    
     private void Awake()
     {
         if (instance == null)
@@ -49,13 +49,13 @@ public class UserDataManager : MonoBehaviour
         // 저장 경로 지정
         path = Application.persistentDataPath + "/save";
         print(path);
-    }*/
-
+    }
+    /*
     [Inject]
     public void Construct(string savePath)
     {
         path = savePath;
-    }
+    }*/
 
     private void Start()
     {
