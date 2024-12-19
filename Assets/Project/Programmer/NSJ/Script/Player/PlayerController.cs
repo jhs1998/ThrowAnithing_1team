@@ -11,6 +11,11 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
+    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Jump, Fall, Dash, Size }
+
+    private PlayerState[] _states = new PlayerState[(int)State.Size];
+    public State CurState;
+    public State PrevState;
 
     #region 이벤트
     #endregion
@@ -88,17 +93,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TestStruct _testStruct;
     public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
-    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Jump, Fall, Dash, Size }
-
-    private PlayerState[] _states = new PlayerState[(int)State.Size];
-    public State CurState;
-    public State PrevState;
 
     public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround =value; } }// 지면 접촉 여부
     public bool IsWall { get { return _checkStruct.IsWall; } set { _checkStruct.IsWall = value; } } // 벽 접촉 여부
     public bool CanClimbSlope { get { return _checkStruct.CanClimbSlope; } set { _checkStruct.CanClimbSlope = value; } } // 오를 수 있는 경사면 각도 인지 체크
 
-    public Collider[] OverLapColliders = new Collider[100];
+    [HideInInspector]public Collider[] OverLapColliders = new Collider[100];
 
     private void Awake()
     {

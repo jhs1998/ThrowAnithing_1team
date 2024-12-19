@@ -38,7 +38,6 @@ public class RunState : PlayerState
 
     private void Run()
     {
-
         // 카메라 방향으로 플레이어가 바라보게
         Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
         transform.rotation = cameraRot;
