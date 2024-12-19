@@ -1,6 +1,5 @@
 using UniRx;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerModel))]
@@ -55,18 +54,27 @@ public class PlayerController : MonoBehaviour
     struct CheckStruct
     {
         public Transform GroundCheckPos;
+        [Range(0, 1)] public float SlopeAngle;
         public WallCheckStruct WallCheckPos;
+        public float WallCheckDistance;
+        [Space(10)]
+        public bool IsGround; // 지면 접촉 여부
+        public bool IsWall; // 벽 접촉 여부
+        public bool CanClimbSlope; // 오를 수 있는 경사면 각도 인지 체크
     }
     [System.Serializable]
     struct WallCheckStruct
     {
         public Transform Head;
-        public Transform Chest;
         public Transform Foot;
     }
     [SerializeField] private CheckStruct _checkStruct;
     private Transform _groundCheckPos => _checkStruct.GroundCheckPos;
     private WallCheckStruct _wallCheckPos => _checkStruct.WallCheckPos;
+
+    private float _wallCheckDistance { get { return _checkStruct.WallCheckDistance; } set { _checkStruct.WallCheckDistance = value; } }
+    private float _slopeAngle { get { return _checkStruct.SlopeAngle; } set { _checkStruct.SlopeAngle = value; } }
+
     #endregion
     #region 테스트 관련 필드
     [System.Serializable]
@@ -84,7 +92,11 @@ public class PlayerController : MonoBehaviour
     public State CurState;
     public State PrevState;
 
-    public bool IsGround; // 지면 접촉 여부
+    public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround =value; } }// 지면 접촉 여부
+    public bool IsWall { get { return _checkStruct.IsWall; } set { _checkStruct.IsWall = value; } } // 벽 접촉 여부
+    public bool CanClimbSlope { get { return _checkStruct.CanClimbSlope; } set { _checkStruct.CanClimbSlope = value; } } // 오를 수 있는 경사면 각도 인지 체크
+
+    public Collider[] OverLapColliders = new Collider[100];
 
     private void Awake()
     {
@@ -104,7 +116,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
-    {      
+    {
         _states[(int)CurState].Update();
 
         CheckAnyState();
@@ -117,6 +129,7 @@ public class PlayerController : MonoBehaviour
     {
         _states[(int)CurState].FixedUpdate();
         CheckGround();
+        CheckWall();
     }
 
     private void OnDrawGizmos()
@@ -126,7 +139,7 @@ public class PlayerController : MonoBehaviour
         _states[(int)CurState].OnDrawGizmos();
 
         DrawCheckGround();
-        //DrawWallCheck(); 
+        DrawWallCheck();
     }
 
     /// <summary>
@@ -165,6 +178,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void AddThrowObject(ThrowObject throwObject)
     {
+
         if (Model.CurThrowCount < Model.MaxThrowCount)
         {
             Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
@@ -222,11 +236,22 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("지면");
             IsGround = true;
+            // 오를 수 있는 경사면 체크
+            Vector3 normal = hit.normal;
+            if (normal.y > 1 - _slopeAngle)
+            {
+                CanClimbSlope = true;
+            }
+            else
+            {
+                CanClimbSlope = false;
+            }
         }
         else
         {
             // Debug.Log("공중");
             IsGround = false;
+            CanClimbSlope = false;
         }
     }
 
@@ -243,23 +268,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //private void DrawWallCheck()
-    //{
-    //    Gizmos.color = Color.green;
+    private void CheckWall()
+    {
+        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << 5);
 
-    //    if(Physics.Raycast(_wallCheckPos.Head.position, _wallCheckPos.Head.forward, out RaycastHit hitHead,0.4f))
-    //    {
-    //        Gizmos.DrawLine(_wallCheckPos.Head.position, hitHead.point);
-    //    }
-    //    if (Physics.Raycast(_wallCheckPos.Chest.position, _wallCheckPos.Head.forward, out RaycastHit hitChest, 0.4f))
-    //    {
-    //        Gizmos.DrawLine(_wallCheckPos.Chest.position, hitChest.point);
-    //    }
-    //    if (Physics.Raycast(_wallCheckPos.Foot.position, _wallCheckPos.Head.forward, out RaycastHit hitFoot, 0.4f))
-    //    {
-    //        Gizmos.DrawLine(_wallCheckPos.Foot.position, hitFoot.point);
-    //    }
-    //}
+        if (hitCount > 0)
+        {
+            IsWall = true;
+        }
+        else
+        {
+            IsWall = false;
+        }
+
+    }
+
+    private void DrawWallCheck()
+    {
+        Gizmos.color = Color.green;
+
+        Vector3 footPos = _wallCheckPos.Foot.position + transform.forward * _wallCheckDistance;
+        Vector3 headPos = _wallCheckPos.Head.position + transform.forward * _wallCheckDistance;
+
+        Gizmos.DrawLine(footPos, headPos);
+    }
 
     private void TestInput()
     {

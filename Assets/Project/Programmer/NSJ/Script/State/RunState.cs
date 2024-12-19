@@ -57,16 +57,18 @@ public class RunState : PlayerState
         if (moveDir == Vector3.zero)
             return;
         transform.rotation = Quaternion.LookRotation(moveDir);
+        Player.CamareArm.rotation = cameraTempRot;
 
         // 플레이어 이동
-        if (Player.IsGround == true)
-        {
-            Vector3 originRb = Rb.velocity;
-            Rb.velocity = transform.forward * Model.MoveSpeed;
-            Rb.velocity = new Vector3(Rb.velocity.x, originRb.y, Rb.velocity.z);
-        }
+        // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동
+        if (Player.IsGround == false && Player.IsWall == true)
+            return;
 
-        Player.CamareArm.rotation = cameraTempRot;
+        Vector3 originRb = Rb.velocity;
+        Vector3 velocityDir = transform.forward * Model.MoveSpeed;
+        Rb.velocity = new Vector3(velocityDir.x, originRb.y, velocityDir.z);
+
+
     }
 
     private void CheckChangeState()

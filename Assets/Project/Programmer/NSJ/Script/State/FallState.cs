@@ -20,7 +20,7 @@ public class FallState : PlayerState
             View.SetTrigger(PlayerView.Parameter.Fall);
         }
 
-        _inertia = Rb.velocity;
+        _inertia = new Vector3(Rb.velocity.x, Rb.velocity.y, Rb.velocity.z);
         if (_fallRoutine == null)
         {
             _fallRoutine = CoroutineHandler.StartRoutine(FallRoutine());
@@ -61,11 +61,16 @@ public class FallState : PlayerState
         yield return 0.1f.GetDelay();
         while (Player.IsGround == false)
         {
-            // 관성 유지, 벽에 박아서 속도가 사라지면 관성 사라짐
-            if (Mathf.Abs(Rb.velocity.x) > 0.01f && Mathf.Abs(Rb.velocity.z) > 0.01f)
+            Debug.Log(_inertia);
+            // 관성 유지, 벽과 접촉시 이동안함
+            if (Player.IsWall == false)
             {
                 Rb.velocity = new Vector3(_inertia.x, Rb.velocity.y, _inertia.z);
-            }   
+            }
+            else
+            {
+                Rb.velocity = new Vector3(0, Rb.velocity.y, 0);
+            }
             // 떨어지기 시작했을때 지면과 충분히 가까워졌다면 지면 체크 로직 종료
             if (Rb.velocity.y < 0)
             {
