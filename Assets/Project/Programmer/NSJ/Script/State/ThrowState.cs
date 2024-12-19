@@ -21,6 +21,17 @@ public class ThrowState : PlayerState
     {
         Player.Rb.velocity = Vector3.zero;
         _isChangeAttack = false;
+
+        if (Player.PrevState != PlayerController.State.ThrowAttack)
+        {
+            View.SetBool(PlayerView.Parameter.ThrowCombo, false);
+            Model.MeleeComboCount = 0;
+        }
+        else
+        {
+            View.SetBool(PlayerView.Parameter.ThrowCombo, true);
+        }
+
         // 첫 공격 시 첫 공격 애니메이션 실행
         if (View.GetBool(PlayerView.Parameter.ThrowCombo) == false)
         {
@@ -83,14 +94,13 @@ public class ThrowState : PlayerState
 
         yield return null;
         float timeCount = _atttackBufferTime;
-        while (View.IsAnimationFinish == false)
+        while (View.GetIsAnimFinish(PlayerView.Parameter.ThrowAttack) == false)
         {
             // 공격 버퍼
             if (Input.GetButtonDown("Fire2"))
             {
                 // 다음 공격 대기
                 _isCombe = true;
-                View.SetBool(PlayerView.Parameter.ThrowCombo, true);
                 timeCount = _atttackBufferTime;
             }
             else if (Input.GetButtonDown("Fire1"))
@@ -98,7 +108,6 @@ public class ThrowState : PlayerState
                 // 근접 공격 전환
                 _isCombe = false;
                 _isChangeAttack = true;
-                View.SetBool(PlayerView.Parameter.ThrowCombo, false);
                 timeCount = _atttackBufferTime;
             }
             timeCount -= Time.deltaTime;
@@ -106,7 +115,6 @@ public class ThrowState : PlayerState
             {
                 // 다음 공격 취소
                 _isCombe = false;
-                View.SetBool(PlayerView.Parameter.ThrowCombo, false);
                 timeCount = _atttackBufferTime;
             }
 
@@ -121,13 +129,11 @@ public class ThrowState : PlayerState
         // 공격 키 입력이 바뀌었을 때 근접공격
         else if (_isChangeAttack == true)
         {
-            Model.MeleeComboCount = 0;
             ChangeState(PlayerController.State.MeleeAttack);
         }
         // 아무 입력도 없었을 때 평상시 모드
         else
         {
-            Model.MeleeComboCount = 0;
             ChangeState(PlayerController.State.Idle);
         }
 

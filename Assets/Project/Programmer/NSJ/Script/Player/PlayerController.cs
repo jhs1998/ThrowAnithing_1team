@@ -83,9 +83,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
-    {
-        Debug.Log(CurState);
-
+    {      
         _states[(int)CurState].Update();
 
         CheckAnyState();
@@ -124,6 +122,8 @@ public class PlayerController : MonoBehaviour
         PrevState = CurState;
         CurState = state;
         _states[(int)CurState].Enter();
+
+        //Debug.Log(CurState);
     }
 
     #region Instantiate 대리 메서드
