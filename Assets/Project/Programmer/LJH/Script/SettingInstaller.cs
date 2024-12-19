@@ -2,12 +2,14 @@ using Zenject;
 using UnityEngine;
 using System.Collections;
 
-public class TestInstaller : MonoInstaller
+public class SettingInstaller : MonoInstaller
 {
+    [SerializeField] public SettingManager setManager;
     public override void InstallBindings()
     {
-        Container.Bind<string>().FromInstance("Hello World!");
-        Container.Bind<Greeter>().AsSingle().NonLazy();
+        Container
+            .Bind<SettingManager>()
+            .FromInstance(setManager);
     }
 }
 

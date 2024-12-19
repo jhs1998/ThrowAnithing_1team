@@ -209,10 +209,13 @@ public class MainScene : BaseUI
     }
     void ExitGame()
     {
+#if UNITY_EDITOR
         //Comment : 유니티 에디터상에서 종료
         UnityEditor.EditorApplication.isPlaying = false;
+#else
         //Comment : 빌드 상에서 종료
         Application.Quit();
+#endif
     }
 
 }
