@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using Zenject;
 
 public class SlotManager : MonoBehaviour
 {
@@ -14,9 +15,15 @@ public class SlotManager : MonoBehaviour
 
     private UserDataManager userDataManager;
 
+    [Inject]
+    public void Construct(UserDataManager userDataManager)
+    {
+        this.userDataManager = userDataManager;
+    }
+
     private void Start()
     {
-        userDataManager = UserDataManager.instance;
+        //userDataManager = UserDataManager.instance;
 
         // ΩΩ∑‘ UI √ ±‚»≠
         UpdateSlotUI();
