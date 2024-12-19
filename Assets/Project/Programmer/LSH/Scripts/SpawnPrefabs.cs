@@ -50,8 +50,6 @@ public class SpawnPrefabs : MonoBehaviour
     public void SpawnTrashPos()
     {
 
-        
-
         for (int i = 0; i < childCube.Length; i++)
         {
             if (childCube[i] == prefabs.transform)
