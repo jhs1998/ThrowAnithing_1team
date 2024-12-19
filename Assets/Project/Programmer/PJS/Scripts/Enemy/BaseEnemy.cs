@@ -5,10 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class State
 {
-    public int Hp;  // 체력
-    [Range(0, 50)]public int Damge;       // 공격 데미지
-    [Range(0, 50)]public float TraceDis;  // 인식 사거리
-    [Range(0, 10)]public float AttackDis; // 공격 사거리
+    [Range(100, 1000)] public int Hp;  // 체력
+    [Range(0, 50)] public int Damge;       // 공격 데미지
+    [Range(0, 50)] public float TraceDis;  // 인식 사거리
+    [Range(0, 10)] public float AttackDis; // 공격 사거리
+    [Range(0, 10)] public float Speed;    // 이동 속도
 }
 
 
@@ -16,7 +17,7 @@ public class BaseEnemy : MonoBehaviour
 {
     [SerializeField] BehaviorTree tree;
 
-    [SerializeField] protected State state; 
+    [SerializeField] protected State state;
 
     public int Damge { get { return state.Damge; } }
     public int Hp { get { return state.Hp; } }
@@ -37,6 +38,7 @@ public class BaseEnemy : MonoBehaviour
         tree.SetVariable("PlayerTrans", playerTrans);
         tree.SetVariable("TraceDis", (SharedFloat)state.TraceDis);
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
+        tree.SetVariable("Speed", (SharedFloat)state.Speed);
     }
 
     private void OnDrawGizmosSelected()

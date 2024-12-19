@@ -2,7 +2,7 @@ using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class DeadEnemy : Action
+public class EnemyDead : Action
 {
 	[SerializeField] Animator anim;
 
@@ -13,7 +13,7 @@ public class DeadEnemy : Action
 
 	public override TaskStatus OnUpdate()
 	{
-		anim.Play("Zombie Deadth");
+		anim.SetBool("Deadth", true);
 
 		return TaskStatus.Success;
 	}
