@@ -44,6 +44,9 @@ public class MainScene : BaseUI
     int curMenu;
 
     protected bool isOption;
+    protected float inputDelay = 0.2f;
+
+    protected Coroutine menuCo;
     private void Awake()
     {
         Bind();
@@ -60,25 +63,30 @@ public class MainScene : BaseUI
         if (!option.activeSelf && !main_continue.activeSelf)
             curState = CurState.main;
 
+        if (option.activeSelf)
+            curState = CurState.optionDepth1;
+
         Debug.Log(curState);
         if (curState == CurState.main)
         {
-            MenuSelect();
-
+            if (menuCo == null)
+            {
+                menuCo = StartCoroutine(MenuSelect());
+            }
             SelectedEnter();
 
             if (exitPopUpObj.activeSelf)
                 ExitPopUp();
         }
 
-        
+
     }
 
     // Comment : 초기화 용도의 함수
     void Init()
     {
         main = GetUI("MainButtons");
-       // curState = CurState.main;
+        // curState = CurState.main;
 
         menuButtons = new GameObject[4];
         menuButtons[0] = continueImage = GetUI("ContinueImage");
@@ -95,52 +103,54 @@ public class MainScene : BaseUI
         main_continue = GetUI("Background_continue");
 
         option = GetUI("Background_option");
-        
-        
+
+
         curMenu = 0;
         exitNum = 0;
 
-        
+
     }
 
     // Comment : W/S 또는 위/아래 화살표 키를 이용해 메뉴 변경 가능 함수
-    // Todo : 더 효율적인 방법이 있는지 질문해보기
-    private void MenuSelect()
+
+    private IEnumerator MenuSelect()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        float y = -Input.GetAxisRaw("Vertical");
+
+
+        curMenu += (int)y;
+
+        if (curMenu == menuButtons.Length)
         {
-            menuButtons[curMenu].SetActive(false);
-
-            if (curMenu == menuButtons.Length-1)
-            {
-                curMenu = 0;
-                menuButtons[curMenu].SetActive(true);
-                return;
-            }
-
-            curMenu++;
+            curMenu = 0;
+            menuButtons[menuButtons.Length - 1].SetActive(false);
             menuButtons[curMenu].SetActive(true);
+            yield return null;
         }
 
-        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (curMenu == -1)
         {
-            menuButtons[curMenu].SetActive(false);
-
-            if (curMenu == 0)
-            {
-                curMenu = menuButtons.Length - 1;
-                menuButtons[curMenu].SetActive(true);
-                return;
-            }
-
-            curMenu--;
+            curMenu = menuButtons.Length - 1;
+            menuButtons[0].SetActive(false);
             menuButtons[curMenu].SetActive(true);
+            yield return null;
         }
+
+        for (int i = 0; i < menuButtons.Length; i++)
+        {
+            menuButtons[i].SetActive(false);
+        }
+        menuButtons[curMenu].SetActive(true);
+
+        yield return inputDelay.GetDelay();
+        menuCo = null;
     }
+
 
     //Comment : 선택한 메뉴로 진입하는 함수
     void SelectedEnter()
     {
+        // Todo: 패드까지 지원 가능하게 바꿔야함
         if (Input.GetKeyDown(KeyCode.E))
         {
             switch (curMenu)
@@ -209,10 +219,13 @@ public class MainScene : BaseUI
     }
     void ExitGame()
     {
+#if UNITY_EDITOR
         //Comment : 유니티 에디터상에서 종료
         UnityEditor.EditorApplication.isPlaying = false;
+#else
         //Comment : 빌드 상에서 종료
         Application.Quit();
+#endif
     }
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,12 +20,49 @@ public class Main_Continue : MainScene
     {
         Init();
         SlotPill();
+
     }
 
     void Update()
     {
-        slots_Select();
+        if (menuCo == null)
+        {
+            menuCo = StartCoroutine(Slots_Select());
+        }
         SelectedEnter();
+    }
+
+    private IEnumerator Slots_Select()
+    {
+        float y = -Input.GetAxisRaw("Vertical");
+
+
+        slots_cur += (int)y;
+
+        if (slots_cur == slots.Length)
+        {
+            slots_cur = 0;
+            slots[slots.Length -1].GetComponent<Outline>().effectDistance = new(0, 0);
+            slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
+            yield return null;
+        }
+
+        if (slots_cur == -1)
+        {
+            slots_cur = slots.Length - 1;
+            slots[0].GetComponent<Outline>().effectDistance = new(0, 0);
+            slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
+            yield return null;
+        }
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i].GetComponent<Outline>().effectDistance = new(0, 0);
+        }
+        slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
+
+        yield return inputDelay.GetDelay();
+        menuCo = null;
     }
 
     private void slots_Select()
@@ -33,7 +71,7 @@ public class Main_Continue : MainScene
         {
             slots[slots_cur].GetComponent<Outline>().effectDistance = new(0, 0);
 
-            if (slots_cur == slots.Length-1)
+            if (slots_cur == slots.Length - 1)
             {
                 slots_cur = 0;
                 slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
@@ -50,7 +88,7 @@ public class Main_Continue : MainScene
 
             if (slots_cur == 0)
             {
-                slots_cur = slots.Length-1;
+                slots_cur = slots.Length - 1;
                 slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
                 return;
             }
@@ -100,7 +138,7 @@ public class Main_Continue : MainScene
 
     private void Init()
     {
-        
+
         slots = new GameObject[3];
 
         slots[0] = slot1 = GetUI("FirstSlot");
