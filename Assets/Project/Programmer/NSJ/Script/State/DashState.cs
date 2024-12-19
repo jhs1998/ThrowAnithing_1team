@@ -7,11 +7,13 @@ public class DashState : PlayerState
     private Vector3 _moveDir;
     public DashState(PlayerController controller) : base(controller)
     {
-        
+        UseStamina = true;
     }
 
     public override void Enter()
     {
+        Model.CurStamina -= 0.3f;
+
         InputKey();
         View.SetTrigger(PlayerView.Parameter.Dash);
     }

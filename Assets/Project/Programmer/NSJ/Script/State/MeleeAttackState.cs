@@ -21,6 +21,8 @@ public class MeleeAttackState : PlayerState
     Coroutine _meleeRoutine;
     public MeleeAttackState(PlayerController controller) : base(controller)
     {
+        UseStamina = true;
+
         _atttackBufferTime = Player.AttackBufferTime;
         _attackHeight = Player.AttackHeight;
 
@@ -29,6 +31,7 @@ public class MeleeAttackState : PlayerState
 
     public override void Enter()
     {
+        Model.CurStamina -= 0.3f;
         Player.Rb.velocity = Vector3.zero;
         _isChangeAttack = false;
 

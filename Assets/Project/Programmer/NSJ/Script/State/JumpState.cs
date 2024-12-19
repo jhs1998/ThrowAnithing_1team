@@ -6,11 +6,13 @@ public class JumpState : PlayerState
 
     public JumpState(PlayerController controller) : base(controller)
     {
+        UseStamina = true;
         View.OnJumpEvent += Jump;
     }
 
     public override void Enter()
     {
+        Model.CurStamina -= 0.3f;
         View.SetTrigger(PlayerView.Parameter.Jump);
     }
     public override void Exit()

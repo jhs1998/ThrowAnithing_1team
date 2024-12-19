@@ -61,7 +61,6 @@ public class FallState : PlayerState
         yield return 0.1f.GetDelay();
         while (Player.IsGround == false)
         {
-            Debug.Log(_inertia);
             // 관성 유지, 벽과 접촉시 이동안함
             if (Player.IsWall == false)
             {

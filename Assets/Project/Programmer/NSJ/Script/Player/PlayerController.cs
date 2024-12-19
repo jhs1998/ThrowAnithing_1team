@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -106,6 +108,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         InitUIEvent();
+        StartRoutine();
         Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
     }
@@ -147,6 +150,11 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void ChangeState(State state)
     {
+        if(_states[(int)state].UseStamina == true && Model.CurStamina < 0.1f)
+        {
+            return;
+        }
+
         _states[(int)CurState].Exit();
         PrevState = CurState;
         CurState = state;
@@ -268,9 +276,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 벽체크
+    /// </summary>
     private void CheckWall()
     {
-        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << 5);
+        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << 6);
 
         if (hitCount > 0)
         {
@@ -308,6 +319,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 스테미나 회복 코루틴
+    /// </summary>
+    IEnumerator RecoveryStamina()
+    {
+        while (true)
+        {
+            // 초당 MaxStamina / StaminaRecoveryTime 만큼 회복
+            // 현재 스테미나가 꽉찼으면 더이상 회복안함
+            // 만약 스테미나가 0이하로 떨어지면 일정시간동안 스테미나 회복 안함
+            Model.CurStamina += (Model.MaxStamina / Model.StaminaRecoveryTime) * Time.deltaTime;
+            if(Model.CurStamina >= Model.MaxStamina)
+            {
+                Model.CurStamina = Model.MaxStamina;
+            }
+
+            if(Model.CurStamina < 0)
+            {
+                yield return Model.StaminaCoolTime.GetDelay();
+                Model.CurStamina = 0;
+            }
+
+            yield return null;
+        }
+    }
+
     // 초기 설정 ============================================================================================================================================ //
     /// <summary>
     /// 초기 설정
@@ -341,6 +378,12 @@ public class PlayerController : MonoBehaviour
             .DistinctUntilChanged()
             .Subscribe(x => View.UpdateText(View.Panel.ThrowCount, $"{x} / {Model.MaxThrowCount}"));
         View.UpdateText(View.Panel.ThrowCount, $"{Model.CurThrowCount} / {Model.MaxThrowCount}");
+
+
+        Model.CurStaminaSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => View.Panel.StaminaSlider.value = x);
+        View.Panel.StaminaSlider.value = Model.CurStamina;
     }
 
     /// <summary>
@@ -352,4 +395,10 @@ public class PlayerController : MonoBehaviour
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
     }
+
+    private void StartRoutine()
+    {
+        StartCoroutine(RecoveryStamina());
+    }
+
 }

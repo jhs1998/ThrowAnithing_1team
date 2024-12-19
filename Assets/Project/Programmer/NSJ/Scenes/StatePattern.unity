@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 287255745}
   - component: {fileID: 287255744}
   - component: {fileID: 287255743}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1595,7 +1595,7 @@ GameObject:
   - component: {fileID: 1123301861}
   - component: {fileID: 1123301860}
   - component: {fileID: 1123301859}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2178,7 +2178,7 @@ GameObject:
   - component: {fileID: 1935840515}
   - component: {fileID: 1935840514}
   - component: {fileID: 1935840513}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: aa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2386,53 +2386,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: _slopeAngle
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: _wallCheckAngle
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: _wallCheckDistance
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: _testStruct.IsAttackForward
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: _cameraStruct.CameraRotateAngle
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: _cameraStruct.CameraRotateSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: _cameraStruct.IsVerticalCameraMove
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1656542453060204975, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.876
-      objectReference: {fileID: 0}
-    - target: {fileID: 1656542453060204975, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.1
+    - target: {fileID: 1936963562683274295, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4078535065578860198, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: DashPower
-      value: 10
+    - target: {fileID: 5484720651322308731, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: MaxStamina
-      value: 100
+    - target: {fileID: 5484720651322308731, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7904341024521288259, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2474,17 +2442,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8138786632065566291, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 8138786632065566291, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 3604103272794420028, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}

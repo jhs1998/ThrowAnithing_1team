@@ -7,7 +7,9 @@ using UnityEngine.XR;
 using Zenject.SpaceFighter;
 
 public class PlayerState : BaseState
-{ 
+{
+    public bool UseStamina;
+
     protected PlayerController Player;
 
     protected GameObject gameObject;
