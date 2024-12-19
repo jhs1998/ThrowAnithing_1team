@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
-using Zenject;
+//using Zenject;
 
 public class SlotManager : MonoBehaviour
 {
@@ -14,16 +14,16 @@ public class SlotManager : MonoBehaviour
     public TextMeshProUGUI[] newGameSlotTexts;      // 뉴게임 슬롯 텍스트 배열
 
     private UserDataManager userDataManager;
-
+    /*
     [Inject]
     public void Construct(UserDataManager userDataManager)
     {
         this.userDataManager = userDataManager;
-    }
+    }*/
 
     private void Start()
     {
-        //userDataManager = UserDataManager.instance;
+        userDataManager = UserDataManager.instance;
 
         // 슬롯 UI 초기화
         UpdateSlotUI();
