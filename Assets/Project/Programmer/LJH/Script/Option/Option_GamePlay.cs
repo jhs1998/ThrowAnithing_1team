@@ -13,9 +13,10 @@ public class Option_GamePlay : Main_Option
     [SerializeField] GameObject miniMapFix;
 
     GameObject[] gamePlayButtons;
-    int gamePlay_cur;
+    GameObject[] ThreeButtons;
 
-    bool isGamePlay = false;
+    int gamePlay_Ver;
+    int gamePlay_Ho;
 
     void Start()
     {
@@ -25,33 +26,37 @@ public class Option_GamePlay : Main_Option
 
     void Update()
     {
-        if (depth2_cur == Depth2.gameplay)
+        Debug.Log(isGameplay);
+        if (isGameplay)
         {
             if (menuCo == null)
             {
                 menuCo = StartCoroutine(GamePlay_Select());
+                menuCo = StartCoroutine(ThreeButtons_Select());
             }
         }
     }
     private IEnumerator GamePlay_Select()
-    {//요거 수정해야함
+    {
         float y = Input.GetAxisRaw("Vertical");
 
-        gamePlay_cur += (int)y;
+        StopCoroutine("ThreeButtons_Select");
 
-        if (gamePlay_cur == gamePlayButtons.Length)
+        gamePlay_Ver += (int)y;
+
+        if (gamePlay_Ver == gamePlayButtons.Length)
         {
-            gamePlay_cur = 0;
+            gamePlay_Ver = 0;
             gamePlayButtons[gamePlayButtons.Length-1].GetComponent<TMP_Text>().color = Color.white;
-            gamePlayButtons[gamePlay_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+            gamePlayButtons[gamePlay_Ver].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
             yield return null;
         }
 
-        if (gamePlay_cur == -1)
+        if (gamePlay_Ver == -1)
         {
-            gamePlay_cur = gamePlayButtons.Length - 1;
+            gamePlay_Ver = gamePlayButtons.Length - 1;
             gamePlayButtons[0].GetComponent<TMP_Text>().color = Color.white;
-            gamePlayButtons[gamePlay_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+            gamePlayButtons[gamePlay_Ver].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
             yield return null;
         }
 
@@ -60,46 +65,47 @@ public class Option_GamePlay : Main_Option
             gamePlayButtons[i].GetComponent<TMP_Text>().color = Color.white;
         }
 
-        gamePlayButtons[gamePlay_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+        gamePlayButtons[gamePlay_Ver].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
 
         yield return inputDelay.GetDelay();
         menuCo = null;
     }
 
-    private void GamePlay_SelectNoT()
+    private IEnumerator ThreeButtons_Select()
     {
-        float y = Input.GetAxisRaw("Vertical");
+        float x = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        StopCoroutine("GamePlay_Select");
+
+        gamePlay_Ver += (int)x;
+
+        if (gamePlay_Ho == ThreeButtons.Length)
         {
-            gamePlayButtons[gamePlay_cur].GetComponent<TMP_Text>().color = Color.white;
-
-            if (gamePlay_cur == gamePlayButtons.Length - 1)
-            {
-                gamePlay_cur = 0;
-                gamePlayButtons[gamePlay_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-                return;
-            }
-
-            gamePlay_cur++;
-            gamePlayButtons[gamePlay_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+            gamePlay_Ho = 0;
+            ThreeButtons[ThreeButtons.Length - 1].GetComponent<TMP_Text>().color = Color.white;
+            ThreeButtons[gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+            yield return null;
         }
 
-        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (gamePlay_Ho == -1)
         {
-            gamePlayButtons[gamePlay_cur].GetComponent<TMP_Text>().color = Color.white;
-
-            if (gamePlay_cur == 0)
-            {
-                gamePlay_cur = gamePlayButtons.Length - 1;
-                gamePlayButtons[gamePlay_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-                return;
-            }
-
-            gamePlay_cur--;
-            gamePlayButtons[gamePlay_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+            gamePlay_Ho = ThreeButtons.Length - 1;
+            ThreeButtons[0].GetComponent<TMP_Text>().color = Color.white;
+            ThreeButtons[gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+            yield return null;
         }
+
+        for (int i = 0; i < ThreeButtons.Length; i++)
+        {
+            ThreeButtons[i].GetComponent<TMP_Text>().color = Color.white;
+        }
+
+        ThreeButtons[gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+
+        yield return inputDelay.GetDelay();
+        menuCo = null;
     }
+
 
     void Init()
     {

@@ -63,8 +63,8 @@ public class MainScene : BaseUI
         if (!option.activeSelf && !main_continue.activeSelf)
             curState = CurState.main;
 
-        if (option.activeSelf)
-            curState = CurState.optionDepth1;
+       // if (option.activeSelf)
+       //     curState = CurState.optionDepth1;
 
         Debug.Log(curState);
         if (curState == CurState.main)

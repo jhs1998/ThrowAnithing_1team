@@ -33,6 +33,10 @@ public class Main_Option : MainScene
     //옵션 Depth2 체크용 변수
     protected Depth2 depth2_cur = Depth2.notDepth2;
 
+    protected bool isGameplay = false;
+    protected bool isLanguage = false;
+    protected bool isSound = false;
+
     void Start()
     {
         Init();
@@ -151,8 +155,7 @@ public class Main_Option : MainScene
             {
                 case 0:
                     Debug.Log("게임플레이 선택");
-                    depth2Checker(depth1_cur);
-                    curState = CurState.optionDepth2;
+                    isGameplay = true;
                     break;
 
                 case 1:
@@ -187,7 +190,7 @@ public class Main_Option : MainScene
 
     Depth2 depth2Checker(int menuNum)
     {
-        return depth2_cur = (Depth2)menuNum;
+        return (Depth2)menuNum;
     }
 
 
