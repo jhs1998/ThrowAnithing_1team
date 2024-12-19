@@ -19,6 +19,8 @@ public class GlobalPlayerData
     public enum AmWeapon { Balance, Power, Speed }
     // 로비 씬 업그레이드 진행 상황
     public Dictionary<string, int> upgrades;
+    // 날짜와 시간
+    public string saveDateTime;
 
 }
 
@@ -50,24 +52,34 @@ public class UserDataManager : MonoBehaviour
     // 저장 기능
     public void SaveData()
     {
+        // 현재 날짜와 시간 저장
+        nowPlayer.saveDateTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         // 데이터에 현재 데이터 저장
         string data = JsonUtility.ToJson(nowPlayer);
-        // path 경로의 fileName파일에 데이터 저장 
-        File.WriteAllText(path + nowSlot.ToString(), data);
-        Debug.Log("게임 저장 완료!");
+        // 각 슬롯에 대해 파일 경로 다르게 설정 (슬롯 번호에 맞는 파일로 저장)
+        string slotPath = path + $"slot_{nowSlot}.json";
+        File.WriteAllText(slotPath, data);
+        Debug.Log($"슬롯 {nowSlot + 1}에 게임 저장 완료! 저장 시간: {nowPlayer.saveDateTime}");
     }
     // 로드 기능 
     public void LoadData()
     {
-        // 데이터에 path 경로의 fileName파일 불러오기
-        string data = File.ReadAllText(path + nowSlot.ToString());
-        // 현재 플레이어에 불러온 데이터 적용
-        nowPlayer = JsonUtility.FromJson<GlobalPlayerData>(data);
-        Debug.Log("게임 로드 완료!");
+        // 각 슬롯에 대해 파일 경로 다르게 설정 (슬롯 번호에 맞는 파일로 불러오기)
+        string slotPath = path + $"slot_{nowSlot}.json";
+        if (File.Exists(slotPath))
+        {
+            string data = File.ReadAllText(slotPath);
+            // 현재 플레이어에 불러온 데이터 적용
+            nowPlayer = JsonUtility.FromJson<GlobalPlayerData>(data);
+            Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
+        }
+        else
+        {
+            Debug.LogWarning($"슬롯 {nowSlot + 1}에 저장된 데이터가 없습니다.");
+        }
     }
     public void DataClear()
     {
-        nowSlot = 0;
         nowPlayer = new GlobalPlayerData
         {
             playerName = "New Player",
@@ -78,5 +90,23 @@ public class UserDataManager : MonoBehaviour
             coin = 0,
             upgrades = new Dictionary<string, int>()
         };
+    }
+    public void DeleteData()
+    {
+        // 모든 슬롯에 대해 데이터 삭제
+        for (int i = 0; i < 3; i++) // 슬롯 수는 3으로 가정, 슬롯 수에 맞게 수정
+        {
+            string slotPath = path + $"slot_{i}.json";
+            if (File.Exists(slotPath))
+            {
+                File.Delete(slotPath); // 슬롯 파일 삭제
+                Debug.Log($"슬롯 {i + 1} 데이터 삭제 완료");
+            }
+        }
+
+        // 플레이어 데이터 초기화
+        DataClear();
+
+        Debug.Log("모든 게임 데이터 삭제 완료");
     }
 }
