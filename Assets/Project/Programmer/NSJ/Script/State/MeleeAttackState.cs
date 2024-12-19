@@ -5,15 +5,24 @@ using UnityEngine;
 public class MeleeAttackState : PlayerState
 {
     private float _atttackBufferTime;
-    private bool _isCombe;
+    private bool m_isCombo;
+    private bool _isCombo
+    {
+        get { return m_isCombo; }
+        set
+        {
+            m_isCombo = value;
+            View.SetBool(PlayerView.Parameter.MeleeCombo, m_isCombo);
+        }
+    }
     private bool _isChangeAttack;
-    private float _attackHeight;
-
-    Collider[] colliders = new Collider[20];
+    private float _attackHeight; 
 
     Coroutine _meleeRoutine;
     public MeleeAttackState(PlayerController controller) : base(controller)
     {
+        UseStamina = true;
+
         _atttackBufferTime = Player.AttackBufferTime;
         _attackHeight = Player.AttackHeight;
 
@@ -22,9 +31,11 @@ public class MeleeAttackState : PlayerState
 
     public override void Enter()
     {
+        Model.CurStamina -= 0.3f;
         Player.Rb.velocity = Vector3.zero;
         _isChangeAttack = false;
-        if (View.GetBool(PlayerView.Parameter.MeleeCombo) == false)
+
+        if (_isCombo == false)
         {
             // 첫 공격일 경우 근접공격 애니메이션 시작
             View.SetTrigger(PlayerView.Parameter.MeleeAttack);
@@ -53,8 +64,13 @@ public class MeleeAttackState : PlayerState
             CoroutineHandler.StopRoutine(_meleeRoutine);
             _meleeRoutine = null;
         }
+
     }
 
+    public override void OnDash()
+    {
+        _isCombo = false;
+    }
 
     /// <summary>
     /// 근접 공격
@@ -65,13 +81,13 @@ public class MeleeAttackState : PlayerState
         // 1. 전방에 있는 몬스터 확인
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
         Vector3 attackPos = playerPos;
-        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, colliders, 1 << 4);
+        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, Player.OverLapColliders, 1 << 4);
         for (int i = 0; i < hitCount; i++)
         {
             // 2. 각도 내에 있는지 확인
             Vector3 source = transform.position;
             source.y = 0;
-            Vector3 destination = colliders[i].transform.position;
+            Vector3 destination = Player.OverLapColliders[i].transform.position;
             destination.y = 0;
 
             Vector3 targetDir = (destination - source).normalized;
@@ -79,7 +95,7 @@ public class MeleeAttackState : PlayerState
             if (targetAngle > Model.Angle * 0.5f)
                 continue;
 
-            IHit hit = colliders[i].GetComponent<IHit>();
+            IHit hit = Player.OverLapColliders[i].GetComponent<IHit>();
 
             int attackDamage = (int)(Model.Damage * Model.DamageMultiplier);
             hit.TakeDamage(attackDamage);
@@ -104,22 +120,20 @@ public class MeleeAttackState : PlayerState
 
         yield return null;
         float timeCount = _atttackBufferTime;
-        while (View.IsAnimationFinish == false)
+        while (View.GetIsAnimFinish(PlayerView.Parameter.MeleeAttack) == false)
         {       
             // 공격 버퍼
             if (Input.GetButtonDown("Fire1"))
             {
                 // 다음 공격 대기
-                _isCombe = true;
-                View.SetBool(PlayerView.Parameter.MeleeCombo, true);
+                _isCombo = true;
                 timeCount = _atttackBufferTime;
             }
             else if (Input.GetButtonDown("Fire2"))
             {
                 // 던지기 공격 전환
-                _isCombe = false;
+                _isCombo = false;
                 _isChangeAttack = true;
-                View.SetBool(PlayerView.Parameter.MeleeCombo, false);
                 timeCount = _atttackBufferTime;
             }
 
@@ -128,32 +142,28 @@ public class MeleeAttackState : PlayerState
             if (timeCount <= 0)
             {
                 // 다음 공격 취소
-                _isCombe = false;
-                View.SetBool(PlayerView.Parameter.MeleeCombo, false);
+                _isCombo = false;
                 timeCount = _atttackBufferTime;
             }
 
             yield return null;
         }
-
+        
         // 콤보선입력 되었을때 다시 근접 공격 
-        if (_isCombe == true)
-        {
+        if (_isCombo == true)
+        {         
             ChangeState(PlayerController.State.MeleeAttack);
         }
         // 어택 명령이 바뀌었을 때 투척 공격
         else if (_isChangeAttack == true)
         {
-            Model.MeleeComboCount = 0;
             ChangeState(PlayerController.State.ThrowAttack);
         }
         // 아무 입력도 없었을 때 평상시모드
         else
         {
-            Model.MeleeComboCount = 0;
             ChangeState(PlayerController.State.Idle);
         }
-
     }
 
     public override void OnDrawGizmos()

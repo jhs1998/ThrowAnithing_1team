@@ -26,7 +26,7 @@ public class RunState : PlayerState
 
     public override void Exit()
     {
-        View.SetBool(PlayerView.Parameter.Run, false);   
+        View.SetBool(PlayerView.Parameter.Run, false);
     }
 
     private void InputKey()
@@ -49,20 +49,23 @@ public class RunState : PlayerState
             Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
 
-        Player.CamareArm.SetParent(null);
+        Quaternion cameraTempRot = Player.CamareArm.rotation;
 
         // 입력한 방향쪽을 플레이어가 바라봄
         Vector3 moveDir = transform.forward * _moveDir.z + transform.right * _moveDir.x;
         if (moveDir == Vector3.zero)
             return;
         transform.rotation = Quaternion.LookRotation(moveDir);
+        Player.CamareArm.rotation = cameraTempRot;
 
         // 플레이어 이동
-        Vector3 originRb = Rb.velocity;
-        Rb.velocity = transform.forward * Model.MoveSpeed;
-        Rb.velocity = new Vector3(Rb.velocity.x, originRb.y, Rb.velocity.z);
+        // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동
+        if (Player.IsGround == false && Player.IsWall == true)
+            return;
 
-        Player.CamareArm.SetParent(Player.transform);
+        Vector3 originRb = Rb.velocity;
+        Vector3 velocityDir = transform.forward * Model.MoveSpeed;
+        Rb.velocity = new Vector3(velocityDir.x, originRb.y, velocityDir.z);
     }
 
     private void CheckChangeState()
@@ -88,7 +91,7 @@ public class RunState : PlayerState
             ChangeState(PlayerController.State.Jump);
         }
         // 공중에서 떨어질 시 추락
-        else if (Player.IsGround == false && Rb.velocity.y <= -2f)
+        else if (Player.IsGround == false && Rb.velocity.y <= -1f)
         {
             ChangeState(PlayerController.State.Fall);
         }

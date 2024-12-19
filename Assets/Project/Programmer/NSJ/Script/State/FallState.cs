@@ -6,7 +6,10 @@ public class FallState : PlayerState
 
     private Vector3 _inertia; // 관성력
 
-    Coroutine _jumpRoutine;
+    private bool _isDoubleJump;
+
+    Coroutine _fallRoutine;
+    Coroutine _checkInputRoutine;
     public FallState(PlayerController controller) : base(controller)
     {
     }
@@ -17,19 +20,25 @@ public class FallState : PlayerState
             View.SetTrigger(PlayerView.Parameter.Fall);
         }
 
-        _inertia = Rb.velocity;
-        if (_jumpRoutine == null)
+        _inertia = new Vector3(Rb.velocity.x, Rb.velocity.y, Rb.velocity.z);
+        if (_fallRoutine == null)
         {
-            _jumpRoutine = CoroutineHandler.StartRoutine(JumpRoutine());
+            _fallRoutine = CoroutineHandler.StartRoutine(FallRoutine());
         }
     }
 
     public override void Exit()
     {
-        if (_jumpRoutine != null)
+        if (_fallRoutine != null)
         {
-            CoroutineHandler.StopRoutine(_jumpRoutine);
-            _jumpRoutine = null;
+            CoroutineHandler.StopRoutine(_fallRoutine);
+            _fallRoutine = null;
+        }
+
+        if (_checkInputRoutine != null) 
+        {
+            CoroutineHandler.StopRoutine(_checkInputRoutine);
+            _checkInputRoutine = null;
         }
     }
 
@@ -43,17 +52,24 @@ public class FallState : PlayerState
         }
     }
 
-    IEnumerator JumpRoutine()
+    IEnumerator FallRoutine()
     {
+        // Fall 상태에서 받을 수 있는 입력 대기
+        if (_checkInputRoutine == null)
+            _checkInputRoutine = CoroutineHandler.StartRoutine(CheckInputRoutine());
 
         yield return 0.1f.GetDelay();
         while (Player.IsGround == false)
         {
-            // 관성 유지, 벽에 박아서 속도가 사라지면 관성 사라짐
-            if(Rb.velocity.x > 0.01f && Rb.velocity.z > 0.01f)
+            // 관성 유지, 벽과 접촉시 이동안함
+            if (Player.IsWall == false)
             {
                 Rb.velocity = new Vector3(_inertia.x, Rb.velocity.y, _inertia.z);
-            }   
+            }
+            else
+            {
+                Rb.velocity = new Vector3(0, Rb.velocity.y, 0);
+            }
             // 떨어지기 시작했을때 지면과 충분히 가까워졌다면 지면 체크 로직 종료
             if (Rb.velocity.y < 0)
             {
@@ -70,12 +86,28 @@ public class FallState : PlayerState
         while (true)
         {
             // 착지 애니메이션이 끝났을때 Idle 모드로 전환
-            if (View.IsAnimationFinish == true)
+            if (View.GetIsAnimFinish(PlayerView.Parameter.Landing) == true)
             {
+                _isDoubleJump = false;
                 ChangeState(PlayerController.State.Idle);
                 break;
             }
             yield return null;
         }
+    }
+
+    IEnumerator CheckInputRoutine()
+    {
+        while (true)
+        {
+            if (Input.GetButtonDown("Jump") && _isDoubleJump == false)
+            {
+                _isDoubleJump = true;
+                ChangeState(PlayerController.State.Jump);
+                break;
+            }
+            yield return null;
+        }
+        _checkInputRoutine = null;
     }
 }

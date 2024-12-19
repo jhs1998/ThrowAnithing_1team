@@ -1,29 +1,33 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerView : MonoBehaviour
 {
     public PlayerPanel Panel;
-    public enum Parameter { 
-        Idle, 
+    public enum Parameter
+    {
+        Idle,
         Run,
         MeleeAttack,
-        MeleeCombo, 
-        ThrowAttack, 
-        ThrowCombo, 
-        Jump, 
+        MeleeCombo,
+        ThrowAttack,
+        ThrowCombo,
+        Jump,
         Fall,
         Landing,
         Dash,
-        Size }
+        Size
+    }
 
     #region 애니메이션 관련 이벤트
     public event UnityAction OnThrowAttackEvent;
     public event UnityAction OnMeleeAttackEvent;
     public event UnityAction OnJumpEvent;
     #endregion
+
+    private Dictionary<Parameter, bool> _isAnimFinishDic = new Dictionary<Parameter, bool>();
 
     private bool _isAnimationFinish;
     public bool IsAnimationFinish
@@ -99,11 +103,23 @@ public class PlayerView : MonoBehaviour
         return _animator.GetFloat(_animatorHashes[(int)animation]);
     }
 
-    public void SetIsAnimationFinish()
-    { 
-        IsAnimationFinish = true;
+    public bool GetIsAnimFinish(Parameter parameter)
+    {
+        if (_isAnimFinishDic.ContainsKey(parameter) ==false)
+        {
+            _isAnimFinishDic.Add(parameter, false);
+        }
+
+        if (_isAnimFinishDic[parameter] == true)
+        {
+            _isAnimFinishDic[parameter] = false;
+            return true;
+        }
+        else
+            return false;
+
     }
-  
+
     /// <summary>
     /// 점프 타이밍에 호출
     /// </summary>
@@ -111,6 +127,7 @@ public class PlayerView : MonoBehaviour
     {
         OnJumpEvent?.Invoke();
     }
+
 
     public void OnThrowAttack()
     {
@@ -121,7 +138,41 @@ public class PlayerView : MonoBehaviour
     {
         OnMeleeAttackEvent?.Invoke();
     }
+    #region SetIsAnimFinish
+    public void SetIsThrowAttackFinish()
+    {
+        if (_isAnimFinishDic.ContainsKey(Parameter.ThrowAttack) ==false)
+        {
+            _isAnimFinishDic.Add(Parameter.ThrowAttack, false);
+        }
+        _isAnimFinishDic[Parameter.ThrowAttack] = true;
+    }
+    public void SetIsMeleeAttackFinish()
+    {
+        if (_isAnimFinishDic.ContainsKey(Parameter.MeleeAttack) == false)
+        {
+            _isAnimFinishDic.Add(Parameter.MeleeAttack, false);
+        }
+        _isAnimFinishDic[Parameter.MeleeAttack] = true;
+    }
 
+    public void SetIsDashFinish()
+    {
+        if (_isAnimFinishDic.ContainsKey(Parameter.Dash) == false)
+        {
+            _isAnimFinishDic.Add(Parameter.Dash, false);
+        }
+        _isAnimFinishDic[Parameter.Dash] = true;
+    }
+    public void SetIsLandingFinish()
+    {
+        if (_isAnimFinishDic.ContainsKey(Parameter.Landing) == false)
+        {
+            _isAnimFinishDic.Add(Parameter.Landing, false);
+        }
+        _isAnimFinishDic[Parameter.Landing] = true;
+    }
+    #endregion
     // UI ================================================================================================================//
 
     public void UpdateText(TMP_Text target, string text)

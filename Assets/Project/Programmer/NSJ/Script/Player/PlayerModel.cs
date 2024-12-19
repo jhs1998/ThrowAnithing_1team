@@ -7,8 +7,6 @@ public class PlayerModel : MonoBehaviour
 {   
     public PlayerData Data;
 
-    public float MoveSpeed { get { return Data.MoveSpeed; }  set{ Data.MoveSpeed = value; } }
-    public float JumpPower;
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
     public int MaxThrowCount { get { return Data.MaxThrowCount; } set { Data.MaxThrowCount = value; } }
     public int CurThrowCount { get { return Data.CurThrowCount; } 
@@ -18,6 +16,23 @@ public class PlayerModel : MonoBehaviour
             CurThrowCountSubject?.OnNext(Data.CurThrowCount);
 
         } }
+    public float MoveSpeed { get { return Data.MoveSpeed; }  set{ Data.MoveSpeed = value; } } // 이동속도
+    public float DashPower; // 대쉬 속도
+    public float JumpPower; // 점프력
+    [System.Serializable]
+    public struct StaminaStruct
+    {
+        public float MaxStamina; // 최대 스테미나
+        public float CurStamina; // 현재 스테미나
+        public float StaminaRecoveryTime; // 스테미나 회복 시간
+        public float StaminaCoolTime; // 스테미나 소진 후 쿨타임
+    }
+    [SerializeField] public StaminaStruct Stamina;
+    public float MaxStamina { get { return Stamina.MaxStamina; } set { Stamina.MaxStamina = value; } } // 최대 스테미나
+    public float CurStamina { get { return Stamina.CurStamina; } set { Stamina.CurStamina = value; CurStaminaSubject.OnNext(Stamina.CurStamina); } } // 현재 스테미나
+    public Subject<float> CurStaminaSubject = new Subject<float>();
+    public float StaminaRecoveryTime { get { return Stamina.StaminaRecoveryTime; } set { Stamina.StaminaRecoveryTime = value; } } // 스테미나 회복 시간
+    public float StaminaCoolTime { get { return Stamina.StaminaCoolTime; } set { Stamina.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
     public Subject<int> CurThrowCountSubject = new Subject<int>();
     public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals= value; } }
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }

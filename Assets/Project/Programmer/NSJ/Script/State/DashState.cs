@@ -7,19 +7,21 @@ public class DashState : PlayerState
     private Vector3 _moveDir;
     public DashState(PlayerController controller) : base(controller)
     {
+        UseStamina = true;
     }
 
     public override void Enter()
     {
+        Model.CurStamina -= 0.3f;
+
         InputKey();
         View.SetTrigger(PlayerView.Parameter.Dash);
-        View.IsAnimationFinish = false;
     }
 
     public override void Update()
     {
         Dash();
-        if(View.IsAnimationFinish == true)
+        if(View.GetIsAnimFinish(PlayerView.Parameter.Dash) == true)
         {
             ChangeState(PlayerController.State.Idle);
         }
@@ -29,7 +31,8 @@ public class DashState : PlayerState
     /// 대쉬
     /// </summary>
     public void Dash()
-    {
+    { 
+
         // 카메라 방향으로 플레이어가 바라보게
         Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
         transform.rotation = cameraRot;
@@ -46,11 +49,12 @@ public class DashState : PlayerState
         // 입력한 방향쪽을 플레이어가 바라봄
         Vector3 moveDir = transform.forward * _moveDir.z + transform.right * _moveDir.x;
         if (moveDir == Vector3.zero)
-            return;
+        {
+            moveDir = transform.forward;
+        }
         transform.rotation = Quaternion.LookRotation(moveDir);
             
-        Rb.velocity = transform.forward * Model.MoveSpeed * 3;
-
+        Rb.velocity = transform.forward * Model.DashPower;
         Player.CamareArm.SetParent(transform);
     }
 
