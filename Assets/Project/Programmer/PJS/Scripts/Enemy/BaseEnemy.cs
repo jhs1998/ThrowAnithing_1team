@@ -6,10 +6,11 @@ using UnityEngine;
 public class State
 {
     [Range(100, 1000)] public int MaxHp;  // 체력
-    [Range(0, 50)] public int Damge;       // 공격 데미지
+    [Range(0, 50)] public int Atk;       // 공격력
+    [Range(0, 10)] public float Def;    // 방어력
+    [Range(0, 10)] public float Speed;    // 이동 속도
     [Range(0, 50)] public float TraceDis;  // 인식 사거리
     [Range(0, 10)] public float AttackDis; // 공격 사거리
-    [Range(0, 10)] public float Speed;    // 이동 속도
 }
 
 
@@ -19,7 +20,7 @@ public class BaseEnemy : MonoBehaviour
 
     [SerializeField] protected State state;
     [SerializeField] int curHp;
-    public int Damge { get { return state.Damge; } }
+    public int Damge { get { return state.Atk; } }
     public int Hp { get { return curHp; } }
 
     private SharedGameObject playerObj;
@@ -39,6 +40,20 @@ public class BaseEnemy : MonoBehaviour
         tree.SetVariable("Speed", (SharedFloat)state.Speed);
 
         curHp = state.MaxHp;
+    }
+
+    public void GetDamage(float damage)
+    {
+        float finalHp = curHp + state.Def;
+
+        if(finalHp < damage)
+        {
+            curHp = 0;
+            return;
+        }
+
+        curHp = (int)(finalHp - damage);
+        Debug.Log($"{(int)damage} 피해를 입음. curHP : {curHp}");
     }
 
     private void OnDrawGizmosSelected()

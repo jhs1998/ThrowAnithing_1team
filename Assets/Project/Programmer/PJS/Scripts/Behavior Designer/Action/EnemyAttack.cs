@@ -1,10 +1,9 @@
-using UnityEngine;
-using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using UnityEngine;
 
 public class EnemyAttack : Action
 {
-	[SerializeField] Animator anim;
+    [SerializeField] Animator anim;
 
     public override void OnAwake()
     {
@@ -16,7 +15,7 @@ public class EnemyAttack : Action
         //anim.SetTrigger("Attack");
         anim.SetBool("Attack 0", true);
 
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack") &&
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack") &&
             anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
             anim.SetBool("Attack 0", false);
