@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SettingManager : MonoBehaviour
 {
-    bool miniMapActed;
-    bool miniMapFixed;
+    [Header("미니맵 관련")]
+    [SerializeField] bool miniMapActivated;
+    [SerializeField] bool miniMapFixed;
 
     //Language 변수 필요
 
@@ -14,7 +15,6 @@ public class SettingManager : MonoBehaviour
     [SerializeField] public AudioSource[] totalSoundSources;
 
     [SerializeField] public AudioSource bgmSource;
-    [SerializeField] public AudioClip bgmClip;
 
     [SerializeField] public AudioSource[] effectSources;
 
@@ -31,9 +31,6 @@ public class SettingManager : MonoBehaviour
 
     private void Init()
     {
-        bgmSource.clip = bgmClip;
-
-        totalSoundSources[0].volume = 1;
 
     }
 }

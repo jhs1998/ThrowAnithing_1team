@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+public enum Depth2
+{
+    gameplay,
+    language,
+    sound,
+    notDepth2 = 4
+}
+
 public class Main_Option : MainScene
 {
     //옵션 1Depth
@@ -20,23 +28,31 @@ public class Main_Option : MainScene
     GameObject soundPannel;
     GameObject inputPannel;
 
-    int depth1_cur;
+    protected int depth1_cur;
+
+    //옵션 Depth2 체크용 변수
+    protected Depth2 depth2_cur = Depth2.notDepth2;
 
     void Start()
     {
         Init();
+
+        
     }
 
 
     private void Update()
     {
-        if (curState == CurState.optionDepth1)
-            return;
 
-        OptionTitle();
-        Depth1_Select();
-        SelectedEnter();
-
+        if (gameObject.activeSelf)
+        {
+            OptionTitle();
+            if (menuCo == null)
+            {
+                menuCo = StartCoroutine(Depth1_Select());
+            }
+            SelectedEnter();
+        }
     }
 
     void OptionTitle()
@@ -94,38 +110,37 @@ public class Main_Option : MainScene
 
 
     }
-
-    private void Depth1_Select()
+    private IEnumerator Depth1_Select()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        float y = -Input.GetAxisRaw("Vertical");
+
+
+        depth1_cur += (int)y;
+
+        if (depth1_cur == depth1.Length)
         {
-            depth1[depth1_cur].GetComponent<TMP_Text>().color = Color.white;
-
-            if (depth1_cur == depth1.Length - 1)
-            {
-                depth1_cur = 0;
-                depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-                return;
-            }
-
-            depth1_cur++;
+            depth1_cur = 0;
+            depth1[depth1.Length-1].GetComponent<TMP_Text>().color = Color.white;
             depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+            yield return null;
         }
 
-        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (depth1_cur == -1)
         {
-            depth1[depth1_cur].GetComponent<TMP_Text>().color = Color.white;
-
-            if (depth1_cur == 0)
-            {
-                depth1_cur = depth1.Length - 1;
-                depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-                return;
-            }
-
-            depth1_cur--;
+            depth1_cur = depth1.Length - 1;
+            depth1[0].GetComponent<TMP_Text>().color = Color.white;
             depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+            yield return null;
         }
+
+        for (int i = 0; i < depth1.Length; i++)
+        {
+            depth1[i].GetComponent<TMP_Text>().color = Color.white;
+        }
+        depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+
+        yield return inputDelay.GetDelay();
+        menuCo = null;
     }
 
     void SelectedEnter()
@@ -136,15 +151,18 @@ public class Main_Option : MainScene
             {
                 case 0:
                     Debug.Log("게임플레이 선택");
+                    depth2Checker(depth1_cur);
                     curState = CurState.optionDepth2;
                     break;
 
                 case 1:
                     Debug.Log("언어 선택");
+                    depth2Checker(depth1_cur);
                     break;
 
                 case 2:
                     Debug.Log("소리 선택");
+                    depth2Checker(depth1_cur);
                     break;
 
                 case 3:
@@ -154,6 +172,7 @@ public class Main_Option : MainScene
 
                 case 4:
                     Debug.Log("욥션 화면 나가기");
+                    depth2Checker(depth1_cur);
                     gameObject.SetActive(false);
                     break;
             }
@@ -164,6 +183,11 @@ public class Main_Option : MainScene
             gameObject.SetActive(false);
             Debug.Log("옵션 화면 나가기");
         }
+    }
+
+    Depth2 depth2Checker(int menuNum)
+    {
+        return depth2_cur = (Depth2)menuNum;
     }
 
 

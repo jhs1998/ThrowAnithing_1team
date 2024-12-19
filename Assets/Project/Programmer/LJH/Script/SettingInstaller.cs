@@ -12,12 +12,3 @@ public class SettingInstaller : MonoInstaller
             .FromInstance(setManager);
     }
 }
-
-public class Greeter
-{
-    public GameObject obj;
-    public Greeter(GameObject _obj)
-    {
-        obj = _obj;
-    }
-}

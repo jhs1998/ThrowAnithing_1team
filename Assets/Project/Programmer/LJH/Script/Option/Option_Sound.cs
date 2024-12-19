@@ -14,13 +14,6 @@ public class Option_Sound : Main_Option
     Slider bgmSoundBar;
     Slider effectSoundBar;
 
-    [Header("사운드 관련")]
-    [SerializeField] AudioSource[] totalSoundSources;
-
-    [SerializeField] AudioSource bgmSource;
-    [SerializeField] AudioClip bgmClip;
-
-    [SerializeField] AudioSource[] effectSources;
 
     void Start()
     {
@@ -34,8 +27,8 @@ public class Option_Sound : Main_Option
 
     void AudioVolumeCotroller()
     {
-        VolumeArrayCotroller(totalSoundSources, totalSoundBar);
-        VolumeArrayCotroller(effectSources, effectSoundBar);
+        VolumeArrayCotroller(setManager.totalSoundSources, totalSoundBar);
+        VolumeArrayCotroller(setManager.effectSources, effectSoundBar);
         setManager.bgmSource.volume = bgmSoundBar.value;
         
     }
@@ -54,7 +47,6 @@ public class Option_Sound : Main_Option
         bgmSoundBar = GetUI("BGMVolumeBar").GetComponent<Slider>();
         effectSoundBar = GetUI("EffectVolumeBar").GetComponent<Slider>();
 
-        bgmSource.clip = bgmClip;
 
         totalSoundBar.value = 1;
         bgmSoundBar.value = 1;
