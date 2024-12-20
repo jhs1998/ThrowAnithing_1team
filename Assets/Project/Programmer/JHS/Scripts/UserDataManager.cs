@@ -50,12 +50,7 @@ public class UserDataManager : MonoBehaviour
         path = Application.persistentDataPath + "/save";
         print(path);
     }
-    /*
-    [Inject]
-    public void Construct(string savePath)
-    {
-        path = savePath;
-    }*/
+    
 
     private void Start()
     {
@@ -104,22 +99,17 @@ public class UserDataManager : MonoBehaviour
             upgrades = new Dictionary<string, int>()
         };
     }
-    public void DeleteData()
+    public void DeleteSlotData(int slotIndex)
     {
-        // 모든 슬롯에 대해 데이터 삭제
-        for (int i = 0; i < 3; i++) // 슬롯 수는 3으로 가정, 슬롯 수에 맞게 수정
+        string slotPath = path + $"slot_{slotIndex}.json";
+        if (File.Exists(slotPath))
         {
-            string slotPath = path + $"slot_{i}.json";
-            if (File.Exists(slotPath))
-            {
-                File.Delete(slotPath); // 슬롯 파일 삭제
-                Debug.Log($"슬롯 {i + 1} 데이터 삭제 완료");
-            }
+            File.Delete(slotPath); // 해당 슬롯 파일 삭제
+            Debug.Log($"슬롯 {slotIndex + 1} 데이터 삭제 완료");
         }
-
-        // 플레이어 데이터 초기화
-        DataClear();
-
-        Debug.Log("모든 게임 데이터 삭제 완료");
+        else
+        {
+            Debug.LogWarning($"슬롯 {slotIndex + 1}에 데이터가 없습니다.");
+        }
     }
 }

@@ -14,12 +14,12 @@ public class SlotManager : MonoBehaviour
     public TextMeshProUGUI[] newGameSlotTexts;      // 뉴게임 슬롯 텍스트 배열
 
     private UserDataManager userDataManager;
-    /*
-    [Inject]
-    public void Construct(UserDataManager userDataManager)
-    {
-        this.userDataManager = userDataManager;
-    }*/
+
+    public GameObject confirmDeleteUI; // 확인 UI
+    public Button confirmButton; // 확인 버튼
+    public Button cancelButton; // 취소 버튼
+
+    private int selectedSlotIndex; // 선택된 슬롯 인덱스
 
     private void Start()
     {
@@ -27,6 +27,13 @@ public class SlotManager : MonoBehaviour
 
         // 슬롯 UI 초기화
         UpdateSlotUI();
+
+        // 확인/취소 버튼 이벤트 연결
+        confirmButton.onClick.AddListener(OnConfirmDelete);
+        cancelButton.onClick.AddListener(OnCancelDelete);
+
+        // UI 초기 비활성화
+        confirmDeleteUI.SetActive(false);
     }
     private void UpdateSlotUI()
     {
@@ -72,27 +79,48 @@ public class SlotManager : MonoBehaviour
     // 뉴 게임 버튼 
     public void OnNewGameSlotClicked(int slotIndex)
     {
-        string slotPath = userDataManager.path + $"slot_{slotIndex}.json"; // 각 슬롯마다 파일 경로 다르게 설정
+        // 각 슬롯마다 파일 경로 다르게 설정
+        string slotPath = userDataManager.path + $"slot_{slotIndex}.json"; 
+        selectedSlotIndex = slotIndex; // 선택된 슬롯 인덱스 저장
         if (File.Exists(slotPath))
         {
-            Debug.Log("데이터 있음");
+            // 데이터가 있는 경우 확인 UI 활성화
+            confirmDeleteUI.SetActive(true);
         }
         else
         {
-            userDataManager.nowSlot = slotIndex;  // 슬롯 번호 설정
-            userDataManager.DataClear(); // 데이터 초기화 (nowSlot은 변경하지 않음)
-            userDataManager.SaveData(); // 새 게임 저장
-            Debug.Log($"새 게임 시작 {slotIndex + 1}");
-            // 새 게임 시작 후 씬 전환 추가 가능
-            UpdateSlotUI();
+            // 데이터가 없는 경우 바로 새 게임 시작
+            StartNewGame(slotIndex);
         }
     }
-
-    //데이터 삭제 함수
-    public void DeleteButtonClicked()
+    private void StartNewGame(int slotIndex)
     {
-        userDataManager.DeleteData(); // 모든 데이터 삭제
+        userDataManager.nowSlot = slotIndex; // 슬롯 번호 설정
+        userDataManager.DataClear(); // 데이터 초기화
+        userDataManager.SaveData(); // 새 게임 저장
+        Debug.Log($"새 게임 시작 {slotIndex + 1}");
         UpdateSlotUI(); // 슬롯 UI 갱신
-        Debug.Log("모든 게임 데이터가 삭제되었습니다.");
+    }
+
+    private void OnConfirmDelete()
+    {
+        string slotPath = userDataManager.path + $"slot_{selectedSlotIndex}.json";
+        if (File.Exists(slotPath))
+        {
+            File.Delete(slotPath); // 슬롯 데이터 삭제
+            Debug.Log($"슬롯 {selectedSlotIndex + 1} 데이터 삭제 완료");
+        }
+
+        // 새 게임 시작
+        StartNewGame(selectedSlotIndex);
+
+        // 확인 UI 비활성화
+        confirmDeleteUI.SetActive(false);
+    }
+    // 확인 UI 취소 버튼 
+    private void OnCancelDelete()
+    {
+        // 확인 UI 비활성화
+        confirmDeleteUI.SetActive(false);
     }
 }
