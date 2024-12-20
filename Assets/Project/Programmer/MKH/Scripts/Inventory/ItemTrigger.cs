@@ -21,6 +21,7 @@ namespace MKH
                 {
                     // 인벤토리에 아이템 추가
                     mInventory.AcquireItem(mCurrentItem.Item);
+                    Destroy(other.gameObject);
                 }
             }
         }
