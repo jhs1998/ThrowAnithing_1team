@@ -7,7 +7,7 @@ public class DataContainer : MonoBehaviour
     public static DataContainer Instance;
 
     // TODO : 젠젝트로 변환 시도
-    public PlayerData PlayerData;
+    //public PlayerData PlayerData;
 
 
     [SerializeField] ThrowObject[] _throwObjects;
