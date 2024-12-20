@@ -26,9 +26,13 @@ public class DrainState : PlayerState
     }
 
     public override void Exit()
-    {
-        View.SetBool(PlayerView.Parameter.Drain, false);
+    { 
         Player.DrainField.SetActive(false);
+    }
+
+    public override void EndAnimation()
+    {
+        ChangeState(PlayerController.State.Idle);
     }
 
     public override void OnDrawGizmos()
@@ -43,7 +47,7 @@ public class DrainState : PlayerState
         //드레인 키를 뗐을 때
         if (Input.GetKeyUp(KeyCode.Z))
         {
-            ChangeState(PlayerController.State.Idle);
+            View.SetBool(PlayerView.Parameter.Drain, false);
         }
     }
 }

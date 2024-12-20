@@ -64,15 +64,11 @@ public class ThrowState : PlayerState
             _throwRoutine = null;
         }
     }
-    public override void OnDash()
-    {
-        _isCombo = false;
-    }
 
     /// <summary>
     /// 오브젝트 던지기 공격
     /// </summary>
-    public override void OnThrowAttack()
+    public override void OnTrigger()
     {
         if (Model.ThrowObjectStack.Count > 0)
         {
@@ -102,7 +98,11 @@ public class ThrowState : PlayerState
 
     public override void EndCombo()
     {
-        ChangeState(PlayerController.State.Idle);
+        if (_throwRoutine != null)
+        {
+            ChangeState(PlayerController.State.Idle);
+        }
+        
     }
 
 

@@ -1,4 +1,5 @@
 using Assets.Project.Programmer.NSJ.RND.Script.State;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
@@ -26,13 +27,14 @@ public class PlayerState : BaseState
         View = controller.View;
         Rb = controller.Rb;
     }
-
-    public virtual void OnDash() { }
-    public virtual void OnThrowAttack() { }
+    public virtual void OnTrigger() { }
+    public virtual void EndAnimation() { }
     public virtual void OnCombo() { }
     public virtual void EndCombo() { }
     protected void ChangeState(PlayerController.State state)
     {
         Player.ChangeState(state);
     }
+
+       
 }

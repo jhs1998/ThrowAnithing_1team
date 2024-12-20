@@ -14,12 +14,13 @@ public class PlayerController : MonoBehaviour
     public enum State {
         Idle,
         Run,
-        MeleeAttack, 
-        ThrowAttack, 
-        Jump, 
-        Fall, 
+        MeleeAttack,
+        ThrowAttack,
+        Jump,
+        DoubleJump,
+        Fall,
         Dash,
-        Drain, 
+        Drain,
         Size }
 
     private PlayerState[] _states = new PlayerState[(int)State.Size];
@@ -221,7 +222,6 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
         {
-            OnDash();
             ChangeState(PlayerController.State.Dash);
         }
     }
@@ -295,7 +295,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void CheckWall()
     {
-        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1<<6);
+        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << 6);
 
         if (hitCount > 0)
         {
@@ -365,6 +365,7 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // 근접공격
         _states[(int)State.ThrowAttack] = new ThrowState(this);         // 투척공격
         _states[(int)State.Jump] = new JumpState(this);                 // 점프
+        _states[(int)State.DoubleJump] = new DoubleJumpState(this);
         _states[(int)State.Fall] = new FallState(this);                 // 추락
         _states[(int)State.Dash] = new DashState(this);                 // 대쉬
         _states[(int)State.Drain] = new DrainState(this);               // 드레인
@@ -404,13 +405,14 @@ public class PlayerController : MonoBehaviour
 
 
     #region 애니메이션 콜백
-    public void OnDash()
+
+    public void OnTrigger()
     {
-        _states[(int)CurState].OnDash();
+        _states[(int)CurState].OnTrigger();
     }
-    public void OnThrowAttack()
+    public void EndAnimation()
     {
-        _states[(int)CurState].OnThrowAttack();
+        _states[(int)CurState].EndAnimation();
     }
     public void OnCombo()
     {

@@ -1,16 +1,17 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpState : PlayerState
+public class DoubleJumpState : PlayerState
 {
-    public JumpState(PlayerController controller) : base(controller)
+    public DoubleJumpState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
     }
 
     public override void Enter()
     {
-        View.SetTrigger(PlayerView.Parameter.Jump);
+        View.SetTrigger(PlayerView.Parameter.DoubleJump);
     }
     public override void Exit()
     {
@@ -19,13 +20,9 @@ public class JumpState : PlayerState
 
     public override void Update()
     {
-       // Debug.Log("Jump");
+        // Debug.Log("Jump");
     }
 
-    public override void FixedUpdate()
-    {
-      
-    }
     public override void OnTrigger()
     {
         Jump();

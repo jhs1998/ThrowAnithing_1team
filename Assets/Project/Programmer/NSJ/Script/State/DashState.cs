@@ -19,12 +19,12 @@ public class DashState : PlayerState
     public override void Update()
     {
         Dash();
-        if(View.GetIsAnimFinish(PlayerView.Parameter.Dash) == true)
-        {
-            ChangeState(PlayerController.State.Idle);
-        }
     }
 
+    public override void EndAnimation()
+    {
+        ChangeState(PlayerController.State.Idle);
+    }
     /// <summary>
     /// ´ë½¬
     /// </summary>

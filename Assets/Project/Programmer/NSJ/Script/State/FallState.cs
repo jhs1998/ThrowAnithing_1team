@@ -7,7 +7,7 @@ public class FallState : PlayerState
     private Vector3 _inertia; // 관성력
 
     private bool _isDoubleJump;
-
+    private bool _isLanding;
     Coroutine _fallRoutine;
     Coroutine _checkInputRoutine;
     public FallState(PlayerController controller) : base(controller)
@@ -15,7 +15,8 @@ public class FallState : PlayerState
     }
     public override void Enter()
     {
-        if (Player.PrevState != PlayerController.State.Jump)
+        if (Player.PrevState != PlayerController.State.Jump &&
+            Player.PrevState != PlayerController.State.DoubleJump)
         {
             View.SetTrigger(PlayerView.Parameter.Fall);
         }
@@ -51,6 +52,19 @@ public class FallState : PlayerState
             Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
         }
     }
+    public override void EndAnimation()
+    {
+        if(_isLanding == true)
+        {
+            _isDoubleJump = false;
+            _isLanding = false;
+            ChangeState(PlayerController.State.Idle);
+        }
+        else
+        {
+            View.SetTrigger(PlayerView.Parameter.Fall);
+        }
+    }
 
     IEnumerator FallRoutine()
     {
@@ -80,20 +94,14 @@ public class FallState : PlayerState
             yield return 0.02f.GetDelay();
         }
 
-        // 착지 애니메이션 실행
-        View.SetTrigger(PlayerView.Parameter.Landing);
-
-        while (true)
+        if (_checkInputRoutine != null)
         {
-            // 착지 애니메이션이 끝났을때 Idle 모드로 전환
-            if (View.GetIsAnimFinish(PlayerView.Parameter.Landing) == true)
-            {
-                _isDoubleJump = false;
-                ChangeState(PlayerController.State.Idle);
-                break;
-            }
-            yield return null;
+             CoroutineHandler.StopRoutine(_checkInputRoutine);
+            _checkInputRoutine = null;
         }
+        // 착지 애니메이션 실행
+        _isLanding = true;
+        View.SetTrigger(PlayerView.Parameter.Landing);
     }
 
     IEnumerator CheckInputRoutine()
@@ -103,7 +111,7 @@ public class FallState : PlayerState
             if (Input.GetButtonDown("Jump") && _isDoubleJump == false)
             {
                 _isDoubleJump = true;
-                ChangeState(PlayerController.State.Jump);
+                ChangeState(PlayerController.State.DoubleJump);
                 break;
             }
             yield return null;
