@@ -5,7 +5,7 @@ using System.IO;
 using Zenject;
 
 [System.Serializable]
-public class GlobalPlayerData
+public class GlobalPlayerDatabata
 {
     // 플레이어 이름
     public string playerName;
@@ -31,7 +31,7 @@ public class UserDataManager : MonoBehaviour
     // 싱글톤
     public static UserDataManager instance;
     // 플레이어 데이터 생성
-    public GlobalPlayerData nowPlayer = new GlobalPlayerData();
+    public GlobalPlayerDatabata nowPlayer = new GlobalPlayerDatabata();
     // 세이브 파일 저장 경로
     public string path;
     // 현재 슬롯번호
@@ -78,7 +78,7 @@ public class UserDataManager : MonoBehaviour
         {
             string data = File.ReadAllText(slotPath);
             // 현재 플레이어에 불러온 데이터 적용
-            nowPlayer = JsonUtility.FromJson<GlobalPlayerData>(data);
+            nowPlayer = JsonUtility.FromJson<GlobalPlayerDatabata>(data);
             Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
         }
         else
@@ -88,7 +88,7 @@ public class UserDataManager : MonoBehaviour
     }
     public void DataClear()
     {
-        nowPlayer = new GlobalPlayerData
+        nowPlayer = new GlobalPlayerDatabata
         {
             playerName = "New Player",
             maxHp = 100,

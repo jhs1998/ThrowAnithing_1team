@@ -44,7 +44,7 @@ public class SlotManager : MonoBehaviour
             if (File.Exists(slotPath))
             {
                 string data = File.ReadAllText(slotPath);
-                GlobalPlayerData playerData = JsonUtility.FromJson<GlobalPlayerData>(data);
+                GlobalPlayerDatabata playerData = JsonUtility.FromJson<GlobalPlayerDatabata>(data);
 
                 // 저장된 시간 표시
                 string saveTime = string.IsNullOrEmpty(playerData.saveDateTime) ? "No Date" : playerData.saveDateTime;
