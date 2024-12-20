@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LSH_PlayerModel : MonoBehaviour
 {
@@ -25,11 +26,11 @@ public class LSH_PlayerModel : MonoBehaviour
     {
         if (other.name == "Lazer")
         {
+            TrapLazer lazer = other.gameObject.GetComponent<TrapLazer>();
 
             if (damageRoutine != null)
             {
                 Debug.Log("¡¯¿‘2");
-                TrapLazer lazer = other.gameObject.GetComponent<TrapLazer>();
                 if(lazer.triggerExit == RoutineEnd)
                     lazer.triggerExit -= RoutineEnd;
             }
@@ -41,17 +42,20 @@ public class LSH_PlayerModel : MonoBehaviour
             
         }
 
+        
+
+
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.name == "Lazer")
         {
+            TrapLazer lazer = other.gameObject.GetComponent<TrapLazer>();
 
-            if (other.gameObject.activeInHierarchy == false)
+            if (lazer.isAttackable == false)
             {
                 Debug.Log("≈ª√‚2");
-                TrapLazer lazer = other.gameObject.GetComponent<TrapLazer>();
                 lazer.triggerExit += RoutineEnd;
             }
             else
@@ -61,16 +65,6 @@ public class LSH_PlayerModel : MonoBehaviour
             }
 
 
-            //if (damageRoutine != null)
-            //{
-
-                
-            //}
-            //else
-            //{
-                
-
-            //}
         }
 
     }

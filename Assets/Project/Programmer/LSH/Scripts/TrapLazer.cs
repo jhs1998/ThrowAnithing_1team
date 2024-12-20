@@ -8,6 +8,8 @@ public class TrapLazer : MonoBehaviour
 {
     
     [SerializeField] GameObject lazer;
+    [SerializeField] public bool isAttackable;
+
     [SerializeField] Transform muzzle;
 
     [Range(5f, 10f)] [SerializeField] float count;
@@ -27,10 +29,12 @@ public class TrapLazer : MonoBehaviour
         {
             blinkTiming = new WaitForSeconds(count);
             lazer.SetActive(true);
+            isAttackable = true;
             yield return blinkTiming;
 
             blinkTiming = new WaitForSeconds(count*0.5f);
             lazer.SetActive(false);
+            isAttackable = false;
             triggerExit?.Invoke();
             yield return blinkTiming;
         }
