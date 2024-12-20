@@ -5,25 +5,29 @@ using UnityEngine;
 [System.Serializable]
 public class State
 {
-    [Range(100, 1000)] public int MaxHp;  // 체력
-    [Range(0, 50)] public int Atk;       // 공격력
+    [Range(50, 1000)] public int MaxHp;  // 체력
+    [Range(0, 20)] public int Atk;       // 공격력
     [Range(0, 10)] public float Def;    // 방어력
     [Range(0, 10)] public float Speed;    // 이동 속도
-    [Range(0, 50)] public float TraceDis;  // 인식 사거리
-    [Range(0, 10)] public float AttackDis; // 공격 사거리
+    [Range(0, 10)] public float AtkDelay;   // 공격 속도
+    [Range(0, 10)] public float AttackDis;  // 공격 사거리
+    [Range(0, 10)] public float TraceDis;   // 인식 사거리
 }
-
 
 public class BaseEnemy : MonoBehaviour
 {
     [SerializeField] BehaviorTree tree;
 
+    [Header("몬스터 기본 스테이터스")]
     [SerializeField] protected State state;
+    [Header("아이템 드랍 확률(100 단위)")]
+    [SerializeField] float reward;
+    [Header("현재 체력")]
     [SerializeField] int curHp;
     public int Damge { get { return state.Atk; } }
-    public int Hp { get { return curHp; } }
+    public int CurHp { get { return curHp; } }
 
-    private SharedGameObject playerObj;
+    protected SharedGameObject playerObj;
 
     private void Awake()
     {
@@ -33,27 +37,34 @@ public class BaseEnemy : MonoBehaviour
 
     private void Start()
     {
-        tree.SetVariable("PlayerObj", playerObj);
-        tree.SetVariable("PlayerTrans", (SharedTransform)playerObj.Value.transform);
-        tree.SetVariable("TraceDis", (SharedFloat)state.TraceDis);
-        tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
-        tree.SetVariable("Speed", (SharedFloat)state.Speed);
-
+        SettingVariable();
         curHp = state.MaxHp;
     }
 
-    public void GetDamage(float damage)
+    private void SettingVariable()
     {
-        float finalHp = curHp + state.Def;
+        tree.SetVariable("PlayerObj", playerObj);
+        tree.SetVariable("PlayerTrans", (SharedTransform)playerObj.Value.transform);
+        tree.SetVariable("Speed", (SharedFloat)state.Speed);
+        tree.SetVariable("AtkDelay", (SharedFloat)state.AtkDelay);
+        tree.SetVariable("TraceDis", (SharedFloat)state.TraceDis);
+        tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
+        tree.SetVariable("Reward", (SharedFloat)reward);
+    }
 
-        if(finalHp < damage)
-        {
-            curHp = 0;
-            return;
-        }
+    /// <summary>
+    /// 몬스터가 피해받는 데미지
+    /// </summary>
+    public bool GetDamage(float damage)
+    {
+        float finalDamage = damage - state.Def;
 
-        curHp = (int)(finalHp - damage);
+        if (finalDamage <= 0)
+            return false;
+
+        curHp -= (int)finalDamage;
         Debug.Log($"{(int)damage} 피해를 입음. curHP : {curHp}");
+        return true;
     }
 
     private void OnDrawGizmosSelected()

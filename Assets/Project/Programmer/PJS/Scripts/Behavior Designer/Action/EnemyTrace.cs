@@ -6,7 +6,7 @@ public class EnemyTrace : Action
 {
     [SerializeField] SharedFloat speed;         // 몬스터 이동속도
     [SerializeField] SharedTransform player;    // 플레이어
-    [SerializeField] SharedFloat dist;
+    [SerializeField] SharedFloat traceDist;          // 인식 거리
 
     public override TaskStatus OnUpdate()
     {
@@ -14,7 +14,7 @@ public class EnemyTrace : Action
         
         if (dir < 1f)
             return TaskStatus.Success;
-        else if(dir > dist.Value)
+        else if(dir > traceDist.Value)
             return TaskStatus.Failure;
 
         transform.position = Vector3.MoveTowards(transform.position, player.Value.position, speed.Value * Time.deltaTime);
