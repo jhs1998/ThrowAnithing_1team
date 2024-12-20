@@ -8,14 +8,13 @@ public class TrapLazer : MonoBehaviour
 {
     
     [SerializeField] GameObject lazer;
-    [SerializeField] public bool isAttackable;
 
     [SerializeField] Transform muzzle;
 
     [Range(5f, 10f)] [SerializeField] float count;
-    WaitForSeconds blinkTiming;
+    WaitForSeconds OnblinkTiming;
+    WaitForSeconds OffblinkTiming;
     Coroutine blinkRoutine;
-    public UnityAction triggerExit;
 
     private void Start()
     {
@@ -25,18 +24,16 @@ public class TrapLazer : MonoBehaviour
 
     IEnumerator LazerBlinkRoutine()
     {
+        OnblinkTiming = new WaitForSeconds(count);
+        OffblinkTiming = new WaitForSeconds(count*0.5f);
+
         while (true)
         {
-            blinkTiming = new WaitForSeconds(count);
             lazer.SetActive(true);
-            isAttackable = true;
-            yield return blinkTiming;
+            yield return OnblinkTiming;
 
-            blinkTiming = new WaitForSeconds(count*0.5f);
             lazer.SetActive(false);
-            isAttackable = false;
-            triggerExit?.Invoke();
-            yield return blinkTiming;
+            yield return OffblinkTiming;
         }
 
     }
