@@ -5,7 +5,9 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     [SerializeField] Rigidbody rigid;
-    [SerializeField] float speed;
+    private float speed;
+
+    public float Speed { set { speed = value; } }
 
     private void Awake()
     {

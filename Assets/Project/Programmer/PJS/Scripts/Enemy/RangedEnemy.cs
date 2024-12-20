@@ -7,9 +7,15 @@ public class RangedEnemy : BaseEnemy
 {
     [SerializeField] EnemyBullet bulletPrefab;
     [SerializeField] Transform muzzle;
+    [Header("투사체 속도")]
+    [SerializeField] float bulletSpeed;
+
+    public float BulletSpeed { get { return bulletSpeed; } }
 
     public void Attack()
     {
-        Instantiate(bulletPrefab, muzzle.position, muzzle.rotation);
+        EnemyBullet bullet = Instantiate(bulletPrefab, muzzle.position, muzzle.rotation).GetComponent< EnemyBullet>();
+        bullet.Speed = bulletSpeed;
+        bullet.transform.parent = transform;
     }
 }
