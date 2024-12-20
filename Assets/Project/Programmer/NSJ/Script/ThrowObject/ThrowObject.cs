@@ -5,20 +5,19 @@ public class ThrowObject : MonoBehaviour
 {
     public ThrowObjectData Data;
 
-    [SerializeField] private List<HitAdditional> _hitAdditionals = new List<HitAdditional>();
-    [SerializeField] private bool _canAttack;
-    private Rigidbody _rb;
-    private int _damage;
-    private float _radius;
+    [SerializeField] protected List<HitAdditional> _hitAdditionals = new List<HitAdditional>();
+    [SerializeField] protected bool _canAttack;
+    protected Rigidbody _rb;
+    protected int _damage;
+    protected float _radius;
+    protected Collider[] _overlapCollider = new Collider[20];
 
-    private Collider[] _overlapCollider = new Collider[20];
-
-    private void Awake()
+    protected void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _canAttack = true;
     }
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         if (_canAttack == true)
         {
@@ -53,7 +52,7 @@ public class ThrowObject : MonoBehaviour
         _rb.AddForce(transform.forward * 20f, ForceMode.Impulse);
     }
 
-    private void HitTarget()
+    protected void HitTarget()
     {
         if (_canAttack == false)
             return;
@@ -78,13 +77,13 @@ public class ThrowObject : MonoBehaviour
     }
 
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _radius);
     }
 
-    private void AddHitAdditional(List<HitAdditional> hitAdditionals)
+    protected void AddHitAdditional(List<HitAdditional> hitAdditionals)
     {
         foreach (HitAdditional hitAdditional in hitAdditionals)
         {

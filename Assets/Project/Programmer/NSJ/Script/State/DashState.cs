@@ -12,8 +12,6 @@ public class DashState : PlayerState
 
     public override void Enter()
     {
-        Model.CurStamina -= 0.3f;
-
         InputKey();
         View.SetTrigger(PlayerView.Parameter.Dash);
     }

@@ -11,7 +11,16 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
-    public enum State { Idle, Run, MeleeAttack, ThrowAttack, Jump, Fall, Dash, Size }
+    public enum State {
+        Idle,
+        Run,
+        MeleeAttack, 
+        ThrowAttack, 
+        Jump, 
+        Fall, 
+        Dash,
+        Drain, 
+        Size }
 
     private PlayerState[] _states = new PlayerState[(int)State.Size];
     public State CurState;
@@ -26,14 +35,12 @@ public class PlayerController : MonoBehaviour
         public float AttackHeight;
         public float AttackBufferTime;
         public Transform MuzzlePoint;
-        public ThrowObject ThrowPrefab;
     }
     [Header("공격 관련 필드")]
     [SerializeField] private AttackStruct _attackStruct;
     public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
     public Transform MuzzletPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
     public float AttackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
-    private ThrowObject _throwPrefab { get { return _attackStruct.ThrowPrefab; } set { _attackStruct.ThrowPrefab = value; } }
     #endregion
     #region Camera 관련 필드
     /// <summary>
@@ -94,11 +101,14 @@ public class PlayerController : MonoBehaviour
     public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
 
-    public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround =value; } }// 지면 접촉 여부
+    //TODO: 인스펙터 정리 필요
+    public GameObject DrainField;
+
+    public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround = value; } }// 지면 접촉 여부
     public bool IsWall { get { return _checkStruct.IsWall; } set { _checkStruct.IsWall = value; } } // 벽 접촉 여부
     public bool CanClimbSlope { get { return _checkStruct.CanClimbSlope; } set { _checkStruct.CanClimbSlope = value; } } // 오를 수 있는 경사면 각도 인지 체크
 
-    [HideInInspector]public Collider[] OverLapColliders = new Collider[100];
+    [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
 
     private void Awake()
     {
@@ -150,10 +160,16 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void ChangeState(State state)
     {
-        if(_states[(int)state].UseStamina == true && Model.CurStamina < 0.1f)
+        // 스테미나 쓰는 상태
+        if (_states[(int)state].UseStamina == true)
         {
-            return;
+            // 사용할수 있음?(최소 스테미나)
+            if (Model.CurStamina < 10f)
+                return;
+            // 사용가능하면 스테미나 깎음
+            Model.CurStamina -= 30f;
         }
+
 
         _states[(int)CurState].Exit();
         PrevState = CurState;
@@ -281,7 +297,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void CheckWall()
     {
-        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << 6);
+        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1<<6);
 
         if (hitCount > 0)
         {
@@ -306,16 +322,9 @@ public class PlayerController : MonoBehaviour
 
     private void TestInput()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ThrowObject throwObject = Instantiate(_throwPrefab);
-            Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
-            Destroy(throwObject.gameObject);
-        }
-
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SceneManager.LoadScene(1);
+            //SceneManager.LoadScene(1);
         }
     }
 
@@ -326,16 +335,16 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
-            // 초당 MaxStamina / StaminaRecoveryTime 만큼 회복
+            // 초당 MaxStamina / StaminaRecoveryPerSecond 만큼 회복
             // 현재 스테미나가 꽉찼으면 더이상 회복안함
             // 만약 스테미나가 0이하로 떨어지면 일정시간동안 스테미나 회복 안함
-            Model.CurStamina += (Model.MaxStamina / Model.StaminaRecoveryTime) * Time.deltaTime;
-            if(Model.CurStamina >= Model.MaxStamina)
+            Model.CurStamina += Model.StaminaRecoveryPerSecond * Time.deltaTime;
+            if (Model.CurStamina >= Model.MaxStamina)
             {
                 Model.CurStamina = Model.MaxStamina;
             }
 
-            if(Model.CurStamina < 0)
+            if (Model.CurStamina < 0)
             {
                 yield return Model.StaminaCoolTime.GetDelay();
                 Model.CurStamina = 0;
@@ -367,6 +376,7 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.Jump] = new JumpState(this);                 // 점프
         _states[(int)State.Fall] = new FallState(this);                 // 추락
         _states[(int)State.Dash] = new DashState(this);                 // 대쉬
+        _states[(int)State.Drain] = new DrainState(this);               // 드레인
     }
 
     /// <summary>
@@ -382,8 +392,8 @@ public class PlayerController : MonoBehaviour
 
         Model.CurStaminaSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.Panel.StaminaSlider.value = x);
-        View.Panel.StaminaSlider.value = Model.CurStamina;
+            .Subscribe(x => View.Panel.StaminaSlider.value = x / Model.MaxStamina);
+        View.Panel.StaminaSlider.value = Model.CurStamina / Model.MaxStamina;
     }
 
     /// <summary>

@@ -43,6 +43,11 @@ public class IdleState : PlayerState
         {
             ChangeState(PlayerController.State.Fall);
         }
+        // 드레인 키를 눌렀을 경우
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            ChangeState(PlayerController.State.Drain);
+        }
     }
     public override void FixedUpdate()
     {

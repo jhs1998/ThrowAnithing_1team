@@ -12,7 +12,6 @@ public class JumpState : PlayerState
 
     public override void Enter()
     {
-        Model.CurStamina -= 0.3f;
         View.SetTrigger(PlayerView.Parameter.Jump);
     }
     public override void Exit()

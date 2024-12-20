@@ -18,6 +18,7 @@ public class PlayerView : MonoBehaviour
         Fall,
         Landing,
         Dash,
+        Drain,
         Size
     }
 
@@ -192,5 +193,6 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.Fall] = Animator.StringToHash("Fall");
         _animatorHashes[(int)Parameter.Landing] = Animator.StringToHash("Landing");
         _animatorHashes[(int)Parameter.Dash] = Animator.StringToHash("Dash");
+        _animatorHashes[(int)Parameter.Drain] = Animator.StringToHash("Drain");
     }
 }
