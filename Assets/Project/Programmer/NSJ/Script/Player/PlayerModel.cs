@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerModel : MonoBehaviour
 {
-    public NSJPlayerData Data;
+    public GlobalPlayerData GlobalData;
+    public PlayerData Data;
+    
 
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
     public int MaxThrowCount { get { return Data.MaxThrowCount; } set { Data.MaxThrowCount = value; } }
@@ -109,9 +111,11 @@ public class PlayerModel : MonoBehaviour
 }
 
 
+public partial class GlobalPlayerData
+{
 
-[System.Serializable]
-public class NSJPlayerData
+}
+public partial class PlayerData
 {
     public float MoveSpeed;
 
