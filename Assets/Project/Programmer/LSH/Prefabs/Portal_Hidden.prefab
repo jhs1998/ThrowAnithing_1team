@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 4138029790168922325}
   - component: {fileID: 4138029790168922324}
   - component: {fileID: 4138029790168922327}
+  - component: {fileID: -1549119609549983728}
   m_Layer: 0
-  m_Name: Cylinder_PortalHidden
-  m_TagString: Untagged
+  m_Name: Portal_Hidden
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,7 +100,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -107,3 +108,16 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &-1549119609549983728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4138029790168922326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd893cb2ce46ff14d9274bfd3e1a9d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneNum: 6
