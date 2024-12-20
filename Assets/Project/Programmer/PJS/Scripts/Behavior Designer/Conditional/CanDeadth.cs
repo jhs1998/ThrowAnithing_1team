@@ -12,6 +12,6 @@ public class CanDeadth : Conditional
 
     public override TaskStatus OnUpdate()
     {
-        return enemy.Hp <= 0 ? TaskStatus.Success : TaskStatus.Failure;
+        return enemy.CurHp <= 0 ? TaskStatus.Success : TaskStatus.Failure;
     }
 }
