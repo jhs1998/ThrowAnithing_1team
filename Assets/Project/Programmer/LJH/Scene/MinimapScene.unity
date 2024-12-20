@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 182482326}
   - component: {fileID: 182482325}
   - component: {fileID: 182482324}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 1014967123}
   - component: {fileID: 1014967122}
   - component: {fileID: 1014967121}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Trash
   m_TagString: Trash
   m_Icon: {fileID: 0}
@@ -1413,7 +1413,7 @@ GameObject:
   - component: {fileID: 1734727770}
   - component: {fileID: 1734727769}
   - component: {fileID: 1734727773}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1534,7 +1534,7 @@ GameObject:
   - component: {fileID: 1742336082}
   - component: {fileID: 1742336081}
   - component: {fileID: 1742336080}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Item
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -1639,7 +1639,7 @@ GameObject:
   - component: {fileID: 1839967821}
   - component: {fileID: 1839967820}
   - component: {fileID: 1839967819}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Monster
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -1844,7 +1844,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 3f801f3699338f6469b7d4163bf0a940, type: 2}
   m_TargetDisplay: 0
@@ -1886,6 +1886,7 @@ MonoBehaviour:
   player: {fileID: 1734727768}
   minimap: {fileID: 1152646730}
   minimapAct: 1
+  minimapFix: 0
 --- !u!1 &2116979412
 GameObject:
   m_ObjectHideFlags: 0
