@@ -4,59 +4,23 @@ using UnityEngine;
 using System.IO;
 using Zenject;
 
-[System.Serializable]
-public class GlobalPlayerDatabata
+
+public class UserDataManager
 {
-    // 플레이어 이름
-    public string playerName;
-    // 플레이어 스탯
-    public int maxHp;
-    public int attackDamage;
-    public int speed;
-    public int luck;
-    // 보유 재화
-    public int coin;
-    // 암 유닛 선택 종류 (Balance, Power, Speed)
-    public enum AmWeapon { Balance, Power, Speed }
-    // 로비 씬 업그레이드 진행 상황
-    public Dictionary<string, int> upgrades;
-    // 날짜와 시간
-    public string saveDateTime;
-
-}
-
-
-public class UserDataManager : MonoBehaviour
-{
-    // 싱글톤
-    public static UserDataManager instance;
     // 플레이어 데이터 생성
-    public GlobalPlayerDatabata nowPlayer = new GlobalPlayerDatabata();
+    public GlobalPlayerData nowPlayer { get; private set; } = new GlobalPlayerData();
     // 세이브 파일 저장 경로
-    public string path;
+    public string path { get; private set; }
     // 현재 슬롯번호
-    public int nowSlot;
-    
-    private void Awake()
+    public int nowSlot { get; set; }
+
+    public UserDataManager()
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-            Destroy(instance.gameObject);
-
-        DontDestroyOnLoad(this.gameObject);
-
-        // 저장 경로 지정
         path = Application.persistentDataPath + "/save";
-        print(path);
-    }
-    
-
-    private void Start()
-    {
-        // 파일 경로 초기화 (세이브 경로는 Zenject에서 주입됨)
+        nowPlayer = new GlobalPlayerData(); // 초기화 추가
         Debug.Log($"Save path: {path}");
     }
+
     // 저장 기능
     public void SaveData()
     {
@@ -78,7 +42,7 @@ public class UserDataManager : MonoBehaviour
         {
             string data = File.ReadAllText(slotPath);
             // 현재 플레이어에 불러온 데이터 적용
-            nowPlayer = JsonUtility.FromJson<GlobalPlayerDatabata>(data);
+            nowPlayer = JsonUtility.FromJson<GlobalPlayerData>(data);
             Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
         }
         else
@@ -88,7 +52,7 @@ public class UserDataManager : MonoBehaviour
     }
     public void DataClear()
     {
-        nowPlayer = new GlobalPlayerDatabata
+        nowPlayer = new GlobalPlayerData
         {
             playerName = "New Player",
             maxHp = 100,
