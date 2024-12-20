@@ -134,8 +134,6 @@ public class PlayerController : MonoBehaviour
 
         CheckAnyState();
         RotateCamera();
-
-        TestInput();
     }
 
     private void FixedUpdate()
@@ -223,7 +221,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
         {
-            _states[(int)CurState].OnDash();
+            OnDash();
             ChangeState(PlayerController.State.Dash);
         }
     }
@@ -320,13 +318,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(footPos, headPos);
     }
 
-    private void TestInput()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            //SceneManager.LoadScene(1);
-        }
-    }
 
     /// <summary>
     /// 스테미나 회복 코루틴
@@ -411,4 +402,23 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(RecoveryStamina());
     }
 
+
+    #region 애니메이션 콜백
+    public void OnDash()
+    {
+        _states[(int)CurState].OnDash();
+    }
+    public void OnThrowAttack()
+    {
+        _states[(int)CurState].OnThrowAttack();
+    }
+    public void OnCombo()
+    {
+        _states[(int)CurState].OnCombo();
+    }
+    public void EndCombo()
+    {
+        _states[(int)CurState].EndCombo();
+    }
+    #endregion
 }

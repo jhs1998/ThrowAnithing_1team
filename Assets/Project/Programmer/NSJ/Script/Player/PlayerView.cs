@@ -13,7 +13,8 @@ public class PlayerView : MonoBehaviour
         MeleeAttack,
         MeleeCombo,
         ThrowAttack,
-        ThrowCombo,
+        OnCombo,
+        EndCombo,
         Jump,
         Fall,
         Landing,
@@ -23,7 +24,6 @@ public class PlayerView : MonoBehaviour
     }
 
     #region 애니메이션 관련 이벤트
-    public event UnityAction OnThrowAttackEvent;
     public event UnityAction OnMeleeAttackEvent;
     public event UnityAction OnJumpEvent;
     #endregion
@@ -129,16 +129,12 @@ public class PlayerView : MonoBehaviour
         OnJumpEvent?.Invoke();
     }
 
-
-    public void OnThrowAttack()
-    {
-        OnThrowAttackEvent?.Invoke();
-    }
-
     public void OnMeleeAttack()
     {
         OnMeleeAttackEvent?.Invoke();
     }
+
+
     #region SetIsAnimFinish
     public void SetIsThrowAttackFinish()
     {
@@ -172,8 +168,10 @@ public class PlayerView : MonoBehaviour
             _isAnimFinishDic.Add(Parameter.Landing, false);
         }
         _isAnimFinishDic[Parameter.Landing] = true;
+
     }
     #endregion
+
     // UI ================================================================================================================//
 
     public void UpdateText(TMP_Text target, string text)
@@ -188,7 +186,8 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.MeleeCombo] = Animator.StringToHash("MeleeCombo");
         _animatorHashes[(int)Parameter.MeleeAttack] = Animator.StringToHash("MeleeAttack");
         _animatorHashes[(int)Parameter.ThrowAttack] = Animator.StringToHash("ThrowAttack");
-        _animatorHashes[(int)Parameter.ThrowCombo] = Animator.StringToHash("ThrowCombo");
+        _animatorHashes[(int)Parameter.OnCombo] = Animator.StringToHash("OnCombo");
+        _animatorHashes[(int)Parameter.EndCombo] = Animator.StringToHash("EndCombo");
         _animatorHashes[(int)Parameter.Jump] = Animator.StringToHash("Jump");
         _animatorHashes[(int)Parameter.Fall] = Animator.StringToHash("Fall");
         _animatorHashes[(int)Parameter.Landing] = Animator.StringToHash("Landing");

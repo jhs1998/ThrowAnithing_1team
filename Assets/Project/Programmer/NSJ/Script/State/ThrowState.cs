@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ThrowState : PlayerState
@@ -13,7 +12,6 @@ public class ThrowState : PlayerState
         set
         {
             m_isCombo = value;
-            View.SetBool(PlayerView.Parameter.ThrowCombo, m_isCombo);
         }
     }
     private bool _isChangeAttack;
@@ -24,7 +22,6 @@ public class ThrowState : PlayerState
         _atttackBufferTime = Player.AttackBufferTime;
         _muzzlePoint = controller.MuzzletPoint;
 
-        View.OnThrowAttackEvent += ThrowAttack;
     }
     public override void Enter()
     {
@@ -32,20 +29,26 @@ public class ThrowState : PlayerState
         _isChangeAttack = false;
 
         // 첫 공격 시 첫 공격 애니메이션 실행
-        if (View.GetBool(PlayerView.Parameter.ThrowCombo) == false)
+        if (Player.PrevState != PlayerController.State.ThrowAttack)
         {
             View.SetTrigger(PlayerView.Parameter.ThrowAttack);
         }
         else
         {
-            Model.MeleeComboCount++;
+            View.SetTrigger(PlayerView.Parameter.OnCombo);
         }
 
-
-        if(_throwRoutine == null)
+        if (Player.IsAttackFoward == true)
         {
-            _throwRoutine = CoroutineHandler.StartRoutine(MeleeAttackRoutine());
-        }       
+            // 카메라 방향으로 플레이어가 바라보게
+            Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
+            transform.rotation = cameraRot;
+            // 카메라는 다시 로컬 기준 전방 방향
+            if (Player.CamareArm.parent != null)
+            {
+                Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
+            }
+        }
     }
 
     public override void Update()
@@ -55,7 +58,7 @@ public class ThrowState : PlayerState
 
     public override void Exit()
     {
-        if(_throwRoutine != null)
+        if (_throwRoutine != null)
         {
             CoroutineHandler.StopRoutine(_throwRoutine);
             _throwRoutine = null;
@@ -69,7 +72,7 @@ public class ThrowState : PlayerState
     /// <summary>
     /// 오브젝트 던지기 공격
     /// </summary>
-    public void ThrowAttack()
+    public override void OnThrowAttack()
     {
         if (Model.ThrowObjectStack.Count > 0)
         {
@@ -88,64 +91,35 @@ public class ThrowState : PlayerState
         throwObject.Init(Model.Damage, Model.BoomRadius, Model.HitAdditionals);
         throwObject.Shoot();
     }
-    IEnumerator MeleeAttackRoutine()
-    {
-        if (Player.IsAttackFoward == true)
-        {
-            // 카메라 방향으로 플레이어가 바라보게
-            Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
-            transform.rotation = cameraRot;
-            // 카메라는 다시 로컬 기준 전방 방향
-            if (Player.CamareArm.parent != null)
-            {
-                Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
-            }
-        }
 
-        yield return null;
-        float timeCount = _atttackBufferTime;
-        while (View.GetIsAnimFinish(PlayerView.Parameter.ThrowAttack) == false)
+    public override void OnCombo()
+    {
+        if (_throwRoutine == null)
         {
-            // 공격 버퍼
+            _throwRoutine = CoroutineHandler.StartRoutine(OnComboRoutine());
+        }
+    }
+
+    public override void EndCombo()
+    {
+        ChangeState(PlayerController.State.Idle);
+    }
+
+
+
+    IEnumerator OnComboRoutine()
+    {
+        while (true)
+        {
             if (Input.GetButtonDown("Fire2"))
             {
-                // 다음 공격 대기
-                _isCombo = true;
-                timeCount = _atttackBufferTime;
+                ChangeState(PlayerController.State.ThrowAttack);
             }
             else if (Input.GetButtonDown("Fire1"))
             {
-                // 근접 공격 전환
-                _isCombo = false;
-                _isChangeAttack = true;
-                timeCount = _atttackBufferTime;
+                ChangeState(PlayerController.State.MeleeAttack);
             }
-            timeCount -= Time.deltaTime;
-            if (timeCount <= 0)
-            {
-                // 다음 공격 취소
-                _isCombo = false;
-                timeCount = _atttackBufferTime;
-            }
-
             yield return null;
         }
-
-        // 콤보 선입력이 되었을 때 다시 투척 공격
-        if (_isCombo == true)
-        {
-            ChangeState(PlayerController.State.ThrowAttack);
-        }
-        // 공격 키 입력이 바뀌었을 때 근접공격
-        else if (_isChangeAttack == true)
-        {
-            ChangeState(PlayerController.State.MeleeAttack);
-        }
-        // 아무 입력도 없었을 때 평상시 모드
-        else
-        {
-            ChangeState(PlayerController.State.Idle);
-        }
-
     }
 }

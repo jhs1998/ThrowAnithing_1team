@@ -28,7 +28,9 @@ public class PlayerState : BaseState
     }
 
     public virtual void OnDash() { }
-
+    public virtual void OnThrowAttack() { }
+    public virtual void OnCombo() { }
+    public virtual void EndCombo() { }
     protected void ChangeState(PlayerController.State state)
     {
         Player.ChangeState(state);
