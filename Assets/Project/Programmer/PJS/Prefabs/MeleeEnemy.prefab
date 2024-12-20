@@ -2140,10 +2140,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
-    Hp: 10
-    Damge: 5
+    MaxHp: 50
+    Atk: 0
+    Def: 0
+    Speed: 0
+    AtkDelay: 0
     TraceDis: 5
     AttackDis: 1
+  curHp: 0
 --- !u!114 &3325161380847737486
 MonoBehaviour:
   m_ObjectHideFlags: 0

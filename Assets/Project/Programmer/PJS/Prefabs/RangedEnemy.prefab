@@ -1544,10 +1544,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
-    Hp: 10
-    Damge: 5
-    TraceDis: 0
+    MaxHp: 50
+    Atk: 0
+    Def: 0
+    Speed: 0
+    AtkDelay: 0
     AttackDis: 10
+    TraceDis: 0
+  reward: 0
+  curHp: 0
   bulletPrefab: {fileID: 1415841380596911756, guid: 67fafdf47f1461c44a52ef581e9d1048, type: 3}
   muzzle: {fileID: 8826072132449757506}
 --- !u!114 &5862405598745177167
