@@ -28,13 +28,13 @@ namespace MKH
         [SerializeField] private int mItmeID;
         public int ItemID { get { return mItmeID; } }
 
-        [Header("사용(상호작용) 가능한 아이템인지")]
-        [SerializeField] private bool mIsInteractivity;
-        public bool IsInteractivity { get { return mIsInteractivity; } }
+        [Header("이름")]
+        [SerializeField] private string mName;
+        public string Name { get { return mName; } }
 
-        [Header("아이템 사용시 사라지는지")]
-        [SerializeField] private bool mIsConsumable;
-        public bool IsConsumable { get { return mIsConsumable; } }
+        [Header("설명")]
+        [SerializeField] private string mDescription;
+        public string Description { get { return mDescription; } }
 
         [Header("아이템 타입")]
         [SerializeField] private ItemType mItemType;
