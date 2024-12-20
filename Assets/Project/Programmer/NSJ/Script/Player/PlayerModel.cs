@@ -1,25 +1,27 @@
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using Zenject;
 
 public class PlayerModel : MonoBehaviour
-{   
-    public PlayerData Data;
+{
+    public NSJPlayerData Data;
 
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
     public int MaxThrowCount { get { return Data.MaxThrowCount; } set { Data.MaxThrowCount = value; } }
-    public int CurThrowCount { get { return Data.CurThrowCount; } 
-        set 
-        { 
+    public int CurThrowCount
+    {
+        get { return Data.CurThrowCount; }
+        set
+        {
             Data.CurThrowCount = value;
             CurThrowCountSubject?.OnNext(Data.CurThrowCount);
 
-        } }
+        }
+    }
     public Subject<int> CurThrowCountSubject = new Subject<int>();
-    public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals= value; } }
+    public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals = value; } }
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
-    public float MoveSpeed { get { return Data.MoveSpeed; }  set{ Data.MoveSpeed = value; } } // 이동속도
+    public float MoveSpeed { get { return Data.MoveSpeed; } set { Data.MoveSpeed = value; } } // 이동속도
 
     // TODO : 인스펙터 정리 필요
     public float DashPower; // 대쉬 속도
@@ -48,7 +50,7 @@ public class PlayerModel : MonoBehaviour
         public MeleeAttackStruct[] MeleeAttack;
     }
     [System.Serializable]
-   public struct MeleeAttackStruct
+    public struct MeleeAttackStruct
     {
         public float Range;
         [Range(0, 360)] public float Angle;
@@ -79,7 +81,7 @@ public class PlayerModel : MonoBehaviour
     }
     [Header("투척 공격 관련 필드")]
     [SerializeField] public ThrowStruct Throw;
-    public float BoomRadius {  get { return Throw.BoomRadius; } set { Throw.BoomRadius = value; } }
+    public float BoomRadius { get { return Throw.BoomRadius; } set { Throw.BoomRadius = value; } }
 
     // TODO : 인스펙터 정리 필요
     public float DrainDistance;
@@ -92,7 +94,7 @@ public class PlayerModel : MonoBehaviour
     }
 
     public ThrowObjectData PopThrowObject()
-    {  
+    {
         CurThrowCount--;
         ThrowObjectData data = ThrowObjectStack[CurThrowCount];
         ThrowObjectStack.RemoveAt(CurThrowCount);
@@ -102,12 +104,14 @@ public class PlayerModel : MonoBehaviour
     // TODO : 일단 젠젝트 실패, 싱글톤으로 구현 후 이후에 리팩토링 
     private void Start()
     {
-        Data= DataContainer.Instance.PlayerData;
+        //Data = DataContainer.Instance.PlayerData;
     }
 }
 
+
+
 [System.Serializable]
-public class PlayerData
+public class NSJPlayerData
 {
     public float MoveSpeed;
 
