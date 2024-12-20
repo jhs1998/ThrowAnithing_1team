@@ -12,7 +12,6 @@ public class MeleeAttackState : PlayerState
         set
         {
             m_isCombo = value;
-            View.SetBool(PlayerView.Parameter.MeleeCombo, m_isCombo);
         }
     }
     private bool _isChangeAttack;
@@ -26,7 +25,6 @@ public class MeleeAttackState : PlayerState
         _atttackBufferTime = Player.AttackBufferTime;
         _attackHeight = Player.AttackHeight;
 
-        View.OnMeleeAttackEvent += AttackMelee;
     }
 
     public override void Enter()
@@ -34,17 +32,28 @@ public class MeleeAttackState : PlayerState
         Player.Rb.velocity = Vector3.zero;
         _isChangeAttack = false;
 
-        if (_isCombo == false)
+        // 첫 공격 시 첫 공격 애니메이션 실행
+        if (Player.PrevState != PlayerController.State.MeleeAttack)
         {
-            // 첫 공격일 경우 근접공격 애니메이션 시작
             View.SetTrigger(PlayerView.Parameter.MeleeAttack);
         }
-
-        if(_meleeRoutine == null)
+        else
         {
-            _meleeRoutine = CoroutineHandler.StartRoutine(MeleeAttackRoutine());
+            View.SetTrigger(PlayerView.Parameter.OnCombo);
         }
-      
+
+        if (Player.IsAttackFoward == true)
+        {
+            // 카메라 방향으로 플레이어가 바라보게
+            Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
+            transform.rotation = cameraRot;
+            // 카메라는 다시 로컬 기준 전방 방향
+            if (Player.CamareArm.parent != null)
+            {
+                Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
+            }
+        }
+
     }
 
     public override void Update()
@@ -62,11 +71,10 @@ public class MeleeAttackState : PlayerState
 
     }
 
-    public override void OnDash()
+    public override void OnTrigger()
     {
-        _isCombo = false;
+        AttackMelee();
     }
-
     /// <summary>
     /// 근접 공격
     /// </summary>
@@ -97,70 +105,38 @@ public class MeleeAttackState : PlayerState
         }
     }
 
-
-
-    IEnumerator MeleeAttackRoutine()
+    public override void OnCombo()
     {
-        if (Player.IsAttackFoward == true)
+        if (_meleeRoutine == null)
         {
-            // 카메라 방향으로 플레이어가 바라보게
-            Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
-            transform.rotation = cameraRot;
-            // 카메라는 다시 로컬 기준 전방 방향
-            if (Player.CamareArm.parent != null)
-            {
-                Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
-            }
+            _meleeRoutine = CoroutineHandler.StartRoutine(OnComboRoutine());
+        }
+    }
+
+    public override void EndCombo()
+    {
+        if (_meleeRoutine != null)
+        {
+            ChangeState(PlayerController.State.Idle);
         }
 
-        yield return null;
-        float timeCount = _atttackBufferTime;
-        while (View.GetIsAnimFinish(PlayerView.Parameter.MeleeAttack) == false)
-        {       
-            // 공격 버퍼
+    }
+
+
+
+    IEnumerator OnComboRoutine()
+    {
+        while (true)
+        {
             if (Input.GetButtonDown("Fire1"))
             {
-                if (Model.CurStamina > 10)
-                {
-                    // 다음 공격 대기
-                    _isCombo = true;
-                    timeCount = _atttackBufferTime;
-                }
+                ChangeState(PlayerController.State.MeleeAttack);
             }
             else if (Input.GetButtonDown("Fire2"))
             {
-                // 던지기 공격 전환
-                _isCombo = false;
-                _isChangeAttack = true;
-                timeCount = _atttackBufferTime;
+                ChangeState(PlayerController.State.ThrowAttack);
             }
-
-            // 버퍼 타이머
-            timeCount -= Time.deltaTime;
-            if (timeCount <= 0)
-            {
-                // 다음 공격 취소
-                _isCombo = false;
-                timeCount = _atttackBufferTime;
-            }
-
             yield return null;
-        }
-        
-        // 콤보선입력 되었을때 다시 근접 공격 
-        if (_isCombo == true)
-        {         
-            ChangeState(PlayerController.State.MeleeAttack);
-        }
-        // 어택 명령이 바뀌었을 때 투척 공격
-        else if (_isChangeAttack == true)
-        {
-            ChangeState(PlayerController.State.ThrowAttack);
-        }
-        // 아무 입력도 없었을 때 평상시모드
-        else
-        {
-            ChangeState(PlayerController.State.Idle);
         }
     }
 
