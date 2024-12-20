@@ -21,7 +21,6 @@ public class EnemyGetDamage : Action
 
 	public override TaskStatus OnUpdate()
 	{
-		enemy.GetDamage(damage);
-		return TaskStatus.Success;
+		return enemy.GetDamage(damage) ? TaskStatus.Success : TaskStatus.Failure;
 	}
 }

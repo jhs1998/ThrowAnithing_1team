@@ -55,16 +55,16 @@ public class BaseEnemy : MonoBehaviour
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public void GetDamage(float damage)
+    public bool GetDamage(float damage)
     {
         float finalDamage = damage - state.Def;
 
-        if (finalDamage < 0)
-            finalDamage = 0;
+        if (finalDamage <= 0)
+            return false;
 
         curHp -= (int)finalDamage;
-        
         Debug.Log($"{(int)damage} 피해를 입음. curHP : {curHp}");
+        return true;
     }
 
     private void OnDrawGizmosSelected()
