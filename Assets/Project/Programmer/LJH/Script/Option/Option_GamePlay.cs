@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using Zenject;
 
@@ -12,104 +13,103 @@ public class Option_GamePlay : Main_Option
     [SerializeField] GameObject miniMapAct;
     [SerializeField] GameObject miniMapFix;
 
-    GameObject[] gamePlayButtons;
-    GameObject[] ThreeButtons;
+    GameObject[,] buttons;
 
-    int gamePlay_Ver;
-    int gamePlay_Ho;
+    int gamePlay_Ho = 0;
+    int gamePlay_Ver = 1;
 
     void Start()
     {
-
+        Init();
     }
 
 
     void Update()
     {
-        Debug.Log(isGameplay);
-        if (isGameplay)
+        if (gameplayOnOff.activeSelf)
         {
             if (menuCo == null)
             {
                 menuCo = StartCoroutine(GamePlay_Select());
-                menuCo = StartCoroutine(ThreeButtons_Select());
             }
         }
     }
     private IEnumerator GamePlay_Select()
     {
-        float y = Input.GetAxisRaw("Vertical");
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = -Input.GetAxisRaw("Vertical");
+        
 
-        StopCoroutine("ThreeButtons_Select");
-
+        gamePlay_Ho += (int)x;
         gamePlay_Ver += (int)y;
 
-        if (gamePlay_Ver == gamePlayButtons.Length)
+
+        if(gamePlay_Ver != 0)
         {
-            gamePlay_Ver = 0;
-            gamePlayButtons[gamePlayButtons.Length-1].GetComponent<TMP_Text>().color = Color.white;
-            gamePlayButtons[gamePlay_Ver].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-            yield return null;
+            if (x != 0)
+            {
+                gamePlay_Ver = 0;
+                gamePlay_Ho = 1;
+            }
         }
 
-        if (gamePlay_Ver == -1)
+        if(gamePlay_Ho !=0)
         {
-            gamePlay_Ver = gamePlayButtons.Length - 1;
-            gamePlayButtons[0].GetComponent<TMP_Text>().color = Color.white;
-            gamePlayButtons[gamePlay_Ver].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-            yield return null;
+            if (y != 0)
+            {
+                gamePlay_Ho = 0;
+                gamePlay_Ver = 1;
+            }
         }
 
-        for (int i = 0; i < gamePlayButtons.Length; i++)
+        if(gamePlay_Ver <= 0)
         {
-            gamePlayButtons[i].GetComponent<TMP_Text>().color = Color.white;
+            if (gamePlay_Ho == 4)
+                gamePlay_Ho = 1;
+
+            if (gamePlay_Ho <= 0)
+                gamePlay_Ho= 3;
         }
 
-        gamePlayButtons[gamePlay_Ver].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+        if (gamePlay_Ho <= 0)
+        {
+            if (gamePlay_Ver == 3)
+                gamePlay_Ver = 1;
+                         
+            if (gamePlay_Ver <= 0)
+                gamePlay_Ver = 2;
+        }
 
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if(buttons[i,j] == null)
+                    continue;
+
+                buttons[i, j].GetComponent<TMP_Text>().color = Color.white;
+            }
+        }
+
+        buttons[gamePlay_Ver, gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
         yield return inputDelay.GetDelay();
         menuCo = null;
+
+
     }
-
-    private IEnumerator ThreeButtons_Select()
-    {
-        float x = Input.GetAxisRaw("Horizontal");
-
-        StopCoroutine("GamePlay_Select");
-
-        gamePlay_Ver += (int)x;
-
-        if (gamePlay_Ho == ThreeButtons.Length)
-        {
-            gamePlay_Ho = 0;
-            ThreeButtons[ThreeButtons.Length - 1].GetComponent<TMP_Text>().color = Color.white;
-            ThreeButtons[gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-            yield return null;
-        }
-
-        if (gamePlay_Ho == -1)
-        {
-            gamePlay_Ho = ThreeButtons.Length - 1;
-            ThreeButtons[0].GetComponent<TMP_Text>().color = Color.white;
-            ThreeButtons[gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-            yield return null;
-        }
-
-        for (int i = 0; i < ThreeButtons.Length; i++)
-        {
-            ThreeButtons[i].GetComponent<TMP_Text>().color = Color.white;
-        }
-
-        ThreeButtons[gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-
-        yield return inputDelay.GetDelay();
-        menuCo = null;
-    }
-
 
     void Init()
     {
-        miniMapAct = GetUI("");
-        miniMapFix = GetUI("");
+        buttons = new GameObject[3,4];
+
+        buttons[1, 0] = miniMapAct = GetUI("Activate");
+        buttons[2, 0] = miniMapFix = GetUI("Fixed");
+        buttons[0, 1] = GetUI("AcceptButton_gamaplay");
+        buttons[0, 2] = GetUI("CancelButton_gamaplay");
+        buttons[0, 3] = GetUI("DefaultButton_gamaplay");
+
+
+        gameplayOnOff = GetUI("GameplayOnOff");
     }
 }

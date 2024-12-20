@@ -33,9 +33,9 @@ public class Main_Option : MainScene
     //옵션 Depth2 체크용 변수
     protected Depth2 depth2_cur = Depth2.notDepth2;
 
-    protected bool isGameplay = false;
-    protected bool isLanguage = false;
-    protected bool isSound = false;
+    protected GameObject gameplayOnOff;
+    protected GameObject languageOnOff;
+    protected GameObject soundOnOff;
 
     void Start()
     {
@@ -47,6 +47,12 @@ public class Main_Option : MainScene
 
     private void Update()
     {
+        if (gameplayOnOff.activeSelf)
+            return;
+        if (languageOnOff.activeSelf)
+            return;
+        if (soundOnOff.activeSelf)
+            return;
 
         if (gameObject.activeSelf)
         {
@@ -155,17 +161,17 @@ public class Main_Option : MainScene
             {
                 case 0:
                     Debug.Log("게임플레이 선택");
-                    isGameplay = true;
+                    gameplayOnOff.SetActive(true);
                     break;
 
                 case 1:
                     Debug.Log("언어 선택");
-                    depth2Checker(depth1_cur);
+                    languageOnOff.SetActive(true);
                     break;
 
                 case 2:
                     Debug.Log("소리 선택");
-                    depth2Checker(depth1_cur);
+                    soundOnOff.SetActive(true);
                     break;
 
                 case 3:
@@ -209,6 +215,10 @@ public class Main_Option : MainScene
         soundPannel = GetUI("SoundPackage");
         inputPannel = GetUI("InputImage");
 
+        gameplayOnOff = GetUI("GameplayOnOff");
+        languageOnOff = GetUI("LanguageOnOff");
+        soundOnOff = GetUI("SoundOnOff");
         depth1_cur = 0;
+
     }
 }
