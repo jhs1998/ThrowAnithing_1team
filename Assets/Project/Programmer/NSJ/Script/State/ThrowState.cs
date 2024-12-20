@@ -24,7 +24,7 @@ public class ThrowState : PlayerState
         _atttackBufferTime = Player.AttackBufferTime;
         _muzzlePoint = controller.MuzzletPoint;
 
-        View.OnThrowAttackEvent += ThrowObject;
+        View.OnThrowAttackEvent += ThrowAttack;
     }
     public override void Enter()
     {
@@ -69,15 +69,24 @@ public class ThrowState : PlayerState
     /// <summary>
     /// 오브젝트 던지기 공격
     /// </summary>
-    public void ThrowObject()
+    public void ThrowAttack()
     {
         if (Model.ThrowObjectStack.Count > 0)
         {
             ThrowObjectData data = Model.PopThrowObject();
-            ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(data.ID), _muzzlePoint.position, _muzzlePoint.rotation);
-            throwObject.Init(Model.Damage, Model.BoomRadius, Model.HitAdditionals);
-            throwObject.Shoot();
+            ThrowObject(data.ID);
         }
+        else
+        {
+            ThrowObject(0);
+        }
+    }
+
+    private void ThrowObject(int throwObjectID)
+    {
+        ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
+        throwObject.Init(Model.Damage, Model.BoomRadius, Model.HitAdditionals);
+        throwObject.Shoot();
     }
     IEnumerator MeleeAttackRoutine()
     {

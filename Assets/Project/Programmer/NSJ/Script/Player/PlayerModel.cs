@@ -16,26 +16,29 @@ public class PlayerModel : MonoBehaviour
             CurThrowCountSubject?.OnNext(Data.CurThrowCount);
 
         } }
+    public Subject<int> CurThrowCountSubject = new Subject<int>();
+    public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals= value; } }
+    public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
     public float MoveSpeed { get { return Data.MoveSpeed; }  set{ Data.MoveSpeed = value; } } // 이동속도
+
+    // TODO : 인스펙터 정리 필요
     public float DashPower; // 대쉬 속도
+    // TODO : 인스펙터 정리 필요
     public float JumpPower; // 점프력
     [System.Serializable]
     public struct StaminaStruct
     {
         public float MaxStamina; // 최대 스테미나
         public float CurStamina; // 현재 스테미나
-        public float StaminaRecoveryTime; // 스테미나 회복 시간
+        public float StaminaRecoveryPerSecond; // 스테미나 초당 회복량
         public float StaminaCoolTime; // 스테미나 소진 후 쿨타임
     }
     [SerializeField] public StaminaStruct Stamina;
     public float MaxStamina { get { return Stamina.MaxStamina; } set { Stamina.MaxStamina = value; } } // 최대 스테미나
     public float CurStamina { get { return Stamina.CurStamina; } set { Stamina.CurStamina = value; CurStaminaSubject.OnNext(Stamina.CurStamina); } } // 현재 스테미나
     public Subject<float> CurStaminaSubject = new Subject<float>();
-    public float StaminaRecoveryTime { get { return Stamina.StaminaRecoveryTime; } set { Stamina.StaminaRecoveryTime = value; } } // 스테미나 회복 시간
+    public float StaminaRecoveryPerSecond { get { return Stamina.StaminaRecoveryPerSecond; } set { Stamina.StaminaRecoveryPerSecond = value; } } // 스테미나 초당 회복량
     public float StaminaCoolTime { get { return Stamina.StaminaCoolTime; } set { Stamina.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
-    public Subject<int> CurThrowCountSubject = new Subject<int>();
-    public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals= value; } }
-    public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
 
 
     [System.Serializable]
@@ -77,6 +80,9 @@ public class PlayerModel : MonoBehaviour
     [Header("투척 공격 관련 필드")]
     [SerializeField] public ThrowStruct Throw;
     public float BoomRadius {  get { return Throw.BoomRadius; } set { Throw.BoomRadius = value; } }
+
+    // TODO : 인스펙터 정리 필요
+    public float DrainDistance;
 
 
     public void PushThrowObject(ThrowObjectData throwObjectData)

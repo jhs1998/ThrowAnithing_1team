@@ -31,7 +31,6 @@ public class MeleeAttackState : PlayerState
 
     public override void Enter()
     {
-        Model.CurStamina -= 0.3f;
         Player.Rb.velocity = Vector3.zero;
         _isChangeAttack = false;
 
@@ -39,10 +38,6 @@ public class MeleeAttackState : PlayerState
         {
             // 첫 공격일 경우 근접공격 애니메이션 시작
             View.SetTrigger(PlayerView.Parameter.MeleeAttack);
-        }
-        else
-        {
-            Model.MeleeComboCount++;
         }
 
         if(_meleeRoutine == null)
@@ -125,9 +120,12 @@ public class MeleeAttackState : PlayerState
             // 공격 버퍼
             if (Input.GetButtonDown("Fire1"))
             {
-                // 다음 공격 대기
-                _isCombo = true;
-                timeCount = _atttackBufferTime;
+                if (Model.CurStamina > 10)
+                {
+                    // 다음 공격 대기
+                    _isCombo = true;
+                    timeCount = _atttackBufferTime;
+                }
             }
             else if (Input.GetButtonDown("Fire2"))
             {
