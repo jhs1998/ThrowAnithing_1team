@@ -12,7 +12,6 @@ public class EnemyAttack : Action
 
     public override TaskStatus OnUpdate()
     {
-        // TODO : 공격 애니메이션 확인 후 퍼센트 정하기
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack") &&
             anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {

@@ -15,7 +15,7 @@ public class EnemyGetDamage : Action
 	{
 		enemy = GetComponent<BaseEnemy>();
 
-		// TODO : 오브젝트 스크립트 확인 후 변경
+		// TODO : 플레이어 투척 오브젝트 스크립트 확인 후 변경
 		damage = triggerObj.Value.GetComponent<TestCodeData>().Atk;
 	}
 
