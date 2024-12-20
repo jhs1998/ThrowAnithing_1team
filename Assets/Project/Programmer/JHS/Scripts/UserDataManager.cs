@@ -5,7 +5,7 @@ using System.IO;
 using Zenject;
 
 [System.Serializable]
-public class GlobalPlayerData
+public class GlobalPlayerDatabata
 {
     // 플레이어 이름
     public string playerName;
@@ -31,7 +31,7 @@ public class UserDataManager : MonoBehaviour
     // 싱글톤
     public static UserDataManager instance;
     // 플레이어 데이터 생성
-    public GlobalPlayerData nowPlayer = new GlobalPlayerData();
+    public GlobalPlayerDatabata nowPlayer = new GlobalPlayerDatabata();
     // 세이브 파일 저장 경로
     public string path;
     // 현재 슬롯번호
@@ -50,12 +50,7 @@ public class UserDataManager : MonoBehaviour
         path = Application.persistentDataPath + "/save";
         print(path);
     }
-    /*
-    [Inject]
-    public void Construct(string savePath)
-    {
-        path = savePath;
-    }*/
+    
 
     private void Start()
     {
@@ -83,7 +78,7 @@ public class UserDataManager : MonoBehaviour
         {
             string data = File.ReadAllText(slotPath);
             // 현재 플레이어에 불러온 데이터 적용
-            nowPlayer = JsonUtility.FromJson<GlobalPlayerData>(data);
+            nowPlayer = JsonUtility.FromJson<GlobalPlayerDatabata>(data);
             Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
         }
         else
@@ -93,7 +88,7 @@ public class UserDataManager : MonoBehaviour
     }
     public void DataClear()
     {
-        nowPlayer = new GlobalPlayerData
+        nowPlayer = new GlobalPlayerDatabata
         {
             playerName = "New Player",
             maxHp = 100,
@@ -104,22 +99,17 @@ public class UserDataManager : MonoBehaviour
             upgrades = new Dictionary<string, int>()
         };
     }
-    public void DeleteData()
+    public void DeleteSlotData(int slotIndex)
     {
-        // 모든 슬롯에 대해 데이터 삭제
-        for (int i = 0; i < 3; i++) // 슬롯 수는 3으로 가정, 슬롯 수에 맞게 수정
+        string slotPath = path + $"slot_{slotIndex}.json";
+        if (File.Exists(slotPath))
         {
-            string slotPath = path + $"slot_{i}.json";
-            if (File.Exists(slotPath))
-            {
-                File.Delete(slotPath); // 슬롯 파일 삭제
-                Debug.Log($"슬롯 {i + 1} 데이터 삭제 완료");
-            }
+            File.Delete(slotPath); // 해당 슬롯 파일 삭제
+            Debug.Log($"슬롯 {slotIndex + 1} 데이터 삭제 완료");
         }
-
-        // 플레이어 데이터 초기화
-        DataClear();
-
-        Debug.Log("모든 게임 데이터 삭제 완료");
+        else
+        {
+            Debug.LogWarning($"슬롯 {slotIndex + 1}에 데이터가 없습니다.");
+        }
     }
 }
