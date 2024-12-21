@@ -42,9 +42,6 @@ public class Option_GamePlay : Main_Option
     void Start()
     {
         Init();
-
-        preAct = actChecked.activeSelf;
-        preFix = fixChecked.activeSelf;
     }
 
 
@@ -191,5 +188,8 @@ public class Option_GamePlay : Main_Option
 
         defaultAct = true;
         defaultFix = true;
+
+        preAct = actChecked.activeSelf;
+        preFix = fixChecked.activeSelf;
     }
 }

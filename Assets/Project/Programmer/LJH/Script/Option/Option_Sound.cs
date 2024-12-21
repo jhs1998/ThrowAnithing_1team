@@ -20,6 +20,22 @@ public class Option_Sound : Main_Option
     int sound_Ho = 0;
     int sound_Ver = 1;
 
+    //Todo : Volume 변수를 해당 사운드 슬라이더바의 value 값으로 변경 필요
+    float totalVolume;
+    float bgmVolume;
+    float effectVolume;
+
+    float preTotal;
+    float newTotal;
+    float defaultTotal;
+
+    float preBgm;
+    float newBgm;
+    float defaultBgm;
+
+    float preEffect;
+    float newEffect;
+    float defaultEffect;
 
 
     void Start()
@@ -147,6 +163,48 @@ public class Option_Sound : Main_Option
         {
             audioArray[i].volume = slider.value;
         }
+    }
+    public void AcceptButton()
+    {
+        VolumeCheck();
+        totalVolume = newTotal;
+        bgmVolume = newBgm;
+        effectVolume = newEffect;
+
+        preTotal = totalVolume;
+        preBgm = bgmVolume;
+        preEffect = effectVolume;
+        
+
+        //Todo : depth1으로 복귀
+    }
+
+    void VolumeCheck()
+    {
+        newTotal = totalVolume;
+        newBgm = bgmVolume;
+        newEffect = effectVolume;
+    }
+
+    public void CancelButton()
+    {
+        totalVolume = preTotal;
+        bgmVolume = preBgm;
+        effectVolume = preEffect;
+
+        //Todo : depth1으로 복귀
+    }
+
+    public void DefaultButton()
+    {
+        // defaultPopUp.SetActive(true);
+        // Todo: 팝업 과정 거쳐야함
+
+        totalVolume = defaultTotal;
+        bgmVolume = defaultBgm;
+        effectVolume = defaultEffect;
+
+        //Todo : depth1으로 복귀
     }
 
 
