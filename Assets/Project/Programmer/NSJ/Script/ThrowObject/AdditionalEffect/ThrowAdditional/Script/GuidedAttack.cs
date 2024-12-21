@@ -4,35 +4,49 @@ using UnityEngine;
 /// <summary>
 /// 유도 기능
 /// </summary>
-[CreateAssetMenu(fileName = "GuidedAttack",menuName = "AdditionalEffect/Throw/GuidedAttack")]
+[CreateAssetMenu(fileName = "GuidedAttack", menuName = "AdditionalEffect/Throw/GuidedAttack")]
 public class GuidedAttack : ThrowAdditional
 {
     [SerializeField] private float _guidedDistance = 5f;
+
+    private bool _isDetect;
 
     private int _mosterLayer;
     Collider[] _targets = new Collider[1];
     Coroutine _guidedRoutien;
     public override void Enter()
     {
-         
+        _mosterLayer = LayerMask.NameToLayer("Monster");
     }
 
     public override void Exit()
     {
-        if (_guidedRoutien != null) 
-        {
-            CoroutineHandler.StopRoutine(_guidedRoutien);
-            _guidedRoutien = null;
-        }
+
     }
 
-    public override void Update()
+    public override void FixedUpdate()
     {
-        if (_guidedRoutien == null)
+        if(_isDetect == false)
         {
-            _mosterLayer = LayerMask.NameToLayer("Monster");
-            _guidedRoutien = CoroutineHandler.StartRoutine(GuidedRoutine());
+            int hitCount = Physics.OverlapSphereNonAlloc(_throwObject.transform.position, _guidedDistance, _targets, 1 << _mosterLayer);
+            if (hitCount > 0)
+            {
+
+                _isDetect = true;
+            }
         }
+        else
+        {
+            float guidedSpeed = _player.ThrowPower;
+
+            Vector3 targetPos = new Vector3(_targets[0].transform.position.x, _targets[0].transform.position.y, _targets[0].transform.position.z);
+
+            _throwObject.transform.LookAt(targetPos);
+
+            _throwObject.Rb.velocity = _throwObject.transform.forward * guidedSpeed;
+        }
+
+
     }
 
     /// <summary>
@@ -45,7 +59,7 @@ public class GuidedAttack : ThrowAdditional
         {
             int hitCount = Physics.OverlapSphereNonAlloc(_throwObject.transform.position, _guidedDistance, _targets, 1 << _mosterLayer);
 
-            if (hitCount > 0) 
+            if (hitCount > 0)
             {
                 float guidedSpeed = _player.ThrowPower;
                 while (true)
@@ -53,7 +67,7 @@ public class GuidedAttack : ThrowAdditional
                     Vector3 targetPos = new Vector3(_targets[0].transform.position.x, _targets[0].transform.position.y, _targets[0].transform.position.z);
 
                     _throwObject.transform.LookAt(targetPos);
-                 
+
                     _throwObject.Rb.velocity = _throwObject.transform.forward * guidedSpeed;
 
                     //_throwObject.transform.position = Vector3.MoveTowards(

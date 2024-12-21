@@ -9,13 +9,20 @@ public class TripleShot : ThrowAdditional
 {
     [Range(0, 90)][SerializeField] private float _angle;
 
+    [HideInInspector]public bool CanTripleShot = true;
     public override void Enter()
+    {
+       
+    }
+
+    public override void Trigger()
     {
         Shot();
     }
 
     private void Shot()
     {
+
         Vector3 originObjectRot = _throwObject.transform.eulerAngles;
         for (int i = 0; i < 2; i++)
         {
@@ -32,4 +39,5 @@ public class TripleShot : ThrowAdditional
             throwObject.Shoot(_player.ThrowPower);
         }
     }
+
 }

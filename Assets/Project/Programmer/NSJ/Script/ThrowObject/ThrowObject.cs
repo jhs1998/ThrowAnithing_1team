@@ -7,8 +7,8 @@ public class ThrowObject : MonoBehaviour
     public ThrowObjectData Data;
 
     [SerializeField] public bool CanAttack;
-    [SerializeField] protected List<ThrowAdditional> _throwAdditionals = new List<ThrowAdditional>();
-    [SerializeField] protected List<HitAdditional> _hitAdditionals = new List<HitAdditional>();
+    [SerializeField] public List<ThrowAdditional> ThrowAdditionals = new List<ThrowAdditional>();
+    [SerializeField] public List<HitAdditional> HitAdditionals = new List<HitAdditional>();
     public Rigidbody Rb;
     protected int _damage;
     protected float _radius;
@@ -26,6 +26,15 @@ public class ThrowObject : MonoBehaviour
         gameObject.layer = _thorwObjectLayer;
 
         CanAttack = true;
+    }
+
+    private void Start()
+    {
+        EnterThrowAdditional();
+    }
+    private void OnDisable()
+    {
+        ExitThrowAdditional();
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
@@ -55,6 +64,11 @@ public class ThrowObject : MonoBehaviour
     {
         UpdateThrowAdditional();
     }
+    private void FixedUpdate()
+    {
+        FixedUpdateThrowAdditional();   
+    }
+
     public void Init(PlayerController player, List<HitAdditional> hitAdditionals, List<ThrowAdditional> throwAdditionals)
     {
         
@@ -73,14 +87,14 @@ public class ThrowObject : MonoBehaviour
     /// </summary>
     public void EnterThrowAdditional()
     {
-        foreach(ThrowAdditional throwAdditional in _throwAdditionals)
+        foreach(ThrowAdditional throwAdditional in ThrowAdditionals)
         {
             throwAdditional.Enter();
         }
     }
     public void ExitThrowAdditional()
     {
-        foreach (ThrowAdditional throwAdditional in _throwAdditionals)
+        foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
         {
             throwAdditional.Exit();
         }
@@ -91,9 +105,32 @@ public class ThrowObject : MonoBehaviour
         if (CanAttack == false)
             return;
 
-        foreach (ThrowAdditional throwAdditional in _throwAdditionals)
+        foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
         {
             throwAdditional.Update();
+        }
+    }
+
+    public void FixedUpdateThrowAdditional()
+    {
+        if (CanAttack == false)
+            return;
+
+        foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
+        {
+            throwAdditional.FixedUpdate();
+        }
+
+    }
+
+    public void TriggerThrowAddtional()
+    {
+        if (CanAttack == false)
+            return;
+
+        foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
+        {
+            throwAdditional.Trigger();
         }
     }
     /// <summary>
@@ -111,7 +148,7 @@ public class ThrowObject : MonoBehaviour
             {
                 NSJMonster monster = _overlapCollider[i].gameObject.GetComponent<NSJMonster>();
                 // 디버프 주기
-                foreach (HitAdditional hitAdditional in _hitAdditionals)
+                foreach (HitAdditional hitAdditional in HitAdditionals)
                 {
                     hitAdditional.Init(_damage);
                     monster.AddDebuff(hitAdditional);
@@ -132,15 +169,15 @@ public class ThrowObject : MonoBehaviour
     {
         foreach (HitAdditional hitAdditional in hitAdditionals)
         {
-            int index = _hitAdditionals.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
-            if (index >= _hitAdditionals.Count)
+            int index = HitAdditionals.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
+            if (index >= HitAdditionals.Count)
                 return;
 
             if (index == -1)
             {
                 HitAdditional isntance = Instantiate(hitAdditional);
                 isntance.Origin = hitAdditional.Origin;
-                _hitAdditionals.Add(isntance);
+                HitAdditionals.Add(isntance);
             }
         }
     }
@@ -149,8 +186,8 @@ public class ThrowObject : MonoBehaviour
     {
         foreach(ThrowAdditional throwAdditional in throwAdditionals)
         {
-            int index = _throwAdditionals.FindIndex(origin => origin.Origin.Equals(throwAdditional.Origin));
-            if (index >= _throwAdditionals.Count)
+            int index = ThrowAdditionals.FindIndex(origin => origin.Origin.Equals(throwAdditional.Origin));
+            if (index >= ThrowAdditionals.Count)
                 return;
 
             if (index == -1)
@@ -158,14 +195,14 @@ public class ThrowObject : MonoBehaviour
                 ThrowAdditional instance = Instantiate(throwAdditional);
                 instance.Origin = throwAdditional.Origin;
                 instance.Init(player, this);
-                _throwAdditionals.Add(instance);
+                ThrowAdditionals.Add(instance);
             }
         }
     }
 
     protected void DestroyObject()
     {
-        ExitThrowAdditional();              
+        //ExitThrowAdditional();              
         Destroy(gameObject); 
     }
 }
