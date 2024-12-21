@@ -64,9 +64,9 @@ public class ThrowObject : MonoBehaviour
         AddThrowAdditional(throwAdditionals,player);
     }
 
-    public void Shoot()
+    public void Shoot(float throwPower)
     {
-        Rb.AddForce(transform.forward * 20f, ForceMode.Impulse);
+        Rb.AddForce(transform.forward * throwPower, ForceMode.Impulse);
     }
     /// <summary>
     /// 공격 추가 효과 발동

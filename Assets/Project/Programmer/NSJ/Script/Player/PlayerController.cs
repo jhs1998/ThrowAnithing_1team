@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     {
         public float AttackHeight;
         public float AttackBufferTime;
+        public float ThrowPower;
         public Transform MuzzlePoint;
     }
     [Header("공격 관련 필드")]
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
     public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
     public Transform MuzzletPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
     public float AttackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
+    public float ThrowPower { get { return _attackStruct.ThrowPower; } set { _attackStruct.ThrowPower = value; } }
     #endregion
     #region Camera 관련 필드
     /// <summary>

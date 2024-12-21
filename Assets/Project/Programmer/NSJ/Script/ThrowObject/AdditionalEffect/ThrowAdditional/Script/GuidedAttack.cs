@@ -7,10 +7,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GuidedAttack",menuName = "AdditionalEffect/Throw/GuidedAttack")]
 public class GuidedAttack : ThrowAdditional
 {
+    [SerializeField] private float _guidedDistance = 5f;
+
     private int _mosterLayer;
-
     Collider[] _targets = new Collider[1];
-
     Coroutine _guidedRoutien;
     public override void Enter()
     {
@@ -43,16 +43,18 @@ public class GuidedAttack : ThrowAdditional
     {
         while (true)
         {
-            int hitCount = Physics.OverlapSphereNonAlloc(_throwObject.transform.position, 5f, _targets, 1 << _mosterLayer);
+            int hitCount = Physics.OverlapSphereNonAlloc(_throwObject.transform.position, _guidedDistance, _targets, 1 << _mosterLayer);
 
             if (hitCount > 0) 
-            {                
+            {
+                float guidedSpeed = _player.ThrowPower;
                 while (true)
                 {
                     Vector3 targetPos = new Vector3(_targets[0].transform.position.x, _targets[0].transform.position.y, _targets[0].transform.position.z);
 
                     _throwObject.transform.LookAt(targetPos);
-                    _throwObject.Rb.velocity = _throwObject.transform.forward * _throwObject.Rb.velocity.magnitude; 
+                 
+                    _throwObject.Rb.velocity = _throwObject.transform.forward * guidedSpeed;
 
                     //_throwObject.transform.position = Vector3.MoveTowards(
                     //   _throwObject.transform.position,
