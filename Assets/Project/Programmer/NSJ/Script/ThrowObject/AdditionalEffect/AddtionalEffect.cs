@@ -2,7 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AddtionalEffect : ScriptableObject
+public class AddtionalEffect : ScriptableObject
 {
-    public abstract void Execute();
+    public AddtionalEffect Origin;
+    public enum Type { Throw, Hit }
+
+    public Type AdditionalType;
+    public virtual void Enter() { }
+    public virtual void Exit() { }
+    public virtual void Update() { }
+    public virtual void FixtureUpdate() { }
+
 }

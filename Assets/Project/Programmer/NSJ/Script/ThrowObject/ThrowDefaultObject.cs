@@ -6,15 +6,16 @@ public class ThrowDefaultObject : ThrowObject
 {
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (_canAttack == true)
+        if (CanAttack == true)
         {
-            if (collision.gameObject.layer == 4)
+            if (collision.gameObject.layer == _monsterLayer)
             {
                 HitTarget();
             }
             else
             {
-                Destroy(gameObject);
+                CanAttack = false;
+                DestroyObject();
             }
         }
     }

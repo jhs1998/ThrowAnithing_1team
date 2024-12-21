@@ -208,7 +208,7 @@ public class Main_Option : MainScene
         depth1[1] = language = GetUI("Language");
         depth1[2] = sound = GetUI("Sound");
         depth1[3] = input = GetUI("Input");
-        depth1[4] = exit = GetUI("Exit");
+        depth1[4] = exit = GetUI("Update");
 
         gameplayPannel = GetUI("GamePlayPackage");
         languagePannel = GetUI("LanguagePackage");

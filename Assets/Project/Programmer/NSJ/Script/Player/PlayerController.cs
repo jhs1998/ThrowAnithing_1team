@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
-    public enum State {
+    public enum State
+    {
         Idle,
         Run,
         MeleeAttack,
@@ -21,7 +22,8 @@ public class PlayerController : MonoBehaviour
         Fall,
         Dash,
         Drain,
-        Size }
+        Size
+    }
 
     private PlayerState[] _states = new PlayerState[(int)State.Size];
     public State CurState;
@@ -213,9 +215,38 @@ public class PlayerController : MonoBehaviour
     /// 추가 공격효과 추가
     /// </summary>
     /// <param name="hitAdditional"></param>
-    public void AddHitAdditional(HitAdditional hitAdditional)
+    public void AddAdditional(AddtionalEffect addtionalEffect)
     {
-        Model.HitAdditionals.Add(hitAdditional);
+        switch (addtionalEffect.AdditionalType)
+        {
+            case AddtionalEffect.Type.Hit:
+                if(CheckAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
+                {
+                    HitAdditional hitAdditional = addtionalEffect as HitAdditional;
+                    Model.HitAdditionals.Add(hitAdditional);               
+                }
+                break;
+            case AddtionalEffect.Type.Throw:
+                if(CheckAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
+                {
+                    ThrowAdditional throwAdditional = addtionalEffect as ThrowAdditional;
+                    Model.ThrowAdditionals.Add(throwAdditional);
+                }
+                break;
+        }
+    }
+
+    private bool CheckAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AddtionalEffect
+    {
+        int index = additinalList.FindIndex(origin => origin.Equals(additinal));
+        if (index >= additinalList.Count)
+            return false;
+
+        // 중복 시
+        if (index != -1)
+            return false;
+        else
+            return true;
     }
 
     private void CheckAnyState()

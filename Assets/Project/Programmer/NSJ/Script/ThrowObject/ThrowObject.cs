@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,29 +6,39 @@ public class ThrowObject : MonoBehaviour
 {
     public ThrowObjectData Data;
 
+    [SerializeField] public bool CanAttack;
+    [SerializeField] protected List<ThrowAdditional> _throwAdditionals = new List<ThrowAdditional>();
     [SerializeField] protected List<HitAdditional> _hitAdditionals = new List<HitAdditional>();
-    [SerializeField] protected bool _canAttack;
-    protected Rigidbody _rb;
+    public Rigidbody Rb;
     protected int _damage;
     protected float _radius;
     protected Collider[] _overlapCollider = new Collider[20];
 
+    protected int _thorwObjectLayer;
+    protected int _monsterLayer;
     protected void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
-        _canAttack = true;
+        _thorwObjectLayer = LayerMask.NameToLayer("ThrowObject");
+        _monsterLayer = LayerMask.NameToLayer("Monster");
+
+        Rb = GetComponent<Rigidbody>();
+
+        gameObject.layer = _thorwObjectLayer;
+
+        CanAttack = true;
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
-        if (_canAttack == true)
+        if (CanAttack == true)
         {
-            if (collision.gameObject.layer == 4)
+            if (collision.gameObject.layer == _monsterLayer)
             {
                 HitTarget();
             }
-            else if((collision.gameObject.tag != "Player"))
+            else if(collision.gameObject.tag != "Player")
             {
-                _canAttack = false;
+                CanAttack = false;
+                gameObject.layer = 0;
             }
         }
         else
@@ -35,29 +46,65 @@ public class ThrowObject : MonoBehaviour
             if (collision.gameObject.tag == "Player")
             {
                 PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-                player.AddThrowObject(this);        
+                player.AddThrowObject(this);
             }
         }
     }
 
-    public void Init(int damage,float radius, List<HitAdditional> hitAdditionals)
+    private void Update()
     {
-        _damage = damage;
-        _radius = radius;
+        UpdateThrowAdditional();
+    }
+    public void Init(PlayerController player, List<HitAdditional> hitAdditionals, List<ThrowAdditional> throwAdditionals)
+    {
+        
+        _damage += player.Model.Damage;
+        _radius = player.Model.BoomRadius;
         AddHitAdditional(hitAdditionals);
+        AddThrowAdditional(throwAdditionals,player);
     }
 
     public void Shoot()
     {
-        _rb.AddForce(transform.forward * 20f, ForceMode.Impulse);
+        Rb.AddForce(transform.forward * 20f, ForceMode.Impulse);
+    }
+    /// <summary>
+    /// 공격 추가 효과 발동
+    /// </summary>
+    public void EnterThrowAdditional()
+    {
+        foreach(ThrowAdditional throwAdditional in _throwAdditionals)
+        {
+            throwAdditional.Enter();
+        }
+    }
+    public void ExitThrowAdditional()
+    {
+        foreach (ThrowAdditional throwAdditional in _throwAdditionals)
+        {
+            throwAdditional.Exit();
+        }
     }
 
-    protected void HitTarget()
+    public void UpdateThrowAdditional()
     {
-        if (_canAttack == false)
+        if (CanAttack == false)
             return;
 
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _radius, _overlapCollider, 1 << 4);
+        foreach (ThrowAdditional throwAdditional in _throwAdditionals)
+        {
+            throwAdditional.Update();
+        }
+    }
+    /// <summary>
+    /// 타겟 적중
+    /// </summary>
+    protected void HitTarget()
+    {
+        if (CanAttack == false)
+            return;
+
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _radius, _overlapCollider,1<< _monsterLayer);
         if (hitCount > 0)
         {
             for (int i = 0; i < hitCount; i++)
@@ -66,22 +113,20 @@ public class ThrowObject : MonoBehaviour
                 // 디버프 주기
                 foreach (HitAdditional hitAdditional in _hitAdditionals)
                 {
-                    HitAdditional cloneDebuff = Instantiate(hitAdditional);
-                    cloneDebuff.Origin = hitAdditional;
-                    cloneDebuff.Init(_damage);
-                    monster.AddDebuff(cloneDebuff);
+                    hitAdditional.Init(_damage);
+                    monster.AddDebuff(hitAdditional);
                 }
             }
         }
-        Destroy(gameObject);
+        DestroyObject();
     }
-
 
     protected void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _radius);
     }
+
 
     protected void AddHitAdditional(List<HitAdditional> hitAdditionals)
     {
@@ -93,11 +138,36 @@ public class ThrowObject : MonoBehaviour
 
             if (index == -1)
             {
-                _hitAdditionals.Add(hitAdditional);
+                HitAdditional isntance = Instantiate(hitAdditional);
+                isntance.Origin = hitAdditional.Origin;
+                _hitAdditionals.Add(isntance);
             }
         }
     }
 
+    protected void AddThrowAdditional(List<ThrowAdditional> throwAdditionals, PlayerController player)
+    {
+        foreach(ThrowAdditional throwAdditional in throwAdditionals)
+        {
+            int index = _throwAdditionals.FindIndex(origin => origin.Origin.Equals(throwAdditional.Origin));
+            if (index >= _throwAdditionals.Count)
+                return;
+
+            if (index == -1)
+            {
+                ThrowAdditional instance = Instantiate(throwAdditional);
+                instance.Origin = throwAdditional.Origin;
+                instance.Init(player, this);
+                _throwAdditionals.Add(instance);
+            }
+        }
+    }
+
+    protected void DestroyObject()
+    {
+        ExitThrowAdditional();              
+        Destroy(gameObject); 
+    }
 }
 
 [System.Serializable]
