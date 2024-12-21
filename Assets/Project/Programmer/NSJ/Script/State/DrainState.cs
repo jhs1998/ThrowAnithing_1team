@@ -36,6 +36,7 @@ public class DrainState : PlayerState
 
     public override void Exit()
     {
+        View.SetBool(PlayerView.Parameter.Drain, false);
         Player.DrainField.SetActive(false);
     }
     public override void OnTrigger()
