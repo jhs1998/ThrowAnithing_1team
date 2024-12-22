@@ -8,6 +8,10 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerView))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] HitAdditional test1;
+    [SerializeField] ThrowAdditional test2;
+    [SerializeField] PlayerAdditional test3;
+
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
@@ -139,6 +143,27 @@ public class PlayerController : MonoBehaviour
 
         CheckAnyState();
         RotateCamera();
+        UpdatePlayerAdditional();
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            AddAdditional(test1);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            AddAdditional(test2);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            AddAdditional(test3);
+        }
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            if (Model.AddtionalEffects.Count > 0)
+            {
+                RemoveAdditional(Model.AddtionalEffects[0]);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -146,6 +171,7 @@ public class PlayerController : MonoBehaviour
         _states[(int)CurState].FixedUpdate();
         CheckGround();
         CheckWall();
+        FixedPlayerAdditional();
     }
 
     private void OnDrawGizmos()
@@ -214,41 +240,137 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// 추가 공격효과 추가
+    /// 추가효과 추가
     /// </summary>
-    /// <param name="hitAdditional"></param>
     public void AddAdditional(AddtionalEffect addtionalEffect)
     {
         switch (addtionalEffect.AdditionalType)
         {
             case AddtionalEffect.Type.Hit:
-                if(CheckAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
+                if (CheckForAddAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
                 {
-                    HitAdditional hitAdditional = addtionalEffect as HitAdditional;
-                    Model.HitAdditionals.Add(hitAdditional);               
+                    Model.HitAdditionals.Add(addtionalEffect as HitAdditional);
+                    Model.AddtionalEffects.Add(addtionalEffect);
                 }
                 break;
             case AddtionalEffect.Type.Throw:
-                if(CheckAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
+                if(CheckForAddAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
                 {
-                    ThrowAdditional throwAdditional = addtionalEffect as ThrowAdditional;
-                    Model.ThrowAdditionals.Add(throwAdditional);
+                    Model.ThrowAdditionals.Add(addtionalEffect as ThrowAdditional);
+                    Model.AddtionalEffects.Add(addtionalEffect);
+                }
+                break;
+            // 플레이어 추가효과는 플레이어에 종속되기 때문에 Clone을 더해줌
+            case AddtionalEffect.Type.Player:
+                if(CheckForAddAdditionalDuplication(Model.playerAdditionals, addtionalEffect as PlayerAdditional))
+                {
+                    PlayerAdditional instance = Instantiate(addtionalEffect as PlayerAdditional);
+                    Model.playerAdditionals.Add(instance);
+                    Model.AddtionalEffects.Add(instance);
+                    instance.Init(this, addtionalEffect);
+                    instance.Enter();
+                }
+                break;
+        }
+    }
+    /// <summary>
+    /// 추가효과 삭제
+    /// </summary>
+    public void RemoveAdditional(AddtionalEffect addtionalEffect)
+    {
+        switch (addtionalEffect.AdditionalType)
+        {
+            case AddtionalEffect.Type.Hit:
+                if (CheckForRemoveAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
+                {
+                    Model.HitAdditionals.Remove(addtionalEffect as HitAdditional);
+                }
+                break;
+            case AddtionalEffect.Type.Throw:
+                if (CheckForRemoveAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
+                {
+                    Model.ThrowAdditionals.Remove(addtionalEffect as ThrowAdditional);
+                }
+                break;
+            case AddtionalEffect.Type.Player:
+                if (CheckForRemoveAdditionalDuplication(Model.playerAdditionals, addtionalEffect as PlayerAdditional))
+                {
+                   
+                    addtionalEffect.Exit();
+                    Model.playerAdditionals.Remove(addtionalEffect as PlayerAdditional);
                 }
                 break;
         }
     }
 
-    private bool CheckAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AddtionalEffect
+    public void EnterPlayerAdditional()
     {
-        int index = additinalList.FindIndex(origin => origin.Equals(additinal));
+        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        {
+            playerAdditional.Enter();
+        }
+    }
+    public void ExitPlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        {
+            playerAdditional.Exit();
+        }
+    }
+
+    public void UpdatePlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        {
+            playerAdditional.Update();
+        }
+    }
+
+    public void FixedPlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        {
+            playerAdditional.FixedUpdate();
+        }
+    }
+    public void TriggerPlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        {
+            playerAdditional.Trigger();
+        }
+    }
+    /// <summary>
+    /// 추가효과 추가 시 중복 체크
+    /// </summary>
+    private bool CheckForAddAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AddtionalEffect
+    {
+        int index = additinalList.FindIndex(origin => origin.Origin.Equals(additinal.Origin));
         if (index >= additinalList.Count)
             return false;
-
         // 중복 시
         if (index != -1)
             return false;
         else
             return true;
+                    
+    }
+    /// <summary>
+    /// 추가효과 추가 시 중복 체크
+    /// </summary>
+    private bool CheckForRemoveAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AddtionalEffect
+    {
+        int index = additinalList.FindIndex(origin => origin.Origin.Equals(additinal.Origin));
+        if (index >= additinalList.Count)
+            return false;
+        // 중복 시 (지울 수 있을 때)
+        if (index != -1)
+        { 
+            Model.AddtionalEffects.Remove(additinal);
+            return true;
+        }
+        else
+            return false;     
     }
 
     private void CheckAnyState()

@@ -21,8 +21,11 @@ public class PlayerModel : MonoBehaviour
         }
     }
     public Subject<int> CurThrowCountSubject = new Subject<int>();
+
+    public List<AddtionalEffect> AddtionalEffects;
     public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals = value; } }
     public List<ThrowAdditional> ThrowAdditionals; // 공격 방법 리스트
+    public List<PlayerAdditional> playerAdditionals;
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
     public float MoveSpeed { get { return Data.MoveSpeed; } set { Data.MoveSpeed = value; } } // 이동속도
 

@@ -23,6 +23,7 @@ public class DashState : PlayerState
 
     public override void EndAnimation()
     {
+        Player.TriggerPlayerAdditional();
         ChangeState(PlayerController.State.Idle);
     }
     /// <summary>

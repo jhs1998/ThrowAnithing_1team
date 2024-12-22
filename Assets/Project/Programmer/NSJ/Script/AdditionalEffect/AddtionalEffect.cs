@@ -5,7 +5,7 @@ using UnityEngine;
 public class AddtionalEffect : ScriptableObject
 {
     public AddtionalEffect Origin;
-    public enum Type { Throw, Hit }
+    public enum Type { Throw, Hit, Player }
 
     public Type AdditionalType;
     public virtual void Enter() { }

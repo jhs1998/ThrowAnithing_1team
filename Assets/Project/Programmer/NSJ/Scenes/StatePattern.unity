@@ -2387,6 +2387,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: test1
+      value: 
+      objectReference: {fileID: 11400000, guid: 79fe61496a0365b4e9c3eeec8cf15416, type: 2}
+    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: test2
+      value: 
+      objectReference: {fileID: 11400000, guid: a83e0c56f37d4c34ab8ec8fecf23e0ac, type: 2}
+    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: test3
+      value: 
+      objectReference: {fileID: 11400000, guid: 0659195e5d1abf84db94986e1c98608e, type: 2}
+    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: testThrowAdditioanl
       value: 
       objectReference: {fileID: 11400000, guid: 07ef11b0b24a5eb419b40e2f75b45181, type: 2}
@@ -2408,16 +2420,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: ThrowAdditionals.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: playerAdditionals.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: Data.HitAdditionals.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: ThrowAdditionals.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 07ef11b0b24a5eb419b40e2f75b45181, type: 2}
+      objectReference: {fileID: 0}
+    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: playerAdditionals.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0659195e5d1abf84db94986e1c98608e, type: 2}
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: Data.ThrowObjectStack.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: Data.HitAdditionals.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: af501e983656e644d848f3f2fcd173eb, type: 2}
     - target: {fileID: 7904341024521288259, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.1

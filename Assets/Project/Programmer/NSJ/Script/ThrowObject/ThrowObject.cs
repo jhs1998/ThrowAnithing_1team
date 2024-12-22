@@ -194,7 +194,7 @@ public class ThrowObject : MonoBehaviour
             {
                 ThrowAdditional instance = Instantiate(throwAdditional);
                 instance.Origin = throwAdditional.Origin;
-                instance.Init(player, this);
+                instance.Init(player,throwAdditional ,this);
                 ThrowAdditionals.Add(instance);
             }
         }

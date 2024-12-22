@@ -9,8 +9,9 @@ public class ThrowAdditional : AddtionalEffect
 
     protected ThrowObject _throwObject;
 
-    public void Init(PlayerController player, ThrowObject throwObject)
+    public void Init(PlayerController player, AddtionalEffect addtional,ThrowObject throwObject)
     {
+        Origin = addtional.Origin;
         _player = player;
         _throwObject = throwObject;
     }
