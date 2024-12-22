@@ -262,10 +262,10 @@ public class PlayerController : MonoBehaviour
                 break;
             // 플레이어 추가효과는 플레이어에 종속되기 때문에 Clone을 더해줌
             case AddtionalEffect.Type.Player:
-                if(CheckForAddAdditionalDuplication(Model.playerAdditionals, addtionalEffect as PlayerAdditional))
+                if(CheckForAddAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
                 {
                     PlayerAdditional instance = Instantiate(addtionalEffect as PlayerAdditional);
-                    Model.playerAdditionals.Add(instance);
+                    Model.PlayerAdditionals.Add(instance);
                     Model.AddtionalEffects.Add(instance);
                     instance.Init(this, addtionalEffect);
                     instance.Enter();
@@ -293,11 +293,11 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case AddtionalEffect.Type.Player:
-                if (CheckForRemoveAdditionalDuplication(Model.playerAdditionals, addtionalEffect as PlayerAdditional))
+                if (CheckForRemoveAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
                 {
                    
                     addtionalEffect.Exit();
-                    Model.playerAdditionals.Remove(addtionalEffect as PlayerAdditional);
+                    Model.PlayerAdditionals.Remove(addtionalEffect as PlayerAdditional);
                 }
                 break;
         }
@@ -305,14 +305,14 @@ public class PlayerController : MonoBehaviour
 
     public void EnterPlayerAdditional()
     {
-        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
         {
             playerAdditional.Enter();
         }
     }
     public void ExitPlayerAdditional()
     {
-        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
         {
             playerAdditional.Exit();
         }
@@ -320,7 +320,7 @@ public class PlayerController : MonoBehaviour
 
     public void UpdatePlayerAdditional()
     {
-        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
         {
             playerAdditional.Update();
         }
@@ -328,14 +328,14 @@ public class PlayerController : MonoBehaviour
 
     public void FixedPlayerAdditional()
     {
-        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
         {
             playerAdditional.FixedUpdate();
         }
     }
     public void TriggerPlayerAdditional()
     {
-        foreach (PlayerAdditional playerAdditional in Model.playerAdditionals)
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
         {
             playerAdditional.Trigger();
         }
