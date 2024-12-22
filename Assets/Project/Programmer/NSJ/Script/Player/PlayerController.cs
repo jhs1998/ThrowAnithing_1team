@@ -563,6 +563,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnTrigger()
     {
+        TriggerPlayerAdditional();
         _states[(int)CurState].OnTrigger();
     }
     public void EndAnimation()

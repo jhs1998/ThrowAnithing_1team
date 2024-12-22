@@ -20,10 +20,8 @@ public class DashState : PlayerState
     {
         Dash();
     }
-
     public override void EndAnimation()
     {
-        Player.TriggerPlayerAdditional();
         ChangeState(PlayerController.State.Idle);
     }
     /// <summary>
