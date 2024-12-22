@@ -25,6 +25,7 @@ public static partial class Layer
     public static int Water => LayerEnum.Water.GetLayer();
     public static int UI => LayerEnum.UI.GetLayer();
     public static int Wall => LayerEnum.Wall.GetLayer();
+    public static int Player => LayerEnum.Player.GetLayer();
     public static int Monster => LayerEnum.Monster.GetLayer();
     public static int ThrowObject => LayerEnum.ThrowObject.GetLayer();
     public enum LayerEnum
@@ -35,6 +36,7 @@ public static partial class Layer
         Water,
         UI,
         Wall,
+        Player,
         Monster,
         ThrowObject
     }

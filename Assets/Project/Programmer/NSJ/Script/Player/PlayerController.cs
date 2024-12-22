@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
@@ -124,12 +125,14 @@ public class PlayerController : MonoBehaviour
     {
         InitUIEvent();
         StartRoutine();
+        InitAdditionnal();
         Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
     }
 
     private void OnDisable()
     {
+        ExitPlayerAdditional();
         _states[(int)CurState].Exit();
     }
 
@@ -535,6 +538,28 @@ public class PlayerController : MonoBehaviour
         Model = GetComponent<PlayerModel>();
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
+    }
+    private void InitAdditionnal()
+    {
+        Model.AdditionalEffects.Clear();
+        List<AdditionalEffect> tempList =new List<AdditionalEffect>();
+
+        ProcessInitAddtional(tempList, Model.PlayerAdditionals);
+        ProcessInitAddtional(tempList, Model.ThrowAdditionals);
+        ProcessInitAddtional(tempList, Model.HitAdditionals);
+    }
+    private void ProcessInitAddtional<T>(List<AdditionalEffect> tempList, List<T> additionals) where T : AdditionalEffect
+    {
+        foreach (AdditionalEffect additional in additionals)
+        {
+            tempList.Add(additional);
+        }
+        additionals.Clear();
+        foreach (AdditionalEffect additional in tempList)
+        {
+            AddAdditional(additional);
+        }
+        tempList.Clear();
     }
 
     private void StartRoutine()
