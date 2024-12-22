@@ -14,16 +14,11 @@ public class ThrowObject : MonoBehaviour
     protected float _radius;
     protected Collider[] _overlapCollider = new Collider[20];
 
-    protected int _thorwObjectLayer;
-    protected int _monsterLayer;
     protected void Awake()
     {
-        _thorwObjectLayer = LayerMask.NameToLayer("ThrowObject");
-        _monsterLayer = LayerMask.NameToLayer("Monster");
-
         Rb = GetComponent<Rigidbody>();
 
-        gameObject.layer = _thorwObjectLayer;
+        gameObject.layer = Layer.ThrowObject;
 
         CanAttack = true;
     }
@@ -40,7 +35,7 @@ public class ThrowObject : MonoBehaviour
     {
         if (CanAttack == true)
         {
-            if (collision.gameObject.layer == _monsterLayer)
+            if (collision.gameObject.layer == Layer.Monster)
             {
                 HitTarget();
             }
@@ -141,7 +136,7 @@ public class ThrowObject : MonoBehaviour
         if (CanAttack == false)
             return;
 
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _radius, _overlapCollider,1<< _monsterLayer);
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _radius, _overlapCollider,1<<Layer.Monster);
         if (hitCount > 0)
         {
             for (int i = 0; i < hitCount; i++)

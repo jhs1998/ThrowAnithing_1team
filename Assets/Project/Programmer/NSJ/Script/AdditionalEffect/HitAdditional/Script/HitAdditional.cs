@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HitAdditional : AddtionalEffect
+public class HitAdditional : AdditionalEffect
 {
     [HideInInspector] public GameObject Target;
     public virtual event UnityAction<HitAdditional> OnExitHitAdditional;

@@ -22,7 +22,7 @@ public class PlayerModel : MonoBehaviour
     }
     public Subject<int> CurThrowCountSubject = new Subject<int>();
 
-    public List<AddtionalEffect> AddtionalEffects { get { return Data.AddtionalEffects; } set { Data.AddtionalEffects= value; } } // 블루칩 모음 리스트
+    public List<AdditionalEffect> AdditionalEffects { get { return Data.AdditionalEffects; } set { Data.AdditionalEffects= value; } } // 블루칩 모음 리스트
     public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals = value; } }
     public List<ThrowAdditional> ThrowAdditionals { get { return Data.ThrowAdditionals; } set { Data.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
     public List<PlayerAdditional> PlayerAdditionals { get { return Data.PlayerAdditionals; } set { Data.PlayerAdditionals= value; } } // 플레이어 추가효과 리스트
@@ -129,7 +129,7 @@ public partial class PlayerData
         public int MaxThrowCount;
         public int CurThrowCount;
         public List<ThrowObjectData> ThrowObjectStack;
-        public List<AddtionalEffect> AddtionalEffects; // 블루칩 모음 리스트
+        public List<AdditionalEffect> AdditionalEffects; // 블루칩 모음 리스트
         public List<HitAdditional> HitAdditionals;
         public List<ThrowAdditional> ThrowAdditionals; // 공격 방법 추가효과 리스트
         public List<PlayerAdditional> PlayerAdditionals; // 플레이어 추가효과 리스트
@@ -140,7 +140,7 @@ public partial class PlayerData
     public int MaxThrowCount { get { return _NSJTest.MaxThrowCount; } set { _NSJTest.MaxThrowCount = value; } }
     public int CurThrowCount { get { return _NSJTest.CurThrowCount; } set { _NSJTest.CurThrowCount = value; } }
     public List<ThrowObjectData> ThrowObjectStack { get { return _NSJTest.ThrowObjectStack; } set { _NSJTest.ThrowObjectStack = value; } }
-    public List<AddtionalEffect> AddtionalEffects { get { return _NSJTest.AddtionalEffects; } set { _NSJTest.AddtionalEffects = value; } }
+    public List<AdditionalEffect> AdditionalEffects { get { return _NSJTest.AdditionalEffects; } set { _NSJTest.AdditionalEffects = value; } }
     public List<HitAdditional> HitAdditionals { get { return _NSJTest.HitAdditionals; } set { _NSJTest.HitAdditionals = value; } }
     public List<ThrowAdditional> ThrowAdditionals { get { return _NSJTest.ThrowAdditionals; } set { _NSJTest.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
     public List<PlayerAdditional> PlayerAdditionals { get { return _NSJTest.PlayerAdditionals; } set { _NSJTest.PlayerAdditionals= value; } } // 플레이어 추가효과 리스트

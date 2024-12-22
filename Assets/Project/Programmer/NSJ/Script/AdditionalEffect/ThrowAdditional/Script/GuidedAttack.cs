@@ -11,12 +11,11 @@ public class GuidedAttack : ThrowAdditional
 
     private bool _isDetect;
 
-    private int _mosterLayer;
     Collider[] _targets = new Collider[1];
     Coroutine _guidedRoutien;
     public override void Enter()
     {
-        _mosterLayer = LayerMask.NameToLayer("Monster");
+       
     }
 
     public override void Exit()
@@ -28,7 +27,7 @@ public class GuidedAttack : ThrowAdditional
     {
         if(_isDetect == false)
         {
-            int hitCount = Physics.OverlapSphereNonAlloc(_throwObject.transform.position, _guidedDistance, _targets, 1 << _mosterLayer);
+            int hitCount = Physics.OverlapSphereNonAlloc(_throwObject.transform.position, _guidedDistance, _targets, 1 << Layer.Monster);
             if (hitCount > 0)
             {
 
@@ -57,7 +56,7 @@ public class GuidedAttack : ThrowAdditional
     {
         while (true)
         {
-            int hitCount = Physics.OverlapSphereNonAlloc(_throwObject.transform.position, _guidedDistance, _targets, 1 << _mosterLayer);
+            int hitCount = Physics.OverlapSphereNonAlloc(_throwObject.transform.position, _guidedDistance, _targets, 1 << Layer.Monster);
 
             if (hitCount > 0)
             {

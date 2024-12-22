@@ -8,10 +8,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerView))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] HitAdditional test1;
-    [SerializeField] ThrowAdditional test2;
-    [SerializeField] PlayerAdditional test3;
-
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
@@ -145,23 +141,11 @@ public class PlayerController : MonoBehaviour
         RotateCamera();
         UpdatePlayerAdditional();
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            AddAdditional(test1);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            AddAdditional(test2);
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            AddAdditional(test3);
-        }
         if(Input.GetKeyDown(KeyCode.K))
         {
-            if (Model.AddtionalEffects.Count > 0)
+            if (Model.AdditionalEffects.Count > 0)
             {
-                RemoveAdditional(Model.AddtionalEffects[0]);
+                RemoveAdditional(Model.AdditionalEffects[0]);
             }
         }
     }
@@ -242,31 +226,31 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 추가효과 추가
     /// </summary>
-    public void AddAdditional(AddtionalEffect addtionalEffect)
+    public void AddAdditional(AdditionalEffect addtionalEffect)
     {
         switch (addtionalEffect.AdditionalType)
         {
-            case AddtionalEffect.Type.Hit:
+            case AdditionalEffect.Type.Hit:
                 if (CheckForAddAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
                 {
                     Model.HitAdditionals.Add(addtionalEffect as HitAdditional);
-                    Model.AddtionalEffects.Add(addtionalEffect);
+                    Model.AdditionalEffects.Add(addtionalEffect);
                 }
                 break;
-            case AddtionalEffect.Type.Throw:
+            case AdditionalEffect.Type.Throw:
                 if(CheckForAddAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
                 {
                     Model.ThrowAdditionals.Add(addtionalEffect as ThrowAdditional);
-                    Model.AddtionalEffects.Add(addtionalEffect);
+                    Model.AdditionalEffects.Add(addtionalEffect);
                 }
                 break;
             // 플레이어 추가효과는 플레이어에 종속되기 때문에 Clone을 더해줌
-            case AddtionalEffect.Type.Player:
+            case AdditionalEffect.Type.Player:
                 if(CheckForAddAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
                 {
                     PlayerAdditional instance = Instantiate(addtionalEffect as PlayerAdditional);
                     Model.PlayerAdditionals.Add(instance);
-                    Model.AddtionalEffects.Add(instance);
+                    Model.AdditionalEffects.Add(instance);
                     instance.Init(this, addtionalEffect);
                     instance.Enter();
                 }
@@ -276,23 +260,23 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 추가효과 삭제
     /// </summary>
-    public void RemoveAdditional(AddtionalEffect addtionalEffect)
+    public void RemoveAdditional(AdditionalEffect addtionalEffect)
     {
         switch (addtionalEffect.AdditionalType)
         {
-            case AddtionalEffect.Type.Hit:
+            case AdditionalEffect.Type.Hit:
                 if (CheckForRemoveAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
                 {
                     Model.HitAdditionals.Remove(addtionalEffect as HitAdditional);
                 }
                 break;
-            case AddtionalEffect.Type.Throw:
+            case AdditionalEffect.Type.Throw:
                 if (CheckForRemoveAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
                 {
                     Model.ThrowAdditionals.Remove(addtionalEffect as ThrowAdditional);
                 }
                 break;
-            case AddtionalEffect.Type.Player:
+            case AdditionalEffect.Type.Player:
                 if (CheckForRemoveAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
                 {
                    
@@ -343,7 +327,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 추가효과 추가 시 중복 체크
     /// </summary>
-    private bool CheckForAddAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AddtionalEffect
+    private bool CheckForAddAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AdditionalEffect
     {
         int index = additinalList.FindIndex(origin => origin.Origin.Equals(additinal.Origin));
         if (index >= additinalList.Count)
@@ -358,7 +342,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 추가효과 추가 시 중복 체크
     /// </summary>
-    private bool CheckForRemoveAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AddtionalEffect
+    private bool CheckForRemoveAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AdditionalEffect
     {
         int index = additinalList.FindIndex(origin => origin.Origin.Equals(additinal.Origin));
         if (index >= additinalList.Count)
@@ -366,7 +350,7 @@ public class PlayerController : MonoBehaviour
         // 중복 시 (지울 수 있을 때)
         if (index != -1)
         { 
-            Model.AddtionalEffects.Remove(additinal);
+            Model.AdditionalEffects.Remove(additinal);
             return true;
         }
         else
@@ -450,7 +434,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void CheckWall()
     {
-        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << 6);
+        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << Layer.Wall);
 
         if (hitCount > 0)
         {

@@ -8,7 +8,7 @@ public class ThrowDefaultObject : ThrowObject
     {
         if (CanAttack == true)
         {
-            if (collision.gameObject.layer == _monsterLayer)
+            if (collision.gameObject.layer == Layer.Monster)
             {
                 HitTarget();
             }
