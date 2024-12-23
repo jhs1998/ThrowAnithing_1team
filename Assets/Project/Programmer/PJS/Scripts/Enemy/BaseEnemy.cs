@@ -1,6 +1,8 @@
 using Assets.Project.Programmer.NSJ.RND.Script;
 using BehaviorDesigner.Runtime;
 using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 [System.Serializable]
@@ -25,6 +27,9 @@ public class BaseEnemy : MonoBehaviour, IHit
     [SerializeField] float reward;
     [Header("현재 체력")]
     [SerializeField] int curHp;
+
+    [SerializeField] TMP_Text damageText;
+    [HideInInspector] public int resultDamage;
     public int Damage { get { return state.Atk; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
 
@@ -54,21 +59,6 @@ public class BaseEnemy : MonoBehaviour, IHit
         tree.SetVariable("CurHp", (SharedInt)curHp);
     }
 
-    /// <summary>
-    /// 몬스터가 피해받는 데미지
-    /// </summary>
-    public bool GetDamage(float damage)
-    {
-        float finalDamage = damage - state.Def;
-
-        if (finalDamage <= 0)
-            return false;
-
-        curHp -= (int)finalDamage;
-        Debug.Log($"{(int)damage} 피해를 입음. curHP : {curHp}");
-        return true;
-    }
-
     private void OnDrawGizmosSelected()
     {
         // 거리 그리기
@@ -79,14 +69,17 @@ public class BaseEnemy : MonoBehaviour, IHit
         Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
 
+    /// <summary>
+    /// 몬스터가 피해받는 데미지
+    /// </summary>
     public void TakeDamage(int damage)
     {
-        int finalDamage = damage - (int)state.Def;
+        resultDamage = damage - (int)state.Def;
 
-        if (finalDamage <= 0)
-            finalDamage = 0;
+        if (resultDamage <= 0)
+            resultDamage = 0;
 
-        curHp -= finalDamage;
+        curHp -= resultDamage;
         Debug.Log($"{damage} 피해를 입음. curHP : {curHp}");
     }
 }

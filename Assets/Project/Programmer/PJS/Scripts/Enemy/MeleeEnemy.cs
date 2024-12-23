@@ -1,4 +1,6 @@
 using Assets.Project.Programmer.NSJ.RND.Script;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class MeleeEnemy : BaseEnemy
