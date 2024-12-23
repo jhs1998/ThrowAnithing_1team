@@ -4,158 +4,46 @@ using UnityEngine;
 
 public class MeleeAttackState : PlayerState
 {
-    private float _atttackBufferTime;
-    private bool m_isCombo;
-    private bool _isCombo
-    {
-        get { return m_isCombo; }
-        set
-        {
-            m_isCombo = value;
-        }
-    }
-    private bool _isChangeAttack;
-    private float _attackHeight;
-
     Coroutine _meleeRoutine;
     public MeleeAttackState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
-
-        _atttackBufferTime = Player.AttackBufferTime;
-        _attackHeight = Player.AttackHeight;
-
     }
 
-    public override void Enter()
+    public override void Enter() 
     {
-        Player.Rb.velocity = Vector3.zero;
-        _isChangeAttack = false;
-
-        // 첫 공격 시 첫 공격 애니메이션 실행
-        if (Player.PrevState != PlayerController.State.MeleeAttack)
-        {
-            View.SetTrigger(PlayerView.Parameter.MeleeAttack);
-        }
-        else
-        {
-            View.SetTrigger(PlayerView.Parameter.OnCombo);
-        }
-
-        if (Player.IsAttackFoward == true)
-        {
-            // 카메라 방향으로 플레이어가 바라보게
-            Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
-            transform.rotation = cameraRot;
-            // 카메라는 다시 로컬 기준 전방 방향
-            if (Player.CamareArm.parent != null)
-            {
-                Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
-            }
-        }
-
+        Arm.Enter();
     }
-
-    public override void Update()
+    public override void Exit() 
     {
-        //Debug.Log("Melee");
+        Arm.Exit();
     }
-
-    public override void Exit()
+    public override void Update() 
     {
-        if (_meleeRoutine != null) 
-        {
-            CoroutineHandler.StopRoutine(_meleeRoutine);
-            _meleeRoutine = null;
-        }
-
+        Arm.Update();
     }
-
-    public override void OnTrigger()
+    public override void FixedUpdate() 
     {
-        AttackMelee();
+        Arm.FixedUpdate();
     }
-    /// <summary>
-    /// 근접 공격
-    /// </summary>
-    public void AttackMelee()
+    public override void OnDrawGizmos() 
     {
-        // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
-        // 1. 전방에 있는 몬스터 확인
-        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
-        Vector3 attackPos = playerPos;
-        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, Player.OverLapColliders, 1<< Layer.Monster);
-        for (int i = 0; i < hitCount; i++)
-        {
-            // 2. 각도 내에 있는지 확인
-            Vector3 source = transform.position;
-            source.y = 0;
-            Vector3 destination = Player.OverLapColliders[i].transform.position;
-            destination.y = 0;
-
-            Vector3 targetDir = (destination - source).normalized;
-            float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
-            if (targetAngle > Model.Angle * 0.5f)
-                continue;
-
-            IHit hit = Player.OverLapColliders[i].GetComponent<IHit>();
-
-            int attackDamage = (int)(Model.Damage * Model.DamageMultiplier);
-            hit.TakeDamage(attackDamage);
-        }
+        Arm.OnDrawGizmos();
     }
-
-    public override void OnCombo()
+    public override void OnTrigger() 
     {
-        if (_meleeRoutine == null)
-        {
-            _meleeRoutine = CoroutineHandler.StartRoutine(OnComboRoutine());
-        }
+        Arm.OnTrigger();
     }
-
-    public override void EndCombo()
+    public override void EndAnimation() 
     {
-        if (_meleeRoutine != null)
-        {
-            ChangeState(PlayerController.State.Idle);
-        }
-
+        Arm.EndAnimation();
     }
-
-
-
-    IEnumerator OnComboRoutine()
+    public override void OnCombo() 
     {
-        while (true)
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                ChangeState(PlayerController.State.MeleeAttack);
-            }
-            else if (Input.GetButtonDown("Fire2"))
-            {
-                ChangeState(PlayerController.State.ThrowAttack);
-            }
-            yield return null;
-        }
+        Arm.OnCombo();
     }
-
-    public override void OnDrawGizmos()
+    public override void EndCombo() 
     {
-        if (Model == null)
-            return;
-        //거리
-        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
-        Vector3 attackPos = playerPos;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPos, Model.Range);
-
-        //각도
-        Vector3 rightDir = Quaternion.Euler(0, Model.Angle * 0.5f, 0) * transform.forward;
-        Vector3 leftDir = Quaternion.Euler(0, Model.Angle * -0.5f, 0) * transform.forward;
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + rightDir * Model.Range);
-        Gizmos.DrawLine(transform.position, transform.position + leftDir * Model.Range);
+        Arm.EndCombo();
     }
 }

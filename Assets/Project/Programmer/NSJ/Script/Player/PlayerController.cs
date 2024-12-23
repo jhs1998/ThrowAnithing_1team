@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
         Fall,
         Dash,
         Drain,
+        SpecialAttack,
         Size
     }
 
@@ -37,13 +38,11 @@ public class PlayerController : MonoBehaviour
     struct AttackStruct
     {
         public float AttackHeight;
-        public float AttackBufferTime;
         public float ThrowPower;
         public Transform MuzzlePoint;
     }
     [Header("공격 관련 필드")]
     [SerializeField] private AttackStruct _attackStruct;
-    public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
     public Transform MuzzletPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
     public float AttackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
     public float ThrowPower { get { return _attackStruct.ThrowPower; } set { _attackStruct.ThrowPower = value; } }
@@ -126,6 +125,12 @@ public class PlayerController : MonoBehaviour
         InitUIEvent();
         StartRoutine();
         InitAdditionnal();
+        if(Model.Arm != null)
+        {
+            Model.Arm = Instantiate(Model.Arm);
+            Model.Arm.Init(this);
+        }
+
         Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
     }
@@ -514,10 +519,11 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // 근접공격
         _states[(int)State.ThrowAttack] = new ThrowState(this);         // 투척공격
         _states[(int)State.Jump] = new JumpState(this);                 // 점프
-        _states[(int)State.DoubleJump] = new DoubleJumpState(this);
+        _states[(int)State.DoubleJump] = new DoubleJumpState(this);     // 더블점프
         _states[(int)State.Fall] = new FallState(this);                 // 추락
         _states[(int)State.Dash] = new DashState(this);                 // 대쉬
         _states[(int)State.Drain] = new DrainState(this);               // 드레인
+        _states[(int)State.SpecialAttack] = new SpecialAttackState(this);
     }
 
     /// <summary>

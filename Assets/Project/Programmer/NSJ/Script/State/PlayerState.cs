@@ -13,19 +13,15 @@ public class PlayerState : BaseState
 
     protected PlayerController Player;
 
-    protected GameObject gameObject;
-    protected Transform transform;
-    protected PlayerModel Model;
-    protected PlayerView View;
-    protected Rigidbody Rb;
+    protected GameObject gameObject => Player.gameObject;
+    protected Transform transform => Player.transform;
+    protected PlayerModel Model =>Player.Model;
+    protected PlayerView View => Player.View;
+    protected ArmUnit Arm => Model.Arm;
+    protected Rigidbody Rb => Player.Rb;
     public PlayerState(PlayerController controller)
     {
         Player = controller;
-        gameObject = controller.gameObject;
-        transform = controller.transform;
-        Model = controller.Model;
-        View = controller.View;
-        Rb = controller.Rb;
     }
     public virtual void OnTrigger() { }
     public virtual void EndAnimation() { }
@@ -35,6 +31,4 @@ public class PlayerState : BaseState
     {
         Player.ChangeState(state);
     }
-
-       
 }

@@ -6,8 +6,8 @@ public class PlayerModel : MonoBehaviour
 {
     public GlobalPlayerData GlobalData;
     public PlayerData Data;
-    
 
+    public ArmUnit Arm;
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
     public int MaxThrowCount { get { return Data.MaxThrowCount; } set { Data.MaxThrowCount = value; } }
     public int CurThrowCount
