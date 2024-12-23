@@ -5,6 +5,7 @@ using System.Collections.Generic;
 /// 담당자: 정현수
 /// 사용 시 허락 맡으시오
 /// </summary>
+
 [System.Serializable]
 public partial class GlobalPlayerData
 {
@@ -17,11 +18,11 @@ public partial class GlobalPlayerData
     public int luck;
     // 보유 재화
     public int coin;
-    // 암 유닛 선택 종류 (Balance, Power, Speed)
+    // 암 유닛 선택 종류 (Balance, _power, Speed)
     public enum AmWeapon { Balance, Power, Speed }
-    // 로비 씬 업그레이드 진행 상황
-    public Dictionary<string, int> upgrades;
     // 날짜와 시간
     public string saveDateTime;
+    // 로비 업그레이드 체크
+    // 스테이지 라운드 별 등급 확률
 }
 

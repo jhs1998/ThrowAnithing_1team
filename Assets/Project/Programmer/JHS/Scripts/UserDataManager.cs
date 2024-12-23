@@ -4,23 +4,32 @@ using UnityEngine;
 using System.IO;
 using Zenject;
 
-
-public class UserDataManager
+[System.Serializable]
+public class UserDataManager : MonoBehaviour
 {
     // 플레이어 데이터 생성
-    public GlobalPlayerData nowPlayer { get; private set; } = new GlobalPlayerData();
+    [SerializeField] GlobalPlayerData nowPlayer;
     // 세이브 파일 저장 경로
-    public string path { get; private set; }
+    public string path;
     // 현재 슬롯번호
-    public int nowSlot { get; set; }
+    public int nowSlot;
 
-    public UserDataManager()
+    [Inject]
+    private void Init(GlobalPlayerData nowPlayer)
     {
+        this.nowPlayer = nowPlayer;
+        // 초기화 코드 작성
         path = Application.persistentDataPath + "/save";
-        nowPlayer = new GlobalPlayerData(); // 초기화 추가
         Debug.Log($"Save path: {path}");
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
+    private void Start()
+    {
+        // 파일 경로 초기화 (세이브 경로는 Zenject에서 주입됨)
+        Debug.Log($"Save path: {path}");
+    }
     // 저장 기능
     public void SaveData()
     {
@@ -59,8 +68,7 @@ public class UserDataManager
             attackDamage = 10,
             speed = 5,
             luck = 1,
-            coin = 0,
-            upgrades = new Dictionary<string, int>()
+            coin = 0
         };
     }
     public void DeleteSlotData(int slotIndex)
@@ -75,5 +83,23 @@ public class UserDataManager
         {
             Debug.LogWarning($"슬롯 {slotIndex + 1}에 데이터가 없습니다.");
         }
+    }
+    public void DeleteData()
+    {
+        // 모든 슬롯에 대해 데이터 삭제
+        for (int i = 0; i < 3; i++) // 슬롯 수는 3으로 가정, 슬롯 수에 맞게 수정
+        {
+            string slotPath = path + $"slot_{i}.json";
+            if (File.Exists(slotPath))
+            {
+                File.Delete(slotPath); // 슬롯 파일 삭제
+                Debug.Log($"슬롯 {i + 1} 데이터 삭제 완료");
+            }
+        }
+
+        // 플레이어 데이터 초기화
+        DataClear();
+
+        Debug.Log("모든 게임 데이터 삭제 완료");
     }
 }

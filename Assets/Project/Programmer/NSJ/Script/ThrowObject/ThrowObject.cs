@@ -10,9 +10,10 @@ public class ThrowObject : MonoBehaviour
     [SerializeField] public List<ThrowAdditional> ThrowAdditionals = new List<ThrowAdditional>();
     [SerializeField] public List<HitAdditional> HitAdditionals = new List<HitAdditional>();
     public Rigidbody Rb;
-    protected int _damage;
-    protected float _radius;
+    public int Damage;
+    public float Radius;
     protected Collider[] _overlapCollider = new Collider[20];
+    protected PlayerController _player;
 
     protected void Awake()
     {
@@ -66,9 +67,9 @@ public class ThrowObject : MonoBehaviour
 
     public void Init(PlayerController player, List<HitAdditional> hitAdditionals, List<ThrowAdditional> throwAdditionals)
     {
-        
-        _damage += player.Model.Damage;
-        _radius = player.Model.BoomRadius;
+        _player = player;
+        Damage += player.Model.Damage;
+        Radius = player.Model.BoomRadius;
         AddHitAdditional(hitAdditionals);
         AddThrowAdditional(throwAdditionals,player);
     }
@@ -144,7 +145,7 @@ public class ThrowObject : MonoBehaviour
         if (CanAttack == false)
             return;
 
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _radius, _overlapCollider,1<<Layer.Monster);
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _overlapCollider,1<<Layer.Monster);
         if (hitCount > 0)
         {
             for (int i = 0; i < hitCount; i++)
@@ -153,18 +154,20 @@ public class ThrowObject : MonoBehaviour
                 // 디버프 주기
                 foreach (HitAdditional hitAdditional in HitAdditionals)
                 {
-                    hitAdditional.Init(_damage);
+                    hitAdditional.Init(Damage);
                     monster.AddDebuff(hitAdditional);
                 }
             }
         }
+        // 플레이어 특수공격 자원 획득
+        _player.Model.CurSpecialGage += _player.Model.SpecialRecoveryAmount;
         DestroyObject();
     }
 
     protected void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _radius);
+        Gizmos.DrawWireSphere(transform.position, Radius);
     }
 
 

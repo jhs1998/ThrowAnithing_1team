@@ -35,6 +35,7 @@ public class TripleShot : ThrowAdditional
 
             ThrowObject throwObject = GameObject.Instantiate(DataContainer.GetThrowObject(throwObjectID), _throwObject.transform.position, shotAngle);
             throwObject.Init(_player, _model.HitAdditionals, _model.ThrowAdditionals);
+            throwObject.Damage = _throwObject.Damage;
             throwObject.Shoot(_player.ThrowPower);
         }
     }
