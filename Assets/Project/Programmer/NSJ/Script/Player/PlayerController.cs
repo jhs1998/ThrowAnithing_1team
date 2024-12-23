@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private ArmUnit _basic;
+    [SerializeField] private ArmUnit _power;
+
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
         Fall,
         Dash,
         Drain,
+        SpecialAttack,
         Size
     }
 
@@ -37,13 +40,11 @@ public class PlayerController : MonoBehaviour
     struct AttackStruct
     {
         public float AttackHeight;
-        public float AttackBufferTime;
         public float ThrowPower;
         public Transform MuzzlePoint;
     }
     [Header("공격 관련 필드")]
     [SerializeField] private AttackStruct _attackStruct;
-    public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
     public Transform MuzzletPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
     public float AttackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
     public float ThrowPower { get { return _attackStruct.ThrowPower; } set { _attackStruct.ThrowPower = value; } }
@@ -126,6 +127,8 @@ public class PlayerController : MonoBehaviour
         InitUIEvent();
         StartRoutine();
         InitAdditionnal();
+        ChangeArmUnit(_basic);
+
         Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
     }
@@ -144,12 +147,20 @@ public class PlayerController : MonoBehaviour
         RotateCamera();
         UpdatePlayerAdditional();
 
-        if(Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             if (Model.AdditionalEffects.Count > 0)
             {
                 RemoveAdditional(Model.AdditionalEffects[0]);
             }
+        }
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            ChangeArmUnit(_basic);
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            ChangeArmUnit(_power);
         }
     }
 
@@ -212,6 +223,17 @@ public class PlayerController : MonoBehaviour
         return instanceObject;
     }
     #endregion
+    public void LookAtCameraFoward()
+    {
+        // 카메라 방향으로 플레이어가 바라보게
+        Quaternion cameraRot = Quaternion.Euler(0, CamareArm.eulerAngles.y, 0);
+        transform.rotation = cameraRot;
+        // 카메라는 다시 로컬 기준 전방 방향
+        if (CamareArm.parent != null)
+        {
+            CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
+        }
+    }
 
     /// <summary>
     /// 오브젝트 줍기
@@ -223,6 +245,15 @@ public class PlayerController : MonoBehaviour
         {
             Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
             Destroy(throwObject.gameObject);
+        }
+    }
+
+    public void ChangeArmUnit(ArmUnit armUnit)
+    {
+        if (armUnit != null)
+        {
+            Model.Arm = Instantiate(armUnit);
+            Model.Arm.Init(this);
         }
     }
 
@@ -241,7 +272,7 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case AdditionalEffect.Type.Throw:
-                if(CheckForAddAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
+                if (CheckForAddAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
                 {
                     Model.ThrowAdditionals.Add(addtionalEffect as ThrowAdditional);
                     Model.AdditionalEffects.Add(addtionalEffect);
@@ -249,7 +280,7 @@ public class PlayerController : MonoBehaviour
                 break;
             // 플레이어 추가효과는 플레이어에 종속되기 때문에 Clone을 더해줌
             case AdditionalEffect.Type.Player:
-                if(CheckForAddAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
+                if (CheckForAddAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
                 {
                     PlayerAdditional instance = Instantiate(addtionalEffect as PlayerAdditional);
                     Model.PlayerAdditionals.Add(instance);
@@ -282,7 +313,7 @@ public class PlayerController : MonoBehaviour
             case AdditionalEffect.Type.Player:
                 if (CheckForRemoveAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
                 {
-                   
+
                     addtionalEffect.Exit();
                     Model.PlayerAdditionals.Remove(addtionalEffect as PlayerAdditional);
                 }
@@ -347,7 +378,7 @@ public class PlayerController : MonoBehaviour
             return false;
         else
             return true;
-                    
+
     }
     /// <summary>
     /// 추가효과 추가 시 중복 체크
@@ -359,12 +390,12 @@ public class PlayerController : MonoBehaviour
             return false;
         // 중복 시 (지울 수 있을 때)
         if (index != -1)
-        { 
+        {
             Model.AdditionalEffects.Remove(additinal);
             return true;
         }
         else
-            return false;     
+            return false;
     }
 
     private void CheckAnyState()
@@ -391,8 +422,11 @@ public class PlayerController : MonoBehaviour
         x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
         CamareArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
 
-        // 머즐포인트 각도조절
-        MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        if (_isVerticalCameraMove)
+        {
+            // 머즐포인트 각도조절
+            MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
     }
 
     /// <summary>
@@ -513,8 +547,9 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.Run] = new RunState(this);                   // 이동(달리기)
         _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // 근접공격
         _states[(int)State.ThrowAttack] = new ThrowState(this);         // 투척공격
+        _states[(int)State.SpecialAttack] = new SpecialAttackState(this); // 특수공격
         _states[(int)State.Jump] = new JumpState(this);                 // 점프
-        _states[(int)State.DoubleJump] = new DoubleJumpState(this);
+        _states[(int)State.DoubleJump] = new DoubleJumpState(this);     // 더블점프
         _states[(int)State.Fall] = new FallState(this);                 // 추락
         _states[(int)State.Dash] = new DashState(this);                 // 대쉬
         _states[(int)State.Drain] = new DrainState(this);               // 드레인
@@ -535,6 +570,16 @@ public class PlayerController : MonoBehaviour
             .DistinctUntilChanged()
             .Subscribe(x => View.Panel.StaminaSlider.value = x / Model.MaxStamina);
         View.Panel.StaminaSlider.value = Model.CurStamina / Model.MaxStamina;
+
+        Model.CurSpecialGageSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => View.Panel.SpecialGageSlider.value = x / Model.MaxSpecialGage);
+        View.Panel.SpecialGageSlider.value = Model.CurSpecialGage / Model.MaxSpecialGage;
+
+        Model.SpecialChargeGageSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => View.Panel.SpecialChargeSlider.value = x );
+        View.Panel.SpecialChargeSlider.value = Model.SpecialChargeGage ;
     }
 
     /// <summary>
@@ -549,7 +594,7 @@ public class PlayerController : MonoBehaviour
     private void InitAdditionnal()
     {
         Model.AdditionalEffects.Clear();
-        List<AdditionalEffect> tempList =new List<AdditionalEffect>();
+        List<AdditionalEffect> tempList = new List<AdditionalEffect>();
 
         ProcessInitAddtional(tempList, Model.PlayerAdditionals);
         ProcessInitAddtional(tempList, Model.ThrowAdditionals);

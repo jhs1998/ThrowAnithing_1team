@@ -6,8 +6,8 @@ public class PlayerModel : MonoBehaviour
 {
     public GlobalPlayerData GlobalData;
     public PlayerData Data;
-    
 
+    public ArmUnit Arm;
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
     public int MaxThrowCount { get { return Data.MaxThrowCount; } set { Data.MaxThrowCount = value; } }
     public int CurThrowCount
@@ -22,10 +22,10 @@ public class PlayerModel : MonoBehaviour
     }
     public Subject<int> CurThrowCountSubject = new Subject<int>();
 
-    public List<AdditionalEffect> AdditionalEffects { get { return Data.AdditionalEffects; } set { Data.AdditionalEffects= value; } } // 블루칩 모음 리스트
+    public List<AdditionalEffect> AdditionalEffects { get { return Data.AdditionalEffects; } set { Data.AdditionalEffects = value; } } // 블루칩 모음 리스트
     public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals = value; } }
     public List<ThrowAdditional> ThrowAdditionals { get { return Data.ThrowAdditionals; } set { Data.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
-    public List<PlayerAdditional> PlayerAdditionals { get { return Data.PlayerAdditionals; } set { Data.PlayerAdditionals= value; } } // 플레이어 추가효과 리스트
+    public List<PlayerAdditional> PlayerAdditionals { get { return Data.PlayerAdditionals; } set { Data.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
     public float MoveSpeed { get { return Data.MoveSpeed; } set { Data.MoveSpeed = value; } } // 이동속도
 
@@ -47,6 +47,49 @@ public class PlayerModel : MonoBehaviour
     public Subject<float> CurStaminaSubject = new Subject<float>();
     public float StaminaRecoveryPerSecond { get { return Stamina.StaminaRecoveryPerSecond; } set { Stamina.StaminaRecoveryPerSecond = value; } } // 스테미나 초당 회복량
     public float StaminaCoolTime { get { return Stamina.StaminaCoolTime; } set { Stamina.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
+
+    [System.Serializable]
+    public struct SpecialStruct
+    {
+        public float MaxSpecialGage;
+        public float CurSpecialGage;
+        public float SpecialRecoveryAmount;
+        public float SpecialChargeGage;
+    }
+    [SerializeField] public SpecialStruct Special;
+    public float MaxSpecialGage { get { return Special.MaxSpecialGage; } set { Special.MaxSpecialGage = value; } } // 최대 특수자원
+    public float CurSpecialGage // 현재 특수 자원
+    {
+        get { return Special.CurSpecialGage; }
+        set
+        {
+            Special.CurSpecialGage = value;
+            // 현재 특수공격 자원이 최대치를 넘길 수 없음
+            if (Special.CurSpecialGage > Special.MaxSpecialGage)
+            {
+                Special.CurSpecialGage = Special.MaxSpecialGage;
+            }
+            else if(Special.CurSpecialGage < 0)
+            {
+                Special.CurSpecialGage = 0;
+            }
+            CurSpecialGageSubject.OnNext(Special.CurSpecialGage);
+        }
+    }
+    public Subject<float> CurSpecialGageSubject = new Subject<float>();
+    public float SpecialRecoveryAmount { get { return Special.SpecialRecoveryAmount; } set { Special.SpecialRecoveryAmount = value; } } // 특수자원 회복량
+    public float SpecialChargeGage // 특수공격 차지량
+    {
+        get { return Special.SpecialChargeGage; }
+        set
+        {
+            Special.SpecialChargeGage = value;
+            if (Special.SpecialChargeGage > 1)
+                SpecialChargeGage = 1;
+            SpecialChargeGageSubject.OnNext(Special.SpecialChargeGage);
+        }
+    }
+    public Subject<float> SpecialChargeGageSubject = new Subject<float>();
 
 
     [System.Serializable]
@@ -106,6 +149,11 @@ public class PlayerModel : MonoBehaviour
         ThrowObjectStack.RemoveAt(CurThrowCount);
         return data;
     }
+    public ThrowObjectData PeekThrowObject()
+    {
+        ThrowObjectData data = ThrowObjectStack[CurThrowCount - 1];
+        return data;
+    }
 
     // TODO : 일단 젠젝트 실패, 싱글톤으로 구현 후 이후에 리팩토링 
     private void Start()
@@ -143,5 +191,5 @@ public partial class PlayerData
     public List<AdditionalEffect> AdditionalEffects { get { return _NSJTest.AdditionalEffects; } set { _NSJTest.AdditionalEffects = value; } }
     public List<HitAdditional> HitAdditionals { get { return _NSJTest.HitAdditionals; } set { _NSJTest.HitAdditionals = value; } }
     public List<ThrowAdditional> ThrowAdditionals { get { return _NSJTest.ThrowAdditionals; } set { _NSJTest.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
-    public List<PlayerAdditional> PlayerAdditionals { get { return _NSJTest.PlayerAdditionals; } set { _NSJTest.PlayerAdditionals= value; } } // 플레이어 추가효과 리스트
+    public List<PlayerAdditional> PlayerAdditionals { get { return _NSJTest.PlayerAdditionals; } set { _NSJTest.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
 }

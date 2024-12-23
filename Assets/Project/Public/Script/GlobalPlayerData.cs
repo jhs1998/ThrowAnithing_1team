@@ -18,7 +18,7 @@ public partial class GlobalPlayerData
     public int luck;
     // 보유 재화
     public int coin;
-    // 암 유닛 선택 종류 (Balance, Power, Speed)
+    // 암 유닛 선택 종류 (Balance, _power, Speed)
     public enum AmWeapon { Balance, Power, Speed }
     // 날짜와 시간
     public string saveDateTime;
