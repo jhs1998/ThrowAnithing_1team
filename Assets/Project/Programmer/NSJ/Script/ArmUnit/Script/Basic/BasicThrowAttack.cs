@@ -72,11 +72,11 @@ public class BasicThrowAttack : ArmThrowAttack
     {
         while (true)
         {
-            if (Input.GetButtonDown("Fire2"))
+            if (Input.GetButtonDown("Fire1"))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
             }
-            else if (Input.GetButtonDown("Fire1"))
+            else if (Input.GetKeyDown(KeyCode.V))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
             }

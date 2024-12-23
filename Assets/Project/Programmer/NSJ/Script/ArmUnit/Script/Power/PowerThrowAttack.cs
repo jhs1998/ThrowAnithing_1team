@@ -8,12 +8,21 @@ public class PowerThrowAttack : ArmThrowAttack
     [System.Serializable]
     struct ChargeStruct
     {
-        public float ChageTime;
+        public float ChargeTime;
         public int ObjectCount;
         public int Damage;
     }
     [SerializeField] private ChargeStruct[] _charges;
-    private float _curChargeTime;
+    private float m_curChargeTime;
+    private float _curChargeTime
+    {
+        get { return m_curChargeTime; }
+        set
+        {
+            m_curChargeTime = value;
+            View.SetFloat(PlayerView.Parameter.Charge, m_curChargeTime);
+        }
+    }
     private int _index;
     Coroutine _chargeRoutine;
     public override void Enter()
@@ -21,7 +30,7 @@ public class PowerThrowAttack : ArmThrowAttack
         Player.Rb.velocity = Vector3.zero;
         _curChargeTime = 0;
         _index = 0;
-
+        Player.LookAtCameraFoward();
         View.SetTrigger(PlayerView.Parameter.PowerThrow);
         if (_chargeRoutine == null)
         {
@@ -55,34 +64,12 @@ public class PowerThrowAttack : ArmThrowAttack
         _index = 0;
         while (true)
         {
-            // 차지시간 계산
-            _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
-            if (_charges.Length  > _index + 1)
-            {
-                if (_curChargeTime > _charges[_index + 1].ChageTime)
-                {
-                    if (Model.ThrowObjectStack.Count <= _charges[_index].ObjectCount)
-                        _curChargeTime = _charges[_index + 1].ChageTime - 0.01f;
-                    else
-                    {
-                        _index++;
-                    }
-                }
-            }
-            else
-            {
-                _curChargeTime = _charges[_index].ChageTime + 0.01f;
-               
-            }
-
-
+            ProcessCharge();
 
             // 차지 해제 시 던지는 애니메이션 실행
-            if (Input.GetButtonUp("Fire2"))
+            if (Input.GetButtonUp("Fire1"))
             {
-                Debug.Log(1);
                 Player.LookAtCameraFoward();
-                View.SetFloat(PlayerView.Parameter.Charge, _curChargeTime);
                 View.SetTrigger(PlayerView.Parameter.ChargeEnd);
                 _chargeRoutine = null;
                 break;
@@ -92,12 +79,7 @@ public class PowerThrowAttack : ArmThrowAttack
     }
     private void ThrowObject()
     {
-        int throwObjectID = 0;
-        if(Model.ThrowObjectStack.Count > 0)
-        {
-            throwObjectID = _index == 0 ? Model.PeekThrowObject().ID : Model.PopThrowObject().ID;
-        }
-
+        int throwObjectID =  Model.ThrowObjectStack.Count > 0 && _index > 0 ? Model.PopThrowObject().ID : 0;
 
         ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
         throwObject.Init(Player, Model.HitAdditionals, Model.ThrowAdditionals);
@@ -106,6 +88,29 @@ public class PowerThrowAttack : ArmThrowAttack
         UseThrowObject(_charges[_index].ObjectCount);
         throwObject.Shoot(Player.ThrowPower);
         throwObject.TriggerFirstThrowAddtional();
+    }
+
+    private void ProcessCharge()
+    {
+        // 차지시간 계산
+        _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
+        if (_charges.Length > _index + 1)
+        {
+            if (_curChargeTime > _charges[_index + 1].ChargeTime)
+            {
+                if (Model.ThrowObjectStack.Count <= _charges[_index].ObjectCount)
+                    _curChargeTime = _charges[_index + 1].ChargeTime - 0.01f;
+                else
+                {
+                    _index++;
+                }
+            }
+        }
+        else
+        {
+            _curChargeTime = _charges[_index].ChargeTime + 0.01f;
+
+        }
     }
 
     private void UseThrowObject(int count)

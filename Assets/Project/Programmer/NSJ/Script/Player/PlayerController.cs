@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Zenject.SpaceFighter;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
@@ -149,7 +147,7 @@ public class PlayerController : MonoBehaviour
         RotateCamera();
         UpdatePlayerAdditional();
 
-        if(Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             if (Model.AdditionalEffects.Count > 0)
             {
@@ -274,7 +272,7 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case AdditionalEffect.Type.Throw:
-                if(CheckForAddAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
+                if (CheckForAddAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
                 {
                     Model.ThrowAdditionals.Add(addtionalEffect as ThrowAdditional);
                     Model.AdditionalEffects.Add(addtionalEffect);
@@ -282,7 +280,7 @@ public class PlayerController : MonoBehaviour
                 break;
             // 플레이어 추가효과는 플레이어에 종속되기 때문에 Clone을 더해줌
             case AdditionalEffect.Type.Player:
-                if(CheckForAddAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
+                if (CheckForAddAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
                 {
                     PlayerAdditional instance = Instantiate(addtionalEffect as PlayerAdditional);
                     Model.PlayerAdditionals.Add(instance);
@@ -315,7 +313,7 @@ public class PlayerController : MonoBehaviour
             case AdditionalEffect.Type.Player:
                 if (CheckForRemoveAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
                 {
-                   
+
                     addtionalEffect.Exit();
                     Model.PlayerAdditionals.Remove(addtionalEffect as PlayerAdditional);
                 }
@@ -380,7 +378,7 @@ public class PlayerController : MonoBehaviour
             return false;
         else
             return true;
-                    
+
     }
     /// <summary>
     /// 추가효과 추가 시 중복 체크
@@ -392,12 +390,12 @@ public class PlayerController : MonoBehaviour
             return false;
         // 중복 시 (지울 수 있을 때)
         if (index != -1)
-        { 
+        {
             Model.AdditionalEffects.Remove(additinal);
             return true;
         }
         else
-            return false;     
+            return false;
     }
 
     private void CheckAnyState()
@@ -424,8 +422,11 @@ public class PlayerController : MonoBehaviour
         x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
         CamareArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
 
-        // 머즐포인트 각도조절
-        MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        if (_isVerticalCameraMove)
+        {
+            // 머즐포인트 각도조절
+            MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
     }
 
     /// <summary>
@@ -546,12 +547,12 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.Run] = new RunState(this);                   // 이동(달리기)
         _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // 근접공격
         _states[(int)State.ThrowAttack] = new ThrowState(this);         // 투척공격
+        _states[(int)State.SpecialAttack] = new SpecialAttackState(this); // 특수공격
         _states[(int)State.Jump] = new JumpState(this);                 // 점프
         _states[(int)State.DoubleJump] = new DoubleJumpState(this);     // 더블점프
         _states[(int)State.Fall] = new FallState(this);                 // 추락
         _states[(int)State.Dash] = new DashState(this);                 // 대쉬
         _states[(int)State.Drain] = new DrainState(this);               // 드레인
-        _states[(int)State.SpecialAttack] = new SpecialAttackState(this);
     }
 
     /// <summary>
@@ -569,6 +570,16 @@ public class PlayerController : MonoBehaviour
             .DistinctUntilChanged()
             .Subscribe(x => View.Panel.StaminaSlider.value = x / Model.MaxStamina);
         View.Panel.StaminaSlider.value = Model.CurStamina / Model.MaxStamina;
+
+        Model.CurSpecialGageSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => View.Panel.SpecialGageSlider.value = x / Model.MaxSpecialGage);
+        View.Panel.SpecialGageSlider.value = Model.CurSpecialGage / Model.MaxSpecialGage;
+
+        Model.SpecialChargeGageSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => View.Panel.SpecialChargeSlider.value = x );
+        View.Panel.SpecialChargeSlider.value = Model.SpecialChargeGage ;
     }
 
     /// <summary>
@@ -583,7 +594,7 @@ public class PlayerController : MonoBehaviour
     private void InitAdditionnal()
     {
         Model.AdditionalEffects.Clear();
-        List<AdditionalEffect> tempList =new List<AdditionalEffect>();
+        List<AdditionalEffect> tempList = new List<AdditionalEffect>();
 
         ProcessInitAddtional(tempList, Model.PlayerAdditionals);
         ProcessInitAddtional(tempList, Model.ThrowAdditionals);

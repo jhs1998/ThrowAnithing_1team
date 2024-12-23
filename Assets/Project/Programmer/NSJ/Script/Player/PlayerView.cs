@@ -24,6 +24,7 @@ public class PlayerView : MonoBehaviour
         BasicThrow,
         PowerMelee,
         PowerThrow,
+        PowerSpecial,
         Size
     }
 
@@ -126,6 +127,6 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.BasicThrow] = Animator.StringToHash("BasicThrow");
         _animatorHashes[(int)Parameter.PowerMelee] = Animator.StringToHash("PowerMelee");
         _animatorHashes[(int)Parameter.PowerThrow] = Animator.StringToHash("PowerThrow");
-
+        _animatorHashes[(int)Parameter.PowerSpecial] = Animator.StringToHash("PowerSpecial");
     }
 }

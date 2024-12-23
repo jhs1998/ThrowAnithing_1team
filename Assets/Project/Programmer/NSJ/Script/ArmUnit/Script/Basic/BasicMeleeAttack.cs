@@ -50,7 +50,6 @@ public class BasicMeleeAttack : ArmMeleeAttack
         }
 
     }
-
     public override void OnTrigger()
     {
         AttackMelee();
@@ -108,11 +107,11 @@ public class BasicMeleeAttack : ArmMeleeAttack
     {
         while (true)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetKeyDown(KeyCode.V))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
             }
-            else if (Input.GetButtonDown("Fire2"))
+            else if (Input.GetButtonDown("Fire1"))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
             }
