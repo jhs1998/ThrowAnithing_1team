@@ -22,14 +22,7 @@ public class BasicThrowAttack : ArmThrowAttack
 
         if (Player.IsAttackFoward == true)
         {
-            // 카메라 방향으로 플레이어가 바라보게
-            Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
-            transform.rotation = cameraRot;
-            // 카메라는 다시 로컬 기준 전방 방향
-            if (Player.CamareArm.parent != null)
-            {
-                Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
-            }
+            Player.LookAtCameraFoward();
         }
     }
     public override void Exit()

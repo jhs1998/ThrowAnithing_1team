@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Zenject.SpaceFighter;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
@@ -224,6 +225,17 @@ public class PlayerController : MonoBehaviour
         return instanceObject;
     }
     #endregion
+    public void LookAtCameraFoward()
+    {
+        // 카메라 방향으로 플레이어가 바라보게
+        Quaternion cameraRot = Quaternion.Euler(0, CamareArm.eulerAngles.y, 0);
+        transform.rotation = cameraRot;
+        // 카메라는 다시 로컬 기준 전방 방향
+        if (CamareArm.parent != null)
+        {
+            CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
+        }
+    }
 
     /// <summary>
     /// 오브젝트 줍기

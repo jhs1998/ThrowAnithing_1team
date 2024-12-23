@@ -106,6 +106,11 @@ public class PlayerModel : MonoBehaviour
         ThrowObjectStack.RemoveAt(CurThrowCount);
         return data;
     }
+    public ThrowObjectData PeekThrowObject()
+    {
+        ThrowObjectData data = ThrowObjectStack[CurThrowCount - 1];
+        return data;
+    }
 
     // TODO : 일단 젠젝트 실패, 싱글톤으로 구현 후 이후에 리팩토링 
     private void Start()
