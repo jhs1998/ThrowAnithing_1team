@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1134417451967748543}
   - component: {fileID: 8331994645042077974}
   - component: {fileID: 6730071860181350849}
-  - component: {fileID: 8118528550060419489}
+  - component: {fileID: 4695630235172048001}
   - component: {fileID: 4078339490070536907}
   - component: {fileID: 2730231741992350897}
   m_Layer: 0
@@ -119,7 +119,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &8118528550060419489
+--- !u!114 &4695630235172048001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4596453728771130819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6337da7be5b3c8a4e8caf306c7a798b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 38cccdb24634ee647bc12cfadc5a848c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
@@ -142,7 +142,7 @@ MonoBehaviour:
     TraceDis: 5
   reward: 50
   curHp: 0
-  objs: []
+  attakArm: {fileID: 0}
 --- !u!114 &4078339490070536907
 MonoBehaviour:
   m_ObjectHideFlags: 0

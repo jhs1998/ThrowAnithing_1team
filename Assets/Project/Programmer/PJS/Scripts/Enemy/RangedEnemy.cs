@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class RangedEnemy : BaseEnemy
 {
-    [SerializeField] EnemyBullet bulletPrefab;
-    [SerializeField] Transform muzzle;
     [Header("투사체 속도")]
     [SerializeField] float bulletSpeed;
+    [Header("투사체 정보")]
+    [SerializeField] EnemyBullet bulletPrefab;
+    [SerializeField] Transform muzzle;
 
     public float BulletSpeed { get { return bulletSpeed; } }
 
