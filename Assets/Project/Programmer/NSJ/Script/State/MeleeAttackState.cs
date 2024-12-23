@@ -15,7 +15,7 @@ public class MeleeAttackState : PlayerState
         }
     }
     private bool _isChangeAttack;
-    private float _attackHeight; 
+    private float _attackHeight;
 
     Coroutine _meleeRoutine;
     public MeleeAttackState(PlayerController controller) : base(controller)
@@ -84,7 +84,7 @@ public class MeleeAttackState : PlayerState
         // 1. 전방에 있는 몬스터 확인
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + _attackHeight, transform.position.z);
         Vector3 attackPos = playerPos;
-        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, Player.OverLapColliders, 1 << 4);
+        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, Player.OverLapColliders, 1<< Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
             // 2. 각도 내에 있는지 확인

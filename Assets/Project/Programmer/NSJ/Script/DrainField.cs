@@ -8,7 +8,7 @@ public class DrainField : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.tag == "Trash")
+        if (other.gameObject.tag == Tag.Trash)
         {
             Drain(other.transform);
         }
@@ -16,8 +16,8 @@ public class DrainField : MonoBehaviour
 
     private void Drain(Transform trash)
     {
-        if (_player.Model.CurThrowCount >= _player.Model.MaxThrowCount)
-            return;
+        //if (_player.Model.CurThrowCount >= _player.Model.MaxThrowCount)
+        //    return;
         trash.position = Vector3.MoveTowards(trash.position, _player.transform.position, 5f * Time.deltaTime);
     }
 }

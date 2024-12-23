@@ -11,7 +11,7 @@ public class PoizonAdditional : HitAdditional
     public int Duration;
     [Range(0,1)]public float DamageMultiplier;
 
-    public override void Execute()
+    public override void Enter()
     {
         if (_debuffRoutine == null)
         {
@@ -19,7 +19,7 @@ public class PoizonAdditional : HitAdditional
         }
     }
 
-    public override void UnExcute()
+    public override void Exit()
     {
         if (_debuffRoutine != null)
         {

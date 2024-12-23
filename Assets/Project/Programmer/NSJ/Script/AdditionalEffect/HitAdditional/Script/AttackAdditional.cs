@@ -9,13 +9,13 @@ public class AttackAdditional : HitAdditional
 {
     public override event UnityAction<HitAdditional> OnExitHitAdditional;
 
-    public override void Execute()
+    public override void Enter()
     {
         Attack();
         OnExitHitAdditional?.Invoke(this);
     }
 
-    public override void UnExcute()
+    public override void Exit()
     {
         
     }

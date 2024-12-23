@@ -9,7 +9,7 @@ public class FreezeAdditional : HitAdditional
 {
     public override event UnityAction<HitAdditional> OnExitHitAdditional;
 
-    public override void Execute()
+    public override void Enter()
     {
         if (_debuffRoutine == null)
         {
@@ -17,7 +17,7 @@ public class FreezeAdditional : HitAdditional
         }
     }
 
-    public override void UnExcute()
+    public override void Exit()
     {
         if (_debuffRoutine != null) 
         {

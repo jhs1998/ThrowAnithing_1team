@@ -4,6 +4,7 @@ using System.Text;
 using UnityEditor.Hardware;
 using UnityEngine;
 
+
 public static partial class Util
 {
     public static StringBuilder Sb = new StringBuilder();
@@ -32,4 +33,5 @@ public static partial class Util
         Sb.Append(value);
         return Sb;
     }
+
 }

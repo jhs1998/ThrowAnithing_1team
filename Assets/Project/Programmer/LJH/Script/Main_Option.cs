@@ -12,7 +12,7 @@ public enum Depth2
 
 public class Main_Option : MainScene
 {
-    //¿É¼Ç 1Depth
+    //ì˜µì…˜ 1Depth
     GameObject[] depth1;
 
     GameObject gamePlay;
@@ -21,7 +21,7 @@ public class Main_Option : MainScene
     GameObject input;
     GameObject exit;
 
-    //¿É¼Ç Depth2 ¹ÙÀÎµù
+    //ì˜µì…˜ Depth2 ë°”ì¸ë”©
     GameObject gameplayPannel;
     GameObject languagePannel;
     GameObject soundPannel;
@@ -29,7 +29,7 @@ public class Main_Option : MainScene
 
     protected int depth1_cur;
 
-    //¿É¼Ç Depth2 Ã¼Å©¿ë º¯¼ö
+    //ì˜µì…˜ Depth2 ì²´í¬ìš© ë³€ìˆ˜
     protected Depth2 depth2_cur = Depth2.notDepth2;
 
     protected GameObject gameplayOnOff;
@@ -148,22 +148,22 @@ public class Main_Option : MainScene
             switch (depth1_cur)
             {
                 case 0:
-                    Debug.Log("°ÔÀÓÇÃ·¹ÀÌ ¼±ÅÃ");
+                    Debug.Log("ê²Œì„í”Œë ˆì´ ì„ íƒ");
                     gameplayOnOff.SetActive(true);
                     break;
 
                 case 1:
-                    Debug.Log("¼Ò¸® ¼±ÅÃ");
+                    Debug.Log("ì†Œë¦¬ ì„ íƒ");
                     soundOnOff.SetActive(true);
                     break;
 
                 case 2:
-                    Debug.Log("Á¶ÀÛ Å° ¼³¸í ÀÌ¹ÌÁö ³ëÃâ");
-                    //Todo : Á¶ÀÛÅ° ¼³¸í
+                    Debug.Log("ì¡°ì‘ í‚¤ ì„¤ëª… ì´ë¯¸ì§€ ë…¸ì¶œ");
+                    //Todo : ì¡°ì‘í‚¤ ì„¤ëª…
                     break;
 
                 case 3:
-                    Debug.Log("¿é¼Ç È­¸é ³ª°¡±â");
+                    Debug.Log("ìš¥ì…˜ í™”ë©´ ë‚˜ê°€ê¸°");
                     gameObject.SetActive(false);
                     break;
             }
@@ -172,7 +172,7 @@ public class Main_Option : MainScene
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             gameObject.SetActive(false);
-            Debug.Log("¿É¼Ç È­¸é ³ª°¡±â");
+            Debug.Log("ì˜µì…˜ í™”ë©´ ë‚˜ê°€ê¸°");
         }
     }
 
@@ -182,6 +182,7 @@ public class Main_Option : MainScene
         depth1 = new GameObject[5];
 
         depth1[0] = gamePlay = GetUI("GamePlay");
+
         depth1[1] = sound = GetUI("Sound");
         depth1[2] = input = GetUI("Input");
         depth1[3] = exit = GetUI("Exit");

@@ -17,7 +17,7 @@ public class NSJMonster : MonoBehaviour, IHit
     public void TakeDamage(int damage)
     {
         _hp -= damage;
-        Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
+       // Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
 
         StartCoroutine(HitRoutine());
     }
@@ -32,7 +32,7 @@ public class NSJMonster : MonoBehaviour, IHit
         if (index != -1)
         {
             // 기존 디버프 삭제
-            _debuffList[index].UnExcute();
+            _debuffList[index].Exit();
             Destroy(_debuffList[index]);
             _debuffList.RemoveAt(index);
         }
@@ -40,7 +40,7 @@ public class NSJMonster : MonoBehaviour, IHit
         _debuffList.Add(debuff);
         debuff.Target = gameObject;
         debuff.OnExitHitAdditional += RemoveDebuff;
-        debuff.Execute();
+        debuff.Enter();
     }
     IEnumerator HitRoutine()
     {

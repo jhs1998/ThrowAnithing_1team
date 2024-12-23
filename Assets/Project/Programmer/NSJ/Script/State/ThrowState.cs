@@ -70,22 +70,17 @@ public class ThrowState : PlayerState
     /// </summary>
     public override void OnTrigger()
     {
-        if (Model.ThrowObjectStack.Count > 0)
-        {
-            ThrowObjectData data = Model.PopThrowObject();
-            ThrowObject(data.ID);
-        }
-        else
-        {
-            ThrowObject(0);
-        }
+        ThrowObject();
     }
 
-    private void ThrowObject(int throwObjectID)
+    private void ThrowObject()
     {
+        int throwObjectID = Model.ThrowObjectStack.Count > 0 ? Model.PopThrowObject().ID : 0;
+
         ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
-        throwObject.Init(Model.Damage, Model.BoomRadius, Model.HitAdditionals);
-        throwObject.Shoot();
+        throwObject.Init(Player, Model.HitAdditionals, Model.ThrowAdditionals);
+        throwObject.Shoot(Player.ThrowPower);
+        throwObject.TriggerFirstThrowAddtional();
     }
 
     public override void OnCombo()

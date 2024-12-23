@@ -463,6 +463,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3af1f8932937b2418c6881fea51faf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  test1: {fileID: 11400000, guid: 79fe61496a0365b4e9c3eeec8cf15416, type: 2}
+  test2: {fileID: 11400000, guid: a83e0c56f37d4c34ab8ec8fecf23e0ac, type: 2}
+  test3: {fileID: 11400000, guid: 95450175c64e3f043bedd5456afb0f88, type: 2}
   Model: {fileID: 0}
   View: {fileID: 0}
   Rb: {fileID: 0}
@@ -471,6 +474,7 @@ MonoBehaviour:
   _attackStruct:
     AttackHeight: 0.75
     AttackBufferTime: 0.5
+    ThrowPower: 20
     MuzzlePoint: {fileID: 3757278611412066816}
   _cameraStruct:
     CamaraArm: {fileID: 9014614328725180885}
@@ -605,16 +609,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalData:
-    test: 
+    playerName: 
+    maxHp: 0
+    attackDamage: 0
+    speed: 0
+    luck: 0
+    coin: 0
+    saveDateTime: 
   Data:
-    MoveSpeed: 5
-    Damage: 10
-    MaxThrowCount: 10
-    CurThrowCount: 0
-    ThrowObjectStack: []
-    HitAdditionals:
-    - {fileID: 11400000, guid: af501e983656e644d848f3f2fcd173eb, type: 2}
-    - {fileID: 11400000, guid: 79fe61496a0365b4e9c3eeec8cf15416, type: 2}
+    _NSJTest:
+      MoveSpeed: 5
+      Damage: 10
+      MaxThrowCount: 10
+      CurThrowCount: 0
+      ThrowObjectStack: []
+      AddtionalEffects: []
+      HitAdditionals:
+      - {fileID: 11400000, guid: af501e983656e644d848f3f2fcd173eb, type: 2}
+      ThrowAdditionals: []
+      PlayerAdditionals: []
     test: 
   DashPower: 10
   JumpPower: 8

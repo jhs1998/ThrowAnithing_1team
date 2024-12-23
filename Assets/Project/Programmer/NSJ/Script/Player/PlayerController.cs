@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
@@ -11,7 +12,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
-    public enum State {
+    public enum State
+    {
         Idle,
         Run,
         MeleeAttack,
@@ -21,7 +23,8 @@ public class PlayerController : MonoBehaviour
         Fall,
         Dash,
         Drain,
-        Size }
+        Size
+    }
 
     private PlayerState[] _states = new PlayerState[(int)State.Size];
     public State CurState;
@@ -35,6 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         public float AttackHeight;
         public float AttackBufferTime;
+        public float ThrowPower;
         public Transform MuzzlePoint;
     }
     [Header("공격 관련 필드")]
@@ -42,6 +46,7 @@ public class PlayerController : MonoBehaviour
     public float AttackBufferTime { get { return _attackStruct.AttackBufferTime; } set { _attackStruct.AttackBufferTime = value; } }
     public Transform MuzzletPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
     public float AttackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
+    public float ThrowPower { get { return _attackStruct.ThrowPower; } set { _attackStruct.ThrowPower = value; } }
     #endregion
     #region Camera 관련 필드
     /// <summary>
@@ -120,12 +125,14 @@ public class PlayerController : MonoBehaviour
     {
         InitUIEvent();
         StartRoutine();
+        InitAdditionnal();
         Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
     }
 
     private void OnDisable()
     {
+        ExitPlayerAdditional();
         _states[(int)CurState].Exit();
     }
 
@@ -135,6 +142,15 @@ public class PlayerController : MonoBehaviour
 
         CheckAnyState();
         RotateCamera();
+        UpdatePlayerAdditional();
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            if (Model.AdditionalEffects.Count > 0)
+            {
+                RemoveAdditional(Model.AdditionalEffects[0]);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -142,6 +158,7 @@ public class PlayerController : MonoBehaviour
         _states[(int)CurState].FixedUpdate();
         CheckGround();
         CheckWall();
+        FixedPlayerAdditional();
     }
 
     private void OnDrawGizmos()
@@ -210,12 +227,144 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// 추가 공격효과 추가
+    /// 추가효과 추가
     /// </summary>
-    /// <param name="hitAdditional"></param>
-    public void AddHitAdditional(HitAdditional hitAdditional)
+    public void AddAdditional(AdditionalEffect addtionalEffect)
     {
-        Model.HitAdditionals.Add(hitAdditional);
+        switch (addtionalEffect.AdditionalType)
+        {
+            case AdditionalEffect.Type.Hit:
+                if (CheckForAddAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
+                {
+                    Model.HitAdditionals.Add(addtionalEffect as HitAdditional);
+                    Model.AdditionalEffects.Add(addtionalEffect);
+                }
+                break;
+            case AdditionalEffect.Type.Throw:
+                if(CheckForAddAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
+                {
+                    Model.ThrowAdditionals.Add(addtionalEffect as ThrowAdditional);
+                    Model.AdditionalEffects.Add(addtionalEffect);
+                }
+                break;
+            // 플레이어 추가효과는 플레이어에 종속되기 때문에 Clone을 더해줌
+            case AdditionalEffect.Type.Player:
+                if(CheckForAddAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
+                {
+                    PlayerAdditional instance = Instantiate(addtionalEffect as PlayerAdditional);
+                    Model.PlayerAdditionals.Add(instance);
+                    Model.AdditionalEffects.Add(instance);
+                    instance.Init(this, addtionalEffect);
+                    instance.Enter();
+                }
+                break;
+        }
+    }
+    /// <summary>
+    /// 추가효과 삭제
+    /// </summary>
+    public void RemoveAdditional(AdditionalEffect addtionalEffect)
+    {
+        switch (addtionalEffect.AdditionalType)
+        {
+            case AdditionalEffect.Type.Hit:
+                if (CheckForRemoveAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
+                {
+                    Model.HitAdditionals.Remove(addtionalEffect as HitAdditional);
+                }
+                break;
+            case AdditionalEffect.Type.Throw:
+                if (CheckForRemoveAdditionalDuplication(Model.ThrowAdditionals, addtionalEffect as ThrowAdditional))
+                {
+                    Model.ThrowAdditionals.Remove(addtionalEffect as ThrowAdditional);
+                }
+                break;
+            case AdditionalEffect.Type.Player:
+                if (CheckForRemoveAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
+                {
+                   
+                    addtionalEffect.Exit();
+                    Model.PlayerAdditionals.Remove(addtionalEffect as PlayerAdditional);
+                }
+                break;
+        }
+    }
+
+    public void EnterPlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.Enter();
+        }
+    }
+    public void ExitPlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.Exit();
+        }
+    }
+
+    public void UpdatePlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.Update();
+        }
+    }
+
+    public void FixedPlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.FixedUpdate();
+        }
+    }
+    public void TriggerPlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.Trigger();
+        }
+    }
+    public void TriggerFirstPlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.TriggerFirst();
+        }
+    }
+    /// <summary>
+    /// 추가효과 추가 시 중복 체크
+    /// </summary>
+    private bool CheckForAddAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AdditionalEffect
+    {
+        int index = additinalList.FindIndex(origin => origin.Origin.Equals(additinal.Origin));
+        if (index >= additinalList.Count)
+            return false;
+        // 중복 시
+        if (index != -1)
+            return false;
+        else
+            return true;
+                    
+    }
+    /// <summary>
+    /// 추가효과 추가 시 중복 체크
+    /// </summary>
+    private bool CheckForRemoveAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AdditionalEffect
+    {
+        int index = additinalList.FindIndex(origin => origin.Origin.Equals(additinal.Origin));
+        if (index >= additinalList.Count)
+            return false;
+        // 중복 시 (지울 수 있을 때)
+        if (index != -1)
+        { 
+            Model.AdditionalEffects.Remove(additinal);
+            return true;
+        }
+        else
+            return false;     
     }
 
     private void CheckAnyState()
@@ -295,7 +444,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void CheckWall()
     {
-        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << 6);
+        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << Layer.Wall);
 
         if (hitCount > 0)
         {
@@ -397,6 +546,28 @@ public class PlayerController : MonoBehaviour
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
     }
+    private void InitAdditionnal()
+    {
+        Model.AdditionalEffects.Clear();
+        List<AdditionalEffect> tempList =new List<AdditionalEffect>();
+
+        ProcessInitAddtional(tempList, Model.PlayerAdditionals);
+        ProcessInitAddtional(tempList, Model.ThrowAdditionals);
+        ProcessInitAddtional(tempList, Model.HitAdditionals);
+    }
+    private void ProcessInitAddtional<T>(List<AdditionalEffect> tempList, List<T> additionals) where T : AdditionalEffect
+    {
+        foreach (AdditionalEffect additional in additionals)
+        {
+            tempList.Add(additional);
+        }
+        additionals.Clear();
+        foreach (AdditionalEffect additional in tempList)
+        {
+            AddAdditional(additional);
+        }
+        tempList.Clear();
+    }
 
     private void StartRoutine()
     {
@@ -408,6 +579,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnTrigger()
     {
+        TriggerPlayerAdditional();
         _states[(int)CurState].OnTrigger();
     }
     public void EndAnimation()
