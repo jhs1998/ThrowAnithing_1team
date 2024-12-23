@@ -26,7 +26,7 @@ public class BaseEnemy : MonoBehaviour, IHit
     [Header("현재 체력")]
     [SerializeField] int curHp;
     public int Damage { get { return state.Atk; } }
-    public int CurHp { get { return curHp; } }
+    public int CurHp { get { return curHp; } set { curHp = value; } }
 
     protected SharedGameObject playerObj;
 
@@ -51,6 +51,7 @@ public class BaseEnemy : MonoBehaviour, IHit
         tree.SetVariable("TraceDis", (SharedFloat)state.TraceDis);
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
         tree.SetVariable("Reward", (SharedFloat)reward);
+        tree.SetVariable("CurHp", (SharedInt)curHp);
     }
 
     /// <summary>
