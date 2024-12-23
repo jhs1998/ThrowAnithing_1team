@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class Drop : MonoBehaviour
 {
-    public ItemDripTable dropList;
+    public DropList dropList;
 
     private void Update()
     {
@@ -16,7 +16,8 @@ public class Drop : MonoBehaviour
 
     private void DropItem()
     {
-        dropList.ItemDrop(transform.position);
-        
+        GameObject dropPrefab = dropList.itemList[Random.Range(0, dropList.Count)];
+        Instantiate(dropPrefab, transform.position, Quaternion.identity);
+
     }
 }
