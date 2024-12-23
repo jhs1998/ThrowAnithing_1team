@@ -6,9 +6,8 @@ using TMPro;
 public enum Depth2
 {
     gameplay,
-    language,
     sound,
-    notDepth2 = 4
+    notDepth2 = 3
 }
 
 public class Main_Option : MainScene
@@ -34,8 +33,8 @@ public class Main_Option : MainScene
     protected Depth2 depth2_cur = Depth2.notDepth2;
 
     protected GameObject gameplayOnOff;
-    protected GameObject languageOnOff;
     protected GameObject soundOnOff;
+
 
     void Start()
     {
@@ -48,8 +47,6 @@ public class Main_Option : MainScene
     private void Update()
     {
         if (gameplayOnOff.activeSelf)
-            return;
-        if (languageOnOff.activeSelf)
             return;
         if (soundOnOff.activeSelf)
             return;
@@ -74,20 +71,15 @@ public class Main_Option : MainScene
             case 0:
                 optionTitle.GetComponent<TMP_Text>().text = "MiniMap";
                 break;
-
             case 1:
-                optionTitle.GetComponent<TMP_Text>().text = "Language";
-                break;
-
-            case 2:
                 optionTitle.GetComponent<TMP_Text>().text = "Sound";
                 break;
 
-            case 3:
+            case 2:
                 optionTitle.GetComponent<TMP_Text>().text = "Input";
                 break;
 
-            case 4:
+            case 3:
                 optionTitle.GetComponent<TMP_Text>().text = "";
                 break;
         }
@@ -104,16 +96,11 @@ public class Main_Option : MainScene
             gameplayPannel.SetActive(false);
 
         if (depth1_cur == 1)
-            languagePannel.SetActive(true);
-        else
-            languagePannel.SetActive(false);
-
-        if (depth1_cur == 2)
             soundPannel.SetActive(true);
         else
             soundPannel.SetActive(false);
 
-        if (depth1_cur == 3)
+        if (depth1_cur == 2)
             inputPannel.SetActive(true);
         else
             inputPannel.SetActive(false);
@@ -143,8 +130,9 @@ public class Main_Option : MainScene
             yield return null;
         }
 
-        for (int i = 0; i < depth1.Length; i++)
+        for (int i = 0; i < depth1.Length-1; i++)
         {
+            Debug.Log(i);
             depth1[i].GetComponent<TMP_Text>().color = Color.white;
         }
         depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
@@ -165,23 +153,17 @@ public class Main_Option : MainScene
                     break;
 
                 case 1:
-                    Debug.Log("언어 선택");
-                    languageOnOff.SetActive(true);
-                    break;
-
-                case 2:
                     Debug.Log("소리 선택");
                     soundOnOff.SetActive(true);
                     break;
 
-                case 3:
+                case 2:
                     Debug.Log("조작 키 설명 이미지 노출");
                     //Todo : 조작키 설명
                     break;
 
-                case 4:
+                case 3:
                     Debug.Log("욥션 화면 나가기");
-                    depth2Checker(depth1_cur);
                     gameObject.SetActive(false);
                     break;
             }
@@ -194,29 +176,21 @@ public class Main_Option : MainScene
         }
     }
 
-    Depth2 depth2Checker(int menuNum)
-    {
-        return (Depth2)menuNum;
-    }
-
 
     private void Init()
     {
         depth1 = new GameObject[5];
 
         depth1[0] = gamePlay = GetUI("GamePlay");
-        depth1[1] = language = GetUI("Language");
-        depth1[2] = sound = GetUI("Sound");
-        depth1[3] = input = GetUI("Input");
-        depth1[4] = exit = GetUI("Exit");
+        depth1[1] = sound = GetUI("Sound");
+        depth1[2] = input = GetUI("Input");
+        depth1[3] = exit = GetUI("Exit");
 
         gameplayPannel = GetUI("GamePlayPackage");
-        languagePannel = GetUI("LanguagePackage");
         soundPannel = GetUI("SoundPackage");
         inputPannel = GetUI("InputImage");
 
         gameplayOnOff = GetUI("GameplayOnOff");
-        languageOnOff = GetUI("LanguageOnOff");
         soundOnOff = GetUI("SoundOnOff");
         depth1_cur = 0;
 
