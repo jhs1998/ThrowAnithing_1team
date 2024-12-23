@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor.Build.Content;
 using UnityEngine;
 using Zenject;
+using UnityEngine.UI;
 
 public class Option_GamePlay : Main_Option
 {
@@ -37,6 +38,10 @@ public class Option_GamePlay : Main_Option
     bool newFix;
     bool defaultFix;
 
+    [SerializeField] Button acceptButton;
+    [SerializeField] Button cancelButton;
+    [SerializeField] Button defaultButton;
+
 
     
     void Start()
@@ -54,6 +59,9 @@ public class Option_GamePlay : Main_Option
                 menuCo = StartCoroutine(GamePlay_Select());
             }
         }
+
+        Debug.Log(actChecked);
+        Debug.Log(fixChecked);
     }
     private IEnumerator GamePlay_Select()
     {
@@ -119,6 +127,35 @@ public class Option_GamePlay : Main_Option
         menuCo = null;
 
 
+    }
+
+    void ButtonSelect()
+    {
+        switch(gamePlay_Ver, gamePlay_Ho)
+        {
+            case (0, 1):
+                AcceptButton();
+                break;
+
+            case (0, 2):
+                CancelButton();
+                break;
+
+            case (0, 3):
+                DefaultButton();
+                break;
+
+            case (1, 0):
+                
+                break;
+
+            case (2, 0):
+                break;
+
+            case (3, 0):
+                break;
+
+        }
     }
 
     //Todo : Depth2 일때만 처리되게 해야함
