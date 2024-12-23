@@ -22,5 +22,7 @@ public partial class GlobalPlayerData
     public enum AmWeapon { Balance, Power, Speed }
     // 날짜와 시간
     public string saveDateTime;
+    // 로비 업그레이드 체크
+    // 스테이지 라운드 별 등급 확률
 }
 
