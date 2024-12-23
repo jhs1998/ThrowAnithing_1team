@@ -15,7 +15,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
         // 첫 공격 시 첫 공격 애니메이션 실행
         if (Player.PrevState != PlayerController.State.MeleeAttack)
         {
-            View.SetTrigger(PlayerView.Parameter.MeleeAttack);
+            View.SetTrigger(PlayerView.Parameter.BasicMelee);
         }
         else
         {

@@ -22,7 +22,6 @@ public class ThrowState : PlayerState
     public override void Update()
     {
         Arm.Update();
-        //Debug.Log("Melee");
     }
     public override void FixedUpdate()
     {

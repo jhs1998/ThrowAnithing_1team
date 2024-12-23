@@ -8,13 +8,12 @@ public class BasicThrowAttack : ArmThrowAttack
     Coroutine _throwRoutine;
     public override void Enter()
     {
-
         Player.Rb.velocity = Vector3.zero;
 
         // 첫 공격 시 첫 공격 애니메이션 실행
         if (Player.PrevState != PlayerController.State.ThrowAttack)
         {
-            View.SetTrigger(PlayerView.Parameter.ThrowAttack);
+            View.SetTrigger(PlayerView.Parameter.BasicThrow);
         }
         else
         {

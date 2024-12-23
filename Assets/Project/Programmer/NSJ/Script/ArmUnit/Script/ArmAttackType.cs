@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArmAttackType : ScriptableObject
 {
-     public PlayerController Player;
+    [HideInInspector] public PlayerController Player;
     public PlayerModel Model => Player.Model;
     public PlayerView View => Player.View;
     protected Transform transform => Player.transform;

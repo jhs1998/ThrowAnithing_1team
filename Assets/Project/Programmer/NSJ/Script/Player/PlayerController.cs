@@ -9,6 +9,9 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(PlayerView))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private ArmUnit _basic;
+    [SerializeField] private ArmUnit _power;
+
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
@@ -125,11 +128,7 @@ public class PlayerController : MonoBehaviour
         InitUIEvent();
         StartRoutine();
         InitAdditionnal();
-        if(Model.Arm != null)
-        {
-            Model.Arm = Instantiate(Model.Arm);
-            Model.Arm.Init(this);
-        }
+        ChangeArmUnit(_basic);
 
         Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
@@ -155,6 +154,14 @@ public class PlayerController : MonoBehaviour
             {
                 RemoveAdditional(Model.AdditionalEffects[0]);
             }
+        }
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            ChangeArmUnit(_basic);
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            ChangeArmUnit(_power);
         }
     }
 
@@ -228,6 +235,15 @@ public class PlayerController : MonoBehaviour
         {
             Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
             Destroy(throwObject.gameObject);
+        }
+    }
+
+    public void ChangeArmUnit(ArmUnit armUnit)
+    {
+        if (armUnit != null)
+        {
+            Model.Arm = Instantiate(armUnit);
+            Model.Arm.Init(this);
         }
     }
 

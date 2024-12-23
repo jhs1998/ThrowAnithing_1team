@@ -17,7 +17,7 @@ public class NSJMonster : MonoBehaviour, IHit
     public void TakeDamage(int damage)
     {
         _hp -= damage;
-       // Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
+        Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
 
         StartCoroutine(HitRoutine());
     }
