@@ -1,3 +1,4 @@
+using Assets.Project.Programmer.NSJ.RND.Script.Test.ZenjectTest;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,13 +6,21 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class Test_PlayerController : MonoBehaviour
 {
+    [SerializeField] Transform player;
     [SerializeField] float speed;
+    [SerializeField] public GameObject drainfil;
 
     Vector3 m_Movement;
+
+    private void Start()
+    {
+        drainfil.SetActive(false);
+    }
 
     private void Update()
     {
         Move();
+        OnDrainFil();
     }
 
     private void Move()
@@ -21,6 +30,18 @@ public class Test_PlayerController : MonoBehaviour
 
         m_Movement = new Vector3(x, 0, z).normalized; //¡§±‘»≠
 
-        transform.position += m_Movement * speed * Time.deltaTime;
+        player.position += m_Movement * speed * Time.deltaTime;
+    }
+
+    private void OnDrainFil()
+    {
+        if(Input.GetKey(KeyCode.LeftControl))
+        {
+            drainfil.SetActive(true);
+        }
+        else
+        {
+            drainfil.SetActive(false);
+        }
     }
 }
