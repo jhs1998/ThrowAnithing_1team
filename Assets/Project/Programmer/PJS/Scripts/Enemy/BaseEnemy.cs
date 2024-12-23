@@ -1,3 +1,4 @@
+using Assets.Project.Programmer.NSJ.RND.Script;
 using BehaviorDesigner.Runtime;
 using System;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class State
     [Range(0, 10)] public float TraceDis;   // 인식 사거리
 }
 
-public class BaseEnemy : MonoBehaviour
+public class BaseEnemy : MonoBehaviour, IHit
 {
     [SerializeField] BehaviorTree tree;
 
@@ -24,7 +25,7 @@ public class BaseEnemy : MonoBehaviour
     [SerializeField] float reward;
     [Header("현재 체력")]
     [SerializeField] int curHp;
-    public int Damge { get { return state.Atk; } }
+    public int Damage { get { return state.Atk; } }
     public int CurHp { get { return curHp; } }
 
     protected SharedGameObject playerObj;
@@ -75,5 +76,16 @@ public class BaseEnemy : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, state.AttackDis);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        int finalDamage = damage - (int)state.Def;
+
+        if (finalDamage <= 0)
+            finalDamage = 0;
+
+        curHp -= finalDamage;
+        Debug.Log($"{damage} 피해를 입음. curHP : {curHp}");
     }
 }

@@ -19,9 +19,10 @@ public class EnemyDropItem : Action
         // 몬스터가 죽었을 시 아이템 드랍
         int randNum = Random.Range(0, maxPersent+1);
         Debug.Log(randNum);
+        GameObject.Instantiate(dropItems[0], transform.position, transform.rotation);
 
         // TODO : 확률 인스펙터에서 정해서 값 가져오기
-        if (randNum <= reward.Value)
+        /*if (randNum <= reward.Value)
         {
             Debug.Log("재화 생성");
             if (dropItems == null)
@@ -33,7 +34,7 @@ public class EnemyDropItem : Action
             {
                 GameObject.Instantiate(item, transform.position, transform.rotation);
             }
-        }
+        }*/
 
         return TaskStatus.Success;
 	}

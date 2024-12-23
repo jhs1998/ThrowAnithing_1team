@@ -1,8 +1,9 @@
+using Assets.Project.Programmer.NSJ.RND.Script;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControll : MonoBehaviour, ITakeDamge
+public class PlayerControll : MonoBehaviour, IHit
 {
     [SerializeField] float speed;
 
@@ -35,12 +36,12 @@ public class PlayerControll : MonoBehaviour, ITakeDamge
     {
         if(collision.transform.CompareTag("Monster"))
         {
-            TakeDamge(collision.transform.GetComponent<BaseEnemy>().Damge);
+            TakeDamage(collision.transform.GetComponent<BaseEnemy>().Damage);
         }
     }
 
-    public void TakeDamge(int damge)
+    public void TakeDamage(int damage)
     {
-        Debug.Log($"{damge} 피해를 받음");
+        throw new System.NotImplementedException();
     }
 }

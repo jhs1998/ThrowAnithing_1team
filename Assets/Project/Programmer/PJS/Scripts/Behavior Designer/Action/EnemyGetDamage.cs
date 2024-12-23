@@ -1,6 +1,7 @@
 using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using Assets.Project.Programmer.NSJ.RND.Script;
 
 public class EnemyGetDamage : Action
 {
@@ -9,18 +10,18 @@ public class EnemyGetDamage : Action
 	public SharedGameObject triggerObj;
 
 	private BaseEnemy enemy;
-	private float damage;
+	private float playerDamage;
 
 	public override void OnStart()
 	{
 		enemy = GetComponent<BaseEnemy>();
 
 		// TODO : 플레이어 투척 오브젝트 스크립트 확인 후 변경
-		damage = triggerObj.Value.GetComponent<TestCodeData>().Atk;
+		//damage = triggerObj.Value.GetComponent<TestCodeData>().Atk;
 	}
 
 	public override TaskStatus OnUpdate()
 	{
-		return enemy.GetDamage(damage) ? TaskStatus.Success : TaskStatus.Failure;
+		return enemy.GetDamage(playerDamage) ? TaskStatus.Success : TaskStatus.Failure;
 	}
 }
