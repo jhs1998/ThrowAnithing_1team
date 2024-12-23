@@ -52,16 +52,18 @@ public class Option_GamePlay : Main_Option
 
     void Update()
     {
+        
         if (gameplayOnOff.activeSelf)
         {
             if (menuCo == null)
             {
                 menuCo = StartCoroutine(GamePlay_Select());
             }
+
+            if (Input.GetButtonDown("Interaction"))
+                ButtonSelect();
         }
 
-        Debug.Log(actChecked);
-        Debug.Log(fixChecked);
     }
     private IEnumerator GamePlay_Select()
     {
@@ -131,9 +133,11 @@ public class Option_GamePlay : Main_Option
 
     void ButtonSelect()
     {
+        Debug.Log("버튼선택됨");
         switch(gamePlay_Ver, gamePlay_Ho)
         {
             case (0, 1):
+                Debug.Log("0 1 실행");
                 AcceptButton();
                 break;
 
@@ -146,7 +150,7 @@ public class Option_GamePlay : Main_Option
                 break;
 
             case (1, 0):
-                
+                Debug.Log("1 0 실행");
                 break;
 
             case (2, 0):
@@ -178,6 +182,8 @@ public class Option_GamePlay : Main_Option
 
         preAct = miniAct;
         preFix = miniFix;
+
+        gameplayOnOff.SetActive(false);
 
         //Todo : depth1으로 복귀
     }

@@ -83,8 +83,6 @@ public class Option_Sound : Main_Option
         sound_Ho += (int)x;
         sound_Ver += (int)y;
 
-        Debug.Log($"{sound_Ho} {sound_Ver}");
-
         if (sound_Ver != 0)
         {
             if (x != 0)
@@ -123,7 +121,7 @@ public class Option_Sound : Main_Option
         }
 
         //Todo : 수정 필요
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Interaction"))
         {
             Debug.Log("E키 눌림");
             sound_Ver = 0;

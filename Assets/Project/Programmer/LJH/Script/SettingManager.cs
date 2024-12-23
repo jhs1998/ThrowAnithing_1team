@@ -21,6 +21,11 @@ public class SettingManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
+
+        if(this != null)
+        {
+            Destroy(this);
+        }
     }
 
     // Update is called once per frame

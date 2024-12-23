@@ -130,9 +130,8 @@ public class Main_Option : MainScene
             yield return null;
         }
 
-        for (int i = 0; i < depth1.Length-1; i++)
+        for (int i = 0; i < depth1.Length; i++)
         {
-            Debug.Log(i);
             depth1[i].GetComponent<TMP_Text>().color = Color.white;
         }
         depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
@@ -143,7 +142,7 @@ public class Main_Option : MainScene
 
     void SelectedEnter()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Interaction"))
         {
             switch (depth1_cur)
             {
@@ -179,7 +178,7 @@ public class Main_Option : MainScene
 
     private void Init()
     {
-        depth1 = new GameObject[5];
+        depth1 = new GameObject[4];
 
         depth1[0] = gamePlay = GetUI("GamePlay");
 

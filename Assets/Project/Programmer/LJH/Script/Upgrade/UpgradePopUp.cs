@@ -10,7 +10,7 @@ public class UpgradePopUp : MonoBehaviour
     {
         if(gameObject.activeSelf)
         {
-            if(Input.GetKeyDown(KeyCode.E))
+            if(Input.GetButtonDown("Interaction"))
                 upgrade.SetActive(true);
 
         }

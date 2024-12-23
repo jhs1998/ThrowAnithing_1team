@@ -100,7 +100,7 @@ public class Main_Continue : MainScene
 
     void SelectedEnter()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Interaction"))
         {
             switch (slots_cur)
             {
