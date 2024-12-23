@@ -28,7 +28,6 @@ public class BaseEnemy : MonoBehaviour, IHit
     [Header("현재 체력")]
     [SerializeField] int curHp;
 
-    [SerializeField] TMP_Text damageText;
     [HideInInspector] public int resultDamage;
     public int Damage { get { return state.Atk; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }

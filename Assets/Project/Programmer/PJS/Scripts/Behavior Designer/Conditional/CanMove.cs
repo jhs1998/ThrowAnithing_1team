@@ -14,7 +14,7 @@ public class CanMove : Conditional
         // 몬스터와 플레이어와의 거리체크
         playerDistance = (playerPos.Value.position - transform.position).magnitude;
         
-        if (playerDistance < distance.Value)
+        if (playerDistance <= distance.Value)
             return TaskStatus.Success;
         else
             return TaskStatus.Failure;
