@@ -9,8 +9,6 @@ public class TrapLazer : MonoBehaviour
     
     [SerializeField] GameObject lazer;
 
-    [SerializeField] Transform muzzle;
-
     [Range(5f, 10f)] [SerializeField] float count;
     WaitForSeconds OnblinkTiming;
     WaitForSeconds OffblinkTiming;
