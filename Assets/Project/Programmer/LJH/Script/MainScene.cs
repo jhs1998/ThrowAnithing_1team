@@ -29,7 +29,7 @@ public class MainScene : BaseUI
     GameObject main_continue;
 
     //옵션 패널
-    GameObject option;
+    protected GameObject option;
 
     //나가기 팝업
     GameObject exitPopUpObj;
@@ -44,7 +44,7 @@ public class MainScene : BaseUI
     int curMenu;
 
     protected bool isOption;
-    protected float inputDelay = 0.2f;
+    protected float inputDelay = 0.15f;
 
     protected Coroutine menuCo;
     private void Awake()
@@ -66,7 +66,6 @@ public class MainScene : BaseUI
        // if (option.activeSelf)
        //     curState = CurState.optionDepth1;
 
-        Debug.Log(curState);
         if (curState == CurState.main)
         {
             if (menuCo == null)
@@ -151,7 +150,7 @@ public class MainScene : BaseUI
     void SelectedEnter()
     {
         // Todo: 패드까지 지원 가능하게 바꿔야함
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Interaction"))
         {
             switch (curMenu)
             {
@@ -200,7 +199,7 @@ public class MainScene : BaseUI
                     exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
                     exitNum = 1;
                 }
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetButtonDown("Interaction"))
                     ExitGame();
                 break;
 
@@ -211,7 +210,7 @@ public class MainScene : BaseUI
                     exitNo.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
                     exitNum = 0;
                 }
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetButtonDown("Interaction"))
                     exitPopUpObj.SetActive(false);
                 break;
 
