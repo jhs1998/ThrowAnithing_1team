@@ -115,9 +115,7 @@ public class ThrowObject : MonoBehaviour
         {
             throwAdditional.FixedUpdate();
         }
-
     }
-
     public void TriggerThrowAddtional()
     {
         if (CanAttack == false)
@@ -126,6 +124,16 @@ public class ThrowObject : MonoBehaviour
         foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
         {
             throwAdditional.Trigger();
+        }
+    }
+    public void TriggerFirstThrowAddtional()
+    {
+        if (CanAttack == false)
+            return;
+
+        foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
+        {
+            throwAdditional.TriggerFirst();
         }
     }
     /// <summary>

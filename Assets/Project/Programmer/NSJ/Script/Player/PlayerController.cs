@@ -327,6 +327,13 @@ public class PlayerController : MonoBehaviour
             playerAdditional.Trigger();
         }
     }
+    public void TriggerFirstPlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.TriggerFirst();
+        }
+    }
     /// <summary>
     /// 추가효과 추가 시 중복 체크
     /// </summary>

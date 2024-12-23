@@ -15,14 +15,13 @@ public class TripleShot : ThrowAdditional
        
     }
 
-    public override void Trigger()
+    public override void TriggerFirst()
     {
         Shot();
     }
 
     private void Shot()
-    {
-
+    { 
         Vector3 originObjectRot = _throwObject.transform.eulerAngles;
         for (int i = 0; i < 2; i++)
         {

@@ -80,7 +80,7 @@ public class ThrowState : PlayerState
         ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
         throwObject.Init(Player, Model.HitAdditionals, Model.ThrowAdditionals);
         throwObject.Shoot(Player.ThrowPower);
-        throwObject.TriggerThrowAddtional();
+        throwObject.TriggerFirstThrowAddtional();
     }
 
     public override void OnCombo()
