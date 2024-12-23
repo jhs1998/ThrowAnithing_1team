@@ -32,16 +32,8 @@ public class PlayerControll : MonoBehaviour, IHit
         }
     }*/
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.transform.CompareTag("Monster"))
-        {
-            TakeDamage(collision.transform.GetComponent<BaseEnemy>().Damage);
-        }
-    }
-
     public void TakeDamage(int damage)
     {
-        throw new System.NotImplementedException();
+        Debug.Log($"{damage} 만큼의 피해를 입음");
     }
 }
