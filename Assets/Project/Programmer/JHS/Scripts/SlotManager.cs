@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using Zenject;
+//using Zenject;
 
 public class SlotManager : MonoBehaviour
 {
@@ -12,9 +13,10 @@ public class SlotManager : MonoBehaviour
 
     public Button[] newGameSlotButtons;  // 뉴게임 슬롯 버튼 배열
     public TextMeshProUGUI[] newGameSlotTexts;      // 뉴게임 슬롯 텍스트 배열
-
-    [Inject] private GlobalPlayerData globalPlayerData; // Zenject로 주입받음
-    [Inject] private UserDataManager userDataManager; // Zenject로 주입받음
+    [Inject]
+    private UserDataManager userDataManager;
+    [Inject]
+    private GlobalPlayerData globalPlayerData;
 
     public GameObject confirmDeleteUI; // 확인 UI
     public Button confirmButton; // 확인 버튼
@@ -23,7 +25,7 @@ public class SlotManager : MonoBehaviour
     private int selectedSlotIndex; // 선택된 슬롯 인덱스
 
     private void Start()
-    {       
+    {
         // 슬롯 UI 초기화
         UpdateSlotUI();
 
@@ -36,11 +38,6 @@ public class SlotManager : MonoBehaviour
     }
     private void UpdateSlotUI()
     {
-        if (globalPlayerData == null || userDataManager == null)
-        {
-            Debug.LogError("GlobalPlayerData 또는 UserDataManager가 주입되지 않았습니다!");
-            return;
-        }
         // 슬롯 UI 갱신
         for (int i = 0; i < continueSlotButtons.Length; i++)
         {
@@ -126,5 +123,12 @@ public class SlotManager : MonoBehaviour
     {
         // 확인 UI 비활성화
         confirmDeleteUI.SetActive(false);
+    }
+    // 전부 삭제 함수
+    public void DeleteButtonClicked()
+    {
+        userDataManager.DeleteData(); // 모든 데이터 삭제
+        UpdateSlotUI(); // 슬롯 UI 갱신
+        Debug.Log("모든 게임 데이터가 삭제되었습니다.");
     }
 }
