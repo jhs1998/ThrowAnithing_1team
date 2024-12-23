@@ -26,7 +26,6 @@ public class EnemyBoom : Action
             IHit hit = collider.transform.GetComponent<IHit>();
             if (hit != null)
             {
-                Debug.Log(collider.gameObject);
                 hit.TakeDamage(enemy.Damage);
             }
         }
