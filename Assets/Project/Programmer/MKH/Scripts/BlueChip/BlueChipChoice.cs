@@ -12,7 +12,7 @@ public class BlueChipChoice : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Trash"))
+        if(other.gameObject.tag == Tag.BlueChip)
         {
             choice.SetActive(true);
            
@@ -21,7 +21,7 @@ public class BlueChipChoice : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Trash"))
+        if(other.gameObject.tag == Tag.BlueChip)
         {
             if(Input.GetKeyDown(KeyCode.F))
             {
@@ -33,7 +33,7 @@ public class BlueChipChoice : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Trash"))
+        if(other.gameObject.tag == Tag.BlueChip)
         {
             choice.SetActive(false);
         }
