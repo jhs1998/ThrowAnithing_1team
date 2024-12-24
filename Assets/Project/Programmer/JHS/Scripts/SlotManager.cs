@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using Zenject;
+using UnityEngine.SceneManagement;
 //using Zenject;
 
 public class SlotManager : MonoBehaviour
@@ -16,7 +17,7 @@ public class SlotManager : MonoBehaviour
     [Inject]
     private UserDataManager userDataManager;
     [Inject]
-    private GlobalPlayerData globalPlayerData;
+    private GlobalGameData globalPlayerData;
 
     public GameObject confirmDeleteUI; // 확인 UI
     public Button confirmButton; // 확인 버튼
@@ -45,7 +46,7 @@ public class SlotManager : MonoBehaviour
             if (File.Exists(slotPath))
             {
                 string data = File.ReadAllText(slotPath);
-                GlobalPlayerData playerData = JsonUtility.FromJson<GlobalPlayerData>(data);
+                GlobalGameData playerData = JsonUtility.FromJson<GlobalGameData>(data);
 
                 // 저장된 시간 표시
                 string saveTime = string.IsNullOrEmpty(playerData.saveDateTime) ? "No Date" : playerData.saveDateTime;
@@ -71,6 +72,7 @@ public class SlotManager : MonoBehaviour
             Debug.Log($"Slot {slotIndex + 1} 데이터 불러오기");
             // 게임 로드 후 씬 전환 추가 가능
             UpdateSlotUI();
+            SceneManager.LoadScene("LobbyTestScene");
         }
         else
         {
@@ -101,6 +103,7 @@ public class SlotManager : MonoBehaviour
         userDataManager.SaveData(); // 새 게임 저장
         Debug.Log($"새 게임 시작 {slotIndex + 1}");
         UpdateSlotUI(); // 슬롯 UI 갱신
+        SceneManager.LoadScene("LobbyTestScene");
     }
 
     private void OnConfirmDelete()
