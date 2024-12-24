@@ -22,6 +22,7 @@ public class Main_Option : MainScene
     GameObject input;
     GameObject exit;
 
+
     //옵션 Depth2 바인딩
     GameObject gameplayPannel;
     GameObject languagePannel;
@@ -47,19 +48,20 @@ public class Main_Option : MainScene
 
     private void Update()
     {
-        if (gameplayOnOff.activeSelf)
-            return;
-        if (soundOnOff.activeSelf)
-            return;
 
-        if (gameObject.activeSelf)
+
+        if (!gameplayOnOff.activeSelf && !soundOnOff.activeSelf)
         {
-            OptionTitle();
-            if (menuCo == null)
+        
+            if (gameObject.activeSelf)
             {
-                menuCo = StartCoroutine(Depth1_Select());
+                OptionTitle();
+                if (menuCo == null)
+                {
+                    menuCo = StartCoroutine(Depth1_Select());
+                }
+                SelectedEnter();
             }
-            SelectedEnter();
         }
     }
 
@@ -131,14 +133,20 @@ public class Main_Option : MainScene
             yield return null;
         }
 
-        for (int i = 0; i < depth1.Length; i++)
-        {
-            depth1[i].GetComponent<TMP_Text>().color = Color.white;
-        }
+        ButtonReset();
+
         depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
 
         yield return inputDelay.GetDelay();
         menuCo = null;
+    }
+
+    void ButtonReset()
+    {
+        for (int i = 0; i < depth1.Length; i++)
+        {
+            depth1[i].GetComponent<TMP_Text>().color = Color.white;
+        }
     }
 
     void SelectedEnter()
@@ -148,26 +156,25 @@ public class Main_Option : MainScene
             switch (depth1_cur)
             {
                 case 0:
-                    Debug.Log("게임플레이 선택");
                     gameplayOnOff.SetActive(true);
+                    ButtonReset();
                     break;
 
                 case 1:
-                    Debug.Log("소리 선택");
                     soundOnOff.SetActive(true);
+                    ButtonReset();
                     break;
 
                 case 2:
-                    Debug.Log("조작 키 설명 이미지 노출");
-                    //Todo : 조작키 설명
+                    //Comment : 조작키 설명
                     break;
 
                 case 3:
-                    Debug.Log("욥션 화면 나가기");
                     gameObject.SetActive(false);
                     break;
             }
         }
+        
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {

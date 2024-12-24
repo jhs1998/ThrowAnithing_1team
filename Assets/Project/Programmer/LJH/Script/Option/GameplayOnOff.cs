@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameplayOnOff : MonoBehaviour
 {
-    [SerializeField] Main_Option option;
+    private void OnEnable()
+    {
+        Debug.Log("Â¥ÀÚÀÜ");
+    }
     private void OnDisable()
     {
-        option.depth1_cur = 0;
+        Debug.Log("Â¥ÀÜ");
     }
 }

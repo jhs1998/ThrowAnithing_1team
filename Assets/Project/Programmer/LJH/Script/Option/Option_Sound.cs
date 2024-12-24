@@ -20,11 +20,6 @@ public class Option_Sound : Main_Option
     int sound_Ho = 0;
     int sound_Ver = 1;
 
-    //Todo : Volume 변수를 해당 사운드 슬라이더바의 value 값으로 변경 필요
-    float totalVolume;
-    float bgmVolume;
-    float effectVolume;
-
     float preTotal;
     float newTotal;
     float defaultTotal;
@@ -165,13 +160,13 @@ public class Option_Sound : Main_Option
     public void AcceptButton()
     {
         VolumeCheck();
-        totalVolume = newTotal;
-        bgmVolume = newBgm;
-        effectVolume = newEffect;
+        totalSoundBar.value = newTotal;
+        bgmSoundBar.value = newBgm;
+        effectSoundBar.value = newEffect;
 
-        preTotal = totalVolume;
-        preBgm = bgmVolume;
-        preEffect = effectVolume;
+        preTotal = totalSoundBar.value;
+        preBgm = bgmSoundBar.value;
+        preEffect = effectSoundBar.value;
         
 
         //Todo : depth1으로 복귀
@@ -179,16 +174,16 @@ public class Option_Sound : Main_Option
 
     void VolumeCheck()
     {
-        newTotal = totalVolume;
-        newBgm = bgmVolume;
-        newEffect = effectVolume;
+        newTotal = totalSoundBar.value;
+        newBgm = bgmSoundBar.value;
+        newEffect = effectSoundBar.value;
     }
 
     public void CancelButton()
     {
-        totalVolume = preTotal;
-        bgmVolume = preBgm;
-        effectVolume = preEffect;
+        totalSoundBar.value = preTotal;
+        bgmSoundBar.value = preBgm;
+        effectSoundBar.value = preEffect;
 
         //Todo : depth1으로 복귀
     }
@@ -198,9 +193,9 @@ public class Option_Sound : Main_Option
         // defaultPopUp.SetActive(true);
         // Todo: 팝업 과정 거쳐야함
 
-        totalVolume = defaultTotal;
-        bgmVolume = defaultBgm;
-        effectVolume = defaultEffect;
+        totalSoundBar.value = defaultTotal;
+        bgmSoundBar.value = defaultBgm;
+        effectSoundBar.value = defaultEffect;
 
         //Todo : depth1으로 복귀
     }
@@ -230,6 +225,10 @@ public class Option_Sound : Main_Option
         effectSoundBar.value = 1;
 
         soundOnOff = GetUI("SoundOnOff");
+
+        defaultTotal = 100;
+        defaultBgm = 100;
+        defaultEffect = 100;
 
     }
 }

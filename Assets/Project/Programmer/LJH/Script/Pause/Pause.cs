@@ -127,8 +127,8 @@ public class Pause : MainScene
                     break;
 
                 case 2:
-                    Debug.Log("Pause 창 종료");
-                    pause.SetActive(false);
+                    Debug.Log("게임 종료");
+                    ExitGame();
                     break;
             }
         }

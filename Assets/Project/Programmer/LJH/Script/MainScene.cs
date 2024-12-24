@@ -216,7 +216,7 @@ public class MainScene : BaseUI
 
         }
     }
-    void ExitGame()
+    protected void ExitGame()
     {
 #if UNITY_EDITOR
         //Comment : 유니티 에디터상에서 종료

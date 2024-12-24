@@ -20,7 +20,7 @@ public class Option_GamePlay : Main_Option
     GameObject actChecked;
     GameObject fixChecked;
 
-    GameObject[,] buttons;
+    protected GameObject[,] buttons;
 
     int gamePlay_Ho = 0;
     int gamePlay_Ver = 1;
@@ -50,8 +50,6 @@ public class Option_GamePlay : Main_Option
 
     void Update()
     {
-        Debug.Log(preAct);
-        Debug.Log(preFix);
         
         if (gameplayOnOff.activeSelf)
         {
@@ -60,7 +58,7 @@ public class Option_GamePlay : Main_Option
                 menuCo = StartCoroutine(GamePlay_Select());
             }
 
-            if (Input.GetButtonDown("Interaction"))
+           if (Input.GetButtonDown("Interaction"))
                 ButtonSelect();
         }
 
@@ -112,18 +110,8 @@ public class Option_GamePlay : Main_Option
         }
 
 
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                if(buttons[i,j] == null)
-                    continue;
+        ButtonReset();
 
-                buttons[i, j].GetComponent<TMP_Text>().color = Color.white;
-            }
-        }
-
-        Debug.Log($"gamePlay_Ver${gamePlay_Ver} gamePlay_Ho{gamePlay_Ho}");
         buttons[gamePlay_Ver, gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
         yield return inputDelay.GetDelay();
         menuCo = null;
@@ -131,47 +119,60 @@ public class Option_GamePlay : Main_Option
 
     }
 
+    void ButtonReset()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if (buttons[i, j] == null)
+                    continue;
+
+                buttons[i, j].GetComponent<TMP_Text>().color = Color.white;
+            }
+        }
+    }
+
     void ButtonSelect()
     {
-        Debug.Log("버튼선택됨");
         switch(gamePlay_Ver, gamePlay_Ho)
         {
             case (0, 1):
-                Debug.Log("0 1 실행");
-                AcceptButton();
+                acceptButton.onClick.Invoke();
                 break;
 
             case (0, 2):
-                CancelButton();
+                cancelButton.onClick.Invoke();
                 break;
 
             case (0, 3):
-                DefaultButton();
+                defaultButton.onClick.Invoke();
                 break;
 
             case (1, 0):
-                Debug.Log("1 0 실행");
+                ActCheck();
                 break;
 
             case (2, 0):
+                FixCheck();
                 break;
 
             case (3, 0):
+                Debug.Log("랭귀지");
                 break;
 
         }
     }
 
+
     //Todo : Depth2 일때만 처리되게 해야함
     public void ActCheck()
     {
-        Debug.Log("액트체크실행됨");
         actChecked.SetActive(!actChecked.activeSelf);
     }
 
     public void FixCheck()
     {
-        Debug.Log("픽스체크실행됨");
         fixChecked.SetActive(!fixChecked.activeSelf);
     }
     public void AcceptButton()
@@ -182,6 +183,8 @@ public class Option_GamePlay : Main_Option
 
         preAct = actChecked.activeSelf;
         preFix = fixChecked.activeSelf;
+
+        ButtonReset();
 
         gameplayOnOff.SetActive(false);
 
@@ -199,6 +202,8 @@ public class Option_GamePlay : Main_Option
         actChecked.SetActive(preAct);
         fixChecked.SetActive(preFix);
 
+        ButtonReset();
+
         gameplayOnOff.SetActive(false);
         //Todo : depth1으로 복귀
     }
@@ -211,6 +216,11 @@ public class Option_GamePlay : Main_Option
 
         actChecked.SetActive(defaultAct);
         fixChecked.SetActive(defaultFix);
+
+        preAct = actChecked.activeSelf;
+        preFix = fixChecked.activeSelf;
+
+        ButtonReset();
 
         gameplayOnOff.SetActive(false);
 
