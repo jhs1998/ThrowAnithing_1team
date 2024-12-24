@@ -114,6 +114,11 @@ public class FallState : PlayerState
                 ChangeState(PlayerController.State.DoubleJump);
                 break;
             }
+            if (Input.GetKeyDown(KeyCode.V) && _isDoubleJump == true)
+            {
+                ChangeState(PlayerController.State.JumpDown);
+                break;
+            }
             yield return null;
         }
         _checkInputRoutine = null;

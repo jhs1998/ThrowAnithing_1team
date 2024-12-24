@@ -1,9 +1,10 @@
+using System;
 using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class ArmUnit : ScriptableObject
 {
-    protected enum Type { Throw, Melee, Special ,Size}
+    protected enum Type { Throw, Melee, Special, JumpDown,Size}
     [HideInInspector] public PlayerController Player;
     public PlayerModel Model => Player.Model;
     public PlayerView View => Player.View;
@@ -15,6 +16,7 @@ public class ArmUnit : ScriptableObject
     [SerializeField]protected ArmThrowAttack _throwAttack;
     [SerializeField]protected ArmMeleeAttack _meleeAttack;
     [SerializeField]protected ArmSpecialAttack _specialAttack;
+    [SerializeField] protected ArmJumpDown _jumpDown;
     public void Init(PlayerController player)
     {
         Player = player; 
@@ -22,147 +24,73 @@ public class ArmUnit : ScriptableObject
         _types[(int)Type.Throw] = Instantiate(_throwAttack);
         _types[(int)Type.Melee] = Instantiate(_meleeAttack);
         _types[(int)Type.Special] = Instantiate(_specialAttack);
+        _types[(int)Type.JumpDown] = Instantiate(_jumpDown);
 
         _types[(int)Type.Throw]?.Init(Player);
         _types[(int)Type.Melee]?.Init(Player);
         _types[(int)Type.Special]?.Init(Player);
+        _types[(int)Type.JumpDown]?.Init(Player);
         _throwAttack = _types[(int)Type.Throw] as ArmThrowAttack;
         _meleeAttack = _types[(int)Type.Melee] as ArmMeleeAttack;
         _specialAttack = _types[(int)Type.Special] as ArmSpecialAttack;
+        _jumpDown = _types[(int)Type.JumpDown] as ArmJumpDown;
     }
-    public virtual void Enter() 
+
+    public virtual void Enter()
     {
+        SelectType().Enter();
+    }
+    public virtual void Exit()
+    {
+        SelectType().Exit();
+    }
+    public virtual void Update()
+    {
+        SelectType().Update();
+    }
+    public virtual void FixedUpdate()
+    {
+        SelectType().FixedUpdate();
+    }
+    public virtual void OnDrawGizmos()
+    {
+        SelectType().OnDrawGizmos();
+    }
+    public virtual void OnTrigger()
+    {
+        SelectType().OnTrigger();
+    }
+    public virtual void EndAnimation()
+    {
+        SelectType().EndAnimation();
+    }
+    public virtual void OnCombo()
+    {
+        SelectType().OnCombo();
+    }
+    public virtual void EndCombo()
+    {
+        SelectType().EndCombo();
+    }
+
+    private ArmAttackType SelectType()
+    {
+        ArmAttackType attackType = null;
         switch (Player.CurState)
         {
             case PlayerController.State.ThrowAttack:
-                _types[(int)Type.Throw].Enter();
+                attackType = _types[(int)Type.Throw];
                 break;
             case PlayerController.State.MeleeAttack:
-                _types[(int)Type.Melee].Enter();
+                attackType = _types[(int)Type.Melee];
                 break;
             case PlayerController.State.SpecialAttack:
-                _types[(int)Type.Special].Enter();
+                attackType = _types[(int)Type.Special];
+                break;
+            case PlayerController.State.JumpDown:
+                attackType = _types[(int)Type.JumpDown];
                 break;
         }
-    }
-    public virtual void Exit() 
-    {
-        switch (Player.CurState)
-        {
-            case PlayerController.State.ThrowAttack:
-                _types[(int)Type.Throw].Exit();
-                break;
-            case PlayerController.State.MeleeAttack:
-                _types[(int)Type.Melee].Exit();
-                break;
-            case PlayerController.State.SpecialAttack:
-                _types[(int)Type.Special].Exit();
-                break;
-        }
-    }
-    public virtual void Update() 
-    {
-        switch (Player.CurState)
-        {
-            case PlayerController.State.ThrowAttack:
-                _types[(int)Type.Throw].Update();
-                break;
-            case PlayerController.State.MeleeAttack:
-                _types[(int)Type.Melee].Update();
-                break;
-            case PlayerController.State.SpecialAttack:
-                _types[(int)Type.Special].Update();
-                break;
-        }
-    }
-    public virtual void FixedUpdate() 
-    {
-        switch (Player.CurState)
-        {
-            case PlayerController.State.ThrowAttack:
-                _types[(int)Type.Throw].FixedUpdate();
-                break;
-            case PlayerController.State.MeleeAttack:
-                _types[(int)Type.Melee].FixedUpdate();
-                break;
-            case PlayerController.State.SpecialAttack:
-                _types[(int)Type.Special].FixedUpdate();
-                break;
-        }
-    }
-    public virtual void OnDrawGizmos() 
-    {
-        switch (Player.CurState)
-        {
-            case PlayerController.State.ThrowAttack:
-                _types[(int)Type.Throw].OnDrawGizmos();
-                break;
-            case PlayerController.State.MeleeAttack:
-                _types[(int)Type.Melee].OnDrawGizmos();
-                break;
-            case PlayerController.State.SpecialAttack:
-                _types[(int)Type.Special].OnDrawGizmos();
-                break;
-        }
-    }
-    public virtual void OnTrigger() 
-    {
-        switch (Player.CurState)
-        {
-            case PlayerController.State.ThrowAttack:
-                _types[(int)Type.Throw].OnTrigger();
-                break;
-            case PlayerController.State.MeleeAttack:
-                _types[(int)Type.Melee].OnTrigger();
-                break;
-            case PlayerController.State.SpecialAttack:
-                _types[(int)Type.Special].OnTrigger();
-                break;
-        }
-    }
-    public virtual void EndAnimation() 
-    {
-        switch (Player.CurState)
-        {
-            case PlayerController.State.ThrowAttack:
-                _types[(int)Type.Throw].EndAnimation();
-                break;
-            case PlayerController.State.MeleeAttack:
-                _types[(int)Type.Melee].EndAnimation();
-                break;
-            case PlayerController.State.SpecialAttack:
-                _types[(int)Type.Special].EndAnimation();
-                break;
-        }
-    }
-    public virtual void OnCombo() 
-    {
-        switch (Player.CurState)
-        {
-            case PlayerController.State.ThrowAttack:
-                _types[(int)Type.Throw].OnCombo();
-                break;
-            case PlayerController.State.MeleeAttack:
-                _types[(int)Type.Melee].OnCombo();
-                break;
-            case PlayerController.State.SpecialAttack:
-                _types[(int)Type.Special].OnCombo();
-                break;
-        }
-    }
-    public virtual void EndCombo() 
-    {
-        switch (Player.CurState)
-        {
-            case PlayerController.State.ThrowAttack:
-                _types[(int)Type.Throw].EndCombo();
-                break;
-            case PlayerController.State.MeleeAttack:
-                _types[(int)Type.Melee].EndCombo();
-                break;
-            case PlayerController.State.SpecialAttack:
-                _types[(int)Type.Special].EndCombo();
-                break;
-        }
+        return attackType;
     }
 }

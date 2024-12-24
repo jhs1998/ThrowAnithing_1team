@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
         Jump,
         DoubleJump,
         Fall,
+        JumpDown,
         Dash,
         Drain,
         SpecialAttack,
