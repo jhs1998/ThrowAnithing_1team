@@ -9,6 +9,17 @@ public class TestCodeData : MonoBehaviour, IHit
 
     public int Atk { get { return atk; } }
 
+    [SerializeField] EnemyBullet bulletPref;
+    [SerializeField] Transform pos;
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            Instantiate(bulletPref, pos);
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         Debug.Log($"{gameObject} ÀÇ TakeDamage");
@@ -16,10 +27,13 @@ public class TestCodeData : MonoBehaviour, IHit
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform.CompareTag("Monster"))
+        if(other.transform.tag == Tag.Monster)
         {
+            Debug.Log(other.transform);
             IHit hit = other.transform.GetComponent<IHit>();
             hit.TakeDamage(atk);
         }
+
+        gameObject.SetActive(false);
     }
 }

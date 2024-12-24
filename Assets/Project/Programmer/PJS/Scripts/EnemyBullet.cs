@@ -1,10 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
+    public enum State { Basic, Poision}
     [SerializeField] Rigidbody rigid;
+    [SerializeField] State curState;
+
+    public GameObject obj;
+
     private float speed;
 
     public float Speed { set { speed = value; } }
@@ -21,10 +24,18 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform.CompareTag("Player"))
+        if (other.transform.tag == Tag.Player)
         {
             Debug.Log("충돌");
             Destroy(gameObject);
         }
+
+        if (curState == State.Poision)
+        {
+            Debug.Log("생성");
+            Instantiate(obj, transform.position, transform.rotation);
+        }
+
+        Destroy(gameObject);
     }
 }
