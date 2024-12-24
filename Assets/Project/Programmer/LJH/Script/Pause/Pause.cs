@@ -111,7 +111,6 @@ public class Pause : MainScene
     //Comment : 선택한 메뉴로 진입하는 함수
     void SelectedEnter()
     {
-        // Todo: 패드까지 지원 가능하게 바꿔야함
         if (Input.GetButtonDown("Interaction"))
         {
             switch (curMenu_p)
@@ -162,16 +161,6 @@ public class Pause : MainScene
                 break;
 
         }
-    }
-    void ExitGame()
-    {
-#if UNITY_EDITOR
-        //Comment : 유니티 에디터상에서 종료
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        //Comment : 빌드 상에서 종료
-        Application.Quit();
-#endif
     }
 
     private void Init()

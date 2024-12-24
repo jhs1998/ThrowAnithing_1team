@@ -36,7 +36,7 @@ public class LJH_inputManager : MonoBehaviour
         }
         if (!pause.activeSelf)
         {
-            //Move();
+            Move();
             Rotation();
         }
     }
@@ -46,7 +46,7 @@ public class LJH_inputManager : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        transform.Translate(new Vector3(x, 0, z) * moveSpeed * Time.deltaTime, Space.Self);
+        transform.Translate(new Vector3(x, 0, z) * moveSpeed * Time.deltaTime,Space.World);
     }
 
     void Rotation()
