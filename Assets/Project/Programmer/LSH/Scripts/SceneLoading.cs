@@ -16,19 +16,19 @@ public class SceneLoading : MonoBehaviour
     }
 
 
-    public void ChangeScene(int SceneNum)
+    public void ChangeScene(SceneField SceneName)
     {
         if (loadingRoutine != null)
             return;
 
         loadingImage.gameObject.SetActive(true);
-        loadingRoutine = StartCoroutine(LoadingRoutine(SceneNum));
+        loadingRoutine = StartCoroutine(LoadingRoutine(SceneName));
     }
 
 
-    IEnumerator LoadingRoutine(int SceneNum)
+    IEnumerator LoadingRoutine(SceneField SceneName)
     {
-        AsyncOperation oper = SceneManager.LoadSceneAsync(SceneNum);
+        AsyncOperation oper = SceneManager.LoadSceneAsync(SceneName);
 
         oper.allowSceneActivation = false;
 

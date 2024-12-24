@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PortalSceneNumber : MonoBehaviour
 {
-    [SerializeField] public int SceneNum;
+    [SerializeField] public SceneField SceneName;
 
 
 }

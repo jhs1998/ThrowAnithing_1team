@@ -16,7 +16,6 @@ public class TrapSpike : MonoBehaviour
         {
             spike.transform.position =
                 Vector3.MoveTowards(spikeBeforeMove.position, spikeAfterMove.position, 1f);
-            Debug.Log(1);
 
         }
 
@@ -29,7 +28,6 @@ public class TrapSpike : MonoBehaviour
         {            
             spike.transform.position =
                 Vector3.MoveTowards(spikeAfterMove.position, spikeBeforeMove.position, 1f);
-            Debug.Log(2);
             
         }
 
