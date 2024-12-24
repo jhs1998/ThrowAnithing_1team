@@ -9,6 +9,18 @@ public class TestCodeData : MonoBehaviour, IHit
 
     public int Atk { get { return atk; } }
 
+    [SerializeField] EnemyBullet bulletPref;
+    [SerializeField] Transform pos;
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            Instantiate(bulletPref, pos);
+        }
+    }
+
+
     public void TakeDamage(int damage)
     {
         Debug.Log($"{gameObject} ÀÇ TakeDamage");

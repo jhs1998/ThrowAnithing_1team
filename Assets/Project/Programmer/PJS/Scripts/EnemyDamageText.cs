@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class EnemyDamage : MonoBehaviour
+public class EnemyDamageText : MonoBehaviour
 {
-    [SerializeField] TMP_Text damageText;
-    [SerializeField] Color arpa;
+    private TMP_Text damageText;
+    private Color arpa;
     private int damage;
+
     public int Damage { set { damage = value; } }
 
     private void Start()
