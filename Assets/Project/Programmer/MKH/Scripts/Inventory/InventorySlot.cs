@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,9 @@ namespace MKH
 
         [SerializeField] private ItemActionManager itemActionManager;
 
+        [SerializeField] TMP_Text nameText;
+        [SerializeField] TMP_Text descriptionText;
+
         // 아이템 이미지 투명도 조절
         private void SetColor(float _alpha)
         {
@@ -39,6 +43,8 @@ namespace MKH
         {
             mItem = item;
             mItemImage.sprite = mItem.Image;
+            nameText.text = item.Name;
+            descriptionText.text = item.Description;
 
             SetColor(1);
         }
