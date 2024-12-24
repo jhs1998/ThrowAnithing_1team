@@ -9,14 +9,13 @@ public class Spike : MonoBehaviour
 
     [Range(0.1f, 1f)][SerializeField] float count;
 
-
+    [SerializeField] int spikeDamage;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
 
-            Debug.Log(3);
             LSH_Player player = other.GetComponent<LSH_Player>();
 
             spikeRoutine = StartCoroutine(SpikeDamageRoutine(player));
@@ -33,7 +32,6 @@ public class Spike : MonoBehaviour
             if (spikeRoutine != null)
             {
                 StopCoroutine(spikeRoutine);
-                Debug.Log(4);
             }
         }
 
@@ -46,7 +44,7 @@ public class Spike : MonoBehaviour
 
         while (true)
         {
-            player.TakeDamage(10);
+            player.TakeDamage(spikeDamage);
             yield return DamageTiming;
         }
 

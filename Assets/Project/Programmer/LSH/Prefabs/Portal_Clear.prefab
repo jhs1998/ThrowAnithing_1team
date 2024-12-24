@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7464022852534561008}
   - component: {fileID: 959614428794801370}
   - component: {fileID: 6246758980086726652}
-  - component: {fileID: -7528762353086609238}
+  - component: {fileID: 3763389766525400142}
   m_Layer: 0
   m_Name: Portal_Clear
   m_TagString: Portal
@@ -108,7 +108,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &-7528762353086609238
+--- !u!114 &3763389766525400142
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,4 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd893cb2ce46ff14d9274bfd3e1a9d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneNum: 0
+  SceneName:
+    _sceneAsset: {fileID: 0}
+    _sceneName: Test01_Stage1-1

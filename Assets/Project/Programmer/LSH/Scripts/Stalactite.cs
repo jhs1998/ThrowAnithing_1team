@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Stalactite : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    [SerializeField] int stalactiteDamage;
+
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.tag == "Player")
+        {
+            LSH_Player player = other.GetComponent<LSH_Player>();
+            player.TakeDamage(stalactiteDamage);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
