@@ -3,12 +3,12 @@ using Zenject;
 
 public class DataInstaller : MonoInstaller
 {
-    [SerializeField] private GlobalPlayerData globalData;
+    [SerializeField] private GlobalGameData globalData;
     [SerializeField] private PlayerData playerData;
     [SerializeField] private UserDataManager userDataManager;
     public override void InstallBindings()
     {
-        Container.Bind<GlobalPlayerData>()
+        Container.Bind<GlobalGameData>()
             .FromInstance(globalData)
             .AsSingle();
 

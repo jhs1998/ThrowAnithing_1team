@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// 글로벌 플레이어 데이터
+/// 담당자: 정현수
+/// 사용 시 허락 맡으시오
+/// </summary>
+
+[System.Serializable]
+public partial class GlobalGameData
+{   
+    // 보유 재화
+    public int coin;    
+    // 날짜와 시간
+    public string saveDateTime;
+    // 로비 업그레이드 체크
+    public int[] upgradeLevels = new int[20];
+    // 업그레이드 비용 
+    public int[] upgradeCosts = { 1000, 1000, 1000, 1000,
+                                  5000, 5000, 5000, 5000,
+                                  10000, 10000, 10000, 10000,
+                                  30000, 30000, 30000, 30000,
+                                  50000, 50000, 50000, 50000};
+    public bool BuyUpgradeSlot(int slot)
+    {
+        // 슬롯 20개의 범위 내 인지 확인
+        if (slot < 0 || slot >= upgradeLevels.Length)
+        {
+            Debug.Log("잘못된 슬롯 번호입니다.");
+            return false;
+        }
+        
+        // 업그레이드 단계 확인
+        int currentLevel = upgradeLevels[slot];
+        if (currentLevel >= 5)
+        {
+            Debug.Log("이미 최대 단계에 도달했습니다.");
+            return false;
+        }
+
+        // 업그레이드 비용 체크
+        int cost = upgradeCosts[currentLevel];
+        if (coin < cost)
+        {
+            Debug.Log("코인이 부족합니다.");
+            return false;
+        }
+
+        // 업그레이드 진행
+        coin -= cost;
+        upgradeLevels[slot]++;
+        Debug.Log($"업그레이드 완료: 항목 {slot + 1}, 현재 단계: {upgradeLevels[slot]}");
+
+        return true;
+    }
+}
+
+

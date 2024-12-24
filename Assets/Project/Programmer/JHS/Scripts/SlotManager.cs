@@ -17,7 +17,7 @@ public class SlotManager : MonoBehaviour
     [Inject]
     private UserDataManager userDataManager;
     [Inject]
-    private GlobalPlayerData globalPlayerData;
+    private GlobalGameData globalPlayerData;
 
     public GameObject confirmDeleteUI; // 확인 UI
     public Button confirmButton; // 확인 버튼
@@ -46,7 +46,7 @@ public class SlotManager : MonoBehaviour
             if (File.Exists(slotPath))
             {
                 string data = File.ReadAllText(slotPath);
-                GlobalPlayerData playerData = JsonUtility.FromJson<GlobalPlayerData>(data);
+                GlobalGameData playerData = JsonUtility.FromJson<GlobalGameData>(data);
 
                 // 저장된 시간 표시
                 string saveTime = string.IsNullOrEmpty(playerData.saveDateTime) ? "No Date" : playerData.saveDateTime;

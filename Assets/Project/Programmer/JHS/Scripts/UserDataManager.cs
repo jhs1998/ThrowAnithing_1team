@@ -8,14 +8,14 @@ using Zenject;
 public class UserDataManager : MonoBehaviour
 {
     // 플레이어 데이터 생성
-    [SerializeField] GlobalPlayerData nowPlayer;
+    [SerializeField] GlobalGameData nowPlayer;
     // 세이브 파일 저장 경로
     public string path;
     // 현재 슬롯번호
     public int nowSlot;
 
     [Inject]
-    private void Init(GlobalPlayerData nowPlayer)
+    private void Init(GlobalGameData nowPlayer)
     {
         this.nowPlayer = nowPlayer;
         // 초기화 코드 작성
@@ -51,7 +51,7 @@ public class UserDataManager : MonoBehaviour
         {
             string data = File.ReadAllText(slotPath);
             // 현재 플레이어에 불러온 데이터 적용
-            nowPlayer = JsonUtility.FromJson<GlobalPlayerData>(data);
+            nowPlayer = JsonUtility.FromJson<GlobalGameData>(data);
             Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
         }
         else
@@ -61,14 +61,11 @@ public class UserDataManager : MonoBehaviour
     }
     public void DataClear()
     {
-        nowPlayer = new GlobalPlayerData
+        nowPlayer = new GlobalGameData
         {
-            playerName = "New Player",
-            maxHp = 100,
-            attackDamage = 10,
-            speed = 5,
-            luck = 1,
-            coin = 0
+            coin = 0,
+            saveDateTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            upgradeLevels = new int[20]
         };
     }
     public void DeleteSlotData(int slotIndex)
