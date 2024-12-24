@@ -27,8 +27,6 @@ public class Option_GamePlay : Main_Option
 
     GameObject defaultPopUp;
 
-    bool miniAct;
-    bool miniFix;
 
     bool preAct;
     bool newAct;
@@ -52,6 +50,8 @@ public class Option_GamePlay : Main_Option
 
     void Update()
     {
+        Debug.Log(preAct);
+        Debug.Log(preFix);
         
         if (gameplayOnOff.activeSelf)
         {
@@ -177,11 +177,11 @@ public class Option_GamePlay : Main_Option
     public void AcceptButton()
     {
         MinimapCheck();
-        miniAct = newAct;
-        miniFix = newFix;
+        actChecked.SetActive(newAct);
+        fixChecked.SetActive(newFix);
 
-        preAct = miniAct;
-        preFix = miniFix;
+        preAct = actChecked.activeSelf;
+        preFix = fixChecked.activeSelf;
 
         gameplayOnOff.SetActive(false);
 
@@ -196,9 +196,10 @@ public class Option_GamePlay : Main_Option
 
     public void CancelButton()
     {
-        miniAct = preAct;
-        miniFix = preFix;
+        actChecked.SetActive(preAct);
+        fixChecked.SetActive(preFix);
 
+        gameplayOnOff.SetActive(false);
         //Todo : depth1으로 복귀
     }
 
@@ -207,8 +208,11 @@ public class Option_GamePlay : Main_Option
         // defaultPopUp.SetActive(true);
         // Todo: 팝업 과정 거쳐야함
 
-        miniAct = defaultAct;
-        miniFix = defaultFix;
+
+        actChecked.SetActive(defaultAct);
+        fixChecked.SetActive(defaultFix);
+
+        gameplayOnOff.SetActive(false);
 
         //Todo : depth1으로 복귀
     }

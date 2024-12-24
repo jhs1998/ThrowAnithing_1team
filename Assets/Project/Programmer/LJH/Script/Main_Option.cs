@@ -9,6 +9,7 @@ public enum Depth2
     sound,
     notDepth2 = 3
 }
+//Todo: 설정창 열리면 시간 멈추게 하는거 추가
 
 public class Main_Option : MainScene
 {
@@ -27,7 +28,7 @@ public class Main_Option : MainScene
     GameObject soundPannel;
     GameObject inputPannel;
 
-    protected int depth1_cur;
+    public int depth1_cur;
 
     //옵션 Depth2 체크용 변수
     protected Depth2 depth2_cur = Depth2.notDepth2;
@@ -178,6 +179,7 @@ public class Main_Option : MainScene
 
     private void Init()
     {
+
         depth1 = new GameObject[4];
 
         depth1[0] = gamePlay = GetUI("GamePlay");
