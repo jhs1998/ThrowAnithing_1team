@@ -26,7 +26,7 @@ public class EnemyDamageText : MonoBehaviour
         {
             if(arpa.a <= 0.1f)
             {
-                gameObject.SetActive(false);
+                Destroy(gameObject);
                 yield break;
             }
 

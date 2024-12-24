@@ -13,7 +13,7 @@ public class CanAttack : Conditional
     {
         distance = (playerPos.Value.position - transform.position).magnitude;
 
-        if(distance < attackDis.Value)
+        if(distance <= attackDis.Value)
             return TaskStatus.Success;
         else
             return TaskStatus.Failure;
