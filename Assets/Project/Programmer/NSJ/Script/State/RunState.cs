@@ -38,25 +38,7 @@ public class RunState : PlayerState
 
     private void Run()
     {
-        // 카메라 방향으로 플레이어가 바라보게
-        Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
-        transform.rotation = cameraRot;
-        // 카메라는 다시 로컬 기준 전방 방향
-        if (Player.CamareArm.parent != null)
-        {
-            // 카메라 흔들림 버그 잡아주는 코드
-            Player.CamareArm.localPosition = new Vector3(0, Player.CamareArm.localPosition.y, 0);
-            Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
-        }
-
-        Quaternion cameraTempRot = Player.CamareArm.rotation;
-
-        // 입력한 방향쪽을 플레이어가 바라봄
-        Vector3 moveDir = transform.forward * _moveDir.z + transform.right * _moveDir.x;
-        if (moveDir == Vector3.zero)
-            return;
-        transform.rotation = Quaternion.LookRotation(moveDir);
-        Player.CamareArm.rotation = cameraTempRot;
+        Player.LookAtMoveDir(_moveDir);
 
         // 플레이어 이동
         // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동

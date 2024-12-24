@@ -2,7 +2,7 @@ using Assets.Project.Programmer.NSJ.RND.Script;
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "_power Special", menuName = "Arm/AttackType/_power/Special")]
+[CreateAssetMenu(fileName = "Power Special", menuName = "Arm/AttackType/Power/Special")]
 public class PowerSpecialAttack : ArmSpecialAttack
 {
     [System.Serializable]
@@ -68,10 +68,6 @@ public class PowerSpecialAttack : ArmSpecialAttack
     public override void Update()
     {
         Player.Rb.velocity = Vector3.zero;
-        if (_instanceDropObject != null)
-        {
-            _instanceDropObject.transform.localPosition = Vector3.zero;
-        }
     }
     public override void OnTrigger()
     {
@@ -98,6 +94,12 @@ public class PowerSpecialAttack : ArmSpecialAttack
             if (Input.GetButtonUp("Fire2"))
             {
                 Model.SpecialChargeGage = 0;
+                if (_instanceDropObject)
+                {
+                    _instanceDropObject.transform.SetParent(Player.ArmPoint);
+                }
+               
+
                 if (_index != 0)
                 {
                     _index--;                
@@ -124,9 +126,14 @@ public class PowerSpecialAttack : ArmSpecialAttack
                 transform.position.z + (Player.CamareArm.forward.z * _charges[_index - 1].AttackOffset.z));
             _instanceSpecialRange.transform.position = _dropPos;
         }
+        if (_instanceDropObject != null)
+        {
+            _instanceDropObject.transform.position = Vector3.MoveTowards(_instanceDropObject.transform.position, Player.ArmPoint.position, Time.deltaTime * 1f);
+        }
 
-            // 차지시간 계산
-            Model.SpecialChargeGage += Time.deltaTime / _maxChargeTime;
+
+        // 차지시간 계산
+        Model.SpecialChargeGage += Time.deltaTime / _maxChargeTime;
         // 인덱스가 배열 크기보다 작을떄만
         if (_index < _charges.Length)
         {
@@ -160,7 +167,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     {
         if (_instanceDropObject != null)
             Destroy(_instanceDropObject);
-        _instanceDropObject = Instantiate(_charges[_index].DropObject, Player.ArmPoint);
+        _instanceDropObject = Instantiate(_charges[_index].DropObject,Player.ArmPoint.position, transform.rotation);
         _instanceDropObject.transform.localScale = _charges[_index].DropSize;
     }
     private void CreateSpecialRange()

@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
         Jump,
         DoubleJump,
         Fall,
+        JumpAttack,
+        JumpDown,
         Dash,
         Drain,
         SpecialAttack,
@@ -155,11 +157,11 @@ public class PlayerController : MonoBehaviour
                 RemoveAdditional(Model.AdditionalEffects[0]);
             }
         }
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F1) && CurState == State.Idle)
         {
             ChangeArmUnit(_basic);
         }
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (Input.GetKeyDown(KeyCode.F2) && CurState == State.Idle)
         {
             ChangeArmUnit(_power);
         }
@@ -234,6 +236,40 @@ public class PlayerController : MonoBehaviour
         {
             CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
+    }
+
+    /// <summary>
+    /// 입력한 방향을 플레이어가 바라봄
+    /// </summary>
+    /// <param name="moveDir"></param>
+    public void LookAtMoveDir(Vector3 moveDir)
+    {
+        // 카메라 방향으로 플레이어가 바라보게
+        Quaternion cameraRot = Quaternion.Euler(0, CamareArm.eulerAngles.y, 0);
+        transform.rotation = cameraRot;
+        // 카메라는 다시 로컬 기준 전방 방향
+        if (CamareArm.parent != null)
+        {
+            // 카메라 흔들림 버그 잡아주는 코드
+            CamareArm.localPosition = new Vector3(0, CamareArm.localPosition.y, 0);
+            CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
+        }
+
+        Quaternion cameraTempRot = CamareArm.rotation;
+
+        // 입력한 방향쪽을 플레이어가 바라봄
+        Vector3 dir = transform.forward * moveDir.z + transform.right * moveDir.x;
+        if (dir == Vector3.zero)
+        {
+            if (CurState == State.Run)
+                return;
+            else
+            {
+                dir = transform.forward;
+            }
+        }
+        transform.rotation = Quaternion.LookRotation(dir);
+        CamareArm.rotation = cameraTempRot;
     }
 
     /// <summary>
@@ -551,6 +587,8 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.SpecialAttack] = new SpecialAttackState(this); // 특수공격
         _states[(int)State.Jump] = new JumpState(this);                 // 점프
         _states[(int)State.DoubleJump] = new DoubleJumpState(this);     // 더블점프
+        _states[(int)State.JumpAttack] = new JumpAttackState(this);     // 점프공격
+        _states[(int)State.JumpDown] = new JumpDownState(this);         // 하강 공격 
         _states[(int)State.Fall] = new FallState(this);                 // 추락
         _states[(int)State.Dash] = new DashState(this);                 // 대쉬
         _states[(int)State.Drain] = new DrainState(this);               // 드레인
@@ -579,8 +617,8 @@ public class PlayerController : MonoBehaviour
 
         Model.SpecialChargeGageSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.Panel.SpecialChargeSlider.value = x );
-        View.Panel.SpecialChargeSlider.value = Model.SpecialChargeGage ;
+            .Subscribe(x => View.Panel.SpecialChargeSlider.value = x);
+        View.Panel.SpecialChargeSlider.value = Model.SpecialChargeGage;
     }
 
     /// <summary>
