@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArmUnit : ScriptableObject
 {
-    protected enum Type { Throw, Melee, Special, JumpDown,Size}
+    protected enum Type { Throw, Melee, Special, JumpDown,JumpAttack,Size}
     [HideInInspector] public PlayerController Player;
     public PlayerModel Model => Player.Model;
     public PlayerView View => Player.View;
@@ -12,29 +12,35 @@ public class ArmUnit : ScriptableObject
     protected GameObject gameObject => Player.gameObject;
     protected Transform _muzzlePoint => Player.MuzzletPoint;
 
-    protected ArmAttackType[] _types;
-    [SerializeField]protected ArmThrowAttack _throwAttack;
-    [SerializeField]protected ArmMeleeAttack _meleeAttack;
-    [SerializeField]protected ArmSpecialAttack _specialAttack;
-    [SerializeField] protected ArmJumpDown _jumpDown;
+    [SerializeField] protected AttackTypeStruct _attackType;
+    [SerializeField] protected ArmAttackType[] _types;
+
+    [System.Serializable]
+    protected struct AttackTypeStruct
+    {
+       public ArmThrowAttack ThrowAttack;
+       public ArmMeleeAttack MeleeAttack;
+       public ArmSpecialAttack SpecialAttack;
+       public ArmJumpDown JumpDown;
+       public ArmJumpAttack JumpAttack;
+    }
+    protected ArmThrowAttack _throwAttack { get { return _attackType.ThrowAttack; } set { _attackType.ThrowAttack = value; } }
+    protected ArmMeleeAttack _meleeAttack { get { return _attackType.MeleeAttack; } set { _attackType.MeleeAttack = value; } }
+    protected ArmSpecialAttack _specialAttack { get { return _attackType.SpecialAttack; } set { _attackType.SpecialAttack = value; } }
+    protected ArmJumpDown _jumpDown { get { return _attackType.JumpDown; } set { _attackType.JumpDown = value; } }
+    protected ArmJumpAttack _jumpAttack { get { return _attackType.JumpAttack; } set { _attackType.JumpAttack = value; } }
     public void Init(PlayerController player)
     {
         Player = player; 
         _types = new ArmAttackType[(int)Type.Size];
-        _types[(int)Type.Throw] = Instantiate(_throwAttack);
-        _types[(int)Type.Melee] = Instantiate(_meleeAttack);
-        _types[(int)Type.Special] = Instantiate(_specialAttack);
-        _types[(int)Type.JumpDown] = Instantiate(_jumpDown);
-
-        _types[(int)Type.Throw]?.Init(Player);
-        _types[(int)Type.Melee]?.Init(Player);
-        _types[(int)Type.Special]?.Init(Player);
-        _types[(int)Type.JumpDown]?.Init(Player);
-        _throwAttack = _types[(int)Type.Throw] as ArmThrowAttack;
-        _meleeAttack = _types[(int)Type.Melee] as ArmMeleeAttack;
-        _specialAttack = _types[(int)Type.Special] as ArmSpecialAttack;
-        _jumpDown = _types[(int)Type.JumpDown] as ArmJumpDown;
+        InitType(Type.Throw, _throwAttack);
+        InitType(Type.Melee, _meleeAttack);
+        InitType(Type.Special, _specialAttack);
+        InitType(Type.JumpDown, _jumpDown);
+        InitType(Type.JumpAttack, _jumpAttack);
     }
+
+
 
     public virtual void Enter()
     {
@@ -90,7 +96,15 @@ public class ArmUnit : ScriptableObject
             case PlayerController.State.JumpDown:
                 attackType = _types[(int)Type.JumpDown];
                 break;
+            case PlayerController.State.JumpAttack:
+                attackType = _types[(int)Type.JumpAttack];
+                break;
         }
         return attackType;
+    }
+    private void InitType(Type type, ArmAttackType armAttackType)
+    {
+        _types[(int)type] = Instantiate(armAttackType);
+        _types[(int)type]?.Init(Player);
     }
 }

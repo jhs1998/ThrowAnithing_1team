@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: PowerArm
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  _throwAttack: {fileID: 11400000, guid: 12f99bdcf9e7aad478e97c1228b916eb, type: 2}
-  _meleeAttack: {fileID: 11400000, guid: aad6fa32b8740e74d83bd9df1fc02706, type: 2}
-  _specialAttack: {fileID: 11400000, guid: 3093480af2b51f34891008fc8ad537c8, type: 2}
-  _jumpDown: {fileID: 11400000, guid: 1400f2cbdd75f024ca47d297ce38812c, type: 2}
+  _attackType:
+    ThrowAttack: {fileID: 11400000, guid: 12f99bdcf9e7aad478e97c1228b916eb, type: 2}
+    MeleeAttack: {fileID: 11400000, guid: aad6fa32b8740e74d83bd9df1fc02706, type: 2}
+    SpecialAttack: {fileID: 11400000, guid: 3093480af2b51f34891008fc8ad537c8, type: 2}
+    JumpDown: {fileID: 11400000, guid: 1400f2cbdd75f024ca47d297ce38812c, type: 2}
+    JumpAttack: {fileID: 11400000, guid: 8ef139e6679250941aefb3c4dce05418, type: 2}
+  _types: []

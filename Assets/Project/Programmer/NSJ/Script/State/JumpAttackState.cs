@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpDownState : PlayerState
+public class JumpAttackState : PlayerState
 {
-    public JumpDownState(PlayerController controller) : base(controller)
+    public JumpAttackState(PlayerController controller) : base(controller)
     {
-        UseStamina = true;
     }
     public override void Enter()
     {

@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
         Jump,
         DoubleJump,
         Fall,
+        JumpAttack,
         JumpDown,
         Dash,
         Drain,
@@ -586,6 +587,7 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.SpecialAttack] = new SpecialAttackState(this); // 특수공격
         _states[(int)State.Jump] = new JumpState(this);                 // 점프
         _states[(int)State.DoubleJump] = new DoubleJumpState(this);     // 더블점프
+        _states[(int)State.JumpAttack] = new JumpAttackState(this);     // 점프공격
         _states[(int)State.JumpDown] = new JumpDownState(this);         // 하강 공격 
         _states[(int)State.Fall] = new FallState(this);                 // 추락
         _states[(int)State.Dash] = new DashState(this);                 // 대쉬
