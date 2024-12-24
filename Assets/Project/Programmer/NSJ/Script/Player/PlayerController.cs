@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private ArmUnit _basic;
     [SerializeField] private ArmUnit _power;
+    [SerializeField] public Transform ArmPoint;
 
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
