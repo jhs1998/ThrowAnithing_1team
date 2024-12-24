@@ -10,6 +10,7 @@ public class ArmAttackType : ScriptableObject
     protected Transform transform => Player.transform;
     protected GameObject gameObject => Player.gameObject;
     protected Transform _muzzlePoint => Player.MuzzletPoint;
+    protected Rigidbody Rb => Player.Rb;
     public virtual void Init(PlayerController player)
     {
         Player = player;

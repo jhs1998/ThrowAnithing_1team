@@ -43,6 +43,10 @@ public class FallState : PlayerState
         }
     }
 
+    public override void FixedUpdate()
+    {
+        CheckIsNearGround();
+    }
     public override void OnDrawGizmos()
     {
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
@@ -88,7 +92,7 @@ public class FallState : PlayerState
             if (Rb.velocity.y < 0)
             {
                 Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-                if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f))
+                if (CheckIsNearGround() && Rb.velocity.y < 0)
                     break;
             }
             yield return 0.02f.GetDelay();
@@ -116,11 +120,28 @@ public class FallState : PlayerState
             }
             if (Input.GetKeyDown(KeyCode.V) && _isDoubleJump == true)
             {
+                _isDoubleJump = false;
                 ChangeState(PlayerController.State.JumpDown);
                 break;
             }
             yield return null;
         }
         _checkInputRoutine = null;
+    }
+
+    /// <summary>
+    /// 지면에 가까운지 체크
+    /// </summary>
+    private bool CheckIsNearGround()
+    {
+        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
