@@ -10,8 +10,6 @@ namespace MKH
         public override Item Create()
         {
             Item_Equipment creatitem = Instantiate(this);
-            Item item = Instantiate(this);
-            item.Type = ItemType.Gloves;
 
             if (ItemType.Gloves == Type)
             {
