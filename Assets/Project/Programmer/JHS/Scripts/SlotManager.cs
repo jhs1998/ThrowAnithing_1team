@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using Zenject;
+using UnityEngine.SceneManagement;
 //using Zenject;
 
 public class SlotManager : MonoBehaviour
@@ -71,6 +72,7 @@ public class SlotManager : MonoBehaviour
             Debug.Log($"Slot {slotIndex + 1} 데이터 불러오기");
             // 게임 로드 후 씬 전환 추가 가능
             UpdateSlotUI();
+            SceneManager.LoadScene("LobbyTestScene");
         }
         else
         {
@@ -101,6 +103,7 @@ public class SlotManager : MonoBehaviour
         userDataManager.SaveData(); // 새 게임 저장
         Debug.Log($"새 게임 시작 {slotIndex + 1}");
         UpdateSlotUI(); // 슬롯 UI 갱신
+        SceneManager.LoadScene("LobbyTestScene");
     }
 
     private void OnConfirmDelete()
