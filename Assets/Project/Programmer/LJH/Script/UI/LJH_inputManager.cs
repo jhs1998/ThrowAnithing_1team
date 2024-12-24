@@ -5,12 +5,40 @@ using UnityEngine;
 
 public class LJH_inputManager : MonoBehaviour
 {
+   public float maxHp = 100;
+   public float curHp;
+
+   public float maxMp = 200;
+   public float curMp;
+
+   public float maxSta = 50;
+   public float curSta;
+
+
     float moveSpeed = 3f;
     Vector3 preFor = Vector3.forward;
+
+    [SerializeField] GameObject pause;
+
+    private void Start()
+    {
+        curHp = maxHp;
+        curMp = maxMp;
+        curSta = maxSta;
+    }
     private void Update()
     {
-        //Move();
-        Rotation();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            curHp -= 10;
+            curMp -= 10;
+            curSta -= 10;
+        }
+        if (!pause.activeSelf)
+        {
+            Move();
+            Rotation();
+        }
     }
 
     void Move()
@@ -18,7 +46,7 @@ public class LJH_inputManager : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        transform.Translate(new Vector3(x, 0, z) * moveSpeed * Time.deltaTime, Space.Self);
+        transform.Translate(new Vector3(x, 0, z) * moveSpeed * Time.deltaTime,Space.World);
     }
 
     void Rotation()

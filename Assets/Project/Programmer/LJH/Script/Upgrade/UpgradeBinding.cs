@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class BaseStatus : MonoBehaviour
+public class UpgradeBinding : MonoBehaviour
 {
     //string Key로 게임 오브젝트 Value를 가져올 딕셔너리
 
-    protected Dictionary<string, Image> _imageDict;
+    protected Dictionary<string, GameObject> _gameObjectDict;
 
     //string Key로 Component Value를 가져올 딕셔너리
 
@@ -26,17 +25,21 @@ public class BaseStatus : MonoBehaviour
 
         //딕셔너리의 용량은 _transforms 배열의 4배로 설정
 
-        _imageDict = new Dictionary<string, Image>(_transforms.Length << 2);
+        _gameObjectDict = new Dictionary<string, GameObject>(_transforms.Length << 2);
 
         foreach (Transform child in _transforms)
         {
             //똑같은 이름이 있는 것을 생각해서 Try로 추가
-            _imageDict.TryAdd(child.gameObject.name, child.gameObject.GetComponent<Image>());
+            _gameObjectDict.TryAdd(child.gameObject.name, child.gameObject);
         }
 
         _componentDict = new Dictionary<(string, System.Type), Component>();
 
     }
+
+    /// <summary>
+    /// 로딩 과정에서 바인딩 할 수 있으면 BindAll
+    /// </summary>
 
     protected void BindAll()
     {
@@ -44,12 +47,12 @@ public class BaseStatus : MonoBehaviour
 
         //딕셔너리의 용량은 _transforms 배열의 4배로 설정
 
-        _imageDict = new Dictionary<string, Image>(_transforms.Length << 2);
+        _gameObjectDict = new Dictionary<string, GameObject>(_transforms.Length << 2);
 
         foreach (Transform child in _transforms)
         {
             //똑같은 이름이 있는 것을 생각해서 Try로 추가
-            _imageDict.TryAdd(child.gameObject.name, child.gameObject.GetComponent<Image>());
+            _gameObjectDict.TryAdd(child.gameObject.name, child.gameObject);
 
         }
 
@@ -71,9 +74,9 @@ public class BaseStatus : MonoBehaviour
 
     //GetUI("Key 01") > Key 01 인 게임오브젝트 가져오기
 
-    public Image GetImage(in string name)
+    public GameObject GetUI(in string name)
     {
-        _imageDict.TryGetValue(name, out Image obj);
+        _gameObjectDict.TryGetValue(name, out GameObject obj);
 
         return obj;
     }
@@ -97,7 +100,7 @@ public class BaseStatus : MonoBehaviour
 
         // 2. Component 딕셔너리에 이미 있을 때 (찾아본적이 있는 상태) > 찾았던걸 줌
 
-        _imageDict.TryGetValue(name, out Image go);
+        _gameObjectDict.TryGetValue(name, out GameObject go);
 
         if (go != null)
         {
@@ -111,4 +114,5 @@ public class BaseStatus : MonoBehaviour
         }
         return null;
     }
+
 }
