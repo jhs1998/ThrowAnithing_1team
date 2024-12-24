@@ -8,8 +8,15 @@ namespace MKH
         public static bool IsInventoryActive = false;
 
         [Header("현재 계산된 수치를 표현할 텍스트 라벨들")]
-        [SerializeField] private TextMeshProUGUI mDamageLabel;
-        [SerializeField] private TextMeshProUGUI mDefenseLabel;
+        [SerializeField] private TMP_Text mDamageLabel;
+        [SerializeField] private TMP_Text mDefenseLabel;
+        [SerializeField] private TMP_Text mHPLabel;
+        [SerializeField] private TMP_Text mCriticalLabel;
+        [SerializeField] private TMP_Text mAttackSpeedLabel;
+        [SerializeField] private TMP_Text mSteminaLabel;
+        [SerializeField] private TMP_Text mEquipRateLabel;
+        [SerializeField] private TMP_Text mSpeedLabel;
+        [SerializeField] private TMP_Text mManaLabel;
 
         private EquipmentEffect mCurrentEquipmentEffect;
         public EquipmentEffect CurrentEquipmentEffect { get { return mCurrentEquipmentEffect; } }
@@ -32,8 +39,15 @@ namespace MKH
 
             mCurrentEquipmentEffect = calcedEffect;
 
-            mDamageLabel.text = mCurrentEquipmentEffect.Damage.ToString();
-            mDefenseLabel.text = mCurrentEquipmentEffect.Defense.ToString();
+            mDamageLabel.text = "Damage : " + mCurrentEquipmentEffect.Damage.ToString();
+            mDefenseLabel.text = "Defense : " + mCurrentEquipmentEffect.Defense.ToString();
+            mHPLabel.text = "HP : " + mCurrentEquipmentEffect.HP.ToString();
+            mCriticalLabel.text = "Critical : " + mCurrentEquipmentEffect.Critical.ToString();
+            mAttackSpeedLabel.text = "AttackSpeed : " + mCurrentEquipmentEffect.AttackSpeed.ToString("F2");
+            mSteminaLabel.text = "Stemina : " + mCurrentEquipmentEffect.Stemina.ToString();
+            mEquipRateLabel.text = "EquipRate : " + mCurrentEquipmentEffect.EquipRate.ToString("F2");
+            mSpeedLabel.text = "Speed : " + mCurrentEquipmentEffect.Speed.ToString("F2");
+            mManaLabel.text = "Mana : " + mCurrentEquipmentEffect.Mana.ToString();
         }
 
         public InventorySlot GetEquipmentSlot(ItemType type)
