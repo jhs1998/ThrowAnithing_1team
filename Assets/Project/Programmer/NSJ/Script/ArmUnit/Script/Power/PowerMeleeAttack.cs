@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "_power Melee", menuName = "Arm/AttackType/_power/Melee")]
+[CreateAssetMenu(fileName = "Power Melee", menuName = "Arm/AttackType/Power/Melee")]
 public class PowerMeleeAttack : ArmMeleeAttack
 {
     [System.Serializable]

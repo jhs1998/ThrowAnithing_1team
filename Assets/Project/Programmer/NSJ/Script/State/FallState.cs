@@ -8,6 +8,7 @@ public class FallState : PlayerState
 
     private bool _isDoubleJump;
     private bool _isLanding;
+    private bool _isJumpAttack;
     Coroutine _fallRoutine;
     Coroutine _checkInputRoutine;
     public FallState(PlayerController controller) : base(controller)
@@ -36,13 +37,17 @@ public class FallState : PlayerState
             _fallRoutine = null;
         }
 
-        if (_checkInputRoutine != null) 
+        if (_checkInputRoutine != null)
         {
             CoroutineHandler.StopRoutine(_checkInputRoutine);
             _checkInputRoutine = null;
         }
     }
 
+    public override void FixedUpdate()
+    {
+        CheckIsNearGround();
+    }
     public override void OnDrawGizmos()
     {
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
@@ -54,16 +59,10 @@ public class FallState : PlayerState
     }
     public override void EndAnimation()
     {
-        if(_isLanding == true)
-        {
-            _isDoubleJump = false;
-            _isLanding = false;
-            ChangeState(PlayerController.State.Idle);
-        }
-        else
-        {
-            View.SetTrigger(PlayerView.Parameter.Fall);
-        }
+        _isDoubleJump = false;
+        _isLanding = false;
+        _isJumpAttack = false;
+        ChangeState(PlayerController.State.Idle);
     }
 
     IEnumerator FallRoutine()
@@ -88,7 +87,7 @@ public class FallState : PlayerState
             if (Rb.velocity.y < 0)
             {
                 Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-                if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f))
+                if (CheckIsNearGround() && Rb.velocity.y < 0)
                     break;
             }
             yield return 0.02f.GetDelay();
@@ -96,7 +95,7 @@ public class FallState : PlayerState
 
         if (_checkInputRoutine != null)
         {
-             CoroutineHandler.StopRoutine(_checkInputRoutine);
+            CoroutineHandler.StopRoutine(_checkInputRoutine);
             _checkInputRoutine = null;
         }
         // 착지 애니메이션 실행
@@ -114,8 +113,36 @@ public class FallState : PlayerState
                 ChangeState(PlayerController.State.DoubleJump);
                 break;
             }
+            if (Input.GetButtonDown("Fire1") && _isDoubleJump == false && _isJumpAttack == false)
+            {
+                _isJumpAttack = true;
+                ChangeState(PlayerController.State.JumpAttack);
+                break;
+            }
+            if (Input.GetKeyDown(KeyCode.V) && _isDoubleJump == true )
+            {
+                _isDoubleJump = false;              
+                ChangeState(PlayerController.State.JumpDown);
+                break;
+            }
             yield return null;
         }
         _checkInputRoutine = null;
+    }
+
+    /// <summary>
+    /// 지면에 가까운지 체크
+    /// </summary>
+    private bool CheckIsNearGround()
+    {
+        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

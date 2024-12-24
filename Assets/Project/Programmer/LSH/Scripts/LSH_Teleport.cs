@@ -3,22 +3,22 @@ using UnityEngine.SceneManagement;
 
 public class LSH_Teleport : MonoBehaviour
 {
-    int travelNum;
+    SceneField travelNum;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Portal")
         {
-            travelNum = other.GetComponent<PortalSceneNumber>().SceneNum;                        
+            travelNum = other.GetComponent<PortalSceneNumber>().SceneName;                        
             SceneManager.LoadScene(travelNum);
         }
         
         
     }
 
-    public void ChangeScene(int SceneNum)
+    public void ChangeScene(SceneField SceneName)
     {
-        SceneManager.LoadScene("Test02_Trap");
+        SceneManager.LoadScene(SceneName);
     }
 
 }

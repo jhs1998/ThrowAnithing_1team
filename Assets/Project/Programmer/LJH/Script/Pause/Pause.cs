@@ -11,24 +11,26 @@ public class Pause : MainScene
     GameObject pause;
 
 
-    GameObject continueButton;
-    GameObject optionButton;
-    GameObject exitButton;
+    GameObject continueButton_P;
+    GameObject optionButton_P;
+    GameObject exitButton_P;
 
     [SerializeField] GameObject ingameOptions;
 
-    int curMenu;
+    int curMenu_p;
 
     GameObject[] pauseButtons;
-    GameObject[] exitButtons;
+    GameObject[] exitButtons_p;
 
     Coroutine settingCo;
 
-    int exitNum;
+    int exitNum_p;
 
-    GameObject exitPopUpObj;
-    GameObject exitNo;
+    GameObject exitPopUpObj_p;
+    GameObject exitNo_p;
 
+    //Comment : 게임 포즈되었는지 체크용 불변수
+    bool isPaused;
 
 
     private void Awake()
@@ -49,6 +51,14 @@ public class Pause : MainScene
 
             if (Input.GetButtonDown("Interaction"))
                 SelectedEnter();
+
+            //Time.timeScale = 0;
+            isPaused = true;
+        }
+        else if (!pause.activeSelf)
+        {
+            Time.timeScale = 1f;
+            isPaused = false;
         }
 
         if (Input.GetButtonDown("Cancel"))
@@ -56,6 +66,7 @@ public class Pause : MainScene
             Debug.Log("esc키눌렸음");
             PauseOnOff();
         }
+
     }
 
     void PauseOnOff()
@@ -68,21 +79,21 @@ public class Pause : MainScene
         float y = -Input.GetAxisRaw("Vertical");
 
 
-        curMenu += (int)y;
+        curMenu_p += (int)y;
 
-        if (curMenu == pauseButtons.Length)
+        if (curMenu_p == pauseButtons.Length)
         {
-            curMenu = 0;
+            curMenu_p = 0;
             pauseButtons[pauseButtons.Length - 1].SetActive(false);
-            pauseButtons[curMenu].SetActive(true);
+            pauseButtons[curMenu_p].SetActive(true);
             yield return null;
         }
 
-        if (curMenu == -1)
+        if (curMenu_p == -1)
         {
-            curMenu = pauseButtons.Length - 1;
+            curMenu_p = pauseButtons.Length - 1;
             pauseButtons[0].SetActive(false);
-            pauseButtons[curMenu].SetActive(true);
+            pauseButtons[curMenu_p].SetActive(true);
             yield return null;
         }
 
@@ -90,9 +101,9 @@ public class Pause : MainScene
         {
             pauseButtons[i].SetActive(false);
         }
-        pauseButtons[curMenu].SetActive(true);
+        pauseButtons[curMenu_p].SetActive(true);
 
-        yield return inputDelay.GetDelay();
+        yield return new WaitForSecondsRealtime(inputDelay);
         settingCo = null;
     }
 
@@ -100,10 +111,9 @@ public class Pause : MainScene
     //Comment : 선택한 메뉴로 진입하는 함수
     void SelectedEnter()
     {
-        // Todo: 패드까지 지원 가능하게 바꿔야함
         if (Input.GetButtonDown("Interaction"))
         {
-            switch (curMenu)
+            switch (curMenu_p)
             {
                 case 0:
                     Debug.Log("게임 다시 진행");
@@ -116,8 +126,8 @@ public class Pause : MainScene
                     break;
 
                 case 2:
-                    Debug.Log("게임 종료 선택_게임 종료");
-                    pause.SetActive(false);
+                    Debug.Log("게임 종료");
+                    ExitGame();
                     break;
             }
         }
@@ -126,41 +136,31 @@ public class Pause : MainScene
     void ExitPopUp()
     {
 
-        switch (exitNum)
+        switch (exitNum_p)
         {
             case 0:
-                exitButtons[exitNum].GetComponent<Image>().color = Color.black;
+                exitButtons_p[exitNum_p].GetComponent<Image>().color = Color.black;
                 if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
                 {
-                    exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                    exitNum = 1;
+                    exitButtons_p[exitNum_p].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitNum_p = 1;
                 }
                 if (Input.GetButtonDown("Interaction"))
                     ExitGame();
                 break;
 
             case 1:
-                exitNo.GetComponent<Image>().color = Color.black;
+                exitNo_p.GetComponent<Image>().color = Color.black;
                 if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
                 {
-                    exitNo.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                    exitNum = 0;
+                    exitNo_p.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitNum_p = 0;
                 }
                 if (Input.GetButtonDown("Interaction"))
-                    exitPopUpObj.SetActive(false);
+                    exitPopUpObj_p.SetActive(false);
                 break;
 
         }
-    }
-    void ExitGame()
-    {
-#if UNITY_EDITOR
-        //Comment : 유니티 에디터상에서 종료
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        //Comment : 빌드 상에서 종료
-        Application.Quit();
-#endif
     }
 
     private void Init()
@@ -169,9 +169,9 @@ public class Pause : MainScene
 
         pauseButtons = new GameObject[3];
 
-        pauseButtons[0] = continueButton = GetUI("ContinueImage");
-        pauseButtons[1] = optionButton = GetUI("OptionImage");
-        pauseButtons[2] = exitButton = GetUI("ExitImage");
+        pauseButtons[0] = continueButton_P = GetUI("ContinueImage");
+        pauseButtons[1] = optionButton_P = GetUI("OptionImage");
+        pauseButtons[2] = exitButton_P = GetUI("ExitImage");
 
     }
 

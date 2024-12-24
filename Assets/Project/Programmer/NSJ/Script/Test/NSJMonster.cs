@@ -6,7 +6,6 @@ using UnityEngine;
 public class NSJMonster : MonoBehaviour, IHit
 {
     [SerializeField] private int _hp;
-    [SerializeField] private List<HitAdditional> _debuffList = new List<HitAdditional>();
     private Renderer _renderer;
     private Color _origin;
     private void Awake()
@@ -22,6 +21,7 @@ public class NSJMonster : MonoBehaviour, IHit
         StartCoroutine(HitRoutine());
     }
 
+    [SerializeField] private List<HitAdditional> _debuffList = new List<HitAdditional>();
     public void AddDebuff(HitAdditional debuff)
     {
         int index = _debuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
@@ -42,6 +42,10 @@ public class NSJMonster : MonoBehaviour, IHit
         debuff.OnExitHitAdditional += RemoveDebuff;
         debuff.Enter();
     }
+    private void RemoveDebuff(HitAdditional debuff)
+    {
+        _debuffList.Remove(debuff);
+    }
     IEnumerator HitRoutine()
     {
 
@@ -52,8 +56,4 @@ public class NSJMonster : MonoBehaviour, IHit
         _renderer.material.color = _origin;
     }
 
-    private void RemoveDebuff(HitAdditional debuff)
-    {
-        _debuffList.Remove(debuff);
-    }
 }

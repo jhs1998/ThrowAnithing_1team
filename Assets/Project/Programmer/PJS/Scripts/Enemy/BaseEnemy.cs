@@ -8,7 +8,7 @@ using UnityEngine;
 [System.Serializable]
 public class State
 {
-    [Range(50, 1000)] public int MaxHp;  // 체력
+    [Range(50, 3000)] public int MaxHp;  // 체력
     [Range(0, 20)] public int Atk;       // 공격력
     [Range(0, 10)] public float Def;    // 방어력
     [Range(0, 10)] public float Speed;    // 이동 속도
@@ -28,7 +28,7 @@ public class BaseEnemy : MonoBehaviour, IHit
     [Header("현재 체력")]
     [SerializeField] int curHp;
 
-    [HideInInspector] public int resultDamage;
+    [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
     public int Damage { get { return state.Atk; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
 

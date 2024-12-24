@@ -10,6 +10,8 @@ public class Lazer : MonoBehaviour
      WaitForSeconds wait;
     [Range(1f, 10f)][SerializeField] float timer;
 
+    [SerializeField] int lazerDamage;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -42,7 +44,7 @@ public class Lazer : MonoBehaviour
         while (true)
         {
             yield return wait;
-            player.TakeDamage(6);
+            player.TakeDamage(lazerDamage);
 
         }
     }

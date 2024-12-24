@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro.EditorUtilities;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "_power Throw", menuName = "Arm/AttackType/_power/Throw")]
+[CreateAssetMenu(fileName = "Power Throw", menuName = "Arm/AttackType/Power/Throw")]
 public class PowerThrowAttack : ArmThrowAttack
 {
     [System.Serializable]

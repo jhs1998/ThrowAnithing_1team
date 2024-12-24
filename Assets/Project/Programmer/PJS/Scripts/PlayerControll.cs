@@ -19,18 +19,8 @@ public class PlayerControll : MonoBehaviour, IHit
 
         Vector3 dir = new Vector3(x, 0, z);
 
-
-
         transform.Translate(dir.normalized * speed * Time.deltaTime);
     }
-
-    /*private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Monster"))
-        {
-            Debug.Log("공격 받음");
-        }
-    }*/
 
     public void TakeDamage(int damage)
     {

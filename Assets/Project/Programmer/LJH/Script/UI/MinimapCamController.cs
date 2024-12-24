@@ -11,6 +11,9 @@ public class MinimapCamController : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject minimap;
 
+    [SerializeField] GameObject minimapActCheckBox;
+    [SerializeField] GameObject minimapFixCheckBox;
+
     [SerializeField] bool minimapAct;
     [SerializeField] bool minimapFix;
     private void Update()
@@ -29,6 +32,8 @@ public class MinimapCamController : MonoBehaviour
     // 환경 설정에서 미니맵 픽스드 누를때마다 호출
     void CamRot()
     {
+        minimapFix = minimapFixCheckBox.activeSelf;
+
         if(!minimapFix)
         transform.eulerAngles = new Vector3(90, player.transform.eulerAngles.y, 0);
 
@@ -37,7 +42,7 @@ public class MinimapCamController : MonoBehaviour
     // 환경 설정에서 미니맵 액티베이트 누를때마다 호출
     void CamActivated()
     {
-        
+        minimapAct = minimapActCheckBox.activeSelf;
         minimap.SetActive(minimapAct);
         
     }
