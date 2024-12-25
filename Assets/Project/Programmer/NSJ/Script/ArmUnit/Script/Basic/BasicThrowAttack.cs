@@ -22,7 +22,7 @@ public class BasicThrowAttack : ArmThrowAttack
 
         if (Player.IsAttackFoward == true)
         {
-            Player.LookAtCameraFoward();
+            Player.LookAtAttackDir();
         }
     }
     public override void Exit()

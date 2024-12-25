@@ -11,7 +11,6 @@ public class PowerJumpAttack : ArmJumpAttack
     [SerializeField] private float _downAngle;
     public override void Enter()
     {
-        Debug.Log("점프어택 시작");
         // 애니메이션 실행
         View.SetTrigger(PlayerView.Parameter.JumpAttack);
 
@@ -29,7 +28,7 @@ public class PowerJumpAttack : ArmJumpAttack
             Player.ChangeVelocityPlayerFoward();
 
         // 플레이어 카메라 방향 바라보기
-        Player.LookAtCameraFoward();
+        Player.LookAtAttackDir();
         Rb.AddForce(Vector3.up * _popValue, ForceMode.Impulse);
         ThrowObject();
     }

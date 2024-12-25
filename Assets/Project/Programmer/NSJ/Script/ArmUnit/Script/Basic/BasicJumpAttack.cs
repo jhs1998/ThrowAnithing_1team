@@ -32,7 +32,7 @@ public class BasicJumpAttack : ArmJumpAttack
             Player.ChangeVelocityPlayerFoward();
 
         // 플레이어 카메라 방향 바라보기
-        Player.LookAtCameraFoward();
+        Player.LookAtAttackDir();
         Rb.AddForce(Vector3.up * _popValue, ForceMode.Impulse);
         ThrowObject();
     }

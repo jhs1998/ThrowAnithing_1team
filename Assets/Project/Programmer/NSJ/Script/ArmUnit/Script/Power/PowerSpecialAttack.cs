@@ -73,7 +73,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     {
         if (_triggerIndex == 0)
         {
-            Player.LookAtCameraFoward();
+            Player.LookAtAttackDir();
             _triggerIndex++;
         }
         else

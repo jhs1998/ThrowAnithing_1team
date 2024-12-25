@@ -43,12 +43,18 @@ public class PlayerController : MonoBehaviour
         public float AttackHeight;
         public float ThrowPower;
         public Transform MuzzlePoint;
+        [HideInInspector]public bool IsTargetHolding;
+        [HideInInspector]public bool IsTargetToggle; 
+        [HideInInspector]public Vector3 TargetPos;
     }
     [Header("공격 관련 필드")]
     [SerializeField] private AttackStruct _attackStruct;
     public Transform MuzzletPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
     public float AttackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
     public float ThrowPower { get { return _attackStruct.ThrowPower; } set { _attackStruct.ThrowPower = value; } }
+    public bool IsTargetHolding { get { return _attackStruct.IsTargetHolding; } set { _attackStruct.IsTargetHolding = value; } }
+    public bool IsTargetToggle { get { return _attackStruct.IsTargetToggle; } set { _attackStruct.IsTargetToggle = value; } }
+    public Vector3 TargetPos { get { return _attackStruct.TargetPos; } set { _attackStruct.TargetPos = value; } }   
     #endregion
     #region Camera 관련 필드
     /// <summary>
@@ -62,7 +68,6 @@ public class PlayerController : MonoBehaviour
         [Range(0f, 50f)] public float CameraRotateAngle;
         [Range(0f, 5f)] public float CameraRotateSpeed;
         public PlayerCameraHold CameraHolder;
-        public bool IsHolding;
         public bool IsVerticalCameraMove;
     }
     [Header("카메라 관련 필드")]
@@ -72,7 +77,6 @@ public class PlayerController : MonoBehaviour
     private float _cameraRotateAngle { get { return _cameraStruct.CameraRotateAngle; } set { _cameraStruct.CameraRotateAngle = value; } }
     private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
     private PlayerCameraHold _cameraHolder { get { return _cameraStruct.CameraHolder; }set{ _cameraStruct.CameraHolder = value; } }
-    public bool IsHolding { get { return _cameraStruct.IsHolding; } set { _cameraStruct.IsHolding = value; } }
     private bool _isVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
     #region 감지 관련 필드
@@ -132,7 +136,7 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
 
-    [HideInInspector] public Vector3 MoveDir;
+    [HideInInspector] public Vector3 MoveDir; 
 
     private void Awake()
     {
@@ -224,6 +228,15 @@ public class PlayerController : MonoBehaviour
         return instanceObject;
     }
     #endregion
+    #region 플레이어 방향 처리
+    public void LookAtAttackDir()
+    {
+        if (IsTargetHolding == false && IsTargetToggle == false)
+            LookAtCameraFoward();
+        else
+            LookAtTargetDir(TargetPos);
+    }
+
     /// <summary>
     /// 카메라 방향으로 플레이어 방향 전환
     /// </summary>
@@ -238,7 +251,6 @@ public class PlayerController : MonoBehaviour
             CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
     }
-
 
     /// <summary>
     /// 입력한 방향을 플레이어가 바라봄
@@ -275,6 +287,30 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// 타겟 방향을 플레이어가 바라봄
+    /// </summary>
+    public void LookAtTargetDir(Vector3 targetPos)
+    {
+        // 카메라 방향으로 플레이어가 바라보게
+        Quaternion cameraRot = Quaternion.Euler(0, CamareArm.eulerAngles.y, 0);
+        transform.rotation = cameraRot;
+        // 카메라는 다시 로컬 기준 전방 방향
+        if (CamareArm.parent != null)
+        {
+            // 카메라 흔들림 버그 잡아주는 코드
+            CamareArm.localPosition = new Vector3(0, CamareArm.localPosition.y, 0);
+            CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
+        }
+
+        Quaternion cameraTempRot = CamareArm.rotation;
+
+        // 입력한 방향쪽을 플레이어가 바라봄
+        transform.LookAt(TargetPos);
+        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+        CamareArm.rotation = cameraTempRot;
+    }
+
+    /// <summary>
     ///  플레이어가 보고있는 방향으로 물리량 바꾸기
     /// </summary>
     public void ChangeVelocityPlayerFoward()
@@ -282,6 +318,7 @@ public class PlayerController : MonoBehaviour
         Vector3 tempVelocity = transform.forward * Rb.velocity.magnitude; // x,z 값의 물리량만 계산
         Rb.velocity = tempVelocity; // 대입
     }
+    #endregion
     /// <summary>
     /// 오브젝트 줍기
     /// </summary>
@@ -300,7 +337,7 @@ public class PlayerController : MonoBehaviour
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
     }
-
+    #region 플레이어 추가효과 관련
     /// <summary>
     /// 추가효과 추가
     /// </summary>
@@ -441,23 +478,14 @@ public class PlayerController : MonoBehaviour
         else
             return false;
     }
+    #endregion
 
-    private void CheckAnyState()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
-        {
-            ChangeState(PlayerController.State.Dash);
-        }
-    }
 
     /// <summary>
     /// TPS 시점 카메라 회전
     /// </summary>
     private void RotateCamera()
     {
-        if (IsHolding == true)
-            return;
-
         float angleX = Input.GetAxis("Mouse X");
         float angleY = default;
         // 체크시 마우스 상하도 가능
@@ -475,7 +503,7 @@ public class PlayerController : MonoBehaviour
             MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
     }
-
+    #region 지형물 체크 로직
     /// <summary>
     /// 지면 체크
     /// </summary>
@@ -547,7 +575,7 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.DrawLine(footPos, headPos);
     }
-
+    #endregion
 
     /// <summary>
     /// 스테미나 회복 코루틴
@@ -574,8 +602,9 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
     }
+    #region 키입력 관련
     /// <summary>
-    /// 방향키 입력
+    /// 키입력 감지
     /// </summary>
     private void InputKey()
     {
@@ -590,20 +619,45 @@ public class PlayerController : MonoBehaviour
                 RemoveAdditional(Model.AdditionalEffects[0]);
             }
         }
-
-        if (Input.GetMouseButtonDown(1))
+        if(IsTargetHolding == false && IsTargetToggle == false)
         {
-            //TODO: 카메라 몬스터 홀딩 기능
-            IsHolding = true;
-            _cameraHolder.gameObject.SetActive(true);
+            if (Input.GetMouseButtonDown(1))
+            {
+                //TODO: 카메라 몬스터 홀딩 기능
+                IsTargetHolding = true;
+                _cameraHolder.gameObject.SetActive(true);
+            }
+            if (Input.GetKeyDown(KeyCode.T) && IsTargetHolding ==false)
+            {
+                //TODO: 카메라 몬스터 홀딩 기능
+                IsTargetToggle = true;
+                _cameraHolder.gameObject.SetActive(true);
+            }
         }
-        if (Input.GetMouseButtonUp(1))
+        else
         {
-            //TODO: 카메라 몬스터 홀딩 풀기
-            IsHolding = false;
-            _cameraHolder.gameObject.SetActive(false);
+            if (Input.GetMouseButtonUp(1) && IsTargetToggle == false)
+            {
+                //TODO: 카메라 몬스터 홀딩 풀기
+                IsTargetHolding = false;
+                _cameraHolder.gameObject.SetActive(false);
+            }
+            if (Input.GetKeyDown(KeyCode.T) && IsTargetHolding == false)
+            {
+                //TODO: 카메라 몬스터 홀딩 풀기
+                IsTargetToggle = false;
+                _cameraHolder.gameObject.SetActive(false);
+            }
         }
     }
+    private void CheckAnyState()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
+        {
+            ChangeState(PlayerController.State.Dash);
+        }
+    }
+    #endregion
 
     // 초기 설정 ============================================================================================================================================ //
     /// <summary>
