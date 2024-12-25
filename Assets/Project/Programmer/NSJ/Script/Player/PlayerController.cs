@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     private float _cameraRotateAngle { get { return _cameraStruct.CameraRotateAngle; } set { _cameraStruct.CameraRotateAngle = value; } }
     private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
     private PlayerCameraHold _cameraHolder { get { return _cameraStruct.CameraHolder; }set{ _cameraStruct.CameraHolder = value; } }
-    private bool _isVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
+    public bool IsVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
     #region 감지 관련 필드
     [System.Serializable]
@@ -489,7 +489,7 @@ public class PlayerController : MonoBehaviour
         float angleX = Input.GetAxis("Mouse X");
         float angleY = default;
         // 체크시 마우스 상하도 가능
-        if (_isVerticalCameraMove == true)
+        if (IsVerticalCameraMove == true)
             angleY = Input.GetAxis("Mouse Y");
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
@@ -497,7 +497,7 @@ public class PlayerController : MonoBehaviour
         x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
         CamareArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
 
-        if (_isVerticalCameraMove)
+        if (IsVerticalCameraMove)
         {
             // 머즐포인트 각도조절
             MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);

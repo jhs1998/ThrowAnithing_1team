@@ -87,7 +87,7 @@ public class PlayerCameraHold : MonoBehaviour
     private void SetTargetList()
     {
         // 플레이어가 앞을 바라봄
-        _player.LookAtCameraFoward();
+        //_player.LookAtCameraFoward();
         
         // 주변에 몬스터가 있는지 스캔
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _detectRange, _player.OverLapColliders, 1 << Layer.Monster);
@@ -101,7 +101,8 @@ public class PlayerCameraHold : MonoBehaviour
             destination.y = 0;
 
             Vector3 targetDir = (destination - source).normalized;
-            float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
+
+            float targetAngle = Vector3.Angle(_player.CamareArm.forward, targetDir); // 아크코사인 필요 (느리다)
             if (targetAngle > _angle * 0.5f)
                 continue;
 

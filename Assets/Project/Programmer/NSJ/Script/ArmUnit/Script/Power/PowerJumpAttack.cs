@@ -8,7 +8,17 @@ public class PowerJumpAttack : ArmJumpAttack
     [Header("플레이어가 허공에서 살짝 튀어오르는 정도")]
     [SerializeField] private float _popValue;
     [Header("하단 공격 각도")]
-    [SerializeField] private float _downAngle;
+    [SerializeField] private float m_downAngle;
+    private float _downAngle
+    {
+        get
+        {
+            if (Player.IsVerticalCameraMove == true)
+                return 0;
+            else
+                return m_downAngle;
+        }
+    }
     public override void Enter()
     {
         // 애니메이션 실행

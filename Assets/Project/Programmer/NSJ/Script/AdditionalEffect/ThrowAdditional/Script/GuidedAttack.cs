@@ -41,7 +41,7 @@ public class GuidedAttack : ThrowAdditional
         {
             float guidedSpeed = _player.ThrowPower;
 
-            Vector3 targetPos = new Vector3(_targets[0].transform.position.x, _targets[0].transform.position.y, _targets[0].transform.position.z);
+            Vector3 targetPos = new Vector3(_targets[0].transform.position.x, _targets[0].transform.position.y + 0.7f, _targets[0].transform.position.z);
 
             _throwObject.transform.LookAt(targetPos);
 
