@@ -23,11 +23,15 @@ public class Upgrade : UpgradeBinding
 
 
     //Comment : for Test
-    int usedCost;
+    [SerializeField] int usedCost;
 
     int costLimit1 = 5000;
-    int costLimit2 = 20000;
-    int costLimit3 = 50000;
+    int costLimit2 = 30000;
+    int costLimit3 = 80000;
+    int costLimit4 = 200000;
+
+    // Comment : Cost Tier
+    int tier;
 
     private void Awake()
     {
@@ -49,10 +53,35 @@ public class Upgrade : UpgradeBinding
         {
             slots[ver, ho].onClick.Invoke();
         }
+    }
 
+    void TierCal()
+    {
+        tier = 1;
+        if (usedCost > costLimit1)
+            tier = 2;
+        if (usedCost > costLimit2)
+            tier = 3;
+        if (usedCost > costLimit3)
+            tier = 4;
+        if (usedCost > costLimit4)
+            tier = 5;
+    }
 
-        // ¸®¹Ô 1´Ü°è ŠW±âÀü¿£ Ã¹Â°ÁÙ »©°í ÀüºÎ ±î¸Ä°Ô
-        // ¸®¹Ô 1´Ü°è ¶Õ±âÀü¿£ Ã¹Â°ÁÙ »©°í Å¬¸¯ ºÒ°¡
+    void SlotLimit()
+    {
+        TierCal();
+        
+        for (int i = tier; i < 5; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                //Todo : Change Color
+                Debug.Log($"{i}, {j}");
+                slots[i, j].GetComponent<Image>().color = new(0.1f, 0, 0.2f);
+            }
+        }
+
     }
 
     IEnumerator Slot_Selected()
@@ -62,6 +91,7 @@ public class Upgrade : UpgradeBinding
 
         ho += (int)x;
         ver += (int)y;
+
 
 
         if (ho == -1)
@@ -74,9 +104,9 @@ public class Upgrade : UpgradeBinding
         }
         if (ver == -1)
         {
-            ver = 4;
+            ver = tier -1;
         }
-        if (ver == 5)
+        if (ver == tier)
         {
             ver = 0;
         }
@@ -87,10 +117,13 @@ public class Upgrade : UpgradeBinding
 
         slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
 
-        
+        Debug.Log(slots[ver,ho].GetComponent<Image>().name);
+
         itemName.text = slots[ver, ho].name;
+        itemImage.sprite = slots[ver, ho].GetComponentInChildren<Image>().sprite;
         itemInfo.text = slots[ver, ho].name;
 
+        SlotLimit();
         yield return inputDelay.GetDelay();
         slotCo = null;
 
@@ -101,6 +134,8 @@ public class Upgrade : UpgradeBinding
     public void Â¥ÀÜ()
     {
         Debug.Log("Â¥ÀÜ");
+        
+        
     }
 
     void ColorReset()
@@ -142,7 +177,6 @@ public class Upgrade : UpgradeBinding
         slots[4, 1] = GetUI<Button>("BloodDrain");
         slots[4, 2] = GetUI<Button>("Armor2");
         slots[4, 3] = GetUI<Button>("GetItem2");
-
 
 
     }
