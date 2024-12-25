@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,16 +8,43 @@ namespace MKH
     {
         public override Item Create()
         {
-            Item_Equipment creatitem = Instantiate(this);
+            List<Dictionary<string, object>> data = CSVReader.Read("Earring");
+
+            Item_Equipment createitem = Instantiate(this);
 
             if (ItemType.Earring == Type)
             {
-                // ÁÖ½ºÅİ
-                creatitem.mEffect.EquipRate = UnityEngine.Random.Range(0.01f, 0.1f);
-                // ÃÖ¼Ò ¼öÄ¡ ÃÖ´ë¼öÄ¡ ³Ö±â
-                creatitem.Description = "EquipRate : " + creatitem.mEffect.EquipRate.ToString("F2");
+                if (RateType.Nomal == Rate)
+                {
+                    // ÁÖ½ºÅİ
+                    createitem.mEffect.EquipRate = UnityEngine.Random.Range((float)data[0]["ÃÖ¼Ò"], (float)data[0]["ÀåºñÈ¹µæ·ü Áõ°¡"]);
+
+                    // ¼³¸í
+                    createitem.Name = (string)data[0]["ÀÌ¸§"];
+                    createitem.Description = $"EquipRate : {createitem.mEffect.EquipRate.ToString("F2")}";
+                }
+                else if (RateType.Magic == Rate)
+                {
+                    // ÁÖ½ºÅİ
+                    createitem.mEffect.EquipRate = UnityEngine.Random.Range((float)data[1]["ÃÖ¼Ò"], (float)data[1]["ÀåºñÈ¹µæ·ü Áõ°¡"]);
+
+                    // ¼³¸í
+                    createitem.Name = (string)data[1]["ÀÌ¸§"];
+                    createitem.Description = $"EquipRate : {createitem.mEffect.EquipRate.ToString("F2")}";
+                }
+                else if (RateType.Rare == Rate)
+                {
+                    // ÁÖ½ºÅİ
+                    createitem.mEffect.EquipRate = UnityEngine.Random.Range((float)data[2]["ÃÖ¼Ò"], (float)data[2]["ÀåºñÈ¹µæ·ü Áõ°¡"]);
+
+                    // ¼³¸í
+                    createitem.Name = (string)data[2]["ÀÌ¸§"];
+                    createitem.Description = $"EqipRate : {createitem.mEffect.EquipRate.ToString("F2")}";
+                }
             }
-            return creatitem;
+
+            return createitem;
+
         }
     }
 }
