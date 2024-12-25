@@ -110,6 +110,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TestStruct _testStruct;
     public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
+    #region 조건체크 Bool 필드
+    public struct BoolField
+    {
+        public bool IsDoubleJump;
+        public bool IsJumpAttack;
+    }
+    private BoolField _boolField;
+    public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
+    public bool IsJumpAttack { get { return _boolField.IsJumpAttack; } set { _boolField.IsJumpAttack = value; } }
+    #endregion
 
     //TODO: 인스펙터 정리 필요
     public GameObject DrainField;
@@ -119,6 +129,8 @@ public class PlayerController : MonoBehaviour
     public bool CanClimbSlope { get { return _checkStruct.CanClimbSlope; } set { _checkStruct.CanClimbSlope = value; } } // 오를 수 있는 경사면 각도 인지 체크
 
     [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
+
+    [HideInInspector] public Vector3 MoveDir;
 
     private void Awake()
     {
@@ -148,6 +160,7 @@ public class PlayerController : MonoBehaviour
 
         CheckAnyState();
         RotateCamera();
+        InputKey();
         UpdatePlayerAdditional();
 
         if (Input.GetKeyDown(KeyCode.K))
@@ -226,6 +239,9 @@ public class PlayerController : MonoBehaviour
         return instanceObject;
     }
     #endregion
+    /// <summary>
+    /// 카메라 방향으로 플레이어 방향 전환
+    /// </summary>
     public void LookAtCameraFoward()
     {
         // 카메라 방향으로 플레이어가 바라보게
@@ -238,11 +254,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// 입력한 방향을 플레이어가 바라봄
     /// </summary>
     /// <param name="moveDir"></param>
-    public void LookAtMoveDir(Vector3 moveDir)
+    public void LookAtMoveDir()
     {
         // 카메라 방향으로 플레이어가 바라보게
         Quaternion cameraRot = Quaternion.Euler(0, CamareArm.eulerAngles.y, 0);
@@ -258,7 +275,7 @@ public class PlayerController : MonoBehaviour
         Quaternion cameraTempRot = CamareArm.rotation;
 
         // 입력한 방향쪽을 플레이어가 바라봄
-        Vector3 dir = transform.forward * moveDir.z + transform.right * moveDir.x;
+        Vector3 dir = transform.forward * MoveDir.z + transform.right * MoveDir.x;
         if (dir == Vector3.zero)
         {
             if (CurState == State.Run)
@@ -272,6 +289,14 @@ public class PlayerController : MonoBehaviour
         CamareArm.rotation = cameraTempRot;
     }
 
+    /// <summary>
+    ///  플레이어가 보고있는 방향으로 물리량 바꾸기
+    /// </summary>
+    public void ChangeVelocityPlayerFoward()
+    {
+        Vector3 tempVelocity = transform.forward * Rb.velocity.magnitude; // x,z 값의 물리량만 계산
+        Rb.velocity = tempVelocity; // 대입
+    }
     /// <summary>
     /// 오브젝트 줍기
     /// </summary>
@@ -563,6 +588,15 @@ public class PlayerController : MonoBehaviour
 
             yield return null;
         }
+    }
+    /// <summary>
+    /// 방향키 입력
+    /// </summary>
+    private void InputKey()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+        MoveDir = new Vector3(x, 0, z);
     }
 
     // 초기 설정 ============================================================================================================================================ //

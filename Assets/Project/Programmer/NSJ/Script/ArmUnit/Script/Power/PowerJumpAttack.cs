@@ -20,8 +20,16 @@ public class PowerJumpAttack : ArmJumpAttack
     public override void OnTrigger()
     {
         // 캐릭터 살짝 튀어오르기
-        Player.LookAtCameraFoward();
+
+        // 입력한 방향으로 플레이어 방향 전환
+        Player.LookAtMoveDir();
+        // 플레이어 물리량 전환
         Rb.velocity = new Vector3(Rb.velocity.x, 0, Rb.velocity.z);
+        if (Player.MoveDir != Vector3.zero)
+            Player.ChangeVelocityPlayerFoward();
+
+        // 플레이어 카메라 방향 바라보기
+        Player.LookAtCameraFoward();
         Rb.AddForce(Vector3.up * _popValue, ForceMode.Impulse);
         ThrowObject();
     }

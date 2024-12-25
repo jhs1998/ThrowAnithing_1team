@@ -10,16 +10,15 @@ public class IdleState : PlayerState
     public override void Enter()
     {
         Player.Rb.velocity = Vector3.zero;
-        View.SetBool(PlayerView.Parameter.Idle, true);
+        if (Player.PrevState == PlayerController.State.Idle)
+            return;
+        View.SetTrigger(PlayerView.Parameter.Idle);
     }
 
     public override void Update()
     {
-        //Debug.Log("Idle");
-
-        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         // 이동키 입력시 Run
-        if (moveDir != Vector3.zero)
+        if (MoveDir != Vector3.zero)
         {
             ChangeState(PlayerController.State.Run);
         }
@@ -61,6 +60,6 @@ public class IdleState : PlayerState
 
     public override void Exit()
     {
-        View.SetBool(PlayerView.Parameter.Idle, false);
+        
     }
 }

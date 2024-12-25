@@ -21,6 +21,12 @@ public class BasicJumpDown : ArmJumpDown
         View.SetTrigger(PlayerView.Parameter.JumpDown);
         CoroutineHandler.StartRoutine(FallRoutine());
     }
+    public override void Exit()
+    {
+        Player.IsJumpAttack = false;
+        Player.IsDoubleJump = false;
+    }
+
 
     public override void Update()
     {

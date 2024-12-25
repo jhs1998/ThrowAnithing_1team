@@ -6,9 +6,6 @@ public class FallState : PlayerState
 
     private Vector3 _inertia; // 관성력
 
-    private bool _isDoubleJump;
-    private bool _isLanding;
-    private bool _isJumpAttack;
     Coroutine _fallRoutine;
     Coroutine _checkInputRoutine;
     public FallState(PlayerController controller) : base(controller)
@@ -59,9 +56,8 @@ public class FallState : PlayerState
     }
     public override void EndAnimation()
     {
-        _isDoubleJump = false;
-        _isLanding = false;
-        _isJumpAttack = false;
+        Player.IsDoubleJump = false;
+        Player.IsJumpAttack = false;
         ChangeState(PlayerController.State.Idle);
     }
 
@@ -99,7 +95,6 @@ public class FallState : PlayerState
             _checkInputRoutine = null;
         }
         // 착지 애니메이션 실행
-        _isLanding = true;
         View.SetTrigger(PlayerView.Parameter.Landing);
     }
 
@@ -107,21 +102,21 @@ public class FallState : PlayerState
     {
         while (true)
         {
-            if (Input.GetButtonDown("Jump") && _isDoubleJump == false)
+            if (Input.GetButtonDown("Jump") && Player.IsDoubleJump == false)
             {
-                _isDoubleJump = true;
+                Player.IsDoubleJump = true;
                 ChangeState(PlayerController.State.DoubleJump);
                 break;
             }
-            if (Input.GetButtonDown("Fire1") && _isDoubleJump == false && _isJumpAttack == false)
+            if (Input.GetButtonDown("Fire1") && Player.IsDoubleJump == false && Player.IsJumpAttack == false)
             {
-                _isJumpAttack = true;
+                Player.IsJumpAttack = true;
                 ChangeState(PlayerController.State.JumpAttack);
                 break;
             }
-            if (Input.GetKeyDown(KeyCode.V) && _isDoubleJump == true )
+            if (Input.GetKeyDown(KeyCode.V) && Player.IsDoubleJump == true )
             {
-                _isDoubleJump = false;              
+                Player.IsDoubleJump = false;              
                 ChangeState(PlayerController.State.JumpDown);
                 break;
             }

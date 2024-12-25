@@ -21,6 +21,12 @@ public class PowerJumpDown : ArmJumpDown
         CoroutineHandler.StartRoutine(FallRoutine());
     }
 
+    public override void Exit()
+    {
+        Player.IsJumpAttack = false;
+        Player.IsDoubleJump = false;
+    }
+
     public override void Update()
     {
         if (Player.IsGround)

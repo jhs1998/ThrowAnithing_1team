@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DashState : PlayerState
 {
-    private Vector3 _moveDir;
-
     private bool _isInputJumpDown;
     Coroutine _checkInputRoutine;
     public DashState(PlayerController controller) : base(controller)
@@ -15,7 +13,7 @@ public class DashState : PlayerState
 
     public override void Enter()
     {
-        InputKey();
+        Player.LookAtMoveDir();
         View.SetTrigger(PlayerView.Parameter.Dash);
     }
     public override void Exit()
@@ -32,13 +30,14 @@ public class DashState : PlayerState
     }
     public override void EndAnimation()
     {
-        if (_isInputJumpDown)
+        if(Player.IsGround == true)
         {
-            ChangeState(PlayerController.State.Fall);
+            ChangeState(PlayerController.State.Idle);
         }
         else
         {
-            ChangeState(PlayerController.State.Idle);
+            Rb.velocity /= 2;
+            ChangeState(PlayerController.State.Fall);
         }
 
     }
@@ -62,20 +61,8 @@ public class DashState : PlayerState
     /// 대쉬
     /// </summary>
     public void Dash()
-    {
-
-        Player.LookAtMoveDir(_moveDir);
-
+    {     
         Rb.velocity = transform.forward * Model.DashPower;
-    }
-    /// <summary>
-    /// 방향키 입력 확인
-    /// </summary>ㄴ
-    private void InputKey()
-    {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
-        _moveDir = new Vector3(x, 0, z);
     }
 
     IEnumerator CheckInputRoutine()
