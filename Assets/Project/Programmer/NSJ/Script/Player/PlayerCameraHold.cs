@@ -10,6 +10,9 @@ public class PlayerCameraHold : MonoBehaviour
     [SerializeField] float _detectRange;
     private PlayerController _player;
 
+    private int _targetIndex;
+
+    Coroutine _checkDistanceToTarget;
     [System.Serializable]
     struct TargetInfo
     {
@@ -32,6 +35,12 @@ public class PlayerCameraHold : MonoBehaviour
 
     private void OnDisable()
     {
+        if(_checkDistanceToTarget != null)
+        {
+            StopCoroutine(_checkDistanceToTarget);
+            _checkDistanceToTarget = null;
+        }
+
         _targetList.Clear();
         _target = null;
         _player.IsTargetHolding = false;
@@ -57,6 +66,18 @@ public class PlayerCameraHold : MonoBehaviour
             _player.TargetPos = _target.transform.position;
             // 타겟 이펙트효과 타겟위치
             _targetEffect.transform.position = _target.position;
+        }
+        if(_player.IsTargetToggle == true && Input.GetMouseButtonDown(1))
+        {
+            // 타겟 인덱스 올림
+            _targetIndex++;
+            // 타겟 인덱스가 리스트 카운트값을 넘었다면 다시 처음부터
+            if (_targetIndex >= _targetList.Count)
+            {
+                _targetIndex = 0;
+            }
+            // 해당 타겟으로 변경
+            _target = _targetList[_targetIndex].Target;
         }
     }
 
@@ -98,6 +119,12 @@ public class PlayerCameraHold : MonoBehaviour
         _targetList.Sort((a, b) => a.Distance.CompareTo(b.Distance));
         // 가장 가까운 적을 타겟으로 지정
         _target = _targetList[0].Target;
+        _targetIndex = 0;
+
+        if (_checkDistanceToTarget == null)
+        {
+            _checkDistanceToTarget = StartCoroutine(CheckDistanceToTarget());
+        }
     }
 
     //TargetInfo 설정
@@ -107,5 +134,24 @@ public class PlayerCameraHold : MonoBehaviour
         info.Target = target;
         info.Distance = distance;
         return info;
+    }
+
+   /// <summary>
+   /// 플레이어와 타겟이 멀어졌을때 타겟팅 자동 종료
+   /// </summary>
+   /// <returns></returns>
+    IEnumerator CheckDistanceToTarget()
+    {
+        while (true)
+        {
+            if (_target != null)
+            {
+                if (Vector3.Distance(_player.transform.position, _target.position) > _detectRange)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+            yield return 0.5f.GetDelay();
+        }
     }
 }
