@@ -2,12 +2,14 @@ using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Upgrade : UpgradeBinding
 {
     Button[,] slots;
+    Image[,] slotImages;
 
     int ho = 0;
     int ver = 0;
@@ -55,6 +57,7 @@ public class Upgrade : UpgradeBinding
         }
     }
 
+    //Comment : if usedCost greater than costLimit Method
     void TierCal()
     {
         tier = 1;
@@ -71,19 +74,20 @@ public class Upgrade : UpgradeBinding
     void SlotLimit()
     {
         TierCal();
-        
+
         for (int i = tier; i < 5; i++)
         {
             for (int j = 0; j < 4; j++)
             {
                 //Todo : Change Color
-                Debug.Log($"{i}, {j}");
                 slots[i, j].GetComponent<Image>().color = new(0.1f, 0, 0.2f);
             }
         }
 
     }
 
+
+    //Comment : ½½·Ô ÀÌµ¿ ÇÔ¼ö
     IEnumerator Slot_Selected()
     {
         float x = Input.GetAxisRaw("Horizontal");
@@ -91,8 +95,6 @@ public class Upgrade : UpgradeBinding
 
         ho += (int)x;
         ver += (int)y;
-
-
 
         if (ho == -1)
         {
@@ -104,7 +106,7 @@ public class Upgrade : UpgradeBinding
         }
         if (ver == -1)
         {
-            ver = tier -1;
+            ver = tier - 1;
         }
         if (ver == tier)
         {
@@ -117,10 +119,8 @@ public class Upgrade : UpgradeBinding
 
         slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
 
-        Debug.Log(slots[ver,ho].GetComponent<Image>().name);
-
         itemName.text = slots[ver, ho].name;
-        itemImage.sprite = slots[ver, ho].GetComponentInChildren<Image>().sprite;
+        itemImage.sprite = slotImages[ver, ho].sprite;
         itemInfo.text = slots[ver, ho].name;
 
         SlotLimit();
@@ -134,8 +134,8 @@ public class Upgrade : UpgradeBinding
     public void Â¥ÀÜ()
     {
         Debug.Log("Â¥ÀÜ");
-        
-        
+
+
     }
 
     void ColorReset()
@@ -152,6 +152,7 @@ public class Upgrade : UpgradeBinding
     void Init()
     {
         slots = new Button[5, 4];
+        slotImages = new Image[5, 4];
 
         slots[0, 0] = GetUI<Button>("MeleeAttack");
         slots[0, 1] = GetUI<Button>("RangeAttack");
@@ -178,6 +179,12 @@ public class Upgrade : UpgradeBinding
         slots[4, 2] = GetUI<Button>("Armor2");
         slots[4, 3] = GetUI<Button>("GetItem2");
 
-
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                slotImages[i,j] = slots[i, j].GetComponentInChildren<Transform>().GetChild(0).GetComponent<Image>();
+            }
+        }
     }
 }
