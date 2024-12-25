@@ -14,15 +14,27 @@ public class BasicJumpDown : ArmJumpDown
     [SerializeField] private float _maxScaleEffectTime;
 
     private Vector3 _landingPoint;
+    Coroutine _fallRoutine;
     public override void Enter()
     {
         Player.Rb.velocity = Vector3.zero;
         Player.Rb.AddForce(Vector3.down * _attackSpeed, ForceMode.Impulse);
         View.SetTrigger(PlayerView.Parameter.JumpDown);
-        CoroutineHandler.StartRoutine(FallRoutine());
+
+        if(_fallRoutine == null)
+        {
+            _fallRoutine = CoroutineHandler.StartRoutine(FallRoutine());
+        }
+    
     }
     public override void Exit()
     {
+        if (_fallRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_fallRoutine);
+            _fallRoutine = null;
+        }
+
         Player.IsJumpAttack = false;
         Player.IsDoubleJump = false;
     }

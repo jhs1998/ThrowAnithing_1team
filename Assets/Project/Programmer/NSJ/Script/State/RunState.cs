@@ -8,7 +8,8 @@ public class RunState : PlayerState
 
     public override void Enter()
     {
-        View.SetTrigger(PlayerView.Parameter.Run);
+        View.SetBool(PlayerView.Parameter.Idle, true);
+        View.SetBool(PlayerView.Parameter.Run, true);
     }
 
     public override void Update()
@@ -23,7 +24,8 @@ public class RunState : PlayerState
 
     public override void Exit()
     {
-        
+        View.SetBool(PlayerView.Parameter.Idle, false);
+        View.SetBool(PlayerView.Parameter.Run, false);
     }
 
     private void Run()
@@ -58,7 +60,7 @@ public class RunState : PlayerState
             ChangeState(PlayerController.State.ThrowAttack);
         }
         // 특수공격 키 입력시 특수 공격
-        else if (Input.GetButtonDown("Fire2"))
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
             ChangeState(PlayerController.State.SpecialAttack);
         }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DashState : PlayerState
 {
-    private bool _isInputJumpDown;
     Coroutine _checkInputRoutine;
     public DashState(PlayerController controller) : base(controller)
     {
@@ -16,46 +15,22 @@ public class DashState : PlayerState
         Player.LookAtMoveDir();
         View.SetTrigger(PlayerView.Parameter.Dash);
     }
-    public override void Exit()
-    {
-        if (_checkInputRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_checkInputRoutine);
-            _checkInputRoutine = null;
-        }
-    }
     public override void Update()
     {
         Dash();
     }
     public override void EndAnimation()
     {
-        if(Player.IsGround == true)
-        {
-            ChangeState(PlayerController.State.Idle);
-        }
-        else
-        {
+        if(Player.IsGround != true)
+        { 
             Rb.velocity /= 2;
             ChangeState(PlayerController.State.Fall);
         }
-
-    }
-
-    public override void OnCombo()
-    {
-        if(_checkInputRoutine == null)
+        else
         {
-            _checkInputRoutine = CoroutineHandler.StartRoutine(CheckInputRoutine());
+            ChangeState(PlayerController.State.Idle);
         }
-    }
-    public override void EndCombo()
-    {
-        if (_checkInputRoutine != null) 
-        {
-            CoroutineHandler.StopRoutine(_checkInputRoutine);
-            _checkInputRoutine = null;
-        }
+
     }
     /// <summary>
     /// ´ë½¬
@@ -63,17 +38,5 @@ public class DashState : PlayerState
     public void Dash()
     {     
         Rb.velocity = transform.forward * Model.DashPower;
-    }
-
-    IEnumerator CheckInputRoutine()
-    {
-        while (true)
-        {
-            if(Player.PrevState == PlayerController.State.DoubleJump)
-            {
-                _isInputJumpDown = true;
-            }
-            yield return null;
-        }
     }
 }

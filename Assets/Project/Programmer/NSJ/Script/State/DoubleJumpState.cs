@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DoubleJumpState : PlayerState
@@ -30,11 +28,14 @@ public class DoubleJumpState : PlayerState
 
     private void Jump()
     {
-        Player.LookAtMoveDir();
-
+        
         // 임시 물리량 저장
         Rb.velocity = new Vector3(Rb.velocity.x, 0, Rb.velocity.z); // y값 물리량 제거
-        Player.ChangeVelocityPlayerFoward();
+        if (MoveDir != Vector3.zero)
+        {
+            Player.LookAtMoveDir();
+            Player.ChangeVelocityPlayerFoward();
+        }
 
         Rb.AddForce(Vector3.up * Model.JumpPower, ForceMode.Impulse);
         // 점프 이후 바로 추락 모드 실행

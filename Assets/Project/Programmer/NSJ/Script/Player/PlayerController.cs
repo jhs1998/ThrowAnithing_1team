@@ -8,8 +8,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerView))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private ArmUnit _basic;
-    [SerializeField] private ArmUnit _power;
     [SerializeField] public Transform ArmPoint;
 
     [HideInInspector] public PlayerModel Model;
@@ -63,6 +61,8 @@ public class PlayerController : MonoBehaviour
         public Transform CameraPos;
         [Range(0f, 50f)] public float CameraRotateAngle;
         [Range(0f, 5f)] public float CameraRotateSpeed;
+        public PlayerCameraHold CameraHolder;
+        public bool IsHolding;
         public bool IsVerticalCameraMove;
     }
     [Header("카메라 관련 필드")]
@@ -71,6 +71,8 @@ public class PlayerController : MonoBehaviour
     private Transform _cameraPos { get { return _cameraStruct.CameraPos; } set { _cameraStruct.CameraPos = value; } }
     private float _cameraRotateAngle { get { return _cameraStruct.CameraRotateAngle; } set { _cameraStruct.CameraRotateAngle = value; } }
     private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
+    private PlayerCameraHold _cameraHolder { get { return _cameraStruct.CameraHolder; }set{ _cameraStruct.CameraHolder = value; } }
+    public bool IsHolding { get { return _cameraStruct.IsHolding; } set { _cameraStruct.IsHolding = value; } }
     private bool _isVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
     #region 감지 관련 필드
@@ -142,7 +144,7 @@ public class PlayerController : MonoBehaviour
         InitUIEvent();
         StartRoutine();
         InitAdditionnal();
-        ChangeArmUnit(_basic);
+        ChangeArmUnit(Model.Arm);
 
         Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
@@ -162,22 +164,6 @@ public class PlayerController : MonoBehaviour
         RotateCamera();
         InputKey();
         UpdatePlayerAdditional();
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            if (Model.AdditionalEffects.Count > 0)
-            {
-                RemoveAdditional(Model.AdditionalEffects[0]);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.F1) && CurState == State.Idle)
-        {
-            ChangeArmUnit(_basic);
-        }
-        if (Input.GetKeyDown(KeyCode.F2) && CurState == State.Idle)
-        {
-            ChangeArmUnit(_power);
-        }
     }
 
     private void FixedUpdate()
@@ -212,7 +198,6 @@ public class PlayerController : MonoBehaviour
             // 사용가능하면 스테미나 깎음
             Model.CurStamina -= 30f;
         }
-
 
         _states[(int)CurState].Exit();
         PrevState = CurState;
@@ -312,11 +297,8 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeArmUnit(ArmUnit armUnit)
     {
-        if (armUnit != null)
-        {
-            Model.Arm = Instantiate(armUnit);
-            Model.Arm.Init(this);
-        }
+        Model.Arm = Instantiate(armUnit);
+        Model.Arm.Init(this);
     }
 
     /// <summary>
@@ -473,6 +455,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void RotateCamera()
     {
+        if (IsHolding == true)
+            return;
+
         float angleX = Input.GetAxis("Mouse X");
         float angleY = default;
         // 체크시 마우스 상하도 가능
@@ -597,6 +582,27 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
         MoveDir = new Vector3(x, 0, z);
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (Model.AdditionalEffects.Count > 0)
+            {
+                RemoveAdditional(Model.AdditionalEffects[0]);
+            }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            //TODO: 카메라 몬스터 홀딩 기능
+            IsHolding = true;
+            _cameraHolder.gameObject.SetActive(true);
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            //TODO: 카메라 몬스터 홀딩 풀기
+            IsHolding = false;
+            _cameraHolder.gameObject.SetActive(false);
+        }
     }
 
     // 초기 설정 ============================================================================================================================================ //
@@ -605,6 +611,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Init()
     {
+        _cameraHolder.gameObject.SetActive(false);
         InitGetComponent();
         InitPlayerStates();
     }

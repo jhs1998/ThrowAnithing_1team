@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ArmUnit : ScriptableObject
 {
+    [SerializeField] public string Name;
     protected enum Type { Throw, Melee, Special, JumpDown,JumpAttack,Size}
     [HideInInspector] public PlayerController Player;
     public PlayerModel Model => Player.Model;

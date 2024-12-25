@@ -10,11 +10,14 @@ public class IdleState : PlayerState
     public override void Enter()
     {
         Player.Rb.velocity = Vector3.zero;
-        if (Player.PrevState == PlayerController.State.Idle)
-            return;
-        View.SetTrigger(PlayerView.Parameter.Idle);
+
+        View.SetBool(PlayerView.Parameter.Idle,true);
     }
 
+    public override void Exit()
+    {
+        View.SetBool(PlayerView.Parameter.Idle, false);
+    }
     public override void Update()
     {
         // 이동키 입력시 Run
@@ -33,7 +36,7 @@ public class IdleState : PlayerState
             ChangeState(PlayerController.State.ThrowAttack);
         }
         // 특수공격 키 입력시 특수 공격
-        else if (Input.GetButtonDown("Fire2"))
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
             ChangeState(PlayerController.State.SpecialAttack);
         }
@@ -58,8 +61,4 @@ public class IdleState : PlayerState
 
     }
 
-    public override void Exit()
-    {
-        
-    }
 }

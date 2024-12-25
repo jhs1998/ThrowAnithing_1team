@@ -91,7 +91,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         {
             ProcessCharge();
 
-            if (Input.GetButtonUp("Fire2"))
+            if (Input.GetKeyUp(KeyCode.Q))
             {
                 Model.SpecialChargeGage = 0;
                 if (_instanceDropObject)
