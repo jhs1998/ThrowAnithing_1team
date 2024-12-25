@@ -13,12 +13,21 @@ public class Upgrade : UpgradeBinding
     int ver = 0;
 
     Coroutine slotCo;
+    Coroutine buttonCo;
     float inputDelay = 0.25f;
 
     //Comment : Infomation > name
     [SerializeField] TMP_Text itemName;
     [SerializeField] Image itemImage;
     [SerializeField] TMP_Text itemInfo;
+
+
+    //Comment : for Test
+    int usedCost;
+
+    int costLimit1 = 5000;
+    int costLimit2 = 20000;
+    int costLimit3 = 50000;
 
     private void Awake()
     {
@@ -35,6 +44,15 @@ public class Upgrade : UpgradeBinding
         if (slotCo == null)
             slotCo = StartCoroutine(Slot_Selected());
 
+        //Comment : For test
+        if (Input.GetButtonDown("Interaction"))
+        {
+            slots[ver, ho].onClick.Invoke();
+        }
+
+
+        // 리밋 1단계 둟기전엔 첫째줄 빼고 전부 까맣게
+        // 리밋 1단계 뚫기전엔 첫째줄 빼고 클릭 불가
     }
 
     IEnumerator Slot_Selected()
@@ -78,9 +96,11 @@ public class Upgrade : UpgradeBinding
 
     }
 
-    void Slot_Select()
+
+    // Comment : for Test
+    public void 짜잔()
     {
-        //Todo : 선택한 거 올림
+        Debug.Log("짜잔");
     }
 
     void ColorReset()
