@@ -183,7 +183,7 @@ public class Upgrade : UpgradeBinding
         {
             for (int j = 0; j < 4; j++)
             {
-                slotImages[i,j] = slots[i, j].GetComponentInChildren<Transform>().GetChild(0).GetComponent<Image>();
+                slotImages[i, j] = slots[i, j].transform.GetChild(0).GetComponent<Image>();
             }
         }
     }
