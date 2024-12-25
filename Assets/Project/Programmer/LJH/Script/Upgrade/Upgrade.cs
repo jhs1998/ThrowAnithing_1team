@@ -1,6 +1,7 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,14 @@ public class Upgrade : UpgradeBinding
 
     int ho = 0;
     int ver = 0;
+
+    Coroutine slotCo;
+    float inputDelay = 0.25f;
+
+    //Comment : Infomation > name
+    [SerializeField] TMP_Text itemName;
+    [SerializeField] Image itemImage;
+    [SerializeField] TMP_Text itemInfo;
 
     private void Awake()
     {
@@ -23,25 +32,71 @@ public class Upgrade : UpgradeBinding
 
     private void Update()
     {
-        
+        if (slotCo == null)
+            slotCo = StartCoroutine(Slot_Selected());
+
     }
 
-    void Slot_Selected()
+    IEnumerator Slot_Selected()
     {
-        float x = Input.GetAxisRaw("Vertical");
-        float y = Input.GetAxisRaw("Horizontal");
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = -Input.GetAxisRaw("Vertical");
 
         ho += (int)x;
-        ver +=  (int)y;
+        ver += (int)y;
 
-        if (ho == 0)
-            if (x < 0)
-                ho = 4;
+
+        if (ho == -1)
+        {
+            ho = 3;
+        }
+        if (ho == 4)
+        {
+            ho = 0;
+        }
+        if (ver == -1)
+        {
+            ver = 4;
+        }
+        if (ver == 5)
+        {
+            ver = 0;
+        }
+
+        // Comment : Other Buttons color Reset
+        ColorReset();
+        // Comment : Selected Button color Changed
+
+        slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
+
+        
+        itemName.text = slots[ver, ho].name;
+        itemInfo.text = slots[ver, ho].name;
+
+        yield return inputDelay.GetDelay();
+        slotCo = null;
+
+    }
+
+    void Slot_Select()
+    {
+        //Todo : 선택한 거 올림
+    }
+
+    void ColorReset()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                slots[i, j].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
+            }
+        }
     }
 
     void Init()
     {
-        slots = new Button[5,4];
+        slots = new Button[5, 4];
 
         slots[0, 0] = GetUI<Button>("MeleeAttack");
         slots[0, 1] = GetUI<Button>("RangeAttack");
@@ -67,6 +122,7 @@ public class Upgrade : UpgradeBinding
         slots[4, 1] = GetUI<Button>("BloodDrain");
         slots[4, 2] = GetUI<Button>("Armor2");
         slots[4, 3] = GetUI<Button>("GetItem2");
+
 
 
     }
