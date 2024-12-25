@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class BossEnemy : BaseEnemy
 {
-    
+    [SerializeField] BossEnemyState bossState;
 }
