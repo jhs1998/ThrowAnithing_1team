@@ -6,6 +6,7 @@ using UnityEngine;
 public class NSJMonster : MonoBehaviour, IHit
 {
     [SerializeField] private int _hp;
+    [SerializeField] private int _damage = 1;
     private Renderer _renderer;
     private Color _origin;
     private void Awake()
@@ -13,10 +14,20 @@ public class NSJMonster : MonoBehaviour, IHit
         _renderer = GetComponentInChildren<Renderer>();
         _origin = _renderer.material.color;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == Tag.Player)
+        {
+            IHit hitable = collision.gameObject.GetComponent<IHit>();
+            hitable.TakeDamage(_damage);
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         _hp -= damage;
-        //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
+        Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
 
         StartCoroutine(HitRoutine());
     }
@@ -28,6 +39,7 @@ public class NSJMonster : MonoBehaviour, IHit
         if (index >= _debuffList.Count)
             return;
 
+        HitAdditional cloneDebuff = Instantiate(debuff);
         // 디버프 중복 시
         if (index != -1)
         {
@@ -37,10 +49,10 @@ public class NSJMonster : MonoBehaviour, IHit
             _debuffList.RemoveAt(index);
         }
         // 디버프 추가 후 발동
-        _debuffList.Add(debuff);
-        debuff.Target = gameObject;
-        debuff.OnExitHitAdditional += RemoveDebuff;
-        debuff.Enter();
+        _debuffList.Add(cloneDebuff);
+        cloneDebuff.Target = gameObject;
+        cloneDebuff.OnExitHitAdditional += RemoveDebuff;
+        cloneDebuff.Enter();
     }
     private void RemoveDebuff(HitAdditional debuff)
     {

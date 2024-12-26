@@ -7,6 +7,7 @@ public class JumpDownState : PlayerState
     public JumpDownState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
+        StaminaAmount = Model.JumpDownStamina;
     }
     public override void Enter()
     {

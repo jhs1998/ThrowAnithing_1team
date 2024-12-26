@@ -8,12 +8,18 @@ public class DashState : PlayerState
     public DashState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
+        StaminaAmount = Model.DashStamina;
     }
 
     public override void Enter()
     {
+        Player.IsInvincible = true;
         Player.LookAtMoveDir();
         View.SetTrigger(PlayerView.Parameter.Dash);
+    }
+    public override void Exit()
+    {
+        Player.IsInvincible = false; 
     }
     public override void Update()
     {

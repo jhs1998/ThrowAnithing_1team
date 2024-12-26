@@ -48,7 +48,7 @@ public class FallState : PlayerState
     public override void OnDrawGizmos()
     {
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1))
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
         {
             Gizmos.DrawLine(CheckPos, hit.point);
             Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
@@ -131,7 +131,7 @@ public class FallState : PlayerState
     private bool CheckIsNearGround()
     {
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f))
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
         {
             return true;
         }

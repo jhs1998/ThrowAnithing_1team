@@ -10,7 +10,7 @@ using Zenject.SpaceFighter;
 public class PlayerState : BaseState
 {
     public bool UseStamina;
-
+    public float StaminaAmount;
     protected PlayerController Player;
 
     protected GameObject gameObject => Player.gameObject;

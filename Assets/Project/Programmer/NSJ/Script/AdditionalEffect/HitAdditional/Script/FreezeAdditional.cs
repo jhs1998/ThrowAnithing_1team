@@ -11,6 +11,7 @@ public class FreezeAdditional : HitAdditional
 
     public override void Enter()
     {
+        Debug.Log(_debuffRoutine);
         if (_debuffRoutine == null)
         {
            _debuffRoutine = CoroutineHandler.StartRoutine(FreezeRoutine());
