@@ -3,6 +3,7 @@ using BehaviorDesigner.Runtime;
 using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -79,6 +80,23 @@ public class BaseEnemy : MonoBehaviour, IHit
             resultDamage = 0;
 
         curHp -= resultDamage;
+        tree.SetVariable("Stiff", (SharedBool)true);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
+    }
+
+    /// <summary>
+    /// 차지 후 폭발 데미지 부여
+    /// </summary>
+    public void TakeChargeBoom(float range, int damage)
+    {
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, range, overLapCollider);
+        for (int i = 0; i < hitCount; i++)
+        {
+            IHit hit = overLapCollider[i].GetComponent<IHit>();
+            if (hit != null)
+            {
+                hit.TakeDamage(damage);
+            }
+        }
     }
 }

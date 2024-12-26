@@ -20,15 +20,7 @@ public class EnemyBoom : Action
         if (isBoom.Value == true) 
             return TaskStatus.Failure;
 
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, attackDist.Value, enemy.overLapCollider);
-        for (int i = 0; i < hitCount; i++)
-        {
-            IHit hit = enemy.overLapCollider[i].GetComponent<IHit>();
-            if (hit != null)
-            {
-                hit.TakeDamage(enemy.Damage);
-            }
-        }
+        enemy.TakeChargeBoom(attackDist.Value, enemy.Damage);
 
         if(enemy.CurHp > 0)
             enemy.CurHp = -1;

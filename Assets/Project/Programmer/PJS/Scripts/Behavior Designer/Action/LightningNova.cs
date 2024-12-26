@@ -1,11 +1,16 @@
 using UnityEngine;
 using BehaviorDesigner.Runtime.Tasks;
 using Assets.Project.Programmer.NSJ.RND.Script;
+using System.Collections;
+using BehaviorDesigner.Runtime;
 
 public class LightningNova : Action
 {
 	[SerializeField] int atkDamage;	// 공격력
-	[SerializeField] float range;	// 피해 입히는 범위
+	[SerializeField] float range;   // 피해 입히는 범위
+	[SerializeField] float coolTime;
+	[SerializeField] SharedBool atkAble;
+	
 	private BaseEnemy enemy;
 
 	public override void OnStart()
@@ -15,15 +20,22 @@ public class LightningNova : Action
 
 	public override TaskStatus OnUpdate()
 	{
-		int hitCount = Physics.OverlapSphereNonAlloc(transform.position, range, enemy.overLapCollider);//, 1<<Layer.Player);
+		if(atkAble.Value == false)
+			return TaskStatus.Failure;
 
-		for (int i = 0; i < hitCount; i++)
-		{
-			IHit hit = enemy.overLapCollider[i].GetComponent<IHit>();
-			if (hit != null)
-				hit.TakeDamage(atkDamage);
-		}
+		enemy.TakeChargeBoom(range, atkDamage);
+
+		StartCoroutine(CoolTimeRoutine());
 
 		return TaskStatus.Success;
+	}
+
+	IEnumerator CoolTimeRoutine()
+	{
+		atkAble.SetValue(false);
+		Debug.Log("쿨타임 시작");
+		yield return new WaitForSeconds(coolTime);
+		atkAble.SetValue(true);
+		Debug.Log("쿨타임 끝");
 	}
 }
