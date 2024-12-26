@@ -37,9 +37,9 @@ public class GlobalPlayerStateData
     public float drainLife;
     // 스테미나 최대치 기본 : 100
     public float maxStamina;
-    // 스테미나 회복 증가 기본 : 20
+    // 스테미나 회복 기본 : 20
     public float regainStamina;
-    // 던지기 공격당 마나 회복 증가 기본 : 1타 3 2타 8 3타 13 4타 20
+    // 던지기 공격당 마나 회복 기본 : 1타 3 2타 8 3타 13 4타 20
     public float[] regainMana = new float[4];
     // 마나 소모량 감소 기본 : 1타 30 2타 70 3타 100
     public float[] manaConsumption = new float[3];

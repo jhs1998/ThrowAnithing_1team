@@ -52,7 +52,7 @@ public class LobbyUpGrade : MonoBehaviour
         if (gameData.BuyUpgradeSlot(slot))
         {
             // 강화 성공 시 이동 속도 증가
-            playerState.movementSpeed *= 1.04f;
+            playerState.movementSpeed += 4;
             Debug.Log($"이동 속도: {playerState.movementSpeed}");
         }
         else
@@ -100,7 +100,7 @@ public class LobbyUpGrade : MonoBehaviour
         if (gameData.BuyUpgradeSlot(slot))
         {
             // 강화 성공 시 공격 속도 5퍼 증가
-            playerState.attackSpeed *= 1.05f;
+            playerState.attackSpeed += 0.05f;
             Debug.Log($"공격 속도: {playerState.attackSpeed}");
         }
         else
@@ -141,10 +141,67 @@ public class LobbyUpGrade : MonoBehaviour
     /**************************************************************/
 
     // 세번째 줄 1번 슬롯 공용 공격력 2증가
+    public void threeLine_UpgradeCommonAttack(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 공용 공격력 2증가
+            playerState.commonAttack += 2;
+            Debug.Log($"공용 공격력: {playerState.commonAttack}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
     // 세번째 줄 2번 슬롯 보유 투척물 6증가
+    public void threeLine_UpgradeMaxThrowables(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 보유 투척물 6증가
+            playerState.maxThrowables += 6;
+            Debug.Log($"보유가능한 투척물: {playerState.maxThrowables}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
     // 세번째 줄 3번 슬롯 방어력 0.4 증가
+    public void threeLine_UpgradeDefense(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 방어력 0.4 증가
+            playerState.defense += 0.4f;
+            Debug.Log($"방어력: {playerState.defense}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
     // 세번째 줄 4번 슬롯 마나 회복량 10퍼 증가
-
+    public void threeLine_UpgradeRegainMana(int slot)
+    {
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 마나 회복량 10퍼 증가 (힙연산)
+            for (int i = 0; i < 4;)
+            {
+                playerState.regainMana[i] += playerState.regainMana[i]*0.1f;
+            }
+            Debug.Log($"마나 회복량 10퍼 증가");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
     /**************************************************************/
 
     // 네번째 줄 1번 슬롯 스테미나 소모량 6퍼 감소
