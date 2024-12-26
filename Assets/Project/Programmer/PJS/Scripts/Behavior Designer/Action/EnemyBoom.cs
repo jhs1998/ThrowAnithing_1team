@@ -6,7 +6,7 @@ using Assets.Project.Programmer.NSJ.RND.Script;
 public class EnemyBoom : Action
 {
 	[SerializeField] SharedBool isBoom;
-    [SerializeField] SharedFloat attackDist;
+    [SerializeField] SharedFloat attackDist;    // Æø¹ß ¹üÀ§
 
     private BaseEnemy enemy;
 
@@ -20,15 +20,7 @@ public class EnemyBoom : Action
         if (isBoom.Value == true) 
             return TaskStatus.Failure;
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, attackDist.Value);
-        foreach (Collider collider in colliders)
-        {
-            IHit hit = collider.transform.GetComponent<IHit>();
-            if (hit != null)
-            {
-                hit.TakeDamage(enemy.Damage);
-            }
-        }
+        enemy.TakeChargeBoom(attackDist.Value, enemy.Damage);
 
         if(enemy.CurHp > 0)
             enemy.CurHp = -1;

@@ -34,6 +34,6 @@ public class TestCodeData : MonoBehaviour, IHit
             hit.TakeDamage(atk);
         }
 
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 }
