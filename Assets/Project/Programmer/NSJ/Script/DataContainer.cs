@@ -36,6 +36,7 @@ public class DataContainer : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
+            transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
         }
         else

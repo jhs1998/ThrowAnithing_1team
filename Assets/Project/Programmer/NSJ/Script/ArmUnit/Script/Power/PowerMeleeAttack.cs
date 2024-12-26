@@ -26,7 +26,6 @@ public class PowerMeleeAttack : ArmMeleeAttack
             View.SetFloat(PlayerView.Parameter.Charge, m_curChargeTime);
         }
     }
-    private int _index;
     Coroutine _chargeRoutine;
     public override void Enter()
     {
@@ -120,7 +119,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
             IHit hit = Player.OverLapColliders[i].GetComponent<IHit>();
 
-            int attackDamage = (int)(Model.Damage + _charges[_index].Damage);
+            int attackDamage = Player.GetFinalDamage(_charges[_index].Damage);
             hit.TakeDamage(attackDamage);
 
             if (_charges[_index].KnockBackRange > 0)

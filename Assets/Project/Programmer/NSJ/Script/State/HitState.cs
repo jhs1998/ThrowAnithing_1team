@@ -24,7 +24,7 @@ public class HitState : PlayerState
         // 플레이어 무적 해제
         Player.IsInvincible = false;
 
-        if (Player.IsGround == false)
+        if (Player.IsGround == true)
         {
             // 점프 중이었을때를 위한 조건 해제
             Player.IsJumpAttack = false;
@@ -44,6 +44,8 @@ public class HitState : PlayerState
 
         // 방어력 계산
         int finalDamage = damage - Model.Defense;
+        // 받는 피해 감소 계산
+        finalDamage = (int)(finalDamage * (1 - Model.DamageReduction/100f));
         // 0보다 작으면 값을 0으로 고정 시킴
         finalDamage = finalDamage <= 0 ? 0 : finalDamage;
 
@@ -51,8 +53,10 @@ public class HitState : PlayerState
         if (finalDamage == 0)
             return;
 
-        Model.Hp -= finalDamage;
-        if (Model.Hp > 0)
+
+
+        Model.CurHp -= finalDamage;
+        if (Model.CurHp > 0)
         {
             ChangeState(PlayerController.State.Hit);
         }

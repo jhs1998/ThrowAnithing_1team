@@ -421,6 +421,94 @@ Transform:
   - {fileID: 2377842086608928545}
   m_Father: {fileID: 7904341024521288259}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3081587356386698564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2259531208682633460}
+  - component: {fileID: 1829538013089017036}
+  m_Layer: 0
+  m_Name: DataContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2259531208682633460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3081587356386698564}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.4477391, y: 4.3207784, z: 4.409012}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7904341024521288259}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1829538013089017036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3081587356386698564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ba1513de4474b45a23c3da03f81dc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerData:
+    _NSJTest:
+      Hp:
+        MaxHp: 0
+        CurHp: 0
+      Defense:
+        Defense: 0
+        DamageReduction: 0
+      Stamina:
+        MaxStamina: 0
+        CurStamina: 0
+        StaminaRecoveryPerSecond: 0
+        StaminaCoolTime: 0
+      Special:
+        MaxSpecialGage: 0
+        CurSpecialGage: 0
+        SpecialRecoveryAmount: []
+        SpecialChargeGage: 0
+      Jump:
+        JumpPower: 0
+        JumpStamina: 0
+        DoubleJumpStamina: 0
+        JumpDownStamina: 0
+      Dash:
+        DashPower: 0
+        DashStamina: 0
+      MoveSpeed: 0
+      Damage: 0
+      AttackSpeed: 0
+      Critical:
+        Critical: 0
+        CriticalDamage: 0
+      MaxThrowCount: 0
+      CurThrowCount: 0
+      ThrowObjectStack: []
+      AdditionalEffects: []
+      HitAdditionals: []
+      ThrowAdditionals: []
+      PlayerAdditionals: []
+    test: 
+  _throwObjects:
+  - {fileID: 8443761936753070678, guid: 99968e61a6cb28c41971d7c91082c959, type: 3}
+  - {fileID: 7538824707032196102, guid: 6e8b02d6136299e4ca096ffb4a225359, type: 3}
+  - {fileID: 1445512193542668747, guid: 81b8a805c6f11d94791d9d3dc7686a97, type: 3}
 --- !u!1 &3528299786738884998
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +732,7 @@ Transform:
   - {fileID: 7900352097967561918}
   - {fileID: 2671481244906634364}
   - {fileID: 8424528806949246124}
+  - {fileID: 2259531208682633460}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1205980712391702014
@@ -807,10 +896,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
     _NSJTest:
+      Hp:
+        MaxHp: 10
+        CurHp: 10
+      Defense:
+        Defense: 0
+        DamageReduction: 0
+      Stamina:
+        MaxStamina: 100
+        CurStamina: 0
+        StaminaRecoveryPerSecond: 50
+        StaminaCoolTime: 1
+      Special:
+        MaxSpecialGage: 100
+        CurSpecialGage: 0
+        SpecialRecoveryAmount:
+        - 10
+        - 20
+        - 30
+        - 40
+        SpecialChargeGage: 0
+      Jump:
+        JumpPower: 9
+        JumpStamina: 20
+        DoubleJumpStamina: 10
+        JumpDownStamina: 0
+      Dash:
+        DashPower: 10
+        DashStamina: 50
       MoveSpeed: 5
-      Hp: 5
-      Defense: 0
       Damage: 10
+      AttackSpeed: 1
+      Critical:
+        Critical: 20
+        CriticalDamage: 200
       MaxThrowCount: 10
       CurThrowCount: 0
       ThrowObjectStack: []
@@ -821,18 +940,6 @@ MonoBehaviour:
       PlayerAdditionals: []
     test: 
   Arm: {fileID: 11400000, guid: 6441f13e10367454c82ce59acb25674f, type: 2}
-  DashPower: 10
-  JumpPower: 8
-  Stamina:
-    MaxStamina: 100
-    CurStamina: 0
-    StaminaRecoveryPerSecond: 50
-    StaminaCoolTime: 1
-  Special:
-    MaxSpecialGage: 100
-    CurSpecialGage: 0
-    SpecialRecoveryAmount: 100
-    SpecialChargeGage: 0
   Melee:
     ComboCount: 0
     MeleeAttack:
@@ -848,6 +955,7 @@ MonoBehaviour:
   Throw:
     BoomRadius: 1.5
   DrainDistance: 10
+  ChargeStep: 0
 --- !u!114 &7667531888297289878
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,7 +24,6 @@ public class PowerThrowAttack : ArmThrowAttack
             View.SetFloat(PlayerView.Parameter.Charge, m_curChargeTime);
         }
     }
-    private int _index;
     Coroutine _chargeRoutine;
     public override void Enter()
     {
@@ -92,7 +91,7 @@ public class PowerThrowAttack : ArmThrowAttack
         }
 
         //TODO : 데미지 계산식 검토 필요
-        throwObject.Damage += _charges[_index].Damage;
+        throwObject.Damage = Player.GetFinalDamage(_charges[_index].Damage);
         UseThrowObject(_charges[_index].ObjectCount);
         throwObject.Shoot(Player.ThrowPower);
         throwObject.TriggerFirstThrowAddtional();

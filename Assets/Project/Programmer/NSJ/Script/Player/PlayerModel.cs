@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UniRx;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using static PlayerData;
 
@@ -7,11 +8,16 @@ public class PlayerModel : MonoBehaviour
 {
     public GlobalPlayerData GlobalData;
     public PlayerData Data;
-
     public ArmUnit Arm;
-    public int Hp { get { return Data.Hp; } set { Data.Hp = value; } }
+
+    public int MaxHp { get { return Data.MaxHp; } set { Data.MaxHp = value; } }
+    public int CurHp { get { return Data.CurHp; } set { Data.CurHp = value; } }
     public int Defense { get { return Data.Defense; } set { Data.Defense = value; } }
+    public float DamageReduction { get { return Data.DamageReduction; } set { Data.DamageReduction = value; } }
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
+    public int AttackSpeed { get { return Data.AttackSpeed; } set { Data.AttackSpeed = value; _view.SetFloat(PlayerView.Parameter.AttackSpeed, Data.AttackSpeed); } }
+    public float Critical { get { return Data.Critical; } set { Data.Critical = value; } }
+    public float CriticalDamage { get { return Data.CriticalDamage; } set { Data.CriticalDamage = value; } }
     public int MaxThrowCount { get { return Data.MaxThrowCount; } set { Data.MaxThrowCount = value; } }
     public int CurThrowCount
     {
@@ -32,64 +38,50 @@ public class PlayerModel : MonoBehaviour
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
     public float MoveSpeed { get { return Data.MoveSpeed; } set { Data.MoveSpeed = value; } } // 이동속도
 
-    // TODO : 인스펙터 정리 필요
-    public float DashPower; // 대쉬 속도
-    // TODO : 인스펙터 정리 필요
-    public float JumpPower; // 점프력
-    [System.Serializable]
-    public struct StaminaStruct
-    {
-        public float MaxStamina; // 최대 스테미나
-        public float CurStamina; // 현재 스테미나
-        public float StaminaRecoveryPerSecond; // 스테미나 초당 회복량
-        public float StaminaCoolTime; // 스테미나 소진 후 쿨타임
-    }
-    [SerializeField] public StaminaStruct Stamina;
-    public float MaxStamina { get { return Stamina.MaxStamina; } set { Stamina.MaxStamina = value; } } // 최대 스테미나
-    public float CurStamina { get { return Stamina.CurStamina; } set { Stamina.CurStamina = value; CurStaminaSubject.OnNext(Stamina.CurStamina); } } // 현재 스테미나
+    // 대쉬
+    public float DashPower { get { return Data.DashPower; } set { Data.DashPower = value; } }
+    public int DashStamina { get { return Data.DashStamina; } set { Data.DashStamina = value; } }
+    // 점프
+    public float JumpPower { get { return Data.JumpPower; } set { Data.JumpPower = value; } }
+    public int JumpStamina { get { return Data.JumpStamina; } set { Data.JumpStamina = value; } }
+    public int DoubleJumpStamina { get { return Data.DoubleJumpStamina; } set { Data.DoubleJumpStamina = value; } }
+    public int JumpDownStamina { get { return Data.JumpDownStamina; } set { Data.JumpDownStamina = value; } }
+    public float MaxStamina { get { return Data.MaxStamina; } set { Data.MaxStamina = value; } } // 최대 스테미나
+    public float CurStamina { get { return Data.CurStamina; } set { Data.CurStamina = value; CurStaminaSubject.OnNext(Data.CurStamina); } } // 현재 스테미나
     public Subject<float> CurStaminaSubject = new Subject<float>();
-    public float StaminaRecoveryPerSecond { get { return Stamina.StaminaRecoveryPerSecond; } set { Stamina.StaminaRecoveryPerSecond = value; } } // 스테미나 초당 회복량
-    public float StaminaCoolTime { get { return Stamina.StaminaCoolTime; } set { Stamina.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
+    public float StaminaRecoveryPerSecond { get { return Data.StaminaRecoveryPerSecond; } set { Data.StaminaRecoveryPerSecond = value; } } // 스테미나 초당 회복량
+    public float StaminaCoolTime { get { return Data.StaminaCoolTime; } set { Data.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
 
-    [System.Serializable]
-    public struct SpecialStruct
-    {
-        public float MaxSpecialGage;
-        public float CurSpecialGage;
-        public float SpecialRecoveryAmount;
-        public float SpecialChargeGage;
-    }
-    [SerializeField] public SpecialStruct Special;
-    public float MaxSpecialGage { get { return Special.MaxSpecialGage; } set { Special.MaxSpecialGage = value; } } // 최대 특수자원
+    public float MaxSpecialGage { get { return Data.MaxSpecialGage; } set { Data.MaxSpecialGage = value; } } // 최대 특수자원
     public float CurSpecialGage // 현재 특수 자원
     {
-        get { return Special.CurSpecialGage; }
+        get { return Data.CurSpecialGage; }
         set
         {
-            Special.CurSpecialGage = value;
+            Data.CurSpecialGage = value;
             // 현재 특수공격 자원이 최대치를 넘길 수 없음
-            if (Special.CurSpecialGage > Special.MaxSpecialGage)
+            if (Data.CurSpecialGage > Data.MaxSpecialGage)
             {
-                Special.CurSpecialGage = Special.MaxSpecialGage;
+                Data.CurSpecialGage = Data.MaxSpecialGage;
             }
-            else if(Special.CurSpecialGage < 0)
+            else if (Data.CurSpecialGage < 0)
             {
-                Special.CurSpecialGage = 0;
+                Data.CurSpecialGage = 0;
             }
-            CurSpecialGageSubject.OnNext(Special.CurSpecialGage);
+            CurSpecialGageSubject.OnNext(Data.CurSpecialGage);
         }
     }
     public Subject<float> CurSpecialGageSubject = new Subject<float>();
-    public float SpecialRecoveryAmount { get { return Special.SpecialRecoveryAmount; } set { Special.SpecialRecoveryAmount = value; } } // 특수자원 회복량
+    public float[] SpecialRecoveryAmount { get { return Data.SpecialRecoveryAmount; } set { Data.SpecialRecoveryAmount = value; } } // 특수자원 회복량
     public float SpecialChargeGage // 특수공격 차지량
     {
-        get { return Special.SpecialChargeGage; }
+        get { return Data.SpecialChargeGage; }
         set
         {
-            Special.SpecialChargeGage = value;
-            if (Special.SpecialChargeGage > 1)
+            Data.SpecialChargeGage = value;
+            if (Data.SpecialChargeGage > 1)
                 SpecialChargeGage = 1;
-            SpecialChargeGageSubject.OnNext(Special.SpecialChargeGage);
+            SpecialChargeGageSubject.OnNext(Data.SpecialChargeGage);
         }
     }
     public Subject<float> SpecialChargeGageSubject = new Subject<float>();
@@ -138,7 +130,10 @@ public class PlayerModel : MonoBehaviour
     // TODO : 인스펙터 정리 필요
     public float DrainDistance;
 
+    public int ChargeStep;
 
+
+    private PlayerView _view;
     public void PushThrowObject(ThrowObjectData throwObjectData)
     {
         ThrowObjectStack.Add(throwObjectData);
@@ -158,10 +153,26 @@ public class PlayerModel : MonoBehaviour
         return data;
     }
 
+    private void Awake()
+    {
+        _view = GetComponent<PlayerView>();
+    }
     // TODO : 일단 젠젝트 실패, 싱글톤으로 구현 후 이후에 리팩토링 
     private void Start()
     {
         //Data = DataContainer.Instance.PlayerData;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            AttackSpeed++;
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            AttackSpeed--;
+        }
     }
 }
 
@@ -170,15 +181,74 @@ public partial class GlobalPlayerData
 {
 
 }
+
+
 public partial class PlayerData
 {
     [System.Serializable]
-    public struct NSJTest
+    public struct HpStruct
     {
-        public float MoveSpeed;
-        public int Hp;
+        public int MaxHp;
+        public int CurHp;
+    }
+
+    [System.Serializable]
+    public struct StaminaStruct
+    {
+        public float MaxStamina; // 최대 스테미나
+        public float CurStamina; // 현재 스테미나
+        public float StaminaRecoveryPerSecond; // 스테미나 초당 회복량
+        public float StaminaCoolTime; // 스테미나 소진 후 쿨타임
+    }
+    [System.Serializable]
+    public struct JumpStruct
+    {
+        public float JumpPower;
+        public int JumpStamina;
+        public int DoubleJumpStamina;
+        public int JumpDownStamina;
+    }
+    [System.Serializable]
+    public struct DashStruct
+    {
+        public float DashPower;
+        public int DashStamina;
+    }
+    [System.Serializable]
+    public struct SpecialStruct
+    {
+        public float MaxSpecialGage;
+        public float CurSpecialGage;
+        public float[] SpecialRecoveryAmount;
+        [HideInInspector] public float SpecialChargeGage;
+    }
+    [System.Serializable]
+    public struct DefenseStruct
+    {
         public int Defense;
+        [Range(0, 100)] public float DamageReduction;
+    }
+    [System.Serializable]
+    public struct CriticalStruct
+    {
+        [Range(0, 100)] public float Critical;
+        public float CriticalDamage;
+    }
+    [System.Serializable]
+    public struct NSJTestStruct
+    {
+        public HpStruct Hp;
+        public DefenseStruct Defense;
+        public StaminaStruct Stamina;
+        public SpecialStruct Special;
+        public JumpStruct Jump;
+        public DashStruct Dash;
+        public float MoveSpeed;
         public int Damage;
+        // 상태이상 지속시간
+        public int AttackSpeed;
+        public CriticalStruct Critical;
+        // 피해 흡혈
         public int MaxThrowCount;
         public int CurThrowCount;
         public List<ThrowObjectData> ThrowObjectStack;
@@ -187,11 +257,37 @@ public partial class PlayerData
         public List<ThrowAdditional> ThrowAdditionals; // 공격 방법 추가효과 리스트
         public List<PlayerAdditional> PlayerAdditionals; // 플레이어 추가효과 리스트
     }
-    [SerializeField] private NSJTest _NSJTest;
+    [SerializeField] private NSJTestStruct _NSJTest;
     public float MoveSpeed { get { return _NSJTest.MoveSpeed; } set { _NSJTest.MoveSpeed = value; } }
-    public int Hp { get { return _NSJTest.Hp; } set { _NSJTest.Hp = value; } }
-    public int Defense { get { return _NSJTest.Defense; } set { _NSJTest.Defense = value; } }
+    // 체력
+    public int MaxHp { get { return _NSJTest.Hp.MaxHp; } set { _NSJTest.Hp.MaxHp = value; } }
+    public int CurHp { get { return _NSJTest.Hp.CurHp; } set { _NSJTest.Hp.CurHp = value; } }
+    // 방어력
+    public int Defense { get { return _NSJTest.Defense.Defense; } set { _NSJTest.Defense.Defense = value; } }
+    public float DamageReduction{ get { return _NSJTest.Defense.DamageReduction; } set { _NSJTest.Defense.DamageReduction = value; } }
+
+    // 스테미나
+    public float MaxStamina { get { return _NSJTest.Stamina.MaxStamina; } set { _NSJTest.Stamina.MaxStamina = value; } }
+    public float CurStamina { get { return _NSJTest.Stamina.CurStamina; } set { _NSJTest.Stamina.CurStamina = value; } }
+    public float StaminaRecoveryPerSecond { get { return _NSJTest.Stamina.StaminaRecoveryPerSecond; } set { _NSJTest.Stamina.StaminaRecoveryPerSecond = value; } }
+    public float StaminaCoolTime { get { return _NSJTest.Stamina.StaminaCoolTime; } set { _NSJTest.Stamina.StaminaCoolTime = value; } }
+    // 특수공격
+    public float MaxSpecialGage { get { return _NSJTest.Special.MaxSpecialGage; } set { _NSJTest.Special.MaxSpecialGage = value; } }
+    public float CurSpecialGage { get { return _NSJTest.Special.CurSpecialGage; } set { _NSJTest.Special.CurSpecialGage = value; } }
+    public float[] SpecialRecoveryAmount { get { return _NSJTest.Special.SpecialRecoveryAmount; } set { _NSJTest.Special.SpecialRecoveryAmount = value; } }
+    public float SpecialChargeGage { get { return _NSJTest.Special.SpecialChargeGage; } set { _NSJTest.Special.SpecialChargeGage = value; } }
+    // 점프
+    public float JumpPower { get { return _NSJTest.Jump.JumpPower; } set { _NSJTest.Jump.JumpPower = value; } }
+    public int JumpStamina { get { return _NSJTest.Jump.JumpStamina; } set { _NSJTest.Jump.JumpStamina = value; } }
+    public int DoubleJumpStamina { get { return _NSJTest.Jump.DoubleJumpStamina; } set { _NSJTest.Jump.DoubleJumpStamina = value; } }
+    public int JumpDownStamina { get { return _NSJTest.Jump.JumpDownStamina; } set { _NSJTest.Jump.JumpDownStamina = value; } }
+    // 대쉬
+    public float DashPower { get { return _NSJTest.Dash.DashPower; } set { _NSJTest.Dash.DashPower = value; } }
+    public int DashStamina { get { return _NSJTest.Dash.DashStamina; } set { _NSJTest.Dash.DashStamina = value; } }
     public int Damage { get { return _NSJTest.Damage; } set { _NSJTest.Damage = value; } }
+    public int AttackSpeed { get { return _NSJTest.AttackSpeed; } set { _NSJTest.AttackSpeed = value; } }
+    public float Critical { get { return _NSJTest.Critical.Critical; } set { _NSJTest.Critical.Critical = value; } }
+    public float CriticalDamage { get { return _NSJTest.Critical.CriticalDamage; } set { _NSJTest.Critical.CriticalDamage = value; } }
     public int MaxThrowCount { get { return _NSJTest.MaxThrowCount; } set { _NSJTest.MaxThrowCount = value; } }
     public int CurThrowCount { get { return _NSJTest.CurThrowCount; } set { _NSJTest.CurThrowCount = value; } }
     public List<ThrowObjectData> ThrowObjectStack { get { return _NSJTest.ThrowObjectStack; } set { _NSJTest.ThrowObjectStack = value; } }

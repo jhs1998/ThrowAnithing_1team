@@ -3,9 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
@@ -181,11 +181,6 @@ public class PlayerController : MonoBehaviour, IHit
         RotateCamera();
         InputKey();
         UpdatePlayerAdditional();
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Die();
-        }
     }
 
     private void FixedUpdate()
@@ -215,10 +210,10 @@ public class PlayerController : MonoBehaviour, IHit
         if (_states[(int)state].UseStamina == true)
         {
             // 사용할수 있음?(최소 스테미나)
-            if (Model.CurStamina < 10f)
+            if (Model.CurStamina < _states[(int)state].StaminaAmount)
                 return;
             // 사용가능하면 스테미나 깎음
-            Model.CurStamina -= 30f;
+            Model.CurStamina -= _states[(int)state].StaminaAmount;
         }
 
         _states[(int)CurState].Exit();
@@ -546,10 +541,15 @@ public class PlayerController : MonoBehaviour, IHit
     {
         // 살짝위에서 쏨
         Vector3 CheckPos = _groundCheckPos.position;
-
-        if (Physics.SphereCast(CheckPos, 0.25f, Vector3.down, out RaycastHit hit, 0.4f))
+        if (Physics.SphereCast(
+            CheckPos,
+            0.25f,
+            Vector3.down,
+            out RaycastHit hit, 
+            0.4f,
+            Layer.GetLayerMaskEveryThing(),
+            QueryTriggerInteraction.Ignore))
         {
-            //Debug.Log("지면");
             IsGround = true;
             // 오를 수 있는 경사면 체크
             Vector3 normal = hit.normal;
@@ -564,7 +564,6 @@ public class PlayerController : MonoBehaviour, IHit
         }
         else
         {
-            // Debug.Log("공중");
             IsGround = false;
             CanClimbSlope = false;
         }
@@ -576,7 +575,7 @@ public class PlayerController : MonoBehaviour, IHit
 
         Vector3 CheckPos = _groundCheckPos.position;
 
-        if (Physics.SphereCast(CheckPos, 0.25f, Vector3.down, out RaycastHit hit, 0.4f))
+        if (Physics.SphereCast(CheckPos, 0.25f, Vector3.down, out RaycastHit hit, 0.4f, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
         {
             Gizmos.DrawLine(CheckPos, hit.point);
             Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
@@ -588,7 +587,15 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void CheckWall()
     {
-        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << Layer.Wall);
+        int layerMask = 0;
+        layerMask |= 1 << Layer.Wall;
+        layerMask |= 1 << Layer.Monster;
+        int hitCount = Physics.OverlapCapsuleNonAlloc(
+            _wallCheckPos.Foot.position, 
+            _wallCheckPos.Head.position,
+            _wallCheckDistance, 
+            OverLapColliders,
+            layerMask );
 
         if (hitCount > 0)
         {
@@ -765,7 +772,53 @@ public class PlayerController : MonoBehaviour, IHit
         }
     }
     #endregion
+    #region 데미지 계산
+    /// <summary>
+    /// 기본 스텟 데미지
+    /// </summary>
+    public int GetFinalDamage()
+    {
+        int finalDamage = 0;
+        finalDamage = GetCommonDamage(finalDamage);
+        return finalDamage;
+    }
+    /// <summary>
+    /// 데미지 추가
+    /// </summary>
+    public int GetFinalDamage(int addtionalDamage)
+    {
+        int finalDamage = 0;
+        // 추가 데미지
+        finalDamage += addtionalDamage;
+        finalDamage = GetCommonDamage(finalDamage);
+        return finalDamage;
+    }
+    /// <summary>
+    /// 데미지 배율
+    /// </summary>
+    public int GetFinalDamage(float multiplier)
+    {
+        int finalDamage = 0;
+        finalDamage = GetCommonDamage(finalDamage);
 
+        // 데미지 배율 추가
+        finalDamage =  (int)(finalDamage*multiplier);
+        return finalDamage;
+    }
+    /// <summary>
+    /// 공통계산 용
+    /// </summary>
+    private int GetCommonDamage(int finalDamage)
+    {
+        // 기본 스텟 데미지 
+        finalDamage += Model.Damage;
+        // 치명타 데미지
+        if (Random.value < Model.Critical/100f)
+            finalDamage = (int)(finalDamage*(Model.CriticalDamage/100f));
+
+        return finalDamage;
+    }
+    #endregion
     // 초기 설정 ============================================================================================================================================ //
     /// <summary>
     /// 초기 설정
@@ -802,22 +855,25 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void InitUIEvent()
     {
+        // 투척오브젝트
         Model.CurThrowCountSubject
             .DistinctUntilChanged()
             .Subscribe(x => View.UpdateText(View.Panel.ThrowCount, $"{x} / {Model.MaxThrowCount}"));
         View.UpdateText(View.Panel.ThrowCount, $"{Model.CurThrowCount} / {Model.MaxThrowCount}");
 
-
+        // 스테미나
         Model.CurStaminaSubject
             .DistinctUntilChanged()
             .Subscribe(x => View.Panel.StaminaSlider.value = x / Model.MaxStamina);
         View.Panel.StaminaSlider.value = Model.CurStamina / Model.MaxStamina;
 
+        // 특수자원
         Model.CurSpecialGageSubject
             .DistinctUntilChanged()
             .Subscribe(x => View.Panel.SpecialGageSlider.value = x / Model.MaxSpecialGage);
         View.Panel.SpecialGageSlider.value = Model.CurSpecialGage / Model.MaxSpecialGage;
 
+        // 특수공격 차지
         Model.SpecialChargeGageSubject
             .DistinctUntilChanged()
             .Subscribe(x => View.Panel.SpecialChargeSlider.value = x);

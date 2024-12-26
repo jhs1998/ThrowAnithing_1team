@@ -11,6 +11,7 @@ public class ThrowObject : MonoBehaviour
     public int Damage;
     public float Radius;
     public float KnockBackDistance;
+    public float SpecialRecovery;
     protected Collider[] _overlapCollider = new Collider[20];
     protected PlayerController _player;
 
@@ -76,8 +77,9 @@ public class ThrowObject : MonoBehaviour
     public void Init(PlayerController player, List<HitAdditional> hitAdditionals, List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
-        Damage += player.Model.Damage;
+        Damage += player.GetFinalDamage();
         Radius = player.Model.BoomRadius;
+        SpecialRecovery = player.Model.SpecialRecoveryAmount[player.Model.ChargeStep];
         AddHitAdditional(hitAdditionals);
         AddThrowAdditional(throwAdditionals, player);
     }
@@ -172,7 +174,7 @@ public class ThrowObject : MonoBehaviour
             }
         }
         // 플레이어 특수공격 자원 획득
-        _player.Model.CurSpecialGage += _player.Model.SpecialRecoveryAmount;
+        _player.Model.CurSpecialGage += SpecialRecovery;
         DestroyObject();
     }
 

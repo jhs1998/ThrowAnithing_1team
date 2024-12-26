@@ -20,7 +20,6 @@ public class PowerSpecialAttack : ArmSpecialAttack
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private GameObject _specialRange;
 
-    private int _index;
     private float _maxChargeTime => _charges[_charges.Length - 1].ChargeTime;
     private int _triggerIndex;
     private GameObject _instanceDropObject;
@@ -193,7 +192,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     private void AttackSpecial()
     {
-        int finalDamage = Model.Damage + _charges[_index].Damage;
+        int finalDamage = Player.GetFinalDamage(_charges[_index].Damage);
         // 범위 내 적에게 데미지
         int hitCount = Physics.OverlapSphereNonAlloc(_dropPos, _charges[_index].Radius, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)

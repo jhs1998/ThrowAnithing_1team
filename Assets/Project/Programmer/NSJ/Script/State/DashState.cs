@@ -8,6 +8,7 @@ public class DashState : PlayerState
     public DashState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
+        StaminaAmount = Model.DashStamina;
     }
 
     public override void Enter()
