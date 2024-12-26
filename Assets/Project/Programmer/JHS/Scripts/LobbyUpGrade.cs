@@ -285,7 +285,65 @@ public class LobbyUpGrade : MonoBehaviour
     /**************************************************************/
 
     // 다섯번째 줄 1번 슬롯 마나 소모량 감소 6퍼
+    public void FiveLine_UpgradeManaConsumption(int slot)
+    {
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 마나 소모량 감소 6퍼
+            for (int i = 0; i < 3; i++)
+            {
+                playerState.manaConsumption[i] -= playerState.manaConsumption[i] * 0.06f;
+            }
+            Debug.Log($"마나 소모량 감소 6퍼");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
     // 다섯번째 줄 2번 슬롯 생명력 흡수 0.6퍼 
+    public void FiveLine_UpgradeDrainLife(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 생명력 흡수 0.6퍼 
+            playerState.drainLife += 0.6f;
+            Debug.Log($"생명력 흡수 : {playerState.drainLife}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
     // 다섯번째 줄 3번 슬롯 방어력 0.6 증가
+    public void FiveLine_UpgradeDefense(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 방어력 0.6 증가
+            playerState.defense += 0.6f;
+            Debug.Log($"방어력: {playerState.defense}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
     // 다섯번째 줄 4번 슬롯 장비 획득 확률 3퍼 증가
+    public void FiveLine_UpgradeEquipmentDrop(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 추가 장비 획득 확률 3퍼 증가
+            playerState.equipmentDropUpgrade += 3;
+            Debug.Log($"추가 장비 획득 확률 : {playerState.equipmentDropUpgrade}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
 }
