@@ -29,6 +29,7 @@ public class BaseEnemy : MonoBehaviour, IHit
     [SerializeField] int curHp;
 
     [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
+    [HideInInspector] public Collider[] overLapCollider = new Collider[100];
     public int Damage { get { return state.Atk; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
 
@@ -55,7 +56,6 @@ public class BaseEnemy : MonoBehaviour, IHit
         tree.SetVariable("TraceDis", (SharedFloat)state.TraceDis);
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
         tree.SetVariable("Reward", (SharedFloat)reward);
-        tree.SetVariable("CurHp", (SharedInt)curHp);
     }
 
     private void OnDrawGizmosSelected()
@@ -79,6 +79,6 @@ public class BaseEnemy : MonoBehaviour, IHit
             resultDamage = 0;
 
         curHp -= resultDamage;
-        Debug.Log($"{damage} 피해를 입음. curHP : {curHp}");
+        Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
     }
 }
