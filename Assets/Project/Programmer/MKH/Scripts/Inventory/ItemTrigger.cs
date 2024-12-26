@@ -14,7 +14,7 @@ namespace MKH
             mCurrentItem = other.transform.GetComponent<ItemPickUp>();
 
             // Item 태그 붙은 other 오브젝트
-            if (other.CompareTag("Item"))
+            if (other.gameObject.tag == Tag.Item)
             {
                 // 아이템 타입이 None이 아닐 시 
                 if (mCurrentItem.Item.Type != ItemType.None)
