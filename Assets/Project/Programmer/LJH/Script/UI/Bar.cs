@@ -25,6 +25,11 @@ public class Bar : Status
                 curNum = player.curMp;
                 break;
 
+            case "ChargingMpBar" :
+                maxNum = player.curMp;
+                curNum = player.curCharging;
+                break;
+
             case "StaminaBar":
                 maxNum = player.maxSta;
                 curNum = player.curSta;
@@ -32,5 +37,6 @@ public class Bar : Status
         }
 
         BarValueController(this.GetComponent<Slider>(), maxNum, curNum);
+
     }
 }

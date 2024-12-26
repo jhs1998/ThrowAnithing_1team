@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class LJH_inputManager : MonoBehaviour
 {
-   public float maxHp = 100;
-   public float curHp;
+    public float maxHp = 100;
+    public float curHp;
 
-   public float maxMp = 200;
-   public float curMp;
+    public float maxMp = 200;
+    public float curMp;
 
-   public float maxSta = 50;
-   public float curSta;
+    public float maxSta = 50;
+    public float curSta;
+
+    public float maxCharging;
+    public float curCharging;
 
 
     float moveSpeed = 3f;
@@ -25,9 +28,24 @@ public class LJH_inputManager : MonoBehaviour
         curHp = maxHp;
         curMp = maxMp;
         curSta = maxSta;
+        curCharging = 0;
     }
     private void Update()
     {
+        Debug.Log(curCharging);
+        maxCharging = curMp;
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            Debug.Log("Â÷Â¡½ÃÀÛ");
+            if(curCharging <= maxCharging)
+                curCharging += 0.5f;
+        }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            curCharging = 0;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             curHp -= 10;
@@ -46,7 +64,7 @@ public class LJH_inputManager : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        transform.Translate(new Vector3(x, 0, z) * moveSpeed * Time.deltaTime,Space.World);
+        transform.Translate(new Vector3(x, 0, z) * moveSpeed * Time.deltaTime, Space.World);
     }
 
     void Rotation()
@@ -54,7 +72,7 @@ public class LJH_inputManager : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        if(x != 0 || z !=0)
+        if (x != 0 || z != 0)
         {
             preFor = new Vector3(x, 0, z);
         }
