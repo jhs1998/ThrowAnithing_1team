@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3691406048128609550}
+  - component: {fileID: 7538824707032196102}
   - component: {fileID: 5049256860418601447}
   - component: {fileID: 3402524173991046657}
   - component: {fileID: 5679886122066206541}
   - component: {fileID: 3270618832926993227}
-  - component: {fileID: 7538824707032196102}
   m_Layer: 0
   m_Name: ThrowObject0
   m_TagString: Trash
@@ -36,6 +36,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7538824707032196102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823084993011466744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05c5715a614ebe74491cd63f3c26ec63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data:
+    ID: 1
+  CanAttack: 0
+  ThrowAdditionals: []
+  HitAdditionals: []
+  Rb: {fileID: 0}
+  Damage: 30
+  Radius: 0
+  KnockBackDistance: 0
 --- !u!33 &5049256860418601447
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -136,19 +157,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7538824707032196102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 823084993011466744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05c5715a614ebe74491cd63f3c26ec63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Data:
-    ID: 1
-  _hitAdditionals: []
-  _canAttack: 0

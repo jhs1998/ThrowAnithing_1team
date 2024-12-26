@@ -100,8 +100,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
     ID: 2
-  _hitAdditionals: []
-  _canAttack: 0
+  CanAttack: 0
+  ThrowAdditionals: []
+  HitAdditionals: []
+  Rb: {fileID: 0}
+  Damage: 40
+  Radius: 0
+  KnockBackDistance: 0
 --- !u!54 &2807524629821305267
 Rigidbody:
   m_ObjectHideFlags: 0

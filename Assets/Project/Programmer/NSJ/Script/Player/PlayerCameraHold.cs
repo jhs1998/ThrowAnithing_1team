@@ -25,11 +25,17 @@ public class PlayerCameraHold : MonoBehaviour
     private void Awake()
     {
         _player = GetComponentInParent<PlayerController>();
-        //transform.SetParent(null);
+        _targetEffect.transform.SetParent(null);
+
     }
 
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
     private void OnEnable()
     {
+        _targetEffect.SetActive(true);
         SetTargetList();
     }
 
@@ -41,6 +47,7 @@ public class PlayerCameraHold : MonoBehaviour
             _checkDistanceToTarget = null;
         }
 
+        _targetEffect.SetActive(false);
         _targetList.Clear();
         _target = null;
         _player.IsTargetHolding = false;

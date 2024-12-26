@@ -1,13 +1,15 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public Transform ArmPoint;
 
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
         Dash,
         Drain,
         SpecialAttack,
+        Hit,
+        Dead,
         Size
     }
 
@@ -36,6 +40,8 @@ public class PlayerController : MonoBehaviour
     public State PrevState;
 
     #region 이벤트
+    public event UnityAction<int> OnPlayerHitEvent;
+    public event UnityAction OnPlayerDieEvent;
     #endregion
     #region 공격 관련 필드
     [System.Serializable]
@@ -120,12 +126,18 @@ public class PlayerController : MonoBehaviour
     #region 조건체크 Bool 필드
     public struct BoolField
     {
-        public bool IsDoubleJump;
-        public bool IsJumpAttack;
+        public bool IsDoubleJump; // 더블점프 했음?
+        public bool IsJumpAttack; // 점프공격 했음?
+        public bool IsInvincible; // 무적상태임?
+        public bool IsHit; // 맞음?
+        public bool IsDead; // 죽음?
     }
     private BoolField _boolField;
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
     public bool IsJumpAttack { get { return _boolField.IsJumpAttack; } set { _boolField.IsJumpAttack = value; } }
+    public bool IsInvincible { get { return _boolField.IsInvincible; } set { _boolField.IsInvincible = value; } }
+    public bool IsHit { get { return _boolField.IsHit; } set { _boolField.IsHit = value; } }
+    public bool IsDead { get { return _boolField.IsDead; } set { _boolField.IsDead = value; } }
     #endregion
 
     //TODO: 인스펙터 정리 필요
@@ -169,6 +181,11 @@ public class PlayerController : MonoBehaviour
         RotateCamera();
         InputKey();
         UpdatePlayerAdditional();
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Die();
+        }
     }
 
     private void FixedUpdate()
@@ -211,6 +228,23 @@ public class PlayerController : MonoBehaviour
 
         //Debug.Log(CurState);
     }
+
+    /// <summary>
+    /// 데미지 받기
+    /// </summary>
+    public void TakeDamage(int damage)
+    {
+        OnPlayerHitEvent?.Invoke(damage);
+    }
+
+    /// <summary>
+    /// 사망
+    /// </summary>
+    public void Die()
+    {
+        OnPlayerDieEvent?.Invoke();
+    }
+
 
     #region Instantiate 대리 메서드
     public T InstantiateObject<T>(T instance) where T : Component
@@ -653,6 +687,9 @@ public class PlayerController : MonoBehaviour
     }
     private void CheckAnyState()
     {
+        if (IsDead == true || IsHit == true)
+            return;
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
         {
             ChangeState(PlayerController.State.Dash);
@@ -661,6 +698,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region  넉백
+    /// <summary>
+    /// 넉백 안함(위치 고정)
+    /// </summary>
     public void DontKnockBack(Transform target)
     {
         Rigidbody targetRb = target.GetComponent<Rigidbody>();
@@ -706,7 +746,6 @@ public class PlayerController : MonoBehaviour
         Vector3 knockBackDir = targetPos - attackerPos;
         Rigidbody targetRb = target.GetComponent<Rigidbody>();
 
-        Debug.Log(knockBackDir);
         targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
 
         CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
@@ -732,8 +771,7 @@ public class PlayerController : MonoBehaviour
     /// 초기 설정
     /// </summary>
     private void Init()
-    {
-        _cameraHolder.gameObject.SetActive(false);
+    {         
         InitGetComponent();
         InitPlayerStates();
     }
@@ -755,6 +793,8 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.Fall] = new FallState(this);                 // 추락
         _states[(int)State.Dash] = new DashState(this);                 // 대쉬
         _states[(int)State.Drain] = new DrainState(this);               // 드레인
+        _states[(int)State.Hit] = new HitState(this);                   // 피격
+        _states[(int)State.Dead] = new DeadState(this);                 // 사망
     }
 
     /// <summary>

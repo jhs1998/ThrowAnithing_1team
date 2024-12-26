@@ -921,6 +921,8 @@ MonoBehaviour:
   PlayerData:
     _NSJTest:
       MoveSpeed: 0
+      Hp: 0
+      Defense: 0
       Damage: 0
       MaxThrowCount: 0
       CurThrowCount: 0
@@ -3235,14 +3237,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NSJ_Monster
       objectReference: {fileID: 0}
-    - target: {fileID: 7010956278159781858, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7010956278159781858, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     - target: {fileID: 9060964019922164373, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -3358,10 +3352,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7904341024521288259, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8591704050590773644, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
-      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

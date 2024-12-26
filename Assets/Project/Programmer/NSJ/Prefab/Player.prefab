@@ -808,6 +808,8 @@ MonoBehaviour:
   Data:
     _NSJTest:
       MoveSpeed: 5
+      Hp: 5
+      Defense: 0
       Damage: 10
       MaxThrowCount: 10
       CurThrowCount: 0
@@ -829,7 +831,7 @@ MonoBehaviour:
   Special:
     MaxSpecialGage: 100
     CurSpecialGage: 0
-    SpecialRecoveryAmount: 30
+    SpecialRecoveryAmount: 100
     SpecialChargeGage: 0
   Melee:
     ComboCount: 0
@@ -2018,6 +2020,10 @@ PrefabInstance:
     - target: {fileID: 8552352585128196983, guid: fa30ccd2fa34da84aaac572ca46e020a, type: 3}
       propertyPath: m_Name
       value: TargetEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552352585128196983, guid: fa30ccd2fa34da84aaac572ca46e020a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

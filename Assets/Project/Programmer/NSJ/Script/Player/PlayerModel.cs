@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using static PlayerData;
 
 public class PlayerModel : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayerModel : MonoBehaviour
     public PlayerData Data;
 
     public ArmUnit Arm;
+    public int Hp { get { return Data.Hp; } set { Data.Hp = value; } }
+    public int Defense { get { return Data.Defense; } set { Data.Defense = value; } }
     public int Damage { get { return Data.Damage; } set { Data.Damage = value; } }
     public int MaxThrowCount { get { return Data.MaxThrowCount; } set { Data.MaxThrowCount = value; } }
     public int CurThrowCount
@@ -173,6 +176,8 @@ public partial class PlayerData
     public struct NSJTest
     {
         public float MoveSpeed;
+        public int Hp;
+        public int Defense;
         public int Damage;
         public int MaxThrowCount;
         public int CurThrowCount;
@@ -184,6 +189,8 @@ public partial class PlayerData
     }
     [SerializeField] private NSJTest _NSJTest;
     public float MoveSpeed { get { return _NSJTest.MoveSpeed; } set { _NSJTest.MoveSpeed = value; } }
+    public int Hp { get { return _NSJTest.Hp; } set { _NSJTest.Hp = value; } }
+    public int Defense { get { return _NSJTest.Defense; } set { _NSJTest.Defense = value; } }
     public int Damage { get { return _NSJTest.Damage; } set { _NSJTest.Damage = value; } }
     public int MaxThrowCount { get { return _NSJTest.MaxThrowCount; } set { _NSJTest.MaxThrowCount = value; } }
     public int CurThrowCount { get { return _NSJTest.CurThrowCount; } set { _NSJTest.CurThrowCount = value; } }

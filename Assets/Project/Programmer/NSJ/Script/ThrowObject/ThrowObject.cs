@@ -8,12 +8,13 @@ public class ThrowObject : MonoBehaviour
     [SerializeField] public bool CanAttack;
     [SerializeField] public List<ThrowAdditional> ThrowAdditionals = new List<ThrowAdditional>();
     [SerializeField] public List<HitAdditional> HitAdditionals = new List<HitAdditional>();
-    public Rigidbody Rb;
     public int Damage;
     public float Radius;
     public float KnockBackDistance;
     protected Collider[] _overlapCollider = new Collider[20];
     protected PlayerController _player;
+
+    [HideInInspector]public Rigidbody Rb;
     protected Collider _collider;
 
     protected void Awake()
@@ -166,8 +167,7 @@ public class ThrowObject : MonoBehaviour
 
                     if (KnockBackDistance > 0)
                         _player.DoKnockBack(monster.transform, transform.forward, KnockBackDistance);
-                    else
-                        _player.DontKnockBack(monster.transform);
+
                 }
             }
         }

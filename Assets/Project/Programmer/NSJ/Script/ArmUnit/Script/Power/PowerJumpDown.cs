@@ -18,6 +18,10 @@ public class PowerJumpDown : ArmJumpDown
     {
         Player.Rb.velocity = Vector3.zero;
         Player.Rb.AddForce(Vector3.down * _attackSpeed, ForceMode.Impulse);
+
+        // 플레이어 무적
+        Player.IsInvincible = true;
+
         View.SetTrigger(PlayerView.Parameter.JumpDown);
 
         if (_fallRoutine == null)
@@ -34,6 +38,10 @@ public class PowerJumpDown : ArmJumpDown
             _fallRoutine = null;
         }
 
+        // 플레이어 무적 해제
+        Player.IsInvincible = false;
+
+        // 점프 조건 해제
         Player.IsJumpAttack = false;
         Player.IsDoubleJump = false;
     }
@@ -104,6 +112,7 @@ public class PowerJumpDown : ArmJumpDown
         GameObject instance = Instantiate(_attackEffect, _landingPoint, transform.rotation);
         while (true)
         {
+            // 이펙트 점점 커짐
             instance.transform.localScale = new Vector3(
               instance.transform.localScale.x + _range * 2 * Time.deltaTime * (1 / _maxScaleEffectTime),
               instance.transform.localScale.y + _range * 2 * Time.deltaTime * (1 / _maxScaleEffectTime),
