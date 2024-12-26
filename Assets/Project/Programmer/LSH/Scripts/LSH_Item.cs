@@ -1,20 +1,18 @@
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stalactite : MonoBehaviour
+public class LSH_Item : MonoBehaviour
 {
-
-    [SerializeField] int stalactiteDamage;
-
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == Tag.Player)
         {
-            LSH_Player player = other.GetComponent<LSH_Player>();
-            player.TakeDamage(stalactiteDamage);
+            gameObject.SetActive(false);
         }
     }
+
 
 }

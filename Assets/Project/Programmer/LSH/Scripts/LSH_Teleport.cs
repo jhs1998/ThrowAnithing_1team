@@ -3,14 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class LSH_Teleport : MonoBehaviour
 {
-    SceneField travelNum;
+    SceneField travelName;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Portal")
+        if (other.tag == Tag.Portal)
         {
-            travelNum = other.GetComponent<PortalSceneNumber>().SceneName;                        
-            SceneManager.LoadScene(travelNum);
+            travelName = other.GetComponent<PortalSceneNumber>().SceneName;                        
+            SceneManager.LoadScene(travelName);
         }
         
         

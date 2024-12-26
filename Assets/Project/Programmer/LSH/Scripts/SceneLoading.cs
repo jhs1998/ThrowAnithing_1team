@@ -8,11 +8,14 @@ public class SceneLoading : MonoBehaviour
     Coroutine loadingRoutine; //로딩 코루틴
     [SerializeField] Image loadingImage; //로딩중에만 나타날 이미지
     [SerializeField] Slider loadingBar; //로딩중임을 알려주는 프로그레스 바
+    [SerializeField] Button startBtn; 
+    [SerializeField] SceneField nextScene; //이동할 씬 이름
 
 
     private void Start()
     {
         loadingImage.gameObject.SetActive(false);
+        startBtn.onClick.AddListener(() => ChangeScene(nextScene));
     }
 
 
