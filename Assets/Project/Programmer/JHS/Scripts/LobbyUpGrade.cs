@@ -11,7 +11,7 @@ public class LobbyUpGrade : MonoBehaviour
     [Inject]
     public GlobalPlayerStateData playerState;
 
-    // 첫번째 줄 1번째 슬롯 근접 공격 강화
+    // 첫번째 줄 1번 슬롯 근접 공격 강화
     public void OneLine_UpgradeShortAttack(int slot)
     {
         if (gameData.BuyUpgradeSlot(slot))
@@ -28,7 +28,7 @@ public class LobbyUpGrade : MonoBehaviour
             Debug.Log("강화 실패");
         }
     }
-    // 첫번째 줄 2번째 슬롯 원거리 공격 강화
+    // 첫번째 줄 2번 슬롯 원거리 공격 강화
     public void OneLine_UpgradeLongAttack(int slot)
     {
         if (gameData.BuyUpgradeSlot(slot))
@@ -45,7 +45,7 @@ public class LobbyUpGrade : MonoBehaviour
             Debug.Log("강화 실패");
         }
     }
-    // 첫번째 줄 3번째 슬롯 이동 속도 강화 
+    // 첫번째 줄 3번 슬롯 이동 속도 강화 
     public void OneLine_UpgradeMovementSpeed(int slot)
     {
         // 슬롯 강화 시도
@@ -53,14 +53,14 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 이동 속도 증가
             playerState.movementSpeed *= 1.04f;
-            Debug.Log($"이동 속도 증가: {playerState.movementSpeed}");
+            Debug.Log($"이동 속도: {playerState.movementSpeed}");
         }
         else
         {
             Debug.Log("강화 실패");
         }
     }
-    // 첫번째 줄 4번째 슬롯 최대 체력 강화
+    // 첫번째 줄 4번 슬롯 최대 체력 강화
     public void OneLine_UpgradeMaxHpSlot(int slot)
     {
         // 슬롯 강화 시도
@@ -68,7 +68,7 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 최대 체력 증가
             playerState.maxHp += 6;
-            Debug.Log($"최대 체력 증가: {playerState.maxHp}");
+            Debug.Log($"최대 체력: {playerState.maxHp}");
         }
         else
         {
@@ -78,5 +78,84 @@ public class LobbyUpGrade : MonoBehaviour
 
     /**************************************************************/
 
-    
+    // 두번째 줄 1번 슬롯 스테미나 최대치 증가
+    public void TwoLine_UpgradeMaxStamina(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 스테미나 최대치 증가
+            playerState.maxStamina += 10;
+            Debug.Log($"스테미나 최대치 : {playerState.maxStamina}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
+    // 두번째 줄 2번 슬롯 공격 속도 5퍼 증가
+    public void TwoLine_UpgradeAttackSpeed(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 공격 속도 5퍼 증가
+            playerState.attackSpeed *= 1.05f;
+            Debug.Log($"공격 속도: {playerState.attackSpeed}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
+    // 두번째 줄 3번 슬롯 크리티컬 확률 2 증가
+    public void TwoLine_UpgradeCriticalChance(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 크리티컬 확률 2 증가
+            playerState.criticalChance += 2;
+            Debug.Log($"크리티컬 확률 : {playerState.criticalChance}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
+    // 두번째 줄 4번 슬롯 추가 장비 획득 확률 2퍼 증가
+    public void TwoLine_UpgradeEquipmentDrop(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 추가 장비 획득 확률 2퍼 증가
+            playerState.equipmentDropUpgrade += 2;
+            Debug.Log($"추가 장비 획득 확률 : {playerState.equipmentDropUpgrade}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
+    /**************************************************************/
+
+    // 세번째 줄 1번 슬롯 공용 공격력 2증가
+    // 세번째 줄 2번 슬롯 보유 투척물 6증가
+    // 세번째 줄 3번 슬롯 방어력 0.4 증가
+    // 세번째 줄 4번 슬롯 마나 회복량 10퍼 증가
+
+    /**************************************************************/
+
+    // 네번째 줄 1번 슬롯 스테미나 소모량 6퍼 감소
+    // 네번째 줄 2번 슬롯 원거리 공격력 2증가
+    // 네번째 줄 3번 슬롯 근거리 공격력 2증가
+    // 네번째 줄 4번 슬롯 투척물 추가 획득 20퍼 증가
+
+    /**************************************************************/
+
+    // 다섯번째 줄 1번 슬롯 마나 소모량 감소 6퍼
+    // 다섯번째 줄 2번 슬롯 생명력 흡수 0.6퍼 
+    // 다섯번째 줄 3번 슬롯 방어력 0.6 증가
+    // 다섯번째 줄 4번 슬롯 장비 획득 확률 3퍼 증가
 }

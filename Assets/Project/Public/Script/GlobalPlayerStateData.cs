@@ -35,7 +35,7 @@ public class GlobalPlayerStateData
     public float equipmentDropUpgrade;
     // 생명력 흡수 기본 0
     public float drainLife;
-    // 스테미나 최대치 증가 기본 : 100
+    // 스테미나 최대치 기본 : 100
     public float maxStamina;
     // 스테미나 회복 증가 기본 : 20
     public float regainStamina;
