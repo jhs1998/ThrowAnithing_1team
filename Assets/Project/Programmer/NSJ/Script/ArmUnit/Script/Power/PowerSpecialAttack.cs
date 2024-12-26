@@ -73,7 +73,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     {
         if (_triggerIndex == 0)
         {
-            Player.LookAtCameraFoward();
+            Player.LookAtAttackDir();
             _triggerIndex++;
         }
         else
@@ -91,7 +91,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         {
             ProcessCharge();
 
-            if (Input.GetButtonUp("Fire2"))
+            if (Input.GetKeyUp(KeyCode.Q))
             {
                 Model.SpecialChargeGage = 0;
                 if (_instanceDropObject)

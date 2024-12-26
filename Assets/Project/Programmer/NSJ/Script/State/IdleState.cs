@@ -10,16 +10,18 @@ public class IdleState : PlayerState
     public override void Enter()
     {
         Player.Rb.velocity = Vector3.zero;
-        View.SetBool(PlayerView.Parameter.Idle, true);
+
+        View.SetBool(PlayerView.Parameter.Idle,true);
     }
 
+    public override void Exit()
+    {
+        View.SetBool(PlayerView.Parameter.Idle, false);
+    }
     public override void Update()
     {
-        //Debug.Log("Idle");
-
-        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         // 이동키 입력시 Run
-        if (moveDir != Vector3.zero)
+        if (MoveDir != Vector3.zero)
         {
             ChangeState(PlayerController.State.Run);
         }
@@ -34,7 +36,7 @@ public class IdleState : PlayerState
             ChangeState(PlayerController.State.ThrowAttack);
         }
         // 특수공격 키 입력시 특수 공격
-        else if (Input.GetButtonDown("Fire2"))
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
             ChangeState(PlayerController.State.SpecialAttack);
         }
@@ -59,8 +61,4 @@ public class IdleState : PlayerState
 
     }
 
-    public override void Exit()
-    {
-        View.SetBool(PlayerView.Parameter.Idle, false);
-    }
 }

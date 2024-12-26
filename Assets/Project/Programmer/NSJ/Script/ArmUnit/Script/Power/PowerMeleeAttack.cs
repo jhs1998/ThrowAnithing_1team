@@ -32,7 +32,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         Player.Rb.velocity = Vector3.zero;
         _curChargeTime = 0;
         _index = 0;
-        Player.LookAtCameraFoward();
+        Player.LookAtAttackDir();
         View.SetTrigger(PlayerView.Parameter.PowerMelee);
         if(_chargeRoutine == null)
         {
@@ -70,7 +70,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
             if (Input.GetKeyUp(KeyCode.V))
             {
-                Player.LookAtCameraFoward();
+                Player.LookAtAttackDir();
                 View.SetTrigger(PlayerView.Parameter.ChargeEnd);
                 _chargeRoutine = null;
                 break;

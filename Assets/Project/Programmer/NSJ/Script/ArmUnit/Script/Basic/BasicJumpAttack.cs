@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Basic JumpAttack", menuName = "Arm/AttackType/Basic/JumpAttack")]
@@ -8,13 +6,22 @@ public class BasicJumpAttack : ArmJumpAttack
     [Header("플레이어가 허공에서 살짝 튀어오르는 정도")]
     [SerializeField] private float _popValue;
     [Header("하단 공격 각도")]
-    [SerializeField] private float _downAngle;
+    [SerializeField] private float m_downAngle;
+    private float _downAngle {
+        get
+        {
+            if (Player.IsVerticalCameraMove == true)
+                return 0;
+            else
+                return m_downAngle;
+        } 
+    }
     public override void Enter()
     {
         Debug.Log("점프어택 시작");
         // 애니메이션 실행
         View.SetTrigger(PlayerView.Parameter.JumpAttack);
-        
+
     }
     public override void Exit()
     {
@@ -24,9 +31,18 @@ public class BasicJumpAttack : ArmJumpAttack
     public override void OnTrigger()
     {
         // 캐릭터 살짝 튀어오르기
-        Player.LookAtCameraFoward();
+
+        // 입력한 방향으로 플레이어 방향 전환
+        Player.LookAtMoveDir();
+        // 플레이어 물리량 전환
         Rb.velocity = new Vector3(Rb.velocity.x, 0, Rb.velocity.z);
-        Rb.AddForce(Vector3.up * _popValue , ForceMode.Impulse);
+
+        if (Player.MoveDir != Vector3.zero)
+            Player.ChangeVelocityPlayerFoward();
+
+        // 플레이어 카메라 방향 바라보기
+        Player.LookAtAttackDir();
+        Rb.AddForce(Vector3.up * _popValue, ForceMode.Impulse);
         ThrowObject();
     }
     public override void EndAnimation()

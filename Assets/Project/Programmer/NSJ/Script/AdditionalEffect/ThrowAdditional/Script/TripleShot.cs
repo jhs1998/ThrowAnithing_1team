@@ -25,7 +25,16 @@ public class TripleShot : ThrowAdditional
         Vector3 originObjectRot = _throwObject.transform.eulerAngles;
         for (int i = 0; i < 2; i++)
         {
-            int throwObjectID = _model.ThrowObjectStack.Count > 0 ? _model.PopThrowObject().ID : 0;
+            // 점프 공격일 땐 기본 오브젝트만 던져야함
+            int throwObjectID = 0;
+            if (_player.CurState == PlayerController.State.JumpAttack)
+            {
+                throwObjectID = 0;
+            }
+            else
+            {
+                throwObjectID = _model.ThrowObjectStack.Count > 0 ? _model.PopThrowObject().ID : 0;
+            }
 
             float angleY = i == 0 ? originObjectRot.y - _angle : originObjectRot.y + _angle;
             Quaternion shotAngle = Quaternion.Euler(

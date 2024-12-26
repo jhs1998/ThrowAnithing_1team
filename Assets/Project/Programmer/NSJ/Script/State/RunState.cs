@@ -2,20 +2,18 @@ using UnityEngine;
 
 public class RunState : PlayerState
 {
-    Vector3 _moveDir;
     public RunState(PlayerController controller) : base(controller)
     {
     }
 
     public override void Enter()
     {
-        Player.View.SetBool(PlayerView.Parameter.Run, true);
+        View.SetBool(PlayerView.Parameter.Idle, true);
+        View.SetBool(PlayerView.Parameter.Run, true);
     }
 
     public override void Update()
     {
-        //Debug.Log("Run");
-        InputKey();
         CheckChangeState();
     }
 
@@ -26,19 +24,13 @@ public class RunState : PlayerState
 
     public override void Exit()
     {
+        View.SetBool(PlayerView.Parameter.Idle, false);
         View.SetBool(PlayerView.Parameter.Run, false);
     }
 
-    private void InputKey()
-    {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
-        _moveDir = new Vector3(x, 0, z);
-    }
-
     private void Run()
-    {
-        Player.LookAtMoveDir(_moveDir);
+    { 
+        Player.LookAtMoveDir();
 
         // 플레이어 이동
         // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동
@@ -53,7 +45,7 @@ public class RunState : PlayerState
     private void CheckChangeState()
     {
         // 이동키 입력이 없을때 평상시 모드
-        if (_moveDir == Vector3.zero)
+        if (MoveDir == Vector3.zero)
         {
             ChangeState(PlayerController.State.Idle);
         }
@@ -68,7 +60,7 @@ public class RunState : PlayerState
             ChangeState(PlayerController.State.ThrowAttack);
         }
         // 특수공격 키 입력시 특수 공격
-        else if (Input.GetButtonDown("Fire2"))
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
             ChangeState(PlayerController.State.SpecialAttack);
         }

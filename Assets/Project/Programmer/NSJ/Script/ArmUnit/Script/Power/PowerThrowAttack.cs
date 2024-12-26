@@ -69,7 +69,7 @@ public class PowerThrowAttack : ArmThrowAttack
             // 차지 해제 시 던지는 애니메이션 실행
             if (Input.GetButtonUp("Fire1"))
             {
-                Player.LookAtCameraFoward();
+                Player.LookAtAttackDir();
                 View.SetTrigger(PlayerView.Parameter.ChargeEnd);
                 _chargeRoutine = null;
                 break;
