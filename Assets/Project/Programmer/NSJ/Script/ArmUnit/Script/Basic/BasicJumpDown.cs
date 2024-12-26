@@ -93,7 +93,7 @@ public class BasicJumpDown : ArmJumpDown
         for (int i = 0; i < hitCount; i++)
         {
             IHit hitable = Player.OverLapColliders[i].GetComponent<IHit>();
-            hitable.TakeDamage(finalDamage);
+            hitable.TakeDamage(finalDamage, true);
         }
     }
 

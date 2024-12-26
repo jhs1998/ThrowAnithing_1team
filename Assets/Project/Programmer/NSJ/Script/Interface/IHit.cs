@@ -1,5 +1,5 @@
 
 public interface IHit
 {
-    void TakeDamage(int damage);
+    void TakeDamage(int damage, bool isStun);
 }

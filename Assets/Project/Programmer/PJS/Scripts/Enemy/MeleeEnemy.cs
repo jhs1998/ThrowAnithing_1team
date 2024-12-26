@@ -22,7 +22,7 @@ public class MeleeEnemy : BaseEnemy
         if (other.transform.tag == Tag.Player)
         {
             IHit hit = other.transform.GetComponent<IHit>();
-            hit.TakeDamage(Damage);
+            hit.TakeDamage(Damage, true);
         }
     }
 }

@@ -120,7 +120,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
             IHit hit = Player.OverLapColliders[i].GetComponent<IHit>();
 
             int attackDamage = Player.GetFinalDamage(_charges[_index].Damage);
-            hit.TakeDamage(attackDamage);
+            hit.TakeDamage(attackDamage, true);
 
             if (_charges[_index].KnockBackRange > 0)
             {

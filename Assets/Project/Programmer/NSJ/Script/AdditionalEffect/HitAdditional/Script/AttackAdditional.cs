@@ -23,6 +23,6 @@ public class AttackAdditional : HitAdditional
     private void Attack()
     {
         IHit hit = Target.GetComponent<IHit>();
-        hit.TakeDamage(Damage);
+        hit.TakeDamage(Damage, true);
     }
 }

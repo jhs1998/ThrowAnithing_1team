@@ -20,11 +20,11 @@ public class NSJMonster : MonoBehaviour, IHit
         if (collision.gameObject.tag == Tag.Player)
         {
             IHit hitable = collision.gameObject.GetComponent<IHit>();
-            hitable.TakeDamage(_damage);
+            hitable.TakeDamage(_damage, true);
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isStun)
     {
         _hp -= damage;
         Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");

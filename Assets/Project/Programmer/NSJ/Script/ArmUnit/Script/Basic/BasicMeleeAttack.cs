@@ -75,7 +75,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, 0.5f);
 
             int finalDamage = Player.GetFinalDamage(Model.DamageMultiplier);
-            hit.TakeDamage(finalDamage);
+            hit.TakeDamage(finalDamage, true);
         }
     }
 

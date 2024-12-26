@@ -36,7 +36,7 @@ public class PoizonAdditional : HitAdditional
         while (count > 0)
         {
             yield return 1f.GetDelay(); 
-            hit.TakeDamage(poisonDamage);
+            hit.TakeDamage(poisonDamage,false);
             count--;
         }
         OnExitHitAdditional?.Invoke(this);

@@ -72,7 +72,7 @@ public class BaseEnemy : MonoBehaviour, IHit
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isStun)
     {
         resultDamage = damage - (int)state.Def;
         tree.SetVariable("ResultDamage", (SharedInt)resultDamage);
@@ -83,7 +83,7 @@ public class BaseEnemy : MonoBehaviour, IHit
         curHp -= resultDamage;
         
         // TODO : 결과 값은 TakeDamage 매개변수로 변환
-        tree.SetVariable("Stiff", (SharedBool)false);
+        tree.SetVariable("Stiff", (SharedBool)isStun);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
     }
 
@@ -98,7 +98,7 @@ public class BaseEnemy : MonoBehaviour, IHit
             IHit hit = overLapCollider[i].GetComponent<IHit>();
             if (hit != null)
             {
-                hit.TakeDamage(damage);
+                hit.TakeDamage(damage, false);
             }
         }
     }

@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 데미지 받기
     /// </summary>
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isStun)
     {
         OnPlayerHitEvent?.Invoke(damage);
     }
