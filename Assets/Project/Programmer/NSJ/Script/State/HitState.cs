@@ -37,7 +37,7 @@ public class HitState : PlayerState
         ChangeState(PlayerController.State.Idle);
     }
 
-    private void TakeDamage(int damage)
+    private void TakeDamage(int damage, bool isStun)
     {
         if (Player.IsInvincible == true)
             return;
@@ -53,9 +53,12 @@ public class HitState : PlayerState
         if (finalDamage == 0)
             return;
 
-
-
         Model.CurHp -= finalDamage;
+
+        // 경직 없음
+        if (isStun == false)
+            return;
+
         if (Model.CurHp > 0)
         {
             ChangeState(PlayerController.State.Hit);

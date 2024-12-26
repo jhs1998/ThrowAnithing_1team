@@ -20,7 +20,7 @@ public class NSJMonster : MonoBehaviour, IHit
         if (collision.gameObject.tag == Tag.Player)
         {
             IHit hitable = collision.gameObject.GetComponent<IHit>();
-            hitable.TakeDamage(_damage, true);
+            hitable.TakeDamage(_damage, false);
         }
     }
 

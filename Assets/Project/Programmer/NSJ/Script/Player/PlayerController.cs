@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour, IHit
     public State PrevState;
 
     #region 이벤트
-    public event UnityAction<int> OnPlayerHitEvent;
+    public event UnityAction<int,bool> OnPlayerHitEvent;
     public event UnityAction OnPlayerDieEvent;
     #endregion
     #region 공격 관련 필드
@@ -229,7 +229,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public void TakeDamage(int damage, bool isStun)
     {
-        OnPlayerHitEvent?.Invoke(damage);
+        OnPlayerHitEvent?.Invoke(damage, isStun);
     }
 
     /// <summary>
