@@ -1,6 +1,4 @@
-using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyDead : Action
@@ -17,13 +15,12 @@ public class EnemyDead : Action
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Zombie Death") &&
             anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
-            CapsuleCollider collider = GetComponent<CapsuleCollider>();
+            Collider collider = GetComponent<Collider>();
             collider.isTrigger = true;
 
             return TaskStatus.Success;
         }
 
-        anim.SetBool("Deadth", true);
         return TaskStatus.Running;
     }
 }
