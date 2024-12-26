@@ -7,7 +7,7 @@ public class LSH_Teleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Portal")
+        if (other.tag == Tag.Portal)
         {
             travelNum = other.GetComponent<PortalSceneNumber>().SceneName;                        
             SceneManager.LoadScene(travelNum);

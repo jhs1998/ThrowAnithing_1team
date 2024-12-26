@@ -12,7 +12,7 @@ public class TrapSpike : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == Tag.Player)
         {
             spike.transform.position =
                 Vector3.MoveTowards(spikeBeforeMove.position, spikeAfterMove.position, 1f);
@@ -24,7 +24,7 @@ public class TrapSpike : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
 
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == Tag.Player)
         {            
             spike.transform.position =
                 Vector3.MoveTowards(spikeAfterMove.position, spikeBeforeMove.position, 1f);
