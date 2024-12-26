@@ -92,6 +92,7 @@ public class PowerJumpDown : ArmJumpDown
         {
             IHit hitable = Player.OverLapColliders[i].GetComponent<IHit>();
             hitable.TakeDamage(finalDamage);
+            Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, 1f);
         }
     }
 

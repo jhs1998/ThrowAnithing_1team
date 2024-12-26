@@ -1,6 +1,8 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject.SpaceFighter;
 
 public class ArmAttackType : ScriptableObject
 {
@@ -28,5 +30,4 @@ public class ArmAttackType : ScriptableObject
     {
         Player.ChangeState(state);
     }
-
-}
+}   

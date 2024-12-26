@@ -11,6 +11,7 @@ public class PowerThrowAttack : ArmThrowAttack
         public float ChargeTime;
         public int ObjectCount;
         public int Damage;
+        public float KnockBackDistance;
     }
     [SerializeField] private ChargeStruct[] _charges;
     private float m_curChargeTime;
@@ -83,6 +84,13 @@ public class PowerThrowAttack : ArmThrowAttack
 
         ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
         throwObject.Init(Player, Model.HitAdditionals, Model.ThrowAdditionals);
+        
+        // 넉백가능하면 넉백
+        if(_charges[_index].KnockBackDistance > 0)
+        {
+            throwObject.KnockBackDistance = _charges[_index].KnockBackDistance;
+        }
+
         //TODO : 데미지 계산식 검토 필요
         throwObject.Damage += _charges[_index].Damage;
         UseThrowObject(_charges[_index].ObjectCount);

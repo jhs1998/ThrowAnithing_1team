@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerModel))]
@@ -655,6 +656,73 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
         {
             ChangeState(PlayerController.State.Dash);
+        }
+    }
+    #endregion
+
+    #region  넉백
+    public void DontKnockBack(Transform target)
+    {
+        Rigidbody targetRb = target.GetComponent<Rigidbody>();
+        targetRb.velocity = new(0, targetRb.velocity.y, 0);
+    }
+
+    /// <summary>
+    /// 해당 방향으로 입력 거리만큼 넉백
+    /// </summary>
+    public void DoKnockBack(Transform target, Vector3 dir, float distance)
+    {
+        Rigidbody targetRb = target.GetComponent<Rigidbody>();
+
+        targetRb.AddForce(dir * distance * 10f, ForceMode.Impulse);
+
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+    }
+    /// <summary>
+    /// 공격자 중심으로 입력거리만큼 넉백
+    /// </summary>
+    public void DoKnockBack(Transform target, Transform attacker, float distance)
+    {
+        Vector3 attackerPos = new(attacker.position.x, 0, attacker.position.z);
+        Vector3 targetPos = new(target.position.x, 0, target.position.z);
+        Vector3 knockBackDir = targetPos - attackerPos;
+        Rigidbody targetRb = target.GetComponent<Rigidbody>();
+
+        targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
+
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+    }
+
+    /// <summary>
+    /// 특정 지점을 중심으로 넉백
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="pos"></param>
+    /// <param name="distance"></param>
+    public void DoKnockBackFromPos(Transform target, Vector3 pos, float distance)
+    {
+        Vector3 attackerPos = new(pos.x, 0, pos.z);
+        Vector3 targetPos = new(target.position.x, 0, target.position.z);
+        Vector3 knockBackDir = targetPos - attackerPos;
+        Rigidbody targetRb = target.GetComponent<Rigidbody>();
+
+        Debug.Log(knockBackDir);
+        targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
+
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+    }
+
+    IEnumerator KnockBackRoutine(Rigidbody targetRb, float distance)
+    {
+        Vector3 originPos = targetRb.position;
+        while (true)
+        {
+            if (Vector3.Distance(originPos, targetRb.position) > distance)
+            {
+                targetRb.velocity = new(0, targetRb.velocity.y, 0);
+                break;
+            }
+            yield return 0.1f.GetDelay();
         }
     }
     #endregion

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,12 +11,15 @@ public class ThrowObject : MonoBehaviour
     public Rigidbody Rb;
     public int Damage;
     public float Radius;
+    public float KnockBackDistance;
     protected Collider[] _overlapCollider = new Collider[20];
     protected PlayerController _player;
+    protected Collider _collider;
 
     protected void Awake()
     {
         Rb = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
 
         gameObject.layer = Layer.ThrowObject;
 
@@ -28,31 +30,36 @@ public class ThrowObject : MonoBehaviour
     {
         EnterThrowAdditional();
     }
+    private void OnEnable()
+    {
+        _collider.isTrigger = true;
+    }
     private void OnDisable()
     {
         ExitThrowAdditional();
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
-        if (CanAttack == true)
+
+        if (collision.gameObject.tag == Tag.Player)
         {
-            if (collision.gameObject.layer == Layer.Monster)
-            {
-                HitTarget();
-            }
-            else if(collision.gameObject.tag != "Player")
-            {
-                CanAttack = false;
-                gameObject.layer = 0;
-            }
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+            player.AddThrowObject(this);
         }
-        else
+
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == Layer.Monster)
         {
-            if (collision.gameObject.tag == "Player")
-            {
-                PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-                player.AddThrowObject(this);
-            }
+            HitTarget();
+        }
+        else if (other.gameObject.tag != Tag.Player)
+        {
+            CanAttack = false;
+            gameObject.layer = 0;
+            _collider.isTrigger = false;
         }
     }
 
@@ -62,7 +69,7 @@ public class ThrowObject : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        FixedUpdateThrowAdditional();   
+        FixedUpdateThrowAdditional();
     }
 
     public void Init(PlayerController player, List<HitAdditional> hitAdditionals, List<ThrowAdditional> throwAdditionals)
@@ -71,7 +78,7 @@ public class ThrowObject : MonoBehaviour
         Damage += player.Model.Damage;
         Radius = player.Model.BoomRadius;
         AddHitAdditional(hitAdditionals);
-        AddThrowAdditional(throwAdditionals,player);
+        AddThrowAdditional(throwAdditionals, player);
     }
 
     public void Shoot(float throwPower)
@@ -83,7 +90,7 @@ public class ThrowObject : MonoBehaviour
     /// </summary>
     public void EnterThrowAdditional()
     {
-        foreach(ThrowAdditional throwAdditional in ThrowAdditionals)
+        foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
         {
             throwAdditional.Enter();
         }
@@ -145,7 +152,7 @@ public class ThrowObject : MonoBehaviour
         if (CanAttack == false)
             return;
 
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _overlapCollider,1<<Layer.Monster);
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _overlapCollider, 1 << Layer.Monster);
         if (hitCount > 0)
         {
             for (int i = 0; i < hitCount; i++)
@@ -156,6 +163,11 @@ public class ThrowObject : MonoBehaviour
                 {
                     hitAdditional.Init(Damage);
                     monster.AddDebuff(hitAdditional);
+
+                    if (KnockBackDistance > 0)
+                        _player.DoKnockBack(monster.transform, transform.forward, KnockBackDistance);
+                    else
+                        _player.DontKnockBack(monster.transform);
                 }
             }
         }
@@ -190,7 +202,7 @@ public class ThrowObject : MonoBehaviour
 
     protected void AddThrowAdditional(List<ThrowAdditional> throwAdditionals, PlayerController player)
     {
-        foreach(ThrowAdditional throwAdditional in throwAdditionals)
+        foreach (ThrowAdditional throwAdditional in throwAdditionals)
         {
             int index = ThrowAdditionals.FindIndex(origin => origin.Origin.Equals(throwAdditional.Origin));
             if (index >= ThrowAdditionals.Count)
@@ -200,7 +212,7 @@ public class ThrowObject : MonoBehaviour
             {
                 ThrowAdditional instance = Instantiate(throwAdditional);
                 instance.Origin = throwAdditional.Origin;
-                instance.Init(player,throwAdditional ,this);
+                instance.Init(player, throwAdditional, this);
                 ThrowAdditionals.Add(instance);
             }
         }
@@ -209,7 +221,7 @@ public class ThrowObject : MonoBehaviour
     protected void DestroyObject()
     {
         //ExitThrowAdditional();              
-        Destroy(gameObject); 
+        Destroy(gameObject);
     }
 }
 

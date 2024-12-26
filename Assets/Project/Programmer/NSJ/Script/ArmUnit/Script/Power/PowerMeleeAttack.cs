@@ -13,6 +13,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         public int Damage;
         public float AttackRange;
         [Range(0,180)]public float AttackAngle;
+        public float KnockBackRange;
     }
     [SerializeField] private ChargeStruct[] _charges;
     private float m_curChargeTime;
@@ -105,10 +106,11 @@ public class PowerMeleeAttack : ArmMeleeAttack
         int hitCount = Physics.OverlapSphereNonAlloc(attackPos, _charges[_index].AttackRange, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
+            Transform targetTransform = Player.OverLapColliders[i].transform;
             // 2. 각도 내에 있는지 확인
             Vector3 source = transform.position;
             source.y = 0;
-            Vector3 destination = Player.OverLapColliders[i].transform.position;
+            Vector3 destination = targetTransform.position;
             destination.y = 0;
 
             Vector3 targetDir = (destination - source).normalized;
@@ -120,6 +122,15 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
             int attackDamage = (int)(Model.Damage + _charges[_index].Damage);
             hit.TakeDamage(attackDamage);
+
+            if (_charges[_index].KnockBackRange > 0)
+            {
+                // 전방으로 밀기
+                Player.DoKnockBack(targetTransform, transform.forward, _charges[_index].KnockBackRange);
+                // 플레이어 중심 밀기
+                //Player.DoKnockBack(targetTransform, transform, _charges[_index].KnockBackRange);
+            }
+
 
             if (_index == 0)
                 break;

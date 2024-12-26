@@ -13,8 +13,9 @@ public class PowerSpecialAttack : ArmSpecialAttack
         public float ChargeTime;
         public int ObjectCount;
         public Vector3 AttackOffset;
+        public float Radius;
         public int Damage;
-        public float Range;
+        public float KnockBackDistance;
     }
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private GameObject _specialRange;
@@ -27,7 +28,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     private Vector3 _dropPos;
     Coroutine _chargeRoutine;
     public override void Enter()
-    { 
+    {
         if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount)
         {
             EndAnimation();
@@ -55,9 +56,9 @@ public class PowerSpecialAttack : ArmSpecialAttack
         {
             Destroy(_instanceDropObject);
         }
-        if(_instanceSpecialRange != null)
+        if (_instanceSpecialRange != null)
         {
-            Destroy( _instanceSpecialRange);
+            Destroy(_instanceSpecialRange);
         }
         #endregion
 
@@ -98,12 +99,12 @@ public class PowerSpecialAttack : ArmSpecialAttack
                 {
                     _instanceDropObject.transform.SetParent(Player.ArmPoint);
                 }
-               
+
 
                 if (_index != 0)
                 {
-                    _index--;                
-                    View.SetTrigger(PlayerView.Parameter.ChargeEnd);                
+                    _index--;
+                    View.SetTrigger(PlayerView.Parameter.ChargeEnd);
                 }
                 else
                 {
@@ -118,14 +119,18 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     private void ProcessCharge()
     {
+        // 플레이어 공격방향 계속 바라보기
+        Player.LookAtAttackDir();
+        // 공격범위 위치 잡기
         if (_instanceDropObject != null)
         {
             _dropPos = new Vector3(
-                transform.position.x + (Player.CamareArm.forward.x * _charges[_index - 1].AttackOffset.x),
+                transform.position.x + (Player.transform.forward.x * _charges[_index - 1].AttackOffset.x),
                 transform.position.y + 0.01f,
-                transform.position.z + (Player.CamareArm.forward.z * _charges[_index - 1].AttackOffset.z));
+                transform.position.z + (Player.transform.forward.z * _charges[_index - 1].AttackOffset.z));
             _instanceSpecialRange.transform.position = _dropPos;
         }
+        // 오른손 효과 손 따라다니기
         if (_instanceDropObject != null)
         {
             _instanceDropObject.transform.position = Vector3.MoveTowards(_instanceDropObject.transform.position, Player.ArmPoint.position, Time.deltaTime * 1f);
@@ -167,7 +172,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     {
         if (_instanceDropObject != null)
             Destroy(_instanceDropObject);
-        _instanceDropObject = Instantiate(_charges[_index].DropObject,Player.ArmPoint.position, transform.rotation);
+        _instanceDropObject = Instantiate(_charges[_index].DropObject, Player.ArmPoint.position, transform.rotation);
         _instanceDropObject.transform.localScale = _charges[_index].DropSize;
     }
     private void CreateSpecialRange()
@@ -182,24 +187,28 @@ public class PowerSpecialAttack : ArmSpecialAttack
         _instanceSpecialRange = Instantiate(_specialRange, _dropPos, Quaternion.identity);
         // 크기 조정
         _instanceSpecialRange.transform.localScale = new Vector3(
-            _charges[_index].Range * 2,
+            _charges[_index].Radius * 2,
             _instanceSpecialRange.transform.localScale.y,
-            _charges[_index].Range * 2);
+            _charges[_index].Radius * 2);
     }
     private void AttackSpecial()
     {
         int finalDamage = Model.Damage + _charges[_index].Damage;
         // 범위 내 적에게 데미지
-        int hitCount = Physics.OverlapSphereNonAlloc(_dropPos, _charges[_index].Range, Player.OverLapColliders, 1 << Layer.Monster);
+        int hitCount = Physics.OverlapSphereNonAlloc(_dropPos, _charges[_index].Radius, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
             IHit hitable = Player.OverLapColliders[i].gameObject.GetComponent<IHit>();
             hitable.TakeDamage(finalDamage);
+
+            // 넉백 가능하면 넉백
+            if (_charges[_index].KnockBackDistance > 0)
+                Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, _charges[_index].KnockBackDistance);
         }
         // 차지 사용량만큼 제거
         Model.CurSpecialGage -= (_charges[_index].ChargeTime / _maxChargeTime) * Model.MaxSpecialGage;
         // 사용한 오브젝트만큼 제거
-        for (int i = 0; i < _charges[_index].ObjectCount; i++) 
+        for (int i = 0; i < _charges[_index].ObjectCount; i++)
         {
             Model.PopThrowObject();
         }
