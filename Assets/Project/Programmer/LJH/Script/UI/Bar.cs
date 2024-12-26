@@ -32,5 +32,6 @@ public class Bar : Status
         }
 
         BarValueController(this.GetComponent<Slider>(), maxNum, curNum);
+
     }
 }
