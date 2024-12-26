@@ -16,6 +16,8 @@ public class haveObj : MonoBehaviour
     }
     void Update()
     {
-        gameObject.GetComponent<TMP_Text>().text = $"{curObj} / {maxObj}";    
+        gameObject.GetComponent<TMP_Text>().text = $"{curObj} / {maxObj}";
+
     }
+
 }
