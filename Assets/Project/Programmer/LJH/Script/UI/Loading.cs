@@ -7,11 +7,15 @@ using UnityEngine.UI;
 public class Loading : MonoBehaviour
 {
     public static string nextScene;
-    [SerializeField] Slider progressBar;
+
+    [SerializeField] Slider[] progressBars;
+
+    //Todo : 추후에 라운드 따오는 방식으로 변경
+    [SerializeField] int round;
 
     private void Start()
     {
-        StartCoroutine(LoadScene());
+        StartCoroutine(LoadScene(round));
     }
 
     public static void LoadScene(string sceneName)
@@ -20,8 +24,17 @@ public class Loading : MonoBehaviour
         SceneManager.LoadScene("LoadingScene");
     }
 
-    IEnumerator LoadScene()
+    //Comment : round를 따와서 라운드에 해당하는 바 컨트롤
+    IEnumerator LoadScene(int round)
     {
+        //Comment : 이전 라운드의 바 value 채워놓는 용도
+        for (int i = 1; i < round; i++)
+                progressBars[i - 1].value = 100;
+        
+
+        //Comment 인덱스와 라운드 맞춰주기 위한
+        round = round - 1;
+
         yield return null;
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
@@ -32,16 +45,16 @@ public class Loading : MonoBehaviour
             timer += Time.deltaTime;
             if (op.progress < 0.9f)
             {
-                progressBar.value = Mathf.Lerp(progressBar.value, op.progress, timer);
-                if (progressBar.value >= op.progress)
+                progressBars[round].value = Mathf.Lerp(progressBars[round].value, op.progress, timer);
+                if (progressBars[round].value >= op.progress)
                 {
                     timer = 0f;
                 }
             }
             else
             {
-                progressBar.value = Mathf.Lerp(progressBar.value, 1f, timer);
-                if (progressBar.value == 1.0f)
+                progressBars[round].value = Mathf.Lerp(progressBars[round].value, 1f, timer);
+                if (progressBars[round].value == 1.0f)
                 {
                     op.allowSceneActivation = true;
                     yield break;
@@ -49,4 +62,7 @@ public class Loading : MonoBehaviour
             }
         }
     }
+
+
+    
 }
