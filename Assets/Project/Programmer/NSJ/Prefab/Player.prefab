@@ -668,13 +668,15 @@ MonoBehaviour:
     AttackHeight: 0.75
     ThrowPower: 20
     MuzzlePoint: {fileID: 3757278611412066816}
+    IsTargetHolding: 0
+    IsTargetToggle: 0
+    TargetPos: {x: 0, y: 0, z: 0}
   _cameraStruct:
     CamaraArm: {fileID: 9014614328725180885}
     CameraPos: {fileID: 4475608190294418112}
     CameraRotateAngle: 50
     CameraRotateSpeed: 5
     CameraHolder: {fileID: 8944618903180294510}
-    IsHolding: 0
     IsVerticalCameraMove: 0
   _checkStruct:
     GroundCheckPos: {fileID: 2040032537929658963}
@@ -1812,6 +1814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetEffect: {fileID: 6147080495076567671}
   _angle: 180
+  _detectRange: 20
   _targetList: []
   _target: {fileID: 0}
 --- !u!1 &8946601967264066120
