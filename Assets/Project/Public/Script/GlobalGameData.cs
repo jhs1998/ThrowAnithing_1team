@@ -36,7 +36,7 @@ public partial class GlobalGameData
 
         // 강화 단계 확인
         int currentLevel = upgradeLevels[slot];
-        if (currentLevel >= 5)
+        if (currentLevel > 5)
         {
             Debug.Log("이미 최대 단계에 도달했습니다.");
             return false;
