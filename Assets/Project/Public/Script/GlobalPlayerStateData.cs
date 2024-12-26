@@ -77,13 +77,13 @@ public class GlobalPlayerStateData
     {
         maxHp = 60;
         commonAttack = 0;
-        shortRangeAttack[1] = 25;
-        shortRangeAttack[2] = 40;
-        shortRangeAttack[3] = 60;
-        longRangeAttack[1] = 10;
-        longRangeAttack[2] = 40;
-        longRangeAttack[3] = 70;
-        longRangeAttack[4] = 110;
+        shortRangeAttack[0] = 25;
+        shortRangeAttack[1] = 40;
+        shortRangeAttack[2] = 60;
+        longRangeAttack[0] = 10;
+        longRangeAttack[1] = 40;
+        longRangeAttack[2] = 70;
+        longRangeAttack[3] = 110;
         attackSpeed = 1;
         movementSpeed = 100;
         criticalChance = 10;
@@ -92,13 +92,13 @@ public class GlobalPlayerStateData
         drainLife = 0;
         maxStamina = 100;
         regainStamina = 20;
-        regainMana[1] = 3;
-        regainMana[2] = 8;
-        regainMana[3] = 13;
-        regainMana[4] = 20;
-        manaConsumption[1] = 30;
-        manaConsumption[2] = 70;
-        manaConsumption[3] = 100;
+        regainMana[0] = 3;
+        regainMana[1] = 8;
+        regainMana[2] = 13;
+        regainMana[3] = 20;
+        manaConsumption[0] = 30;
+        manaConsumption[1] = 70;
+        manaConsumption[2] = 100;
         consumesStamina = 0;
         gainMoreThrowables = 0;
         maxThrowables = 50;
@@ -110,11 +110,11 @@ public class GlobalPlayerStateData
         doubleJumpConsumesStamina = 10;
         dashDistance = 200;
         dashConsumesStamina = 50;
-        shortRangeAttackStamina[1] = 20;
-        shortRangeAttackStamina[2] = 30;
-        shortRangeAttackStamina[3] = 50;
-        specialAttack[1] = 75;
-        specialAttack[2] = 150;
-        specialAttack[3] = 225;
+        shortRangeAttackStamina[0] = 20;
+        shortRangeAttackStamina[1] = 30;
+        shortRangeAttackStamina[2] = 50;
+        specialAttack[0] = 75;
+        specialAttack[1] = 150;
+        specialAttack[2] = 225;
     }
 }
