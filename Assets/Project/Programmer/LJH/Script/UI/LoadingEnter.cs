@@ -4,7 +4,7 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadingTest : MonoBehaviour
+public class LoadingEnter : MonoBehaviour
 {
 
 
