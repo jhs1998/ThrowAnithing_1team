@@ -20,9 +20,9 @@ public class GlobalPlayerStateData
     // 공용 공격력 기본 : 0
     public float commonAttack;
     // 근거리 공격력 기본 : 1타 25 2타 40 3타 60
-    public float shortRangeAttack;
+    public float[] shortRangeAttack = new float[3];
     // 원거리 공격력 기본 : 1타 10 2타 40 3타 70 4타 110
-    public float longRangeAttack;
+    public float[] longRangeAttack = new float[4];
     // 공격 속도 기본 : 1
     public float attackSpeed;
     // 이동 속도 기본 : 100
@@ -40,9 +40,9 @@ public class GlobalPlayerStateData
     // 스테미나 회복 증가 기본 : 20
     public float regainStamina;
     // 던지기 공격당 마나 회복 증가 기본 : 1타 3 2타 8 3타 13 4타 20
-    public float regainMana;
+    public float[] regainMana = new float[4];
     // 마나 소모량 감소 기본 : 1타 30 2타 70 3타 100
-    public float manaConsumption;
+    public float[] manaConsumption = new float[3];
     // 스테미나 소모량 감소 기본 : 0 모든 스테미나 소모에 적용
     public float consumesStamina;
     // 투척물 추가 획득 확률 증가 기본 : 0
@@ -51,7 +51,7 @@ public class GlobalPlayerStateData
     public float maxThrowables;
     // 암 유닛 선택 종류 (Balance, _power, Speed)
     public enum AmWeapon { Balance, Power, Speed }
-
+    public AmWeapon nowWeapon;
     // 로비에서 조작되지 않는 플레이어 스탯
 
     // 받는 피해 감소 (확정 아님)
@@ -70,7 +70,51 @@ public class GlobalPlayerStateData
     // 대쉬 소모 스테미나 기본 : 50
     public float dashConsumesStamina;
     // 근접 공격 스테미나 기본 : 1타 20 2타 30 3타 50
-    public float shortRangeAttackStamina;
+    public float[] shortRangeAttackStamina = new float[3];
     // 특수 공격력 수치 기본 : 1타 75 2타 150 3타 225
-    public float specialAttack;
+    public float[] specialAttack = new float[3];
+    public void NewPlayerSetting()
+    {
+        maxHp = 60;
+        commonAttack = 0;
+        shortRangeAttack[1] = 25;
+        shortRangeAttack[2] = 40;
+        shortRangeAttack[3] = 60;
+        longRangeAttack[1] = 10;
+        longRangeAttack[2] = 40;
+        longRangeAttack[3] = 70;
+        longRangeAttack[4] = 110;
+        attackSpeed = 1;
+        movementSpeed = 100;
+        criticalChance = 10;
+        defense = 0;
+        equipmentDropUpgrade = 0;
+        drainLife = 0;
+        maxStamina = 100;
+        regainStamina = 20;
+        regainMana[1] = 3;
+        regainMana[2] = 8;
+        regainMana[3] = 13;
+        regainMana[4] = 20;
+        manaConsumption[1] = 30;
+        manaConsumption[2] = 70;
+        manaConsumption[3] = 100;
+        consumesStamina = 0;
+        gainMoreThrowables = 0;
+        maxThrowables = 50;
+        nowWeapon = AmWeapon.Balance;
+        maxMana = 100;
+        maxJumpCount = 2;
+        jumpPower = 100;
+        jumpConsumesStamina = 20;
+        doubleJumpConsumesStamina = 10;
+        dashDistance = 200;
+        dashConsumesStamina = 50;
+        shortRangeAttackStamina[1] = 20;
+        shortRangeAttackStamina[2] = 30;
+        shortRangeAttackStamina[3] = 50;
+        specialAttack[1] = 75;
+        specialAttack[2] = 150;
+        specialAttack[3] = 225;
+    }
 }

@@ -9,6 +9,9 @@ public class UserDataManager : MonoBehaviour
 {
     // 플레이어 데이터 생성
     [SerializeField] GlobalGameData nowPlayer;
+    [Inject]
+    GlobalPlayerStateData playerstate;
+
     // 세이브 파일 저장 경로
     public string path;
     // 현재 슬롯번호
@@ -52,6 +55,7 @@ public class UserDataManager : MonoBehaviour
             string data = File.ReadAllText(slotPath);
             // 현재 플레이어에 불러온 데이터 적용
             nowPlayer = JsonUtility.FromJson<GlobalGameData>(data);
+            UpdatePlayerStats();
             Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
         }
         else
@@ -67,6 +71,8 @@ public class UserDataManager : MonoBehaviour
             saveDateTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             upgradeLevels = new int[20]
         };
+        // 플레이어 스탯 리셋
+        playerstate.NewPlayerSetting();
     }
     public void DeleteSlotData(int slotIndex)
     {
@@ -98,5 +104,10 @@ public class UserDataManager : MonoBehaviour
         DataClear();
 
         Debug.Log("모든 게임 데이터 삭제 완료");
+    }
+
+    public void UpdatePlayerStats()
+    {
+        
     }
 }

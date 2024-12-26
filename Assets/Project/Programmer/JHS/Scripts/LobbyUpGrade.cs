@@ -1,69 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class LobbyUpGrade : MonoBehaviour
 {
     // GlobalGameData의 BuyUpgradeSlot에서 참 거짓을 받아와 참일경우 에만  업그레이드 
-    /*public void IncreaseStat(string stat, int amount)
-    {
-        switch (stat)
-        {
-            case "HP":
-                UserDataManager.instance.nowPlayer.maxHp += amount;
-                break;
-            case "Speed":
-                UserDataManager.instance.nowPlayer.speed += amount;
-                break;
-            case "Attack":
-                UserDataManager.instance.nowPlayer.attackDamage += amount;
-                break;
-            case "Luck":
-                UserDataManager.instance.nowPlayer.luck += amount;
-                break;
-            case "Coin":
-                UserDataManager.instance.nowPlayer.coin += amount;
-                break;
-            default:
-                Debug.LogWarning("Invalid stat type.");
-                break;
-        }
-        UpdateSlotUI.instance.UpdateUI();
-    }
+    [Inject]
+    public GlobalGameData gameData;
+    [Inject]
+    public GlobalPlayerStateData playerState;
 
-    public void HpUpgrade(int amount)
+    // 1번째 줄 4번째 슬롯 최대 체력 강화
+    public void UpgradeMaxHpSlot(int slot)
     {
-        // 지불금
-        int payment = 100;
-        if (UserDataManager.instance.nowPlayer.maxHp >= payment)
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
         {
-            UserDataManager.instance.nowPlayer.coin -= payment;
-            UserDataManager.instance.nowPlayer.maxHp += amount;
-            UpdateSlotUI.instance.UpdateUI();
+            // 강화 성공 시 최대 체력 증가
+            playerState.maxHp += 6;
+            Debug.Log($"최대 체력 증가: {playerState.maxHp}");
         }
         else
         {
-            Debug.Log("coin 부족");
+            Debug.Log("강화 실패");
         }
     }
-    public void SpeedUpgrade(int amount)
-    {
-        // 지불금
-        int payment = 100;
-        if (UserDataManager.instance.nowPlayer.coin >= payment)
-        {
-            UserDataManager.instance.nowPlayer.coin -= payment;
-            UserDataManager.instance.nowPlayer.speed += amount;
-            UpdateSlotUI.instance.UpdateUI();
-        }
-        else
-        {
-            Debug.Log("coin 부족");
-        }
-    }
-    public void CoinUpgrade(int amount)
-    {
-        UserDataManager.instance.nowPlayer.coin += amount;
-        UpdateSlotUI.instance.UpdateUI();
-    }*/
 }
