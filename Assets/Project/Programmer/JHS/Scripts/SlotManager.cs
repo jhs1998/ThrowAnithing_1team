@@ -5,7 +5,6 @@ using TMPro;
 using System.IO;
 using Zenject;
 using UnityEngine.SceneManagement;
-//using Zenject;
 
 public class SlotManager : MonoBehaviour
 {
