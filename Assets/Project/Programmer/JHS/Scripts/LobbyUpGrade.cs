@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using Zenject;
 
 public class LobbyUpGrade : MonoBehaviour
@@ -17,7 +18,7 @@ public class LobbyUpGrade : MonoBehaviour
         if (gameData.BuyUpgradeSlot(slot))
         {
             // 강화 성공 시 근접 공격 강화
-            for (int i = 0; i < 3;)
+            for (int i = 0; i < 3; i++)
             {
                 playerState.shortRangeAttack[i] += 1;
             }            
@@ -34,7 +35,7 @@ public class LobbyUpGrade : MonoBehaviour
         if (gameData.BuyUpgradeSlot(slot))
         {
             // 강화 성공 시 원거리 공격 강화
-            for (int i = 0; i < 4;)
+            for (int i = 0; i < 4; i++)
             {
                 playerState.longRangeAttack[i] += 1;
             }
@@ -141,7 +142,7 @@ public class LobbyUpGrade : MonoBehaviour
     /**************************************************************/
 
     // 세번째 줄 1번 슬롯 공용 공격력 2증가
-    public void threeLine_UpgradeCommonAttack(int slot)
+    public void ThreeLine_UpgradeCommonAttack(int slot)
     {
         // 슬롯 강화 시도
         if (gameData.BuyUpgradeSlot(slot))
@@ -156,7 +157,7 @@ public class LobbyUpGrade : MonoBehaviour
         }
     }
     // 세번째 줄 2번 슬롯 보유 투척물 6증가
-    public void threeLine_UpgradeMaxThrowables(int slot)
+    public void ThreeLine_UpgradeMaxThrowables(int slot)
     {
         // 슬롯 강화 시도
         if (gameData.BuyUpgradeSlot(slot))
@@ -171,7 +172,7 @@ public class LobbyUpGrade : MonoBehaviour
         }
     }
     // 세번째 줄 3번 슬롯 방어력 0.4 증가
-    public void threeLine_UpgradeDefense(int slot)
+    public void ThreeLine_UpgradeDefense(int slot)
     {
         // 슬롯 강화 시도
         if (gameData.BuyUpgradeSlot(slot))
@@ -186,12 +187,12 @@ public class LobbyUpGrade : MonoBehaviour
         }
     }
     // 세번째 줄 4번 슬롯 마나 회복량 10퍼 증가
-    public void threeLine_UpgradeRegainMana(int slot)
+    public void ThreeLine_UpgradeRegainMana(int slot)
     {
         if (gameData.BuyUpgradeSlot(slot))
         {
             // 강화 성공 시 마나 회복량 10퍼 증가 (힙연산)
-            for (int i = 0; i < 4;)
+            for (int i = 0; i < 4; i++)
             {
                 playerState.regainMana[i] += playerState.regainMana[i]*0.1f;
             }
@@ -205,10 +206,82 @@ public class LobbyUpGrade : MonoBehaviour
     /**************************************************************/
 
     // 네번째 줄 1번 슬롯 스테미나 소모량 6퍼 감소
-    // 네번째 줄 2번 슬롯 원거리 공격력 2증가
-    // 네번째 줄 3번 슬롯 근거리 공격력 2증가
-    // 네번째 줄 4번 슬롯 투척물 추가 획득 20퍼 증가
+    public void FourLine_UpgradeConsumesStamina(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 스테미나 소모량 6퍼 감소
+            playerState.consumesStamina = 6;
+            float reduction = playerState.consumesStamina / 100f;
+            // 점프소모 스테미나
+            playerState.jumpConsumesStamina -= playerState.jumpConsumesStamina * reduction;
+            // 더블 점프 소모 스테미나
+            playerState.doubleJumpConsumesStamina -= playerState.doubleJumpConsumesStamina * reduction;
+            // 대쉬 소모 스테미나
+            playerState.dashConsumesStamina -= playerState.dashConsumesStamina * reduction;
+            // 근접 공격 스테미나
+            for (int i = 0; i < playerState.shortRangeAttackStamina.Length; i++)
+            {
+                playerState.shortRangeAttackStamina[i] -= playerState.shortRangeAttackStamina[i] * reduction;
+            }
 
+            Debug.Log($"전체 스테미나 소모량 6퍼 감소");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
+    // 네번째 줄 2번 슬롯 원거리 공격력 2증가
+    public void FourLine_UpgradeLongAttack(int slot)
+    {
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 원거리 공격 강화
+            for (int i = 0; i < 4; i++)
+            {
+                playerState.longRangeAttack[i] += 2;
+            }
+            Debug.Log($"원거리 공격 2 증가");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
+    // 네번째 줄 3번 슬롯 근거리 공격력 2증가
+    public void FourLine_UpgradeShortAttack(int slot)
+    {
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 근접 공격 강화
+            for (int i = 0; i < 3; i++)
+            {
+                playerState.shortRangeAttack[i] += 2;
+            }
+            Debug.Log($"근접 공격 2 증가");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
+    // 네번째 줄 4번 슬롯 투척물 추가 획득 20퍼 증가
+    public void FourLine_UpgradeMaxThrowables(int slot)
+    {
+        // 슬롯 강화 시도
+        if (gameData.BuyUpgradeSlot(slot))
+        {
+            // 강화 성공 시 투척물 추가 획득 20퍼 증가
+            playerState.maxThrowables += 10;
+            Debug.Log($"투척물 갯수: {playerState.maxThrowables}");
+        }
+        else
+        {
+            Debug.Log("강화 실패");
+        }
+    }
     /**************************************************************/
 
     // 다섯번째 줄 1번 슬롯 마나 소모량 감소 6퍼
