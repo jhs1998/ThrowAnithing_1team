@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Need 1,000 P
+  m_text: 'Cost : 1,000 P'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Need 50,000 P
+  m_text: 'Cost : 50,000 P'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1617,7 +1617,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 174097006}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1753645223}
+        m_TargetAssemblyTypeName: Upgrade, Assembly-CSharp
+        m_MethodName: "\uC9DC\uC794"
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &174097006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3419,7 +3431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588dbc8fa45beb0439e524023d360aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgrade: {fileID: 0}
+  upgrade: {fileID: 1588068608}
   player: {fileID: 1734727768}
 --- !u!1 &488415068
 GameObject:
@@ -4698,7 +4710,7 @@ GameObject:
   - component: {fileID: 629538049}
   - component: {fileID: 629538048}
   m_Layer: 5
-  m_Name: Name
+  m_Name: ItemName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7010,7 +7022,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Need 30,000 P
+  m_text: 'Cost : 30,000 P'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8079,7 +8091,7 @@ GameObject:
   - component: {fileID: 1228616590}
   - component: {fileID: 1228616589}
   m_Layer: 5
-  m_Name: Wallet (1)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10965,7 +10977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20220721, g: 0.2572653, b: 0.6037736, a: 1}
+  m_Color: {r: 0.2, g: 0.25, b: 0.6, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12261,6 +12273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f07d6eaef10932e4bad276b124c02bb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: {fileID: 629538048}
+  itemImage: {fileID: 1549347089}
+  itemInfo: {fileID: 36856024}
+  usedCost: 0
 --- !u!1 &1758070157
 GameObject:
   m_ObjectHideFlags: 0
@@ -12831,7 +12847,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Need 5,000 P
+  m_text: 'Cost : 5,000 P'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13351,7 +13367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6039216, g: 0.5798591, b: 0.20392154, a: 1}
+  m_Color: {r: 0.2, g: 0.25, b: 0.6, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13508,7 +13524,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Need 10,000 P
+  m_text: 'Cost : 10,000 P'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
