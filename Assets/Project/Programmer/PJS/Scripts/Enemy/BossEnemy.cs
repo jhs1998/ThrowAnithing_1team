@@ -5,8 +5,15 @@ using UnityEngine;
 public class BossEnemy : BaseEnemy
 {
     [SerializeField] BossEnemyState bossState;
-
+    [SerializeField] public ParticleSystem particle;
+    [SerializeField] ParticleSystem shieldParticle;
     [HideInInspector] public Coroutine attackAble;
+
+    private void Update()
+    {
+        if(tree.GetVariable("LightningPist") == (SharedBool)true)
+            particle.Play();
+    }
 
     /// <summary>
     /// Move 애니메이션 이벤트
@@ -34,6 +41,10 @@ public class BossEnemy : BaseEnemy
     public void ThunderStomp()
     {
         Debug.Log("ThunderStomp()");
+        if (CurHp >= state.MaxHp * 0.8)
+            Debug.Log("80퍼 이상");
+
+        shieldParticle.Play();
         // 체력의 의한 패턴 변경
         // 1페이즈 - 일렉트릭 아머
         // 2페이즈 - 레이지 스톰
@@ -87,6 +98,20 @@ public class BossEnemy : BaseEnemy
         Debug.Log("공격 딜레이 끝");
     }
 
+    /// <summary>
+    /// 패턴 쿨타임 관련 코루틴
+    /// </summary>
+    /// <param name="atkAble">해당 스킬의 bool 타입</param>
+    /// <param name="coolTime">쿨타임 시간</param>
+    public IEnumerator CoolTimeRoutine(SharedBool atkAble, float coolTime)
+    {
+        atkAble.SetValue(false);
+        Debug.Log("쿨타임 시작");
+        yield return coolTime.GetDelay();
+        atkAble.SetValue(true);
+        Debug.Log("쿨타임 끝");
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -103,21 +128,5 @@ public class BossEnemy : BaseEnemy
             // Hit가 되지 않았으면 최대 검출 거리로 ray를 그려준다.
             Gizmos.DrawRay(transform.position, transform.forward * 8);
         }
-        //Gizmos.DrawWireCube(transform.position, new Vector3(1, 1, 1));
-    }
-
-
-    /// <summary>
-    /// 쿨타임 관련 코루틴
-    /// </summary>
-    /// <param name="atkAble">해당 스킬의 bool 타입</param>
-    /// <param name="coolTime">쿨타임 시간</param>
-    public IEnumerator CoolTimeRoutine(SharedBool atkAble, float coolTime)
-    {
-        atkAble.SetValue(false);
-        Debug.Log("쿨타임 시작");
-        yield return coolTime.GetDelay();
-        atkAble.SetValue(true);
-        Debug.Log("쿨타임 끝");
     }
 }

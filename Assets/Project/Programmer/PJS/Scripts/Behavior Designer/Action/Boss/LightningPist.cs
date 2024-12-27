@@ -5,6 +5,8 @@ using UnityEngine;
 public class LightningPist : Action
 {
     [SerializeField] BossSkillState skillState;
+    [SerializeField] GameObject electricZone;
+    [SerializeField] Transform createPos;
 
     private BossEnemy enemy;
 
@@ -15,14 +17,13 @@ public class LightningPist : Action
 
     public override TaskStatus OnUpdate()
     {
-        RaycastHit[] hits = Physics.BoxCastAll(transform.position, transform.lossyScale / 2f, transform.forward, transform.rotation, skillState.range);
+        RaycastHit[] hits = Physics.BoxCastAll(createPos.position, transform.lossyScale / 2f, transform.forward, transform.rotation, skillState.range);
 
         for (int i = 0; i < hits.Length; i++)
         {
             IHit hitObj = hits[i].collider.GetComponent<IHit>();
             if (hitObj != null)
             {
-                Debug.Log(hits[i].collider.gameObject);
                 if (hits[i].collider.gameObject.name.CompareTo("Boss") == 0)
                     continue;
 
@@ -32,6 +33,7 @@ public class LightningPist : Action
 
         StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
 
+        GameObject.Instantiate(electricZone, createPos.position, createPos.rotation);
         return TaskStatus.Success;
     }
 }

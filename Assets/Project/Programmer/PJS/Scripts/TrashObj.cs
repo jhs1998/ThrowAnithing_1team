@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestCodeData : MonoBehaviour, IHit
+public class TrashObj : MonoBehaviour, IHit
 {
     [SerializeField] int atk;
 
