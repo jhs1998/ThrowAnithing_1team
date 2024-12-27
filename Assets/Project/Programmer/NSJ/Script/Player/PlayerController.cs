@@ -492,7 +492,7 @@ public class PlayerController : MonoBehaviour, IHit
 
     }
     /// <summary>
-    /// 추가효과 추가 시 중복 체크
+    /// 추가효과 삭제 시 중복 체크
     /// </summary>
     private bool CheckForRemoveAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AdditionalEffect
     {
