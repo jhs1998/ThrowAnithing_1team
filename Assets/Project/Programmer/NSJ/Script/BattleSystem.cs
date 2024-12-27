@@ -3,22 +3,21 @@ using UnityEngine;
 
 public class BattleSystem : MonoBehaviour, IBattle
 {
-    public IHit Hitable { get; set; }
-    public IDebuff Debuffable { get; set; }
+    public IHit Hit { get; set; }
+    public IDebuff Debuff { get; set; }
 
     [SerializeField] private List<HitAdditional> _hitAdditionalList;
     [SerializeField] private List<HitAdditional> _debuffList;
 
     private void Awake()
     {
-        Hitable = GetComponent<IHit>();
-        Debuffable = GetComponent<IDebuff>();
+        Hit = GetComponent<IHit>();
+        Debuff = GetComponent<IDebuff>();
     }
     public void TargetAttack<T>(T target, int damage, bool isStun) where T : Component
     {
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
-        Debug.Log($"TargetAttack {name}");
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         battle.TakeAttack(damage, isStun, _hitAdditionalList); // 상대를 공격
     }
@@ -26,8 +25,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     public void TakeAttack(int damage, bool isStun, List<HitAdditional> hitAdditionals)
     {
         // 데미지 주기
-        Debug.Log($"TakeAttack {name}");
-        Hitable.TakeDamage(damage, isStun);
+        Hit.TakeDamage(damage, isStun);
         // 디버프 추가
         foreach (HitAdditional hitAdditional in hitAdditionals) 
         {
@@ -81,9 +79,9 @@ public class BattleSystem : MonoBehaviour, IBattle
         }
         // 디버프 추가 후 발동
         _debuffList.Add(cloneDebuff);
-        cloneDebuff.Target = gameObject;
         cloneDebuff.Battle = this;
-        cloneDebuff.Enter();
+        cloneDebuff.OnExitHitAdditional += RemoveDebuff; // 디버프 삭제 이벤트 구독
+        cloneDebuff.Enter(); // 디버프 발동
     }
     /// <summary>
     /// 디버프 삭제

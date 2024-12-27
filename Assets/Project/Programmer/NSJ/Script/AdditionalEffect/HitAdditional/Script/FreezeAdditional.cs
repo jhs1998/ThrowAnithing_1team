@@ -29,7 +29,7 @@ public class FreezeAdditional : HitAdditional
 
     IEnumerator FreezeRoutine()
     {
-        Debug.Log($"{Target.name} 얼어붙음");
+        Debug.Log($"{Battle.Debuff.MoveSpeed}가 0이 됨");
         yield return 3f.GetDelay();
         OnExitHitAdditional?.Invoke(this);
     }

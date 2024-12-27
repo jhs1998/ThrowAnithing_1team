@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IBattle
 {
-    IHit Hitable { get; set; }
-    IDebuff Debuffable { get; set; }
+    IHit Hit { get; set; }
+    IDebuff Debuff { get; set; }
 
     void TakeAttack(int damage, bool isStun, List<HitAdditional> hitAdditionals);
     void Enter();

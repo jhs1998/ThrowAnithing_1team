@@ -31,12 +31,11 @@ public class PoizonAdditional : HitAdditional
     IEnumerator PoisonRoutine()
     {
         int count = Duration;
-        IHit hit = Target.GetComponent<IHit>();
-        int poisonDamage = (int)(Damage * DamageMultiplier);
+        int damage = Battle.Debuff.MaxHp * (5/100);
         while (count > 0)
         {
+            Battle.Hit.TakeDamage(damage, false);
             yield return 1f.GetDelay(); 
-            hit.TakeDamage(poisonDamage,false);
             count--;
         }
         OnExitHitAdditional?.Invoke(this);
