@@ -2,22 +2,19 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using Zenject;
-using static GlobalPlayerStateData;
 
 public class PlayerModel : MonoBehaviour, IDebuff
 {
-    public GlobalPlayerData GlobalData;
     public PlayerData Data;
     public ArmUnit Arm;
-
     public int MaxHp { get { return Data.MaxHp; } set { Data.MaxHp = value; } }
     public int CurHp { get { return Data.CurHp; } set { Data.CurHp = value; } }
     public int Defense { get { return Data.Defense; } set { Data.Defense = value; } }
     public float DamageReduction { get { return Data.DamageReduction; } set { Data.DamageReduction = value; } }
     public int AttackPower { get { return Data.AttackPower; } set { Data.AttackPower = value; } }
     public float AttackSpeed { get { return Data.AttackSpeed; } set { Data.AttackSpeed = value; _view.SetFloat(PlayerView.Parameter.AttackSpeed, Data.AttackSpeed); } }
-    public float[] PowerMeleeAttack { get { return Data.PowerMeleeAttack; } set { Data.PowerMeleeAttack =value; } }
-     public float[] PowerThrowAttack { get { return Data.PowerThrowAttack; } set { Data.PowerThrowAttack = value; } }
+    public float[] PowerMeleeAttack { get { return Data.PowerMeleeAttack; } set { Data.PowerMeleeAttack = value; } }
+    public float[] PowerThrowAttack { get { return Data.PowerThrowAttack; } set { Data.PowerThrowAttack = value; } }
     public float[] PowerSpecialAttack { get { return Data.PowerSpecialAttack; } set { Data.PowerSpecialAttack = value; } }
     public float CriticalChance { get { return Data.CriticalChance; } set { Data.CriticalChance = value; } }
     public float CriticalDamage { get { return Data.CriticalDamage; } set { Data.CriticalDamage = value; } }
@@ -49,7 +46,20 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public int DoubleJumpStamina { get { return Data.DoubleJumpStamina; } set { Data.DoubleJumpStamina = value; } }
     public int JumpDownStamina { get { return Data.JumpDownStamina; } set { Data.JumpDownStamina = value; } }
     public float MaxStamina { get { return Data.MaxStamina; } set { Data.MaxStamina = value; } } // 최대 스테미나
-    public float CurStamina { get { return Data.CurStamina; } set { Data.CurStamina = value; CurStaminaSubject.OnNext(Data.CurStamina); } } // 현재 스테미나
+    public float CurStamina
+    {
+        get { return Data.CurStamina; }
+        set
+        {
+            float originStamina = Data.CurStamina;
+            Data.CurStamina = value;
+            if(originStamina > Data.CurStamina)
+            {
+                _player.IsStaminaCool = true;
+            }
+            CurStaminaSubject.OnNext(Data.CurStamina);
+        }
+    } // 현재 스테미나
     public Subject<float> CurStaminaSubject = new Subject<float>();
     public float RegainStamina { get { return Data.RegainStamina; } set { Data.RegainStamina = value; } } // 스테미나 초당 회복량
     public float StaminaCoolTime { get { return Data.StaminaCoolTime; } set { Data.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
@@ -100,6 +110,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
 
 
     private PlayerView _view;
+    private PlayerController _player;
     public void PushThrowObject(ThrowObjectData throwObjectData)
     {
         ThrowObjectStack.Add(throwObjectData);
@@ -122,6 +133,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     private void Awake()
     {
         _view = GetComponent<PlayerView>();
+        _player = GetComponent<PlayerController>();
     }
     // TODO : 일단 젠젝트 실패, 싱글톤으로 구현 후 이후에 리팩토링 
     private void Start()
@@ -405,8 +417,8 @@ public partial class PlayerData
         Data.Stamina.ConsumesStamina = _globalData.consumesStamina;
         Data.Special.RegainMana[0] = _globalData.regainMana[0];
         Data.Special.RegainMana[1] = _globalData.regainMana[1];
-        Data.Special.RegainMana[2] =  _globalData.regainMana[2];
-        Data.Special.RegainMana[3] =  _globalData.regainMana[3];
+        Data.Special.RegainMana[2] = _globalData.regainMana[2];
+        Data.Special.RegainMana[3] = _globalData.regainMana[3];
         Data.Special.ManaConsumption[0] = _globalData.manaConsumption[0];
         Data.Special.ManaConsumption[1] = _globalData.manaConsumption[1];
         Data.Special.ManaConsumption[2] = _globalData.manaConsumption[2];
@@ -417,7 +429,7 @@ public partial class PlayerData
         Data.Jump.MaxJumpCount = (int)_globalData.maxJumpCount;
         Data.Jump.JumpPower = _globalData.jumpPower;
         Data.Jump.JumpStamina = (int)_globalData.jumpConsumesStamina;
-        Data.Jump.DoubleJumpStamina =(int)_globalData.doubleJumpConsumesStamina;
+        Data.Jump.DoubleJumpStamina = (int)_globalData.doubleJumpConsumesStamina;
         Data.Dash.DashDistance = _globalData.dashDistance;
         Data.Dash.DashStamina = (int)_globalData.dashConsumesStamina;
         Data.MeleeAttackStamina[0] = _globalData.shortRangeAttackStamina[0];

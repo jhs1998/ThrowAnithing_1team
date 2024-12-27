@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class BattleSystem : MonoBehaviour, IBattle
@@ -13,6 +14,37 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         Hit = GetComponent<IHit>();
         Debuff = GetComponent<IDebuff>();
+    }
+    #region 공격 메서드
+    /// <summary>
+    /// 가진 모든 디버프만 주는 공격
+    /// </summary>
+    public void TargetDebuff<T>(T target) where T : Component
+    {
+        // 배틀 시스템은 배틀 시스템 끼리 통신 
+        // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
+        IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        battle.ITakeDebuff(_hitAdditionalList);
+    }
+    /// <summary>
+    /// 특정 디버프만 주는 공격
+    /// </summary>
+    public void TargetDebuff<T>(T target, HitAdditional debuff) where T : Component
+    {
+        // 배틀 시스템은 배틀 시스템 끼리 통신 
+        // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
+        IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        battle.ITakeDebuff(debuff);
+    }
+    /// <summary>
+    /// 특정 디버프들만 주는 공격
+    /// </summary>
+    public void TargetDebuff<T>(T target, List<HitAdditional> debuffs) where T : Component
+    {
+        // 배틀 시스템은 배틀 시스템 끼리 통신 
+        // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
+        IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        battle.ITakeDebuff(debuffs);
     }
     /// <summary>
     /// 디버프 안주는 공격
@@ -48,6 +80,27 @@ public class BattleSystem : MonoBehaviour, IBattle
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         battle.ITakeAttackWithDebuff(damage, isStun, debuffs); // 상대를 공격
     }
+    #endregion
+    #region 피격 메서드
+    /// <summary>
+    /// 안때리고 특정 디버프만 주기
+    /// </summary>
+    public void ITakeDebuff(HitAdditional debuff)
+    {
+        AddDebuff(debuff);
+    }
+    /// <summary>
+    /// 안때리고 특정 디버프들만 주기
+    /// </summary>
+    public void ITakeDebuff(List<HitAdditional> debuffs)
+    {
+        // 디버프 추가
+        foreach (HitAdditional debuff in debuffs)
+        {
+            AddDebuff(debuff);
+        }
+    }
+
     /// <summary>
     /// 디버프 안주는 공격
     /// </summary>
@@ -59,12 +112,12 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <summary>
     /// 공격하면서 가진 디버프 전부 주기
     /// </summary>
-    public void ITakeAttackWithDebuff(int damage, bool isStun, List<HitAdditional> hitAdditionals)
+    public void ITakeAttackWithDebuff(int damage, bool isStun, List<HitAdditional> debuffs)
     {
         // 데미지 주기
         Hit.TakeDamage(damage, isStun);
         // 디버프 추가
-        foreach (HitAdditional hitAdditional in hitAdditionals) 
+        foreach (HitAdditional hitAdditional in debuffs) 
         {
             AddDebuff(hitAdditional);
         }
@@ -78,7 +131,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         Hit.TakeDamage(damage, isStun);
         AddDebuff(debuff);
     }
-
+    #endregion
+    #region 효과 등록
     /// <summary>
     /// 적중 효과 등록
     /// </summary>
@@ -105,14 +159,8 @@ public class BattleSystem : MonoBehaviour, IBattle
             return;
         _hitAdditionalList.Remove(hitAdditional);
     }
-    /// <summary>
-    /// 디버프 종료 호출
-    /// </summary>
-    public void EndDebuff(HitAdditional debuff)
-    {
-        RemoveDebuff(debuff);
-    }
-
+    #endregion
+    #region 디버프 추가/삭제
     /// <summary>
     /// 디버프 추가
     /// </summary>
@@ -147,6 +195,14 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         debuff.Exit();
         _debuffList.Remove(debuff);
+    }
+    #endregion
+    /// <summary>
+    /// 디버프 종료 호출
+    /// </summary>
+    public void EndDebuff(HitAdditional debuff)
+    {
+        RemoveDebuff(debuff);
     }
     #region 콜백
     public void Enter()

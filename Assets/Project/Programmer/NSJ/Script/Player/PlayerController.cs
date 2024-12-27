@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -13,8 +14,7 @@ using Random = UnityEngine.Random;
 public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public Transform ArmPoint;
-    [SerializeField] public HitAdditional test1;
-    [SerializeField] public HitAdditional test2;
+
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
@@ -134,6 +134,8 @@ public class PlayerController : MonoBehaviour, IHit
         public bool IsInvincible; // 무적상태임?
         public bool IsHit; // 맞음?
         public bool IsDead; // 죽음?
+        public bool IsStaminaCool; // 스테미나 사용 후 쿨타임인지?
+        public bool CanStaminaRecovery; // 스테미나 회복 할 수 있는지?
     }
     private BoolField _boolField;
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
@@ -141,6 +143,8 @@ public class PlayerController : MonoBehaviour, IHit
     public bool IsInvincible { get { return _boolField.IsInvincible; } set { _boolField.IsInvincible = value; } }
     public bool IsHit { get { return _boolField.IsHit; } set { _boolField.IsHit = value; } }
     public bool IsDead { get { return _boolField.IsDead; } set { _boolField.IsDead = value; } }
+    public bool IsStaminaCool { get { return _boolField.IsStaminaCool; } set { _boolField.IsStaminaCool = value; } }
+    public bool CanStaminaRecovery { get { return _boolField.CanStaminaRecovery; } set { _boolField.CanStaminaRecovery = value; } }
     #endregion
 
     //TODO: 인스펙터 정리 필요
@@ -631,21 +635,25 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     IEnumerator RecoveryStamina()
     {
+        CanStaminaRecovery = true;
         while (true)
         {
             // 초당 MaxStamina / RegainStamina 만큼 회복
             // 현재 스테미나가 꽉찼으면 더이상 회복안함
-            // 만약 스테미나가 0이하로 떨어지면 일정시간동안 스테미나 회복 안함
-            Model.CurStamina += Model.RegainStamina * Time.deltaTime;
+            // 만약 스테미나 사용 후 쿨타임 상태면 쿨타임만큼 회복안함
+            if (CanStaminaRecovery == true)
+            {
+                Model.CurStamina += Model.RegainStamina * Time.deltaTime;
+            }
             if (Model.CurStamina >= Model.MaxStamina)
             {
                 Model.CurStamina = Model.MaxStamina;
             }
 
-            if (Model.CurStamina < 0)
+            if (IsStaminaCool == true)
             {
+                IsStaminaCool = false;
                 yield return Model.StaminaCoolTime.GetDelay();
-                Model.CurStamina = 0;
             }
 
             yield return null;

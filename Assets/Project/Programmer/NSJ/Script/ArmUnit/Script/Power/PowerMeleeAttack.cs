@@ -43,12 +43,20 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
     public override void Enter()
     {
+        // 사용한 스테미나만큼 다시 회복
         Model.CurStamina += Model.MeleeAttackStamina[0];
+        // 위치 고정
         Player.Rb.velocity = Vector3.zero;
+        // 초기화
         _curChargeTime = 0;
         _index = 0;
+        // 스테미나 회복 멈춤
+        Player.CanStaminaRecovery = false;
+        // 공격방향 바라봄
         Player.LookAtAttackDir();
+        // 애니메이션 실행
         View.SetTrigger(PlayerView.Parameter.PowerMelee);
+        // 암유닛 차지 이펙트
         ShowArmEffect();
         if (_chargeRoutine == null)
         {
@@ -62,7 +70,10 @@ public class PowerMeleeAttack : ArmMeleeAttack
             CoroutineHandler.StopRoutine(_chargeRoutine);
             _chargeRoutine = null;
         }
+        // 스테미나 다시 회복 시작
+        Player.CanStaminaRecovery = true;
 
+        // 암유닛 차지 이펙트 제거
         _curArmEffect.SetActive(false);
         _curArmEffect = null;
     }
