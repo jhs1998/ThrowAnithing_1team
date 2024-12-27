@@ -11,11 +11,11 @@ public class AttackUp : PlayerAdditional
 
     public override void Enter()
     {
-        _model.Damage += _damage;
+        _model.CommonAttack += _damage;
     }
 
     public override void Exit()
     {
-        _model.Damage -= _damage;
+        _model.CommonAttack -= _damage;
     }
 }

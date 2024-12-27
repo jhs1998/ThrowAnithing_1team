@@ -156,12 +156,12 @@ public class Upgrade : UpgradeBinding
 
         slots[0, 0] = GetUI<Button>("MeleeAttack");
         slots[0, 1] = GetUI<Button>("RangeAttack");
-        slots[0, 2] = GetUI<Button>("MoveSpeed");
+        slots[0, 2] = GetUI<Button>("MovementSpeed");
         slots[0, 3] = GetUI<Button>("Health");
 
         slots[1, 0] = GetUI<Button>("Stamina");
         slots[1, 1] = GetUI<Button>("AttackSpeed");
-        slots[1, 2] = GetUI<Button>("Critical");
+        slots[1, 2] = GetUI<Button>("CriticalChance");
         slots[1, 3] = GetUI<Button>("GetItem");
 
         slots[2, 0] = GetUI<Button>("Attack");

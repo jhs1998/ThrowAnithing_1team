@@ -25,7 +25,7 @@ namespace MKH
                 createitem.mEffect.Critical = UnityEngine.Random.Range((int)data[rate]["최소"], (int)data[rate]["치확"]);
                 // 설명
                 createitem.Name = (string)data[rate]["이름"];
-                createitem.Description = $"Critical : {createitem.mEffect.Critical.ToString()}";
+                createitem.Description = $"CriticalChance : {createitem.mEffect.Critical.ToString()}";
 
                 // 부스텟을 모두 0으로 변경
                 createitem.mEffect.HP = 0;

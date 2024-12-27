@@ -38,7 +38,7 @@ public class RunState : PlayerState
             return;
 
         Vector3 originRb = Rb.velocity;
-        Vector3 velocityDir = transform.forward * Model.MoveSpeed;
+        Vector3 velocityDir = transform.forward * Model.MovementSpeed;
         Rb.velocity = new Vector3(velocityDir.x, originRb.y, velocityDir.z);
     }
 

@@ -39,10 +39,10 @@ namespace MKH
 
             mCurrentEquipmentEffect = calcedEffect;
 
-            mDamageLabel.text = "Damage : " + mCurrentEquipmentEffect.Damage.ToString();
+            mDamageLabel.text = "CommonAttack : " + mCurrentEquipmentEffect.Damage.ToString();
             mDefenseLabel.text = "Defense : " + mCurrentEquipmentEffect.Defense.ToString();
             mHPLabel.text = "HP : " + mCurrentEquipmentEffect.HP.ToString();
-            mCriticalLabel.text = "Critical : " + mCurrentEquipmentEffect.Critical.ToString();
+            mCriticalLabel.text = "CriticalChance : " + mCurrentEquipmentEffect.Critical.ToString();
             mAttackSpeedLabel.text = "AttackSpeed : " + mCurrentEquipmentEffect.AttackSpeed.ToString("F2");
             mSteminaLabel.text = "Stemina : " + mCurrentEquipmentEffect.Stemina.ToString();
             mEquipRateLabel.text = "EquipRate : " + mCurrentEquipmentEffect.EquipRate.ToString("F2");

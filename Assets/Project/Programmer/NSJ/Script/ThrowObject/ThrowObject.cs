@@ -79,7 +79,7 @@ public class ThrowObject : MonoBehaviour
         _player = player;
         Damage += player.GetFinalDamage();
         Radius = player.Model.BoomRadius;
-        SpecialRecovery = player.Model.SpecialRecoveryAmount[player.Model.ChargeStep];
+        SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
         AddHitAdditional(hitAdditionals);
         AddThrowAdditional(throwAdditionals, player);
     }
@@ -174,7 +174,7 @@ public class ThrowObject : MonoBehaviour
             }
         }
         // 플레이어 특수공격 자원 획득
-        _player.Model.CurSpecialGage += SpecialRecovery;
+        _player.Model.CurMana += SpecialRecovery;
         DestroyObject();
     }
 
