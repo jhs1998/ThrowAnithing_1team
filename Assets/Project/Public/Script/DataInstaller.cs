@@ -8,7 +8,8 @@ public class DataInstaller : MonoInstaller
     [SerializeField] private PlayerData playerData;
     [SerializeField] private UserDataManager userDataManager;
     [SerializeField] private GlobalPlayerStateData globalPlayerStateData;
-    public override void InstallBindings()
+    [SerializeField] private LobbyUpGrade lobbyUpGrade;
+        public override void InstallBindings()
     {
         Container.Bind<GlobalGameData>()
             .FromInstance(globalData)
@@ -18,11 +19,15 @@ public class DataInstaller : MonoInstaller
             .FromInstance(playerData);
 
         Container.Bind<UserDataManager>()
-            .FromComponentInNewPrefab(userDataManager)
+            .FromInstance(userDataManager)
             .AsSingle();
 
         Container.Bind<GlobalPlayerStateData>()
             .FromInstance(globalPlayerStateData)
+            .AsSingle();
+
+        Container.Bind<LobbyUpGrade>()
+            .FromInstance(lobbyUpGrade)
             .AsSingle();
     }
 }
