@@ -5,12 +5,9 @@ using UnityEngine;
 
 public class GameplayOnOff : MonoBehaviour
 {
-    private void OnEnable()
-    {
-        Debug.Log("Â¥ÀÚÀÜ");
-    }
+    [SerializeField] Main_Option option;
     private void OnDisable()
     {
-        Debug.Log("Â¥ÀÜ");
+        //option.optionCheck--;
     }
 }
