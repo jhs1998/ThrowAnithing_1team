@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1549119609549983728}
   m_Layer: 0
   m_Name: Portal_Hidden
-  m_TagString: Portal
+  m_TagString: PortalHidden
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,6 +120,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd893cb2ce46ff14d9274bfd3e1a9d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneName:
-    _sceneAsset: {fileID: 102900000, guid: 085a9bb96be14dc4db4d305bcc6c0f33, type: 3}
-    _sceneName: Test02_Trap
+  nextScene:
+    _sceneAsset: {fileID: 0}
+    _sceneName: 
+  hiddenSceneArr:
+  - _sceneAsset: {fileID: 102900000, guid: 085a9bb96be14dc4db4d305bcc6c0f33, type: 3}
+    _sceneName: Test02_Hidden1 Trap
+  - _sceneAsset: {fileID: 102900000, guid: 583e42055357a804792d951de6d40b1e, type: 3}
+    _sceneName: Test02_Hidden2 Dungeon
+  - _sceneAsset: {fileID: 102900000, guid: 7d0a1289f436b2249b45217ab0361362, type: 3}
+    _sceneName: Test02_Hidden3 BlueChip

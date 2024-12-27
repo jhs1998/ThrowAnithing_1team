@@ -45,18 +45,20 @@ namespace MKH
             mItemImage.sprite = mItem.Image;
             nameText.text = item.Name;
             descriptionText.text = item.Description;
-
             SetColor(1);
         }
 
-        // 아이템 사용
+        // 아이템 제거
         public void ClearSlot()
         {
             mItem = null;
             mItemImage.sprite = null;
+            nameText.text = null;
+            descriptionText.text = null;
             SetColor(0);
         }
 
+        // 아이템 사용
         public void UseItem()
         {
             if (mItem != null)
@@ -72,6 +74,15 @@ namespace MKH
         public void ChangeEquipmentSlot()
         {
             itemActionManager.UseItem(mItem);
+        }
+
+        public void RemoveEquipmentSlot()
+        {
+            EquipmentInventory Equip = GetComponent<EquipmentInventory>();
+
+            ClearSlot();
+            Equip.CalculateEffect();
+
         }
     }
 }

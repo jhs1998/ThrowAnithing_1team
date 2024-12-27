@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PortalSceneNumber : MonoBehaviour
 {
-    [SerializeField] public SceneField SceneName;
+    [SerializeField] public SceneField nextScene;
+    [SerializeField] public SceneField[] hiddenSceneArr;
+
+
 
 
 }

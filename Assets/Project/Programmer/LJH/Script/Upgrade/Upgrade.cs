@@ -61,13 +61,13 @@ public class Upgrade : UpgradeBinding
     void TierCal()
     {
         tier = 1;
-        if (usedCost > costLimit1)
+        if (usedCost >= costLimit1)
             tier = 2;
-        if (usedCost > costLimit2)
+        if (usedCost >= costLimit2)
             tier = 3;
-        if (usedCost > costLimit3)
+        if (usedCost >= costLimit3)
             tier = 4;
-        if (usedCost > costLimit4)
+        if (usedCost >= costLimit4)
             tier = 5;
     }
 

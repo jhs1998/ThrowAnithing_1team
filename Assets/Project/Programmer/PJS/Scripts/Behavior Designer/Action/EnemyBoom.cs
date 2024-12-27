@@ -7,7 +7,7 @@ public class EnemyBoom : Action
 {
 	[SerializeField] SharedBool isBoom;
     [SerializeField] SharedFloat attackDist;    // Æø¹ß ¹üÀ§
-
+    [SerializeField] GameObject paticle;
     private BaseEnemy enemy;
 
 	public override void OnStart()
@@ -25,6 +25,7 @@ public class EnemyBoom : Action
         if(enemy.CurHp > 0)
             enemy.CurHp = -1;
 
+        paticle.SetActive(true);
         isBoom.SetValue(true);
         return TaskStatus.Success;
 	}

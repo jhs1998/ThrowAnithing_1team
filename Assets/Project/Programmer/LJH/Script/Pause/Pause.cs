@@ -1,6 +1,7 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,23 +12,22 @@ public class Pause : MainScene
     GameObject pause;
 
 
-    GameObject continueButton_P;
-    GameObject optionButton_P;
-    GameObject exitButton_P;
+    Button continueButton_P;
+    Button optionButton_P;
+    Button exitButton_P;
 
     [SerializeField] GameObject ingameOptions;
 
     int curMenu_p;
 
-    GameObject[] pauseButtons;
-    GameObject[] exitButtons_p;
+    Button[] pauseButtons;
+    Button[] exitButtons_p;
 
     Coroutine settingCo;
 
     int exitNum_p;
 
     GameObject exitPopUpObj_p;
-    GameObject exitNo_p;
 
     //Comment : 게임 포즈되었는지 체크용 불변수
     bool isPaused;
@@ -81,27 +81,32 @@ public class Pause : MainScene
 
         curMenu_p += (int)y;
 
+        //Comment : 마지막 버튼일 때, 첫 버튼으로 돌아가게
         if (curMenu_p == pauseButtons.Length)
         {
             curMenu_p = 0;
-            pauseButtons[pauseButtons.Length - 1].SetActive(false);
-            pauseButtons[curMenu_p].SetActive(true);
+            pauseButtons[pauseButtons.Length - 1].gameObject.SetActive(false);
+            pauseButtons[curMenu_p].gameObject.SetActive(true);
             yield return null;
         }
 
+        //Comment : 첫 버튼일 때, 마지막 버튼으로 돌아가게
         if (curMenu_p == -1)
         {
             curMenu_p = pauseButtons.Length - 1;
-            pauseButtons[0].SetActive(false);
-            pauseButtons[curMenu_p].SetActive(true);
+            pauseButtons[0].gameObject.SetActive(false);
+            pauseButtons[curMenu_p].gameObject.SetActive(true);
             yield return null;
         }
 
+        //Comment : 선택하지 않은 버튼 모두 비활성화 작업
         for (int i = 0; i < pauseButtons.Length; i++)
         {
-            pauseButtons[i].SetActive(false);
+            pauseButtons[i].gameObject.SetActive(false);
         }
-        pauseButtons[curMenu_p].SetActive(true);
+
+        //Comment : 선택한 버튼 활성화
+        pauseButtons[curMenu_p].gameObject.SetActive(true);
 
         yield return new WaitForSecondsRealtime(inputDelay);
         settingCo = null;
@@ -117,61 +122,53 @@ public class Pause : MainScene
             {
                 case 0:
                     Debug.Log("게임 다시 진행");
-                    pause.SetActive(false);
+                    ContinueButton();
                     break;
 
                 case 1:
                     Debug.Log("옵션 선택_옵션 팝업 노출");
-                    ingameOptions.SetActive(true);
+                    OptionButton();
                     break;
 
                 case 2:
                     Debug.Log("게임 종료");
-                    ExitGame();
+                    ExitButton();
                     break;
             }
         }
     }
 
-    void ExitPopUp()
+    public void ContinueButton()
     {
-
-        switch (exitNum_p)
-        {
-            case 0:
-                exitButtons_p[exitNum_p].GetComponent<Image>().color = Color.black;
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
-                {
-                    exitButtons_p[exitNum_p].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                    exitNum_p = 1;
-                }
-                if (Input.GetButtonDown("Interaction"))
-                    ExitGame();
-                break;
-
-            case 1:
-                exitNo_p.GetComponent<Image>().color = Color.black;
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
-                {
-                    exitNo_p.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                    exitNum_p = 0;
-                }
-                if (Input.GetButtonDown("Interaction"))
-                    exitPopUpObj_p.SetActive(false);
-                break;
-
-        }
+        pause.SetActive(false);
     }
+
+    public void OptionButton()
+    {
+        ingameOptions.SetActive(true);
+    }
+
+    public void ExitButton()
+    {
+        exitPopUpObj_p.SetActive(true);
+    }
+
 
     private void Init()
     {
         pause = GetUI("pause");
 
-        pauseButtons = new GameObject[3];
+        pauseButtons = new Button[3];
 
-        pauseButtons[0] = continueButton_P = GetUI("ContinueImage");
-        pauseButtons[1] = optionButton_P = GetUI("OptionImage");
-        pauseButtons[2] = exitButton_P = GetUI("ExitImage");
+        pauseButtons[0] = continueButton_P = GetUI<Button>("ContinueImage");
+        pauseButtons[1] = optionButton_P = GetUI<Button>("OptionImage");
+        pauseButtons[2] = exitButton_P = GetUI<Button>("ExitImage");
+
+        exitPopUpObj_p = GetUI("ExitPopUp");
+
+        exitButtons_p = new Button[2];
+        exitButtons_p[0] = GetUI<Button>("E");
+        exitButtons_p[1] = GetUI<Button>("C");
 
     }
 
