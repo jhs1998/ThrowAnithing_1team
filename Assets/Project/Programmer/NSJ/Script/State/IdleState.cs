@@ -20,8 +20,8 @@ public class IdleState : PlayerState
     }
     public override void Update()
     {
-        // 이동키 입력시 Run
-        if (MoveDir != Vector3.zero)
+        // 이동키 입력시 Run, 이동속도가 0보다는 클때
+        if (MoveDir != Vector3.zero && Model.MoveSpeed > 0)
         {
             ChangeState(PlayerController.State.Run);
         }

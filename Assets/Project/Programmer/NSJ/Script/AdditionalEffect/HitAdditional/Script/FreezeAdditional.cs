@@ -5,7 +5,8 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Freeze")]
 public class FreezeAdditional : HitAdditional
 {
-    private float _originMoveSpeed;
+    [SerializeField] private float _duration;
+    private float _decreasedMoveSpeed;
     public override void Enter()
     {
         Debug.Log($"{gameObject.name} ºù°á");
@@ -14,7 +15,7 @@ public class FreezeAdditional : HitAdditional
         {
             _debuffRoutine = CoroutineHandler.StartRoutine(FreezeRoutine());
         }
-        _originMoveSpeed = Battle.Debuff.MoveSpeed;
+        _decreasedMoveSpeed = Battle.Debuff.MoveSpeed;
 
     }
 
@@ -29,12 +30,12 @@ public class FreezeAdditional : HitAdditional
             CoroutineHandler.StopRoutine(_debuffRoutine);
             _debuffRoutine = null;
         }
-        Battle.Debuff.MoveSpeed = _originMoveSpeed;
+        Battle.Debuff.MoveSpeed += _decreasedMoveSpeed;
     }
 
     IEnumerator FreezeRoutine()
     {
-        yield return 3f.GetDelay();
+        yield return _duration.GetDelay();
 
         Battle.EndDebuff(this);
     }

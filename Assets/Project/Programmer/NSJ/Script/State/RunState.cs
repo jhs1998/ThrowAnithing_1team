@@ -44,8 +44,8 @@ public class RunState : PlayerState
 
     private void CheckChangeState()
     {
-        // 이동키 입력이 없을때 평상시 모드
-        if (MoveDir == Vector3.zero)
+        // 이동키 입력이 없을때 평상시 모드, 이동속도가 0이하일때 강제 Idle
+        if (MoveDir == Vector3.zero || Model.MoveSpeed <= 0)
         {
             ChangeState(PlayerController.State.Idle);
         }
