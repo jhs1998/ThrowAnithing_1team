@@ -8,6 +8,8 @@ public class FreezeAdditional : HitAdditional
     private float _originMoveSpeed;
     public override void Enter()
     {
+        Debug.Log($"{gameObject.name} ºù°á");
+
         if (_debuffRoutine == null)
         {
             _debuffRoutine = CoroutineHandler.StartRoutine(FreezeRoutine());

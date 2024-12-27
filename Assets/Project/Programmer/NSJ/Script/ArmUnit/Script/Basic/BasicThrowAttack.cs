@@ -64,7 +64,7 @@ public class BasicThrowAttack : ArmThrowAttack
         int throwObjectID = Model.ThrowObjectStack.Count > 0 ? Model.PopThrowObject().ID : 0;
 
         ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
-        throwObject.Init(Player, Model.HitAdditionals, Model.ThrowAdditionals);
+        throwObject.Init(Player, Model.ThrowAdditionals);
         throwObject.Shoot(Player.ThrowPower);
         throwObject.TriggerFirstThrowAddtional();
     }

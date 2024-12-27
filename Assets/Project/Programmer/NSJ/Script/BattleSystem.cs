@@ -89,6 +89,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         _debuffList.Add(cloneDebuff);
         cloneDebuff.Origin = debuff.Origin;
         cloneDebuff.Battle = this;
+        cloneDebuff.transform = transform;
         cloneDebuff.Enter(); // 디버프 발동
     }
     /// <summary>

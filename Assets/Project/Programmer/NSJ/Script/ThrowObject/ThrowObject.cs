@@ -7,7 +7,6 @@ public class ThrowObject : MonoBehaviour
 
     [SerializeField] public bool CanAttack;
     [SerializeField] public List<ThrowAdditional> ThrowAdditionals = new List<ThrowAdditional>();
-    [SerializeField] public List<HitAdditional> HitAdditionals = new List<HitAdditional>();
     public int Damage;
     public float Radius;
     public float KnockBackDistance;
@@ -74,13 +73,12 @@ public class ThrowObject : MonoBehaviour
         FixedUpdateThrowAdditional();
     }
 
-    public void Init(PlayerController player, List<HitAdditional> hitAdditionals, List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player, List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
         Damage += player.GetFinalDamage();
         Radius = player.Model.BoomRadius;
         SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
-        AddHitAdditional(hitAdditionals);
         AddThrowAdditional(throwAdditionals, player);
     }
 
@@ -178,23 +176,6 @@ public class ThrowObject : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, Radius);
     }
 
-
-    protected void AddHitAdditional(List<HitAdditional> hitAdditionals)
-    {
-        foreach (HitAdditional hitAdditional in hitAdditionals)
-        {
-            int index = HitAdditionals.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
-            if (index >= HitAdditionals.Count)
-                return;
-
-            if (index == -1)
-            {
-                HitAdditional isntance = Instantiate(hitAdditional);
-                isntance.Origin = hitAdditional.Origin;
-                HitAdditionals.Add(isntance);
-            }
-        }
-    }
 
     protected void AddThrowAdditional(List<ThrowAdditional> throwAdditionals, PlayerController player)
     {

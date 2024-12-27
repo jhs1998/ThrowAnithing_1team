@@ -16,6 +16,8 @@ public class ElectricShockAdditonal : HitAdditional
     private float _decreasedAttackSpeed;
     public override void Enter()
     {
+        Debug.Log($"{gameObject.name} 감전");
+
         // 깎인 이동속도 계산
         float originMoveSpeed = Battle.Debuff.MoveSpeed;
         Battle.Debuff.MoveSpeed *=  1 - _moveSpeedReduction / 100; 
