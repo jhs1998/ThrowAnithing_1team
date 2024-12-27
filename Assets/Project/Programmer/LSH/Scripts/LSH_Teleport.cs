@@ -24,57 +24,45 @@ public class LSH_Teleport : MonoBehaviour
             other.gameObject.SetActive(false);
         }
 
-        Debug.Log(0);   
 
         if (other.tag == Tag.Portal)
         {
-            Debug.Log(1);   
             //다중씬 로딩중일때
             if (isSceneAdditive)
             {
-                Debug.Log(2);
 
                 //플레이어 기존씬에 있던 자리로 돌려놓고
                 transform.position = beforeTeleportPos;
-                Debug.Log(3);
 
                 ////열어둔 랜덤 씬을 저장한 뒤 언로드씬() 해줌 -> 오류, 닫지 않는것으로 해결
                 //Scene additiveScene = SceneManager.GetSceneByName(randomHiddenRoom);
-                //Debug.Log(4);
                 //SceneManager.UnloadScene(additiveScene);
-                //Debug.Log(5);
 
                 //변수 false로 바꿈
                 isSceneAdditive = false;
-                Debug.Log(6);
                 
 
             }
             //스테이지 이동할때
             else
             {
-                Debug.Log(8);
 
                 //직접 씬 이동, LoadSceneMode.Single
                 nextStage = other.GetComponent<PortalSceneNumber>().nextScene;
-                Debug.Log(9);
                 SceneManager.LoadScene(nextStage);
-                Debug.Log(10);
                 
 
 
             }
-            Debug.Log(12);   
+
         }
         
-        Debug.Log(13);   
         
 
     }
 
     public void ChangeScene(SceneField SceneName)
     {
-        Debug.Log(999);
         //애디티브로 다중 씬 열기
         SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
         isSceneAdditive = true;
