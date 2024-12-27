@@ -2,7 +2,7 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
 
-public class LightningPist : Action
+public class LightningFist : Action
 {
     [SerializeField] BossSkillState skillState;
     [SerializeField] GameObject electricZone;

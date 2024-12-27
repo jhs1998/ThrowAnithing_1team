@@ -29,10 +29,21 @@ public class BaseEnemy : MonoBehaviour, IHit
     [Header("현재 체력")]
     [SerializeField] int curHp;
 
+    [HideInInspector] int maxHp;      // 최대 체력
+    [HideInInspector] float speed;      // 이동속도
+    [HideInInspector] float jumpPower;  // 점프력
+    [HideInInspector] float attackSpeed;// 공격속도
+
     [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
     [HideInInspector] public Collider[] overLapCollider = new Collider[100];
+
     public int Damage { get { return state.Atk; } }
+    public int MaxHp {  get { return maxHp; } set { maxHp = value; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
+    public float Speed { get { return speed; } set { speed = value; } }
+    public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
+    public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
+    
 
     protected SharedGameObject playerObj;
 
@@ -57,16 +68,6 @@ public class BaseEnemy : MonoBehaviour, IHit
         tree.SetVariable("TraceDis", (SharedFloat)state.TraceDis);
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
         tree.SetVariable("Reward", (SharedFloat)reward);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        // 거리 그리기
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, state.TraceDis);
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
 
     /// <summary>
@@ -104,5 +105,15 @@ public class BaseEnemy : MonoBehaviour, IHit
                 hit.TakeDamage(damage, false);
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // 거리 그리기
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, state.TraceDis);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
 }

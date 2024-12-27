@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BossEnemy : BaseEnemy
 {
-    [SerializeField] BossEnemyState bossState;
-    [SerializeField] public ParticleSystem particle;
+    public enum Phase { Phase1, Phase2, Phase3 }
+    [SerializeField] Phase curPhase = Phase.Phase1;
+    //[SerializeField] BossEnemyState bossState;
     [SerializeField] ParticleSystem shieldParticle;
-    [HideInInspector] public Coroutine attackAble;
+    private Coroutine attackAble;
 
     private void Update()
     {
-        if(tree.GetVariable("LightningPist") == (SharedBool)true)
-            particle.Play();
+
     }
 
     /// <summary>
@@ -41,13 +41,19 @@ public class BossEnemy : BaseEnemy
     public void ThunderStomp()
     {
         Debug.Log("ThunderStomp()");
-        if (CurHp >= state.MaxHp * 0.8)
-            Debug.Log("80퍼 이상");
-
-        shieldParticle.Play();
         // 체력의 의한 패턴 변경
-        // 1페이즈 - 일렉트릭 아머
-        // 2페이즈 - 레이지 스톰
+        if (CurHp > state.MaxHp * 0.8f)
+        {
+            // 1페이즈 - 일렉트릭 아머
+            Debug.Log("curHp > 80");
+            shieldParticle.Play();
+        }
+        else if(CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
+        {
+            // 2페이즈 - 레이지 스톰
+            Debug.Log("80 >= curHP > 50");
+        }
+
     }
 
     /// <summary>
@@ -128,5 +134,12 @@ public class BossEnemy : BaseEnemy
             // Hit가 되지 않았으면 최대 검출 거리로 ray를 그려준다.
             Gizmos.DrawRay(transform.position, transform.forward * 8);
         }
+
+        // 거리 그리기
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, state.TraceDis);
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
 }
