@@ -19,7 +19,7 @@ public class DataInstaller : MonoInstaller
             .FromInstance(playerData);
 
         Container.Bind<UserDataManager>()
-            .FromComponentInNewPrefab(userDataManager)
+            .FromInstance(userDataManager)
             .AsSingle();
 
         Container.Bind<GlobalPlayerStateData>()

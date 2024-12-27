@@ -9,8 +9,8 @@ public class UserDataManager : MonoBehaviour
 {
     // 플레이어 데이터 생성
     [SerializeField] GlobalGameData nowPlayer;
-    [Inject]
-    GlobalPlayerStateData playerstate;
+
+    [SerializeField] GlobalPlayerStateData playerstate;
 
     // 세이브 파일 저장 경로
     public string path;
@@ -18,9 +18,10 @@ public class UserDataManager : MonoBehaviour
     public int nowSlot;
 
     [Inject]
-    private void Init(GlobalGameData nowPlayer)
+    private void Init(GlobalGameData nowPlayer, GlobalPlayerStateData playerstate)
     {
         this.nowPlayer = nowPlayer;
+        this.playerstate = playerstate;
         // 초기화 코드 작성
         path = Application.persistentDataPath + "/save";
         Debug.Log($"Save path: {path}");
@@ -43,6 +44,7 @@ public class UserDataManager : MonoBehaviour
         string data = JsonUtility.ToJson(nowPlayer);
         // 각 슬롯에 대해 파일 경로 다르게 설정 (슬롯 번호에 맞는 파일로 저장)
         string slotPath = path + $"slot_{nowSlot}.json";
+        Debug.Log($"{data}");
         File.WriteAllText(slotPath, data);
         Debug.Log($"슬롯 {nowSlot + 1}에 게임 저장 완료! 저장 시간: {nowPlayer.saveDateTime}");
     }
@@ -55,10 +57,16 @@ public class UserDataManager : MonoBehaviour
         {
             string data = File.ReadAllText(slotPath);
             // 현재 플레이어에 불러온 데이터 적용
-            nowPlayer = JsonUtility.FromJson<GlobalGameData>(data);
+            // 하나하나 대입
+            GlobalGameData loadedData = JsonUtility.FromJson<GlobalGameData>(data);
+            nowPlayer.coin = loadedData.coin;
+            nowPlayer.saveDateTime = loadedData.saveDateTime;
+            nowPlayer.upgradeLevels = loadedData.upgradeLevels;
+            nowPlayer.usingCoin = loadedData.usingCoin;
             // 강화 플레이어 스탯 새팅을 위한 값
             nowPlayer.bringData = true;
             Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
+            Debug.Log($"Checking file path: {slotPath}, Exists: {File.Exists(slotPath)}");
         }
         else
         {
@@ -67,13 +75,11 @@ public class UserDataManager : MonoBehaviour
     }
     public void DataClear()
     {
-        nowPlayer = new GlobalGameData
-        {
-            coin = 0,
-            saveDateTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-            upgradeLevels = new int[20],
-            usingCoin = 0
-        };
+        nowPlayer.coin = 0;
+        nowPlayer.saveDateTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        nowPlayer.upgradeLevels = new int[20];
+        nowPlayer.usingCoin = 0;
+
         // 플레이어 스탯 리셋
         playerstate.NewPlayerSetting();
     }

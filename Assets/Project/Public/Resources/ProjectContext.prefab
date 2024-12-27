@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7338240744370112664}
   - component: {fileID: 7109610805531752767}
   - component: {fileID: -5204339912961527784}
+  - component: {fileID: 2843022970376083190}
+  - component: {fileID: 3185848396629662587}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -122,7 +124,7 @@ MonoBehaviour:
       ThrowAdditionals: []
       PlayerAdditionals: []
     test: 1
-  userDataManager: {fileID: 8795587558089912083, guid: 201854952806aff4782a5f1ed85173de, type: 3}
+  userDataManager: {fileID: 2843022970376083190}
   globalPlayerStateData:
     maxHp: 0
     commonAttack: 0
@@ -171,4 +173,96 @@ MonoBehaviour:
     - 0
     - 0
     - 0
-  lobbyUpGrade: {fileID: 7615126992720756441, guid: 37efe2b02800675408e6ce709b9ec9b8, type: 3}
+  lobbyUpGrade: {fileID: 3185848396629662587}
+--- !u!114 &2843022970376083190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5497864121346949552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4d0f11d48a74c45ae3e981a608bdd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nowPlayer:
+    coin: 0
+    maxCoin: 9999999
+    saveDateTime: 
+    upgradeLevels: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    upgradeCosts: e8030000e8030000e8030000e803000088130000881300008813000088130000102700001027000010270000102700003075000030750000307500003075000050c3000050c3000050c3000050c30000
+    usingCoin: 0
+    bringData: 1
+  path: 
+  nowSlot: 0
+--- !u!114 &3185848396629662587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5497864121346949552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb206f879bb479a4ab6a7d01c7ee72e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData:
+    coin: 0
+    maxCoin: 9999999
+    saveDateTime: 
+    upgradeLevels: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    upgradeCosts: e8030000e8030000e8030000e803000088130000881300008813000088130000102700001027000010270000102700003075000030750000307500003075000050c3000050c3000050c3000050c30000
+    usingCoin: 0
+    bringData: 1
+  playerState:
+    maxHp: 0
+    commonAttack: 0
+    shortRangeAttack:
+    - 0
+    - 0
+    - 0
+    longRangeAttack:
+    - 0
+    - 0
+    - 0
+    - 0
+    attackSpeed: 0
+    movementSpeed: 0
+    criticalChance: 0
+    defense: 0
+    equipmentDropUpgrade: 0
+    drainLife: 0
+    maxStamina: 0
+    regainStamina: 0
+    regainMana:
+    - 0
+    - 0
+    - 0
+    - 0
+    manaConsumption:
+    - 0
+    - 0
+    - 0
+    consumesStamina: 0
+    gainMoreThrowables: 0
+    maxThrowables: 0
+    nowWeapon: 0
+    maxMana: 0
+    maxJumpCount: 0
+    jumpPower: 0
+    jumpConsumesStamina: 0
+    doubleJumpConsumesStamina: 0
+    dashDistance: 0
+    dashConsumesStamina: 0
+    shortRangeAttackStamina:
+    - 0
+    - 0
+    - 0
+    specialAttack:
+    - 0
+    - 0
+    - 0
+  coinText: {fileID: 0}
+  usingCoinText: {fileID: 0}
