@@ -55,7 +55,8 @@ public class UserDataManager : MonoBehaviour
             string data = File.ReadAllText(slotPath);
             // 현재 플레이어에 불러온 데이터 적용
             nowPlayer = JsonUtility.FromJson<GlobalGameData>(data);
-            UpdatePlayerStats();
+            // 강화 플레이어 스탯 새팅을 위한 값
+            nowPlayer.bringData = true;
             Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
         }
         else
@@ -105,10 +106,5 @@ public class UserDataManager : MonoBehaviour
         DataClear();
 
         Debug.Log("모든 게임 데이터 삭제 완료");
-    }
-
-    public void UpdatePlayerStats()
-    {
-        
     }
 }

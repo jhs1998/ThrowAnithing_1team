@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,33 @@ public class LobbyUpGrade : MonoBehaviour
     public GlobalGameData gameData;
     [Inject]
     public GlobalPlayerStateData playerState;
+
+    public void ApplyUpgradeStats()
+    {
+        // 업그레이드 함수 배열
+        Action<int>[] upgradeMethods = new Action<int>[]
+        {
+        OneLine_UpgradeShortAttack, OneLine_UpgradeLongAttack, OneLine_UpgradeMovementSpeed, OneLine_UpgradeMaxHpSlot,
+        TwoLine_UpgradeMaxStamina, TwoLine_UpgradeAttackSpeed, TwoLine_UpgradeCriticalChance, TwoLine_UpgradeEquipmentDrop,
+        ThreeLine_UpgradeCommonAttack, ThreeLine_UpgradeMaxThrowables, ThreeLine_UpgradeDefense, ThreeLine_UpgradeRegainMana,
+        FourLine_UpgradeConsumesStamina, FourLine_UpgradeLongAttack, FourLine_UpgradeShortAttack, FourLine_UpgradeMaxThrowables,
+        FiveLine_UpgradeManaConsumption, FiveLine_UpgradeDrainLife, FiveLine_UpgradeDefense, FiveLine_UpgradeEquipmentDrop
+        };
+
+        // upgradeLevels를 통해 업그레이드 적용
+        for (int i = 0; i < 20; i++)
+        {
+            int upgradeLevel = gameData.upgradeLevels[i];
+
+            // 해당 업그레이드 메서드를 upgradeLevel 횟수만큼 실행
+            for (int j = 0; j < upgradeLevel; j++)
+            {
+                upgradeMethods[i](i); // 업그레이드 함수 실행
+            }
+        }
+
+        gameData.bringData = false;
+    }
 
     // 첫번째 줄 1번 슬롯 근접 공격 강화
     public void OneLine_UpgradeShortAttack(int slot)
