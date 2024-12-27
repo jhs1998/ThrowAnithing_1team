@@ -7,7 +7,7 @@ public class BlueChipChoice : MonoBehaviour
 {
     [SerializeField] GameObject choice;
 
-    private NSJBlueChip blueChip;
+    private TestBlueChip blueChip;
 
     [SerializeField] BlueChipPanel blueChipPanel;
 
@@ -25,7 +25,7 @@ public class BlueChipChoice : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        blueChip = other.transform.GetComponent<NSJBlueChip>();
+        blueChip = other.transform.GetComponent<TestBlueChip>();
         if(other.gameObject.tag == Tag.BlueChip)
         {
             if(Input.GetKeyDown(KeyCode.F))

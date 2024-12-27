@@ -161,10 +161,10 @@ GameObject:
   - component: {fileID: 5551747925649653573}
   - component: {fileID: 1917553291457367335}
   - component: {fileID: 324536004038892996}
-  - component: {fileID: 5464642084110510317}
+  - component: {fileID: 2310381919644109111}
   m_Layer: 0
   m_Name: NSJ_BlueChip (5)
-  m_TagString: Untagged
+  m_TagString: BlueChip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,7 +177,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3861713065488736358}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -256,7 +256,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5464642084110510317
+--- !u!114 &2310381919644109111
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,10 +265,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3861713065488736358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a41336c736159f04ab1857f6e80bee46, type: 3}
+  m_Script: {fileID: 11500000, guid: 92dd8436b4abed1418fb5ac6bd368854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  additionalEffect: {fileID: 11400000, guid: 07ef11b0b24a5eb419b40e2f75b45181, type: 2}
+  Effect: {fileID: 11400000, guid: 07ef11b0b24a5eb419b40e2f75b45181, type: 2}
   nameText: {fileID: 5803389602827050611}
 --- !u!1 &5463751323840704098
 GameObject:
