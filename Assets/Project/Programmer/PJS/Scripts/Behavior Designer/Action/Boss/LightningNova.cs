@@ -10,14 +10,14 @@ public class LightningNova : Action
 	[SerializeField] float coolTime;	// 쿨타임
 	[SerializeField] SharedBool atkAble;	// 공격 사용 여부
 	
-	private BaseEnemy enemy;
+	private BossEnemy enemy;
 
 	public override void OnStart()
 	{
-		enemy = GetComponent<BaseEnemy>();
+		enemy = GetComponent<BossEnemy>();
 	}
 
-	public override TaskStatus OnUpdate()
+    public override TaskStatus OnUpdate()
 	{
 		if(atkAble.Value == false)
 			return TaskStatus.Failure;

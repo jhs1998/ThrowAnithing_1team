@@ -20,7 +20,7 @@ public class State
 
 public class BaseEnemy : MonoBehaviour, IHit
 {
-    [SerializeField] BehaviorTree tree;
+    [SerializeField] protected BehaviorTree tree;
 
     [Header("몬스터 기본 스테이터스")]
     [SerializeField] protected State state;
@@ -98,6 +98,9 @@ public class BaseEnemy : MonoBehaviour, IHit
             IHit hit = overLapCollider[i].GetComponent<IHit>();
             if (hit != null)
             {
+                if (overLapCollider[i].gameObject.name.CompareTo("Boss") == 0)
+                    return;
+
                 hit.TakeDamage(damage, false);
             }
         }
