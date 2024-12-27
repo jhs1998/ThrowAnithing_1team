@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ namespace MKH
         [SerializeField] InventorySlot[] slots;
         int selectedButtonsIndex = 0;
         int buttonCount;
+        private bool axisInUse = false;
 
         [SerializeField] Color HighlightedColor;
         [SerializeField] Color color;
@@ -22,6 +24,7 @@ namespace MKH
         private void Start()
         {
             buttonCount = buttons.Length;
+
         }
 
         private void Update()
@@ -29,29 +32,65 @@ namespace MKH
             ButtonsControl();
         }
 
+        #region 키 조작
+        // 키보드 조작
         private void ButtonsControl()
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            float x = Input.GetAxisRaw("Horizontal");
+            float y = Input.GetAxisRaw("Vertical");
+
+            if (x == -1)        // 좌측
             {
-                if (selectedButtonsIndex > 0)
+                if (selectedButtonsIndex > 0 && axisInUse == false)
                 {
-                    selectedButtonsIndex = (selectedButtonsIndex - 1 + buttonCount) % buttonCount;
+                    axisInUse = true;
+                    selectedButtonsIndex -= 1;
+                    Debug.Log("좌");
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (x == 1)    // 우측
             {
-                if (selectedButtonsIndex < buttons.Length - 1)
+                if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
                 {
-                    selectedButtonsIndex = (selectedButtonsIndex + 1) % buttonCount;
+                    axisInUse = true;
+                    selectedButtonsIndex += 1;
+                    Debug.Log("우");
                 }
+            }
+            else if (y == 1)    // 위
+            {
+                if (selectedButtonsIndex > 2 && axisInUse == false)
+                {
+                    axisInUse = true;
+                    selectedButtonsIndex -= 3;
+                    Debug.Log("위");
+                }
+            }
+            else if (y == -1)   // 아래
+            {
+                if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
+                {
+                    axisInUse = true;
+                    selectedButtonsIndex += 3;
+                    Debug.Log("아래");
+                }
+            }
+            else
+            {
+                axisInUse = false;
             }
 
             for (int i = 0; i < buttons.Length; i++)
             {
                 if (i == selectedButtonsIndex)
+                {
                     buttons[i].GetComponent<Image>().color = HighlightedColor;
+                }
                 else
+                {
                     buttons[i].GetComponent<Image>().color = color;
+                }
+                
             }
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -59,12 +98,11 @@ namespace MKH
                 Function();
             }
         }
+        #endregion
 
-        #region 입력
+        #region 버튼 입력
         private void Function()
         {
-
-
             switch (selectedButtonsIndex)
             {
                 case 0:
