@@ -30,7 +30,7 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
     {
         if (collision.gameObject.tag == Tag.Player)
         {
-            Battle.TargetAttack(collision.transform, _damage, true);
+            Battle.TargetAttackWithDebuff(collision.transform, _damage, true);
         }
     }
 

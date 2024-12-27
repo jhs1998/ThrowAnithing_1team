@@ -207,7 +207,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         for (int i = 0; i < hitCount; i++)
         {
             // 데미지 주기
-            Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, true);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true);
 
             // 넉백 가능하면 넉백
             if (_charges[_index].KnockBackDistance > 0)

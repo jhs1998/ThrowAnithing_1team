@@ -159,7 +159,7 @@ public class ThrowObject : MonoBehaviour
         {
 
             // 디버프 주기
-            _player.Battle.TargetAttack(_player.OverLapColliders[i], Damage, true);
+            _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], Damage, true);
 
             if (KnockBackDistance > 0)
                 _player.DoKnockBack(_player.OverLapColliders[i].transform, transform.forward, KnockBackDistance);
