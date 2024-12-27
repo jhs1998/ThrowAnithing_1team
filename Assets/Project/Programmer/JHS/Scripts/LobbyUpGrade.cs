@@ -45,6 +45,8 @@ public class LobbyUpGrade : MonoBehaviour
         // 현재 코인과 최대 코인 값에 따라 텍스트 업데이트
         coinText.text = "coin: " + gameData.coin.ToString();
         usingCoinText.text = "usingCoin: " + gameData.usingCoin.ToString();
+        // 뉴게임이라 true일 경우 false
+        gameData.bringData = false;
     }
     public void ApplyUpgradeStats()
     {

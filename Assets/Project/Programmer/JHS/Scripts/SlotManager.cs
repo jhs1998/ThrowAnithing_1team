@@ -71,8 +71,10 @@ public class SlotManager : MonoBehaviour
             userDataManager.nowSlot = slotIndex;  // 슬롯 번호 설정
             userDataManager.LoadData(); // 데이터를 로드하고
             Debug.Log($"Slot {slotIndex + 1} 데이터 불러오기");
-            // 로비 강화 스탯 세팅
+
+            // 로비 강화 스탯 세팅 (나중에 로딩 창으로 변경)
             lobbyUpGrade.ApplyUpgradeStats();
+
             UpdateSlotUI();
             SceneManager.LoadScene("LobbyTestScene");
         }
