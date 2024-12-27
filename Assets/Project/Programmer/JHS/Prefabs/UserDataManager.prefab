@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3717041071749698904}
-  - component: {fileID: 4705250393406488564}
+  - component: {fileID: 8795587558089912083}
   m_Layer: 0
   m_Name: UserDataManager
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4705250393406488564
+--- !u!114 &8795587558089912083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,12 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nowPlayer:
-    playerName: 
-    maxHp: 0
-    attackDamage: 0
-    speed: 0
-    luck: 0
     coin: 0
+    maxCoin: 9999999
     saveDateTime: 
+    upgradeLevels: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    upgradeCosts: e8030000e8030000e8030000e803000088130000881300008813000088130000102700001027000010270000102700003075000030750000307500003075000050c3000050c3000050c3000050c30000
+    usingCoin: 0
+    bringData: 1
   path: 
   nowSlot: 0

@@ -32,6 +32,7 @@ public class UserDataManager : MonoBehaviour
     {
         // 파일 경로 초기화 (세이브 경로는 Zenject에서 주입됨)
         Debug.Log($"Save path: {path}");
+        playerstate.NewPlayerSetting();
     }
     // 저장 기능
     public void SaveData()

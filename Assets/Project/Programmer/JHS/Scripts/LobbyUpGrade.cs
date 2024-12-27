@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
 using Zenject;
+using static GlobalPlayerStateData;
 
 public class LobbyUpGrade : MonoBehaviour
 {
@@ -37,19 +38,24 @@ public class LobbyUpGrade : MonoBehaviour
     }
     private void UpdateCoinUI()
     {
+        if (coinText == null || usingCoinText == null)
+        {
+            return;
+        }
         // 현재 코인과 최대 코인 값에 따라 텍스트 업데이트
-        coinText.text = "코인: " + gameData.coin.ToString();
-        usingCoinText.text = "소모 코인: " + gameData.usingCoin.ToString();
+        coinText.text = "coin: " + gameData.coin.ToString();
+        usingCoinText.text = "usingCoin: " + gameData.usingCoin.ToString();
     }
     public void ApplyUpgradeStats()
     {
+        Debug.Log("스탯 세팅 시도");
         // 업그레이드 함수 배열
         Action<int>[] upgradeMethods = new Action<int>[]
         {
         OneLine_UpgradeShortAttack, OneLine_UpgradeLongAttack, OneLine_UpgradeMovementSpeed, OneLine_UpgradeMaxHpSlot,
         TwoLine_UpgradeMaxStamina, TwoLine_UpgradeAttackSpeed, TwoLine_UpgradeCriticalChance, TwoLine_UpgradeEquipmentDrop,
         ThreeLine_UpgradeCommonAttack, ThreeLine_UpgradeMaxThrowables, ThreeLine_UpgradeDefense, ThreeLine_UpgradeRegainMana,
-        FourLine_UpgradeConsumesStamina, FourLine_UpgradeLongAttack, FourLine_UpgradeShortAttack, FourLine_UpgradeMaxThrowables,
+        FourLine_UpgradeConsumesStamina, FourLine_UpgradeLongAttack, FourLine_UpgradeShortAttack, FourLine_UpgradeGainMoreThrowables,
         FiveLine_UpgradeManaConsumption, FiveLine_UpgradeDrainLife, FiveLine_UpgradeDefense, FiveLine_UpgradeEquipmentDrop
         };
 
@@ -64,7 +70,7 @@ public class LobbyUpGrade : MonoBehaviour
                 upgradeMethods[i](i); // 업그레이드 함수 실행
             }
         }
-
+        Debug.Log("스탯 세팅 완료");
         gameData.bringData = false;
     }
 
@@ -339,14 +345,14 @@ public class LobbyUpGrade : MonoBehaviour
         }
     }
     // 네번째 줄 4번 슬롯 투척물 추가 획득 20퍼 증가
-    public void FourLine_UpgradeMaxThrowables(int slot)
+    public void FourLine_UpgradeGainMoreThrowables(int slot)
     {
         // 슬롯 강화 시도
         if (gameData.BuyUpgradeSlot(slot))
         {
             // 강화 성공 시 투척물 추가 획득 20퍼 증가
-            playerState.maxThrowables += 10;
-            Debug.Log($"투척물 갯수: {playerState.maxThrowables}");
+            playerState.gainMoreThrowables += 20;
+            Debug.Log($"투척물 추가 획득 : {playerState.gainMoreThrowables}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -436,5 +442,26 @@ public class LobbyUpGrade : MonoBehaviour
     {
         gameData.coin = 0;
         OnCoinChanged?.Invoke();
+    }
+
+    // 암 유닛 교체 R
+    public void AmWeaponChangeR()
+    {
+        if (playerState.nowWeapon == AmWeapon.Balance)
+            playerState.nowWeapon = AmWeapon.Power;       
+        if (playerState.nowWeapon == AmWeapon.Power)
+            playerState.nowWeapon = AmWeapon.Speed;
+        if (playerState.nowWeapon == AmWeapon.Speed)
+            playerState.nowWeapon = AmWeapon.Balance;
+    }
+    // 암 유닛 교체 L
+    public void AmWeaponChangeL()
+    {
+        if (playerState.nowWeapon == AmWeapon.Balance)
+            playerState.nowWeapon = AmWeapon.Speed;
+        if (playerState.nowWeapon == AmWeapon.Speed)
+            playerState.nowWeapon = AmWeapon.Power;
+        if (playerState.nowWeapon == AmWeapon.Power)
+            playerState.nowWeapon = AmWeapon.Balance;
     }
 }
