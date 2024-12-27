@@ -32,7 +32,7 @@ public class SpawnPrefabs : MonoBehaviour
                 int num = Random.Range(0, spawnPos.Count - 1);
                 Instantiate(prefabs, spawnPos[num]);
                 
-                if (prefabs.tag == "Trash")
+                if (prefabs.tag == Tag.Trash)
                 {
                     SpawnTrashPos();
                 }

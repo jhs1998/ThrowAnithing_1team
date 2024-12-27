@@ -24,16 +24,9 @@ public class BasicMeleeAttack : ArmMeleeAttack
 
         if (Player.IsAttackFoward == true)
         {
-            // 카메라 방향으로 플레이어가 바라보게
-            Quaternion cameraRot = Quaternion.Euler(0, Player.CamareArm.eulerAngles.y, 0);
-            transform.rotation = cameraRot;
-            // 카메라는 다시 로컬 기준 전방 방향
-            if (Player.CamareArm.parent != null)
-            {
-                Player.CamareArm.localRotation = Quaternion.Euler(Player.CamareArm.localRotation.eulerAngles.x, 0, 0);
-            }
+            // 공격방향 바라보기
+            Player.LookAtAttackDir();
         }
-
     }
 
     public override void Update()
@@ -78,9 +71,11 @@ public class BasicMeleeAttack : ArmMeleeAttack
                 continue;
 
             IHit hit = Player.OverLapColliders[i].GetComponent<IHit>();
+            // 적 넉백
+            Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, 0.5f);
 
-            int attackDamage = (int)(Model.Damage * Model.DamageMultiplier);
-            hit.TakeDamage(attackDamage);
+            int finalDamage = Player.GetFinalDamage(Model.DamageMultiplier);
+            hit.TakeDamage(finalDamage, true);
         }
     }
 

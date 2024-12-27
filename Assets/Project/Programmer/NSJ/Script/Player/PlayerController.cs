@@ -1,12 +1,15 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public Transform ArmPoint;
 
@@ -27,6 +30,8 @@ public class PlayerController : MonoBehaviour
         Dash,
         Drain,
         SpecialAttack,
+        Hit,
+        Dead,
         Size
     }
 
@@ -35,6 +40,8 @@ public class PlayerController : MonoBehaviour
     public State PrevState;
 
     #region 이벤트
+    public event UnityAction<int,bool> OnPlayerHitEvent;
+    public event UnityAction OnPlayerDieEvent;
     #endregion
     #region 공격 관련 필드
     [System.Serializable]
@@ -119,12 +126,18 @@ public class PlayerController : MonoBehaviour
     #region 조건체크 Bool 필드
     public struct BoolField
     {
-        public bool IsDoubleJump;
-        public bool IsJumpAttack;
+        public bool IsDoubleJump; // 더블점프 했음?
+        public bool IsJumpAttack; // 점프공격 했음?
+        public bool IsInvincible; // 무적상태임?
+        public bool IsHit; // 맞음?
+        public bool IsDead; // 죽음?
     }
     private BoolField _boolField;
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
     public bool IsJumpAttack { get { return _boolField.IsJumpAttack; } set { _boolField.IsJumpAttack = value; } }
+    public bool IsInvincible { get { return _boolField.IsInvincible; } set { _boolField.IsInvincible = value; } }
+    public bool IsHit { get { return _boolField.IsHit; } set { _boolField.IsHit = value; } }
+    public bool IsDead { get { return _boolField.IsDead; } set { _boolField.IsDead = value; } }
     #endregion
 
     //TODO: 인스펙터 정리 필요
@@ -197,10 +210,10 @@ public class PlayerController : MonoBehaviour
         if (_states[(int)state].UseStamina == true)
         {
             // 사용할수 있음?(최소 스테미나)
-            if (Model.CurStamina < 10f)
+            if (Model.CurStamina < _states[(int)state].StaminaAmount)
                 return;
             // 사용가능하면 스테미나 깎음
-            Model.CurStamina -= 30f;
+            Model.CurStamina -= _states[(int)state].StaminaAmount;
         }
 
         _states[(int)CurState].Exit();
@@ -210,6 +223,23 @@ public class PlayerController : MonoBehaviour
 
         //Debug.Log(CurState);
     }
+
+    /// <summary>
+    /// 데미지 받기
+    /// </summary>
+    public void TakeDamage(int damage, bool isStun)
+    {
+        OnPlayerHitEvent?.Invoke(damage, isStun);
+    }
+
+    /// <summary>
+    /// 사망
+    /// </summary>
+    public void Die()
+    {
+        OnPlayerDieEvent?.Invoke();
+    }
+
 
     #region Instantiate 대리 메서드
     public T InstantiateObject<T>(T instance) where T : Component
@@ -511,10 +541,15 @@ public class PlayerController : MonoBehaviour
     {
         // 살짝위에서 쏨
         Vector3 CheckPos = _groundCheckPos.position;
-
-        if (Physics.SphereCast(CheckPos, 0.25f, Vector3.down, out RaycastHit hit, 0.4f))
+        if (Physics.SphereCast(
+            CheckPos,
+            0.25f,
+            Vector3.down,
+            out RaycastHit hit, 
+            0.4f,
+            Layer.GetLayerMaskEveryThing(),
+            QueryTriggerInteraction.Ignore))
         {
-            //Debug.Log("지면");
             IsGround = true;
             // 오를 수 있는 경사면 체크
             Vector3 normal = hit.normal;
@@ -529,7 +564,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // Debug.Log("공중");
             IsGround = false;
             CanClimbSlope = false;
         }
@@ -541,7 +575,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 CheckPos = _groundCheckPos.position;
 
-        if (Physics.SphereCast(CheckPos, 0.25f, Vector3.down, out RaycastHit hit, 0.4f))
+        if (Physics.SphereCast(CheckPos, 0.25f, Vector3.down, out RaycastHit hit, 0.4f, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
         {
             Gizmos.DrawLine(CheckPos, hit.point);
             Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
@@ -553,7 +587,15 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void CheckWall()
     {
-        int hitCount = Physics.OverlapCapsuleNonAlloc(_wallCheckPos.Foot.position, _wallCheckPos.Head.position, _wallCheckDistance, OverLapColliders, 1 << Layer.Wall);
+        int layerMask = 0;
+        layerMask |= 1 << Layer.Wall;
+        layerMask |= 1 << Layer.Monster;
+        int hitCount = Physics.OverlapCapsuleNonAlloc(
+            _wallCheckPos.Foot.position, 
+            _wallCheckPos.Head.position,
+            _wallCheckDistance, 
+            OverLapColliders,
+            layerMask );
 
         if (hitCount > 0)
         {
@@ -652,6 +694,9 @@ public class PlayerController : MonoBehaviour
     }
     private void CheckAnyState()
     {
+        if (IsDead == true || IsHit == true)
+            return;
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
         {
             ChangeState(PlayerController.State.Dash);
@@ -659,13 +704,127 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region  넉백
+    /// <summary>
+    /// 넉백 안함(위치 고정)
+    /// </summary>
+    public void DontKnockBack(Transform target)
+    {
+        Rigidbody targetRb = target.GetComponent<Rigidbody>();
+        targetRb.velocity = new(0, targetRb.velocity.y, 0);
+    }
+
+    /// <summary>
+    /// 해당 방향으로 입력 거리만큼 넉백
+    /// </summary>
+    public void DoKnockBack(Transform target, Vector3 dir, float distance)
+    {
+        Rigidbody targetRb = target.GetComponent<Rigidbody>();
+
+        targetRb.AddForce(dir * distance * 10f, ForceMode.Impulse);
+
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+    }
+    /// <summary>
+    /// 공격자 중심으로 입력거리만큼 넉백
+    /// </summary>
+    public void DoKnockBack(Transform target, Transform attacker, float distance)
+    {
+        Vector3 attackerPos = new(attacker.position.x, 0, attacker.position.z);
+        Vector3 targetPos = new(target.position.x, 0, target.position.z);
+        Vector3 knockBackDir = targetPos - attackerPos;
+        Rigidbody targetRb = target.GetComponent<Rigidbody>();
+
+        targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
+
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+    }
+
+    /// <summary>
+    /// 특정 지점을 중심으로 넉백
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="pos"></param>
+    /// <param name="distance"></param>
+    public void DoKnockBackFromPos(Transform target, Vector3 pos, float distance)
+    {
+        Vector3 attackerPos = new(pos.x, 0, pos.z);
+        Vector3 targetPos = new(target.position.x, 0, target.position.z);
+        Vector3 knockBackDir = targetPos - attackerPos;
+        Rigidbody targetRb = target.GetComponent<Rigidbody>();
+
+        targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
+
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+    }
+
+    IEnumerator KnockBackRoutine(Rigidbody targetRb, float distance)
+    {
+        Vector3 originPos = targetRb.position;
+        while (true)
+        {
+            if (Vector3.Distance(originPos, targetRb.position) > distance)
+            {
+                targetRb.velocity = new(0, targetRb.velocity.y, 0);
+                break;
+            }
+            yield return 0.1f.GetDelay();
+        }
+    }
+    #endregion
+    #region 데미지 계산
+    /// <summary>
+    /// 기본 스텟 데미지
+    /// </summary>
+    public int GetFinalDamage()
+    {
+        int finalDamage = 0;
+        finalDamage = GetCommonDamage(finalDamage);
+        return finalDamage;
+    }
+    /// <summary>
+    /// 데미지 추가
+    /// </summary>
+    public int GetFinalDamage(int addtionalDamage)
+    {
+        int finalDamage = 0;
+        // 추가 데미지
+        finalDamage += addtionalDamage;
+        finalDamage = GetCommonDamage(finalDamage);
+        return finalDamage;
+    }
+    /// <summary>
+    /// 데미지 배율
+    /// </summary>
+    public int GetFinalDamage(float multiplier)
+    {
+        int finalDamage = 0;
+        finalDamage = GetCommonDamage(finalDamage);
+
+        // 데미지 배율 추가
+        finalDamage =  (int)(finalDamage*multiplier);
+        return finalDamage;
+    }
+    /// <summary>
+    /// 공통계산 용
+    /// </summary>
+    private int GetCommonDamage(int finalDamage)
+    {
+        // 기본 스텟 데미지 
+        finalDamage += Model.Damage;
+        // 치명타 데미지
+        if (Random.value < Model.Critical/100f)
+            finalDamage = (int)(finalDamage*(Model.CriticalDamage/100f));
+
+        return finalDamage;
+    }
+    #endregion
     // 초기 설정 ============================================================================================================================================ //
     /// <summary>
     /// 초기 설정
     /// </summary>
     private void Init()
-    {
-        _cameraHolder.gameObject.SetActive(false);
+    {         
         InitGetComponent();
         InitPlayerStates();
     }
@@ -687,6 +846,8 @@ public class PlayerController : MonoBehaviour
         _states[(int)State.Fall] = new FallState(this);                 // 추락
         _states[(int)State.Dash] = new DashState(this);                 // 대쉬
         _states[(int)State.Drain] = new DrainState(this);               // 드레인
+        _states[(int)State.Hit] = new HitState(this);                   // 피격
+        _states[(int)State.Dead] = new DeadState(this);                 // 사망
     }
 
     /// <summary>
@@ -694,22 +855,25 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void InitUIEvent()
     {
+        // 투척오브젝트
         Model.CurThrowCountSubject
             .DistinctUntilChanged()
             .Subscribe(x => View.UpdateText(View.Panel.ThrowCount, $"{x} / {Model.MaxThrowCount}"));
         View.UpdateText(View.Panel.ThrowCount, $"{Model.CurThrowCount} / {Model.MaxThrowCount}");
 
-
+        // 스테미나
         Model.CurStaminaSubject
             .DistinctUntilChanged()
             .Subscribe(x => View.Panel.StaminaSlider.value = x / Model.MaxStamina);
         View.Panel.StaminaSlider.value = Model.CurStamina / Model.MaxStamina;
 
+        // 특수자원
         Model.CurSpecialGageSubject
             .DistinctUntilChanged()
             .Subscribe(x => View.Panel.SpecialGageSlider.value = x / Model.MaxSpecialGage);
         View.Panel.SpecialGageSlider.value = Model.CurSpecialGage / Model.MaxSpecialGage;
 
+        // 특수공격 차지
         Model.SpecialChargeGageSubject
             .DistinctUntilChanged()
             .Subscribe(x => View.Panel.SpecialChargeSlider.value = x);

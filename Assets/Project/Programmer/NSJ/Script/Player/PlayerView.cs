@@ -20,6 +20,7 @@ public class PlayerView : MonoBehaviour
         JumpAttack,
         Dash,
         Drain,
+        Hit,
         Charge,
         ChargeEnd,
         ChargeCancel,
@@ -28,6 +29,7 @@ public class PlayerView : MonoBehaviour
         PowerMelee,
         PowerThrow,
         PowerSpecial,
+        Dead,
         Size
     }
 
@@ -134,5 +136,7 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.PowerSpecial] = Animator.StringToHash("PowerSpecial");
         _animatorHashes[(int)Parameter.JumpDown] = Animator.StringToHash("JumpDown");
         _animatorHashes[(int)Parameter.JumpAttack] = Animator.StringToHash("JumpAttack");
+        _animatorHashes[(int)Parameter.Hit] = Animator.StringToHash("Hit");
+        _animatorHashes[(int)Parameter.Dead] = Animator.StringToHash("Dead");
     }
 }

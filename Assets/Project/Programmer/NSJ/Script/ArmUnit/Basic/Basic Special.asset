@@ -13,3 +13,29 @@ MonoBehaviour:
   m_Name: Basic Special
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  _charges:
+  - DropObject: {fileID: 1887274978761638612, guid: b039c65b9deec084e9a7df6990a42ca8, type: 3}
+    DropSize: {x: 0.5, y: 0.5, z: 0.5}
+    ChargeTime: 0.75
+    ObjectCount: 1
+    AttackOffset: {x: 2.5, y: 0, z: 2.5}
+    Radius: 2
+    Damage: 75
+    KnockBackDistance: 0
+  - DropObject: {fileID: 3542836536086573354, guid: 3d282a29ec5223b4b8dba552c7047c21, type: 3}
+    DropSize: {x: 0.75, y: 0.75, z: 0.75}
+    ChargeTime: 1.75
+    ObjectCount: 1
+    AttackOffset: {x: 2.5, y: 0, z: 2.5}
+    Radius: 3
+    Damage: 150
+    KnockBackDistance: 0
+  - DropObject: {fileID: 3234903913943514994, guid: bc1d41eeffe7e6c43ae2c4a76fcf020a, type: 3}
+    DropSize: {x: 1, y: 1, z: 1}
+    ChargeTime: 2.5
+    ObjectCount: 3
+    AttackOffset: {x: 4.5, y: 0, z: 4.5}
+    Radius: 4
+    Damage: 225
+    KnockBackDistance: 4
+  _specialRange: {fileID: 3800436430851435593, guid: de000bd3b6192cc4d9a97f4f952cbe26, type: 3}

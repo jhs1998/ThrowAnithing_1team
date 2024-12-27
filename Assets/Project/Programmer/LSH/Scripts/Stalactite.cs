@@ -10,7 +10,7 @@ public class Stalactite : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == Tag.Player)
         {
             LSH_Player player = other.GetComponent<LSH_Player>();
             player.TakeDamage(stalactiteDamage);

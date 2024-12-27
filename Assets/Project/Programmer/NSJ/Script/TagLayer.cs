@@ -17,6 +17,7 @@ public static partial class Tag
     public const string Portal = "Portal";
     public const string Trash = "Trash";
     public const string BlueChip = "BlueChip";
+    public const string PortalHidden = "PortalHidden";
 }
 public static partial class Layer
 {
@@ -43,6 +44,22 @@ public static partial class Layer
     }
 
     private static Dictionary<LayerEnum, int> _layerDic = new Dictionary<LayerEnum, int>();
+
+    public static int GetLayerMaskEveryThing()
+    {
+        int everyThing = 0;
+        everyThing |= 1 << Default;
+        everyThing |= 1 << TransparentFX;
+        everyThing |= 1 << IgnoreRaycast;
+        everyThing |= 1 << Water;
+        everyThing |= 1 << UI;
+        everyThing |= 1 << Wall;
+        everyThing |= 1 << Player;
+        everyThing |= 1 << Monster;
+        everyThing |= 1 << ThrowObject;
+
+        return everyThing;
+    }
     private static int GetLayer(this LayerEnum layer)
     {
         if (_layerDic.ContainsKey(layer) == false)
@@ -51,4 +68,6 @@ public static partial class Layer
         }
         return _layerDic[layer];
     }
+
+
 }

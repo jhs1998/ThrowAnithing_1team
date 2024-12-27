@@ -6,6 +6,7 @@ public class JumpState : PlayerState
     public JumpState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
+        StaminaAmount = Model.JumpStamina;
     }
 
     public override void Enter()

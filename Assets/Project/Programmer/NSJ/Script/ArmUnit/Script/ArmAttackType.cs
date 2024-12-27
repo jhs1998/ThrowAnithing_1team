@@ -1,6 +1,8 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject.SpaceFighter;
 
 public class ArmAttackType : ScriptableObject
 {
@@ -11,6 +13,9 @@ public class ArmAttackType : ScriptableObject
     protected GameObject gameObject => Player.gameObject;
     protected Transform _muzzlePoint => Player.MuzzletPoint;
     protected Rigidbody Rb => Player.Rb;
+
+    private int m_index;
+    protected int _index { get {  return m_index; } set { m_index = value; Model.ChargeStep = m_index; } }
     public virtual void Init(PlayerController player)
     {
         Player = player;
@@ -28,5 +33,4 @@ public class ArmAttackType : ScriptableObject
     {
         Player.ChangeState(state);
     }
-
-}
+}   

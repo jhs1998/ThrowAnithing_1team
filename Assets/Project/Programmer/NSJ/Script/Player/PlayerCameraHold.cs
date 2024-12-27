@@ -25,11 +25,17 @@ public class PlayerCameraHold : MonoBehaviour
     private void Awake()
     {
         _player = GetComponentInParent<PlayerController>();
-        //transform.SetParent(null);
+        _targetEffect.transform.SetParent(null);
+
     }
 
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
     private void OnEnable()
     {
+        _targetEffect.SetActive(true);
         SetTargetList();
     }
 
@@ -41,6 +47,7 @@ public class PlayerCameraHold : MonoBehaviour
             _checkDistanceToTarget = null;
         }
 
+        _targetEffect.SetActive(false);
         _targetList.Clear();
         _target = null;
         _player.IsTargetHolding = false;
@@ -65,7 +72,7 @@ public class PlayerCameraHold : MonoBehaviour
             // 플레이어의 타겟 지점을 지정한 타겟위치로 지정
             _player.TargetPos = _target.transform.position;
             // 타겟 이펙트효과 타겟위치
-            _targetEffect.transform.position = _target.position;
+            _targetEffect.transform.position = new(_target.position.x, _target.position.y + 0.3f, _target.position.z);
         }
         if(_player.IsTargetToggle == true && Input.GetMouseButtonDown(1))
         {

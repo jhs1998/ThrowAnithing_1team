@@ -32,11 +32,11 @@ public class PoizonAdditional : HitAdditional
     {
         int count = Duration;
         IHit hit = Target.GetComponent<IHit>();
-        int poisonDamage = (int)(_damage * DamageMultiplier);
+        int poisonDamage = (int)(Damage * DamageMultiplier);
         while (count > 0)
         {
             yield return 1f.GetDelay(); 
-            hit.TakeDamage(poisonDamage);
+            hit.TakeDamage(poisonDamage,false);
             count--;
         }
         OnExitHitAdditional?.Invoke(this);

@@ -3,6 +3,7 @@ using BehaviorDesigner.Runtime;
 using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -29,6 +30,7 @@ public class BaseEnemy : MonoBehaviour, IHit
     [SerializeField] int curHp;
 
     [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
+    [HideInInspector] public Collider[] overLapCollider = new Collider[100];
     public int Damage { get { return state.Atk; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
 
@@ -55,7 +57,6 @@ public class BaseEnemy : MonoBehaviour, IHit
         tree.SetVariable("TraceDis", (SharedFloat)state.TraceDis);
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
         tree.SetVariable("Reward", (SharedFloat)reward);
-        tree.SetVariable("CurHp", (SharedInt)curHp);
     }
 
     private void OnDrawGizmosSelected()
@@ -71,14 +72,34 @@ public class BaseEnemy : MonoBehaviour, IHit
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isStun)
     {
         resultDamage = damage - (int)state.Def;
+        tree.SetVariable("ResultDamage", (SharedInt)resultDamage);
 
         if (resultDamage <= 0)
             resultDamage = 0;
 
         curHp -= resultDamage;
-        Debug.Log($"{damage} 피해를 입음. curHP : {curHp}");
+        
+        // TODO : 결과 값은 TakeDamage 매개변수로 변환
+        tree.SetVariable("Stiff", (SharedBool)isStun);
+        Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
+    }
+
+    /// <summary>
+    /// 차지 후 폭발 데미지 부여
+    /// </summary>
+    public void TakeChargeBoom(float range, int damage)
+    {
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, range, overLapCollider);
+        for (int i = 0; i < hitCount; i++)
+        {
+            IHit hit = overLapCollider[i].GetComponent<IHit>();
+            if (hit != null)
+            {
+                hit.TakeDamage(damage, false);
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ public class TestCodeData : MonoBehaviour, IHit
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isStun)
     {
         Debug.Log($"{gameObject} ÀÇ TakeDamage");
     }
@@ -31,9 +31,9 @@ public class TestCodeData : MonoBehaviour, IHit
         {
             Debug.Log(other.transform);
             IHit hit = other.transform.GetComponent<IHit>();
-            hit.TakeDamage(atk);
+            hit.TakeDamage(atk, true);
         }
 
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 }

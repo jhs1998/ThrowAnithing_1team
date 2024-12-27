@@ -530,6 +530,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadingImage: {fileID: 483367655}
   loadingBar: {fileID: 1891943888}
+  startBtn: {fileID: 788457536}
+  nextScene:
+    _sceneAsset: {fileID: 102900000, guid: 1703e144f7f5be641a5b686c6e291ad5, type: 3}
+    _sceneName: Test01_Lobby
 --- !u!1 &421779056
 GameObject:
   m_ObjectHideFlags: 0
@@ -848,19 +852,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 788457537}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 345525315}
-        m_TargetAssemblyTypeName: SceneLoading, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &788457537
 MonoBehaviour:
   m_ObjectHideFlags: 0

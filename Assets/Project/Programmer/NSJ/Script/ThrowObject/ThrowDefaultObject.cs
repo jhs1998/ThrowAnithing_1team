@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class ThrowDefaultObject : ThrowObject
 {
-    protected override void OnCollisionEnter(Collision collision)
+    protected override void OnTriggerEnter(Collider other)
     {
-        if (CanAttack == true)
+        if (other.gameObject.layer == Layer.Monster)
         {
-            if (collision.gameObject.layer == Layer.Monster)
-            {
-                HitTarget();
-            }
-            else
-            {
-                CanAttack = false;
-                DestroyObject();
-            }
+            HitTarget();
+        }
+        else if (other.gameObject.tag != Tag.Player)
+        {
+            Destroy(gameObject);
         }
     }
 }

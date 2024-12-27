@@ -15,10 +15,10 @@ public class EnemyDamageText : MonoBehaviour
     {
         damageText = GetComponent<TMP_Text>();
         damageText.SetText(damage.ToString());
-        StartCoroutine(TextViewRoutin());
+        StartCoroutine(TextViewRoutine());
     }
 
-    IEnumerator TextViewRoutin()
+    IEnumerator TextViewRoutine()
     {
         arpa = damageText.color;
         
@@ -35,6 +35,5 @@ public class EnemyDamageText : MonoBehaviour
             damageText.color = arpa;
             yield return null;
         }
-
     }
 }

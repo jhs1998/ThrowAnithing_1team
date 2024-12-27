@@ -22,7 +22,7 @@ public class PlayerControll : MonoBehaviour, IHit
         transform.Translate(dir.normalized * speed * Time.deltaTime);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool IsStun)
     {
         Debug.Log($"{damage} 만큼의 피해를 입음");
     }
