@@ -2,16 +2,27 @@ using Assets.Project.Programmer.NSJ.RND.Script;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class NSJMonster : MonoBehaviour, IHit
+public class NSJMonster : MonoBehaviour, IHit, IDebuff
 {
+    [HideInInspector] public BattleSystem Battle;
+    [SerializeField] private int _maxHp;
     [SerializeField] private int _hp;
+    [SerializeField] private float _moveSpeed;
     [SerializeField] private int _damage = 1;
     private Renderer _renderer;
     private Color _origin;
+    public int MaxHp { get { return _maxHp; } set {  _maxHp = value; } }
+    public int CurHp { get { return _hp; } set { _hp = value; } }
+    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
+    public float JumpPower { get; set; }
+    public float AttackSpeed { get; set; }
+
     private void Awake()
     {
         _renderer = GetComponentInChildren<Renderer>();
+        Battle = GetComponent<BattleSystem>();
         _origin = _renderer.material.color;
     }
 
@@ -19,44 +30,16 @@ public class NSJMonster : MonoBehaviour, IHit
     {
         if (collision.gameObject.tag == Tag.Player)
         {
-            IHit hitable = collision.gameObject.GetComponent<IHit>();
-            hitable.TakeDamage(_damage, false);
+            Battle.TargetAttack(collision.transform, _damage, true);
         }
     }
 
     public void TakeDamage(int damage, bool isStun)
     {
         _hp -= damage;
-        Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
+       // Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
 
         StartCoroutine(HitRoutine());
-    }
-
-    [SerializeField] private List<HitAdditional> _debuffList = new List<HitAdditional>();
-    public void AddDebuff(HitAdditional debuff)
-    {
-        int index = _debuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
-        if (index >= _debuffList.Count)
-            return;
-
-        HitAdditional cloneDebuff = Instantiate(debuff);
-        // 디버프 중복 시
-        if (index != -1)
-        {
-            // 기존 디버프 삭제
-            _debuffList[index].Exit();
-            Destroy(_debuffList[index]);
-            _debuffList.RemoveAt(index);
-        }
-        // 디버프 추가 후 발동
-        _debuffList.Add(cloneDebuff);
-        cloneDebuff.Target = gameObject;
-        cloneDebuff.OnExitHitAdditional += RemoveDebuff;
-        cloneDebuff.Enter();
-    }
-    private void RemoveDebuff(HitAdditional debuff)
-    {
-        _debuffList.Remove(debuff);
     }
     IEnumerator HitRoutine()
     {

@@ -43,6 +43,6 @@ public class DashState : PlayerState
     /// </summary>
     public void Dash()
     {     
-        Rb.velocity = transform.forward * Model.DashPower;
+        Rb.velocity = transform.forward * Model.DashDistance;
     }
 }

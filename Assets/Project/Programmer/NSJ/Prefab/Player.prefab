@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerData:
-    _NSJTest:
+    Data:
       Hp:
         MaxHp: 0
         CurHp: 0
@@ -476,34 +476,49 @@ MonoBehaviour:
       Stamina:
         MaxStamina: 0
         CurStamina: 0
-        StaminaRecoveryPerSecond: 0
+        RegainStamina: 0
         StaminaCoolTime: 0
+        ConsumesStamina: 0
       Special:
-        MaxSpecialGage: 0
-        CurSpecialGage: 0
-        SpecialRecoveryAmount: []
+        MaxMana: 0
+        CurMana: 0
+        RegainMana: []
+        ManaConsumption: []
         SpecialChargeGage: 0
       Jump:
         JumpPower: 0
         JumpStamina: 0
         DoubleJumpStamina: 0
         JumpDownStamina: 0
+        MaxJumpCount: 0
+        CurJumpCount: 0
       Dash:
-        DashPower: 0
+        DashDistance: 0
         DashStamina: 0
-      MoveSpeed: 0
-      Damage: 0
-      AttackSpeed: 0
+      Attack:
+        AttackPower: 0
+        AttackSpeed: 0
+        PowerMeleeAttack: []
+        PowerThrowAttack: []
+        PowerSpecialAttack: []
       Critical:
-        Critical: 0
+        CriticalChance: 0
         CriticalDamage: 0
-      MaxThrowCount: 0
-      CurThrowCount: 0
-      ThrowObjectStack: []
-      AdditionalEffects: []
-      HitAdditionals: []
-      ThrowAdditionals: []
-      PlayerAdditionals: []
+      Throw:
+        MaxThrowables: 0
+        CurThrowables: 0
+        GainMoreThrowables: 0
+        ThrowObjectStack: []
+      Additional:
+        AdditionalEffects: []
+        HitAdditionals: []
+        ThrowAdditionals: []
+        PlayerAdditionals: []
+      NowWeapon: 0
+      MoveSpeed: 0
+      DrainLife: 0
+      MeleeAttackStamina: []
+      EquipmentDropUpgrade: 0
     test: 
   _throwObjects:
   - {fileID: 8443761936753070678, guid: 99968e61a6cb28c41971d7c91082c959, type: 3}
@@ -701,10 +716,12 @@ GameObject:
   - component: {fileID: 1205980712391702014}
   - component: {fileID: 7144022000353682797}
   - component: {fileID: 7667531888297289878}
+  - component: {fileID: 706823243423641726}
   - component: {fileID: 1099773770301694370}
   - component: {fileID: 9116488005559576276}
   - component: {fileID: 2619598062664239447}
   - component: {fileID: 325611585805579041}
+  - component: {fileID: 6720973357987853771}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -751,6 +768,7 @@ MonoBehaviour:
   Model: {fileID: 0}
   View: {fileID: 0}
   Rb: {fileID: 0}
+  Battle: {fileID: 0}
   CurState: 0
   PrevState: 0
   _attackStruct:
@@ -895,65 +913,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data:
-    _NSJTest:
+    Data:
       Hp:
-        MaxHp: 10
-        CurHp: 10
+        MaxHp: 0
+        CurHp: 0
       Defense:
         Defense: 0
         DamageReduction: 0
       Stamina:
-        MaxStamina: 100
+        MaxStamina: 0
         CurStamina: 0
-        StaminaRecoveryPerSecond: 50
-        StaminaCoolTime: 1
+        RegainStamina: 0
+        StaminaCoolTime: 0
+        ConsumesStamina: 0
       Special:
-        MaxSpecialGage: 100
-        CurSpecialGage: 0
-        SpecialRecoveryAmount:
-        - 10
-        - 20
-        - 30
-        - 40
+        MaxMana: 0
+        CurMana: 0
+        RegainMana: []
+        ManaConsumption: []
         SpecialChargeGage: 0
       Jump:
-        JumpPower: 9
-        JumpStamina: 20
-        DoubleJumpStamina: 10
+        JumpPower: 0
+        JumpStamina: 0
+        DoubleJumpStamina: 0
         JumpDownStamina: 0
+        MaxJumpCount: 0
+        CurJumpCount: 0
       Dash:
-        DashPower: 10
-        DashStamina: 50
-      MoveSpeed: 5
-      Damage: 10
-      AttackSpeed: 1
+        DashDistance: 0
+        DashStamina: 0
+      Attack:
+        AttackPower: 0
+        AttackSpeed: 0
+        PowerMeleeAttack: []
+        PowerThrowAttack: []
+        PowerSpecialAttack: []
       Critical:
-        Critical: 20
-        CriticalDamage: 200
-      MaxThrowCount: 10
-      CurThrowCount: 0
-      ThrowObjectStack: []
-      AdditionalEffects: []
-      HitAdditionals:
-      - {fileID: 11400000, guid: af501e983656e644d848f3f2fcd173eb, type: 2}
-      ThrowAdditionals: []
-      PlayerAdditionals: []
+        CriticalChance: 0
+        CriticalDamage: 0
+      Throw:
+        MaxThrowables: 0
+        CurThrowables: 0
+        GainMoreThrowables: 0
+        ThrowObjectStack: []
+      Additional:
+        AdditionalEffects: []
+        HitAdditionals: []
+        ThrowAdditionals: []
+        PlayerAdditionals: []
+      NowWeapon: 0
+      MoveSpeed: 0
+      DrainLife: 0
+      MeleeAttackStamina: []
+      EquipmentDropUpgrade: 0
     test: 
   Arm: {fileID: 11400000, guid: 6441f13e10367454c82ce59acb25674f, type: 2}
-  Melee:
-    ComboCount: 0
-    MeleeAttack:
-    - Range: 1.5
-      Angle: 90
-      DamageMultiplier: 1
-    - Range: 1.75
-      Angle: 120
-      DamageMultiplier: 0.2
-    - Range: 2
-      Angle: 150
-      DamageMultiplier: 1.5
-  Throw:
-    BoomRadius: 1.5
+  BoomRadius: 0
   DrainDistance: 10
   ChargeStep: 0
 --- !u!114 &7667531888297289878
@@ -969,7 +984,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Panel: {fileID: 3149375156260143421}
+  Binder: {fileID: 0}
   _animator: {fileID: 2619598062664239447}
+--- !u!114 &706823243423641726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078535065578860198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c30b6688334494ca44dd100a1f1793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitAdditionalList: []
+  _debuffList: []
 --- !u!54 &1099773770301694370
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1054,6 +1084,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mInventory: {fileID: 0}
+--- !u!114 &6720973357987853771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078535065578860198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4f262e017b6b114e854a8804ad49f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PowerMeleeEffect: []
 --- !u!1 &4213723858530406886
 GameObject:
   m_ObjectHideFlags: 0

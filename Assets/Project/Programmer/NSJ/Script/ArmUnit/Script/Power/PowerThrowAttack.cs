@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Power Throw", menuName = "Arm/AttackType/Power/Throw")]
@@ -25,6 +24,14 @@ public class PowerThrowAttack : ArmThrowAttack
         }
     }
     Coroutine _chargeRoutine;
+    public override void Init(PlayerController player)
+    {
+        base.Init(player);
+        for (int i = 0; i < _charges.Length; i++)
+        {
+            _charges[i].Damage = (int)Model.PowerThrowAttack[i];
+        }
+    }
     public override void Enter()
     {
         Player.Rb.velocity = Vector3.zero;
@@ -79,13 +86,13 @@ public class PowerThrowAttack : ArmThrowAttack
     }
     private void ThrowObject()
     {
-        int throwObjectID =  Model.ThrowObjectStack.Count > 0 && _index > 0 ? Model.PopThrowObject().ID : 0;
+        int throwObjectID = Model.ThrowObjectStack.Count > 0 && _index > 0 ? Model.PopThrowObject().ID : 0;
 
         ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
-        throwObject.Init(Player, Model.HitAdditionals, Model.ThrowAdditionals);
-        
+        throwObject.Init(Player, Model.ThrowAdditionals);
+
         // ³Ë¹é°¡´ÉÇÏ¸é ³Ë¹é
-        if(_charges[_index].KnockBackDistance > 0)
+        if (_charges[_index].KnockBackDistance > 0)
         {
             throwObject.KnockBackDistance = _charges[_index].KnockBackDistance;
         }

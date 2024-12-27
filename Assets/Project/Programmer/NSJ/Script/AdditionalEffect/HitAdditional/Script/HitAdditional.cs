@@ -3,13 +3,8 @@ using UnityEngine.Events;
 
 public class HitAdditional : AdditionalEffect
 {
-    [HideInInspector] public GameObject Target;
-    public int Damage;
-    public virtual event UnityAction<HitAdditional> OnExitHitAdditional;
+    public IBattle Battle;
+    public Transform transform;
     protected Coroutine _debuffRoutine;
-
-    public void Init(int damage)
-    {
-        Damage = damage;
-    }
+    protected GameObject gameObject => transform.gameObject;
 }

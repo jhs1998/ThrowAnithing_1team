@@ -26,7 +26,7 @@ namespace MKH
                 createitem.mEffect.Damage = UnityEngine.Random.Range((int)data[rate]["최소"], (int)data[rate]["공격력"]);
                 // 설명
                 createitem.Name = (string)data[rate]["이름"];
-                createitem.Description = $"Damage : {createitem.mEffect.Damage.ToString()}";
+                createitem.Description = $"CommonAttack : {createitem.mEffect.Damage.ToString()}";
 
                 // 부스텟을 모두 0으로 변경
                 createitem.mEffect.HP = 0;

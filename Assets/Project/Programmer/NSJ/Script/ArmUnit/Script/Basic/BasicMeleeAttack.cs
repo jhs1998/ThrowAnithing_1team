@@ -6,8 +6,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Basic Melee", menuName = "Arm/AttackType/Basic/Melee")]
 public class BasicMeleeAttack : ArmMeleeAttack
 {
-    Coroutine _meleeRoutine;
+    [SerializeField] float _range;
+    [Range(0,180)][SerializeField] float _angle;
+    [SerializeField] float _damageMultiplier;
 
+    Coroutine _meleeRoutine;
     public override void Enter()
     {
         Player.Rb.velocity = Vector3.zero;
@@ -56,7 +59,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
         // 1. 전방에 있는 몬스터 확인
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + Player.AttackHeight, transform.position.z);
         Vector3 attackPos = playerPos;
-        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, Model.Range, Player.OverLapColliders, 1 << Layer.Monster);
+        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, _range, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
             // 2. 각도 내에 있는지 확인
@@ -67,15 +70,15 @@ public class BasicMeleeAttack : ArmMeleeAttack
 
             Vector3 targetDir = (destination - source).normalized;
             float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
-            if (targetAngle > Model.Angle * 0.5f)
+            if (targetAngle > _angle * 0.5f)
                 continue;
 
-            IHit hit = Player.OverLapColliders[i].GetComponent<IHit>();
             // 적 넉백
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, 0.5f);
 
-            int finalDamage = Player.GetFinalDamage(Model.DamageMultiplier);
-            hit.TakeDamage(finalDamage, true);
+            int finalDamage = Player.GetFinalDamage(_damageMultiplier);
+            // 데미지 주기
+            Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, true);
         }
     }
 
@@ -122,14 +125,14 @@ public class BasicMeleeAttack : ArmMeleeAttack
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + Player.AttackHeight, transform.position.z);
         Vector3 attackPos = playerPos;
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPos, Model.Range);
+        Gizmos.DrawWireSphere(attackPos, _range);
 
         //각도
-        Vector3 rightDir = Quaternion.Euler(0, Model.Angle * 0.5f, 0) * transform.forward;
-        Vector3 leftDir = Quaternion.Euler(0, Model.Angle * -0.5f, 0) * transform.forward;
+        Vector3 rightDir = Quaternion.Euler(0, _angle * 0.5f, 0) * transform.forward;
+        Vector3 leftDir = Quaternion.Euler(0, _angle * -0.5f, 0) * transform.forward;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + rightDir * Model.Range);
-        Gizmos.DrawLine(transform.position, transform.position + leftDir * Model.Range);
+        Gizmos.DrawLine(transform.position, transform.position + rightDir * _range);
+        Gizmos.DrawLine(transform.position, transform.position + leftDir * _range);
     }
 }

@@ -7,7 +7,7 @@ namespace MKH
     {
         public static bool IsInventoryActive = false;
 
-        [Header("ÇöÀç °è»êµÈ ¼öÄ¡¸¦ Ç¥ÇöÇÒ ÅØ½ºÆ® ¶óº§µé")]
+        [Header("í˜„ì¬ ê³„ì‚°ëœ ìˆ˜ì¹˜ë¥¼ í‘œí˜„í•  í…ìŠ¤íŠ¸ ë¼ë²¨ë“¤")]
         [SerializeField] private TMP_Text mDamageLabel;
         [SerializeField] private TMP_Text mDefenseLabel;
         [SerializeField] private TMP_Text mHPLabel;

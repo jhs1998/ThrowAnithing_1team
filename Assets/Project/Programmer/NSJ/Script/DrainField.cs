@@ -16,7 +16,7 @@ public class DrainField : MonoBehaviour
 
     private void Drain(Transform trash)
     {
-        //if (_player.Model.CurThrowCount >= _player.Model.MaxThrowCount)
+        //if (_player.Model.CurThrowables >= _player.Model.MaxThrowables)
         //    return;
         trash.position = Vector3.MoveTowards(trash.position, _player.transform.position, 5f * Time.deltaTime);
     }

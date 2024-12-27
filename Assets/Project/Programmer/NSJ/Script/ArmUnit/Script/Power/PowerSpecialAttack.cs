@@ -26,6 +26,15 @@ public class PowerSpecialAttack : ArmSpecialAttack
     private GameObject _instanceSpecialRange;
     private Vector3 _dropPos;
     Coroutine _chargeRoutine;
+
+    public override void Init(PlayerController player)
+    {
+        base.Init(player);
+        for (int i = 0; i < _charges.Length; i++)
+        {
+            _charges[i].Damage = (int)Model.PowerSpecialAttack[i];
+        }
+    }
     public override void Enter()
     {
         if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount)
@@ -155,9 +164,9 @@ public class PowerSpecialAttack : ArmSpecialAttack
                     _index++;
                 }
                 // 현재 특수자원량보다 차지량이 더 많은 경우
-                else if (Model.SpecialChargeGage > Model.CurSpecialGage / Model.MaxSpecialGage)
+                else if (Model.SpecialChargeGage > Model.CurMana / Model.MaxMana)
                 {
-                    Model.SpecialChargeGage = Model.CurSpecialGage / Model.MaxSpecialGage;
+                    Model.SpecialChargeGage = Model.CurMana / Model.MaxMana;
                 }
             }
             else
@@ -197,15 +206,15 @@ public class PowerSpecialAttack : ArmSpecialAttack
         int hitCount = Physics.OverlapSphereNonAlloc(_dropPos, _charges[_index].Radius, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
-            IHit hitable = Player.OverLapColliders[i].gameObject.GetComponent<IHit>();
-            hitable.TakeDamage(finalDamage, true);
+            // 데미지 주기
+            Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, true);
 
             // 넉백 가능하면 넉백
             if (_charges[_index].KnockBackDistance > 0)
                 Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, _charges[_index].KnockBackDistance);
         }
         // 차지 사용량만큼 제거
-        Model.CurSpecialGage -= (_charges[_index].ChargeTime / _maxChargeTime) * Model.MaxSpecialGage;
+        Model.CurMana -= (_charges[_index].ChargeTime / _maxChargeTime) * Model.MaxMana;
         // 사용한 오브젝트만큼 제거
         for (int i = 0; i < _charges[_index].ObjectCount; i++)
         {

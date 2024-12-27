@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
+[RequireComponent(typeof(BattleSystem))]
 public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public Transform ArmPoint;
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour, IHit
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
+    [HideInInspector] public BattleSystem Battle;
     public enum State
     {
         Idle,
@@ -355,7 +357,7 @@ public class PlayerController : MonoBehaviour, IHit
     public void AddThrowObject(ThrowObject throwObject)
     {
 
-        if (Model.CurThrowCount < Model.MaxThrowCount)
+        if (Model.CurThrowables < Model.MaxThrowables)
         {
             Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
             Destroy(throwObject.gameObject);
@@ -380,6 +382,8 @@ public class PlayerController : MonoBehaviour, IHit
                 {
                     Model.HitAdditionals.Add(addtionalEffect as HitAdditional);
                     Model.AdditionalEffects.Add(addtionalEffect);
+                    // 적중효과는 배틀시스템에도 추가 등록
+                    Battle.AddHitAdditionalList(addtionalEffect as HitAdditional);
                 }
                 break;
             case AdditionalEffect.Type.Throw:
@@ -413,6 +417,8 @@ public class PlayerController : MonoBehaviour, IHit
                 if (CheckForRemoveAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
                 {
                     Model.HitAdditionals.Remove(addtionalEffect as HitAdditional);
+                    // 배틀시스템에도 적중 효과 삭제
+                    Battle.RemoveHitAdditionalList(addtionalEffect as HitAdditional);
                 }
                 break;
             case AdditionalEffect.Type.Throw:
@@ -492,7 +498,7 @@ public class PlayerController : MonoBehaviour, IHit
 
     }
     /// <summary>
-    /// 추가효과 추가 시 중복 체크
+    /// 추가효과 삭제 시 중복 체크
     /// </summary>
     private bool CheckForRemoveAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AdditionalEffect
     {
@@ -626,10 +632,10 @@ public class PlayerController : MonoBehaviour, IHit
     {
         while (true)
         {
-            // 초당 MaxStamina / StaminaRecoveryPerSecond 만큼 회복
+            // 초당 MaxStamina / RegainStamina 만큼 회복
             // 현재 스테미나가 꽉찼으면 더이상 회복안함
             // 만약 스테미나가 0이하로 떨어지면 일정시간동안 스테미나 회복 안함
-            Model.CurStamina += Model.StaminaRecoveryPerSecond * Time.deltaTime;
+            Model.CurStamina += Model.RegainStamina * Time.deltaTime;
             if (Model.CurStamina >= Model.MaxStamina)
             {
                 Model.CurStamina = Model.MaxStamina;
@@ -811,9 +817,9 @@ public class PlayerController : MonoBehaviour, IHit
     private int GetCommonDamage(int finalDamage)
     {
         // 기본 스텟 데미지 
-        finalDamage += Model.Damage;
+        finalDamage += Model.AttackPower;
         // 치명타 데미지
-        if (Random.value < Model.Critical/100f)
+        if (Random.value < Model.CriticalChance/100f)
             finalDamage = (int)(finalDamage*(Model.CriticalDamage/100f));
 
         return finalDamage;
@@ -858,8 +864,8 @@ public class PlayerController : MonoBehaviour, IHit
         // 투척오브젝트
         Model.CurThrowCountSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.UpdateText(View.Panel.ThrowCount, $"{x} / {Model.MaxThrowCount}"));
-        View.UpdateText(View.Panel.ThrowCount, $"{Model.CurThrowCount} / {Model.MaxThrowCount}");
+            .Subscribe(x => View.UpdateText(View.Panel.ThrowCount, $"{x} / {Model.MaxThrowables}"));
+        View.UpdateText(View.Panel.ThrowCount, $"{Model.CurThrowables} / {Model.MaxThrowables}");
 
         // 스테미나
         Model.CurStaminaSubject
@@ -870,8 +876,8 @@ public class PlayerController : MonoBehaviour, IHit
         // 특수자원
         Model.CurSpecialGageSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.Panel.SpecialGageSlider.value = x / Model.MaxSpecialGage);
-        View.Panel.SpecialGageSlider.value = Model.CurSpecialGage / Model.MaxSpecialGage;
+            .Subscribe(x => View.Panel.SpecialGageSlider.value = x / Model.MaxMana);
+        View.Panel.SpecialGageSlider.value = Model.CurMana / Model.MaxMana;
 
         // 특수공격 차지
         Model.SpecialChargeGageSubject
@@ -888,6 +894,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model = GetComponent<PlayerModel>();
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
+        Battle = GetComponent<BattleSystem>();
     }
     private void InitAdditionnal()
     {

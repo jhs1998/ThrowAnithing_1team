@@ -55,12 +55,12 @@ public class HitState : PlayerState
 
         Model.CurHp -= finalDamage;
 
-        // 경직 없음
-        if (isStun == false)
-            return;
 
         if (Model.CurHp > 0)
         {
+            // 경직 없음
+            if (isStun == false)
+                return;
             ChangeState(PlayerController.State.Hit);
         }
         else

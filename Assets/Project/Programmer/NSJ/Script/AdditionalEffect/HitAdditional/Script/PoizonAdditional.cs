@@ -6,13 +6,14 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Poison")]
 public class PoizonAdditional : HitAdditional
 {
-    public override event UnityAction<HitAdditional> OnExitHitAdditional;
 
     public int Duration;
     [Range(0,1)]public float DamageMultiplier;
 
     public override void Enter()
     {
+        Debug.Log($"{gameObject.name} µ¶");
+
         if (_debuffRoutine == null)
         {
             _debuffRoutine = CoroutineHandler.StartRoutine(PoisonRoutine());
@@ -31,14 +32,13 @@ public class PoizonAdditional : HitAdditional
     IEnumerator PoisonRoutine()
     {
         int count = Duration;
-        IHit hit = Target.GetComponent<IHit>();
-        int poisonDamage = (int)(Damage * DamageMultiplier);
+        int damage = (int)(Battle.Debuff.MaxHp * 0.05f);
         while (count > 0)
         {
+            Battle.Hit.TakeDamage(damage, false);
             yield return 1f.GetDelay(); 
-            hit.TakeDamage(poisonDamage,false);
             count--;
         }
-        OnExitHitAdditional?.Invoke(this);
+        Battle.EndDebuff(this);
     }
 }

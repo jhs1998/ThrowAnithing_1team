@@ -8,6 +8,7 @@ public class MeleeAttackState : PlayerState
     public MeleeAttackState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
+        StaminaAmount = Model.MeleeAttackStamina[0];
     }
 
     public override void Enter() 

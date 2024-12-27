@@ -7,7 +7,6 @@ public class ThrowObject : MonoBehaviour
 
     [SerializeField] public bool CanAttack;
     [SerializeField] public List<ThrowAdditional> ThrowAdditionals = new List<ThrowAdditional>();
-    [SerializeField] public List<HitAdditional> HitAdditionals = new List<HitAdditional>();
     public int Damage;
     public float Radius;
     public float KnockBackDistance;
@@ -15,7 +14,7 @@ public class ThrowObject : MonoBehaviour
     protected Collider[] _overlapCollider = new Collider[20];
     protected PlayerController _player;
 
-    [HideInInspector]public Rigidbody Rb;
+    [HideInInspector] public Rigidbody Rb;
     protected Collider _collider;
 
     protected void Awake()
@@ -74,13 +73,12 @@ public class ThrowObject : MonoBehaviour
         FixedUpdateThrowAdditional();
     }
 
-    public void Init(PlayerController player, List<HitAdditional> hitAdditionals, List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player, List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
         Damage += player.GetFinalDamage();
         Radius = player.Model.BoomRadius;
-        SpecialRecovery = player.Model.SpecialRecoveryAmount[player.Model.ChargeStep];
-        AddHitAdditional(hitAdditionals);
+        SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
         AddThrowAdditional(throwAdditionals, player);
     }
 
@@ -155,26 +153,20 @@ public class ThrowObject : MonoBehaviour
         if (CanAttack == false)
             return;
 
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _overlapCollider, 1 << Layer.Monster);
-        if (hitCount > 0)
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _player.OverLapColliders, 1 << Layer.Monster);
+
+        for (int i = 0; i < hitCount; i++)
         {
-            for (int i = 0; i < hitCount; i++)
-            {
-                NSJMonster monster = _overlapCollider[i].gameObject.GetComponent<NSJMonster>();
-                // 디버프 주기
-                foreach (HitAdditional hitAdditional in HitAdditionals)
-                {
-                    hitAdditional.Init(Damage);
-                    monster.AddDebuff(hitAdditional);
 
-                    if (KnockBackDistance > 0)
-                        _player.DoKnockBack(monster.transform, transform.forward, KnockBackDistance);
+            // 디버프 주기
+            _player.Battle.TargetAttack(_player.OverLapColliders[i], Damage, true);
 
-                }
-            }
+            if (KnockBackDistance > 0)
+                _player.DoKnockBack(_player.OverLapColliders[i].transform, transform.forward, KnockBackDistance);
         }
+
         // 플레이어 특수공격 자원 획득
-        _player.Model.CurSpecialGage += SpecialRecovery;
+        _player.Model.CurMana += SpecialRecovery;
         DestroyObject();
     }
 
@@ -184,23 +176,6 @@ public class ThrowObject : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, Radius);
     }
 
-
-    protected void AddHitAdditional(List<HitAdditional> hitAdditionals)
-    {
-        foreach (HitAdditional hitAdditional in hitAdditionals)
-        {
-            int index = HitAdditionals.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
-            if (index >= HitAdditionals.Count)
-                return;
-
-            if (index == -1)
-            {
-                HitAdditional isntance = Instantiate(hitAdditional);
-                isntance.Origin = hitAdditional.Origin;
-                HitAdditionals.Add(isntance);
-            }
-        }
-    }
 
     protected void AddThrowAdditional(List<ThrowAdditional> throwAdditionals, PlayerController player)
     {
