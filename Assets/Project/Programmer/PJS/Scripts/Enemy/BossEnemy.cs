@@ -5,14 +5,35 @@ using UnityEngine;
 public class BossEnemy : BaseEnemy
 {
     public enum Phase { Phase1, Phase2, Phase3 }
-    [SerializeField] Phase curPhase = Phase.Phase1;
+    public Phase curPhase = Phase.Phase1;
     //[SerializeField] BossEnemyState bossState;
     [SerializeField] ParticleSystem shieldParticle;
+
     private Coroutine attackAble;
 
     private void Update()
     {
+        ChangePhase();
+    }
 
+    private void ChangePhase()
+    {
+        // 현재 체력으로 페이지 변경
+        if (CurHp > state.MaxHp * 0.8f)
+        {
+            Debug.Log("curHp > 80");
+            curPhase = Phase.Phase1;
+        }
+        else if (CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
+        {
+            Debug.Log("80 >= curHP > 50");
+            curPhase = Phase.Phase2;
+        }
+        else
+        {
+            Debug.Log("curHP <= 50");
+            curPhase = Phase.Phase3;
+        }
     }
 
     /// <summary>

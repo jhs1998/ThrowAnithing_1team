@@ -1,9 +1,5 @@
-using Assets.Project.Programmer.NSJ.RND.Script;
 using BehaviorDesigner.Runtime;
 using System;
-using System.Collections;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -43,7 +39,6 @@ public class BaseEnemy : MonoBehaviour, IHit
     public float Speed { get { return speed; } set { speed = value; } }
     public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
     public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
-    
 
     protected SharedGameObject playerObj;
 
