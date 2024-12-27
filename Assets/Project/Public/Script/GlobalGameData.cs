@@ -23,6 +23,7 @@ public partial class GlobalGameData
                                   10000, 10000, 10000, 10000,
                                   30000, 30000, 30000, 30000,
                                   50000, 50000, 50000, 50000};
+    public int usingCoin;
 
     // 로비 공유 특성 강화 로직
     public bool BuyUpgradeSlot(int slot)
@@ -52,6 +53,7 @@ public partial class GlobalGameData
 
         // 강화 진행
         coin -= cost;
+        usingCoin += cost;
         upgradeLevels[slot]++;
         Debug.Log($"강화 완료: 항목 {slot + 1}, 현재 단계: {upgradeLevels[slot]}");
 

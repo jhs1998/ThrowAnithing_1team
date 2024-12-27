@@ -69,7 +69,8 @@ public class UserDataManager : MonoBehaviour
         {
             coin = 0,
             saveDateTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-            upgradeLevels = new int[20]
+            upgradeLevels = new int[20],
+            usingCoin = 0
         };
         // 플레이어 스탯 리셋
         playerstate.NewPlayerSetting();
