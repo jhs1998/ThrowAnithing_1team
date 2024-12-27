@@ -4,6 +4,8 @@ using BehaviorDesigner.Runtime.Tasks;
 
 public class EnemyGetDamage : Action
 {
+	[SerializeField] SharedBool takeDamage;
+
 	[SerializeField] EnemyDamageText damageText;	// 데미지 Text
 	[SerializeField] Transform textPos;		// 생성 위치
 
@@ -15,7 +17,12 @@ public class EnemyGetDamage : Action
 		enemy = GetComponent<BaseEnemy>();
 	}
 
-	public override TaskStatus OnUpdate()
+    public override void OnEnd()
+    {
+        takeDamage.SetValue(false);
+    }
+
+    public override TaskStatus OnUpdate()
 	{
 		Debug.Log("진입");
 		EnemyDamageText eDmg = GameObject.Instantiate(damageText, textPos.position, textPos.rotation);

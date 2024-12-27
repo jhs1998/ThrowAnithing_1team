@@ -6,6 +6,7 @@ public class CanAttack : Conditional
 {
     [SerializeField] SharedTransform playerPos;
     [SerializeField] SharedFloat attackDis;
+    [SerializeField] SharedBool attakAble;
 
     private float distance;
 
@@ -13,9 +14,6 @@ public class CanAttack : Conditional
     {
         distance = (playerPos.Value.position - transform.position).magnitude;
 
-        if(distance <= attackDis.Value)
-            return TaskStatus.Success;
-        else
-            return TaskStatus.Failure;
+        return distance <= attackDis.Value ? TaskStatus.Success : TaskStatus.Failure;
     }
 }

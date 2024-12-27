@@ -1,9 +1,5 @@
-using Assets.Project.Programmer.NSJ.RND.Script;
 using BehaviorDesigner.Runtime;
 using System;
-using System.Collections;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -20,7 +16,7 @@ public class State
 
 public class BaseEnemy : MonoBehaviour, IHit
 {
-    [SerializeField] BehaviorTree tree;
+    [SerializeField] protected BehaviorTree tree;
 
     [Header("몬스터 기본 스테이터스")]
     [SerializeField] protected State state;
@@ -29,10 +25,20 @@ public class BaseEnemy : MonoBehaviour, IHit
     [Header("현재 체력")]
     [SerializeField] int curHp;
 
+    [HideInInspector] int maxHp;      // 최대 체력
+    [HideInInspector] float speed;      // 이동속도
+    [HideInInspector] float jumpPower;  // 점프력
+    [HideInInspector] float attackSpeed;// 공격속도
+
     [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
     [HideInInspector] public Collider[] overLapCollider = new Collider[100];
+
     public int Damage { get { return state.Atk; } }
+    public int MaxHp {  get { return maxHp; } set { maxHp = value; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
+    public float Speed { get { return speed; } set { speed = value; } }
+    public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
+    public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
 
     protected SharedGameObject playerObj;
 
@@ -59,23 +65,13 @@ public class BaseEnemy : MonoBehaviour, IHit
         tree.SetVariable("Reward", (SharedFloat)reward);
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        // 거리 그리기
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, state.TraceDis);
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, state.AttackDis);
-    }
-
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
     public void TakeDamage(int damage, bool isStun)
     {
         resultDamage = damage - (int)state.Def;
-        tree.SetVariable("ResultDamage", (SharedInt)resultDamage);
+        tree.SetVariableValue("TakeDamage", true);
 
         if (resultDamage <= 0)
             resultDamage = 0;
@@ -83,7 +79,7 @@ public class BaseEnemy : MonoBehaviour, IHit
         curHp -= resultDamage;
         
         // TODO : 결과 값은 TakeDamage 매개변수로 변환
-        tree.SetVariable("Stiff", (SharedBool)isStun);
+        tree.SetVariableValue("Stiff", isStun);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
     }
 
@@ -98,8 +94,21 @@ public class BaseEnemy : MonoBehaviour, IHit
             IHit hit = overLapCollider[i].GetComponent<IHit>();
             if (hit != null)
             {
+                if (overLapCollider[i].gameObject.name.CompareTo("Boss") == 0)
+                    return;
+
                 hit.TakeDamage(damage, false);
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // 거리 그리기
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, state.TraceDis);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
 }
