@@ -36,7 +36,7 @@ public class ArmChange : BaseUI
     }
     private IEnumerator ArmUnit_Select()
     {
-        float x = -Input.GetAxisRaw("Horizontal");
+        float x = Input.GetAxisRaw("Horizontal");
 
         arm_cur += (int)x;
 
@@ -96,7 +96,7 @@ public class ArmChange : BaseUI
     {
         if (Input.GetButtonDown("Interaction"))
         {
-            armUnits[arm_cur].GetComponent<Button>().onClick.Invoke();
+            armButtons[arm_cur].onClick.Invoke();
         }
     }
     #region 테스트용 함수
@@ -125,14 +125,14 @@ public class ArmChange : BaseUI
         armUnits = new GameObject[3];
 
         armUnits[0] = GetUI("PowerButton");
-        armUnits[1] = GetUI("SpeedButton");
-        armUnits[2] = GetUI("BalanceButton");
+        armUnits[1] = GetUI("BalanceButton");
+        armUnits[2] = GetUI("SpeedButton");
 
         armButtons = new Button[3];
 
         armButtons[0] = GetUI<Button>("PowerButton");
-        armButtons[1] = GetUI<Button>("SpeedButton");
-        armButtons[2] = GetUI<Button>("BalanceButton");
+        armButtons[1] = GetUI<Button>("BalanceButton");
+        armButtons[2] = GetUI<Button>("SpeedButton");
 
         armButtons[0].onClick.AddListener(Power);
         armButtons[1].onClick.AddListener(Balance);
