@@ -1625,8 +1625,16 @@ PrefabInstance:
       value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 7655142827314069039, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
+      propertyPath: _maxHp
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655142827314069039, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
       propertyPath: _damage
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655142827314069039, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
+      propertyPath: _moveSpeed
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 9060964019922164373, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2501,8 +2509,16 @@ PrefabInstance:
       value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 7655142827314069039, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
+      propertyPath: _maxHp
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655142827314069039, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
       propertyPath: _damage
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655142827314069039, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
+      propertyPath: _moveSpeed
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 9060964019922164373, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3390,8 +3406,12 @@ PrefabInstance:
       value: NSJ_Monster
       objectReference: {fileID: 0}
     - target: {fileID: 7655142827314069039, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
-      propertyPath: _damage
-      value: 2
+      propertyPath: _maxHp
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655142827314069039, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
+      propertyPath: _moveSpeed
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 9060964019922164373, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3471,6 +3491,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: BoomRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: Data.Data.Hp.CurHp
       value: 60
       objectReference: {fileID: 0}
@@ -3521,6 +3545,10 @@ PrefabInstance:
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: Data.Data.Jump.MaxJumpCount
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: Data.Data.Attack.AttackPower
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: Data.Data.Attack.AttackSpeed
@@ -3672,7 +3700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: Data.Data.Additional.HitAdditionals.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: Data.Data.Attack.PowerSpecialAttack.Array.size
@@ -3721,7 +3749,7 @@ PrefabInstance:
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: Data.Data.Additional.HitAdditionals.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: af501e983656e644d848f3f2fcd173eb, type: 2}
+      objectReference: {fileID: 11400000, guid: 79fe61496a0365b4e9c3eeec8cf15416, type: 2}
     - target: {fileID: 7144022000353682797, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: Data.Data.Additional.HitAdditionals.Array.data[1]
       value: 

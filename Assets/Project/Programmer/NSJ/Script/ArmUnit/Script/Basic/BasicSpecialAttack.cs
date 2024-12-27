@@ -198,8 +198,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
         int hitCount = Physics.OverlapSphereNonAlloc(_dropPos, _charges[_index].Radius, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
-            IHit hitable = Player.OverLapColliders[i].gameObject.GetComponent<IHit>();
-            hitable.TakeDamage(finalDamage, true);
+            Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, true);
 
             // ³Ë¹é °¡´ÉÇÏ¸é ³Ë¹é
             if (_charges[_index].KnockBackDistance > 0)

@@ -79,6 +79,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         }
         // 디버프 추가 후 발동
         _debuffList.Add(cloneDebuff);
+        cloneDebuff.Origin = debuff.Origin;
         cloneDebuff.Battle = this;
         cloneDebuff.OnExitHitAdditional += RemoveDebuff; // 디버프 삭제 이벤트 구독
         cloneDebuff.Enter(); // 디버프 발동
@@ -89,6 +90,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <param name="debuff"></param>
     private void RemoveDebuff(HitAdditional debuff)
     {
+        debuff.Exit();
         _debuffList.Remove(debuff);
     }
     #region 콜백

@@ -13,7 +13,7 @@ public class ArmAttackType : ScriptableObject
     protected GameObject gameObject => Player.gameObject;
     protected Transform _muzzlePoint => Player.MuzzletPoint;
     protected Rigidbody Rb => Player.Rb;
-
+    protected BattleSystem Battle => Player.Battle;
     protected PlayerBinder Binder => View.Binder;
 
     private int m_index;

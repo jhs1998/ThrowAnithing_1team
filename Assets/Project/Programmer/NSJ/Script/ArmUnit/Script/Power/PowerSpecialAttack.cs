@@ -206,8 +206,8 @@ public class PowerSpecialAttack : ArmSpecialAttack
         int hitCount = Physics.OverlapSphereNonAlloc(_dropPos, _charges[_index].Radius, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
-            IHit hitable = Player.OverLapColliders[i].gameObject.GetComponent<IHit>();
-            hitable.TakeDamage(finalDamage, true);
+            // 데미지 주기
+            Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, true);
 
             // 넉백 가능하면 넉백
             if (_charges[_index].KnockBackDistance > 0)

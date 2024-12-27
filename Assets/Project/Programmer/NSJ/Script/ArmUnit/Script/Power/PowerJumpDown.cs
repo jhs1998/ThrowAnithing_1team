@@ -98,8 +98,9 @@ public class PowerJumpDown : ArmJumpDown
         int finalDamage = Player.GetFinalDamage(_damage);
         for (int i = 0; i < hitCount; i++)
         {
-            IHit hitable = Player.OverLapColliders[i].GetComponent<IHit>();
-            hitable.TakeDamage(finalDamage, true);
+            // 데미지 주기
+            Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, true);
+            // 넉백
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, 1f);
         }
     }

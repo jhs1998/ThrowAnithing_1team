@@ -73,12 +73,12 @@ public class BasicMeleeAttack : ArmMeleeAttack
             if (targetAngle > _angle * 0.5f)
                 continue;
 
-            IHit hit = Player.OverLapColliders[i].GetComponent<IHit>();
             // 적 넉백
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, 0.5f);
 
             int finalDamage = Player.GetFinalDamage(_damageMultiplier);
-            hit.TakeDamage(finalDamage, true);
+            // 데미지 주기
+            Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, true);
         }
     }
 
