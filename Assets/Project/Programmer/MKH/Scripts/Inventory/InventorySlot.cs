@@ -75,5 +75,14 @@ namespace MKH
         {
             itemActionManager.UseItem(mItem);
         }
+
+        public void RemoveEquipmentSlot()
+        {
+            EquipmentInventory Equip = GetComponent<EquipmentInventory>();
+
+            ClearSlot();
+            Equip.CalculateEffect();
+
+        }
     }
 }

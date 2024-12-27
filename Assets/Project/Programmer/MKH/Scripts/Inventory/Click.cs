@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +7,10 @@ namespace MKH
     {
         [SerializeField] GameObject[] buttons;
         [SerializeField] GameObject mInventorySlotsParent;
-        [SerializeField] InventorySlot[] slots;
-        int selectedButtonsIndex = 0;
+        [SerializeField] InventorySlot[] ivSlots;
+        [SerializeField] GameObject mEquipmentSlotsParent;
+        [SerializeField] InventorySlot[] eqSlots;
+        int selectedButtonsIndex = 9;
         int buttonCount;
         private bool axisInUse = false;
 
@@ -18,18 +19,20 @@ namespace MKH
 
         private void Awake()
         {
-            slots = mInventorySlotsParent.GetComponentsInChildren<InventorySlot>();
+            ivSlots = mInventorySlotsParent.GetComponentsInChildren<InventorySlot>();
+            eqSlots = mEquipmentSlotsParent.GetComponentsInChildren<InventorySlot>();
         }
 
         private void Start()
         {
             buttonCount = buttons.Length;
-
+            axisInUse = false;
         }
 
         private void Update()
         {
             ButtonsControl();
+            Function();
         }
 
         #region 키 조작
@@ -90,71 +93,51 @@ namespace MKH
                 {
                     buttons[i].GetComponent<Image>().color = color;
                 }
-                
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Function();
             }
         }
         #endregion
 
-        #region 버튼 입력
-        private void Function()
+        #region 아이템 사용 버튼
+        private void Use(int index)
         {
-            switch (selectedButtonsIndex)
+            // 아이템 장착
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                case 0:
-                    print("1번 버튼");
-                    slots[0].UseItem();
-                    break;
-                case 1:
-                    print("2번 버튼");
-                    slots[1].UseItem();
-                    break;
-                case 2:
-                    print("3번 버튼");
-                    slots[2].UseItem();
-                    break;
-                case 3:
-                    print("4번 버튼");
-                    slots[3].UseItem();
-                    break;
-                case 4:
-                    print("5번 버튼");
-                    slots[4].UseItem();
-                    break;
-                case 5:
-                    print("6번 버튼");
-                    slots[5].UseItem();
-                    break;
-                case 6:
-                    print("7번 버튼");
-                    slots[6].UseItem();
-                    break;
-                case 7:
-                    print("8번 버튼");
-                    slots[7].UseItem();
-                    break;
-                case 8:
-                    print("9번 버튼");
-                    slots[8].UseItem();
-                    break;
-                case 9:
-                    print("10번 버튼");
-                    slots[9].UseItem();
-                    break;
-                case 10:
-                    print("11번 버튼");
-                    slots[10].UseItem();
-                    break;
-                case 11:
-                    print("12번 버튼");
-                    slots[11].UseItem();
-                    break;
+                if (index < 9)
+                {
+                    return;
+                }
+                else if(index >= 9)
+                {
+                    ivSlots[index - 9].UseItem();
+                    Debug.Log($"{index - 9}버튼 누름");
+                    Debug.Log($"{index - 9}번 장착");
+                }
+            }
+
+            // 아이템 삭제
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (index < 9)
+                {
+                    eqSlots[index].RemoveEquipmentSlot();
+                    Debug.Log($"{index}버튼 누름");
+                    Debug.Log($"{index}번 장비 삭제");
+
+                }
+                else if (index >= 9)
+                {
+                    ivSlots[index - 9].ClearSlot();
+                    Debug.Log($"{index - 9}버튼 누름");
+                    Debug.Log($"{index - 9}번 삭제");
+                }
             }
         }
+
+        private void Function()
+        {
+            Use(selectedButtonsIndex);
+        }
+        #endregion
     }
-    #endregion
 }
