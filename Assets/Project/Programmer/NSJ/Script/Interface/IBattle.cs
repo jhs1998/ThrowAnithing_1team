@@ -14,4 +14,5 @@ public interface IBattle
     void FixedUpdate();
     void Trigger();
     void TriggerFirst();
+    void EndDebuff(HitAdditional debuff);
 }

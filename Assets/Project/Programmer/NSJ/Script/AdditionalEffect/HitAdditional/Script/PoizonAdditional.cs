@@ -6,7 +6,6 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Poison")]
 public class PoizonAdditional : HitAdditional
 {
-    public override event UnityAction<HitAdditional> OnExitHitAdditional;
 
     public int Duration;
     [Range(0,1)]public float DamageMultiplier;
@@ -38,6 +37,6 @@ public class PoizonAdditional : HitAdditional
             yield return 1f.GetDelay(); 
             count--;
         }
-        OnExitHitAdditional?.Invoke(this);
+        Battle.EndDebuff(this);
     }
 }

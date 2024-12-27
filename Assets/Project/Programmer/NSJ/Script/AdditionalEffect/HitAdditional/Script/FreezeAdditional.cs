@@ -5,8 +5,6 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Freeze")]
 public class FreezeAdditional : HitAdditional
 {
-    public override event UnityAction<HitAdditional> OnExitHitAdditional;
-
     private float _originMoveSpeed;
     public override void Enter()
     {
@@ -36,6 +34,6 @@ public class FreezeAdditional : HitAdditional
     {
         yield return 3f.GetDelay();
 
-        OnExitHitAdditional?.Invoke(this);
+        Battle.EndDebuff(this);
     }
 }

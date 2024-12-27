@@ -59,6 +59,14 @@ public class BattleSystem : MonoBehaviour, IBattle
         _hitAdditionalList.Remove(hitAdditional);
     }
     /// <summary>
+    /// 디버프 종료 호출
+    /// </summary>
+    public void EndDebuff(HitAdditional debuff)
+    {
+        RemoveDebuff(debuff);
+    }
+
+    /// <summary>
     /// 디버프 추가
     /// </summary>
     /// <param name="debuff"></param>
@@ -81,7 +89,6 @@ public class BattleSystem : MonoBehaviour, IBattle
         _debuffList.Add(cloneDebuff);
         cloneDebuff.Origin = debuff.Origin;
         cloneDebuff.Battle = this;
-        cloneDebuff.OnExitHitAdditional += RemoveDebuff; // 디버프 삭제 이벤트 구독
         cloneDebuff.Enter(); // 디버프 발동
     }
     /// <summary>

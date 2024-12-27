@@ -15,7 +15,7 @@ public class ThrowObject : MonoBehaviour
     protected Collider[] _overlapCollider = new Collider[20];
     protected PlayerController _player;
 
-    [HideInInspector]public Rigidbody Rb;
+    [HideInInspector] public Rigidbody Rb;
     protected Collider _collider;
 
     protected void Awake()
@@ -155,16 +155,18 @@ public class ThrowObject : MonoBehaviour
         if (CanAttack == false)
             return;
 
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _overlapCollider, 1 << Layer.Monster);
-        if (hitCount > 0)
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _player.OverLapColliders, 1 << Layer.Monster);
+
+        for (int i = 0; i < hitCount; i++)
         {
-            for (int i = 0; i < hitCount; i++)
-            {
-                NSJMonster monster = _overlapCollider[i].gameObject.GetComponent<NSJMonster>();
-                // 디버프 주기
-                _player.Battle.TargetAttack(monster, Damage, true);
-            }
+
+            // 디버프 주기
+            _player.Battle.TargetAttack(_player.OverLapColliders[i], Damage, true);
+
+            if (KnockBackDistance > 0)
+                _player.DoKnockBack(_player.OverLapColliders[i].transform, transform.forward, KnockBackDistance);
         }
+
         // 플레이어 특수공격 자원 획득
         _player.Model.CurMana += SpecialRecovery;
         DestroyObject();
