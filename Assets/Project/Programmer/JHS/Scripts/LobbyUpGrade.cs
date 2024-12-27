@@ -374,4 +374,17 @@ public class LobbyUpGrade : MonoBehaviour
             Debug.Log("강화 실패");
         }
     }
+
+    // 개발자 모드 로비 재화 Max
+    public void GetCoinMax()
+    {
+        // 코인을 최대치로 변경
+        gameData.coin = gameData.maxCoin;
+    }
+
+    //  로비 재화 리셋
+    public void ResetCoin()
+    {
+        gameData.coin = 0;
+    }
 }

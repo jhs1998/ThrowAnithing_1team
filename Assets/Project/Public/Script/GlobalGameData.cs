@@ -13,6 +13,8 @@ public partial class GlobalGameData
 {
     // 보유 재화
     public int coin;
+    // 최대 보유 재화
+    public int maxCoin = 9999999;
     // 날짜와 시간
     public string saveDateTime;
     // 로비 특성 강화 슬롯
@@ -67,6 +69,10 @@ public partial class GlobalGameData
     public void GetCoin(int getcoin)
     {
         coin += getcoin;
+        if (coin > maxCoin)
+        {
+            coin = maxCoin;  // 최대값을 초과하면 최대값으로 설정
+        }
         Debug.Log($"{getcoin}Coin 습득 \n 총 Coin 수 : {coin}");
     }
 }
