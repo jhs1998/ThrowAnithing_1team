@@ -1,42 +1,63 @@
 using UnityEngine;
 
-public class BlueChipPanel : MonoBehaviour
+namespace MKH
 {
-    [SerializeField] GameObject inventory;
-    [SerializeField] GameObject blueChipPanel;
-
-    private void Awake()
+    public class BlueChipPanel : BlueChipBase
     {
-        blueChipPanel.SetActive(false);
-    }
+        public static bool IsBlueChipActive = false;
 
-    private void Update()
-    {
-        TryOpenPanel();
-    }
+        [SerializeField] GameObject inventory;
 
-    private void TryOpenPanel()
-    {
-        if (inventory.activeSelf == true)
+        new private void Awake()
         {
-            if (Input.GetKey(KeyCode.CapsLock))
+            base.Awake();
+        }
+
+        private void Update()
+        {
+            TryOpenPanel();
+        }
+
+        private void TryOpenPanel()
+        {
+            if (inventory.activeSelf == true)
             {
-                OpenPanel();
-            }
-            else
-            {
-                ClosePanel();
+                if (Input.GetKey(KeyCode.CapsLock))
+                {
+                    OpenPanel();
+                }
+                else
+                {
+                    ClosePanel();
+                }
             }
         }
-    }
 
-    private void OpenPanel()
-    {
-        blueChipPanel.SetActive(true);
-    }
+        private void OpenPanel()
+        {
+            mBlueChipBase.SetActive(true);
+            IsBlueChipActive = true;
+        }
 
-    private void ClosePanel()
-    {
-        blueChipPanel.SetActive(false);
+        private void ClosePanel()
+        {
+            mBlueChipBase.SetActive(false);
+            IsBlueChipActive = false;
+        }
+
+        public void AcquireEffect(AdditionalEffect effect)
+        {
+            for (int i = 0; i < mSlots.Length; i++)
+            {
+                Debug.Log(i);
+                if (mSlots[i].Effect == null)
+                {
+                    mSlots[i].AddEffect(effect);
+                    Debug.Log(effect);
+                    return;
+                }
+                
+            }
+        }
     }
 }

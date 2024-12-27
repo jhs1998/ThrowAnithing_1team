@@ -1,3 +1,4 @@
+using MKH;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,10 @@ using UnityEngine;
 public class BlueChipChoice : MonoBehaviour
 {
     [SerializeField] GameObject choice;
+
+    private NSJBlueChip blueChip;
+
+    [SerializeField] BlueChipPanel blueChipPanel;
 
     private void Start()
     {
@@ -15,17 +20,19 @@ public class BlueChipChoice : MonoBehaviour
         if(other.gameObject.tag == Tag.BlueChip)
         {
             choice.SetActive(true);
-           
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
+        blueChip = other.transform.GetComponent<NSJBlueChip>();
         if(other.gameObject.tag == Tag.BlueChip)
         {
             if(Input.GetKeyDown(KeyCode.F))
             {
                 choice.SetActive(false);
+                blueChipPanel.AcquireEffect(blueChip.Effect);
+                Debug.Log(blueChip.Effect);
                 Destroy(other.gameObject);
             }
         }
