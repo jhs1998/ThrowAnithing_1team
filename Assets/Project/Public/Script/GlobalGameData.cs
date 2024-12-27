@@ -26,7 +26,7 @@ public partial class GlobalGameData
                                   30000, 30000, 30000, 30000,
                                   50000, 50000, 50000, 50000};
     public int usingCoin;
-    public bool bringData = true;
+    public bool bringData = true;   
 
     // 로비 공유 특성 강화 로직
     public bool BuyUpgradeSlot(int slot)
