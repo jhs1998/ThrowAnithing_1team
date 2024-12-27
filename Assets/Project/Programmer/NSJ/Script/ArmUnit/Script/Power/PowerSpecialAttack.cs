@@ -32,7 +32,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         base.Init(player);
         for (int i = 0; i < _charges.Length; i++)
         {
-            _charges[i].Damage = (int)Model.SpecialAttack[i];
+            _charges[i].Damage = (int)Model.PowerSpecialAttack[i];
         }
     }
     public override void Enter()

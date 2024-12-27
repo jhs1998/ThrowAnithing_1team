@@ -811,7 +811,7 @@ public class PlayerController : MonoBehaviour, IHit
     private int GetCommonDamage(int finalDamage)
     {
         // 기본 스텟 데미지 
-        finalDamage += Model.CommonAttack;
+        finalDamage += Model.AttackPower;
         // 치명타 데미지
         if (Random.value < Model.CriticalChance/100f)
             finalDamage = (int)(finalDamage*(Model.CriticalDamage/100f));

@@ -14,11 +14,11 @@ public class PlayerModel : MonoBehaviour
     public int CurHp { get { return Data.CurHp; } set { Data.CurHp = value; } }
     public int Defense { get { return Data.Defense; } set { Data.Defense = value; } }
     public float DamageReduction { get { return Data.DamageReduction; } set { Data.DamageReduction = value; } }
-    public int CommonAttack { get { return Data.CommonAttack; } set { Data.CommonAttack = value; } }
+    public int AttackPower { get { return Data.AttackPower; } set { Data.AttackPower = value; } }
     public float AttackSpeed { get { return Data.AttackSpeed; } set { Data.AttackSpeed = value; _view.SetFloat(PlayerView.Parameter.AttackSpeed, Data.AttackSpeed); } }
     public float[] PowerMeleeAttack { get { return Data.PowerMeleeAttack; } set { Data.PowerMeleeAttack =value; } }
      public float[] PowerThrowAttack { get { return Data.PowerThrowAttack; } set { Data.PowerThrowAttack = value; } }
-    public float[] SpecialAttack { get { return Data.SpecialAttack; } set { Data.SpecialAttack = value; } }
+    public float[] PowerSpecialAttack { get { return Data.PowerSpecialAttack; } set { Data.PowerSpecialAttack = value; } }
     public float CriticalChance { get { return Data.CriticalChance; } set { Data.CriticalChance = value; } }
     public float CriticalDamage { get { return Data.CriticalDamage; } set { Data.CriticalDamage = value; } }
     public int MaxThrowables { get { return Data.MaxThrowables; } set { Data.MaxThrowables = value; } }
@@ -39,7 +39,7 @@ public class PlayerModel : MonoBehaviour
     public List<ThrowAdditional> ThrowAdditionals { get { return Data.ThrowAdditionals; } set { Data.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
     public List<PlayerAdditional> PlayerAdditionals { get { return Data.PlayerAdditionals; } set { Data.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
-    public float MovementSpeed { get { return Data.MovementSpeed; } set { Data.MovementSpeed = value; } } // 이동속도
+    public float MoveSpeed { get { return Data.MoveSpeed; } set { Data.MoveSpeed = value; } } // 이동속도
     // 대쉬
     public float DashDistance { get { return Data.DashDistance; } set { Data.DashDistance = value; } }
     public int DashStamina { get { return Data.DashStamina; } set { Data.DashStamina = value; } }
@@ -195,11 +195,11 @@ public partial class PlayerData
     [System.Serializable]
     public struct AttackStruct
     {
-        public int CommonAttack;
+        public int AttackPower;
         public float AttackSpeed;
         public float[] PowerMeleeAttack;
         public float[] PowerThrowAttack;
-        public float[] SpecialAttack;
+        public float[] PowerSpecialAttack;
     }
     [System.Serializable]
     public struct StaminaStruct
@@ -277,14 +277,14 @@ public partial class PlayerData
         public ThrowStruct Throw;
         public AdditionalStruct Additional;
         public GlobalPlayerStateData.AmWeapon NowWeapon;
-        public float MovementSpeed;
+        public float MoveSpeed;
         public float DrainLife;
         public float[] MeleeAttackStamina;
         public float EquipmentDropUpgrade;
         // 상태이상 지속시간
     }
     [SerializeField] private DataStruct Data;
-    public float MovementSpeed { get { return Data.MovementSpeed; } set { Data.MovementSpeed = value; } }
+    public float MoveSpeed { get { return Data.MoveSpeed; } set { Data.MoveSpeed = value; } }
     // 체력
     public int MaxHp { get { return Data.Hp.MaxHp; } set { Data.Hp.MaxHp = value; } }
     public int CurHp { get { return Data.Hp.CurHp; } set { Data.Hp.CurHp = value; } }
@@ -318,11 +318,11 @@ public partial class PlayerData
     public int DashStamina { get { return Data.Dash.DashStamina; } set { Data.Dash.DashStamina = value; } }
 
     // 공격
-    public int CommonAttack { get { return Data.Attack.CommonAttack; } set { Data.Attack.CommonAttack = value; } }
+    public int AttackPower { get { return Data.Attack.AttackPower; } set { Data.Attack.AttackPower = value; } }
     public float AttackSpeed { get { return Data.Attack.AttackSpeed; } set { Data.Attack.AttackSpeed = value; } }
     public float[] PowerMeleeAttack { get { return Data.Attack.PowerMeleeAttack; } set { Data.Attack.PowerMeleeAttack = value; } }
     public float[] PowerThrowAttack { get { return Data.Attack.PowerThrowAttack; } set { Data.Attack.PowerThrowAttack = value; } }
-    public float[] SpecialAttack { get { return Data.Attack.SpecialAttack; } set { Data.Attack.SpecialAttack = value; } }
+    public float[] PowerSpecialAttack { get { return Data.Attack.PowerSpecialAttack; } set { Data.Attack.PowerSpecialAttack = value; } }
     // 크리티컬
     public float CriticalChance { get { return Data.Critical.CriticalChance; } set { Data.Critical.CriticalChance = value; } }
     public float CriticalDamage { get { return Data.Critical.CriticalDamage; } set { Data.Critical.CriticalDamage = value; } }
@@ -347,7 +347,7 @@ public partial class PlayerData
     public void CopyGlobalPlayerData()
     {
         Data.Hp.MaxHp = (int)_globalData.maxHp;
-        Data.Attack.CommonAttack = (int)_globalData.commonAttack;
+        Data.Attack.AttackPower = (int)_globalData.commonAttack;
         Data.Attack.PowerMeleeAttack[0] = (int)_globalData.shortRangeAttack[0];
         Data.Attack.PowerMeleeAttack[1] = (int)_globalData.shortRangeAttack[1];
         Data.Attack.PowerMeleeAttack[2] = (int)_globalData.shortRangeAttack[2];
@@ -355,11 +355,11 @@ public partial class PlayerData
         Data.Attack.PowerThrowAttack[1] = (int)_globalData.longRangeAttack[1];
         Data.Attack.PowerThrowAttack[2] = (int)_globalData.longRangeAttack[2];
         Data.Attack.PowerThrowAttack[3] = (int)_globalData.longRangeAttack[3];
-        Data.Attack.SpecialAttack[0] = (int)_globalData.specialAttack[0];
-        Data.Attack.SpecialAttack[1] = (int)_globalData.specialAttack[1];
-        Data.Attack.SpecialAttack[2] = (int)_globalData.specialAttack[2];
+        Data.Attack.PowerSpecialAttack[0] = (int)_globalData.specialAttack[0];
+        Data.Attack.PowerSpecialAttack[1] = (int)_globalData.specialAttack[1];
+        Data.Attack.PowerSpecialAttack[2] = (int)_globalData.specialAttack[2];
         Data.Attack.AttackSpeed = _globalData.attackSpeed;
-        Data.MovementSpeed = _globalData.movementSpeed;
+        Data.MoveSpeed = _globalData.movementSpeed;
         Data.Critical.CriticalChance = _globalData.criticalChance;
         Data.Defense.Defense = (int)_globalData.defense;
         Data.EquipmentDropUpgrade = _globalData.equipmentDropUpgrade;
