@@ -858,6 +858,7 @@ MonoBehaviour:
   - {fileID: 69897071}
   - {fileID: 1450440315}
   spwanCount: 7
+  isAlreadySpawn: 0
 --- !u!1 &703541741
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,6 +1216,7 @@ MonoBehaviour:
   - {fileID: 1131082983}
   - {fileID: 2134022983}
   spwanCount: 5
+  isAlreadySpawn: 0
 --- !u!4 &908421522
 Transform:
   m_ObjectHideFlags: 0
@@ -1540,6 +1542,7 @@ MonoBehaviour:
   - {fileID: 2072868172}
   - {fileID: 2144782575}
   spwanCount: 2
+  isAlreadySpawn: 0
 --- !u!4 &1219862658
 Transform:
   m_ObjectHideFlags: 0
@@ -2439,6 +2442,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3763389766525400142, guid: 6b3c619ff2186c94d8b08399d2a4c367, type: 3}
+      propertyPath: nextScene._sceneName
+      value: Test01_Stage1-Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763389766525400142, guid: 6b3c619ff2186c94d8b08399d2a4c367, type: 3}
+      propertyPath: nextScene._sceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 0782fca0885a8614891234d96c153f5d, type: 3}
     - target: {fileID: 6429324565435279256, guid: 6b3c619ff2186c94d8b08399d2a4c367, type: 3}
       propertyPath: m_Name
       value: Cylinder_PortalClear
