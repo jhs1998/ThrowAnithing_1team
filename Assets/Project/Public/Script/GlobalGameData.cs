@@ -62,6 +62,13 @@ public partial class GlobalGameData
         }
         return true;
     }
+
+    // 코인 습득 함수 (습득 시 GetCoin(코인수) 실행해야됨)
+    public void GetCoin(int getcoin)
+    {
+        coin += getcoin;
+        Debug.Log($"{getcoin}Coin 습득 \n 총 Coin 수 : {coin}");
+    }
 }
 
 

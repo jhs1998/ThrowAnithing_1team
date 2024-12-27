@@ -75,17 +75,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalData:
-    playerName: 
-    maxHp: 0
-    attackDamage: 0
-    speed: 0
-    luck: 0
     coin: 0
     saveDateTime: 
+    upgradeLevels: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    upgradeCosts: e8030000e8030000e8030000e803000088130000881300008813000088130000102700001027000010270000102700003075000030750000307500003075000050c3000050c3000050c3000050c30000
+    usingCoin: 0
+    bringData: 1
   playerData:
     _NSJTest:
+      Hp:
+        MaxHp: 0
+        CurHp: 0
+      Defense:
+        Defense: 0
+        DamageReduction: 0
+      Stamina:
+        MaxStamina: 0
+        CurStamina: 0
+        StaminaRecoveryPerSecond: 0
+        StaminaCoolTime: 0
+      Special:
+        MaxSpecialGage: 0
+        CurSpecialGage: 0
+        SpecialRecoveryAmount: []
+        SpecialChargeGage: 0
+      Jump:
+        JumpPower: 0
+        JumpStamina: 0
+        DoubleJumpStamina: 0
+        JumpDownStamina: 0
+      Dash:
+        DashPower: 0
+        DashStamina: 0
       MoveSpeed: 0
       Damage: 0
+      AttackSpeed: 0
+      Critical:
+        Critical: 0
+        CriticalDamage: 0
       MaxThrowCount: 0
       CurThrowCount: 0
       ThrowObjectStack: []
@@ -95,3 +122,52 @@ MonoBehaviour:
       PlayerAdditionals: []
     test: 1
   userDataManager: {fileID: 4705250393406488564, guid: 201854952806aff4782a5f1ed85173de, type: 3}
+  globalPlayerStateData:
+    maxHp: 0
+    commonAttack: 0
+    shortRangeAttack:
+    - 0
+    - 0
+    - 0
+    longRangeAttack:
+    - 0
+    - 0
+    - 0
+    - 0
+    attackSpeed: 0
+    movementSpeed: 0
+    criticalChance: 0
+    defense: 0
+    equipmentDropUpgrade: 0
+    drainLife: 0
+    maxStamina: 0
+    regainStamina: 0
+    regainMana:
+    - 0
+    - 0
+    - 0
+    - 0
+    manaConsumption:
+    - 0
+    - 0
+    - 0
+    consumesStamina: 0
+    gainMoreThrowables: 0
+    maxThrowables: 0
+    nowWeapon: 0
+    maxMana: 0
+    maxJumpCount: 0
+    jumpPower: 0
+    jumpConsumesStamina: 0
+    doubleJumpConsumesStamina: 0
+    dashDistance: 0
+    dashConsumesStamina: 0
+    shortRangeAttackStamina:
+    - 0
+    - 0
+    - 0
+    specialAttack:
+    - 0
+    - 0
+    - 0
+  lobbyUpGrade: {fileID: 7615126992720756441, guid: 37efe2b02800675408e6ce709b9ec9b8, type: 3}
