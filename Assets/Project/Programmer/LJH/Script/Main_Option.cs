@@ -95,6 +95,7 @@ public class Main_Option : MainScene
 
     }
 
+    // Comment 커서 위치에 따라 패널 온오프
     void OptionD2Show()
     {
         if (depth1_cur == 0)

@@ -32,7 +32,6 @@ public class LJH_inputManager : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(curCharging);
         maxCharging = curMp;
 
         if (Input.GetKey(KeyCode.Q))
