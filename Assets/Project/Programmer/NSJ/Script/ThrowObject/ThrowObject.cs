@@ -162,15 +162,7 @@ public class ThrowObject : MonoBehaviour
             {
                 NSJMonster monster = _overlapCollider[i].gameObject.GetComponent<NSJMonster>();
                 // 디버프 주기
-                foreach (HitAdditional hitAdditional in HitAdditionals)
-                {
-                    hitAdditional.Init(Damage);
-                    monster.AddDebuff(hitAdditional);
-
-                    if (KnockBackDistance > 0)
-                        _player.DoKnockBack(monster.transform, transform.forward, KnockBackDistance);
-
-                }
+                _player.Battle.TargetAttack(monster, Damage, true);
             }
         }
         // 플레이어 특수공격 자원 획득

@@ -4,7 +4,7 @@ using UnityEngine;
 using Zenject;
 using static GlobalPlayerStateData;
 
-public class PlayerModel : MonoBehaviour
+public class PlayerModel : MonoBehaviour, IDebuff
 {
     public GlobalPlayerData GlobalData;
     public PlayerData Data;

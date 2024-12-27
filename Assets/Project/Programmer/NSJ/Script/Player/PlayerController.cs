@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
+[RequireComponent(typeof(BattleSystem))]
 public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public Transform ArmPoint;
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour, IHit
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
+    [HideInInspector] public BattleSystem Battle;
     public enum State
     {
         Idle,
@@ -380,6 +382,8 @@ public class PlayerController : MonoBehaviour, IHit
                 {
                     Model.HitAdditionals.Add(addtionalEffect as HitAdditional);
                     Model.AdditionalEffects.Add(addtionalEffect);
+                    // 적중효과는 배틀시스템에도 추가 등록
+                    Battle.AddHitAdditionalList(addtionalEffect as HitAdditional);
                 }
                 break;
             case AdditionalEffect.Type.Throw:
@@ -413,6 +417,8 @@ public class PlayerController : MonoBehaviour, IHit
                 if (CheckForRemoveAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
                 {
                     Model.HitAdditionals.Remove(addtionalEffect as HitAdditional);
+                    // 배틀시스템에도 적중 효과 삭제
+                    Battle.RemoveHitAdditionalList(addtionalEffect as HitAdditional);
                 }
                 break;
             case AdditionalEffect.Type.Throw:
@@ -888,6 +894,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model = GetComponent<PlayerModel>();
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
+        Battle = GetComponent<BattleSystem>();
     }
     private void InitAdditionnal()
     {
