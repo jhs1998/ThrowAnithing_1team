@@ -188,79 +188,115 @@ public partial class PlayerData
     [System.Serializable]
     public struct HpStruct
     {
+        [Header("최대 체력")]
         public int MaxHp;
+        [Header("현재 체력")]
         public int CurHp;
     }
 
     [System.Serializable]
     public struct AttackStruct
     {
+        [Header("공격력")]
         public int AttackPower;
+        [Header("공격 속도")]
         public float AttackSpeed;
+        [Header("암슈트-파워 근접공격력")]
         public float[] PowerMeleeAttack;
+        [Header("암슈트-파워 투척공격력")]
         public float[] PowerThrowAttack;
+        [Header("암슈트-파워 특수공격력")]
         public float[] PowerSpecialAttack;
     }
     [System.Serializable]
     public struct StaminaStruct
     {
+        [Header("최대 스테미나")]
         public float MaxStamina; // 최대 스테미나
+        [Header("현재 스테미나")]
         public float CurStamina; // 현재 스테미나
+        [Header("스테미나 초당 회복량")]
         public float RegainStamina; // 스테미나 초당 회복량
+        [Header("스테미나 사용 후 쿨타임")]
         public float StaminaCoolTime; // 스테미나 소진 후 쿨타임
+        [Header("스테미나 소모량 (?)")]
         public float ConsumesStamina; // 스테미나 소모량
     }
     [System.Serializable]
     public struct JumpStruct
     {
+        [Header("점프력")]
         public float JumpPower;
+        [Header("점프 스테미나")]
         public int JumpStamina;
+        [Header("더블 점프 스테미나")]
         public int DoubleJumpStamina;
+        [Header("하강 공격 스테미나")]
         public int JumpDownStamina;
+        [Header("최대 점프 횟수")]
         public int MaxJumpCount;
+        [Header("현재 점프 횟수")]
         public int CurJumpCount;
     }
     [System.Serializable]
     public struct DashStruct
     {
+        [Header("대쉬 속도")]
         public float DashDistance;
+        [Header("대쉬 스테미나")]
         public int DashStamina;
     }
     [System.Serializable]
     public struct SpecialStruct
     {
+        [Header("최대 마나")]
         public float MaxMana;
+        [Header("현재 마나")]
         public float CurMana;
+        [Header("투척 공격 당 마나 회복")]
         public float[] RegainMana; // 던지기 공격당 마나 회복
+        [Header("마나 소모량")]
         public float[] ManaConsumption; // 마나 소모량
         [HideInInspector] public float SpecialChargeGage;
     }
     [System.Serializable]
     public struct DefenseStruct
     {
+        [Header("방어력")]
         public int Defense;
+        [Header("피해 감소량")]
         [Range(0, 100)] public float DamageReduction;
     }
     [System.Serializable]
     public struct CriticalStruct
     {
+        [Header("크리티컬 확률")]
         [Range(0, 100)] public float CriticalChance;
+        [Header("크리티컬 데미지")]
         public float CriticalDamage;
     }
     [System.Serializable]
     public struct ThrowStruct
     {
+        [Header("최대 투척물 수")]
         public int MaxThrowables;
+        [Header("현재 투척물 수")]
         public int CurThrowables;
+        [Header("투척물 파밍시 추가 획득 수")]
         public float GainMoreThrowables;
+        [Header("투척물 리스트")]
         public List<ThrowObjectData> ThrowObjectStack;
     }
     [System.Serializable]
     public struct AdditionalStruct
     {
+        [Header("특수효과 리스트")]
         public List<AdditionalEffect> AdditionalEffects; // 특수효과 리스트
+        [Header("적중 시 효과 리스트")]
         public List<HitAdditional> HitAdditionals;
+        [Header("투척물 효과 리스트")]
         public List<ThrowAdditional> ThrowAdditionals; // 공격 방법 추가효과 리스트
+        [Header("플레이어 자체 효과 리스트")]
         public List<PlayerAdditional> PlayerAdditionals; // 플레이어 추가효과 리스트
     }
     [System.Serializable]
