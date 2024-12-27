@@ -39,15 +39,15 @@ namespace MKH
 
             mCurrentEquipmentEffect = calcedEffect;
 
-            mDamageLabel.text = "Damage : " + mCurrentEquipmentEffect.Damage.ToString();
-            mDefenseLabel.text = "Defense : " + mCurrentEquipmentEffect.Defense.ToString();
-            mHPLabel.text = "HP : " + mCurrentEquipmentEffect.HP.ToString();
-            mCriticalLabel.text = "Critical : " + mCurrentEquipmentEffect.Critical.ToString();
-            mAttackSpeedLabel.text = "AttackSpeed : " + mCurrentEquipmentEffect.AttackSpeed.ToString("F2");
-            mSteminaLabel.text = "Stemina : " + mCurrentEquipmentEffect.Stemina.ToString();
-            mEquipRateLabel.text = "EquipRate : " + mCurrentEquipmentEffect.EquipRate.ToString("F2");
-            mSpeedLabel.text = "Speed : " + mCurrentEquipmentEffect.Speed.ToString("F2");
-            mManaLabel.text = "Mana : " + mCurrentEquipmentEffect.Mana.ToString();
+            mDamageLabel.text = "Damage : " + CurrentEquipmentEffect.Damage.ToString();
+            mDefenseLabel.text = "Defense : " + CurrentEquipmentEffect.Defense.ToString();
+            mHPLabel.text = "HP : " + CurrentEquipmentEffect.HP.ToString();
+            mCriticalLabel.text = "Critical : " + CurrentEquipmentEffect.Critical.ToString();
+            mAttackSpeedLabel.text = "AttackSpeed : " + CurrentEquipmentEffect.AttackSpeed.ToString("F2");
+            mSteminaLabel.text = "Stemina : " + CurrentEquipmentEffect.Stemina.ToString();
+            mEquipRateLabel.text = "EquipRate : " + CurrentEquipmentEffect.EquipRate.ToString("F2");
+            mSpeedLabel.text = "Speed : " + CurrentEquipmentEffect.Speed.ToString("F2");
+            mManaLabel.text = "Mana : " + CurrentEquipmentEffect.Mana.ToString();
         }
 
         public InventorySlot GetEquipmentSlot(ItemType type)

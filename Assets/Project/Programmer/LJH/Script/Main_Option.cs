@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public enum Depth2
 {
@@ -14,13 +15,15 @@ public enum Depth2
 public class Main_Option : MainScene
 {
     //옵션 1Depth
-    GameObject[] depth1;
+    Button[] depth1;
 
-    GameObject gamePlay;
-    GameObject language;
-    GameObject sound;
-    GameObject input;
-    GameObject exit;
+    Button gamePlay;
+    Button language;
+    Button sound;
+    Button input;
+    Button exit;
+
+    public int optionCheck;
 
 
     //옵션 Depth2 바인딩
@@ -36,6 +39,7 @@ public class Main_Option : MainScene
 
     protected GameObject gameplayOnOff;
     protected GameObject soundOnOff;
+
 
 
     void Start()
@@ -91,6 +95,7 @@ public class Main_Option : MainScene
 
     }
 
+    // Comment 커서 위치에 따라 패널 온오프
     void OptionD2Show()
     {
         if (depth1_cur == 0)
@@ -156,25 +161,23 @@ public class Main_Option : MainScene
             switch (depth1_cur)
             {
                 case 0:
-                    gameplayOnOff.SetActive(true);
-                    ButtonReset();
+                    GameplayButton();
                     break;
 
                 case 1:
-                    soundOnOff.SetActive(true);
-                    ButtonReset();
+                    SoundButton();
                     break;
 
                 case 2:
                     //Comment : 조작키 설명
+                    InputButton();
                     break;
 
                 case 3:
-                    gameObject.SetActive(false);
+                    ExitButtonOp();
                     break;
             }
         }
-        
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -182,18 +185,68 @@ public class Main_Option : MainScene
             Debug.Log("옵션 화면 나가기");
         }
     }
+    void PannelOnOff()
+    {
+            gameplayPannel.SetActive(true);
+            gameplayPannel.SetActive(false);
+
+            soundPannel.SetActive(true);
+            soundPannel.SetActive(false);
+
+            inputPannel.SetActive(true);
+            inputPannel.SetActive(false);
+    }
+
+    public void GameplayButton()
+    {
+        if (optionCheck == 0)
+        {
+            optionCheck = 2;
+            gameplayOnOff.SetActive(true);
+            gameplayPannel.SetActive(true);
+            soundPannel.SetActive(false);
+            inputPannel.SetActive(false);
+            ButtonReset();
+        }
+        optionCheck--;
+    }
+
+    public void SoundButton()
+    {
+        if (optionCheck == 0)
+        {
+            optionCheck = 2;
+            soundOnOff.SetActive(true);
+            gameplayPannel.SetActive(false);
+            soundPannel.SetActive(true);
+            inputPannel.SetActive(false);
+            ButtonReset();
+        }
+        optionCheck--;
+    }
+
+    public void InputButton()
+    {
+        gameplayPannel.SetActive(false);
+        soundPannel.SetActive(false);
+        inputPannel.SetActive(true);
+    }
+
+    public void ExitButtonOp()
+    {
+        gameObject.SetActive(false);
+    }
 
 
     private void Init()
     {
 
-        depth1 = new GameObject[4];
+        depth1 = new Button[4];
 
-        depth1[0] = gamePlay = GetUI("GamePlay");
-
-        depth1[1] = sound = GetUI("Sound");
-        depth1[2] = input = GetUI("Input");
-        depth1[3] = exit = GetUI("Exit");
+        depth1[0] = gamePlay = GetUI<Button>("GamePlay");
+        depth1[1] = sound = GetUI<Button>("Sound");
+        depth1[2] = input = GetUI<Button>("Input");
+        depth1[3] = exit = GetUI<Button>("Exit");
 
         gameplayPannel = GetUI("GamePlayPackage");
         soundPannel = GetUI("SoundPackage");
