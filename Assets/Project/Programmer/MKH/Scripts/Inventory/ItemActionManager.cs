@@ -1,4 +1,3 @@
-using MKH;
 using UnityEngine;
 
 namespace MKH
@@ -26,6 +25,15 @@ namespace MKH
             }
 
             mEquipmentInventory.CalculateEffect();
+            return true;
+        }
+
+        public bool RemoveItem(Item item)
+        {
+            InventorySlot equipmentSlot = mEquipmentInventory.GetEquipmentSlot(item.Type);
+
+            mEquipmentInventory.CalculateEffect();
+            equipmentSlot.ClearSlot();
             return true;
         }
     }
