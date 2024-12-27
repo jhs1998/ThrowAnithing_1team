@@ -14,6 +14,8 @@ public class ArmAttackType : ScriptableObject
     protected Transform _muzzlePoint => Player.MuzzletPoint;
     protected Rigidbody Rb => Player.Rb;
 
+    protected PlayerBinder Binder => View.Binder;
+
     private int m_index;
     protected int _index { get {  return m_index; } set { m_index = value; Model.ChargeStep = m_index; } }
     public virtual void Init(PlayerController player)

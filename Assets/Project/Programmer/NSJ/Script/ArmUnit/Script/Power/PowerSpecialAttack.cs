@@ -26,6 +26,15 @@ public class PowerSpecialAttack : ArmSpecialAttack
     private GameObject _instanceSpecialRange;
     private Vector3 _dropPos;
     Coroutine _chargeRoutine;
+
+    public override void Init(PlayerController player)
+    {
+        base.Init(player);
+        for (int i = 0; i < _charges.Length; i++)
+        {
+            _charges[i].Damage = (int)Model.SpecialAttack[i];
+        }
+    }
     public override void Enter()
     {
         if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount)

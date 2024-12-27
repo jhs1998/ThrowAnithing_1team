@@ -25,6 +25,14 @@ public class PowerThrowAttack : ArmThrowAttack
         }
     }
     Coroutine _chargeRoutine;
+    public override void Init(PlayerController player)
+    {
+        base.Init(player);
+        for (int i = 0; i < _charges.Length; i++)
+        {
+            _charges[i].Damage = (int)Model.PowerThrowAttack[i];
+        }
+    }
     public override void Enter()
     {
         Player.Rb.velocity = Vector3.zero;

@@ -16,6 +16,9 @@ public class PlayerModel : MonoBehaviour
     public float DamageReduction { get { return Data.DamageReduction; } set { Data.DamageReduction = value; } }
     public int CommonAttack { get { return Data.CommonAttack; } set { Data.CommonAttack = value; } }
     public float AttackSpeed { get { return Data.AttackSpeed; } set { Data.AttackSpeed = value; _view.SetFloat(PlayerView.Parameter.AttackSpeed, Data.AttackSpeed); } }
+    public float[] PowerMeleeAttack { get { return Data.PowerMeleeAttack; } set { Data.PowerMeleeAttack =value; } }
+     public float[] PowerThrowAttack { get { return Data.PowerThrowAttack; } set { Data.PowerThrowAttack = value; } }
+    public float[] SpecialAttack { get { return Data.SpecialAttack; } set { Data.SpecialAttack = value; } }
     public float CriticalChance { get { return Data.CriticalChance; } set { Data.CriticalChance = value; } }
     public float CriticalDamage { get { return Data.CriticalDamage; } set { Data.CriticalDamage = value; } }
     public int MaxThrowables { get { return Data.MaxThrowables; } set { Data.MaxThrowables = value; } }
@@ -85,6 +88,8 @@ public class PlayerModel : MonoBehaviour
     }
     public Subject<float> SpecialChargeGageSubject = new Subject<float>();
 
+    public float[] MeleeAttackStamina { get { return Data.MeleeAttackStamina; } set { Data.MeleeAttackStamina = value; } }
+
 
 
     public float BoomRadius;
@@ -140,7 +145,7 @@ public class PlayerModel : MonoBehaviour
     //public struct MeleeStruct
     //{
     //    [HideInInspector] public int ComboCount;
-    //    public MeleeAttackStruct[] MeleeAttack;
+    //    public MeleeAttackStruct[] PowerMeleeAttack;
     //}
     //[System.Serializable]
     //public struct MeleeAttackStruct
@@ -157,15 +162,15 @@ public class PlayerModel : MonoBehaviour
     //    set
     //    {
     //        Melee.ComboCount = value;
-    //        if (Melee.ComboCount >= Melee.MeleeAttack.Length)
+    //        if (Melee.ComboCount >= Melee.PowerMeleeAttack.Length)
     //        {
     //            Melee.ComboCount = 0;
     //        }
     //    }
     //}
-    //public float Range => Melee.MeleeAttack[Melee.ComboCount].Range;
-    //public float Angle => Melee.MeleeAttack[Melee.ComboCount].Angle;
-    //public float DamageMultiplier => Melee.MeleeAttack[Melee.ComboCount].DamageMultiplier;
+    //public float Range => Melee.PowerMeleeAttack[Melee.ComboCount].Range;
+    //public float Angle => Melee.PowerMeleeAttack[Melee.ComboCount].Angle;
+    //public float DamageMultiplier => Melee.PowerMeleeAttack[Melee.ComboCount].DamageMultiplier;
     #endregion
 }
 
@@ -192,8 +197,8 @@ public partial class PlayerData
     {
         public int CommonAttack;
         public float AttackSpeed;
-        public float[] MeleeAttack;
-        public float[] ThrowAttack;
+        public float[] PowerMeleeAttack;
+        public float[] PowerThrowAttack;
         public float[] SpecialAttack;
     }
     [System.Serializable]
@@ -315,6 +320,8 @@ public partial class PlayerData
     // 공격
     public int CommonAttack { get { return Data.Attack.CommonAttack; } set { Data.Attack.CommonAttack = value; } }
     public float AttackSpeed { get { return Data.Attack.AttackSpeed; } set { Data.Attack.AttackSpeed = value; } }
+    public float[] PowerMeleeAttack { get { return Data.Attack.PowerMeleeAttack; } set { Data.Attack.PowerMeleeAttack = value; } }
+    public float[] PowerThrowAttack { get { return Data.Attack.PowerThrowAttack; } set { Data.Attack.PowerThrowAttack = value; } }
     public float[] SpecialAttack { get { return Data.Attack.SpecialAttack; } set { Data.Attack.SpecialAttack = value; } }
     // 크리티컬
     public float CriticalChance { get { return Data.Critical.CriticalChance; } set { Data.Critical.CriticalChance = value; } }
@@ -341,13 +348,13 @@ public partial class PlayerData
     {
         Data.Hp.MaxHp = (int)_globalData.maxHp;
         Data.Attack.CommonAttack = (int)_globalData.commonAttack;
-        Data.Attack.MeleeAttack[0] = (int)_globalData.shortRangeAttack[0];
-        Data.Attack.MeleeAttack[1] = (int)_globalData.shortRangeAttack[1];
-        Data.Attack.MeleeAttack[2] = (int)_globalData.shortRangeAttack[2];
-        Data.Attack.ThrowAttack[0] = (int)_globalData.longRangeAttack[0];
-        Data.Attack.ThrowAttack[1] = (int)_globalData.longRangeAttack[1];
-        Data.Attack.ThrowAttack[2] = (int)_globalData.longRangeAttack[2];
-        Data.Attack.ThrowAttack[3] = (int)_globalData.longRangeAttack[3];
+        Data.Attack.PowerMeleeAttack[0] = (int)_globalData.shortRangeAttack[0];
+        Data.Attack.PowerMeleeAttack[1] = (int)_globalData.shortRangeAttack[1];
+        Data.Attack.PowerMeleeAttack[2] = (int)_globalData.shortRangeAttack[2];
+        Data.Attack.PowerThrowAttack[0] = (int)_globalData.longRangeAttack[0];
+        Data.Attack.PowerThrowAttack[1] = (int)_globalData.longRangeAttack[1];
+        Data.Attack.PowerThrowAttack[2] = (int)_globalData.longRangeAttack[2];
+        Data.Attack.PowerThrowAttack[3] = (int)_globalData.longRangeAttack[3];
         Data.Attack.SpecialAttack[0] = (int)_globalData.specialAttack[0];
         Data.Attack.SpecialAttack[1] = (int)_globalData.specialAttack[1];
         Data.Attack.SpecialAttack[2] = (int)_globalData.specialAttack[2];

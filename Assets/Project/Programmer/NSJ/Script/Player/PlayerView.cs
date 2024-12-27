@@ -3,9 +3,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(PlayerBinder))]
 public class PlayerView : MonoBehaviour
 {
     public PlayerPanel Panel;
+    public PlayerBinder Binder;
     public enum Parameter
     {
         AttackSpeed,

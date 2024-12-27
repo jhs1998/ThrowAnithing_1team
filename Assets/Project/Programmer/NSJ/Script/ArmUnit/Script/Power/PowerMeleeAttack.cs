@@ -1,6 +1,4 @@
-using Assets.Project.Programmer.NSJ.RND.Script;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Power Melee", menuName = "Arm/AttackType/Power/Melee")]
@@ -12,8 +10,10 @@ public class PowerMeleeAttack : ArmMeleeAttack
         public float ChargeTime;
         public int Damage;
         public float AttackRange;
-        [Range(0,180)]public float AttackAngle;
+        [Range(0, 180)] public float AttackAngle;
         public float KnockBackRange;
+        [HideInInspector] public float Stamina;
+        [HideInInspector] public GameObject ArmEffect;
     }
     [SerializeField] private ChargeStruct[] _charges;
     private float m_curChargeTime;
@@ -26,26 +26,43 @@ public class PowerMeleeAttack : ArmMeleeAttack
             View.SetFloat(PlayerView.Parameter.Charge, m_curChargeTime);
         }
     }
+
+    private GameObject _curArmEffect;
     Coroutine _chargeRoutine;
+    public override void Init(PlayerController player)
+    {
+        base.Init(player);
+        for (int i = 0; i < _charges.Length; i++)
+        {
+            _charges[i].Damage = (int)Model.PowerMeleeAttack[i];
+            _charges[i].Stamina = Model.MeleeAttackStamina[i];
+            _charges[i].ArmEffect = Binder.PowerMeleeEffect[i];
+        }
+    }
+
     public override void Enter()
     {
+        Model.CurStamina += Model.MeleeAttackStamina[0];
         Player.Rb.velocity = Vector3.zero;
         _curChargeTime = 0;
         _index = 0;
         Player.LookAtAttackDir();
         View.SetTrigger(PlayerView.Parameter.PowerMelee);
-        if(_chargeRoutine == null)
+        if (_chargeRoutine == null)
         {
             _chargeRoutine = CoroutineHandler.StartRoutine(ChargeRoutine());
         }
     }
     public override void Exit()
     {
-        if (_chargeRoutine != null) 
+        if (_chargeRoutine != null)
         {
             CoroutineHandler.StopRoutine(_chargeRoutine);
             _chargeRoutine = null;
         }
+
+        _curArmEffect.SetActive(false);
+        _curArmEffect = null;
     }
     public override void Update()
     {
@@ -70,9 +87,11 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
             if (Input.GetKeyUp(KeyCode.V))
             {
-                Player.LookAtAttackDir();
-                View.SetTrigger(PlayerView.Parameter.ChargeEnd);
                 _chargeRoutine = null;
+                // 공격방향 바라보기
+                Player.LookAtAttackDir();
+                // 애니메이션 실행
+                View.SetTrigger(PlayerView.Parameter.ChargeEnd);
                 break;
             }
             yield return null;
@@ -85,19 +104,28 @@ public class PowerMeleeAttack : ArmMeleeAttack
         _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
         if (_charges.Length > _index + 1)
         {
-            if (_curChargeTime > _charges[_index + 1].ChargeTime)
+            if (_curChargeTime <= _charges[_index + 1].ChargeTime)
+                return;
+
+            if (Model.CurStamina < _charges[_index + 1].Stamina)
             {
-                _index++;
+                _curChargeTime = _charges[_index + 1].ChargeTime - 0.01f;
+                return;
             }
+            _index++;
+
+            ShowArmEffect();
         }
         else
         {
             _curChargeTime = _charges[_index].ChargeTime + 0.01f;
-
         }
     }
     public void AttackMelee()
     {
+        // 자원소모 처리
+        Model.CurStamina -= _charges[_index].Stamina;
+
         // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
         // 1. 전방에 있는 몬스터 확인
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + Player.AttackHeight, transform.position.z);
@@ -130,7 +158,6 @@ public class PowerMeleeAttack : ArmMeleeAttack
                 //Player.DoKnockBack(targetTransform, transform, _charges[_index].KnockBackRange);
             }
 
-
             if (_index == 0)
                 break;
         }
@@ -147,10 +174,21 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
         //각도
         Vector3 rightDir = Quaternion.Euler(0, _charges[_index].AttackAngle * 0.5f, 0) * transform.forward;
-        Vector3 leftDir = Quaternion.Euler(0, _charges[_index].AttackAngle* -0.5f, 0) * transform.forward;
+        Vector3 leftDir = Quaternion.Euler(0, _charges[_index].AttackAngle * -0.5f, 0) * transform.forward;
 
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + rightDir * _charges[_index].AttackRange);
         Gizmos.DrawLine(transform.position, transform.position + leftDir * _charges[_index].AttackRange);
+    }
+
+    // 차지시 암 이펙트 나타내기
+    private void ShowArmEffect()
+    {
+        if (_curArmEffect != null)
+            _curArmEffect.SetActive(false);
+        // 암유닛 이펙트
+        _charges[_index].ArmEffect.SetActive(true);
+        _charges[_index].ArmEffect.transform.SetParent(Player.ArmPoint, false);
+        _curArmEffect = _charges[_index].ArmEffect;
     }
 }
