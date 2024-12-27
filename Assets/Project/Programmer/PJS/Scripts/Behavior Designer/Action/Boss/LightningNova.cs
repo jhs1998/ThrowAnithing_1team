@@ -5,12 +5,9 @@ using BehaviorDesigner.Runtime;
 
 public class LightningNova : Action
 {
-	[SerializeField] int atkDamage;	// 공격력
-	[SerializeField] float range;   // 피해 입히는 범위
-	[SerializeField] float coolTime;	// 쿨타임
-	[SerializeField] SharedBool atkAble;	// 공격 사용 여부
-	
-	private BossEnemy enemy;
+    [SerializeField] BossSkillState skillState;
+
+    private BossEnemy enemy;
 
 	public override void OnStart()
 	{
@@ -19,22 +16,10 @@ public class LightningNova : Action
 
     public override TaskStatus OnUpdate()
 	{
-		if(atkAble.Value == false)
-			return TaskStatus.Failure;
+		enemy.TakeChargeBoom(skillState.range, skillState.damage);
 
-		enemy.TakeChargeBoom(range, atkDamage);
-
-		StartCoroutine(CoolTimeRoutine());
+		StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
 
 		return TaskStatus.Success;
-	}
-
-	IEnumerator CoolTimeRoutine()
-	{
-		atkAble.SetValue(false);
-		Debug.Log("쿨타임 시작");
-		yield return coolTime.GetDelay();
-		atkAble.SetValue(true);
-		Debug.Log("쿨타임 끝");
 	}
 }

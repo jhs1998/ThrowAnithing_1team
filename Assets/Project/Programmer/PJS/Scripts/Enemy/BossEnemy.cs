@@ -1,3 +1,4 @@
+using BehaviorDesigner.Runtime;
 using System.Collections;
 using UnityEngine;
 
@@ -14,7 +15,6 @@ public class BossEnemy : BaseEnemy
     {
         Debug.Log("FootSteop()");
     }
-
 
     /// <summary>
     /// Attack 애니메이션 이벤트
@@ -104,5 +104,20 @@ public class BossEnemy : BaseEnemy
             Gizmos.DrawRay(transform.position, transform.forward * 8);
         }
         //Gizmos.DrawWireCube(transform.position, new Vector3(1, 1, 1));
+    }
+
+
+    /// <summary>
+    /// 쿨타임 관련 코루틴
+    /// </summary>
+    /// <param name="atkAble">해당 스킬의 bool 타입</param>
+    /// <param name="coolTime">쿨타임 시간</param>
+    public IEnumerator CoolTimeRoutine(SharedBool atkAble, float coolTime)
+    {
+        atkAble.SetValue(false);
+        Debug.Log("쿨타임 시작");
+        yield return coolTime.GetDelay();
+        atkAble.SetValue(true);
+        Debug.Log("쿨타임 끝");
     }
 }
