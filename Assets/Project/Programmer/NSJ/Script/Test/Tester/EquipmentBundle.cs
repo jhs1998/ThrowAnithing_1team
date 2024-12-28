@@ -12,9 +12,7 @@ namespace NSJ_TesterPanel
     public class EquipmentBundle : TesterBundle
     {
         [SerializeField] string[] _types = new string[9];
-        [SerializeField] ItemPickUp[] _step1Items;
-        [SerializeField] ItemPickUp[] _step2Items;
-        [SerializeField] ItemPickUp[] _step3Items;
+
         [SerializeField] NSJBlueChip _equipmentItem;
         private TMP_Text _nameText => GetUI<TMP_Text>("NameText");
 
@@ -98,13 +96,13 @@ namespace NSJ_TesterPanel
             switch (_itemStep)
             {
                 case 0:
-                    instance = Instantiate(_step1Items[_equipmentIndex]);
+                    instance = Instantiate(DataContainer.Items.NormalItems[_equipmentIndex]);
                     break;
                 case 1:
-                    instance = Instantiate(_step2Items[_equipmentIndex]);
+                    instance = Instantiate(DataContainer.Items.MagicItems[_equipmentIndex]);
                     break;
                 case 2:
-                    instance = Instantiate(_step3Items[_equipmentIndex]);
+                    instance = Instantiate(DataContainer.Items.RareItems[_equipmentIndex]);
                     break;
                 default:
                     return;

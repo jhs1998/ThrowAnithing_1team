@@ -1,3 +1,4 @@
+using MKH;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,37 @@ using UnityEngine;
 public class DataContainer : MonoBehaviour
 {
     public static DataContainer Instance;
-
+    [SerializeField] BaseEnemy[] _monsters;
+    /// <summary>
+    /// 몬스터 데이터
+    /// </summary>
+    public static BaseEnemy[] Monsters { get { return Instance._monsters; } }
+    [SerializeField] AdditionalEffect[] _blueChips;
+    /// <summary>
+    /// 블루칩 데이터
+    /// </summary>
+    public static AdditionalEffect[] BlueChips { get { return Instance._blueChips; } }
+    [System.Serializable]
+    public struct ItemStruct
+    {
+        /// <summary>
+        /// 노말 아이템 (1단계)
+        /// </summary>
+        public ItemPickUp[] NormalItems;
+        /// <summary>
+        /// 매직 아이템 (2단계)
+        /// </summary>
+        public ItemPickUp[] MagicItems;
+        /// <summary>
+        /// 레어 아이템 (3단계)
+        /// </summary>
+        public ItemPickUp[] RareItems;
+    }
+    [SerializeField] private ItemStruct _items;
+    /// <summary>
+    /// 아이템 데이터
+    /// </summary>
+    public static ItemStruct Items { get { return Instance._items; } }
 
     [SerializeField] ThrowObject[] _throwObjects;
     private Dictionary<int, ThrowObject> _throwObjectDic = new Dictionary<int, ThrowObject>();

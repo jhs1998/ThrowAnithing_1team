@@ -168,7 +168,6 @@ public class PlayerController : MonoBehaviour, IHit
         InitUIEvent();
         StartRoutine();
         InitAdditionnal();
-        Debug.Log("플레이어");
         ChangeArmUnit(Model.NowWeapon);
 
         Camera.main.transform.SetParent(_cameraPos, true);

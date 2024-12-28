@@ -5,12 +5,7 @@ using Zenject;
 
 public class PlayerModel : MonoBehaviour, IDebuff
 {
-    [Header("테스트 용 체크")]
-    [SerializeField] private bool _isTest;
-#if _isTest == false
     [Inject]
-#endif
-    [Space(10)]
     public PlayerData Data;
     public ArmUnit Arm;
     public int MaxHp { get { return Data.MaxHp; } set { Data.MaxHp = value; } }

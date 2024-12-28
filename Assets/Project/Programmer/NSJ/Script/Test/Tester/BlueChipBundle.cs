@@ -9,7 +9,6 @@ namespace NSJ_TesterPanel
 {
     public class BlueChipBundle : TesterBundle
     {
-        [SerializeField] AdditionalEffect[] _blueChips;
         [SerializeField] NSJBlueChip _blueChipItem;
         private TMP_Text _nameText => GetUI<TMP_Text>("NameText");
 
@@ -39,19 +38,19 @@ namespace NSJ_TesterPanel
         }
         private void ChangeIndex(int index)
         {
-            if (index >= _blueChips.Length)
+            if (index >= DataContainer.BlueChips.Length)
             {
                 _blueChipIndex = 0;
                 return;
             }
             else if (index < 0)
             {
-                _blueChipIndex = _blueChips.Length - 1;
+                _blueChipIndex = DataContainer.BlueChips.Length - 1;
                 return;
             }
 
-            _curBlueChip = _blueChips[index];
-            _nameText.SetText(_blueChips[index].Name);
+            _curBlueChip = DataContainer.BlueChips[index];
+            _nameText.SetText(DataContainer.BlueChips[index].Name);
         }
 
         private void Create()

@@ -10,7 +10,6 @@ namespace NSJ_TesterPanel
 {
     public class MonsterBuddle : TesterBundle
     {
-        [SerializeField] BaseEnemy[] _monsters;
         private TMP_Text _nameText => GetUI<TMP_Text>("NameText");
 
         private BaseEnemy _curMonster;
@@ -43,18 +42,18 @@ namespace NSJ_TesterPanel
         /// </summary>
         private void ChangeIndex(int index)
         {
-            if(index >= _monsters.Length)
+            if(index >= DataContainer.Monsters.Length)
             {
                 _monsterIndex = 0;
                 return;
             }              
             else if( index < 0)
             {
-                _monsterIndex = _monsters.Length - 1;
+                _monsterIndex = DataContainer.Monsters.Length - 1;
                 return;
             }
                 
-            _curMonster = _monsters[index];
+            _curMonster = DataContainer.Monsters[index];
             _nameText.SetText(index.GetText());
         }
 
@@ -63,7 +62,7 @@ namespace NSJ_TesterPanel
         /// </summary>
         private void Create()
         {
-            BaseEnemy monster = Instantiate(_monsters[_monsterIndex]);
+            BaseEnemy monster = Instantiate(DataContainer.Monsters[_monsterIndex]);
             Vector3 createPos = new Vector3(
                 _player.transform.position.x + (_player.transform.forward.x * createOffset.x),
                    _player.transform.position.y + createOffset.y,
