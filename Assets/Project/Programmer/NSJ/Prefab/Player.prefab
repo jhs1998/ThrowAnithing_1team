@@ -680,7 +680,6 @@ GameObject:
   - component: {fileID: 1099773770301694370}
   - component: {fileID: 9116488005559576276}
   - component: {fileID: 2619598062664239447}
-  - component: {fileID: 325611585805579041}
   - component: {fileID: 6720973357987853771}
   m_Layer: 10
   m_Name: Player
@@ -871,7 +870,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7d064cec16dca47b9d07860a6f1d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isTest: 0
   Data:
     Data:
       Hp:
@@ -900,14 +898,14 @@ MonoBehaviour:
         - 100
         SpecialChargeGage: 0
       Jump:
-        JumpPower: 8
+        JumpPower: 100
         JumpStamina: 20
         DoubleJumpStamina: 10
         JumpDownStamina: 20
         MaxJumpCount: 2
         CurJumpCount: 0
       Dash:
-        DashDistance: 10
+        DashDistance: 200
         DashStamina: 50
       Attack:
         AttackPower: 10
@@ -942,7 +940,7 @@ MonoBehaviour:
         ThrowAdditionals: []
         PlayerAdditionals: []
       NowWeapon: 1
-      MoveSpeed: 5
+      MoveSpeed: 100
       DrainLife: 0
       MeleeAttackStamina:
       - 20
@@ -1054,19 +1052,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &325611585805579041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4078535065578860198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06107caa6f9d5194bb121bc9870dea75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mInventory: {fileID: 0}
 --- !u!114 &6720973357987853771
 MonoBehaviour:
   m_ObjectHideFlags: 0

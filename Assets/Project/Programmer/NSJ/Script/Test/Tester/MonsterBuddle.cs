@@ -64,9 +64,9 @@ namespace NSJ_TesterPanel
         {
             BaseEnemy monster = Instantiate(DataContainer.Monsters[_monsterIndex]);
             Vector3 createPos = new Vector3(
-                _player.transform.position.x + (_player.transform.forward.x * createOffset.x),
-                   _player.transform.position.y + createOffset.y,
-                _player.transform.position.z + (_player.transform.forward.z * createOffset.z) );
+                _player.transform.position.x + (_player.transform.forward.x * Random.Range(createOffset.x - 2, createOffset.x + 2)),
+                _player.transform.position.y + createOffset.y,
+                _player.transform.position.z + (_player.transform.forward.z * Random.Range(createOffset.z - 2, createOffset.z + 2)));
             monster.transform.position = createPos;
             monster.gameObject.AddComponent(typeof(TesterMonster));
 

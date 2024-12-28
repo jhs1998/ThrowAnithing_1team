@@ -37,9 +37,9 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public List<ThrowAdditional> ThrowAdditionals { get { return Data.ThrowAdditionals; } set { Data.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
     public List<PlayerAdditional> PlayerAdditionals { get { return Data.PlayerAdditionals; } set { Data.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
-    public float MoveSpeed { get { return Data.MoveSpeed/25f; } set { Data.MoveSpeed = value * 25f; } } // 이동속도
+    public float MoveSpeed { get { return Data.MoveSpeed/20; } set { Data.MoveSpeed = value * 20f; } } // 이동속도
     // 대쉬
-    public float DashDistance { get { return Data.DashDistance/25f; } set { Data.DashDistance = value * 25f; } }
+    public float DashDistance { get { return Data.DashDistance/20f; } set { Data.DashDistance = value * 20f; } }
     public int DashStamina { get { return Data.DashStamina; } set { Data.DashStamina = value; } }
     // 점프
     public float JumpPower { get { return Data.JumpPower/13f; } set { Data.JumpPower = value* 13f; } }
