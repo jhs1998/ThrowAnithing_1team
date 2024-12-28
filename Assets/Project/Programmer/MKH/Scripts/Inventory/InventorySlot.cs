@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +8,7 @@ namespace MKH
 {
     public class InventorySlot : MonoBehaviour
     {
+        // 아이템
         private Item mItem;
         public Item Item { get { return mItem; } }
 
@@ -18,11 +18,8 @@ namespace MKH
         [Header("슬롯에 있는 UI 오브젝트")]
         [SerializeField] private Image mItemImage;
 
-
-        [SerializeField] private ItemActionManager itemActionManager;
-
-        [SerializeField] TMP_Text nameText;
-        [SerializeField] TMP_Text descriptionText;
+        [Header("장비 교체 매니저")]
+        [SerializeField] private EquipActionManager equipActionManager;
 
         // 아이템 이미지 투명도 조절
         private void SetColor(float _alpha)
@@ -43,8 +40,6 @@ namespace MKH
         {
             mItem = item;
             mItemImage.sprite = mItem.Image;
-            nameText.text = item.Name;
-            descriptionText.text = item.Description;
             SetColor(1);
         }
 
@@ -53,8 +48,6 @@ namespace MKH
         {
             mItem = null;
             mItemImage.sprite = null;
-            nameText.text = null;
-            descriptionText.text = null;
             SetColor(0);
         }
 
@@ -71,18 +64,16 @@ namespace MKH
             }
         }
 
+        // 장비 교체
         public void ChangeEquipmentSlot()
         {
-            itemActionManager.UseItem(mItem);
+            equipActionManager.UseEquip(mItem);
         }
 
+        // 장비 제거
         public void RemoveEquipmentSlot()
         {
-            EquipmentInventory Equip = GetComponent<EquipmentInventory>();
-
-            ClearSlot();
-            Equip.CalculateEffect();
-
+            equipActionManager.RemoveEquip(mItem);
         }
     }
 }
