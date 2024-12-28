@@ -17,8 +17,9 @@ public class Status : MonoBehaviour
     {
         if (bar == chargingBar)
         {
-            if (bar.value <= mpBar.value)
+            if (bar.value < mpBar.value)
             {
+
                 float per;
 
                 per = curValue / maxValue * 100;
@@ -40,7 +41,7 @@ public class Status : MonoBehaviour
 
     void Init()
     {
-        
+
 
     }
 
