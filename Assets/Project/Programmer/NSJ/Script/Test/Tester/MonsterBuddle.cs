@@ -1,7 +1,9 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
+using System.Collections.Generic;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace NSJ_TesterPanel
@@ -23,6 +25,7 @@ namespace NSJ_TesterPanel
             }
         }
         private Subject<int> _monsterIndexSubject = new Subject<int>();
+        private List<TesterMonster> _testerMonsters = new List<TesterMonster>();
 
         protected override void Awake()
         {
@@ -35,6 +38,9 @@ namespace NSJ_TesterPanel
             SubscribeEvent();
             ChangeIndex(_monsterIndex);
         }
+        /// <summary>
+        /// 현재 선택된 몬스터 인덱스 결정
+        /// </summary>
         private void ChangeIndex(int index)
         {
             if(index >= _monsters.Length)
@@ -52,6 +58,9 @@ namespace NSJ_TesterPanel
             _nameText.SetText(index.GetText());
         }
 
+        /// <summary>
+        /// 좀비 생성
+        /// </summary>
         private void Create()
         {
             BaseEnemy monster = Instantiate(_monsters[_monsterIndex]);
@@ -61,6 +70,21 @@ namespace NSJ_TesterPanel
                 _player.transform.position.z + (_player.transform.forward.z * createOffset.z) );
             monster.transform.position = createPos;
             monster.gameObject.AddComponent(typeof(TesterMonster));
+
+            TesterMonster testerMonster = monster.GetComponent<TesterMonster>();
+            _testerMonsters.Add(testerMonster);
+        }
+
+        /// <summary>
+        /// 모든 좀비 죽이기
+        /// </summary>
+        private void DieTesterMonster()
+        {
+            foreach(TesterMonster testerMonster in _testerMonsters)
+            {
+                testerMonster.Die();
+            }
+            _testerMonsters.Clear();
         }
 
         private void SubscribeEvent()
@@ -72,6 +96,7 @@ namespace NSJ_TesterPanel
             GetUI<Button>("LeftButton").onClick.AddListener(() => _monsterIndex--);
             GetUI<Button>("RightButton").onClick.AddListener(() => _monsterIndex++);
             GetUI<Button>("CreateButton").onClick.AddListener(Create);
+            GetUI<Button>("DeleteButton").onClick.AddListener(DieTesterMonster); 
         }
 
         private void InitButtons()
@@ -79,6 +104,7 @@ namespace NSJ_TesterPanel
             _buttons.Add(GetButtonStruct("LeftButton"));
             _buttons.Add(GetButtonStruct("RightButton"));
             _buttons.Add(GetButtonStruct("CreateButton"));
+            _buttons.Add(GetButtonStruct("DeleteButton"));
         }
     }
 }

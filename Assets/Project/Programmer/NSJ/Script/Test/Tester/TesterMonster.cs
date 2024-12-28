@@ -6,13 +6,10 @@ namespace NSJ_TesterPanel
 {
     public class TesterMonster : MonoBehaviour
     {
-        private void Update()
+        public void Die()
         {
-            if (Input.GetKeyDown(KeyCode.F4))
-            {
-                IHit hit = GetComponent<IHit>();
-                hit.TakeDamage(10000000, true);
-            }   
+            IHit hit = GetComponent<IHit>();
+            hit.TakeDamage(10000000, true);
         }
     }
 }

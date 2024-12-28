@@ -69,6 +69,11 @@ namespace NSJ_TesterPanel
             while (true)
             {
 
+                if (Input.GetKeyDown(KeyCode.F1)) 
+                {
+                    ChangeHighlight(-10);
+                }
+
                 if (Input.GetButtonDown("Interaction"))
                 {
                     if (_canControl == false)
@@ -115,6 +120,10 @@ namespace NSJ_TesterPanel
             }
         }
 
+        /// <summary>
+        /// 하이라이트 결정 (-10은 모두 끄기)
+        /// </summary>
+        /// <param name="index"></param>
         private void ChangeHighlight(int index)
         {
             if(index == -10)
