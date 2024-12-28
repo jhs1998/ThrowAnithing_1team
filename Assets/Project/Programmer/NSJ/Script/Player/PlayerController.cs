@@ -182,6 +182,9 @@ public class PlayerController : MonoBehaviour, IHit
 
     private void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
         _states[(int)CurState].Update();
 
         CheckAnyState();
@@ -192,6 +195,9 @@ public class PlayerController : MonoBehaviour, IHit
 
     private void FixedUpdate()
     {
+        if (Time.timeScale == 0)
+            return;
+
         _states[(int)CurState].FixedUpdate();
         CheckGround();
         CheckWall();

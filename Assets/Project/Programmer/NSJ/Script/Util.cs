@@ -10,6 +10,7 @@ public static partial class Util
     public static StringBuilder Sb = new StringBuilder();
 
     private static Dictionary<float, WaitForSeconds> _delayDic = new Dictionary<float, WaitForSeconds>();
+    private static Dictionary<float, WaitForSecondsRealtime> _delayRealTimeDic = new Dictionary<float, WaitForSecondsRealtime>();
 
     /// <summary>
     /// 코루틴 딜레이 WaitForSeconds 가져오기
@@ -22,6 +23,19 @@ public static partial class Util
         }
         
         return _delayDic[delay];
+    }
+
+    /// <summary>
+    /// 코루틴 딜레이 WaitForSeconds 가져오기
+    /// </summary>
+    public static WaitForSecondsRealtime GetRealTimeDelay(this float delay)
+    {
+        if (_delayRealTimeDic.ContainsKey(delay) == false)
+        {
+            _delayRealTimeDic.Add(delay, new WaitForSecondsRealtime(delay));
+        }
+
+        return _delayRealTimeDic[delay];
     }
 
     /// <summary>
