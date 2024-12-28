@@ -6,13 +6,13 @@ public class DataContainer : MonoBehaviour
 {
     public static DataContainer Instance;
 
-    // TODO : 젠젝트로 변환 시도
-    public PlayerData PlayerData;
-
 
     [SerializeField] ThrowObject[] _throwObjects;
     private Dictionary<int, ThrowObject> _throwObjectDic = new Dictionary<int, ThrowObject>();
     private static Dictionary<int, ThrowObject> s_ThrowObjectDic { get { return Instance._throwObjectDic; } }
+    [SerializeField] ArmUnit[] _armUnits;
+    private Dictionary<GlobalPlayerStateData.AmWeapon, ArmUnit> _armUnitDic = new Dictionary<GlobalPlayerStateData.AmWeapon, ArmUnit>();
+    private static Dictionary<GlobalPlayerStateData.AmWeapon, ArmUnit> s_armUnitDic { get { return Instance._armUnitDic; } }
     private void Awake()
     {
         InitSingleTon();
@@ -20,6 +20,10 @@ public class DataContainer : MonoBehaviour
         foreach (ThrowObject throwObject in _throwObjects)
         {
             _throwObjectDic.Add(throwObject.Data.ID, throwObject);
+        }
+        foreach(ArmUnit armUnit in _armUnits)
+        {
+            _armUnitDic.Add(armUnit.ArmType, armUnit);
         }
     }
 
@@ -29,6 +33,13 @@ public class DataContainer : MonoBehaviour
     public static ThrowObject GetThrowObject(int ID)
     {
         return  s_ThrowObjectDic[ID];
+    }
+    /// <summary>
+    /// 암유닛 얻기
+    /// </summary>
+    public static ArmUnit GetArmUnit(GlobalPlayerStateData.AmWeapon armUnit)
+    {
+        return s_armUnitDic[armUnit];
     }
 
     private void InitSingleTon()

@@ -168,7 +168,8 @@ public class PlayerController : MonoBehaviour, IHit
         InitUIEvent();
         StartRoutine();
         InitAdditionnal();
-        ChangeArmUnit(Model.Arm);
+        Debug.Log("플레이어");
+        ChangeArmUnit(Model.NowWeapon);
 
         Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
@@ -378,6 +379,11 @@ public class PlayerController : MonoBehaviour, IHit
     public void ChangeArmUnit(ArmUnit armUnit)
     {
         Model.Arm = Instantiate(armUnit);
+        Model.Arm.Init(this);
+    }
+    public void ChangeArmUnit(GlobalPlayerStateData.AmWeapon armUnit)
+    {
+        Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
         Model.Arm.Init(this);
     }
     #region 플레이어 추가효과 관련
