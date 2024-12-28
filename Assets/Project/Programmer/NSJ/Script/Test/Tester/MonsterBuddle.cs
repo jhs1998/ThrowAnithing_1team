@@ -60,6 +60,7 @@ namespace NSJ_TesterPanel
                    _player.transform.position.y + createOffset.y,
                 _player.transform.position.z + (_player.transform.forward.z * createOffset.z) );
             monster.transform.position = createPos;
+            monster.gameObject.AddComponent(typeof(TesterMonster));
         }
 
         private void SubscribeEvent()
