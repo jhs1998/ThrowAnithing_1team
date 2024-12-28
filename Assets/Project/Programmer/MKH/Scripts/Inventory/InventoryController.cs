@@ -190,8 +190,9 @@ namespace MKH
                             ivDescription.text = null;
                         }
                     }
+
                     // 인벤토리 설명
-                    else if (i >= 9)
+                    if (i >= 9)
                     {
                         // 인벤토리 슬롯에 아이템 있는 상태
                         if (ivSlots[i - 9].Item != null)
@@ -203,40 +204,112 @@ namespace MKH
                             switch (ivSlots[i - 9].Item.Type)
                             {
                                 case ItemType.Helmet:
-                                    eqName.text = eqSlots[0].Item.Name;
-                                    eqDescription.text = eqSlots[0].Item.Description;
+                                    if (eqSlots[0].Item != null)
+                                    {
+                                        eqName.text = eqSlots[0].Item.Name;
+                                        eqDescription.text = eqSlots[0].Item.Description;
+                                    }
+                                    else
+                                    {
+                                        eqName.text = null;
+                                        eqDescription.text = null;
+                                    }
                                     break;
                                 case ItemType.Shirts:
-                                    eqName.text = eqSlots[1].Item.Name;
-                                    eqDescription.text = eqSlots[1].Item.Description;
+                                    if (eqSlots[1].Item != null)
+                                    {
+                                        eqName.text = eqSlots[1].Item.Name;
+                                        eqDescription.text = eqSlots[1].Item.Description;
+                                    }
+                                    else
+                                    {
+                                        eqName.text = null;
+                                        eqDescription.text = null;
+                                    }
                                     break;
                                 case ItemType.Glasses:
-                                    eqName.text = eqSlots[2].Item.Name;
-                                    eqDescription.text = eqSlots[2].Item.Description;
+                                    if (eqSlots[2].Item != null)
+                                    {
+                                        eqName.text = eqSlots[2].Item.Name;
+                                        eqDescription.text = eqSlots[2].Item.Description;
+                                    }
+                                    else
+                                    {
+                                        eqName.text = null;
+                                        eqDescription.text = null;
+                                    }
                                     break;
                                 case ItemType.Gloves:
-                                    eqName.text = eqSlots[3].Item.Name;
-                                    eqDescription.text = eqSlots[3].Item.Description;
+                                    if (eqSlots[3].Item != null)
+                                    {
+                                        eqName.text = eqSlots[3].Item.Name;
+                                        eqDescription.text = eqSlots[3].Item.Description;
+                                    }
+                                    else
+                                    {
+                                        eqName.text = null;
+                                        eqDescription.text = null;
+                                    }
                                     break;
                                 case ItemType.Pants:
-                                    eqName.text = eqSlots[4].Item.Name;
-                                    eqDescription.text = eqSlots[4].Item.Description;
+                                    if (eqSlots[4].Item != null)
+                                    {
+                                        eqName.text = eqSlots[4].Item.Name;
+                                        eqDescription.text = eqSlots[4].Item.Description;
+                                    }
+                                    else
+                                    {
+                                        eqName.text = null;
+                                        eqDescription.text = null;
+                                    }
                                     break;
                                 case ItemType.Earring:
-                                    eqName.text = eqSlots[5].Item.Name;
-                                    eqDescription.text = eqSlots[5].Item.Description;
+                                    if (eqSlots[5].Item != null)
+                                    {
+                                        eqName.text = eqSlots[5].Item.Name;
+                                        eqDescription.text = eqSlots[5].Item.Description;
+                                    }
+                                    else
+                                    {
+                                        eqName.text = null;
+                                        eqDescription.text = null;
+                                    }
                                     break;
                                 case ItemType.Ring:
-                                    eqName.text = eqSlots[6].Item.Name;
-                                    eqDescription.text = eqSlots[6].Item.Description;
+                                    if (eqSlots[6].Item != null)
+                                    {
+                                        eqName.text = eqSlots[6].Item.Name;
+                                        eqDescription.text = eqSlots[6].Item.Description;
+                                    }
+                                    else
+                                    {
+                                        eqName.text = null;
+                                        eqDescription.text = null;
+                                    }
                                     break;
                                 case ItemType.Shoes:
-                                    eqName.text = eqSlots[7].Item.Name;
-                                    eqDescription.text = eqSlots[7].Item.Description;
+                                    if (eqSlots[7].Item != null)
+                                    {
+                                        eqName.text = eqSlots[7].Item.Name;
+                                        eqDescription.text = eqSlots[7].Item.Description;
+                                    }
+                                    else
+                                    {
+                                        eqName.text = null;
+                                        eqDescription.text = null;
+                                    }
                                     break;
                                 case ItemType.Necklace:
-                                    eqName.text = eqSlots[8].Item.Name;
-                                    eqDescription.text = eqSlots[8].Item.Description;
+                                    if (eqSlots[8].Item != null)
+                                    {
+                                        eqName.text = eqSlots[8].Item.Name;
+                                        eqDescription.text = eqSlots[8].Item.Description;
+                                    }
+                                    else
+                                    {
+                                        eqName.text = null;
+                                        eqDescription.text = null;
+                                    }
                                     break;
                             }
                         }
