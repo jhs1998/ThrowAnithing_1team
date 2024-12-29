@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,9 +13,19 @@ public class PlayerPanel : BaseUI
     public Slider MpBar => GetUI<Slider>("MpBar");
     public Slider ChargingMpBar => GetUI<Slider>("ChargingMpBar");
     public Slider ChanrgeStaminaBar => GetUI<Slider>("ChargeStaminaBar");
+    [HideInInspector]public List<TMP_Text> StepTexts = new List<TMP_Text>(3);
     private void Awake()
     {
         Bind();
+        Init();
+    }
+
+    private void Init()
+    {
+        StepTexts.Add(GetUI<TMP_Text>("1StepText"));
+        StepTexts.Add(GetUI<TMP_Text>("2StepText"));
+        StepTexts.Add(GetUI<TMP_Text>("3StepText"));
+
     }
 
     public void BarValueController(Slider bar,float curValue,float maxValue)

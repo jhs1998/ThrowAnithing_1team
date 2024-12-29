@@ -109,9 +109,9 @@ namespace NSJ_TesterPanel
             }
 
             Vector3 createPos = new Vector3(
-                _player.transform.position.x + (_player.transform.forward.x * createOffset.x),
+                _player.transform.position.x + (_player.transform.forward.x * Random.Range(createOffset.x - randomOffset.x, createOffset.x + randomOffset.x)),
                 _player.transform.position.y + createOffset.y,
-                _player.transform.position.z + (_player.transform.forward.z * createOffset.z));
+                _player.transform.position.z + (_player.transform.forward.z * Random.Range(createOffset.z - randomOffset.z, createOffset.z + randomOffset.z)));
             instance.transform.position = createPos;
         }
 

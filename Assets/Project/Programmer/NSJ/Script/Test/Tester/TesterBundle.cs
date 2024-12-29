@@ -22,6 +22,7 @@ namespace NSJ_TesterPanel
         protected bool _canControl;
 
         [SerializeField] protected Vector3 createOffset = new Vector3(5,0,5);
+        [SerializeField] protected Vector3 randomOffset;
         Coroutine _checkHorizontalInput;
         protected virtual void Awake()
         {

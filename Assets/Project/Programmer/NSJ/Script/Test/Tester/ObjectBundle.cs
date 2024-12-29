@@ -7,12 +7,10 @@ using UnityEngine.UI;
 
 namespace NSJ_TesterPanel
 {
-    public class BlueChipBundle : TesterBundle
+    public class ObjectBundle : TesterBundle
     {
-        [SerializeField] NSJBlueChip _blueChipItem;
+        private ThrowObject _curObject;
         private TMP_Text _nameText => GetUI<TMP_Text>("NameText");
-
-        private AdditionalEffect _curBlueChip;
         private int m_blueChipIndex;
         private int _blueChipIndex
         {
@@ -38,31 +36,30 @@ namespace NSJ_TesterPanel
         }
         private void ChangeIndex(int index)
         {
-            if (index >= DataContainer.BlueChips.Length)
+            if (index >= DataContainer.ThrowObjects.Length)
             {
                 _blueChipIndex = 0;
                 return;
             }
             else if (index < 0)
             {
-                _blueChipIndex = DataContainer.BlueChips.Length - 1;
+                _blueChipIndex = DataContainer.ThrowObjects.Length - 1;
                 return;
             }
 
-            _curBlueChip = DataContainer.BlueChips[index];
-            _nameText.SetText(DataContainer.BlueChips[index].Name);
+            _curObject = DataContainer.ThrowObjects[index];
+            _nameText.SetText(DataContainer.ThrowObjects[index].Data.Name);
         }
 
         private void Create()
         {
 
-            NSJBlueChip blueChipItem = Instantiate(_blueChipItem);
+            ThrowObject blueChipItem = Instantiate(_curObject);
             Vector3 createPos = new Vector3(
                 _player.transform.position.x + (_player.transform.forward.x * Random.Range(createOffset.x - randomOffset.x, createOffset.x + randomOffset.x)),
                 _player.transform.position.y + createOffset.y,
                 _player.transform.position.z + (_player.transform.forward.z * Random.Range(createOffset.z - randomOffset.z, createOffset.z + randomOffset.z)));
             blueChipItem.transform.position = createPos;
-            blueChipItem.SetBlueChip(_curBlueChip);
         }
 
         private void SubscribeEvent()

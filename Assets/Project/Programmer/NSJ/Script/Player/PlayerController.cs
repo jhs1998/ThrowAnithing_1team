@@ -682,12 +682,12 @@ public class PlayerController : MonoBehaviour, IHit
 
         if(IsTargetHolding == false && IsTargetToggle == false)
         {
-            if (Input.GetMouseButtonDown(2))
-            {
-                //TODO: 카메라 몬스터 홀딩 기능
-                IsTargetHolding = true;
-                _cameraHolder.gameObject.SetActive(true);
-            }
+            //if (Input.GetMouseButtonDown(2))
+            //{
+            //    //TODO: 카메라 몬스터 홀딩 기능
+            //    IsTargetHolding = true;
+            //    _cameraHolder.gameObject.SetActive(true);
+            //}
             if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding ==false)
             {
                 //TODO: 카메라 몬스터 홀딩 기능
@@ -697,12 +697,12 @@ public class PlayerController : MonoBehaviour, IHit
         }
         else
         {
-            if (Input.GetMouseButtonUp(2) && IsTargetToggle == false)
-            {
-                //TODO: 카메라 몬스터 홀딩 풀기
-                IsTargetHolding = false;
-                _cameraHolder.gameObject.SetActive(false);
-            }
+            //if (Input.GetMouseButtonUp(2) && IsTargetToggle == false)
+            //{
+            //    //TODO: 카메라 몬스터 홀딩 풀기
+            //    IsTargetHolding = false;
+            //    _cameraHolder.gameObject.SetActive(false);
+            //}
             if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기

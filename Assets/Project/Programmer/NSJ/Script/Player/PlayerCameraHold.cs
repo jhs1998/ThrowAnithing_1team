@@ -1,3 +1,4 @@
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator;
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ public class PlayerCameraHold : MonoBehaviour
     private int _targetIndex;
 
     Coroutine _checkDistanceToTarget;
+    Coroutine _changeTargetRoutine;
     [System.Serializable]
     struct TargetInfo
     {
@@ -40,6 +42,11 @@ public class PlayerCameraHold : MonoBehaviour
     {
         _targetEffect.SetActive(true);
         SetTargetList();
+
+        if(_changeTargetRoutine == null)
+        {
+            _changeTargetRoutine = StartCoroutine(ChangeTargetRoutine());
+        }
     }
 
     private void OnDisable()
@@ -48,6 +55,11 @@ public class PlayerCameraHold : MonoBehaviour
         {
             StopCoroutine(_checkDistanceToTarget);
             _checkDistanceToTarget = null;
+        }
+        if(_changeTargetRoutine != null)
+        {
+            StopCoroutine(_changeTargetRoutine);
+            _changeTargetRoutine = null;
         }
 
         _targetEffect.SetActive(false);
@@ -77,18 +89,7 @@ public class PlayerCameraHold : MonoBehaviour
             // 타겟 이펙트효과 타겟위치
             _targetEffect.transform.position = new(_target.position.x, _target.position.y + 0.3f, _target.position.z);
         }
-        if(_player.IsTargetToggle == true && Input.GetMouseButtonDown(1))
-        {
-            // 타겟 인덱스 올림
-            _targetIndex++;
-            // 타겟 인덱스가 리스트 카운트값을 넘었다면 다시 처음부터
-            if (_targetIndex >= _targetList.Count)
-            {
-                _targetIndex = 0;
-            }
-            // 해당 타겟으로 변경
-            _target = _targetList[_targetIndex].Target;
-        }
+
     }
 
     /// <summary>
@@ -163,6 +164,41 @@ public class PlayerCameraHold : MonoBehaviour
                 }
             }
             yield return 0.5f.GetDelay();
+        }
+    }
+
+    IEnumerator ChangeTargetRoutine()
+    {
+        while (true)
+        {
+            float mouseScroll = Input.GetAxisRaw(InputKey.Mouse_ScrollWheel);
+            if (_player.IsTargetToggle == true && mouseScroll > 0)
+            {
+                // 타겟 인덱스 올림
+                _targetIndex++;
+                // 타겟 인덱스가 리스트 카운트값을 넘었다면 다시 처음부터
+                if (_targetIndex >= _targetList.Count)
+                {
+                    _targetIndex = 0;
+                }
+                // 해당 타겟으로 변경
+                _target = _targetList[_targetIndex].Target;
+                yield return 0.2f.GetDelay();
+            }
+            else if (_player.IsTargetToggle == true && mouseScroll < 0)
+            {
+                // 타겟 인덱스 내림
+                _targetIndex--;
+                // 타겟 인덱스가 0 이하라면 맨 위부터
+                if (_targetIndex < 0)
+                {
+                    _targetIndex = _targetList.Count - 1;
+                }
+                // 해당 타겟으로 변경
+                _target = _targetList[_targetIndex].Target;
+                yield return 0.2f.GetDelay();
+            }
+            yield return null;
         }
     }
 }

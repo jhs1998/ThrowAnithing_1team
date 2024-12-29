@@ -18,4 +18,5 @@ public static partial class InputKey
     public const string Escape = "Escape";
     public const string Inventory = "Inventory";
     public const string Cheat = "Cheat";
+    public const string Mouse_ScrollWheel = "Mouse ScrollWheel";
 }

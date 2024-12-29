@@ -33,6 +33,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         for (int i = 0; i < _charges.Length; i++)
         {
             _charges[i].Damage = (int)Model.PowerSpecialAttack[i];
+            View.Panel.StepTexts[i].SetText(_charges[i].ObjectCount.GetText());
         }
     }
     public override void Enter()

@@ -39,6 +39,7 @@ public class DataContainer : MonoBehaviour
     public static ItemStruct Items { get { return Instance._items; } }
 
     [SerializeField] ThrowObject[] _throwObjects;
+    public static ThrowObject[] ThrowObjects { get { return Instance._throwObjects; } }
     private Dictionary<int, ThrowObject> _throwObjectDic = new Dictionary<int, ThrowObject>();
     private static Dictionary<int, ThrowObject> s_ThrowObjectDic { get { return Instance._throwObjectDic; } }
     [SerializeField] ArmUnit[] _armUnits;

@@ -39,6 +39,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
             _charges[i].Damage = (int)Model.PowerMeleeAttack[i];
             _charges[i].Stamina = Model.MeleeAttackStamina[i];
             _charges[i].ArmEffect = Binder.PowerMeleeEffect[i];
+            _charges[i].ArmEffect.SetActive(false);
         }
     }
 
@@ -131,8 +132,9 @@ public class PowerMeleeAttack : ArmMeleeAttack
             if (_curChargeTime > _charges[_index + 1].ChargeTime)
             {
                 _index++;
+                ShowArmEffect();
             }
-            ShowArmEffect();
+            
         }
         else
         {

@@ -206,4 +206,5 @@ public class ThrowObject : MonoBehaviour
 public class ThrowObjectData
 {
     public int ID;
+    public string Name;
 }

@@ -8,15 +8,16 @@ namespace NSJ_TesterPanel
 {
     public class ButtonBundle : BaseUI
     {
-        enum Bundle { Monster, BlueChip, EquipMent, Size}
+        enum Bundle { Monster, BlueChip, EquipMent,Object, Size}
         struct ButtonStruct
         {
-            [HideInInspector] public GameObject Buddle;
+            [HideInInspector] public GameObject Bundle;
             [HideInInspector] public GameObject ButtonOn;
         }
         [SerializeField] GameObject _monster;
         [SerializeField] GameObject _blueChip;
         [SerializeField] GameObject _equipment;
+        [SerializeField] GameObject _object;
 
         private ButtonStruct[] _bundles = new ButtonStruct[(int)Bundle.Size];
         private Bundle _curBundle;
@@ -54,12 +55,12 @@ namespace NSJ_TesterPanel
             {
                 if(i == (int)bundle)
                 {
-                    _bundles[i].Buddle.SetActive(true);
+                    _bundles[i].Bundle.SetActive(true);
                     _bundles[i].ButtonOn.SetActive(true);
                 }
                 else
                 {
-                    _bundles[i].Buddle.SetActive(false);
+                    _bundles[i].Bundle.SetActive(false);
                     _bundles[i].ButtonOn.SetActive(false);
                 }
             }
@@ -70,18 +71,20 @@ namespace NSJ_TesterPanel
             _bundles[(int)Bundle.Monster] = GetStruct(_monster,GetUI("MonsterButtonOn"));
             _bundles[(int)Bundle.BlueChip] = GetStruct(_blueChip,GetUI("BlueChipButtonOn"));
             _bundles[(int)Bundle.EquipMent] = GetStruct(_equipment, GetUI("EquipmentButtonOn"));
+            _bundles[(int)Bundle.Object] = GetStruct(_object, GetUI("ObjectButtonOn"));
         }
         private void SubscribesEvent()
         {
             GetUI<Button>("MonsterButton").onClick.AddListener(() => ChangeBundle(Bundle.Monster));
             GetUI<Button>("BlueChipButton").onClick.AddListener(() => ChangeBundle(Bundle.BlueChip));
             GetUI<Button>("EquipmentButton").onClick.AddListener(() => ChangeBundle(Bundle.EquipMent));
+            GetUI<Button>("ObjectButton").onClick.AddListener(() => ChangeBundle(Bundle.Object));
         }
 
         private ButtonStruct GetStruct(GameObject buddle, GameObject buttonOn)
         {
             ButtonStruct instance = new ButtonStruct();
-            instance.Buddle = buddle;
+            instance.Bundle = buddle;
             instance.ButtonOn = buttonOn;
             return instance;
         }
@@ -106,8 +109,6 @@ namespace NSJ_TesterPanel
             _canControl = true;
             while (true)
             {
-                //?? ø÷ ∏ÿ√ﬂ¥œ±Ó æ»µ ?
-                Input.GetButtonDown(InputKey.Jump);
                 if (Input.GetButtonDown(InputKey.Interaction))
                 {
                     _canControl = false;
