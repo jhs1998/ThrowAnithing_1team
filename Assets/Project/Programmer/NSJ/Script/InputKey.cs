@@ -12,7 +12,7 @@ public static partial class InputKey
     public const string Melee = "Melee";
     public const string RockOn = "Rock On";
     public const string Negative= "Negative";
-    public const string Interactive = "Interactive";
+    public const string Interaction = "Interaction";
     public const string Dash = "Dash";
     public const string Drain = "Drain";
     public const string Escape = "Escape";

@@ -106,8 +106,9 @@ namespace NSJ_TesterPanel
             _canControl = true;
             while (true)
             {
-
-                if (Input.GetButtonDown(InputKey.Interactive))
+                //?? ø÷ ∏ÿ√ﬂ¥œ±Ó æ»µ ?
+                Input.GetButtonDown(InputKey.Jump);
+                if (Input.GetButtonDown(InputKey.Interaction))
                 {
                     _canControl = false;
                 }
