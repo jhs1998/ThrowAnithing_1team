@@ -105,11 +105,11 @@ public class BasicMeleeAttack : ArmMeleeAttack
     {
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetButtonDown(InputKey.Melee))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
             }
-            else if (Input.GetButtonDown("Fire1"))
+            else if (Input.GetButtonDown(InputKey.Throw))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
             }

@@ -26,22 +26,22 @@ public class IdleState : PlayerState
             ChangeState(PlayerController.State.Run);
         }
         // 1번 공격키 입력시 근접공격
-        else if (Input.GetKeyDown(KeyCode.V))
+        else if (Input.GetButtonDown(InputKey.Melee))
         {
             ChangeState(PlayerController.State.MeleeAttack);
         }
         // 2번 공격키 입력시 투척 공격
-        else if (Input.GetButtonDown("Fire1"))
+        else if (Input.GetButtonDown(InputKey.Throw))
         {
             ChangeState(PlayerController.State.ThrowAttack);
         }
         // 특수공격 키 입력시 특수 공격
-        else if (Input.GetKeyDown(KeyCode.Q))
+        else if (Input.GetButtonDown(InputKey.Special))
         {
             ChangeState(PlayerController.State.SpecialAttack);
         }
         // 지면에서 점프 키 입력 시 점프
-        else if (Player.IsGround == true && Input.GetButtonDown("Jump"))
+        else if (Player.IsGround == true && Input.GetButtonDown(InputKey.Jump))
         {
             ChangeState(PlayerController.State.Jump);
         }
@@ -51,7 +51,7 @@ public class IdleState : PlayerState
             ChangeState(PlayerController.State.Fall);
         }
         // 드레인 키를 눌렀을 경우
-        else if (Input.GetKeyDown(KeyCode.Z))
+        else if (Input.GetButtonDown(InputKey.Drain))
         {
             ChangeState(PlayerController.State.Drain);
         }

@@ -102,7 +102,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         {
             ProcessCharge();
 
-            if (Input.GetKeyUp(KeyCode.V))
+            if (Input.GetButtonUp(InputKey.Melee))
             {
                 _chargeRoutine = null;
                 // 공격방향 바라보기
@@ -121,12 +121,13 @@ public class PowerMeleeAttack : ArmMeleeAttack
         _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
         if (_charges.Length > _index + 1)
         {
-
+            // 스테미나가 부족하면 차지 멈춤
             if (Model.CurStamina < _charges[_index + 1].Stamina)
             {
                 _curChargeTime = _charges[_index].ChargeTime;
                 return;
             }
+            // 차지 시간이 다음 단계로 넘어갈 수 있을 때
             if (_curChargeTime > _charges[_index + 1].ChargeTime)
             {
                 _index++;

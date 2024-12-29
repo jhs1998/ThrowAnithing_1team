@@ -189,7 +189,7 @@ public class PlayerController : MonoBehaviour, IHit
 
         CheckAnyState();
         RotateCamera();
-        InputKey();
+        ChackInput();
         UpdatePlayerAdditional();
     }
 
@@ -674,19 +674,12 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 키입력 감지
     /// </summary>
-    private void InputKey()
+    private void ChackInput()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
+        float x = Input.GetAxisRaw(InputKey.Horizontal);
+        float z = Input.GetAxisRaw(InputKey.Vertical);
         MoveDir = new Vector3(x, 0, z);
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            if (Model.AdditionalEffects.Count > 0)
-            {
-                RemoveAdditional(Model.AdditionalEffects[0]);
-            }
-        }
         if(IsTargetHolding == false && IsTargetToggle == false)
         {
             if (Input.GetMouseButtonDown(1))
@@ -695,7 +688,7 @@ public class PlayerController : MonoBehaviour, IHit
                 IsTargetHolding = true;
                 _cameraHolder.gameObject.SetActive(true);
             }
-            if (Input.GetKeyDown(KeyCode.T) && IsTargetHolding ==false)
+            if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding ==false)
             {
                 //TODO: 카메라 몬스터 홀딩 기능
                 IsTargetToggle = true;
@@ -710,7 +703,7 @@ public class PlayerController : MonoBehaviour, IHit
                 IsTargetHolding = false;
                 _cameraHolder.gameObject.SetActive(false);
             }
-            if (Input.GetKeyDown(KeyCode.T) && IsTargetHolding == false)
+            if (Input.GetButtonUp(InputKey.RockOn) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기
                 IsTargetToggle = false;
@@ -723,7 +716,7 @@ public class PlayerController : MonoBehaviour, IHit
         if (IsDead == true || IsHit == true)
             return;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
+        if (Input.GetButtonDown(InputKey.Dash) && CurState != State.Dash)
         {
             ChangeState(PlayerController.State.Dash);
         }

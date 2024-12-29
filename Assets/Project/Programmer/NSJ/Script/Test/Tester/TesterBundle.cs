@@ -74,7 +74,7 @@ namespace NSJ_TesterPanel
                     ChangeHighlight(-10);
                 }
 
-                if (Input.GetButtonDown("Interaction"))
+                if (Input.GetButtonDown(InputKey.Interactive))
                 {
                     if (_canControl == false)
                     {
@@ -87,7 +87,7 @@ namespace NSJ_TesterPanel
                         InteractButton(_buttonIndex);
                     }
                 }
-                if (Input.GetButtonDown("Negative"))
+                if (Input.GetButtonDown(InputKey.Negative))
                 {
                     _canControl = false;
                     ChangeHighlight(-10);
@@ -99,7 +99,7 @@ namespace NSJ_TesterPanel
                     continue;
                 }
 
-                float x = Input.GetAxisRaw("Horizontal");
+                float x = Input.GetAxisRaw(InputKey.Horizontal);
                 if (x < 0)
                 {
                     _buttonIndex--;
