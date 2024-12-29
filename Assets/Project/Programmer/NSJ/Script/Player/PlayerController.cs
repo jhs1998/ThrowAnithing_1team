@@ -13,7 +13,8 @@ using Random = UnityEngine.Random;
 public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public Transform ArmPoint;
-
+    [SerializeField] public HitAdditional test1;
+    [SerializeField] public HitAdditional test2;
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;

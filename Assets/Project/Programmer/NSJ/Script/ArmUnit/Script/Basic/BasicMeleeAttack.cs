@@ -78,7 +78,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
 
             int finalDamage = Player.GetFinalDamage(_damageMultiplier);
             // 데미지 주기
-            Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, true);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true);
         }
     }
 

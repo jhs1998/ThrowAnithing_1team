@@ -14,15 +14,52 @@ public class BattleSystem : MonoBehaviour, IBattle
         Hit = GetComponent<IHit>();
         Debuff = GetComponent<IDebuff>();
     }
+    /// <summary>
+    /// 디버프 안주는 공격
+    /// </summary>
     public void TargetAttack<T>(T target, int damage, bool isStun) where T : Component
     {
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeAttack(damage, isStun, _hitAdditionalList); // 상대를 공격
+        battle.ITakeAttack(damage, isStun); // 상대를 공격
     }
-
-    public void TakeAttack(int damage, bool isStun, List<HitAdditional> hitAdditionals)
+    /// <summary>
+    /// 가진 모든 디버프 주면서 공격
+    /// </summary>
+    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun) where T : Component
+    {
+        IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        battle.ITakeAttackWithDebuff(damage, isStun, _hitAdditionalList); // 상대를 공격
+    }
+    /// <summary>
+    /// 특정 디버프만 주면서 공격
+    /// </summary>
+    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, HitAdditional debuff) where T : Component
+    {
+        IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        battle.ITakeAttackWithDebuff(damage, isStun, debuff); // 상대를 공격
+    }
+    /// <summary>
+    /// 특정 디버프들을 주면서 공격 가능
+    /// </summary>
+    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, List<HitAdditional> debuffs) where T : Component
+    {
+        IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        battle.ITakeAttackWithDebuff(damage, isStun, debuffs); // 상대를 공격
+    }
+    /// <summary>
+    /// 디버프 안주는 공격
+    /// </summary>
+    public void ITakeAttack(int damage, bool isStun)
+    {
+        // 데미지 주기
+        Hit.TakeDamage(damage, isStun);
+    }
+    /// <summary>
+    /// 공격하면서 가진 디버프 전부 주기
+    /// </summary>
+    public void ITakeAttackWithDebuff(int damage, bool isStun, List<HitAdditional> hitAdditionals)
     {
         // 데미지 주기
         Hit.TakeDamage(damage, isStun);
@@ -32,6 +69,16 @@ public class BattleSystem : MonoBehaviour, IBattle
             AddDebuff(hitAdditional);
         }
     }
+    /// <summary>
+    /// 특정 디버프만 주기
+    /// </summary>
+    public void ITakeAttackWithDebuff(int damage, bool isStun, HitAdditional debuff)
+    {
+        // 데미지 주기
+        Hit.TakeDamage(damage, isStun);
+        AddDebuff(debuff);
+    }
+
     /// <summary>
     /// 적중 효과 등록
     /// </summary>

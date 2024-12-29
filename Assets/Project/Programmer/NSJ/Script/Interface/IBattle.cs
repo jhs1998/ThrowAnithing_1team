@@ -7,7 +7,9 @@ public interface IBattle
     IHit Hit { get; set; }
     IDebuff Debuff { get; set; }
 
-    void TakeAttack(int damage, bool isStun, List<HitAdditional> hitAdditionals);
+    void ITakeAttack(int damage, bool isStun);
+    void ITakeAttackWithDebuff(int damage, bool isStun, List<HitAdditional> hitAdditionals);
+    void ITakeAttackWithDebuff(int damage, bool isStun, HitAdditional hitAdditional);
     void Enter();
     void Exit();
     void Update();

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Power Melee", menuName = "Arm/AttackType/Power/Melee")]
@@ -48,6 +49,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         _index = 0;
         Player.LookAtAttackDir();
         View.SetTrigger(PlayerView.Parameter.PowerMelee);
+        ShowArmEffect();
         if (_chargeRoutine == null)
         {
             _chargeRoutine = CoroutineHandler.StartRoutine(ChargeRoutine());
@@ -147,7 +149,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
 
             int attackDamage = Player.GetFinalDamage(_charges[_index].Damage);
-            Player.Battle.TargetAttack(Player.OverLapColliders[i], attackDamage, true);
+            Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], attackDamage, true);
 
             if (_charges[_index].KnockBackRange > 0)
             {
