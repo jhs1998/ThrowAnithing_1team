@@ -538,11 +538,11 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCamera()
     {
-        float angleX = Input.GetAxis("Mouse X");
+        float angleX = Input.GetAxis(InputKey.MouseX);
         float angleY = default;
         // 체크시 마우스 상하도 가능
         if (IsVerticalCameraMove == true)
-            angleY = Input.GetAxis("Mouse Y");
+            angleY = Input.GetAxis(InputKey.MouseY);
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
         float x = camAngle.x - mouseDelta.y;
@@ -682,7 +682,7 @@ public class PlayerController : MonoBehaviour, IHit
 
         if(IsTargetHolding == false && IsTargetToggle == false)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(2))
             {
                 //TODO: 카메라 몬스터 홀딩 기능
                 IsTargetHolding = true;
@@ -697,13 +697,13 @@ public class PlayerController : MonoBehaviour, IHit
         }
         else
         {
-            if (Input.GetMouseButtonUp(1) && IsTargetToggle == false)
+            if (Input.GetMouseButtonUp(2) && IsTargetToggle == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기
                 IsTargetHolding = false;
                 _cameraHolder.gameObject.SetActive(false);
             }
-            if (Input.GetButtonUp(InputKey.RockOn) && IsTargetHolding == false)
+            if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기
                 IsTargetToggle = false;

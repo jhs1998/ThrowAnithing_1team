@@ -16,7 +16,7 @@ namespace NSJ_TesterPanel
         private void Start()
         {
             this.UpdateAsObservable()
-                .Where(x => Input.GetKeyDown(KeyCode.F1) == true)
+                .Where(x => Input.GetButtonDown(InputKey.Cheat) == true)
                 .Subscribe(x =>
                 {
                     _canvas.SetActive(!_canvas.activeSelf);
