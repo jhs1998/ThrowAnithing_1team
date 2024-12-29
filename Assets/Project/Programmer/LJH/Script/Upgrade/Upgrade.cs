@@ -154,30 +154,30 @@ public class Upgrade : UpgradeBinding
         slots = new Button[5, 4];
         slotImages = new Image[5, 4];
 
-        slots[0, 0] = GetUI<Button>("MeleeAttack");
-        slots[0, 1] = GetUI<Button>("RangeAttack");
-        slots[0, 2] = GetUI<Button>("MoveSpeed");
-        slots[0, 3] = GetUI<Button>("Health");
+        slots[0, 0] = GetUI<Button>("근접 공격력 증가");
+        slots[0, 1] = GetUI<Button>("원거리 공격력 증가");
+        slots[0, 2] = GetUI<Button>("이동 속도 증가");
+        slots[0, 3] = GetUI<Button>("최대 체력 증가");
 
-        slots[1, 0] = GetUI<Button>("Stamina");
-        slots[1, 1] = GetUI<Button>("AttackSpeed");
-        slots[1, 2] = GetUI<Button>("Critical");
-        slots[1, 3] = GetUI<Button>("GetItem");
+        slots[1, 0] = GetUI<Button>("스테미너 증가");
+        slots[1, 1] = GetUI<Button>("공격 속도 증가");
+        slots[1, 2] = GetUI<Button>("치명타 확률 증가");
+        slots[1, 3] = GetUI<Button>("장비 발견 확률 증가");
 
-        slots[2, 0] = GetUI<Button>("Attack");
-        slots[2, 1] = GetUI<Button>("HaveObj");
-        slots[2, 2] = GetUI<Button>("Armor");
-        slots[2, 3] = GetUI<Button>("MpRegen");
+        slots[2, 0] = GetUI<Button>("공격력 증가");
+        slots[2, 1] = GetUI<Button>("오브젝트 보유량 증가");
+        slots[2, 2] = GetUI<Button>("방어력 증가");
+        slots[2, 3] = GetUI<Button>("마나 회복력 증가");
 
-        slots[3, 0] = GetUI<Button>("StaminaLess");
-        slots[3, 1] = GetUI<Button>("RangeAttack2");
-        slots[3, 2] = GetUI<Button>("MeleeAttack2");
-        slots[3, 3] = GetUI<Button>("GetObj");
+        slots[3, 0] = GetUI<Button>("스테미너 감소량 증가");
+        slots[3, 1] = GetUI<Button>("원거리 공격력 증가2");
+        slots[3, 2] = GetUI<Button>("근접 공격력 증가2");
+        slots[3, 3] = GetUI<Button>("오브젝트 획득량 증가");
 
-        slots[4, 0] = GetUI<Button>("MpLess");
-        slots[4, 1] = GetUI<Button>("BloodDrain");
-        slots[4, 2] = GetUI<Button>("Armor2");
-        slots[4, 3] = GetUI<Button>("GetItem2");
+        slots[4, 0] = GetUI<Button>("마나 감소량 증가");
+        slots[4, 1] = GetUI<Button>("체력 흡수량 증가");
+        slots[4, 2] = GetUI<Button>("방어력 증가2");
+        slots[4, 3] = GetUI<Button>("장비 발견 확률 증가2");
 
         for (int i = 0; i < 5; i++)
         {
