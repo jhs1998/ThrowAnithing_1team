@@ -1,5 +1,7 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject.SpaceFighter;
 
@@ -27,6 +29,8 @@ public class PlayerCameraHold : MonoBehaviour
         _player = GetComponentInParent<PlayerController>();
         _targetEffect.transform.SetParent(null);
 
+        Camera.main.GetOrAddComponent<CinemachineBrain>();
+        Debug.Log(Camera.main);
     }
 
     private void Start()

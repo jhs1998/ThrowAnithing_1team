@@ -1,17 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerPanel : BaseUI
 {
-    public TMP_Text ThrowCount => GetUI<TMP_Text>("ThrowCountText");
-    public Slider StaminaSlider => GetUI<Slider>("StaminaSlider");
-    public Slider SpecialGageSlider => GetUI<Slider>("SpecialGageSlider");
-    public Slider SpecialChargeSlider => GetUI<Slider>("SpecialChargeSlider");
+    public TMP_Text ObjectCount => GetUI<TMP_Text>("ObjectCountText");
+
+    public Slider HpBar => GetUI<Slider>("HpBar");
+    public Slider StaminaBar => GetUI<Slider>("StaminaBar");
+    public Slider MpBar => GetUI<Slider>("MpBar");
+    public Slider ChargingMpBar => GetUI<Slider>("ChargingMpBar");
     private void Awake()
     {
-        Bind();        
+        Bind();
+    }
+
+    public void BarValueController(Slider bar,float curValue,float maxValue)
+    {
+        float per;
+        per = curValue / maxValue;
+        bar.value = per;
     }
 }

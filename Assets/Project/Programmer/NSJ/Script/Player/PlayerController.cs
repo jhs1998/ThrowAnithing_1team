@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviour, IHit
         InitAdditionnal();
         ChangeArmUnit(Model.NowWeapon);
 
-        Camera.main.transform.SetParent(_cameraPos, true);
+       //Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
     }
 
@@ -832,6 +832,20 @@ public class PlayerController : MonoBehaviour, IHit
         return finalDamage;
     }
     /// <summary>
+    /// 추가 데미지 + 데미지 배율
+    /// </summary>
+    public int GetFinalDamage(int addtionalDamage, float multiplier)
+    {
+        int finalDamage = 0;
+        // 추가 데미지
+        finalDamage += addtionalDamage;
+        finalDamage = GetCommonDamage(finalDamage);
+
+        // 데미지 배율 추가
+        finalDamage = (int)(finalDamage * multiplier);
+        return finalDamage;
+    }
+    /// <summary>
     /// 공통계산 용
     /// </summary>
     private int GetCommonDamage(int finalDamage)
@@ -881,29 +895,37 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void InitUIEvent()
     {
+        PlayerPanel panel = View.Panel;
+
         // 투척오브젝트
         Model.CurThrowCountSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.UpdateText(View.Panel.ThrowCount, $"{x} / {Model.MaxThrowables}"));
-        View.UpdateText(View.Panel.ThrowCount, $"{Model.CurThrowables} / {Model.MaxThrowables}");
+            .Subscribe(x => View.UpdateText(panel.ObjectCount, $"{x} / {Model.MaxThrowables}"));
+        View.UpdateText(panel.ObjectCount, $"{Model.CurThrowables} / {Model.MaxThrowables}");
+
+        // 체력
+        Model.CurHpSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => panel.BarValueController(panel.HpBar, Model.CurHp, Model.MaxHp));
+        panel.BarValueController(panel.HpBar, Model.CurHp, Model.MaxHp);
 
         // 스테미나
         Model.CurStaminaSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.Panel.StaminaSlider.value = x / Model.MaxStamina);
-        View.Panel.StaminaSlider.value = Model.CurStamina / Model.MaxStamina;
+            .Subscribe(x => panel.BarValueController(panel.StaminaBar, Model.CurStamina, Model.MaxStamina));
+        panel.BarValueController(panel.StaminaBar, Model.CurStamina, Model.MaxStamina);
 
         // 특수자원
         Model.CurSpecialGageSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.Panel.SpecialGageSlider.value = x / Model.MaxMana);
-        View.Panel.SpecialGageSlider.value = Model.CurMana / Model.MaxMana;
+            .Subscribe(x => panel.BarValueController(panel.MpBar, Model.CurMana, Model.MaxMana));
+        panel.BarValueController(panel.MpBar, Model.CurMana, Model.MaxMana);
 
         // 특수공격 차지
         Model.SpecialChargeGageSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.Panel.SpecialChargeSlider.value = x);
-        View.Panel.SpecialChargeSlider.value = Model.SpecialChargeGage;
+            .Subscribe(x => panel.ChargingMpBar.value = x);
+        panel.ChargingMpBar.value = Model.SpecialChargeGage;
     }
 
     /// <summary>

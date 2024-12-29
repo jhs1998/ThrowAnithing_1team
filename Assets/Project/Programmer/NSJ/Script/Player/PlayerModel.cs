@@ -9,7 +9,8 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public PlayerData Data;
     public ArmUnit Arm;
     public int MaxHp { get { return Data.MaxHp; } set { Data.MaxHp = value; } }
-    public int CurHp { get { return Data.CurHp; } set { Data.CurHp = value; } }
+    public int CurHp { get { return Data.CurHp; } set { Data.CurHp = value; CurHpSubject?.OnNext(Data.CurHp); } }
+    public Subject<int> CurHpSubject = new Subject<int>();
     public int Defense { get { return Data.Defense; } set { Data.Defense = value; } }
     public float DamageReduction { get { return Data.DamageReduction; } set { Data.DamageReduction = value; } }
     public int AttackPower { get { return Data.AttackPower; } set { Data.AttackPower = value; } }
@@ -37,12 +38,12 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public List<ThrowAdditional> ThrowAdditionals { get { return Data.ThrowAdditionals; } set { Data.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
     public List<PlayerAdditional> PlayerAdditionals { get { return Data.PlayerAdditionals; } set { Data.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
-    public float MoveSpeed { get { return Data.MoveSpeed/20; } set { Data.MoveSpeed = value * 20f; } } // 이동속도
+    public float MoveSpeed { get { return Data.MoveSpeed / 20; } set { Data.MoveSpeed = value * 20f; } } // 이동속도
     // 대쉬
-    public float DashDistance { get { return Data.DashDistance/20f; } set { Data.DashDistance = value * 20f; } }
+    public float DashDistance { get { return Data.DashDistance / 20f; } set { Data.DashDistance = value * 20f; } }
     public int DashStamina { get { return Data.DashStamina; } set { Data.DashStamina = value; } }
     // 점프
-    public float JumpPower { get { return Data.JumpPower/13f; } set { Data.JumpPower = value* 13f; } }
+    public float JumpPower { get { return Data.JumpPower / 13f; } set { Data.JumpPower = value * 13f; } }
     public int JumpStamina { get { return Data.JumpStamina; } set { Data.JumpStamina = value; } }
     public int DoubleJumpStamina { get { return Data.DoubleJumpStamina; } set { Data.DoubleJumpStamina = value; } }
     public int JumpDownStamina { get { return Data.JumpDownStamina; } set { Data.JumpDownStamina = value; } }
@@ -54,7 +55,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
         {
             float originStamina = Data.CurStamina;
             Data.CurStamina = value;
-            if(originStamina > Data.CurStamina)
+            if (originStamina > Data.CurStamina)
             {
                 _player.IsStaminaCool = true;
             }
