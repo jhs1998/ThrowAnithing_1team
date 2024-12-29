@@ -10,6 +10,7 @@ public class PlayerPanel : BaseUI
     public Slider StaminaBar => GetUI<Slider>("StaminaBar");
     public Slider MpBar => GetUI<Slider>("MpBar");
     public Slider ChargingMpBar => GetUI<Slider>("ChargingMpBar");
+    public Slider ChanrgeStaminaBar => GetUI<Slider>("ChargeStaminaBar");
     private void Awake()
     {
         Bind();

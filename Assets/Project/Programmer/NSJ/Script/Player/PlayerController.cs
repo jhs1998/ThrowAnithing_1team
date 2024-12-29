@@ -926,6 +926,13 @@ public class PlayerController : MonoBehaviour, IHit
             .DistinctUntilChanged()
             .Subscribe(x => panel.ChargingMpBar.value = x);
         panel.ChargingMpBar.value = Model.SpecialChargeGage;
+
+        // 스테미나 차지
+        Model.MaxStaminaCharge = 1;
+        Model.CurStaminaChargeSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => panel.BarValueController(panel.ChanrgeStaminaBar, Model.CurStaminaCharge, Model.MaxStaminaCharge));
+        panel.BarValueController(panel.ChanrgeStaminaBar, Model.CurStaminaCharge, Model.MaxStaminaCharge);
     }
 
     /// <summary>

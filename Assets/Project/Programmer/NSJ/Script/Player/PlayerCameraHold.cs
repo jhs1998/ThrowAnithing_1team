@@ -30,7 +30,6 @@ public class PlayerCameraHold : MonoBehaviour
         _targetEffect.transform.SetParent(null);
 
         Camera.main.GetOrAddComponent<CinemachineBrain>();
-        Debug.Log(Camera.main);
     }
 
     private void Start()

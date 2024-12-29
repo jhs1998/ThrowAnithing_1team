@@ -24,6 +24,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         set
         {
             m_curChargeTime = value;
+            Model.CurStaminaCharge = m_curChargeTime;
             View.SetFloat(PlayerView.Parameter.Charge, m_curChargeTime);
         }
     }
@@ -45,11 +46,10 @@ public class PowerMeleeAttack : ArmMeleeAttack
     {
         // 사용한 스테미나만큼 다시 회복
         Model.CurStamina += Model.MeleeAttackStamina[0];
+        // 최대 스테미나 차지량을 결정
+        Model.MaxStaminaCharge = _charges[_charges.Length - 1].ChargeTime;
         // 위치 고정
         Player.Rb.velocity = Vector3.zero;
-        // 초기화
-        _curChargeTime = 0;
-        _index = 0;
         // 스테미나 회복 멈춤
         Player.CanStaminaRecovery = false;
         // 공격방향 바라봄
@@ -76,6 +76,10 @@ public class PowerMeleeAttack : ArmMeleeAttack
         // 암유닛 차지 이펙트 제거
         _curArmEffect.SetActive(false);
         _curArmEffect = null;
+
+        // 초기화
+        _curChargeTime = 0;
+        _index = 0;
     }
     public override void Update()
     {
@@ -117,16 +121,16 @@ public class PowerMeleeAttack : ArmMeleeAttack
         _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
         if (_charges.Length > _index + 1)
         {
-            if (_curChargeTime <= _charges[_index + 1].ChargeTime)
-                return;
 
             if (Model.CurStamina < _charges[_index + 1].Stamina)
             {
-                _curChargeTime = _charges[_index + 1].ChargeTime - 0.01f;
+                _curChargeTime = _charges[_index].ChargeTime;
                 return;
             }
-            _index++;
-
+            if (_curChargeTime > _charges[_index + 1].ChargeTime)
+            {
+                _index++;
+            }
             ShowArmEffect();
         }
         else

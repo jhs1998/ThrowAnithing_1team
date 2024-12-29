@@ -66,6 +66,10 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public float RegainStamina { get { return Data.RegainStamina; } set { Data.RegainStamina = value; } } // 스테미나 초당 회복량
     public float StaminaCoolTime { get { return Data.StaminaCoolTime; } set { Data.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
 
+    public float MaxStaminaCharge { get { return Data.MaxStaminaCharge; } set { Data.MaxStaminaCharge = value; } }
+    public float CurStaminaCharge { get { return Data.CurStaminaCharge; } set { Data.CurStaminaCharge = value; CurStaminaChargeSubject?.OnNext(Data.CurStaminaCharge); } }
+    public Subject<float> CurStaminaChargeSubject = new Subject<float>();
+
     public float MaxMana { get { return Data.MaxMana; } set { Data.MaxMana = value; } } // 최대 특수자원
     public float CurMana // 현재 특수 자원
     {
@@ -234,6 +238,10 @@ public partial class PlayerData
         public float StaminaCoolTime; // 스테미나 소진 후 쿨타임
         [Header("스테미나 소모량 (?)")]
         public float ConsumesStamina; // 스테미나 소모량
+        [Header("스테미나 최대 차지 시간")]
+        public float MaxStaminaCharge;
+        [Header("현재 스테미나 차지 시간")]
+        public float CurStaminaCharge;
     }
     [System.Serializable]
     public struct JumpStruct
@@ -349,6 +357,8 @@ public partial class PlayerData
     public float RegainStamina { get { return Data.Stamina.RegainStamina; } set { Data.Stamina.RegainStamina = value; } }
     public float StaminaCoolTime { get { return Data.Stamina.StaminaCoolTime; } set { Data.Stamina.StaminaCoolTime = value; } }
     public float ConsumesStamina { get { return Data.Stamina.ConsumesStamina; } set { Data.Stamina.ConsumesStamina = value; } }
+    public float MaxStaminaCharge { get { return Data.Stamina.MaxStaminaCharge; } set { Data.Stamina.MaxStaminaCharge = value; } }
+    public float CurStaminaCharge { get { return Data.Stamina.CurStaminaCharge; } set { Data.Stamina.CurStaminaCharge = value; } }
     // 특수공격
     public float MaxMana { get { return Data.Special.MaxMana; } set { Data.Special.MaxMana = value; } }
     public float CurMana { get { return Data.Special.CurMana; } set { Data.Special.CurMana = value; } }

@@ -20,6 +20,7 @@ public class PowerThrowAttack : ArmThrowAttack
         set
         {
             m_curChargeTime = value;
+            Model.CurStaminaCharge = m_curChargeTime;
             View.SetFloat(PlayerView.Parameter.Charge, m_curChargeTime);
         }
     }
@@ -35,8 +36,8 @@ public class PowerThrowAttack : ArmThrowAttack
     public override void Enter()
     {
         Player.Rb.velocity = Vector3.zero;
-        _curChargeTime = 0;
-        _index = 0;
+        Model.MaxStaminaCharge = _charges[_charges.Length - 1].ChargeTime;
+
         Player.LookAtCameraFoward();
         View.SetTrigger(PlayerView.Parameter.PowerThrow);
         if (_chargeRoutine == null)
@@ -51,6 +52,9 @@ public class PowerThrowAttack : ArmThrowAttack
             CoroutineHandler.StopRoutine(_chargeRoutine);
             _chargeRoutine = null;
         }
+
+                _curChargeTime = 0;
+        _index = 0;
     }
     public override void Update()
     {
@@ -110,14 +114,16 @@ public class PowerThrowAttack : ArmThrowAttack
         _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
         if (_charges.Length > _index + 1)
         {
+            // 소모 오브젝트가 부족하면 차지 멈춤
+            if (Model.ThrowObjectStack.Count <= _charges[_index].ObjectCount)
+            {
+                _curChargeTime = _charges[_index].ChargeTime;
+                return;
+            }
+            // 차지 시간이 다음 단계로 넘어 갈 수 있을 때
             if (_curChargeTime > _charges[_index + 1].ChargeTime)
             {
-                if (Model.ThrowObjectStack.Count <= _charges[_index].ObjectCount)
-                    _curChargeTime = _charges[_index + 1].ChargeTime - 0.01f;
-                else
-                {
-                    _index++;
-                }
+                _index++;
             }
         }
         else
