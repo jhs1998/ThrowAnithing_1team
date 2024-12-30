@@ -53,8 +53,10 @@ public class PowerThrowAttack : ArmThrowAttack
             _chargeRoutine = null;
         }
 
-                _curChargeTime = 0;
+        _curChargeTime = 0;
         _index = 0;
+        // 캐릭터 임시 무적
+        Player.IsInvincible = false;
     }
     public override void Update()
     {
@@ -83,6 +85,8 @@ public class PowerThrowAttack : ArmThrowAttack
                 Player.LookAtAttackDir();
                 View.SetTrigger(PlayerView.Parameter.ChargeEnd);
                 _chargeRoutine = null;
+                // 캐릭터 임시 무적
+                Player.IsInvincible = true;
                 break;
             }
             yield return null;

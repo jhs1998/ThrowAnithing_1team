@@ -39,7 +39,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
     public int Damage { get { return state.Atk; } }
     public int MaxHp {  get { return maxHp; } set { maxHp = value; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
-    public float MoveSpeed { get { return speed; } set { speed = value; } }
+    public float MoveSpeed { get { return state.Speed; } set { state.Speed = value; } }
     public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
     public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
 
@@ -73,7 +73,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
     {
         tree.SetVariable("PlayerObj", playerObj);
         tree.SetVariable("PlayerTrans", (SharedTransform)playerObj.Value.transform);
-        tree.SetVariable("Speed", (SharedFloat)state.Speed);
+        tree.SetVariable("Speed", (SharedFloat)MoveSpeed);
         tree.SetVariable("AtkDelay", (SharedFloat)state.AtkDelay);
         tree.SetVariable("TraceDis", (SharedFloat)state.TraceDis);
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
@@ -94,7 +94,6 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
         curHp -= resultDamage;
 
         // TODO : 결과 값은 TakeDamage 매개변수로 변환
-        Debug.Log($"TakeDamage : {isStun}") ;
         tree.SetVariableValue("Stiff", isStun);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
     }
