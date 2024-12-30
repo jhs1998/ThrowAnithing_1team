@@ -8,13 +8,19 @@ using Zenject;
 
 public class Option_Sound : Main_Option
 {
-    [Inject]
     SettingManager setManager;
 
     Slider totalSoundBar;
     Slider bgmSoundBar;
     Slider effectSoundBar;
 
+    struct ButtonStruct
+    {
+        public GameObject Button;
+        public Slider Bar;
+        public TMP_Text Text;
+    }
+    List<ButtonStruct> buttonStructs = new List<ButtonStruct>();
     GameObject[,] buttons;
 
     int sound_Ho = 0;
@@ -32,7 +38,7 @@ public class Option_Sound : Main_Option
     float newEffect;
     float defaultEffect;
 
-
+    int _curIndex;
     void Start()
     {
         Init();
@@ -40,7 +46,7 @@ public class Option_Sound : Main_Option
 
     void Update()
     {
-        AudioVolumeCotroller();
+        //AudioVolumeCotroller();
 
         if (soundOnOff.activeSelf)
         {
@@ -53,110 +59,192 @@ public class Option_Sound : Main_Option
 
     private IEnumerator Sound_Select()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = -Input.GetAxisRaw("Vertical");
+        //float x = Input.GetAxisRaw("Horizontal");
+        //float y = -Input.GetAxisRaw("Vertical");
 
-        if (sound_Ho == 0)
+        //if (sound_Ho == 0)
+        //{
+
+        //    switch (sound_Ver)
+        //    {
+        //        case 1:
+        //            totalSoundBar.value += x * 0.05f;
+        //            break;
+
+        //        case 2:
+        //            bgmSoundBar.value += x * 0.05f;
+        //            break;
+
+        //        case 3:
+        //            effectSoundBar.value += x * 0.05f;
+        //            break;
+        //    }
+        //}
+
+        //sound_Ho += (int)x;
+        //sound_Ver += (int)y;
+
+        //if (sound_Ver != 0)
+        //{
+        //    if (x != 0)
+        //    {
+        //        sound_Ho = 0;
+        //    }
+        //}
+
+        //if (sound_Ho != 0)
+        //{
+        //    if (y != 0)
+        //    {
+        //        sound_Ho = 0;
+        //        sound_Ver = 1;
+        //    }
+        //}
+
+        //if (sound_Ver <= 0)
+        //{
+        //    if (sound_Ho == 4)
+        //        sound_Ho = 1;
+
+        //    if (sound_Ho <= 0)
+        //        sound_Ho = 3;
+
+        //}
+
+        //if (sound_Ho == 0)
+        //{
+        //    if (sound_Ver == 4)
+        //        sound_Ver = 1;
+
+        //    if (sound_Ver <= 0)
+        //        sound_Ver = 3;
+
+        //}
+
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    for (int j = 0; j < 4; j++)
+        //    {
+        //        if (buttons[i, j] == null)
+        //            continue;
+
+        //        buttons[i, j].GetComponent<TMP_Text>().color = Color.white;
+        //    }
+        //}
+
+        //buttons[sound_Ver, sound_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+        //yield return inputDelay.GetDelay();
+        //menuCo = null;
+
+        float x = Input.GetAxisRaw(InputKey.Horizontal);
+        float y = Input.GetAxisRaw(InputKey.Vertical);
+
+        ButtonStruct curButton = buttonStructs[_curIndex];
+        for(int i = 0;  i < buttonStructs.Count; i++)
         {
-
-            switch (sound_Ver)
+            if (buttonStructs[i].Button == curButton.Button)
             {
-                case 1:
-                    totalSoundBar.value += x * 0.05f;
-                    break;
-
-                case 2:
-                    bgmSoundBar.value += x * 0.05f;
-                    break;
-
-                case 3:
-                    effectSoundBar.value += x * 0.05f;
-                    break;
+                buttonStructs[i].Text.color = new Color(1, 0.5f, 0);
+            }
+            else
+            {
+                buttonStructs[i].Text.color = Color.white;
             }
         }
-
-        sound_Ho += (int)x;
-        sound_Ver += (int)y;
-
-        if (sound_Ver != 0)
+        if (buttonStructs[_curIndex].Bar != null)
         {
-            if (x != 0)
+            // 아래 버튼 눌렀을 때
+            if (y < 0)
             {
-                sound_Ho = 0;
+                _curIndex++;
+                if (_curIndex >= buttonStructs.Count)
+                {
+                    _curIndex = buttonStructs.Count - 1;
+                }
+            }
+            else if (y > 0)
+            {
+                _curIndex--;
+                if (_curIndex < 0)
+                {
+                    _curIndex = 0;
+                }
+            }
+            // 오른쪽 키 눌렀을 때
+            if (x > 0)
+            {
+                buttonStructs[_curIndex].Bar.value += x * 0.05f;
+            }
+            else if (x < 0)
+            {
+                buttonStructs[_curIndex].Bar.value -= -x * 0.05f;
             }
         }
-
-        if (sound_Ho != 0)
+        // Bar 없을때
+        else
         {
-            if (y != 0)
+            if( x > 0)
             {
-                sound_Ho = 0;
-                sound_Ver = 1;
+                _curIndex++;
+                if (_curIndex >= buttonStructs.Count)
+                {
+                    _curIndex = buttonStructs.Count - 1;
+                }
+            }
+            else if(x < 0)
+            {
+                _curIndex--;
+                if (_curIndex < 3)
+                {
+                    _curIndex = 3;
+                }
+            }   
+            // 위 누르면 2번 인덱스(슬라이드 버튼) 으로
+            if( y > 0)
+            {
+                _curIndex = 2;
             }
         }
-
-        if (sound_Ver <= 0)
-        {
-            if (sound_Ho == 4)
-                sound_Ho = 1;
-
-            if (sound_Ho <= 0)
-                sound_Ho = 3;
-
-        }
-
-        if (sound_Ho == 0)
-        {
-            if (sound_Ver == 4)
-                sound_Ver = 1;
-
-            if (sound_Ver <= 0)
-                sound_Ver = 3;
-
-        }
-
         //Todo : 수정 필요
         if (Input.GetButtonDown("Interaction"))
         {
             Debug.Log("E키 눌림");
-            sound_Ver = 0;
-            sound_Ho = 1;
-        }
-
-
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
+            if (buttonStructs[_curIndex].Button == GetUI("CancelButton_sound"))
             {
-                if (buttons[i, j] == null)
-                    continue;
-
-                buttons[i, j].GetComponent<TMP_Text>().color = Color.white;
+                CancelButton();
             }
+            //sound_Ver = 0;
+            //sound_Ho = 1;
         }
 
-        buttons[sound_Ver, sound_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-        yield return inputDelay.GetDelay();
-        menuCo = null;
 
-
-    }
-
-    void AudioVolumeCotroller()
-    {
-        VolumeArrayCotroller(setManager.totalSoundSources, totalSoundBar);
-        VolumeArrayCotroller(setManager.effectSources, effectSoundBar);
-        setManager.bgmSource.volume = bgmSoundBar.value;
-
-    }
-
-    void VolumeArrayCotroller(AudioSource[] audioArray, Slider slider)
-    {
-        for (int i = 0; i < audioArray.Length; i++)
+        // 입력없으면 프레임마다
+        if (x == 0 && y == 0)
         {
-            audioArray[i].volume = slider.value;
+            yield return null;
         }
+        else
+        {
+            yield return inputDelay.GetRealTimeDelay();
+        }
+        menuCo = null;
     }
+
+    //void AudioVolumeCotroller()
+    //{
+    //    VolumeArrayCotroller(setManager.totalSoundSources, totalSoundBar);
+    //    VolumeArrayCotroller(setManager.effectSources, effectSoundBar);
+    //    setManager.bgmSource.volume = bgmSoundBar.value;
+
+    //}
+
+    //void VolumeArrayCotroller(AudioSource[] audioArray, Slider slider)
+    //{
+    //    for (int i = 0; i < audioArray.Length; i++)
+    //    {
+    //        audioArray[i].volume = slider.value;
+    //    }
+    //}
     public void AcceptButton()
     {
         VolumeCheck();
@@ -167,9 +255,11 @@ public class Option_Sound : Main_Option
         preTotal = totalSoundBar.value;
         preBgm = bgmSoundBar.value;
         preEffect = effectSoundBar.value;
-        
+
 
         //Todo : depth1으로 복귀
+        soundOnOff.SetActive(false);
+        UnActiveAllText();
     }
 
     void VolumeCheck()
@@ -186,6 +276,8 @@ public class Option_Sound : Main_Option
         effectSoundBar.value = preEffect;
 
         //Todo : depth1으로 복귀
+        soundOnOff.SetActive(false);
+        UnActiveAllText();
     }
 
     public void DefaultButton()
@@ -198,9 +290,17 @@ public class Option_Sound : Main_Option
         effectSoundBar.value = defaultEffect;
 
         //Todo : depth1으로 복귀
+        soundOnOff.SetActive(false);
+        UnActiveAllText();
     }
 
-
+    private void UnActiveAllText()
+    {
+        foreach(ButtonStruct buttonStruct in buttonStructs)
+        {
+            buttonStruct.Text.color = Color.white;
+        }
+    }
 
     private void Init()
     {
@@ -212,6 +312,14 @@ public class Option_Sound : Main_Option
         buttons[0, 1] = GetUI("AcceptButton_sound");
         buttons[0, 2] = GetUI("CancelButton_sound");
         buttons[0, 3] = GetUI("DefaultButton_sound");
+
+        buttonStructs.Add(GetButtonStruct(GetUI("Total Volume"), GetUI<Slider>("TotalVolumeBar"), GetUI<TMP_Text>("Total Volume")));
+        buttonStructs.Add(GetButtonStruct(GetUI("BGM Volume"), GetUI<Slider>("BGMVolumeBar"), GetUI<TMP_Text>("BGM Volume")));
+        buttonStructs.Add(GetButtonStruct(GetUI("Effect Volume"), GetUI<Slider>("EffectVolumeBar"), GetUI<TMP_Text>("Effect Volume")));
+        buttonStructs.Add (GetButtonStruct(GetUI("AcceptButton_sound"), null,GetUI<TMP_Text>("AcceptButton_sound")));
+        buttonStructs.Add(GetButtonStruct(GetUI("CancelButton_sound"), null, GetUI<TMP_Text>("CancelButton_sound")));
+        buttonStructs.Add(GetButtonStruct(GetUI("DefaultButton_sound"), null, GetUI<TMP_Text>("DefaultButton_sound")));
+
 
 
 
@@ -230,5 +338,14 @@ public class Option_Sound : Main_Option
         defaultBgm = 100;
         defaultEffect = 100;
 
+    }
+
+    private ButtonStruct GetButtonStruct(GameObject button, Slider bar,TMP_Text text)
+    {
+        ButtonStruct newButtonStruct = new ButtonStruct();
+        newButtonStruct.Button= button;
+        newButtonStruct.Bar= bar;
+        newButtonStruct.Text= text;
+        return newButtonStruct;
     }
 }

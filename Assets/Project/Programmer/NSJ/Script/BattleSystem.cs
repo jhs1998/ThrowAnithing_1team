@@ -113,7 +113,6 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// </summary>
     public void ITakeAttackWithDebuff(int damage, bool isStun, List<HitAdditional> debuffs)
     {
-        Debug.Log(isStun);
         // 데미지 주기
         Hit.TakeDamage(damage, isStun);
         // 디버프 추가

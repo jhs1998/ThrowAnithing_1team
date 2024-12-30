@@ -1,13 +1,8 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Rendering.InspectorCurveEditor;
 
-public class Pause : MainScene
+public class Pause : Main_Option
 {
     GameObject pause;
 
@@ -36,80 +31,71 @@ public class Pause : MainScene
     private void Awake()
     {
         Bind();
-    }
-    void Start()
-    {
         Init();
     }
-
+    private void OnEnable()
+    {
+        StartCoroutine(MenuSelect());
+    }
     private void Update()
     {
         if (pause.activeSelf)
         {
-            if (settingCo == null)
-                settingCo = StartCoroutine(MenuSelect());
-
             if (Input.GetButtonDown("Interaction"))
                 SelectedEnter();
 
             //Time.timeScale = 0;
-            isPaused = true;
+
         }
         else if (!pause.activeSelf)
         {
-            Time.timeScale = 1f;
-            isPaused = false;
-        }
+            //Time.timeScale = 1f;
 
-        if (Input.GetButtonDown("Cancel"))
-        {
-            Debug.Log("esc키눌렸음");
-            PauseOnOff();
         }
-
     }
 
-    void PauseOnOff()
-    {
-        pause.SetActive(!pause.activeSelf);
-    }
+
 
     private IEnumerator MenuSelect()
     {
-        float y = -Input.GetAxisRaw("Vertical");
-
-
-        curMenu_p += (int)y;
-
-        //Comment : 마지막 버튼일 때, 첫 버튼으로 돌아가게
-        if (curMenu_p == pauseButtons.Length)
+        while (true)
         {
-            curMenu_p = 0;
-            pauseButtons[pauseButtons.Length - 1].gameObject.SetActive(false);
+            Debug.Log(3123);
+            float y = -Input.GetAxisRaw("Vertical");
+            curMenu_p += (int)y;
+
+            //Comment : 마지막 버튼일 때, 첫 버튼으로 돌아가게
+            if (curMenu_p == pauseButtons.Length)
+            {
+                curMenu_p = 0;
+                pauseButtons[pauseButtons.Length - 1].gameObject.SetActive(false);
+                pauseButtons[curMenu_p].gameObject.SetActive(true);
+                yield return null;
+            }
+
+            //Comment : 첫 버튼일 때, 마지막 버튼으로 돌아가게
+            if (curMenu_p == -1)
+            {
+                curMenu_p = pauseButtons.Length - 1;
+                pauseButtons[0].gameObject.SetActive(false);
+                pauseButtons[curMenu_p].gameObject.SetActive(true);
+                yield return null;
+            }
+
+            //Comment : 선택하지 않은 버튼 모두 비활성화 작업
+            for (int i = 0; i < pauseButtons.Length; i++)
+            {
+                pauseButtons[i].gameObject.SetActive(false);
+            }
+
+            //Comment : 선택한 버튼 활성화
             pauseButtons[curMenu_p].gameObject.SetActive(true);
-            yield return null;
+
+            if (y == 0)
+                yield return null;
+            else
+                yield return inputDelay.GetRealTimeDelay();
         }
-
-        //Comment : 첫 버튼일 때, 마지막 버튼으로 돌아가게
-        if (curMenu_p == -1)
-        {
-            curMenu_p = pauseButtons.Length - 1;
-            pauseButtons[0].gameObject.SetActive(false);
-            pauseButtons[curMenu_p].gameObject.SetActive(true);
-            yield return null;
-        }
-
-        //Comment : 선택하지 않은 버튼 모두 비활성화 작업
-        for (int i = 0; i < pauseButtons.Length; i++)
-        {
-            pauseButtons[i].gameObject.SetActive(false);
-        }
-
-        //Comment : 선택한 버튼 활성화
-        pauseButtons[curMenu_p].gameObject.SetActive(true);
-
-        yield return new WaitForSecondsRealtime(inputDelay);
-        settingCo = null;
     }
 
 
@@ -127,7 +113,8 @@ public class Pause : MainScene
 
                 case 1:
                     Debug.Log("옵션 선택_옵션 팝업 노출");
-                    OptionButton();
+                    //OptionButton();
+                    Panel.ChangeBundle(PausePanel.Bundle.Option);
                     break;
 
                 case 2:
@@ -140,12 +127,12 @@ public class Pause : MainScene
 
     public void ContinueButton()
     {
-        pause.SetActive(false);
+        Panel.ChangeBundle(PausePanel.Bundle.None);
     }
 
     public void OptionButton()
     {
-        ingameOptions.SetActive(true);
+        Panel.ChangeBundle(PausePanel.Bundle.Option);
     }
 
     public void ExitButton()
