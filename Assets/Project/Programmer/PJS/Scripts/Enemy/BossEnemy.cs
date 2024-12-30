@@ -12,45 +12,31 @@ public class BossEnemy : BaseEnemy
     private Coroutine attackAble;
     private bool onFrezenyPassive = false;
 
-
-    private void Update()
-    {
-        ChangePhase();
-        //FrenzyPassive();
-    }
-
-    private void ChangePhase()
-    {
-        // 현재 체력으로 페이지 변경
-        if (CurHp > state.MaxHp * 0.8f)
-        {
-            Debug.Log("curHp > 80");
-            curPhase = Phase.Phase1;
-        }
-        else if (CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
-        {
-            Debug.Log("80 >= curHP > 50");
-            curPhase = Phase.Phase2;
-        }
-        else
-        {
-            Debug.Log("curHP <= 50");
-            curPhase = Phase.Phase3;
-            onFrezenyPassive = true;
-        }
-    }
-
     private void FrenzyPassive()
     {
         if (onFrezenyPassive == false)
             return;
 
-        Debug.Log($"{Speed}, {AttackSpeed}");
+        Debug.Log($"{MoveSpeed}, {AttackSpeed}");
 
-        Speed = Speed + (Speed * 0.2f);
+        MoveSpeed = MoveSpeed + (MoveSpeed * 0.2f);
         AttackSpeed = AttackSpeed - (AttackSpeed * 0.2f);
 
-        Debug.Log($"{Speed}, {AttackSpeed}");
+        Debug.Log($"{MoveSpeed}, {AttackSpeed}");
+    }
+
+    IEnumerator PassiveOn()
+    {
+        while (true)
+        {
+            if (curPhase == Phase.Phase3)
+            {
+                FrenzyPassive();
+                yield break;
+            }
+
+            yield return null;
+        }
     }
 
     /// <summary>
@@ -86,7 +72,7 @@ public class BossEnemy : BaseEnemy
             Debug.Log("curHp > 80");
             shieldParticle.Play();
         }
-        else if(CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
+        else if (CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
         {
             // 2페이즈 - 레이지 스톰
             Debug.Log("80 >= curHP > 50");

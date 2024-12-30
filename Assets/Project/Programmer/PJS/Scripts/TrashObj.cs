@@ -31,7 +31,7 @@ public class TrashObj : MonoBehaviour, IHit
         {
             Debug.Log(other.transform);
             IHit hit = other.transform.GetComponent<IHit>();
-            hit.TakeDamage(atk, true);
+            hit.TakeDamage(atk, false);
         }
 
         //gameObject.SetActive(false);

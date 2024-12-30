@@ -34,11 +34,11 @@ public class BaseEnemy : MonoBehaviour, IHit
     [HideInInspector] public Collider[] overLapCollider = new Collider[100];
 
     public int Damage { get { return state.Atk; } }
-    public int MaxHp {  get { return maxHp; } set { maxHp = value; } }
+    public int MaxHp {  get { return state.MaxHp; } set { state.MaxHp = value; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
-    public float Speed { get { return speed; } set { speed = value; } }
+    public float MoveSpeed { get { return state.Speed; } set { state.Speed = value; } }
     public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
-    public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
+    public float AttackSpeed { get { return state.AtkDelay; } set { state.AtkDelay = value; } }
 
     protected SharedGameObject playerObj;
 
