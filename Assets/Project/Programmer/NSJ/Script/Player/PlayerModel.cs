@@ -1,6 +1,7 @@
 using MKH;
 using System.Collections.Generic;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using Zenject;
 
@@ -10,9 +11,9 @@ public class PlayerModel : MonoBehaviour, IDebuff
     [Inject]
     public PlayerData Data;
     [Inject]
-    public GlobalPlayerStateData GlobalStateData;
+    [HideInInspector] public GlobalPlayerStateData GlobalStateData;
     [Inject]
-    public GlobalGameData GameData;
+    [HideInInspector] public GlobalGameData GameData;
     public EquipmentInventory Inventory;
 
     public ArmUnit Arm;
@@ -22,7 +23,14 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public int Defense { get { return Data.Defense; } set { Data.Defense = value; } }
     public float DamageReduction { get { return Data.DamageReduction; } set { Data.DamageReduction = value; } }
     public int AttackPower { get { return Data.AttackPower; } set { Data.AttackPower = value; } }
-    public float AttackSpeed { get { return Data.AttackSpeed; } set { Data.AttackSpeed = value; _view.SetFloat(PlayerView.Parameter.AttackSpeed, Data.AttackSpeed); } }
+    public float AttackSpeed
+    {
+        get
+        {
+            return Data.AttackSpeed;
+        }
+        set { Data.AttackSpeed = value; }
+    }
     public float[] PowerMeleeAttack { get { return Data.PowerMeleeAttack; } set { Data.PowerMeleeAttack = value; } }
     public float[] PowerThrowAttack { get { return Data.PowerThrowAttack; } set { Data.PowerThrowAttack = value; } }
     public float[] PowerSpecialAttack { get { return Data.PowerSpecialAttack; } set { Data.PowerSpecialAttack = value; } }
@@ -148,7 +156,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     {
         _view = GetComponent<PlayerView>();
         _player = GetComponent<PlayerController>();
-        if(_isTest == true)
+        if (_isTest == true)
         {
             GlobalStateData.NewPlayerSetting();
         }
@@ -156,6 +164,13 @@ public class PlayerModel : MonoBehaviour, IDebuff
         Data.Inventory = Inventory;
     }
 
+    private float prevAttackSpeed;
+    void Start()
+    {
+        this.FixedUpdateAsObservable()
+            .Where(x => prevAttackSpeed != AttackSpeed)
+            .Subscribe(x => _view.SetFloat(PlayerView.Parameter.AttackSpeed, AttackSpeed));
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.O))
@@ -349,7 +364,7 @@ public partial class PlayerData
         // 상태이상 지속시간
     }
     [SerializeField] private DataStruct Data;
-    public float MoveSpeed { get { return Data.MoveSpeed + EquipStatus.Speed; } set { Data.MoveSpeed = value; } }
+    public float MoveSpeed { get { return Data.MoveSpeed * (1 + EquipStatus.Speed); } set { Data.MoveSpeed = value; } }
     // 체력
     public int MaxHp { get { return Data.Hp.MaxHp + (int)EquipStatus.HP; } set { Data.Hp.MaxHp = value; } }
     public int CurHp { get { return Data.Hp.CurHp + (int)EquipStatus.HP; } set { Data.Hp.CurHp = value; } }
@@ -387,16 +402,18 @@ public partial class PlayerData
     // 공격
     public int AttackPower
     {
-        get {
+        get
+        {
             Debug.Log($"{Inventory}");
-            return Data.Attack.AttackPower + (int)EquipStatus.Damage; }
+            return Data.Attack.AttackPower + (int)EquipStatus.Damage;
+        }
         set
         {
-         
+
             Data.Attack.AttackPower = value;
         }
     }
-    public float AttackSpeed { get { return Data.Attack.AttackSpeed + EquipStatus.AttackSpeed; } set { Data.Attack.AttackSpeed = value; } }
+    public float AttackSpeed { get { return Data.Attack.AttackSpeed * (1 + EquipStatus.AttackSpeed); } set { Data.Attack.AttackSpeed = value; } }
     public float[] PowerMeleeAttack { get { return Data.Attack.PowerMeleeAttack; } set { Data.Attack.PowerMeleeAttack = value; } }
     public float[] PowerThrowAttack { get { return Data.Attack.PowerThrowAttack; } set { Data.Attack.PowerThrowAttack = value; } }
     public float[] PowerSpecialAttack { get { return Data.Attack.PowerSpecialAttack; } set { Data.Attack.PowerSpecialAttack = value; } }
@@ -416,7 +433,7 @@ public partial class PlayerData
     public List<ThrowAdditional> ThrowAdditionals { get { return Data.Additional.ThrowAdditionals; } set { Data.Additional.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
     public List<PlayerAdditional> PlayerAdditionals { get { return Data.Additional.PlayerAdditionals; } set { Data.Additional.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
     public float[] MeleeAttackStamina { get { return Data.MeleeAttackStamina; } set { Data.MeleeAttackStamina = value; } }
-    public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + EquipStatus.EquipRate; } set { Data.EquipmentDropUpgrade = value; } }
+    public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + (100 * EquipStatus.EquipRate); } set { Data.EquipmentDropUpgrade = value; } }
 
 
     public EquipmentInventory Inventory;
