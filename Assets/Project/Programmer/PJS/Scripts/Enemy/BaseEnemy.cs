@@ -43,8 +43,6 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
     public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
     public float AttackSpeed { get { return state.AtkDelay; } set { state.AtkDelay = value; } }
 
-
-
     protected SharedGameObject playerObj;
 
     private void Awake()

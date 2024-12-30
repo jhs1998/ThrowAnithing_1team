@@ -1,11 +1,30 @@
 using Assets.Project.Programmer.NSJ.RND.Script;
+using BehaviorDesigner.Runtime.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControll : MonoBehaviour, IHit
+[RequireComponent(typeof(BattleSystem))]
+public class PlayerControll : MonoBehaviour, IHit, IDebuff
 {
+    [HideInInspector] public BattleSystem Battle;
     [SerializeField] float speed;
+
+    public int maxHp;
+    public int curHp;
+    public float jumpPower;
+    public float attackSpeed;
+
+    public int MaxHp { get => maxHp; set => maxHp = value; }
+    public int CurHp { get => curHp; set => curHp = value; }
+    public float MoveSpeed { get => speed; set => speed = value; }
+    public float JumpPower { get => jumpPower; set => jumpPower = value; }
+    public float AttackSpeed { get => attackSpeed; set => attackSpeed = value; }
+
+    private void Awake()
+    {
+        Battle = GetComponent<BattleSystem>();
+    }
 
     private void Update()
     {

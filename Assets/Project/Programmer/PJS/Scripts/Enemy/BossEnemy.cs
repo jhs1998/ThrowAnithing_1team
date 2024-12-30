@@ -98,7 +98,7 @@ public class BossEnemy : BaseEnemy
     public void Shooting()
     {
         //Debug.Log("Shooting()");
-        //AttackMelee();
+        AttackMelee();
         // 일반 근접 공격 - 모든 페이즈에 존재
         // 라이트닝 피스트 - 1페이즈에만 존재
     }

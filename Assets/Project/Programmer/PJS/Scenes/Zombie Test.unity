@@ -308,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: 
     MaxHp: 3000
     Atk: 20
     Def: 10
@@ -838,6 +839,7 @@ GameObject:
   - component: {fileID: 684525791}
   - component: {fileID: 684525790}
   - component: {fileID: 684525789}
+  - component: {fileID: 684525793}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -857,7 +859,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feeeee7934b89054da83225e3707c4a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Battle: {fileID: 0}
   speed: 5
+  maxHp: 9999
+  curHp: 9999
+  jumpPower: 0
+  attackSpeed: 0
 --- !u!54 &684525790
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -924,6 +931,20 @@ Transform:
   - {fileID: 669380594}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &684525793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684525788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c30b6688334494ca44dd100a1f1793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitAdditionalList: []
+  _debuffList: []
 --- !u!1 &731436741
 GameObject:
   m_ObjectHideFlags: 0
@@ -3219,6 +3240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: 
     MaxHp: 50
     Atk: 7
     Def: 0
@@ -4353,6 +4375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: 
     MaxHp: 150
     Atk: 7
     Def: 5
@@ -5206,6 +5229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: 
     MaxHp: 50
     Atk: 10
     Def: 0
@@ -6327,6 +6351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: 
     MaxHp: 150
     Atk: 7
     Def: 5
@@ -7175,6 +7200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: 
     MaxHp: 150
     Atk: 7
     Def: 5
@@ -7634,6 +7660,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: 
     MaxHp: 100
     Atk: 7
     Def: 3
@@ -10219,6 +10246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: 
     MaxHp: 200
     Atk: 0
     Def: 8
@@ -11802,6 +11830,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: 
     MaxHp: 50
     Atk: 6
     Def: 0
