@@ -52,6 +52,8 @@ public class BaseEnemy : MonoBehaviour, IHit
     {
         SettingVariable();
         curHp = state.MaxHp;
+        speed = state.Speed;
+        attackSpeed = state.AtkDelay;
     }
 
     private void SettingVariable()
