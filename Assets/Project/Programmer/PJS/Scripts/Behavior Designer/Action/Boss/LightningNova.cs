@@ -6,6 +6,7 @@ using BehaviorDesigner.Runtime;
 public class LightningNova : Action
 {
     [SerializeField] BossSkillState skillState;
+    [SerializeField] GlobalState globalState;
 
     private BossEnemy enemy;
 
@@ -19,7 +20,7 @@ public class LightningNova : Action
 		enemy.TakeChargeBoom(skillState.range, skillState.damage);
 
 		StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
-
-		return TaskStatus.Success;
+        StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
+        return TaskStatus.Success;
 	}
 }

@@ -5,6 +5,7 @@ using BehaviorDesigner.Runtime.Tasks;
 public class ElectricArmour : Action
 {
 	[SerializeField] BossSkillState skillState;
+	[SerializeField] GlobalState globalState;
 
 	private BossEnemy enemy;
 
@@ -16,7 +17,7 @@ public class ElectricArmour : Action
 	public override TaskStatus OnUpdate()
 	{
 		StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
-
+		StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
 		return TaskStatus.Success;
 	}
 }
