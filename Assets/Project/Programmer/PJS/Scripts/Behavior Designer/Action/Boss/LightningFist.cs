@@ -5,6 +5,7 @@ using UnityEngine;
 public class LightningFist : Action
 {
     [SerializeField] BossSkillState skillState;
+    [SerializeField] GlobalState globalState;
     [SerializeField] GameObject electricZone;
     [SerializeField] Transform createPos;
 
@@ -32,6 +33,7 @@ public class LightningFist : Action
         }
 
         StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
+        StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
 
         GameObject.Instantiate(electricZone, createPos.position, createPos.rotation);
         return TaskStatus.Success;

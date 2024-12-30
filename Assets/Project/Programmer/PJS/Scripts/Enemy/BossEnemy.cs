@@ -136,10 +136,10 @@ public class BossEnemy : BaseEnemy
     public IEnumerator CoolTimeRoutine(SharedBool atkAble, float coolTime)
     {
         atkAble.SetValue(false);
-        Debug.Log("쿨타임 시작");
+        Debug.Log($"{atkAble.Name} 쿨타임 시작");
         yield return coolTime.GetDelay();
         atkAble.SetValue(true);
-        Debug.Log("쿨타임 끝");
+        Debug.Log($"{atkAble.Name} 쿨타임 끝");
     }
 
     private void OnDrawGizmosSelected()
