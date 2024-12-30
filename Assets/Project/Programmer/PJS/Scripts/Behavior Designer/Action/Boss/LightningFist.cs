@@ -35,7 +35,8 @@ public class LightningFist : Action
         StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
         StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
 
-        GameObject.Instantiate(electricZone, createPos.position, createPos.rotation);
+        GameObject obj = GameObject.Instantiate(electricZone, createPos.position, createPos.rotation);
+        obj.transform.parent = createPos;
         return TaskStatus.Success;
     }
 }

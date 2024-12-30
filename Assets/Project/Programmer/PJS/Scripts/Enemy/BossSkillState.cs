@@ -8,7 +8,6 @@ public struct BossSkillState
     public SharedBool atkAble;    // 공격가능 여부
 }
 
-
 public struct GlobalState
 {
     public SharedBool Able;      // 사용 여부

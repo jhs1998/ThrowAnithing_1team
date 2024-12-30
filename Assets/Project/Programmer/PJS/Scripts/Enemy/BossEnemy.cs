@@ -44,7 +44,7 @@ public class BossEnemy : BaseEnemy
     /// </summary>
     public void FootStep()
     {
-        Debug.Log("FootSteop()");
+        //Debug.Log("FootSteop()");
     }
 
     /// <summary>
@@ -52,11 +52,11 @@ public class BossEnemy : BaseEnemy
     /// </summary>
     public void OnHitBegin()
     {
-        Debug.Log("OnHitBegin()");
+        //Debug.Log("OnHitBegin()");
     }
     public void OnHitEnd()
     {
-        Debug.Log("OnHitEnd()");
+        //Debug.Log("OnHitEnd()");
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class BossEnemy : BaseEnemy
         if (CurHp > state.MaxHp * 0.8f)
         {
             // 1페이즈 - 일렉트릭 아머
-            Debug.Log("curHp > 80");
+            //Debug.Log("curHp > 80");
             shieldParticle.Play();
         }
         else if (CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
@@ -97,9 +97,39 @@ public class BossEnemy : BaseEnemy
     /// </summary>
     public void Shooting()
     {
-        Debug.Log("Shooting()");
+        //Debug.Log("Shooting()");
+        //AttackMelee();
         // 일반 근접 공격 - 모든 페이즈에 존재
         // 라이트닝 피스트 - 1페이즈에만 존재
+    }
+
+    /// <summary>
+    /// 근접 공격
+    /// </summary>
+    public void AttackMelee()
+    {
+        // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
+        // 1. 전방에 있는 몬스터 확인
+        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        Vector3 attackPos = playerPos;
+        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, state.AttackDis, overLapCollider, 1 << Layer.Player);
+        for (int i = 0; i < hitCount; i++)
+        {
+            // 2. 각도 내에 있는지 확인
+            Vector3 source = transform.position;
+            source.y = 0;
+            Vector3 destination = overLapCollider[i].transform.position;
+            destination.y = 0;
+            Vector3 targetDir = (destination - source).normalized;
+            float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
+            
+            if (targetAngle > 120 * 0.5f)
+                continue;
+
+            int finalDamage = state.Atk;
+            // 데미지 주기
+            Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage, true);
+        }
     }
 
     /// <summary>
