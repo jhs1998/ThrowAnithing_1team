@@ -21,6 +21,7 @@ public class FreezeAdditional : HitAdditional
 
     public override void Update()
     {
+        Debug.Log($"{transform.name} {Battle.Debuff.MoveSpeed}");
         Battle.Debuff.MoveSpeed = 0;
     }
     public override void Exit()

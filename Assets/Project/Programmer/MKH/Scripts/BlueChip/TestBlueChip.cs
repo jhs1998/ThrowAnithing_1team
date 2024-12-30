@@ -12,4 +12,10 @@ public class TestBlueChip : MonoBehaviour
     {
         nameText.SetText(Effect.Name.GetText());
     }
+
+    public void SetBlueChip(AdditionalEffect additional)
+    {
+        Effect = additional;
+        nameText.SetText(Effect.Name.GetText());
+    }
 }

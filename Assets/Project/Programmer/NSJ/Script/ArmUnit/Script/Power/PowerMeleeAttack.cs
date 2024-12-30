@@ -81,6 +81,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         // 초기화
         _curChargeTime = 0;
         _index = 0;
+        Player.IsInvincible = false;
     }
     public override void Update()
     {
@@ -105,6 +106,8 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
             if (Input.GetButtonUp(InputKey.Melee))
             {
+                Player.IsInvincible = true;
+
                 _chargeRoutine = null;
                 // 공격방향 바라보기
                 Player.LookAtAttackDir();

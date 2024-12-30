@@ -9,7 +9,7 @@ namespace NSJ_TesterPanel
 {
     public class BlueChipBundle : TesterBundle
     {
-        [SerializeField] NSJBlueChip _blueChipItem;
+        [SerializeField] TestBlueChip _blueChipItem;
         private TMP_Text _nameText => GetUI<TMP_Text>("NameText");
 
         private AdditionalEffect _curBlueChip;
@@ -55,8 +55,7 @@ namespace NSJ_TesterPanel
 
         private void Create()
         {
-
-            NSJBlueChip blueChipItem = Instantiate(_blueChipItem);
+            TestBlueChip blueChipItem = Instantiate(_blueChipItem);
             Vector3 createPos = new Vector3(
                 _player.transform.position.x + (_player.transform.forward.x * Random.Range(createOffset.x - randomOffset.x, createOffset.x + randomOffset.x)),
                 _player.transform.position.y + createOffset.y,

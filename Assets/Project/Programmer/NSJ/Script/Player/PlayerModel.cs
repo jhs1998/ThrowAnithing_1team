@@ -1,3 +1,4 @@
+using MKH;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -7,6 +8,12 @@ public class PlayerModel : MonoBehaviour, IDebuff
 {
     [Inject]
     public PlayerData Data;
+    [Inject]
+    public GlobalPlayerStateData GlobalStateData;
+    [Inject]
+    public GlobalGameData GameData;
+    public EquipmentInventory Inventory;
+
     public ArmUnit Arm;
     public int MaxHp { get { return Data.MaxHp; } set { Data.MaxHp = value; } }
     public int CurHp { get { return Data.CurHp; } set { Data.CurHp = value; CurHpSubject?.OnNext(Data.CurHp); } }
@@ -38,7 +45,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public List<ThrowAdditional> ThrowAdditionals { get { return Data.ThrowAdditionals; } set { Data.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
     public List<PlayerAdditional> PlayerAdditionals { get { return Data.PlayerAdditionals; } set { Data.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.ThrowObjectStack; } set { Data.ThrowObjectStack = value; } }
-    public float MoveSpeed { get { return Data.MoveSpeed / 20; } set { Data.MoveSpeed = value * 20f; } } // 이동속도
+    public float MoveSpeed { get { return (Data.MoveSpeed) / 20; } set { Data.MoveSpeed = value * 20f; } } // 이동속도
     // 대쉬
     public float DashDistance { get { return Data.DashDistance / 20f; } set { Data.DashDistance = value * 20f; } }
     public int DashStamina { get { return Data.DashStamina; } set { Data.DashStamina = value; } }
@@ -106,8 +113,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public float[] MeleeAttackStamina { get { return Data.MeleeAttackStamina; } set { Data.MeleeAttackStamina = value; } }
 
     public GlobalPlayerStateData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
-
-
+    public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade; } set { Data.EquipmentDropUpgrade = value; } }
 
     public float BoomRadius;
     // TODO : 인스펙터 정리 필요
@@ -141,11 +147,8 @@ public class PlayerModel : MonoBehaviour, IDebuff
     {
         _view = GetComponent<PlayerView>();
         _player = GetComponent<PlayerController>();
-    }
-    // TODO : 일단 젠젝트 실패, 싱글톤으로 구현 후 이후에 리팩토링 
-    private void Start()
-    {
-        //Data = DataContainer.Instance.PlayerData;
+        Data.CopyGlobalPlayerData(GlobalStateData);
+        Data.Inventory = Inventory;
     }
 
     private void Update()
@@ -341,18 +344,18 @@ public partial class PlayerData
         // 상태이상 지속시간
     }
     [SerializeField] private DataStruct Data;
-    public float MoveSpeed { get { return Data.MoveSpeed; } set { Data.MoveSpeed = value; } }
+    public float MoveSpeed { get { return Data.MoveSpeed + EquipStatus.Speed; } set { Data.MoveSpeed = value; } }
     // 체력
-    public int MaxHp { get { return Data.Hp.MaxHp; } set { Data.Hp.MaxHp = value; } }
-    public int CurHp { get { return Data.Hp.CurHp; } set { Data.Hp.CurHp = value; } }
+    public int MaxHp { get { return Data.Hp.MaxHp + (int)EquipStatus.HP; } set { Data.Hp.MaxHp = value; } }
+    public int CurHp { get { return Data.Hp.CurHp + (int)EquipStatus.HP; } set { Data.Hp.CurHp = value; } }
     // 방어력
-    public int Defense { get { return Data.Defense.Defense; } set { Data.Defense.Defense = value; } }
+    public int Defense { get { return Data.Defense.Defense + (int)EquipStatus.Defense; } set { Data.Defense.Defense = value; } }
     public float DamageReduction { get { return Data.Defense.DamageReduction; } set { Data.Defense.DamageReduction = value; } }
 
     public float DrainLife { get { return Data.DrainLife; } set { Data.DrainLife = value; } }
 
     // 스테미나
-    public float MaxStamina { get { return Data.Stamina.MaxStamina; } set { Data.Stamina.MaxStamina = value; } }
+    public float MaxStamina { get { return Data.Stamina.MaxStamina + EquipStatus.Stemina; } set { Data.Stamina.MaxStamina = value; } }
     public float CurStamina { get { return Data.Stamina.CurStamina; } set { Data.Stamina.CurStamina = value; } }
     public float RegainStamina { get { return Data.Stamina.RegainStamina; } set { Data.Stamina.RegainStamina = value; } }
     public float StaminaCoolTime { get { return Data.Stamina.StaminaCoolTime; } set { Data.Stamina.StaminaCoolTime = value; } }
@@ -360,7 +363,7 @@ public partial class PlayerData
     public float MaxStaminaCharge { get { return Data.Stamina.MaxStaminaCharge; } set { Data.Stamina.MaxStaminaCharge = value; } }
     public float CurStaminaCharge { get { return Data.Stamina.CurStaminaCharge; } set { Data.Stamina.CurStaminaCharge = value; } }
     // 특수공격
-    public float MaxMana { get { return Data.Special.MaxMana; } set { Data.Special.MaxMana = value; } }
+    public float MaxMana { get { return Data.Special.MaxMana + EquipStatus.Mana; } set { Data.Special.MaxMana = value; } }
     public float CurMana { get { return Data.Special.CurMana; } set { Data.Special.CurMana = value; } }
     public float[] RegainMana { get { return Data.Special.RegainMana; } set { Data.Special.RegainMana = value; } }
     public float[] ManaConsumption { get { return Data.Special.ManaConsumption; } set { Data.Special.ManaConsumption = value; } }
@@ -377,13 +380,23 @@ public partial class PlayerData
     public int DashStamina { get { return Data.Dash.DashStamina; } set { Data.Dash.DashStamina = value; } }
 
     // 공격
-    public int AttackPower { get { return Data.Attack.AttackPower; } set { Data.Attack.AttackPower = value; } }
-    public float AttackSpeed { get { return Data.Attack.AttackSpeed; } set { Data.Attack.AttackSpeed = value; } }
+    public int AttackPower
+    {
+        get {
+            Debug.Log($"{Inventory}");
+            return Data.Attack.AttackPower + (int)EquipStatus.Damage; }
+        set
+        {
+         
+            Data.Attack.AttackPower = value;
+        }
+    }
+    public float AttackSpeed { get { return Data.Attack.AttackSpeed + EquipStatus.AttackSpeed; } set { Data.Attack.AttackSpeed = value; } }
     public float[] PowerMeleeAttack { get { return Data.Attack.PowerMeleeAttack; } set { Data.Attack.PowerMeleeAttack = value; } }
     public float[] PowerThrowAttack { get { return Data.Attack.PowerThrowAttack; } set { Data.Attack.PowerThrowAttack = value; } }
     public float[] PowerSpecialAttack { get { return Data.Attack.PowerSpecialAttack; } set { Data.Attack.PowerSpecialAttack = value; } }
     // 크리티컬
-    public float CriticalChance { get { return Data.Critical.CriticalChance; } set { Data.Critical.CriticalChance = value; } }
+    public float CriticalChance { get { return Data.Critical.CriticalChance + EquipStatus.Critical; } set { Data.Critical.CriticalChance = value; } }
     public float CriticalDamage { get { return Data.Critical.CriticalDamage; } set { Data.Critical.CriticalDamage = value; } }
     // 투척오브젝트
     public int MaxThrowables { get { return Data.Throw.MaxThrowables; } set { Data.Throw.MaxThrowables = value; } }
@@ -398,14 +411,13 @@ public partial class PlayerData
     public List<ThrowAdditional> ThrowAdditionals { get { return Data.Additional.ThrowAdditionals; } set { Data.Additional.ThrowAdditionals = value; } } // 공격 방법 추가효과 리스트
     public List<PlayerAdditional> PlayerAdditionals { get { return Data.Additional.PlayerAdditionals; } set { Data.Additional.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
     public float[] MeleeAttackStamina { get { return Data.MeleeAttackStamina; } set { Data.MeleeAttackStamina = value; } }
-    public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade; } set { Data.EquipmentDropUpgrade = value; } }
+    public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + EquipStatus.EquipRate; } set { Data.EquipmentDropUpgrade = value; } }
 
 
-
-
+    public EquipmentInventory Inventory;
+    public EquipmentEffect EquipStatus => Inventory.CurrentEquipmentEffect;
     public void CopyGlobalPlayerData(GlobalPlayerStateData globalData)
     {
-        Debug.Log("1");
         Data.Hp.MaxHp = (int)globalData.maxHp;
         Data.Hp.CurHp = (int)globalData.maxHp;
         Data.Attack.AttackPower = (int)globalData.commonAttack;

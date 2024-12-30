@@ -48,7 +48,7 @@ public class DataContainer : MonoBehaviour
     private void Awake()
     {
         InitSingleTon();
-
+   
         foreach (ThrowObject throwObject in _throwObjects)
         {
             _throwObjectDic.Add(throwObject.Data.ID, throwObject);

@@ -11,6 +11,7 @@ public class PlayerState : BaseState
 {
     public bool UseStamina;
     public float StaminaAmount;
+    public bool CantChangeState;
     protected PlayerController Player;
 
     protected GameObject gameObject => Player.gameObject;

@@ -1,16 +1,10 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Build.Content;
 using UnityEngine;
-using Zenject;
 using UnityEngine.UI;
 
 public class Option_GamePlay : Main_Option
 {
-    [Inject]
     SettingManager setManager;
 
     [SerializeField] GameObject miniMapAct;
@@ -41,7 +35,7 @@ public class Option_GamePlay : Main_Option
     [SerializeField] Button defaultButton;
 
 
-    
+
     void Start()
     {
         Init();
@@ -50,7 +44,7 @@ public class Option_GamePlay : Main_Option
 
     void Update()
     {
-        
+
         if (gameplayOnOff.activeSelf)
         {
             if (menuCo == null)
@@ -58,7 +52,7 @@ public class Option_GamePlay : Main_Option
                 menuCo = StartCoroutine(GamePlay_Select());
             }
 
-           if (Input.GetButtonDown("Interaction"))
+            if (Input.GetButtonDown("Interaction"))
                 ButtonSelect();
         }
 
@@ -67,13 +61,13 @@ public class Option_GamePlay : Main_Option
     {
         float x = Input.GetAxisRaw("Horizontal");
         float y = -Input.GetAxisRaw("Vertical");
-        
+
 
         gamePlay_Ho += (int)x;
         gamePlay_Ver += (int)y;
 
 
-        if(gamePlay_Ver != 0)
+        if (gamePlay_Ver != 0)
         {
             if (x != 0)
             {
@@ -82,7 +76,7 @@ public class Option_GamePlay : Main_Option
             }
         }
 
-        if(gamePlay_Ho !=0)
+        if (gamePlay_Ho != 0)
         {
             if (y != 0)
             {
@@ -91,20 +85,20 @@ public class Option_GamePlay : Main_Option
             }
         }
 
-        if(gamePlay_Ver <= 0)
+        if (gamePlay_Ver <= 0)
         {
             if (gamePlay_Ho == 4)
                 gamePlay_Ho = 1;
 
             if (gamePlay_Ho <= 0)
-                gamePlay_Ho= 3;
+                gamePlay_Ho = 3;
         }
 
         if (gamePlay_Ho <= 0)
         {
             if (gamePlay_Ver == 4)
                 gamePlay_Ver = 1;
-                         
+
             if (gamePlay_Ver <= 0)
                 gamePlay_Ver = 3;
         }
@@ -113,7 +107,10 @@ public class Option_GamePlay : Main_Option
         ButtonReset();
 
         buttons[gamePlay_Ver, gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-        yield return inputDelay.GetDelay();
+        if (x == 0 && y == 0)
+            yield return null;
+        else
+            yield return inputDelay.GetRealTimeDelay();
         menuCo = null;
 
 
@@ -135,7 +132,7 @@ public class Option_GamePlay : Main_Option
 
     void ButtonSelect()
     {
-        switch(gamePlay_Ver, gamePlay_Ho)
+        switch (gamePlay_Ver, gamePlay_Ho)
         {
             case (0, 1):
                 acceptButton.onClick.Invoke();
@@ -229,7 +226,7 @@ public class Option_GamePlay : Main_Option
 
     void Init()
     {
-        buttons = new GameObject[4,4];
+        buttons = new GameObject[4, 4];
 
         buttons[1, 0] = miniMapAct = GetUI("Activate");
         buttons[2, 0] = miniMapFix = GetUI("Fixed");
@@ -238,6 +235,11 @@ public class Option_GamePlay : Main_Option
         buttons[0, 2] = GetUI("CancelButton_gameplay");
         buttons[0, 3] = GetUI("DefaultButton_gameplay");
 
+
+        acceptButton = GetUI<Button>("AcceptButton_gameplay");
+
+        defaultButton = GetUI<Button>("DefaultButton_gameplay");
+        cancelButton = GetUI<Button>("CancelButton_gameplay");
         actChecked = GetUI("MiniMapActChecked");
         fixChecked = GetUI("MiniMapFixChecked");
 

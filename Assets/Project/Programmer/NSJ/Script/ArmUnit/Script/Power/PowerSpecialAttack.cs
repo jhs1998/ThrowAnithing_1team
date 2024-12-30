@@ -74,6 +74,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         Model.SpecialChargeGage = 0;
         _index = 0;
         _triggerIndex = 0;
+        Player.IsInvincible = false;
     }
     public override void Update()
     {
@@ -121,6 +122,8 @@ public class PowerSpecialAttack : ArmSpecialAttack
                     ChangeState(PlayerController.State.Idle);
                 }
                 _chargeRoutine = null;
+                // 캐릭터 임시 무적
+                Player.IsInvincible = true;
                 break;
             }
             yield return null;

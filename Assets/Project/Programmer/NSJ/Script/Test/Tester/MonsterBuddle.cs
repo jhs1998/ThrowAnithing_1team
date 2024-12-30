@@ -54,7 +54,7 @@ namespace NSJ_TesterPanel
             }
                 
             _curMonster = DataContainer.Monsters[index];
-            _nameText.SetText(index.GetText());
+            _nameText.SetText(_curMonster.GetState().Name);
         }
 
         /// <summary>

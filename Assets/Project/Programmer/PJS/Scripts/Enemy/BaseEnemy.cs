@@ -5,40 +5,45 @@ using UnityEngine;
 [System.Serializable]
 public class State
 {
-    [Range(50, 3000)] public int MaxHp;  // Ã¼·Â
-    [Range(0, 20)] public int Atk;       // °ø°İ·Â
-    [Range(0, 10)] public float Def;    // ¹æ¾î·Â
-    [Range(0, 10)] public float Speed;    // ÀÌµ¿ ¼Óµµ
-    [Range(0, 10)] public float AtkDelay;   // °ø°İ ¼Óµµ
-    [Range(0, 10)] public float AttackDis;  // °ø°İ »ç°Å¸®
-    [Range(0, 10)] public float TraceDis;   // ÀÎ½Ä »ç°Å¸®
+    public string Name;
+    [Range(50, 3000)] public int MaxHp;  // ì²´ë ¥
+    [Range(0, 20)] public int Atk;       // ê³µê²©ë ¥
+    [Range(0, 10)] public float Def;    // ë°©ì–´ë ¥
+    [Range(0, 10)] public float Speed;    // ì´ë™ ì†ë„
+    [Range(0, 10)] public float AtkDelay;   // ê³µê²© ì†ë„
+    [Range(0, 10)] public float AttackDis;  // ê³µê²© ì‚¬ê±°ë¦¬
+    [Range(0, 10)] public float TraceDis;   // ì¸ì‹ ì‚¬ê±°ë¦¬
 }
 
-public class BaseEnemy : MonoBehaviour, IHit
+[RequireComponent(typeof(BattleSystem))]
+public class BaseEnemy : MonoBehaviour, IHit,IDebuff
 {
     [SerializeField] protected BehaviorTree tree;
 
-    [Header("¸ó½ºÅÍ ±âº» ½ºÅ×ÀÌÅÍ½º")]
+    [Header("ëª¬ìŠ¤í„° ê¸°ë³¸ ìŠ¤í…Œì´í„°ìŠ¤")]
     [SerializeField] protected State state;
-    [Header("¾ÆÀÌÅÛ µå¶ø È®·ü(100 ´ÜÀ§)")]
+    [Header("ì•„ì´í…œ ë“œë í™•ë¥ (100 ë‹¨ìœ„)")]
     [SerializeField] float reward;
-    [Header("ÇöÀç Ã¼·Â")]
+    [Header("í˜„ì¬ ì²´ë ¥")]
     [SerializeField] int curHp;
 
-    [HideInInspector] int maxHp;      // ÃÖ´ë Ã¼·Â
-    [HideInInspector] float speed;      // ÀÌµ¿¼Óµµ
-    [HideInInspector] float jumpPower;  // Á¡ÇÁ·Â
-    [HideInInspector] float attackSpeed;// °ø°İ¼Óµµ
+    [HideInInspector] int maxHp;      // ìµœëŒ€ ì²´ë ¥
+    [HideInInspector] float speed;      // ì´ë™ì†ë„
+    [HideInInspector] float jumpPower;  // ì í”„ë ¥
+    [HideInInspector] float attackSpeed;// ê³µê²©ì†ë„
 
-    [HideInInspector] public int resultDamage;  // ÃÖÁ¾ÀûÀ¸·Î ÇÇÇØ ÀÔ´Â µ¥¹ÌÁö
+    [HideInInspector] public int resultDamage;  // ìµœì¢…ì ìœ¼ë¡œ í”¼í•´ ì…ëŠ” ë°ë¯¸ì§€
     [HideInInspector] public Collider[] overLapCollider = new Collider[100];
+    [HideInInspector] public BattleSystem Battle;
 
     public int Damage { get { return state.Atk; } }
-    public int MaxHp {  get { return maxHp; } set { maxHp = value; } }
+    public int MaxHp {  get { return state.MaxHp; } set { state.MaxHp = value; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
-    public float Speed { get { return speed; } set { speed = value; } }
+    public float MoveSpeed { get { return state.Speed; } set { state.Speed = value; } }
     public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
-    public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
+    public float AttackSpeed { get { return state.AtkDelay; } set { state.AtkDelay = value; } }
+
+
 
     protected SharedGameObject playerObj;
 
@@ -46,6 +51,9 @@ public class BaseEnemy : MonoBehaviour, IHit
     {
         playerObj = GameObject.FindGameObjectWithTag("Player");
         tree = GetComponent<BehaviorTree>();
+        Battle = GetComponent<BattleSystem>();
+        // FIXME : ë‚˜ì¤‘ì— ìˆ˜ì • í•„ìš”
+        gameObject.layer = Layer.Monster;
     }
 
     private void Start()
@@ -56,11 +64,16 @@ public class BaseEnemy : MonoBehaviour, IHit
         attackSpeed = state.AtkDelay;
     }
 
+    public State GetState()
+    {
+        return state;
+    }
+
     private void SettingVariable()
     {
         tree.SetVariable("PlayerObj", playerObj);
         tree.SetVariable("PlayerTrans", (SharedTransform)playerObj.Value.transform);
-        tree.SetVariable("Speed", (SharedFloat)state.Speed);
+        tree.SetVariable("Speed", (SharedFloat)MoveSpeed);
         tree.SetVariable("AtkDelay", (SharedFloat)state.AtkDelay);
         tree.SetVariable("TraceDis", (SharedFloat)state.TraceDis);
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
@@ -68,7 +81,7 @@ public class BaseEnemy : MonoBehaviour, IHit
     }
 
     /// <summary>
-    /// ¸ó½ºÅÍ°¡ ÇÇÇØ¹Ş´Â µ¥¹ÌÁö
+    /// ëª¬ìŠ¤í„°ê°€ í”¼í•´ë°›ëŠ” ë°ë¯¸ì§€
     /// </summary>
     public void TakeDamage(int damage, bool isStun)
     {
@@ -79,14 +92,14 @@ public class BaseEnemy : MonoBehaviour, IHit
             resultDamage = 0;
 
         curHp -= resultDamage;
-        
-        // TODO : °á°ú °ªÀº TakeDamage ¸Å°³º¯¼ö·Î º¯È¯
+
+        // TODO : ê²°ê³¼ ê°’ì€ TakeDamage ë§¤ê°œë³€ìˆ˜ë¡œ ë³€í™˜
         tree.SetVariableValue("Stiff", isStun);
-        Debug.Log($"{resultDamage} ÇÇÇØ¸¦ ÀÔÀ½. curHP : {curHp}");
+        Debug.Log($"{resultDamage} í”¼í•´ë¥¼ ì…ìŒ. curHP : {curHp}");
     }
 
     /// <summary>
-    /// Â÷Áö ÈÄ Æø¹ß µ¥¹ÌÁö ºÎ¿©
+    /// ì°¨ì§€ í›„ í­ë°œ ë°ë¯¸ì§€ ë¶€ì—¬
     /// </summary>
     public void TakeChargeBoom(float range, int damage)
     {
@@ -106,7 +119,7 @@ public class BaseEnemy : MonoBehaviour, IHit
 
     private void OnDrawGizmosSelected()
     {
-        // °Å¸® ±×¸®±â
+        // ê±°ë¦¬ ê·¸ë¦¬ê¸°
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, state.TraceDis);
 

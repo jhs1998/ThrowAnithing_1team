@@ -45,7 +45,7 @@ namespace MKH
             IsBlueChipActive = false;
         }
 
-        public void AcquireEffect(AdditionalEffect effect)
+        public bool AcquireEffect(AdditionalEffect effect)
         {
             for (int i = 0; i < mSlots.Length; i++)
             {
@@ -54,10 +54,11 @@ namespace MKH
                 {
                     mSlots[i].AddEffect(effect);
                     Debug.Log(effect);
-                    return;
+                    return true;
                 }
                 
             }
+            return false;
         }
     }
 }

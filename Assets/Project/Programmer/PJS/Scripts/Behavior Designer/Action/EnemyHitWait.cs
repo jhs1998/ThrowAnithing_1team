@@ -12,20 +12,19 @@ public class EnemyHitWait : Action
     public override void OnStart()
     {
         anim = GetComponent<Animator>();
-        speedValue = speed.Value;
+        //speedValue = speed.Value;
     }
 
     public override TaskStatus OnUpdate()
     {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Zombie Hit") &&
-            anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
-            speed.SetValue(speedValue);
+            //speed.SetValue(speedValue);
             return TaskStatus.Success;
-            
+
         }
 
-        speed.SetValue(0);
+        //speed.SetValue(0);
         return TaskStatus.Running;
     }
 }

@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,6 +43,9 @@ namespace MKH
 
         private void Update()
         {
+            if (inventory.activeSelf == false)
+                return;
+
             ButtonsControl();               // 키 조작
             Use(selectedButtonsIndex);      // 키 버튼 조작
             Info();                         // 아이템 정보
@@ -57,54 +58,53 @@ namespace MKH
             float y = Input.GetAxisRaw("Vertical");         // 상 하 조작
 
             // 인벤토리 켜져 있을 때만 조작 가능
-            if (inventory.activeSelf)
+
+            // 왼쪽
+            if (x == -1)
             {
-                // 왼쪽
-                if (x == -1)
+                if (selectedButtonsIndex > 0 && axisInUse == false)
                 {
-                    if (selectedButtonsIndex > 0 && axisInUse == false)
-                    {
-                        axisInUse = true;
-                        selectedButtonsIndex -= 1;
-                        Debug.Log("왼쪽");
-                    }
-                }
-                // 오른쪽
-                else if (x == 1)
-                {
-                    if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
-                    {
-                        axisInUse = true;
-                        selectedButtonsIndex += 1;
-                        Debug.Log("오른쪽");
-                    }
-                }
-                // 위
-                else if (y == 1)
-                {
-                    if (selectedButtonsIndex > 2 && axisInUse == false)
-                    {
-                        axisInUse = true;
-                        selectedButtonsIndex -= 3;
-                        Debug.Log("위");
-                    }
-                }
-                // 아래
-                else if (y == -1)
-                {
-                    if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
-                    {
-                        axisInUse = true;
-                        selectedButtonsIndex += 3;
-                        Debug.Log("아래");
-                    }
-                }
-                // 키 멈춤 방지
-                else
-                {
-                    axisInUse = false;
+                    axisInUse = true;
+                    selectedButtonsIndex -= 1;
+                    Debug.Log("왼쪽");
                 }
             }
+            // 오른쪽
+            else if (x == 1)
+            {
+                if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
+                {
+                    axisInUse = true;
+                    selectedButtonsIndex += 1;
+                    Debug.Log("오른쪽");
+                }
+            }
+            // 위
+            else if (y == 1)
+            {
+                if (selectedButtonsIndex > 2 && axisInUse == false)
+                {
+                    axisInUse = true;
+                    selectedButtonsIndex -= 3;
+                    Debug.Log("위");
+                }
+            }
+            // 아래
+            else if (y == -1)
+            {
+                if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
+                {
+                    axisInUse = true;
+                    selectedButtonsIndex += 3;
+                    Debug.Log("아래");
+                }
+            }
+            // 키 멈춤 방지
+            else
+            {
+                axisInUse = false;
+            }
+
 
             // 선택 슬롯 색 입히기
             for (int i = 0; i < buttons.Length; i++)
@@ -133,7 +133,7 @@ namespace MKH
                     return;
                 }
                 // 인벤토리
-                else if(index >= 9)
+                else if (index >= 9)
                 {
                     ivSlots[index - 9].UseItem();
                     Debug.Log($"인벤토리 {index - 9}버튼 누름");

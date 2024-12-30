@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 418218525214398539}
   - component: {fileID: 754880611680432719}
   - component: {fileID: 6399784573856491384}
+  - component: {fileID: 4648765538334251057}
   m_Layer: 0
   m_Name: Attacker
   m_TagString: Monster
@@ -102,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: "\uC5B4\uD0DC\uCEE4"
     MaxHp: 150
     Atk: 7
     Def: 5
@@ -213,6 +215,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  Battle: {fileID: 0}
   attakArm: {fileID: 5058155237842051205}
 --- !u!114 &754880611680432719
 MonoBehaviour:
@@ -313,6 +316,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4648765538334251057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364103528471589098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c30b6688334494ca44dd100a1f1793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitAdditionalList: []
+  _debuffList: []
 --- !u!1 &5637635325960972330
 GameObject:
   m_ObjectHideFlags: 0

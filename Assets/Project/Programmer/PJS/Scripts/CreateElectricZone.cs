@@ -9,12 +9,14 @@ public class CreateElectricZone : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < range; i++)
+        /*for (int i = 0; i < range; i++)
         {
             Vector3 dic = new Vector3(transform.position.x, transform.position.y, transform.position.z + i);
-            GameObject obj = Instantiate(electricZone, dic, Quaternion.identity);
+            GameObject obj = Instantiate(electricZone, dic, transform.rotation);
             obj.transform.parent = transform;
-        }
+        }*/
+
+        Instantiate(electricZone, transform.position, transform.rotation);
 
         Destroy(gameObject, 3f);
     }
