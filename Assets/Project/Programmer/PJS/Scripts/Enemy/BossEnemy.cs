@@ -10,10 +10,13 @@ public class BossEnemy : BaseEnemy
     [SerializeField] ParticleSystem shieldParticle;
 
     private Coroutine attackAble;
+    private bool onFrezenyPassive = false;
+
 
     private void Update()
     {
         ChangePhase();
+        //FrenzyPassive();
     }
 
     private void ChangePhase()
@@ -33,7 +36,21 @@ public class BossEnemy : BaseEnemy
         {
             Debug.Log("curHP <= 50");
             curPhase = Phase.Phase3;
+            onFrezenyPassive = true;
         }
+    }
+
+    private void FrenzyPassive()
+    {
+        if (onFrezenyPassive == false)
+            return;
+
+        Debug.Log($"{Speed}, {AttackSpeed}");
+
+        Speed = Speed + (Speed * 0.2f);
+        AttackSpeed = AttackSpeed - (AttackSpeed * 0.2f);
+
+        Debug.Log($"{Speed}, {AttackSpeed}");
     }
 
     /// <summary>
