@@ -36,7 +36,7 @@ public class SpawnPrefabs : MonoBehaviour
             while (spwanCount != 0)
             {
                 
-                int num = Random.Range(0, spawnPos.Count - 1);
+                int num = Random.Range(0, spawnPos.Count);
                 Instantiate(prefabs, spawnPos[num]);
                 
                 if (prefabs.tag == Tag.Trash)
