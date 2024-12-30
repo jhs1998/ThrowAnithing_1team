@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour, IHit
         SpecialAttack,
         Hit,
         Dead,
+        Interative,
         Size
     }
 
@@ -219,6 +220,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public void ChangeState(State state)
     {
+
         // 스테미나 쓰는 상태
         if (_states[(int)state].UseStamina == true)
         {
@@ -881,6 +883,7 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)State.Drain] = new DrainState(this);               // 드레인
         _states[(int)State.Hit] = new HitState(this);                   // 피격
         _states[(int)State.Dead] = new DeadState(this);                 // 사망
+        _states[(int)State.Interative] = new InteractiveState(this);    // 상호작용
     }
 
     /// <summary>

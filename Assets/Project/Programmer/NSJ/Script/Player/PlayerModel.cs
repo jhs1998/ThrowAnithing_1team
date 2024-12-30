@@ -148,10 +148,6 @@ public class PlayerModel : MonoBehaviour, IDebuff
         _view = GetComponent<PlayerView>();
         _player = GetComponent<PlayerController>();
         Data.CopyGlobalPlayerData(GlobalStateData);
-    }
-    // TODO : 일단 젠젝트 실패, 싱글톤으로 구현 후 이후에 리팩토링 
-    private void Start()
-    {
         Data.Inventory = Inventory;
     }
 
@@ -384,7 +380,17 @@ public partial class PlayerData
     public int DashStamina { get { return Data.Dash.DashStamina; } set { Data.Dash.DashStamina = value; } }
 
     // 공격
-    public int AttackPower { get { return Data.Attack.AttackPower + (int)EquipStatus.Damage; } set { Data.Attack.AttackPower = value; } }
+    public int AttackPower
+    {
+        get {
+            Debug.Log($"{Inventory}");
+            return Data.Attack.AttackPower + (int)EquipStatus.Damage; }
+        set
+        {
+         
+            Data.Attack.AttackPower = value;
+        }
+    }
     public float AttackSpeed { get { return Data.Attack.AttackSpeed + EquipStatus.AttackSpeed; } set { Data.Attack.AttackSpeed = value; } }
     public float[] PowerMeleeAttack { get { return Data.Attack.PowerMeleeAttack; } set { Data.Attack.PowerMeleeAttack = value; } }
     public float[] PowerThrowAttack { get { return Data.Attack.PowerThrowAttack; } set { Data.Attack.PowerThrowAttack = value; } }

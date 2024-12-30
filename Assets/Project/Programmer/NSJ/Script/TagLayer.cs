@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -30,6 +31,7 @@ public static partial class Layer
     public static int Player => LayerEnum.Player.GetLayer();
     public static int Monster => LayerEnum.Monster.GetLayer();
     public static int ThrowObject => LayerEnum.ThrowObject.GetLayer();
+    public static int Forge => LayerEnum.Forge.GetLayer();
     public enum LayerEnum
     {
         Default,
@@ -38,6 +40,7 @@ public static partial class Layer
         Water,
         UI,
         Wall,
+        Forge,
         Player,
         Monster,
         ThrowObject
