@@ -9,7 +9,7 @@ namespace MKH
     {
         public override Item Create()
         {
-            List<Dictionary<string, object>> data = CSVReader.Read("Pants");
+            List<Dictionary<string, object>> data = CSVReader.Read("EquipCSV - Pants");
 
             Item_Equipment createitem = Instantiate(this);
 
@@ -22,10 +22,10 @@ namespace MKH
 
                 // 장비 등급 숫자로 주스텟과 설명 추가
                 // 주스텟
-                createitem.mEffect.Stemina = UnityEngine.Random.Range((int)data[rate]["최소"], (int)data[rate]["스테미나"]);
+                createitem.mEffect.Stemina = Random.Range((int)data[rate]["최소"], (int)data[rate]["스테미나"]);
                 // 설명
                 createitem.Name = (string)data[rate]["이름"];
-                createitem.Description = $"Stemina : {createitem.mEffect.Stemina.ToString()}";
+                createitem.Description = $"스테미나 + {createitem.mEffect.Stemina.ToString()}";
 
                 // 부스텟을 모두 0으로 변경
                 createitem.mEffect.HP = 0;
@@ -48,35 +48,43 @@ namespace MKH
                     {
                         case 0:
                             createitem.mEffect.HP = (int)data[rate]["체력"];
-                            createitem.Description += $"\nHP : {createitem.mEffect.HP.ToString()}";
+                            createitem.Description += $"\n체력 + {createitem.mEffect.HP.ToString()}";
                             break;
                         case 1:
                             createitem.mEffect.Defense = (int)data[rate]["방어력"];
-                            createitem.Description += $"\nDefense : {createitem.mEffect.Defense.ToString()}";
+                            createitem.Description += $"\n방어력 + {createitem.mEffect.Defense.ToString()}";
                             break;
                         case 2:
                             createitem.mEffect.Critical = (int)data[rate]["치확"];
-                            createitem.Description += $"\nCritical : {createitem.mEffect.Critical.ToString()}";
+                            createitem.Description += $"\n치명타 확률 + {createitem.mEffect.Critical.ToString()}%";
                             break;
                         case 3:
                             createitem.mEffect.AttackSpeed = (float)data[rate]["공속"];
-                            createitem.Description += $"\nAttackSpeed : {createitem.mEffect.AttackSpeed.ToString("F2")}";
+                            createitem.Description += $"\n공격속도 + {(createitem.mEffect.AttackSpeed * 100f).ToString()}%";
                             break;
                         case 4:
                             createitem.mEffect.EquipRate = (float)data[rate]["장비획득률 증가"];
-                            createitem.Description += $"\nEquipRate : {createitem.mEffect.EquipRate.ToString("F2")}";
+                            createitem.Description += $"\n장비 획득률 + {(createitem.mEffect.EquipRate * 100f).ToString()}%";
                             break;
                         case 5:
-                            createitem.mEffect.Damage = (int)data[rate]["공격력"];
-                            createitem.Description += $"\nDamage : {createitem.mEffect.Damage.ToString()}";
+                            if (rate == 1)
+                            {
+                                createitem.mEffect.Damage = (float)data[rate]["공격력"];
+                                createitem.Description += $"\n공격력 + {createitem.mEffect.Damage.ToString()}";
+                            }
+                            else if (rate == 2)
+                            {
+                                createitem.mEffect.Damage = (int)data[rate]["공격력"];
+                                createitem.Description += $"\n공격력 + {createitem.mEffect.Damage.ToString()}";
+                            }
                             break;
                         case 6:
                             createitem.mEffect.Speed = (float)data[rate]["이속"];
-                            createitem.Description += $"\nSpeed : {createitem.mEffect.Speed.ToString("F2")}";
+                            createitem.Description += $"\n이동속도 + {(createitem.mEffect.Speed * 100f).ToString()}%";
                             break;
                         case 7:
                             createitem.mEffect.Mana = (int)data[rate]["마나"];
-                            createitem.Description += $"\nMana : {createitem.mEffect.Mana.ToString()}";
+                            createitem.Description += $"\n마나 + {createitem.mEffect.Mana.ToString()}";
                             break;
                     }
 
