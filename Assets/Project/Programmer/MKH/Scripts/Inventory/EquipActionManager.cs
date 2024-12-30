@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace MKH
 {
-    public class ItemActionManager : MonoBehaviour
+    public class EquipActionManager : MonoBehaviour
     {
+        [Header("장비 인벤토리")]
         [SerializeField] private EquipmentInventory mEquipmentInventory;
-        [SerializeField] private InventoryMain mManinInventory;
 
-
-        public bool UseItem(Item item)
+        // 장비 교체
+        public bool UseEquip(Item item)
         {
             InventorySlot equipmentSlot = mEquipmentInventory.GetEquipmentSlot(item.Type);
 
@@ -28,13 +28,16 @@ namespace MKH
             return true;
         }
 
-        public bool RemoveItem(Item item)
+        // 장비 삭제
+        public bool RemoveEquip(Item item)
         {
             InventorySlot equipmentSlot = mEquipmentInventory.GetEquipmentSlot(item.Type);
 
-            mEquipmentInventory.CalculateEffect();
             equipmentSlot.ClearSlot();
+
+            mEquipmentInventory.CalculateEffect();
             return true;
+
         }
     }
 }

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace MKH
@@ -5,10 +6,12 @@ namespace MKH
     public class InventoryMain : InventoryBase
     {
         public static bool IsInventoryActive = false;
+        [SerializeField] GameObject state;
 
         new private void Awake()
         {
             base.Awake();
+            state.SetActive(false);
         }
 
         private void Update()
@@ -31,12 +34,14 @@ namespace MKH
         {
             mInventoryBase.SetActive(true);
             IsInventoryActive = true;
+            state.SetActive(true);
         }
 
         private void CloseInventory()
         {
             mInventoryBase.SetActive(false);
             IsInventoryActive = false;
+            state.SetActive(false);
         }
 
         public void AcquireItem(Item item)
