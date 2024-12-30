@@ -1,10 +1,14 @@
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace MKH
 {
     public class EquipmentInventory : InventoryBase
     {
+        [Inject]
+        public PlayerData playerData;
+
         public static bool IsInventoryActive = false;
 
         [Header("현재 계산된 수치를 표현할 텍스트 라벨들")]
@@ -25,7 +29,10 @@ namespace MKH
         {
             base.Awake();
         }
-
+        private void Start()
+        {
+            CalculateEffect();
+        }
         public void CalculateEffect()
         {
             EquipmentEffect calcedEffect = new EquipmentEffect();
@@ -39,15 +46,15 @@ namespace MKH
 
             mCurrentEquipmentEffect = calcedEffect;
 
-            mDamageLabel.text = "Damage : " + mCurrentEquipmentEffect.Damage.ToString();
-            mDefenseLabel.text = "Defense : " + mCurrentEquipmentEffect.Defense.ToString();
-            mHPLabel.text = "HP : " + mCurrentEquipmentEffect.HP.ToString();
-            mCriticalLabel.text = "Critical : " + mCurrentEquipmentEffect.Critical.ToString();
-            mAttackSpeedLabel.text = "AttackSpeed : " + mCurrentEquipmentEffect.AttackSpeed.ToString("F2");
-            mSteminaLabel.text = "Stemina : " + mCurrentEquipmentEffect.Stemina.ToString();
-            mEquipRateLabel.text = "EquipRate : " + mCurrentEquipmentEffect.EquipRate.ToString("F2");
-            mSpeedLabel.text = "MoveSpeed : " + mCurrentEquipmentEffect.Speed.ToString("F2");
-            mManaLabel.text = "Mana : " + mCurrentEquipmentEffect.Mana.ToString();
+            mDamageLabel.text = "Damage : " + playerData.AttackPower.ToString();
+            mDefenseLabel.text = "Defense : " + playerData.Defense.ToString();
+            mHPLabel.text = "HP : " + playerData.MaxHp.ToString();
+            mCriticalLabel.text = "Critical : " + playerData.CriticalChance.ToString();
+            mAttackSpeedLabel.text = "AttackSpeed : " + playerData.AttackSpeed.ToString("F2");
+            mSteminaLabel.text = "Stemina : " + playerData.MaxStamina.ToString();
+            mEquipRateLabel.text = "EquipRate : " + playerData.EquipmentDropUpgrade.ToString("F2");
+            mSpeedLabel.text = "MoveSpeed : " + playerData.MoveSpeed.ToString("F2");
+            mManaLabel.text = "Mana : " + playerData.MaxMana.ToString();
         }
 
         public InventorySlot GetEquipmentSlot(ItemType type)

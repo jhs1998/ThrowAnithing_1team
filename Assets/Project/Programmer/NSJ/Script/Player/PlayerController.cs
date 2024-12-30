@@ -182,6 +182,7 @@ public class PlayerController : MonoBehaviour, IHit
 
     private void Update()
     {
+        Debug.Log(Model.CriticalChance);
         if (Time.timeScale == 0)
             return;
 

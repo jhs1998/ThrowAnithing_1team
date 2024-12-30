@@ -10,7 +10,12 @@ public class BlueChipChoice : MonoBehaviour
     private TestBlueChip blueChip;
 
     [SerializeField] BlueChipPanel blueChipPanel;
+    PlayerController _player;
 
+    private void Awake()
+    {
+        _player = GetComponent<PlayerController>();
+    }
     private void Start()
     {
         choice.SetActive(false);
@@ -20,20 +25,9 @@ public class BlueChipChoice : MonoBehaviour
         if(other.gameObject.tag == Tag.BlueChip)
         {
             choice.SetActive(true);
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        blueChip = other.transform.GetComponent<TestBlueChip>();
-        if(other.gameObject.tag == Tag.BlueChip)
-        {
-            if(Input.GetKeyDown(KeyCode.F))
+            if(_addBlueChipRoutine == null)
             {
-                choice.SetActive(false);
-                blueChipPanel.AcquireEffect(blueChip.Effect);
-                Debug.Log(blueChip.Effect);
-                Destroy(other.gameObject);
+                _addBlueChipRoutine = StartCoroutine(AddBlueChipRoutine(other));
             }
         }
     }
@@ -43,6 +37,40 @@ public class BlueChipChoice : MonoBehaviour
         if(other.gameObject.tag == Tag.BlueChip)
         {
             choice.SetActive(false);
+            if(_addBlueChipRoutine != null)
+            {
+                StopCoroutine(_addBlueChipRoutine);
+                _addBlueChipRoutine = null;
+            }
+        }
+    }
+
+    Coroutine _addBlueChipRoutine;
+    IEnumerator AddBlueChipRoutine(Collider other)
+    {
+        blueChip = other.transform.GetComponent<TestBlueChip>();
+        while (true)
+        {
+            if (other.gameObject.tag == Tag.BlueChip)
+            {
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    choice.SetActive(false);
+                    bool success = blueChipPanel.AcquireEffect(blueChip.Effect);
+
+                    // 블루칩 플레이어 적용
+                    if (success == true)
+                    {
+                        _player.AddAdditional(blueChip.Effect);
+                    }
+
+                    //Debug.Log(blueChip.Effect);
+                    _addBlueChipRoutine = null;
+                    Destroy(other.gameObject);
+                    yield break;
+                }
+            }
+            yield return null;
         }
     }
 
