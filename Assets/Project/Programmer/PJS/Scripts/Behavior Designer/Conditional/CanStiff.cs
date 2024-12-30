@@ -13,6 +13,7 @@ public class CanStiff : Conditional
 
     public override TaskStatus OnUpdate()
 	{
+        Debug.Log($"Stiff: {Stiff.Value}");
 		return Stiff.Value ? TaskStatus.Success : TaskStatus.Failure;
 	}
 }

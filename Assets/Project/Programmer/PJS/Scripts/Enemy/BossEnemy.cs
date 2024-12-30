@@ -45,12 +45,12 @@ public class BossEnemy : BaseEnemy
         if (onFrezenyPassive == false)
             return;
 
-        Debug.Log($"{Speed}, {AttackSpeed}");
+        Debug.Log($"{MoveSpeed}, {AttackSpeed}");
 
-        Speed = Speed + (Speed * 0.2f);
+        MoveSpeed = MoveSpeed + (MoveSpeed * 0.2f);
         AttackSpeed = AttackSpeed - (AttackSpeed * 0.2f);
 
-        Debug.Log($"{Speed}, {AttackSpeed}");
+        Debug.Log($"{MoveSpeed}, {AttackSpeed}");
     }
 
     /// <summary>

@@ -3092,7 +3092,7 @@ Transform:
   m_GameObject: {fileID: 1843844302}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 0, z: 4.049}
+  m_LocalPosition: {x: -18.35, y: 0, z: 18.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3199,6 +3199,18 @@ PrefabInstance:
     - target: {fileID: 3370725024550358934, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757278611412066816, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9990483
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757278611412066816, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.043619405
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757278611412066816, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4078535065578860198, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: m_Name
@@ -3702,9 +3714,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 174211504353361832, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
+      propertyPath: _monsters.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 174211504353361832, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
+      propertyPath: _monsters.Array.data[0]
+      value: 
+      objectReference: {fileID: 418218525214398539, guid: aa589c45d61d2a5469c4ab7150ddb8f5, type: 3}
+    - target: {fileID: 174211504353361832, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
+      propertyPath: _monsters.Array.data[1]
+      value: 
+      objectReference: {fileID: 895453891981759521, guid: 515894124c9382248927e3378785ef94, type: 3}
+    - target: {fileID: 174211504353361832, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
+      propertyPath: _monsters.Array.data[2]
+      value: 
+      objectReference: {fileID: 2503350434080915405, guid: 541287f6d4f22c54ba8825745d8732b8, type: 3}
+    - target: {fileID: 174211504353361832, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
+      propertyPath: _monsters.Array.data[3]
+      value: 
+      objectReference: {fileID: 7855019299440493211, guid: e38ce025db3c3ae41b35362cc81a5d1d, type: 3}
+    - target: {fileID: 174211504353361832, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
+      propertyPath: _monsters.Array.data[4]
+      value: 
+      objectReference: {fileID: 517254069067704855, guid: 11ee31bba9bc5a64abc13550e62bb6ed, type: 3}
+    - target: {fileID: 174211504353361832, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
+      propertyPath: _monsters.Array.data[5]
+      value: 
+      objectReference: {fileID: 2127482124871604544, guid: 48db46a8b8346db4fbd41da45156a325, type: 3}
+    - target: {fileID: 174211504353361832, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
+      propertyPath: _monsters.Array.data[6]
+      value: 
+      objectReference: {fileID: 896341133563652118, guid: 740de5b0a7da14f4196302da5c1ba28c, type: 3}
     - target: {fileID: 261587562943127514, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
       propertyPath: m_Name
       value: DataContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 261587562943127514, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1589392391558054104, guid: 48c0a864756db0d4ab67cd139af33f72, type: 3}
       propertyPath: m_LocalPosition.x

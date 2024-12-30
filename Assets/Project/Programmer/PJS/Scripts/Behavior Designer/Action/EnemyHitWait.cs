@@ -22,10 +22,11 @@ public class EnemyHitWait : Action
         {
             speed.SetValue(speedValue);
             return TaskStatus.Success;
-            
+
         }
 
         speed.SetValue(0);
+       
         return TaskStatus.Running;
     }
 }

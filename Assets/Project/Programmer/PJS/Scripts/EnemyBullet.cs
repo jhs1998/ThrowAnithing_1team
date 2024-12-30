@@ -6,8 +6,10 @@ public class EnemyBullet : MonoBehaviour
     [SerializeField] Rigidbody rigid;
     [SerializeField] State curState;
 
+    [HideInInspector]public BattleSystem Battle;
     public GameObject obj;
 
+    public int Atk;
     private float speed;
 
     public float Speed { set { speed = value; } }
@@ -26,7 +28,8 @@ public class EnemyBullet : MonoBehaviour
     {
         if (other.transform.tag == Tag.Player)
         {
-            Debug.Log("충돌");
+            //Debug.Log("충돌");
+            Battle.TargetAttack(other.transform, Atk, true);
             Destroy(gameObject);
         }
 

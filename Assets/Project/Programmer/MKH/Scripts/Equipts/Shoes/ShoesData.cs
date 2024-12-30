@@ -26,7 +26,7 @@ namespace MKH
                 createitem.mEffect.Speed = UnityEngine.Random.Range((float)data[rate]["최소"], (float)data[rate]["이속"]);
                 // 설명
                 createitem.Name = (string)data[rate]["이름"];
-                createitem.Description = $"Speed : {createitem.mEffect.Speed.ToString("F2")}";
+                createitem.Description = $"MoveSpeed : {createitem.mEffect.Speed.ToString("F2")}";
 
                 // 부스텟을 모두 0으로 변경
                 createitem.mEffect.HP = 0;

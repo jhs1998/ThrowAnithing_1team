@@ -24,13 +24,15 @@ public class EnemyTrace : Action
             transform.position.y,
             player.Value.position.z);
         // 좀비가 캐릭터에 너무 딱 붙으려는 문제 해결용?
-        /*if ((movePos - transform.position).magnitude > attackDis.Value - 0.1f)
+        if ((movePos - transform.position).magnitude > attackDis.Value - 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, movePos, speed.Value * Time.deltaTime);
-        }*/
-        transform.position = Vector3.MoveTowards(transform.position, movePos, speed.Value * Time.deltaTime);
+        }
+       // transform.position = Vector3.MoveTowards(transform.position, movePos, speed.Value * Time.deltaTime);
 
         transform.LookAt(player.Value);
+        // 각도 다시 잡아주기
+        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         return TaskStatus.Running;
     }
 }

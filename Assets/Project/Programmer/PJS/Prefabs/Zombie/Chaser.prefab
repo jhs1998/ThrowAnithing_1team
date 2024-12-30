@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 895453891981759521}
   - component: {fileID: 2729899280507494190}
   - component: {fileID: 8206031869340945856}
+  - component: {fileID: 7650598139468820031}
   m_Layer: 0
   m_Name: Chaser
   m_TagString: Monster
@@ -290,6 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: "\uCCB4\uC774\uC11C"
     MaxHp: 100
     Atk: 7
     Def: 3
@@ -401,6 +403,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  Battle: {fileID: 0}
   attakArm: {fileID: 4423011327649070696}
 --- !u!114 &2729899280507494190
 MonoBehaviour:
@@ -500,6 +503,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7650598139468820031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5635263151348778300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c30b6688334494ca44dd100a1f1793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitAdditionalList: []
+  _debuffList: []
 --- !u!1001 &2570823555570577093
 PrefabInstance:
   m_ObjectHideFlags: 0

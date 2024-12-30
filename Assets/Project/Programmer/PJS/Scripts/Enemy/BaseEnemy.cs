@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class State
 {
+    public string Name;
     [Range(50, 3000)] public int MaxHp;  // 체력
     [Range(0, 20)] public int Atk;       // 공격력
     [Range(0, 10)] public float Def;    // 방어력
@@ -14,7 +15,8 @@ public class State
     [Range(0, 10)] public float TraceDis;   // 인식 사거리
 }
 
-public class BaseEnemy : MonoBehaviour, IHit
+[RequireComponent(typeof(BattleSystem))]
+public class BaseEnemy : MonoBehaviour, IHit,IDebuff
 {
     [SerializeField] protected BehaviorTree tree;
 
@@ -32,13 +34,16 @@ public class BaseEnemy : MonoBehaviour, IHit
 
     [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
     [HideInInspector] public Collider[] overLapCollider = new Collider[100];
+    [HideInInspector] public BattleSystem Battle;
 
     public int Damage { get { return state.Atk; } }
     public int MaxHp {  get { return maxHp; } set { maxHp = value; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
-    public float Speed { get { return speed; } set { speed = value; } }
+    public float MoveSpeed { get { return speed; } set { speed = value; } }
     public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
     public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
+
+
 
     protected SharedGameObject playerObj;
 
@@ -46,6 +51,9 @@ public class BaseEnemy : MonoBehaviour, IHit
     {
         playerObj = GameObject.FindGameObjectWithTag("Player");
         tree = GetComponent<BehaviorTree>();
+        Battle = GetComponent<BattleSystem>();
+        // FIXME : 나중에 수정 필요
+        gameObject.layer = Layer.Monster;
     }
 
     private void Start()
@@ -54,6 +62,11 @@ public class BaseEnemy : MonoBehaviour, IHit
         curHp = state.MaxHp;
         speed = state.Speed;
         attackSpeed = state.AtkDelay;
+    }
+
+    public State GetState()
+    {
+        return state;
     }
 
     private void SettingVariable()
@@ -79,8 +92,9 @@ public class BaseEnemy : MonoBehaviour, IHit
             resultDamage = 0;
 
         curHp -= resultDamage;
-        
+
         // TODO : 결과 값은 TakeDamage 매개변수로 변환
+        Debug.Log($"TakeDamage : {isStun}") ;
         tree.SetVariableValue("Stiff", isStun);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
     }

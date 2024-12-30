@@ -1906,6 +1906,7 @@ GameObject:
   - component: {fileID: 7855019299440493211}
   - component: {fileID: 4216754324563667258}
   - component: {fileID: 8961162814324166355}
+  - component: {fileID: 8319432291071451310}
   m_Layer: 0
   m_Name: Destroyer
   m_TagString: Monster
@@ -1996,6 +1997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: "\uC790\uD3ED"
     MaxHp: 50
     Atk: 10
     Def: 0
@@ -2107,6 +2109,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  Battle: {fileID: 0}
   attakArm: {fileID: 0}
 --- !u!114 &4216754324563667258
 MonoBehaviour:
@@ -2210,6 +2213,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8319432291071451310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7412874739450415116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c30b6688334494ca44dd100a1f1793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitAdditionalList: []
+  _debuffList: []
 --- !u!1 &7470652169474653820
 GameObject:
   m_ObjectHideFlags: 0

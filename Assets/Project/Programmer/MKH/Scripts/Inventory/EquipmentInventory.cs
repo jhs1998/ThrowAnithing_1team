@@ -46,7 +46,7 @@ namespace MKH
             mAttackSpeedLabel.text = "AttackSpeed : " + mCurrentEquipmentEffect.AttackSpeed.ToString("F2");
             mSteminaLabel.text = "Stemina : " + mCurrentEquipmentEffect.Stemina.ToString();
             mEquipRateLabel.text = "EquipRate : " + mCurrentEquipmentEffect.EquipRate.ToString("F2");
-            mSpeedLabel.text = "Speed : " + mCurrentEquipmentEffect.Speed.ToString("F2");
+            mSpeedLabel.text = "MoveSpeed : " + mCurrentEquipmentEffect.Speed.ToString("F2");
             mManaLabel.text = "Mana : " + mCurrentEquipmentEffect.Mana.ToString();
         }
 

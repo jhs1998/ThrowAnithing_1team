@@ -1503,6 +1503,7 @@ GameObject:
   - component: {fileID: 517254069067704855}
   - component: {fileID: 417531623798941754}
   - component: {fileID: 6772888276079693050}
+  - component: {fileID: 7185782127520834979}
   m_Layer: 0
   m_Name: Shooter
   m_TagString: Monster
@@ -1592,6 +1593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: "\uC288\uD130"
     MaxHp: 50
     Atk: 7
     Def: 0
@@ -1703,6 +1705,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  Battle: {fileID: 0}
   bulletSpeed: 4
   bulletPrefab: {fileID: 1415841380596911756, guid: 67fafdf47f1461c44a52ef581e9d1048, type: 3}
   muzzle: {fileID: 3459780639356417389}
@@ -1803,6 +1806,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7185782127520834979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838732595260182982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c30b6688334494ca44dd100a1f1793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitAdditionalList: []
+  _debuffList: []
 --- !u!1 &5464724029421874428
 GameObject:
   m_ObjectHideFlags: 0
