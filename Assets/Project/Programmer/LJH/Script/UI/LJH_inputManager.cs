@@ -32,18 +32,20 @@ public class LJH_inputManager : MonoBehaviour
     }
     private void Update()
     {
-        maxCharging = curMp;
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log(curCharging);
+            Debug.Log(maxCharging);
+        }
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            Debug.Log("Â÷Â¡½ÃÀÛ");
-            if(curCharging <= maxCharging)
-                curCharging += 0.5f;
-        }
+
+        maxCharging = curMp;
+        if (curCharging < maxCharging)
+            if (Input.GetKey(KeyCode.Q))
+                curCharging += 1f;
+
         if (Input.GetKeyUp(KeyCode.Q))
-        {
             curCharging = 0;
-        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

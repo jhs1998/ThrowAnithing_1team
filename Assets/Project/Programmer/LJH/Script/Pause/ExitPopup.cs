@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ExitPopup : MonoBehaviour
 {
     [SerializeField] GameObject pause;
+    [SerializeField] Button[] buttons;
+
+    private void Start()
+    {
+        buttons[0].onClick.AddListener(ToBase.ToLobby);
+        buttons[1].onClick.AddListener(Exit);
+    }
     private void Update()
     {
-        ExitPopUp();
+        if(Input.GetButtonDown("Interaction"))
+            buttons[0].onClick.Invoke();
+
+        if(Input.GetButtonDown("Negative"))
+            buttons[1].onClick.Invoke();
     }
-    void ExitPopUp()
-    {
+    
 
-        if (Input.GetButtonDown("Interaction"))
-            SceneManager.LoadScene("LobbyScene");
-
-        if (Input.GetButtonDown("Negative"))
-        {
-            Debug.Log("C´­·¶À½");
-            Invoke("Exit", 0.1f);
-            pause.SetActive(false);
-        }
-    }
-
-    private void Exit()
+    public void Exit()
     {
         gameObject.SetActive(false);
     }
