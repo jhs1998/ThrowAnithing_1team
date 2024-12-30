@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace Assets.Project.Programmer.NSJ.RND.Script.Test
@@ -10,11 +10,20 @@ namespace Assets.Project.Programmer.NSJ.RND.Script.Test
 
         private void Start()
         {
-            if (_isPointerInvisible == true)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
+            this.UpdateAsObservable()
+                .Where(x => Time.timeScale == 0)
+                .Subscribe(x =>
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                });
+            this.UpdateAsObservable()
+                .Where(x => Time.timeScale > 0)
+                .Subscribe(x =>
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                });
         }
     }
 }

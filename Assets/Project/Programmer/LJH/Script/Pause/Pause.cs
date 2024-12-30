@@ -167,8 +167,8 @@ public class Pause : MainScene
         exitPopUpObj_p = GetUI("ExitPopUp");
 
         exitButtons_p = new Button[2];
-        exitButtons_p[0] = GetUI<Button>("E");
-        exitButtons_p[1] = GetUI<Button>("C");
+        exitButtons_p[0] = GetUI<Button>("Interaction");
+        exitButtons_p[1] = GetUI<Button>("Negative");
 
     }
 

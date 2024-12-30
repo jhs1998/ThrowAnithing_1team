@@ -33,6 +33,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         for (int i = 0; i < _charges.Length; i++)
         {
             _charges[i].Damage = (int)Model.PowerSpecialAttack[i];
+            View.Panel.StepTexts[i].SetText(_charges[i].ObjectCount.GetText());
         }
     }
     public override void Enter()
@@ -100,7 +101,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         {
             ProcessCharge();
 
-            if (Input.GetKeyUp(KeyCode.Q))
+            if (Input.GetButtonUp(InputKey.Special))
             {
                 Model.SpecialChargeGage = 0;
                 if (_instanceDropObject)

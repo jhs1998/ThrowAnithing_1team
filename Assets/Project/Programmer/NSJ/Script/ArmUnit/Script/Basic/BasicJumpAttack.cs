@@ -18,7 +18,6 @@ public class BasicJumpAttack : ArmJumpAttack
     }
     public override void Enter()
     {
-        Debug.Log("점프어택 시작");
         // 애니메이션 실행
         View.SetTrigger(PlayerView.Parameter.JumpAttack);
 

@@ -22,4 +22,10 @@ public class NSJBlueChip : MonoBehaviour
            // Destroy(gameObject);
         }   
     }
+
+    public void SetBlueChip(AdditionalEffect additional)
+    {
+        additionalEffect = additional;
+        nameText.SetText(additionalEffect.Name.GetText());
+    }
 }

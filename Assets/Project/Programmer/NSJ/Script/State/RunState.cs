@@ -44,28 +44,28 @@ public class RunState : PlayerState
 
     private void CheckChangeState()
     {
-        // 이동키 입력이 없을때 평상시 모드
-        if (MoveDir == Vector3.zero)
+        // 이동키 입력이 없을때 평상시 모드, 이동속도가 0이하일때 강제 Idle
+        if (MoveDir == Vector3.zero || Model.MoveSpeed <= 0)
         {
             ChangeState(PlayerController.State.Idle);
         }
         // 1번 공격키 입력시 근접 공격
-        else if (Input.GetKeyDown(KeyCode.V))
+        else if (Input.GetButtonDown(InputKey.Melee))
         {
             ChangeState(PlayerController.State.MeleeAttack);
         }
         // 2번 공격키 입력 시 투척 공격
-        else if (Input.GetButtonDown("Fire1"))
+        else if (Input.GetButtonDown(InputKey.Throw))
         {
             ChangeState(PlayerController.State.ThrowAttack);
         }
         // 특수공격 키 입력시 특수 공격
-        else if (Input.GetKeyDown(KeyCode.Q))
+        else if (Input.GetButtonDown(InputKey.Special))
         {
             ChangeState(PlayerController.State.SpecialAttack);
         }
         // 지면에서 점프 키 입력 시 점프
-        else if (Player.IsGround == true && Input.GetButtonDown("Jump"))
+        else if (Player.IsGround == true && Input.GetButtonDown(InputKey.Jump))
         {
             ChangeState(PlayerController.State.Jump);
         }
@@ -75,7 +75,7 @@ public class RunState : PlayerState
             ChangeState(PlayerController.State.Fall);
         }
         // 드레인 키를 눌렀을 경우
-        else if (Input.GetKeyDown(KeyCode.Z))
+        else if (Input.GetButtonDown(InputKey.Drain))
         {
             ChangeState(PlayerController.State.Drain);
         }

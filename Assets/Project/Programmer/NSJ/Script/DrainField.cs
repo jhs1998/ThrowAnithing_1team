@@ -8,7 +8,7 @@ public class DrainField : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == Tag.Trash)
+        if (other.gameObject.tag == Tag.Trash || other.gameObject.tag == Tag.Item)
         {
             Drain(other.transform);
         }

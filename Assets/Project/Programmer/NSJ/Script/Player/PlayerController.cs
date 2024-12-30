@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -13,8 +14,7 @@ using Random = UnityEngine.Random;
 public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public Transform ArmPoint;
-    [SerializeField] public HitAdditional test1;
-    [SerializeField] public HitAdditional test2;
+
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
@@ -134,6 +134,8 @@ public class PlayerController : MonoBehaviour, IHit
         public bool IsInvincible; // 무적상태임?
         public bool IsHit; // 맞음?
         public bool IsDead; // 죽음?
+        public bool IsStaminaCool; // 스테미나 사용 후 쿨타임인지?
+        public bool CanStaminaRecovery; // 스테미나 회복 할 수 있는지?
     }
     private BoolField _boolField;
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
@@ -141,6 +143,8 @@ public class PlayerController : MonoBehaviour, IHit
     public bool IsInvincible { get { return _boolField.IsInvincible; } set { _boolField.IsInvincible = value; } }
     public bool IsHit { get { return _boolField.IsHit; } set { _boolField.IsHit = value; } }
     public bool IsDead { get { return _boolField.IsDead; } set { _boolField.IsDead = value; } }
+    public bool IsStaminaCool { get { return _boolField.IsStaminaCool; } set { _boolField.IsStaminaCool = value; } }
+    public bool CanStaminaRecovery { get { return _boolField.CanStaminaRecovery; } set { _boolField.CanStaminaRecovery = value; } }
     #endregion
 
     //TODO: 인스펙터 정리 필요
@@ -164,9 +168,9 @@ public class PlayerController : MonoBehaviour, IHit
         InitUIEvent();
         StartRoutine();
         InitAdditionnal();
-        ChangeArmUnit(Model.Arm);
+        ChangeArmUnit(Model.NowWeapon);
 
-        Camera.main.transform.SetParent(_cameraPos, true);
+       //Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
     }
 
@@ -178,16 +182,22 @@ public class PlayerController : MonoBehaviour, IHit
 
     private void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
         _states[(int)CurState].Update();
 
         CheckAnyState();
         RotateCamera();
-        InputKey();
+        ChackInput();
         UpdatePlayerAdditional();
     }
 
     private void FixedUpdate()
     {
+        if (Time.timeScale == 0)
+            return;
+
         _states[(int)CurState].FixedUpdate();
         CheckGround();
         CheckWall();
@@ -370,6 +380,11 @@ public class PlayerController : MonoBehaviour, IHit
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
     }
+    public void ChangeArmUnit(GlobalPlayerStateData.AmWeapon armUnit)
+    {
+        Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
+        Model.Arm.Init(this);
+    }
     #region 플레이어 추가효과 관련
     /// <summary>
     /// 추가효과 추가
@@ -523,11 +538,11 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCamera()
     {
-        float angleX = Input.GetAxis("Mouse X");
+        float angleX = Input.GetAxis(InputKey.MouseX);
         float angleY = default;
         // 체크시 마우스 상하도 가능
         if (IsVerticalCameraMove == true)
-            angleY = Input.GetAxis("Mouse Y");
+            angleY = Input.GetAxis(InputKey.MouseY);
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
         float x = camAngle.x - mouseDelta.y;
@@ -631,21 +646,25 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     IEnumerator RecoveryStamina()
     {
+        CanStaminaRecovery = true;
         while (true)
         {
             // 초당 MaxStamina / RegainStamina 만큼 회복
             // 현재 스테미나가 꽉찼으면 더이상 회복안함
-            // 만약 스테미나가 0이하로 떨어지면 일정시간동안 스테미나 회복 안함
-            Model.CurStamina += Model.RegainStamina * Time.deltaTime;
+            // 만약 스테미나 사용 후 쿨타임 상태면 쿨타임만큼 회복안함
+            if (CanStaminaRecovery == true)
+            {
+                Model.CurStamina += Model.RegainStamina * Time.deltaTime;
+            }
             if (Model.CurStamina >= Model.MaxStamina)
             {
                 Model.CurStamina = Model.MaxStamina;
             }
 
-            if (Model.CurStamina < 0)
+            if (IsStaminaCool == true)
             {
+                IsStaminaCool = false;
                 yield return Model.StaminaCoolTime.GetDelay();
-                Model.CurStamina = 0;
             }
 
             yield return null;
@@ -655,28 +674,21 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 키입력 감지
     /// </summary>
-    private void InputKey()
+    private void ChackInput()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
+        float x = Input.GetAxisRaw(InputKey.Horizontal);
+        float z = Input.GetAxisRaw(InputKey.Vertical);
         MoveDir = new Vector3(x, 0, z);
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            if (Model.AdditionalEffects.Count > 0)
-            {
-                RemoveAdditional(Model.AdditionalEffects[0]);
-            }
-        }
         if(IsTargetHolding == false && IsTargetToggle == false)
         {
-            if (Input.GetMouseButtonDown(1))
-            {
-                //TODO: 카메라 몬스터 홀딩 기능
-                IsTargetHolding = true;
-                _cameraHolder.gameObject.SetActive(true);
-            }
-            if (Input.GetKeyDown(KeyCode.T) && IsTargetHolding ==false)
+            //if (Input.GetMouseButtonDown(2))
+            //{
+            //    //TODO: 카메라 몬스터 홀딩 기능
+            //    IsTargetHolding = true;
+            //    _cameraHolder.gameObject.SetActive(true);
+            //}
+            if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding ==false)
             {
                 //TODO: 카메라 몬스터 홀딩 기능
                 IsTargetToggle = true;
@@ -685,13 +697,13 @@ public class PlayerController : MonoBehaviour, IHit
         }
         else
         {
-            if (Input.GetMouseButtonUp(1) && IsTargetToggle == false)
-            {
-                //TODO: 카메라 몬스터 홀딩 풀기
-                IsTargetHolding = false;
-                _cameraHolder.gameObject.SetActive(false);
-            }
-            if (Input.GetKeyDown(KeyCode.T) && IsTargetHolding == false)
+            //if (Input.GetMouseButtonUp(2) && IsTargetToggle == false)
+            //{
+            //    //TODO: 카메라 몬스터 홀딩 풀기
+            //    IsTargetHolding = false;
+            //    _cameraHolder.gameObject.SetActive(false);
+            //}
+            if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기
                 IsTargetToggle = false;
@@ -704,7 +716,7 @@ public class PlayerController : MonoBehaviour, IHit
         if (IsDead == true || IsHit == true)
             return;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && CurState != State.Dash)
+        if (Input.GetButtonDown(InputKey.Dash) && CurState != State.Dash)
         {
             ChangeState(PlayerController.State.Dash);
         }
@@ -813,6 +825,20 @@ public class PlayerController : MonoBehaviour, IHit
         return finalDamage;
     }
     /// <summary>
+    /// 추가 데미지 + 데미지 배율
+    /// </summary>
+    public int GetFinalDamage(int addtionalDamage, float multiplier)
+    {
+        int finalDamage = 0;
+        // 추가 데미지
+        finalDamage += addtionalDamage;
+        finalDamage = GetCommonDamage(finalDamage);
+
+        // 데미지 배율 추가
+        finalDamage = (int)(finalDamage * multiplier);
+        return finalDamage;
+    }
+    /// <summary>
     /// 공통계산 용
     /// </summary>
     private int GetCommonDamage(int finalDamage)
@@ -862,29 +888,44 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void InitUIEvent()
     {
+        PlayerPanel panel = View.Panel;
+
         // 투척오브젝트
         Model.CurThrowCountSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.UpdateText(View.Panel.ThrowCount, $"{x} / {Model.MaxThrowables}"));
-        View.UpdateText(View.Panel.ThrowCount, $"{Model.CurThrowables} / {Model.MaxThrowables}");
+            .Subscribe(x => View.UpdateText(panel.ObjectCount, $"{x} / {Model.MaxThrowables}"));
+        View.UpdateText(panel.ObjectCount, $"{Model.CurThrowables} / {Model.MaxThrowables}");
+
+        // 체력
+        Model.CurHpSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => panel.BarValueController(panel.HpBar, Model.CurHp, Model.MaxHp));
+        panel.BarValueController(panel.HpBar, Model.CurHp, Model.MaxHp);
 
         // 스테미나
         Model.CurStaminaSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.Panel.StaminaSlider.value = x / Model.MaxStamina);
-        View.Panel.StaminaSlider.value = Model.CurStamina / Model.MaxStamina;
+            .Subscribe(x => panel.BarValueController(panel.StaminaBar, Model.CurStamina, Model.MaxStamina));
+        panel.BarValueController(panel.StaminaBar, Model.CurStamina, Model.MaxStamina);
 
         // 특수자원
         Model.CurSpecialGageSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.Panel.SpecialGageSlider.value = x / Model.MaxMana);
-        View.Panel.SpecialGageSlider.value = Model.CurMana / Model.MaxMana;
+            .Subscribe(x => panel.BarValueController(panel.MpBar, Model.CurMana, Model.MaxMana));
+        panel.BarValueController(panel.MpBar, Model.CurMana, Model.MaxMana);
 
         // 특수공격 차지
         Model.SpecialChargeGageSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.Panel.SpecialChargeSlider.value = x);
-        View.Panel.SpecialChargeSlider.value = Model.SpecialChargeGage;
+            .Subscribe(x => panel.ChargingMpBar.value = x);
+        panel.ChargingMpBar.value = Model.SpecialChargeGage;
+
+        // 스테미나 차지
+        Model.MaxStaminaCharge = 1;
+        Model.CurStaminaChargeSubject
+            .DistinctUntilChanged()
+            .Subscribe(x => panel.BarValueController(panel.ChanrgeStaminaBar, Model.CurStaminaCharge, Model.MaxStaminaCharge));
+        panel.BarValueController(panel.ChanrgeStaminaBar, Model.CurStaminaCharge, Model.MaxStaminaCharge);
     }
 
     /// <summary>

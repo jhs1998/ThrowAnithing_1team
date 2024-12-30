@@ -31,6 +31,11 @@ public class TripleShot : ThrowAdditional
             {
                 throwObjectID = 0;
             }
+            // 기본 오브젝트를 던진 경우에는 기본 오브젝트만 던져야 함
+            else if (_throwObject.Data.ID == 0)
+            {
+                throwObjectID = 0;
+            }
             else
             {
                 throwObjectID = _model.ThrowObjectStack.Count > 0 ? _model.PopThrowObject().ID : 0;

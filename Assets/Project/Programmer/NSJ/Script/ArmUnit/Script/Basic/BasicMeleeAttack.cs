@@ -75,7 +75,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
 
             // 적 넉백
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, 0.5f);
-
+            
             int finalDamage = Player.GetFinalDamage(_damageMultiplier);
             // 데미지 주기
             Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true);
@@ -105,11 +105,11 @@ public class BasicMeleeAttack : ArmMeleeAttack
     {
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetButtonDown(InputKey.Melee))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
             }
-            else if (Input.GetButtonDown("Fire1"))
+            else if (Input.GetButtonDown(InputKey.Throw))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
             }
