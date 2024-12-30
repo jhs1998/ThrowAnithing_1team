@@ -5,10 +5,10 @@ using UnityEngine.Events;
 
 public class SpawnPrefabs : MonoBehaviour
 {
-    [SerializeField] GameObject prefabs; //½ºÆùµÉ ÇÁ¸®ÆÕ
-    [SerializeField] List<Transform> spawnPos; //½ºÆù ÁöÁ¡µé
-    [SerializeField] int spwanCount; //ÁöÁ¡µé Áß¿¡¼­ ¸î°³¸¦ ½ºÆù½ÃÅ³Áö
-    Transform[] childCube; //prefabs°¡ Tag.TrashÀÏ¶§ÀÇ ÀÚ½Äµé
+    [SerializeField] GameObject prefabs; //ìŠ¤í°ë  í”„ë¦¬íŒ¹
+    [SerializeField] List<Transform> spawnPos; //ìŠ¤í° ì§€ì ë“¤
+    [SerializeField] int spwanCount; //ì§€ì ë“¤ ì¤‘ì—ì„œ ëª‡ê°œë¥¼ ìŠ¤í°ì‹œí‚¬ì§€
+    Transform[] childCube; //prefabsê°€ Tag.Trashì¼ë•Œì˜ ìì‹ë“¤
     [SerializeField] bool isAlreadySpawn;
 
 
@@ -36,7 +36,7 @@ public class SpawnPrefabs : MonoBehaviour
             while (spwanCount != 0)
             {
                 
-                int num = Random.Range(0, spawnPos.Count);
+                int num = Random.Range(0, spawnPos.Count );
                 Instantiate(prefabs, spawnPos[num]);
                 
                 if (prefabs.tag == Tag.Trash)
