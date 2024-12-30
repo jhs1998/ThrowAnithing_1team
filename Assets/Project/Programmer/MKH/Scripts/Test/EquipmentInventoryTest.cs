@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MKH
 {
-    public class EquipmentInventoryTest : InventoryBase
+    public class EquipmentInventoryTest : InventoryBaseTest
     {
         public static bool IsInventoryActive = false;
 
@@ -30,7 +30,7 @@ namespace MKH
         {
             EquipmentEffect calcedEffect = new EquipmentEffect();
 
-            foreach (InventorySlot slot in mSlots)
+            foreach (InventorySlotTest slot in mSlots)
             {
                 if (slot.Item == null) { continue; }
 
@@ -39,18 +39,18 @@ namespace MKH
 
             mCurrentEquipmentEffect = calcedEffect;
 
-            mDamageLabel.text = "Damage : " + mCurrentEquipmentEffect.Damage.ToString();
-            mDefenseLabel.text = "Defense : " + mCurrentEquipmentEffect.Defense.ToString();
-            mHPLabel.text = "HP : " + mCurrentEquipmentEffect.HP.ToString();
-            mCriticalLabel.text = "Critical : " + mCurrentEquipmentEffect.Critical.ToString();
-            mAttackSpeedLabel.text = "AttackSpeed : " + mCurrentEquipmentEffect.AttackSpeed.ToString();
-            mSteminaLabel.text = "Stemina : " + mCurrentEquipmentEffect.Stemina.ToString();
-            mEquipRateLabel.text = "EquipRate : " + mCurrentEquipmentEffect.EquipRate.ToString();
-            mSpeedLabel.text = "Speed : " + mCurrentEquipmentEffect.Speed.ToString();
-            mManaLabel.text = "Mana : " + mCurrentEquipmentEffect.Mana.ToString();
+            mDamageLabel.text = $"공격력 : {mCurrentEquipmentEffect.Damage.ToString()}";
+            mDefenseLabel.text = $"방어력 : {mCurrentEquipmentEffect.Defense.ToString()}";
+            mHPLabel.text = $"체력 : {mCurrentEquipmentEffect.HP.ToString()}";
+            mCriticalLabel.text = $"치명타 확률 : {mCurrentEquipmentEffect.Critical.ToString()}%";
+            mAttackSpeedLabel.text = $"공격속도 : {mCurrentEquipmentEffect.AttackSpeed.ToString()}";
+            mSteminaLabel.text = $"스테미나 : {mCurrentEquipmentEffect.Stemina.ToString()}";
+            mEquipRateLabel.text = $"장비 획득률 : {mCurrentEquipmentEffect.EquipRate.ToString()}%";
+            mSpeedLabel.text = $"이동속도 : {mCurrentEquipmentEffect.Speed.ToString()}";
+            mManaLabel.text = $"마나 : {mCurrentEquipmentEffect.Mana.ToString()}";
         }
 
-        public InventorySlot GetEquipmentSlot(ItemType type)
+        public InventorySlotTest GetEquipmentSlot(ItemType type)
         {
             switch (type)
             {

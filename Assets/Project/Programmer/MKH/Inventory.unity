@@ -415,12 +415,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 44619096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: 4
   mItemImage: {fileID: 1601323147}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &108794258
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,12 +605,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 116331644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 1452067686}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &124909282
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,7 +1831,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1516748271}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -2381,7 +2381,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 789523336}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -2513,7 +2513,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2042069290}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -3544,7 +3544,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1217565567}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -3791,12 +3791,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 445465324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: 32
   mItemImage: {fileID: 1467126312}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &446505826
 GameObject:
   m_ObjectHideFlags: 0
@@ -3845,12 +3845,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 446505826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: 8
   mItemImage: {fileID: 1532456781}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &457636231
 GameObject:
   m_ObjectHideFlags: 0
@@ -4008,7 +4008,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 960498842}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -4237,11 +4237,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 517141635}
-  - component: {fileID: 517141637}
-  - component: {fileID: 517141636}
-  - component: {fileID: 517141638}
+  - component: {fileID: 517141644}
+  - component: {fileID: 517141641}
+  - component: {fileID: 517141642}
   - component: {fileID: 517141639}
-  - component: {fileID: 517141640}
+  - component: {fileID: 517141643}
   m_Layer: 0
   m_Name: InventorySystem
   m_TagString: Untagged
@@ -4264,59 +4264,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &517141636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517141632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cadca680a500b48818ec8ec8b687a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mInventoryBase: {fileID: 1594561042}
-  mInventorySlotsParent: {fileID: 1941635506}
-  mSlots: []
-  mDamageLabel: {fileID: 1344369684}
-  mDefenseLabel: {fileID: 784030011}
-  mHPLabel: {fileID: 577714178}
-  mCriticalLabel: {fileID: 789256710}
-  mAttackSpeedLabel: {fileID: 1128465058}
-  mSteminaLabel: {fileID: 234181446}
-  mEquipRateLabel: {fileID: 1843140269}
-  mSpeedLabel: {fileID: 1401414762}
-  mManaLabel: {fileID: 868198628}
---- !u!114 &517141637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517141632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dadea1c875969834f8cf0c2dbe12724d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mInventoryBase: {fileID: 849948525}
-  mInventorySlotsParent: {fileID: 1787033129}
-  mSlots: []
-  state: {fileID: 140491795}
---- !u!114 &517141638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517141632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf0a25ad361c1a54496f73df9db64597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mEquipmentInventory: {fileID: 517141636}
 --- !u!114 &517141639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4333,7 +4280,7 @@ MonoBehaviour:
   mBlueChipSlotsParent: {fileID: 434138984}
   mSlots: []
   inventory: {fileID: 849948525}
---- !u!114 &517141640
+--- !u!114 &517141641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4342,7 +4289,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 517141632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc6e47950b84a1e43805b5af89afca60, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ded4c54e156d984984ce87ab43a798b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mInventoryBase: {fileID: 1594561042}
+  mInventorySlotsParent: {fileID: 1941635506}
+  mSlots: []
+  mDamageLabel: {fileID: 1344369684}
+  mDefenseLabel: {fileID: 784030011}
+  mHPLabel: {fileID: 577714178}
+  mCriticalLabel: {fileID: 789256710}
+  mAttackSpeedLabel: {fileID: 1128465058}
+  mSteminaLabel: {fileID: 234181446}
+  mEquipRateLabel: {fileID: 1843140269}
+  mSpeedLabel: {fileID: 1401414762}
+  mManaLabel: {fileID: 868198628}
+--- !u!114 &517141642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517141632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71d1746f328a38d43aad1106a7cc945b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mEquipmentInventory: {fileID: 517141641}
+--- !u!114 &517141643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517141632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b24f8bfe65eaaf946ae4a10fddd3711f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 849948525}
@@ -4372,12 +4356,28 @@ MonoBehaviour:
   - {fileID: 129060930}
   - {fileID: 1406312876}
   - {fileID: 1354863632}
-  HighlightedColor: {r: 0.9622642, g: 0.049928807, b: 0.049928807, a: 0.40392157}
+  HighlightedColor: {r: 1, g: 0, b: 0, a: 0.40392157}
   color: {r: 1, g: 1, b: 1, a: 0}
   ivName: {fileID: 397854688}
   ivDescription: {fileID: 1562309366}
   eqName: {fileID: 1681510331}
   eqDescription: {fileID: 711556316}
+--- !u!114 &517141644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517141632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce4b71d880f956f4ba2401289cceea8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mInventoryBase: {fileID: 849948525}
+  mInventorySlotsParent: {fileID: 1787033129}
+  mSlots: []
+  state: {fileID: 140491795}
 --- !u!1 &560435648
 GameObject:
   m_ObjectHideFlags: 0
@@ -4460,7 +4460,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703500445}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -5167,12 +5167,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 681185449}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: 256
   mItemImage: {fileID: 1662676047}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1001 &699399722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5294,12 +5294,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 703500443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 560435651}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &711556314
 GameObject:
   m_ObjectHideFlags: 0
@@ -5482,12 +5482,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 729427149}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: 1
   mItemImage: {fileID: 1024598473}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &733860595
 GameObject:
   m_ObjectHideFlags: 0
@@ -5536,12 +5536,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 733860595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: 16
   mItemImage: {fileID: 1734766712}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &742236060
 GameObject:
   m_ObjectHideFlags: 0
@@ -6237,12 +6237,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 789523334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 291009155}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &828996324
 GameObject:
   m_ObjectHideFlags: 0
@@ -6782,12 +6782,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 938041327}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: 64
   mItemImage: {fileID: 1146931300}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &952796527
 GameObject:
   m_ObjectHideFlags: 0
@@ -6911,12 +6911,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 960498840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 504877813}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &996347889
 GameObject:
   m_ObjectHideFlags: 0
@@ -7040,12 +7040,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1010538519}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: 128
   mItemImage: {fileID: 742236063}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &1024598470
 GameObject:
   m_ObjectHideFlags: 0
@@ -7744,7 +7744,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1599414948}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -8108,12 +8108,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1149058319}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 1307960814}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1001 &1166533636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8462,7 +8462,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1721311678}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -8560,12 +8560,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1217565565}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 429405715}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &1234825818
 GameObject:
   m_ObjectHideFlags: 0
@@ -8823,12 +8823,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1282365918}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 1599661881}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &1292326417
 GameObject:
   m_ObjectHideFlags: 0
@@ -8986,10 +8986,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1149058321}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
+        m_MethodName: UseItem
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9973,7 +9973,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 116331646}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -10289,12 +10289,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1516748269}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 242644432}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &1532456778
 GameObject:
   m_ObjectHideFlags: 0
@@ -10986,12 +10986,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1599414946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 1125411659}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &1599661878
 GameObject:
   m_ObjectHideFlags: 0
@@ -11074,7 +11074,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1282365920}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -11479,7 +11479,7 @@ GameObject:
   - component: {fileID: 1636724946}
   - component: {fileID: 1636724945}
   - component: {fileID: 1636724949}
-  - component: {fileID: 1636724950}
+  - component: {fileID: 1636724952}
   - component: {fileID: 1636724951}
   m_Layer: 0
   m_Name: Body
@@ -11603,19 +11603,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
---- !u!114 &1636724950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1636724943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06107caa6f9d5194bb121bc9870dea75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mInventory: {fileID: 517141637}
 --- !u!114 &1636724951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11625,11 +11612,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1636724943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d816cab1ff6c1640a23b19e73fc4474, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a5a556f271da914089e32838469b791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   choice: {fileID: 1034229172}
   blueChipPanel: {fileID: 517141639}
+--- !u!114 &1636724952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636724943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e383f2e651326f42b6bfb458bc6306a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mInventory: {fileID: 517141644}
 --- !u!1001 &1640414095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12050,12 +12050,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1721311676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 1196097976}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &1728512630
 GameObject:
   m_ObjectHideFlags: 0
@@ -12633,12 +12633,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1785978033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 1904479321}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &1787033129
 GameObject:
   m_ObjectHideFlags: 0
@@ -13192,7 +13192,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1785978035}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MKH.InventorySlot, Assembly-CSharp
         m_MethodName: UseItem
         m_Mode: 1
@@ -13662,7 +13662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f6a81f1ab6c0d4ba9c90e39890c057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropList: {fileID: 11400000, guid: 70e66ba757f5ea44186015d0ca13988b, type: 2}
+  dropList: {fileID: 11400000, guid: 3c0b509fa81ed3d428c41258138f97a7, type: 2}
 --- !u!4 &1970327864
 Transform:
   m_ObjectHideFlags: 0
@@ -13935,12 +13935,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2042069288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: -1
   mItemImage: {fileID: 318500749}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1 &2043947441
 GameObject:
   m_ObjectHideFlags: 0
@@ -13989,12 +13989,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2043947441}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6c8cec1a3434f4a940df925f2643e8, type: 3}
+  m_Script: {fileID: 11500000, guid: f07c2cc305bf02a4e94430ffb588fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mSlotMask: 2
   mItemImage: {fileID: 1910337631}
-  equipActionManager: {fileID: 517141638}
+  equipActionManager: {fileID: 517141642}
 --- !u!1001 &2097585286
 PrefabInstance:
   m_ObjectHideFlags: 0

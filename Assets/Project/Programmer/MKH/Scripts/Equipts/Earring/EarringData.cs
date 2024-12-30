@@ -59,7 +59,7 @@ namespace MKH
                             break;
                         case 3:
                             createitem.mEffect.AttackSpeed = (float)data[rate]["공속"];
-                            createitem.Description += $"공격속도 + {(createitem.mEffect.AttackSpeed * 100f).ToString()}%";
+                            createitem.Description += $"\n공격속도 + {(createitem.mEffect.AttackSpeed * 100f).ToString()}%";
                             break;
                         case 4:
                             createitem.mEffect.Stemina = (int)data[rate]["스테미나"];
