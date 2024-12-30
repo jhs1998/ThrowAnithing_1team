@@ -6,6 +6,7 @@ using Zenject;
 
 public class PlayerModel : MonoBehaviour, IDebuff
 {
+    [SerializeField] private bool _isTest;
     [Inject]
     public PlayerData Data;
     [Inject]
@@ -147,6 +148,10 @@ public class PlayerModel : MonoBehaviour, IDebuff
     {
         _view = GetComponent<PlayerView>();
         _player = GetComponent<PlayerController>();
+        if(_isTest == true)
+        {
+            GlobalStateData.NewPlayerSetting();
+        }
         Data.CopyGlobalPlayerData(GlobalStateData);
         Data.Inventory = Inventory;
     }
@@ -472,5 +477,6 @@ public partial class PlayerData
         Data.MeleeAttackStamina[0] = globalData.shortRangeAttackStamina[0];
         Data.MeleeAttackStamina[1] = globalData.shortRangeAttackStamina[1];
         Data.MeleeAttackStamina[2] = globalData.shortRangeAttackStamina[2];
+        Debug.Log(globalData.maxHp);
     }
 }
