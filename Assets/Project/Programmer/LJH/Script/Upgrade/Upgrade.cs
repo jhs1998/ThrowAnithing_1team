@@ -5,9 +5,13 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class Upgrade : UpgradeBinding
 {
+    [Inject]
+    private GlobalGameData _gameData;
+
     Button[,] slots;
     Image[,] slotImages;
 
@@ -61,13 +65,13 @@ public class Upgrade : UpgradeBinding
     void TierCal()
     {
         tier = 1;
-        if (usedCost >= costLimit1)
+        if (_gameData.usingCoin >= costLimit1)
             tier = 2;
-        if (usedCost >= costLimit2)
+        if (_gameData.usingCoin >= costLimit2)
             tier = 3;
-        if (usedCost >= costLimit3)
+        if (_gameData.usingCoin >= costLimit3)
             tier = 4;
-        if (usedCost >= costLimit4)
+        if (_gameData.usingCoin >= costLimit4)
             tier = 5;
     }
 

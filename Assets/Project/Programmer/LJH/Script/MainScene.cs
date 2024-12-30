@@ -198,7 +198,7 @@ public class MainScene : BaseUI
 
     public void NewButton()
     {
-
+        GetUI<Button>("NewImage").onClick.Invoke();
     }
 
     public void OptionButton()

@@ -49,7 +49,7 @@ public partial class GlobalGameData
             }
 
             // 강화 비용 체크
-            int cost = upgradeCosts[currentLevel];
+            int cost = upgradeCosts[slot];
             if (coin < cost)
             {
                 Debug.Log("코인이 부족합니다.");

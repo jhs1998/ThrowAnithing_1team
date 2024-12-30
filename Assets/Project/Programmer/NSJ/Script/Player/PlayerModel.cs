@@ -8,6 +8,10 @@ public class PlayerModel : MonoBehaviour, IDebuff
 {
     [Inject]
     public PlayerData Data;
+    [Inject]
+    public GlobalPlayerStateData GlobalStateData;
+    [Inject]
+    public GlobalGameData GameData;
     public EquipmentInventory Inventory;
 
     public ArmUnit Arm;
@@ -143,6 +147,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     {
         _view = GetComponent<PlayerView>();
         _player = GetComponent<PlayerController>();
+        Data.CopyGlobalPlayerData(GlobalStateData);
     }
     // TODO : 일단 젠젝트 실패, 싱글톤으로 구현 후 이후에 리팩토링 
     private void Start()
@@ -407,7 +412,6 @@ public partial class PlayerData
     public EquipmentEffect EquipStatus => Inventory.CurrentEquipmentEffect;
     public void CopyGlobalPlayerData(GlobalPlayerStateData globalData)
     {
-        Debug.Log("1");
         Data.Hp.MaxHp = (int)globalData.maxHp;
         Data.Hp.CurHp = (int)globalData.maxHp;
         Data.Attack.AttackPower = (int)globalData.commonAttack;
