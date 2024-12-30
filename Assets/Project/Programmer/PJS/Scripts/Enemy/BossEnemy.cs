@@ -12,34 +12,6 @@ public class BossEnemy : BaseEnemy
     private Coroutine attackAble;
     private bool onFrezenyPassive = false;
 
-
-    private void Update()
-    {
-        ChangePhase();
-        //FrenzyPassive();
-    }
-
-    private void ChangePhase()
-    {
-        // ÇöÀç Ã¼·ÂÀ¸·Î ÆäÀÌÁö º¯°æ
-        if (CurHp > state.MaxHp * 0.8f)
-        {
-            Debug.Log("curHp > 80");
-            curPhase = Phase.Phase1;
-        }
-        else if (CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
-        {
-            Debug.Log("80 >= curHP > 50");
-            curPhase = Phase.Phase2;
-        }
-        else
-        {
-            Debug.Log("curHP <= 50");
-            curPhase = Phase.Phase3;
-            onFrezenyPassive = true;
-        }
-    }
-
     private void FrenzyPassive()
     {
         if (onFrezenyPassive == false)
@@ -53,49 +25,63 @@ public class BossEnemy : BaseEnemy
         Debug.Log($"{MoveSpeed}, {AttackSpeed}");
     }
 
+    IEnumerator PassiveOn()
+    {
+        while (true)
+        {
+            if (curPhase == Phase.Phase3)
+            {
+                FrenzyPassive();
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
     /// <summary>
-    /// Move ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®
+    /// Move ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸
     /// </summary>
     public void FootStep()
     {
-        Debug.Log("FootSteop()");
+        //Debug.Log("FootSteop()");
     }
 
     /// <summary>
-    /// Attack ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®
+    /// Attack ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸
     /// </summary>
     public void OnHitBegin()
     {
-        Debug.Log("OnHitBegin()");
+        //Debug.Log("OnHitBegin()");
     }
     public void OnHitEnd()
     {
-        Debug.Log("OnHitEnd()");
+        //Debug.Log("OnHitEnd()");
     }
 
     /// <summary>
-    /// Attack_3 ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®
+    /// Attack_3 ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸
     /// </summary>
     public void ThunderStomp()
     {
         Debug.Log("ThunderStomp()");
-        // Ã¼·ÂÀÇ ÀÇÇÑ ÆĞÅÏ º¯°æ
+        // ì²´ë ¥ì˜ ì˜í•œ íŒ¨í„´ ë³€ê²½
         if (CurHp > state.MaxHp * 0.8f)
         {
-            // 1ÆäÀÌÁî - ÀÏ·ºÆ®¸¯ ¾Æ¸Ó
-            Debug.Log("curHp > 80");
+            // 1í˜ì´ì¦ˆ - ì¼ë ‰íŠ¸ë¦­ ì•„ë¨¸
+            //Debug.Log("curHp > 80");
             shieldParticle.Play();
         }
-        else if(CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
+        else if (CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
         {
-            // 2ÆäÀÌÁî - ·¹ÀÌÁö ½ºÅè
+            // 2í˜ì´ì¦ˆ - ë ˆì´ì§€ ìŠ¤í†°
             Debug.Log("80 >= curHP > 50");
         }
 
     }
 
     /// <summary>
-    /// »ç¸Á ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®
+    /// ì‚¬ë§ ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸
     /// </summary>
     public void DieEff()
     {
@@ -107,17 +93,47 @@ public class BossEnemy : BaseEnemy
     }
 
     /// <summary>
-    /// ÀÏ¹İ °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®
+    /// ì¼ë°˜ ê³µê²© ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸
     /// </summary>
     public void Shooting()
     {
-        Debug.Log("Shooting()");
-        // ÀÏ¹İ ±ÙÁ¢ °ø°İ - ¸ğµç ÆäÀÌÁî¿¡ Á¸Àç
-        // ¶óÀÌÆ®´× ÇÇ½ºÆ® - 1ÆäÀÌÁî¿¡¸¸ Á¸Àç
+        //Debug.Log("Shooting()");
+        //AttackMelee();
+        // ì¼ë°˜ ê·¼ì ‘ ê³µê²© - ëª¨ë“  í˜ì´ì¦ˆì— ì¡´ì¬
+        // ë¼ì´íŠ¸ë‹ í”¼ìŠ¤íŠ¸ - 1í˜ì´ì¦ˆì—ë§Œ ì¡´ì¬
     }
 
     /// <summary>
-    /// °ø°İ °¡´É ¿©ºÎ È®ÀÎ
+    /// ê·¼ì ‘ ê³µê²©
+    /// </summary>
+    public void AttackMelee()
+    {
+        // ì „ë°© ì•ì— ìˆëŠ” ëª¬ìŠ¤í„°ë“¤ì„ í™•ì¸í•˜ê³  í”¼ê²© ì§„í–‰
+        // 1. ì „ë°©ì— ìˆëŠ” ëª¬ìŠ¤í„° í™•ì¸
+        Vector3 playerPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        Vector3 attackPos = playerPos;
+        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, state.AttackDis, overLapCollider, 1 << Layer.Player);
+        for (int i = 0; i < hitCount; i++)
+        {
+            // 2. ê°ë„ ë‚´ì— ìˆëŠ”ì§€ í™•ì¸
+            Vector3 source = transform.position;
+            source.y = 0;
+            Vector3 destination = overLapCollider[i].transform.position;
+            destination.y = 0;
+            Vector3 targetDir = (destination - source).normalized;
+            float targetAngle = Vector3.Angle(transform.forward, targetDir); // ì•„í¬ì½”ì‚¬ì¸ í•„ìš” (ëŠë¦¬ë‹¤)
+            
+            if (targetAngle > 120 * 0.5f)
+                continue;
+
+            int finalDamage = state.Atk;
+            // ë°ë¯¸ì§€ ì£¼ê¸°
+            Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage, true);
+        }
+    }
+
+    /// <summary>
+    /// ê³µê²© ê°€ëŠ¥ ì—¬ë¶€ í™•ì¸
     /// </summary>
     public void AttackAble()
     {
@@ -128,32 +144,32 @@ public class BossEnemy : BaseEnemy
     }
 
     /// <summary>
-    /// °ø°İ µô·¹ÀÌ
+    /// ê³µê²© ë”œë ˆì´
     /// </summary>
     /// <returns></returns>
     IEnumerator AttackDelayRoutine()
     {
-        // °ø°İ µô·¹ÀÌ ½ÃÀÛ
+        // ê³µê²© ë”œë ˆì´ ì‹œì‘
         tree.SetVariableValue("AttackAble", false);
-        Debug.Log("°ø°İ µô·¹ÀÌ ½ÃÀÛ");
+        Debug.Log("ê³µê²© ë”œë ˆì´ ì‹œì‘");
         yield return state.AtkDelay.GetDelay();
-        // °ø°İ µô·¹ÀÌ ³¡
+        // ê³µê²© ë”œë ˆì´ ë
         tree.SetVariableValue("AttackAble", true);
-        Debug.Log("°ø°İ µô·¹ÀÌ ³¡");
+        Debug.Log("ê³µê²© ë”œë ˆì´ ë");
     }
 
     /// <summary>
-    /// ÆĞÅÏ ÄğÅ¸ÀÓ °ü·Ã ÄÚ·çÆ¾
+    /// íŒ¨í„´ ì¿¨íƒ€ì„ ê´€ë ¨ ì½”ë£¨í‹´
     /// </summary>
-    /// <param name="atkAble">ÇØ´ç ½ºÅ³ÀÇ bool Å¸ÀÔ</param>
-    /// <param name="coolTime">ÄğÅ¸ÀÓ ½Ã°£</param>
+    /// <param name="atkAble">í•´ë‹¹ ìŠ¤í‚¬ì˜ bool íƒ€ì…</param>
+    /// <param name="coolTime">ì¿¨íƒ€ì„ ì‹œê°„</param>
     public IEnumerator CoolTimeRoutine(SharedBool atkAble, float coolTime)
     {
         atkAble.SetValue(false);
-        Debug.Log("ÄğÅ¸ÀÓ ½ÃÀÛ");
+        Debug.Log($"{atkAble.Name} ì¿¨íƒ€ì„ ì‹œì‘");
         yield return coolTime.GetDelay();
         atkAble.SetValue(true);
-        Debug.Log("ÄğÅ¸ÀÓ ³¡");
+        Debug.Log($"{atkAble.Name} ì¿¨íƒ€ì„ ë");
     }
 
     private void OnDrawGizmosSelected()
@@ -161,19 +177,19 @@ public class BossEnemy : BaseEnemy
         Gizmos.color = Color.yellow;
         if (true == Physics.BoxCast(transform.position, transform.lossyScale / 2.0f, transform.forward, out RaycastHit hit, transform.rotation, 8))
         {
-            // HitµÈ ÁöÁ¡±îÁö ray¸¦ ±×·ÁÁØ´Ù.
+            // Hitëœ ì§€ì ê¹Œì§€ rayë¥¼ ê·¸ë ¤ì¤€ë‹¤.
             Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
 
-            // HitµÈ ÁöÁ¡¿¡ ¹Ú½º¸¦ ±×·ÁÁØ´Ù.
+            // Hitëœ ì§€ì ì— ë°•ìŠ¤ë¥¼ ê·¸ë ¤ì¤€ë‹¤.
             Gizmos.DrawWireCube(transform.position + transform.forward * hit.distance, transform.lossyScale);
         }
         else
         {
-            // Hit°¡ µÇÁö ¾Ê¾ÒÀ¸¸é ÃÖ´ë °ËÃâ °Å¸®·Î ray¸¦ ±×·ÁÁØ´Ù.
+            // Hitê°€ ë˜ì§€ ì•Šì•˜ìœ¼ë©´ ìµœëŒ€ ê²€ì¶œ ê±°ë¦¬ë¡œ rayë¥¼ ê·¸ë ¤ì¤€ë‹¤.
             Gizmos.DrawRay(transform.position, transform.forward * 8);
         }
 
-        // °Å¸® ±×¸®±â
+        // ê±°ë¦¬ ê·¸ë¦¬ê¸°
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, state.TraceDis);
 
