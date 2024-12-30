@@ -46,15 +46,15 @@ namespace MKH
 
             mCurrentEquipmentEffect = calcedEffect;
 
-            mDamageLabel.text = "Damage : " + playerData.AttackPower.ToString();
-            mDefenseLabel.text = "Defense : " + playerData.Defense.ToString();
-            mHPLabel.text = "HP : " + playerData.MaxHp.ToString();
-            mCriticalLabel.text = "Critical : " + playerData.CriticalChance.ToString();
-            mAttackSpeedLabel.text = "AttackSpeed : " + playerData.AttackSpeed.ToString("F2");
-            mSteminaLabel.text = "Stemina : " + playerData.MaxStamina.ToString();
-            mEquipRateLabel.text = "EquipRate : " + playerData.EquipmentDropUpgrade.ToString("F2");
-            mSpeedLabel.text = "MoveSpeed : " + playerData.MoveSpeed.ToString("F2");
-            mManaLabel.text = "Mana : " + playerData.MaxMana.ToString();
+            mDamageLabel.text = $"공격력 : {playerData.AttackPower.ToString()}";
+            mDefenseLabel.text = $"방어력 : {playerData.Defense.ToString()}";
+            mHPLabel.text = $"체력 : {playerData.MaxHp.ToString()}";
+            mCriticalLabel.text = $"치명타 확률 : {playerData.CriticalChance.ToString()}%";
+            mAttackSpeedLabel.text = $"공격속도 : {playerData.AttackSpeed.ToString()}";
+            mSteminaLabel.text = $"스테미나 : {playerData.MaxStamina.ToString()}";
+            mEquipRateLabel.text = $"장비 획득률 : {playerData.EquipmentDropUpgrade.ToString()}%";
+            mSpeedLabel.text = $"이동속도 : {playerData.MoveSpeed.ToString()}";
+            mManaLabel.text = $"마나 : {playerData.MaxMana.ToString()}";
         }
 
         public InventorySlot GetEquipmentSlot(ItemType type)
