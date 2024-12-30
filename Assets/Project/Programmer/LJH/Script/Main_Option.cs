@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public enum Depth2
@@ -14,6 +13,8 @@ public enum Depth2
 
 public class Main_Option : MainScene
 {
+    public PausePanel Panel;
+
     //옵션 1Depth
     Button[] depth1;
 
@@ -46,26 +47,14 @@ public class Main_Option : MainScene
     {
         Init();
 
-        
     }
 
 
     private void Update()
     {
-
-
-        if (!gameplayOnOff.activeSelf && !soundOnOff.activeSelf)
+        if (menuCo == null)
         {
-        
-            if (gameObject.activeSelf)
-            {
-                OptionTitle();
-                if (menuCo == null)
-                {
-                    menuCo = StartCoroutine(Depth1_Select());
-                }
-                SelectedEnter();
-            }
+            menuCo = StartCoroutine(Depth1_Select());
         }
     }
 
@@ -117,33 +106,45 @@ public class Main_Option : MainScene
     }
     private IEnumerator Depth1_Select()
     {
-        float y = -Input.GetAxisRaw("Vertical");
 
-
-        depth1_cur += (int)y;
-
-        if (depth1_cur == depth1.Length)
+        if (!gameplayOnOff.activeSelf && !soundOnOff.activeSelf)
         {
-            depth1_cur = 0;
-            depth1[depth1.Length-1].GetComponent<TMP_Text>().color = Color.white;
-            depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-            yield return null;
+            float y = -Input.GetAxisRaw("Vertical");
+            if (y == 0)
+                yield return null;
+            else
+                yield return inputDelay.GetRealTimeDelay();
+            OptionTitle();
+            SelectedEnter();
+
+
+
+            depth1_cur += (int)y;
+
+            if (depth1_cur == depth1.Length)
+            {
+                depth1_cur = 0;
+                depth1[depth1.Length - 1].GetComponent<TMP_Text>().color = Color.white;
+                depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+                yield return null;
+            }
+
+            if (depth1_cur == -1)
+            {
+                depth1_cur = depth1.Length - 1;
+                depth1[0].GetComponent<TMP_Text>().color = Color.white;
+                depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+                yield return null;
+            }
+
+            ButtonReset();
+
+            depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);     
         }
-
-        if (depth1_cur == -1)
-        {
-            depth1_cur = depth1.Length - 1;
-            depth1[0].GetComponent<TMP_Text>().color = Color.white;
-            depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+        else
             yield return null;
-        }
-
-        ButtonReset();
-
-        depth1[depth1_cur].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
-
-        yield return inputDelay.GetDelay();
         menuCo = null;
+
     }
 
     void ButtonReset()
@@ -187,14 +188,14 @@ public class Main_Option : MainScene
     }
     void PannelOnOff()
     {
-            gameplayPannel.SetActive(true);
-            gameplayPannel.SetActive(false);
+        gameplayPannel.SetActive(true);
+        gameplayPannel.SetActive(false);
 
-            soundPannel.SetActive(true);
-            soundPannel.SetActive(false);
+        soundPannel.SetActive(true);
+        soundPannel.SetActive(false);
 
-            inputPannel.SetActive(true);
-            inputPannel.SetActive(false);
+        inputPannel.SetActive(true);
+        inputPannel.SetActive(false);
     }
 
     public void GameplayButton()
@@ -234,7 +235,7 @@ public class Main_Option : MainScene
 
     public void ExitButtonOp()
     {
-        gameObject.SetActive(false);
+        Panel.ChangeBundle(PausePanel.Bundle.Pause);
     }
 
 

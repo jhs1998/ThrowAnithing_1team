@@ -49,7 +49,7 @@ public class GlobalPlayerStateData
     public float gainMoreThrowables;
     // 보유 투척물 제한 증가 / 기본 50
     public float maxThrowables;
-    // 암 유닛 선택 종류 (Balance, _power, Speed)
+    // 암 유닛 선택 종류 (Balance, _power, MoveSpeed)
     public enum AmWeapon { Balance, Power, Speed }
     public AmWeapon nowWeapon;
     // 로비에서 조작되지 않는 플레이어 스탯

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyTrace : Action
 {
-    [SerializeField] SharedFloat speed;         // ∏ÛΩ∫≈Õ ¿Ãµøº”µµ
-    [SerializeField] SharedTransform player;    // «√∑π¿ÃæÓ
-    [SerializeField] SharedFloat traceDist;          // ¿ŒΩƒ ∞≈∏Æ
+    [SerializeField] SharedFloat speed;         // Î™¨Ïä§ÌÑ∞ Ïù¥ÎèôÏÜçÎèÑ
+    [SerializeField] SharedTransform player;    // ÌîåÎ†àÏù¥Ïñ¥
+    [SerializeField] SharedFloat traceDist;          // Ïù∏Ïãù Í±∞Î¶¨
     [SerializeField] SharedFloat attackDis;
 
     public override TaskStatus OnUpdate()
@@ -18,19 +18,20 @@ public class EnemyTrace : Action
         else if(dir > traceDist.Value)
             return TaskStatus.Failure;
 
-        // x,z√‡∏∏ √ﬂ¿˚
+        // x,zÏ∂ïÎßå Ï∂îÏ†Å
         Vector3 movePos = new(
             player.Value.position.x,
             transform.position.y,
             player.Value.position.z);
-        // ¡ª∫Ò∞° ƒ≥∏Ø≈Õø° ≥ π´ µ¸ ∫Ÿ¿∏∑¡¥¬ πÆ¡¶ «ÿ∞·øÎ?
+        // Ï¢ÄÎπÑÍ∞Ä Ï∫êÎ¶≠ÌÑ∞Ïóê ÎÑàÎ¨¥ Îî± Î∂ôÏúºÎ†§Îäî Î¨∏Ï†ú Ìï¥Í≤∞Ïö©?
         if ((movePos - transform.position).magnitude > attackDis.Value - 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, movePos, speed.Value * Time.deltaTime);
         }
-        //transform.position = Vector3.MoveTowards(transform.position, movePos, speed.Value * Time.deltaTime);
+       // transform.position = Vector3.MoveTowards(transform.position, movePos, speed.Value * Time.deltaTime);
+
         transform.LookAt(player.Value);
-        // ∞¢µµ ¥ŸΩ√ ¿‚æ∆¡÷±‚
+        // Í∞ÅÎèÑ Îã§Ïãú Ïû°ÏïÑÏ£ºÍ∏∞
         transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         return TaskStatus.Running;
     }

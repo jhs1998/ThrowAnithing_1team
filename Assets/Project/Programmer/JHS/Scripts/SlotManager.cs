@@ -25,7 +25,7 @@ public class SlotManager : MonoBehaviour
     public Button cancelButton; // 취소 버튼
 
     private int selectedSlotIndex; // 선택된 슬롯 인덱스
-
+    [SerializeField] private SceneField _lobbyScene; // 로비 씬
     private void Start()
     {
         // 슬롯 UI 초기화
@@ -76,7 +76,7 @@ public class SlotManager : MonoBehaviour
             lobbyUpGrade.ApplyUpgradeStats();
 
             UpdateSlotUI();
-            SceneManager.LoadScene("LobbyTestScene");
+            SceneManager.LoadScene(_lobbyScene);
         }
         else
         {
@@ -107,7 +107,7 @@ public class SlotManager : MonoBehaviour
         userDataManager.SaveData(); // 새 게임 저장
         Debug.Log($"새 게임 시작 {slotIndex + 1}");
         UpdateSlotUI(); // 슬롯 UI 갱신
-        SceneManager.LoadScene("LobbyTestScene");
+        SceneManager.LoadScene(_lobbyScene);
     }
 
     private void OnConfirmDelete()

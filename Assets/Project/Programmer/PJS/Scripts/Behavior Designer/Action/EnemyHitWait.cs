@@ -19,10 +19,12 @@ public class EnemyHitWait : Action
     {
         if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
+            //speed.SetValue(speedValue);
             return TaskStatus.Success;
-            
+
         }
 
+        //speed.SetValue(0);
         return TaskStatus.Running;
     }
 }

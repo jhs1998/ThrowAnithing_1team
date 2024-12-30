@@ -16,20 +16,22 @@ namespace MKH
 
             if (ItemType.Shoes == Type)
             {
-                // Àåºñ µî±ŞÀ» ¼ıÀÚ·Î º¯È¯
+                // ì¥ë¹„ ë“±ê¸‰ì„ ìˆ«ìë¡œ ë³€í™˜
                 // Normal : 0
                 // Magic : 1
                 // Rare : 2
                 int rate = (int)Rate;
 
-                // Àåºñ µî±Ş ¼ıÀÚ·Î ÁÖ½ºÅİ°ú ¼³¸í Ãß°¡
-                // ÁÖ½ºÅİ
-                createitem.mEffect.Speed = Mathf.Round(Random.Range((float)data[rate]["ÃÖ¼Ò"], (float)data[rate]["ÀÌ¼Ó"]) * 100f) / 100f;
-                // ¼³¸í
-                createitem.Name = (string)data[rate]["ÀÌ¸§"];
-                createitem.Description = $"ÀÌµ¿¼Óµµ + {(createitem.mEffect.Speed * 100f).ToString()}%";
+                // ì¥ë¹„ ë“±ê¸‰ ìˆ«ìë¡œ ì£¼ìŠ¤í…Ÿê³¼ ì„¤ëª… ì¶”ê°€
+                // ì£¼ìŠ¤í…Ÿ
+                createitem.mEffect.Speed = Mathf.Round(Random.Range((float)data[rate]["ìµœì†Œ"], (float)data[rate]["ì´ì†"]) * 100f) / 100f;
+                // ì„¤ëª…
+                createitem.Name = (string)data[rate]["ì´ë¦„"];
 
-                // ºÎ½ºÅİÀ» ¸ğµÎ 0À¸·Î º¯°æ
+                createitem.Description = $"ì´ë™ì†ë„ + {(createitem.mEffect.Speed * 100f).ToString()}%";
+
+
+                // ë¶€ìŠ¤í…Ÿì„ ëª¨ë‘ 0ìœ¼ë¡œ ë³€ê²½
                 createitem.mEffect.HP = 0;
                 createitem.mEffect.Defense = 0;
                 createitem.mEffect.Critical = 0;
@@ -39,9 +41,9 @@ namespace MKH
                 createitem.mEffect.Damage = 0;
                 createitem.mEffect.Mana = 0;
 
-                // Àåºñ µî±Ş ¼ıÀÚ¸¸Å­ ·£´ıÇÑ ºÎ½ºÅİ Ãß°¡
+                // ì¥ë¹„ ë“±ê¸‰ ìˆ«ìë§Œí¼ ëœë¤í•œ ë¶€ìŠ¤í…Ÿ ì¶”ê°€
                 List<int> list = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7 };
-                for (int i = 0; i < rate; i++)  // Noraml : 0È¸ ¹İº¹, Magic : 1È¸ ¹İº¹, Rare : 2È¸ ¹İº¹
+                for (int i = 0; i < rate; i++)  // Noraml : 0íšŒ ë°˜ë³µ, Magic : 1íšŒ ë°˜ë³µ, Rare : 2íšŒ ë°˜ë³µ
                 {
                     int select = list[Random.Range(0, list.Count)];
                     list.Remove(select);
@@ -49,46 +51,46 @@ namespace MKH
                     switch (select)
                     {
                         case 0:
-                            createitem.mEffect.HP = (int)data[rate]["Ã¼·Â"];
-                            createitem.Description += $"\nÃ¼·Â + {createitem.mEffect.HP.ToString()}";
+                            createitem.mEffect.HP = (int)data[rate]["ì²´ë ¥"];
+                            createitem.Description += $"\nì²´ë ¥ + {createitem.mEffect.HP.ToString()}";
                             break;
                         case 1:
-                            createitem.mEffect.Defense = (int)data[rate]["¹æ¾î·Â"];
-                            createitem.Description += $"\n¹æ¾î·Â + {createitem.mEffect.Defense.ToString()}";
+                            createitem.mEffect.Defense = (int)data[rate]["ë°©ì–´ë ¥"];
+                            createitem.Description += $"\në°©ì–´ë ¥ + {createitem.mEffect.Defense.ToString()}";
                             break;
                         case 2:
-                            createitem.mEffect.Critical = (int)data[rate]["Ä¡È®"];
-                            createitem.Description += $"\nÄ¡¸íÅ¸ È®·ü + {createitem.mEffect.Critical.ToString()}%";
+                            createitem.mEffect.Critical = (int)data[rate]["ì¹˜í™•"];
+                            createitem.Description += $"\nì¹˜ëª…íƒ€ í™•ë¥  + {createitem.mEffect.Critical.ToString()}%";
                             break;
                         case 3:
-                            createitem.mEffect.AttackSpeed = (float)data[rate]["°ø¼Ó"];
+                            createitem.mEffect.AttackSpeed = (float)data[rate]["ê³µì†"];
                             Debug.Log(createitem.mEffect.AttackSpeed);
-                            createitem.Description += $"\n°ø°İ¼Óµµ + {(createitem.mEffect.AttackSpeed * 100f).ToString()}%";
+                            createitem.Description += $"\nê³µê²©ì†ë„ + {(createitem.mEffect.AttackSpeed * 100f).ToString()}%";
 
                             break;
                         case 4:
-                            createitem.mEffect.Stemina = (int)data[rate]["½ºÅ×¹Ì³ª"];
-                            createitem.Description += $"\n½ºÅ×¹Ì³ª + {createitem.mEffect.Stemina.ToString()}";
+                            createitem.mEffect.Stemina = (int)data[rate]["ìŠ¤í…Œë¯¸ë‚˜"];
+                            createitem.Description += $"\nìŠ¤í…Œë¯¸ë‚˜ + {createitem.mEffect.Stemina.ToString()}";
                             break;
                         case 5:
-                            createitem.mEffect.EquipRate = (float)data[rate]["ÀåºñÈ¹µæ·ü Áõ°¡"];
-                            createitem.Description += $"\nÀåºñÈ¹µæ·ü + {(createitem.mEffect.EquipRate * 100f).ToString()}%";
+                            createitem.mEffect.EquipRate = (float)data[rate]["ì¥ë¹„íšë“ë¥  ì¦ê°€"];
+                            createitem.Description += $"\nì¥ë¹„íšë“ë¥  + {(createitem.mEffect.EquipRate * 100f).ToString()}%";
                             break;
                         case 6:
                             if (rate == 1)
                             {
-                                createitem.mEffect.Damage = (float)data[rate]["°ø°İ·Â"];
-                                createitem.Description += $"\n°ø°İ·Â + {createitem.mEffect.Damage.ToString()}";
+                                createitem.mEffect.Damage = (float)data[rate]["ê³µê²©ë ¥"];
+                                createitem.Description += $"\nê³µê²©ë ¥ + {createitem.mEffect.Damage.ToString()}";
                             }
                             else if (rate == 2)
                             {
-                                createitem.mEffect.Damage = (int)data[rate]["°ø°İ·Â"];
-                                createitem.Description += $"\n°ø°İ·Â + {createitem.mEffect.Damage.ToString()}";
+                                createitem.mEffect.Damage = (int)data[rate]["ê³µê²©ë ¥"];
+                                createitem.Description += $"\nê³µê²©ë ¥ + {createitem.mEffect.Damage.ToString()}";
                             }
                             break;
                         case 7:
-                            createitem.mEffect.Mana = (int)data[rate]["¸¶³ª"];
-                            createitem.Description += $"\n¸¶³ª + {createitem.mEffect.Mana.ToString()}";
+                            createitem.mEffect.Mana = (int)data[rate]["ë§ˆë‚˜"];
+                            createitem.Description += $"\në§ˆë‚˜ + {createitem.mEffect.Mana.ToString()}";
                             break;
                     }
 

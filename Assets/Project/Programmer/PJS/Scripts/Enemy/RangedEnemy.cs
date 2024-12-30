@@ -17,6 +17,8 @@ public class RangedEnemy : BaseEnemy
     {
         EnemyBullet bullet = Instantiate(bulletPrefab, muzzle.position, muzzle.rotation).GetComponent< EnemyBullet>();
         bullet.Speed = bulletSpeed;
+        bullet.Atk = state.Atk;
         bullet.transform.parent = transform;
+        bullet.Battle = Battle;
     }
 }

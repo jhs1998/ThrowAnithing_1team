@@ -1,4 +1,3 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -19,14 +18,24 @@ namespace NSJ_TesterPanel
                 .Where(x => Input.GetButtonDown(InputKey.Cheat) == true)
                 .Subscribe(x =>
                 {
-                    _canvas.SetActive(!_canvas.activeSelf);
-                    if(_canvas.activeSelf == true)
+                    if (_canvas.activeSelf == true)
                     {
-                        Time.timeScale = 0;
+                        _canvas.SetActive(false);
+                        Time.timeScale = 1f;
                     }
-                    else
+                    else if (_canvas.activeSelf == false && Time.timeScale != 0)
                     {
-                        Time.timeScale = 1;
+                        _canvas.SetActive(true);
+                        Time.timeScale = 0f;
+                    }
+
+                });
+            this.UpdateAsObservable()
+                .Subscribe(x =>
+                {
+                    if (_canvas.activeSelf == true && Time.timeScale != 0)
+                    {
+                        _canvas.SetActive(false);
                     }
                 });
         }

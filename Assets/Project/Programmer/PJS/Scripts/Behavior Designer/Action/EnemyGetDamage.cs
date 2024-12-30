@@ -24,11 +24,11 @@ public class EnemyGetDamage : Action
 
     public override TaskStatus OnUpdate()
 	{
-		Debug.Log("진입");
-		EnemyDamageText eDmg = GameObject.Instantiate(damageText, textPos.position, textPos.rotation);
-		Debug.Log(eDmg);
-		eDmg.transform.SetParent(textPos);	// UI 생성은 transform.parent보다 SetParent로 사용해야 오류가 사라짐
-		eDmg.Damage = enemy.resultDamage;
+		//Debug.Log("진입");
+		//EnemyDamageText eDmg = GameObject.Instantiate(damageText, textPos.position, textPos.rotation);
+		//Debug.Log(eDmg);
+		//eDmg.transform.SetParent(textPos);	// UI 생성은 transform.parent보다 SetParent로 사용해야 오류가 사라짐
+		//eDmg.Damage = enemy.resultDamage;
 
 		return TaskStatus.Success;
 	}

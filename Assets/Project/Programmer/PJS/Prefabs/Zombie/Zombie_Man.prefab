@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 2127482124871604544}
   - component: {fileID: 8247683989728437042}
   - component: {fileID: 6085491681150319782}
+  - component: {fileID: 7890003023968419890}
   m_Layer: 0
   m_Name: Zombie_Man
   m_TagString: Monster
@@ -203,6 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 0}
   state:
+    Name: "\uC77C\uBC18\uC880\uBE441"
     MaxHp: 150
     Atk: 7
     Def: 5
@@ -314,6 +316,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  Battle: {fileID: 0}
   attakArm: {fileID: 6290868372224578768}
 --- !u!114 &8247683989728437042
 MonoBehaviour:
@@ -406,6 +409,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7890003023968419890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727247877142550848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c30b6688334494ca44dd100a1f1793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitAdditionalList: []
+  _debuffList: []
 --- !u!1 &5612255499089473305
 GameObject:
   m_ObjectHideFlags: 0
