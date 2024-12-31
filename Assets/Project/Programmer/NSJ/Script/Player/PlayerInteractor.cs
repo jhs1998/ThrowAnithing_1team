@@ -1,10 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInteractor : MonoBehaviour
 {
+    public Forge Forge;
+    public bool IsInteractiveActive;
     private PlayerController _player;
+
 
     Coroutine _interactorRoutine;
     private void Awake()
@@ -16,9 +18,8 @@ public class PlayerInteractor : MonoBehaviour
     {
         if (other.gameObject.layer != Layer.Forge)
             return;
-        if(_interactorRoutine == null)
+        if (_interactorRoutine == null)
         {
-            Debug.Log(1);
             _interactorRoutine = StartCoroutine(InteractorRoutine(other));
         }
     }
@@ -32,18 +33,24 @@ public class PlayerInteractor : MonoBehaviour
         {
             StopCoroutine(_interactorRoutine);
             _interactorRoutine = null;
+            IsInteractiveActive = false;
         }
     }
 
     IEnumerator InteractorRoutine(Collider other)
     {
-        while (true) 
+        while (true)
         {
             if (Input.GetButtonDown(InputKey.Interaction))
             {
+                IsInteractiveActive = true;
+                Forge = other.GetComponent<Forge>();
                 _player.ChangeState(PlayerController.State.Interative);
+
             }
             yield return null;
+            if (Forge != null)
+                IsInteractiveActive = Forge.IsUIActive;
         }
     }
 }

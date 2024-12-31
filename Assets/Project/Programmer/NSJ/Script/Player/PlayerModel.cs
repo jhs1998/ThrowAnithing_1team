@@ -165,11 +165,20 @@ public class PlayerModel : MonoBehaviour, IDebuff
     }
 
     private float prevAttackSpeed;
+    private GlobalPlayerStateData.AmWeapon prevWeapon;
     void Start()
     {
         this.FixedUpdateAsObservable()
             .Where(x => prevAttackSpeed != AttackSpeed)
-            .Subscribe(x => _view.SetFloat(PlayerView.Parameter.AttackSpeed, AttackSpeed));
+            .Subscribe(x => 
+            {
+                _view.SetFloat(PlayerView.Parameter.AttackSpeed, AttackSpeed);
+                prevAttackSpeed = AttackSpeed;
+                }
+            );
+        this.FixedUpdateAsObservable()
+            .Where(x => prevWeapon != NowWeapon)
+            .Subscribe(x => { _player.ChangeArmUnit(NowWeapon); prevWeapon = NowWeapon; });
     }
     private void Update()
     {
@@ -404,7 +413,6 @@ public partial class PlayerData
     {
         get
         {
-            Debug.Log($"{Inventory}");
             return Data.Attack.AttackPower + (int)EquipStatus.Damage;
         }
         set
@@ -494,6 +502,5 @@ public partial class PlayerData
         Data.MeleeAttackStamina[0] = globalData.shortRangeAttackStamina[0];
         Data.MeleeAttackStamina[1] = globalData.shortRangeAttackStamina[1];
         Data.MeleeAttackStamina[2] = globalData.shortRangeAttackStamina[2];
-        Debug.Log(globalData.maxHp);
     }
 }

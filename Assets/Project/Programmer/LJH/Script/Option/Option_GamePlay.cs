@@ -72,6 +72,7 @@ public class Option_GamePlay : Main_Option
         {
             if (gamePlayButtons[i] == curButton)
             {
+                Debug.Log(i);
                 gamePlayButtons[i].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
             }
             else

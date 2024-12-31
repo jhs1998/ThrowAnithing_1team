@@ -5,8 +5,10 @@ using UnityEngine;
 public class Forge : MonoBehaviour
 {
     [SerializeField] GameObject upPopup;
-    [SerializeField] GameObject _upgrade;
+    [SerializeField] GameObject _ui;
 
+    public bool IsUIActive;
+    
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag(Tag.Player))
@@ -19,7 +21,8 @@ public class Forge : MonoBehaviour
     {
         if (other.gameObject.CompareTag(Tag.Player))
         {
-            upPopup.SetActive(false);     
+            upPopup.SetActive(false);
+            _ui.SetActive(false);
         }
     }
 
@@ -27,10 +30,20 @@ public class Forge : MonoBehaviour
     {
         if (Input.GetButtonDown(InputKey.Negative))
         {
-            if(_upgrade.activeSelf == true)
+            if(_ui.activeSelf == true && IsUIActive == true)
             {
-                _upgrade.SetActive(false);
+                _ui.SetActive(false);
             }
         }
+        
+        //UI 활성화 됬는지 감지
+        if(_ui.activeSelf == true)
+        {
+            IsUIActive = true;
+        }
+        else
+        {
+            IsUIActive = false;
+        }    
     }
 }

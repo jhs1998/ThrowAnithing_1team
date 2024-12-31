@@ -10,9 +10,10 @@ public class ExitPopup : MonoBehaviour
     [SerializeField] GameObject pause;
     [SerializeField] Button[] buttons;
 
+    [SerializeField] SceneField lobbyScene;
     private void Start()
     {
-        buttons[0].onClick.AddListener(ToBase.ToLobby);
+        buttons[0].onClick.AddListener(() => LoadingToBase.LoadScene(lobbyScene));
         buttons[1].onClick.AddListener(Exit);
     }
     private void Update()

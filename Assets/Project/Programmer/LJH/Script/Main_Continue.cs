@@ -107,8 +107,7 @@ public class Main_Continue : MainScene
             {
                 case 0:
                     Debug.Log("1번 슬롯으로 게임 진행");
-                    //SceneManager.LoadScene("MinimapScene");
-                    //Todo : 슬롯 선택 팝업 만들어야함 > 백엔드와 협업 필요할 듯
+                    
                     break;
 
                 case 1:
