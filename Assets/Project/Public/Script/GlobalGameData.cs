@@ -26,7 +26,20 @@ public partial class GlobalGameData
                                   30000, 30000, 30000, 30000,
                                   50000, 50000, 50000, 50000};
     public int usingCoin;
-    public bool bringData = true;   
+    public bool bringData = true;
+
+    public enum AmWeapon { Balance, Power, Speed }
+    private AmWeapon _nowWeapon = AmWeapon.Balance;
+
+    public AmWeapon NowWeapon
+    {
+        get => _nowWeapon;
+        set
+        {
+            _nowWeapon = value;
+            Debug.Log($"현재 무기가 {_nowWeapon}로 변경되었습니다.");
+        }
+    }
 
     // 로비 공유 특성 강화 로직
     public bool BuyUpgradeSlot(int slot)

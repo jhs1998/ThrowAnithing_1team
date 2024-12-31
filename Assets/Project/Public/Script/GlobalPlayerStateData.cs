@@ -50,8 +50,8 @@ public class GlobalPlayerStateData
     // 보유 투척물 제한 증가 / 기본 50
     public float maxThrowables;
     // 암 유닛 선택 종류 (Balance, _power, MoveSpeed)
-    public enum AmWeapon { Balance, Power, Speed }
-    public AmWeapon nowWeapon;
+    //public enum AmWeapon { Balance, Power, Speed }
+    //public AmWeapon nowWeapon;
     // 로비에서 조작되지 않는 플레이어 스탯
 
     // 받는 피해 감소 (확정 아님)
@@ -73,7 +73,7 @@ public class GlobalPlayerStateData
     public float[] shortRangeAttackStamina = new float[3];
     // 특수 공격력 수치 기본 : 1타 75 2타 150 3타 225
     public float[] specialAttack = new float[3];
-    public void NewPlayerSetting()
+    public void NewPlayerSetting(GlobalGameData gameData)
     {
         maxHp = 60;
         commonAttack = 0;
@@ -102,7 +102,7 @@ public class GlobalPlayerStateData
         consumesStamina = 0;
         gainMoreThrowables = 0;
         maxThrowables = 50;
-        nowWeapon = AmWeapon.Balance;
+        gameData.NowWeapon = GlobalGameData.AmWeapon.Balance;
         maxMana = 100;
         maxJumpCount = 2;
         jumpPower = 100;
