@@ -12,8 +12,8 @@ public class Stalactite : MonoBehaviour
     {
         if (other.gameObject.tag == Tag.Player)
         {
-            LSH_Player player = other.GetComponent<LSH_Player>();
-            player.TakeDamage(stalactiteDamage);
+            IHit hit = other.GetComponent<IHit>();
+            hit.TakeDamage(stalactiteDamage, true);
         }
     }
 

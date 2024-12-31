@@ -5,8 +5,6 @@ public class Spike : MonoBehaviour
 {
     public Coroutine spikeRoutine;
 
-    WaitForSeconds DamageTiming;
-
     [Range(0.1f, 1f)][SerializeField] float count;
 
     [SerializeField] int spikeDamage;
@@ -16,11 +14,9 @@ public class Spike : MonoBehaviour
         if (other.gameObject.tag == Tag.Player)
         {
 
-            LSH_Player player = other.GetComponent<LSH_Player>();
-
-            spikeRoutine = StartCoroutine(SpikeDamageRoutine(player));
-
-
+            IHit hit = other.GetComponent<IHit>();
+            //hit.TakeDamage(spikeDamage, true);
+            spikeRoutine = StartCoroutine(SpikeDamageRoutine(hit));
         }
 
     }
@@ -38,18 +34,12 @@ public class Spike : MonoBehaviour
     }
 
 
-    IEnumerator SpikeDamageRoutine(LSH_Player player)
+    IEnumerator SpikeDamageRoutine(IHit hit)
     {
-        DamageTiming = new WaitForSeconds(count);
-
         while (true)
         {
-            player.TakeDamage(spikeDamage);
-            yield return DamageTiming;
+            hit.TakeDamage(spikeDamage,false);
+            yield return count.GetDelay();
         }
-
     }
-
-
-
 }

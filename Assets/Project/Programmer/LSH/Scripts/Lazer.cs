@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class Lazer : MonoBehaviour
@@ -16,9 +17,9 @@ public class Lazer : MonoBehaviour
     {
         if (other.gameObject.tag == Tag.Player)
         {
-            LSH_Player player = other.GetComponent<LSH_Player>();
-
-            damageRoutine = StartCoroutine(DamageRoutine(player));
+            IHit hit = other.GetComponent<IHit>();
+            //hit.TakeDamage(spikeDamage, true);
+            damageRoutine = StartCoroutine(DamageRoutine(hit));
         }
 
     }
@@ -37,15 +38,12 @@ public class Lazer : MonoBehaviour
     }
 
 
-    IEnumerator DamageRoutine(LSH_Player player)
+    IEnumerator DamageRoutine(IHit hit)
     {
-        wait = new WaitForSeconds(timer);
-
         while (true)
         {
-            yield return wait;
-            player.TakeDamage(lazerDamage);
-
+            hit.TakeDamage(lazerDamage, false);
+            yield return timer.GetDelay();
         }
     }
 
