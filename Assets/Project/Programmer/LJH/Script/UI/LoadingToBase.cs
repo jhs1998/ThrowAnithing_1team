@@ -10,8 +10,6 @@ public class LoadingToBase : MonoBehaviour
 
     [SerializeField] Slider progressBar;
 
-    //Todo : 추후에 라운드 따오는 방식으로 변경
-    [SerializeField] int round;
 
     private void Start()
     {
@@ -25,7 +23,6 @@ public class LoadingToBase : MonoBehaviour
         SceneManager.LoadScene("BaseLoadingScene");
     }
 
-    //Comment : round를 따와서 라운드에 해당하는 바 컨트롤
     IEnumerator LoadScene()
     {
 
