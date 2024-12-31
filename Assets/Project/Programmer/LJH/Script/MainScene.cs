@@ -9,6 +9,7 @@ public enum CurState
 {
     main,
     _continue,
+    _new,
     optionDepth1,
     optionDepth2,
 };
@@ -28,6 +29,9 @@ public class MainScene : BaseUI
 
     //이어하기 패널
     GameObject main_continue;
+
+    //새로하기
+    GameObject main_new;
 
     //옵션 패널
     protected GameObject option;
@@ -64,7 +68,7 @@ public class MainScene : BaseUI
 
     private void Update()
     {
-        if (!option.activeSelf && !main_continue.activeSelf)
+        if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf)
             curState = CurState.main;
 
        // if (option.activeSelf)
@@ -104,6 +108,8 @@ public class MainScene : BaseUI
         exitPopUpObj = GetUI("ExitPopUp");
 
         main_continue = GetUI("Background_continue");
+        main_new = GetUI("Background_new");
+
 
         option = GetUI("Background_option");
 
@@ -198,7 +204,9 @@ public class MainScene : BaseUI
 
     public void NewButton()
     {
-        GetUI<Button>("NewImage").onClick.Invoke();
+        main_new.SetActive(true);
+        curState = CurState._new;
+
     }
 
     public void OptionButton()
