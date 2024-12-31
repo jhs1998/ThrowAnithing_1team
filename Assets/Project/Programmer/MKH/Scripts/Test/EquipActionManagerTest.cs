@@ -1,3 +1,4 @@
+using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace MKH
@@ -31,13 +32,15 @@ namespace MKH
         // 장비 삭제
         public bool RemoveEquip(Item item)
         {
-            InventorySlotTest equipmentSlot = mEquipmentInventory.GetEquipmentSlot(item.Type);
+            if (item != null)
+            {
+                InventorySlotTest equipmentSlot = mEquipmentInventory.GetEquipmentSlot(item.Type);
 
-            equipmentSlot.ClearSlot();
+                equipmentSlot.ClearSlot();
+            }
 
             mEquipmentInventory.CalculateEffect();
             return true;
-
         }
     }
 }

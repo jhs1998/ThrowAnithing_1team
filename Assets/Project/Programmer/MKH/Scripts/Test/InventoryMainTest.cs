@@ -8,6 +8,9 @@ namespace MKH
         public static bool IsInventoryActive = false;
         [SerializeField] GameObject state;
 
+        [SerializeField] GameObject blueChipPanel;
+
+
         new private void Awake()
         {
             base.Awake();
@@ -16,17 +19,34 @@ namespace MKH
 
         private void Update()
         {
-            TryOpenInventory();
+            //TryOpenInventory();
+            //TryCloseInventory();
         }
 
         private void TryOpenInventory()
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.B))
             {
                 if (!IsInventoryActive)
                     OpenInventory();
-                else
+            }
+
+        }
+
+        private void TryCloseInventory()
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (blueChipPanel.activeSelf)
+                {
+                    Debug.Log("1");
+                    return;
+                }
+                
+                if (IsInventoryActive && !blueChipPanel.activeSelf)
+                {
                     CloseInventory();
+                }
             }
         }
 
