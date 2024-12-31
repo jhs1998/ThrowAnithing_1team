@@ -93,6 +93,8 @@ public class BasicJumpDown : ArmJumpDown
         for (int i = 0; i < hitCount; i++)
         {
             Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true);
+            // ³Ë¹é
+            Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, 1f);
         }
     }
 

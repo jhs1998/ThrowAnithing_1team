@@ -157,8 +157,9 @@ public class PlayerController : MonoBehaviour, IHit
 
     [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
 
-    [HideInInspector] public Vector3 MoveDir; 
+    [HideInInspector] public Vector3 MoveDir;
 
+    Quaternion _defaultMuzzlePointRot;
     private void Awake()
     {
         Init();
@@ -295,6 +296,7 @@ public class PlayerController : MonoBehaviour, IHit
         {
             CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
+        MuzzletPoint.localRotation = _defaultMuzzlePointRot;
     }
 
     /// <summary>
@@ -348,11 +350,12 @@ public class PlayerController : MonoBehaviour, IHit
         }
 
         Quaternion cameraTempRot = CamareArm.rotation;
-
+        targetPos = new Vector3 (targetPos.x, targetPos.y + 2f, targetPos.z);
         // 입력한 방향쪽을 플레이어가 바라봄
-        transform.LookAt(TargetPos);
+        transform.LookAt(targetPos);
         transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         CamareArm.rotation = cameraTempRot;
+        MuzzletPoint.LookAt(targetPos);
     }
 
     /// <summary>
@@ -666,7 +669,8 @@ public class PlayerController : MonoBehaviour, IHit
             if (IsStaminaCool == true)
             {
                 IsStaminaCool = false;
-                yield return Model.StaminaCoolTime.GetDelay();
+                yield return 1f.GetDelay();
+                //yield return Model.StaminaCoolTime.GetDelay();
             }
 
             yield return null;
@@ -862,6 +866,8 @@ public class PlayerController : MonoBehaviour, IHit
     {         
         InitGetComponent();
         InitPlayerStates();
+
+        _defaultMuzzlePointRot = MuzzletPoint.rotation;
     }
 
     /// <summary>
