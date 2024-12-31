@@ -40,9 +40,6 @@ public class MainScene : BaseUI
     GameObject exitPopUpObj;
     GameObject[] exitButtons;
 
-    GameObject exitYes;
-    GameObject exitNo;
-
     //Comment : Exit 체크용 변수
     int exitCheck;
 
@@ -102,8 +99,8 @@ public class MainScene : BaseUI
         menuButtons[3] = exitImage = GetUI<Button>("ExitImage");
 
         exitButtons = new GameObject[2];
-        exitButtons[0] = exitYes = GetUI("YesImage");
-        exitButtons[1] = exitNo = GetUI("NoImage");
+        exitButtons[0] = GetUI("YesImage");
+        exitButtons[1] = GetUI("NoImage");
 
         exitPopUpObj = GetUI("ExitPopUp");
 
@@ -245,10 +242,10 @@ public class MainScene : BaseUI
                     break;
 
                 case 1:
-                    exitNo.GetComponent<Image>().color = Color.black;
+                exitButtons[exitNum].GetComponent<Image>().color = Color.black;
                     if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
                     {
-                        exitNo.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
                         exitNum = 0;
                     }
                     if (Input.GetButtonDown("Interaction"))
