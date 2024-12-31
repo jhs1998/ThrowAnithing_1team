@@ -64,7 +64,7 @@ public class BossEnemy : BaseEnemy
     /// </summary>
     public void ThunderStomp()
     {
-        Debug.Log("ThunderStomp()");
+        //Debug.Log("ThunderStomp()");
         // 체력의 의한 패턴 변경
         if (CurHp > state.MaxHp * 0.8f)
         {
@@ -98,7 +98,8 @@ public class BossEnemy : BaseEnemy
     public void Shooting()
     {
         //Debug.Log("Shooting()");
-        AttackMelee();
+        if (transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack"))
+            AttackMelee();
         // 일반 근접 공격 - 모든 페이즈에 존재
         // 라이트닝 피스트 - 1페이즈에만 존재
     }
@@ -122,7 +123,7 @@ public class BossEnemy : BaseEnemy
             destination.y = 0;
             Vector3 targetDir = (destination - source).normalized;
             float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
-            
+
             if (targetAngle > 120 * 0.5f)
                 continue;
 
