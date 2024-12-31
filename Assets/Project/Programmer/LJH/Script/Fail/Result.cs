@@ -20,8 +20,8 @@ public class Result : BaseUI
     TMP_Text rp;
     private void Awake()
     {
-        Bind();
-        Init();
+        //Bind();
+        //Init();
     }
 
     void Update()
@@ -35,6 +35,7 @@ public class Result : BaseUI
     void Init()
     {
         // 연동 후 내용 채워야함
+        // 프로토타입에선 제외, 추후 사용할 수 있으니 남겨두겠음
         timer = GetUI<TMP_Text>("Timer");
         round = GetUI<TMP_Text>("StageText");
         kill = GetUI<TMP_Text>("KillText");

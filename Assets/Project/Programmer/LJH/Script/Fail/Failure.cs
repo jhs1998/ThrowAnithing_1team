@@ -23,7 +23,6 @@ public class Failure : MonoBehaviour
 
     IEnumerator GameOver()
     {
-        Debug.Log("¤±¤¤¤·");
         yield return 2f.GetRealTimeDelay();
 
         scoreBoard.SetActive(true);
