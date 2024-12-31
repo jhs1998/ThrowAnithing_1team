@@ -41,7 +41,8 @@ public class Main_Option : MainScene
     protected GameObject gameplayOnOff;
     protected GameObject soundOnOff;
 
-
+    [Header("메인화면인경우 체크")]
+    [SerializeField] protected bool _isMain;
 
     void Start()
     {
@@ -55,6 +56,11 @@ public class Main_Option : MainScene
         if (menuCo == null)
         {
             menuCo = StartCoroutine(Depth1_Select());
+        }
+        if (!gameplayOnOff.activeSelf && !soundOnOff.activeSelf)
+        {
+            OptionTitle();
+            SelectedEnter();
         }
     }
 
@@ -114,8 +120,7 @@ public class Main_Option : MainScene
                 yield return null;
             else
                 yield return inputDelay.GetRealTimeDelay();
-            OptionTitle();
-            SelectedEnter();
+
 
 
 
@@ -235,7 +240,15 @@ public class Main_Option : MainScene
 
     public void ExitButtonOp()
     {
-        Panel.ChangeBundle(PausePanel.Bundle.Pause);
+        if (_isMain)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Panel.ChangeBundle(PausePanel.Bundle.Pause);
+        }
+   
     }
 
 
