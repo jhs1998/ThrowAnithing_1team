@@ -66,7 +66,6 @@ namespace MKH
                 {
                     axisInUse = true;
                     selectedButtonsIndex -= 1;
-                    Debug.Log("왼쪽");
                 }
             }
             // 오른쪽
@@ -76,7 +75,6 @@ namespace MKH
                 {
                     axisInUse = true;
                     selectedButtonsIndex += 1;
-                    Debug.Log("오른쪽");
                 }
             }
             // 위
@@ -86,7 +84,6 @@ namespace MKH
                 {
                     axisInUse = true;
                     selectedButtonsIndex -= 3;
-                    Debug.Log("위");
                 }
             }
             // 아래
@@ -96,7 +93,6 @@ namespace MKH
                 {
                     axisInUse = true;
                     selectedButtonsIndex += 3;
-                    Debug.Log("아래");
                 }
             }
             // 키 멈춤 방지
@@ -130,31 +126,47 @@ namespace MKH
                 // 장비
                 if (index < 9)
                 {
+                    Debug.Log("삭제 불가");
                     return;
                 }
                 // 인벤토리
                 else if (index >= 9)
                 {
-                    ivSlots[index - 9].UseItem();
-                    Debug.Log($"인벤토리 {index - 9}버튼 누름");
-                    Debug.Log($"인벤토리 {index - 9}번 장착");
+                    if (ivSlots[index - 9].Item != null)
+                    {
+                        ivSlots[index - 9].UseItem();
+                        Debug.Log($"인벤토리 {index - 9}번 장비 장착");
+                    }
+                    else if (ivSlots[index - 9].Item == null)
+                    {
+                        Debug.Log("장착 할 장비가 없습니다.");
+                        return;
+                    }
                 }
             }
 
             // 아이템 삭제 - 인벤토리만 삭제 가능
-            if (Input.GetButtonDown("Negative"))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 // 장비
                 if (index < 9)
                 {
+                    Debug.Log("삭제 불가");
                     return;
                 }
                 // 인벤토리
                 else if (index >= 9)
                 {
-                    ivSlots[index - 9].ClearSlot();
-                    Debug.Log($"인벤토리 {index - 9}버튼 누름");
-                    Debug.Log($"인벤토리 {index - 9}번 삭제");
+                    if (ivSlots[index - 9].Item != null)
+                    {
+                        ivSlots[index - 9].ClearSlot();
+                        Debug.Log($"인벤토리 {index - 9}번 장비 분해");
+                    }
+                    else if (ivSlots[index - 9].Item == null)
+                    {
+                        Debug.Log("분해 할 장비가 없습니다.");
+                        return;
+                    }
                 }
             }
         }
@@ -175,21 +187,20 @@ namespace MKH
                         {
                             eqName.text = eqSlots[i].Item.Name;
                             eqDescription.text = eqSlots[i].Item.Description;
-                            ivName.text = null;
-                            ivDescription.text = null;
+                            ivName.text = "-";
+                            ivDescription.text = "";
                         }
                         // 장비 슬롯에 아이템이 없는 상태
                         else if (eqSlots[i].Item == null)
                         {
-                            eqName.text = null;
-                            eqDescription.text = null;
-                            ivName.text = null;
-                            ivDescription.text = null;
+                            eqName.text = "-";
+                            eqDescription.text = "";
+                            ivName.text = "-";
+                            ivDescription.text = "";
                         }
                     }
-
                     // 인벤토리 설명
-                    if (i >= 9)
+                    else if (i >= 9)
                     {
                         // 인벤토리 슬롯에 아이템 있는 상태
                         if (ivSlots[i - 9].Item != null)
@@ -206,10 +217,10 @@ namespace MKH
                                         eqName.text = eqSlots[0].Item.Name;
                                         eqDescription.text = eqSlots[0].Item.Description;
                                     }
-                                    else
+                                    else if (eqSlots[0].Item == null)
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Shirts:
@@ -218,10 +229,10 @@ namespace MKH
                                         eqName.text = eqSlots[1].Item.Name;
                                         eqDescription.text = eqSlots[1].Item.Description;
                                     }
-                                    else
+                                    else if (eqSlots[1].Item == null)
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Glasses:
@@ -230,10 +241,10 @@ namespace MKH
                                         eqName.text = eqSlots[2].Item.Name;
                                         eqDescription.text = eqSlots[2].Item.Description;
                                     }
-                                    else
+                                    else if (eqSlots[2].Item == null)
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Gloves:
@@ -242,10 +253,10 @@ namespace MKH
                                         eqName.text = eqSlots[3].Item.Name;
                                         eqDescription.text = eqSlots[3].Item.Description;
                                     }
-                                    else
+                                    else if (eqSlots[3].Item == null)
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Pants:
@@ -254,10 +265,10 @@ namespace MKH
                                         eqName.text = eqSlots[4].Item.Name;
                                         eqDescription.text = eqSlots[4].Item.Description;
                                     }
-                                    else
+                                    else if (eqSlots[4].Item == null)
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Earring:
@@ -266,10 +277,10 @@ namespace MKH
                                         eqName.text = eqSlots[5].Item.Name;
                                         eqDescription.text = eqSlots[5].Item.Description;
                                     }
-                                    else
+                                    else if (eqSlots[5].Item == null)
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Ring:
@@ -278,10 +289,10 @@ namespace MKH
                                         eqName.text = eqSlots[6].Item.Name;
                                         eqDescription.text = eqSlots[6].Item.Description;
                                     }
-                                    else
+                                    else if (eqSlots[6].Item == null)
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Shoes:
@@ -290,10 +301,10 @@ namespace MKH
                                         eqName.text = eqSlots[7].Item.Name;
                                         eqDescription.text = eqSlots[7].Item.Description;
                                     }
-                                    else
+                                    else if (eqSlots[7].Item == null)
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Necklace:
@@ -302,10 +313,10 @@ namespace MKH
                                         eqName.text = eqSlots[8].Item.Name;
                                         eqDescription.text = eqSlots[8].Item.Description;
                                     }
-                                    else
+                                    else if (eqSlots[8].Item == null)
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                             }
@@ -313,15 +324,39 @@ namespace MKH
                         // 인벤토리 슬롯에 아이템이 없는 상태
                         else if (ivSlots[i - 9].Item == null)
                         {
-                            ivName.text = null;
-                            ivDescription.text = null;
-                            eqName.text = null;
-                            eqDescription.text = null;
+                            ivName.text = "-";
+                            ivDescription.text = "";
+                            eqName.text = "-";
+                            eqDescription.text = "";
                         }
                     }
                 }
             }
         }
         #endregion
+
+
+        // 아이템 모두 삭제 (인게임 끝날 시 초기화용)
+        private void ItemReset()
+        {
+            for (int i = 0; i < buttonCount; i++)
+            {
+                if (i < 9)
+                {
+                    if (eqSlots[i].Item != null)
+                    {
+                        eqSlots[i].RemoveEquipmentSlot();
+                    }
+                }
+                else if (i >= 9)
+                {
+                    if (ivSlots[i - 9].Item != null)
+                    {
+                        ivSlots[i - 9].ClearSlot();
+                    }
+                }
+            }
+            Debug.Log("아이템 초기화");
+        }
     }
 }
