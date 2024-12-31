@@ -444,7 +444,7 @@ public partial class PlayerData
     public float[] MeleeAttackStamina { get { return Data.MeleeAttackStamina; } set { Data.MeleeAttackStamina = value; } }
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + (100 * EquipStatus.EquipRate); } set { Data.EquipmentDropUpgrade = value; } }
 
-
+    [HideInInspector] public bool IsDead;
     [System.Serializable]
     public struct InventoryStruct
     {
