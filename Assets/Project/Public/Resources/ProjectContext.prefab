@@ -84,8 +84,9 @@ MonoBehaviour:
     upgradeCosts: e8030000e8030000e8030000e803000088130000881300008813000088130000102700001027000010270000102700003075000030750000307500003075000050c3000050c3000050c3000050c30000
     usingCoin: 0
     bringData: 1
+    nowWeapon: 0
   playerData:
-    _NSJTest:
+    Data:
       Hp:
         MaxHp: 0
         CurHp: 0
@@ -95,34 +96,52 @@ MonoBehaviour:
       Stamina:
         MaxStamina: 0
         CurStamina: 0
-        StaminaRecoveryPerSecond: 0
+        RegainStamina: 0
         StaminaCoolTime: 0
+        ConsumesStamina: 0
+        MaxStaminaCharge: 0
+        CurStaminaCharge: 0
       Special:
-        MaxSpecialGage: 0
-        CurSpecialGage: 0
-        SpecialRecoveryAmount: []
+        MaxMana: 0
+        CurMana: 0
+        RegainMana: []
+        ManaConsumption: []
         SpecialChargeGage: 0
       Jump:
         JumpPower: 0
         JumpStamina: 0
         DoubleJumpStamina: 0
         JumpDownStamina: 0
+        MaxJumpCount: 0
+        CurJumpCount: 0
       Dash:
-        DashPower: 0
+        DashDistance: 0
         DashStamina: 0
-      MoveSpeed: 0
-      Damage: 0
-      AttackSpeed: 0
+      Attack:
+        AttackPower: 0
+        AttackSpeed: 0
+        PowerMeleeAttack: []
+        PowerThrowAttack: []
+        PowerSpecialAttack: []
       Critical:
-        Critical: 0
+        CriticalChance: 0
         CriticalDamage: 0
-      MaxThrowCount: 0
-      CurThrowCount: 0
-      ThrowObjectStack: []
-      AdditionalEffects: []
-      HitAdditionals: []
-      ThrowAdditionals: []
-      PlayerAdditionals: []
+      Throw:
+        MaxThrowables: 0
+        CurThrowables: 0
+        GainMoreThrowables: 0
+        ThrowObjectStack: []
+      Additional:
+        AdditionalEffects: []
+        HitAdditionals: []
+        ThrowAdditionals: []
+        PlayerAdditionals: []
+      NowWeapon: 0
+      MoveSpeed: 0
+      DrainLife: 0
+      MeleeAttackStamina: []
+      EquipmentDropUpgrade: 0
+    Inventory: {fileID: 0}
     test: 1
   userDataManager: {fileID: 2843022970376083190}
   globalPlayerStateData:
@@ -174,6 +193,11 @@ MonoBehaviour:
     - 0
     - 0
   lobbyUpGrade: {fileID: 3185848396629662587}
+  optionSetting:
+    effectSound: 0
+    backgroundSound: 0
+    cameraSpeed: 0
+    minimapOn: 0
 --- !u!114 &2843022970376083190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +218,55 @@ MonoBehaviour:
     upgradeCosts: e8030000e8030000e8030000e803000088130000881300008813000088130000102700001027000010270000102700003075000030750000307500003075000050c3000050c3000050c3000050c30000
     usingCoin: 0
     bringData: 1
+    nowWeapon: 0
+  playerstate:
+    maxHp: 0
+    commonAttack: 0
+    shortRangeAttack:
+    - 0
+    - 0
+    - 0
+    longRangeAttack:
+    - 0
+    - 0
+    - 0
+    - 0
+    attackSpeed: 0
+    movementSpeed: 0
+    criticalChance: 0
+    defense: 0
+    equipmentDropUpgrade: 0
+    drainLife: 0
+    maxStamina: 0
+    regainStamina: 0
+    regainMana:
+    - 0
+    - 0
+    - 0
+    - 0
+    manaConsumption:
+    - 0
+    - 0
+    - 0
+    consumesStamina: 0
+    gainMoreThrowables: 0
+    maxThrowables: 0
+    nowWeapon: 0
+    maxMana: 0
+    maxJumpCount: 0
+    jumpPower: 0
+    jumpConsumesStamina: 0
+    doubleJumpConsumesStamina: 0
+    dashDistance: 0
+    dashConsumesStamina: 0
+    shortRangeAttackStamina:
+    - 0
+    - 0
+    - 0
+    specialAttack:
+    - 0
+    - 0
+    - 0
   path: 
   nowSlot: 0
 --- !u!114 &3185848396629662587
@@ -216,6 +289,7 @@ MonoBehaviour:
     upgradeCosts: e8030000e8030000e8030000e803000088130000881300008813000088130000102700001027000010270000102700003075000030750000307500003075000050c3000050c3000050c3000050c30000
     usingCoin: 0
     bringData: 1
+    nowWeapon: 0
   playerState:
     maxHp: 0
     commonAttack: 0
