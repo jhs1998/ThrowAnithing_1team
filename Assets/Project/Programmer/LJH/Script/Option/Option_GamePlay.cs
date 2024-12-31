@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class Option_GamePlay : Main_Option
 {
     SettingManager setManager;
@@ -37,7 +38,7 @@ public class Option_GamePlay : Main_Option
     [SerializeField] Button cancelButton;
     [SerializeField] Button defaultButton;
 
-    int _curIndex;
+    public int _curIndex;
 
 
     void Start()
@@ -61,7 +62,7 @@ public class Option_GamePlay : Main_Option
         }
 
     }
-    
+
     private IEnumerator GamePlay_Select()
     {
         float x = Input.GetAxisRaw(InputKey.Horizontal);
@@ -79,20 +80,22 @@ public class Option_GamePlay : Main_Option
                 gamePlayButtons[i].GetComponent<TMP_Text>().color = Color.white;
             }
         }
-
+        // 상단 버튼일 때
         if (_curIndex > -1 && _curIndex < 3)
         {
             // 아래 버튼 눌렀을 때
             if (y < 0)
             {
-                _curIndex++;
-                
-
-                if (_curIndex > 2)
+                if (_curIndex == 2)
                 {
+                    Debug.Log("2일때 동작");
                     _curIndex = 3;
                 }
-
+                else
+                {
+                    Debug.Log("그 외임");
+                    _curIndex++;
+                }
                 
 
             }
@@ -105,42 +108,30 @@ public class Option_GamePlay : Main_Option
                     _curIndex = gamePlayButtons.Count - 1;
                 }
             }
+            
+            
+        }
+
+        if (_curIndex > 2 && _curIndex < gamePlayButtons.Count)
+        {
+            if (y > 0)
+            {
+                _curIndex = 2;
+            }
             // 오른쪽 키 눌렀을 때
             if (x > 0)
             {
-                _curIndex = 3;
+                _curIndex++;
+                if (_curIndex > gamePlayButtons.Count - 1)
+                {
+                    _curIndex = 0;
+                }
             }
             else if (x < 0)
             {
-                _curIndex = 3;
+                _curIndex--;
             }
         }
-
-            if (_curIndex > 2 && _curIndex < gamePlayButtons.Count)
-            {
-                // 아래 버튼 눌렀을 때
-                if (y < 0)
-                {
-                    _curIndex = 0;
-                }
-                else if (y > 0)
-                {
-                    _curIndex = 2;
-                }
-                // 오른쪽 키 눌렀을 때
-                if (x > 0)
-                {
-                    _curIndex ++;
-                if (_curIndex > gamePlayButtons.Count - 1)
-                { 
-                    _curIndex = 0;
-                }
-                }
-                else if (x < 0)
-                {
-                    _curIndex --;
-                }
-            }
 
         if (Input.GetButtonDown("Interaction"))
         {
@@ -166,15 +157,12 @@ public class Option_GamePlay : Main_Option
 
     void ButtonReset()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < gamePlayButtons.Count - 1; i++)
         {
-            for (int j = 0; j < 4; j++)
-            {
-                if (buttons[i, j] == null)
-                    continue;
+            if (gamePlayButtons[i] == null)
+                continue;
 
-                buttons[i, j].GetComponent<TMP_Text>().color = Color.white;
-            }
+            gamePlayButtons[i].GetComponent<TMP_Text>().color = Color.white;
         }
     }
 
