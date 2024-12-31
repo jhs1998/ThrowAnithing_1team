@@ -382,7 +382,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
     }
-    public void ChangeArmUnit(GlobalPlayerStateData.AmWeapon armUnit)
+    public void ChangeArmUnit(GlobalGameData.AmWeapon armUnit)
     {
         Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
         Model.Arm.Init(this);

@@ -120,7 +120,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public Subject<float> SpecialChargeGageSubject = new Subject<float>();
     public float[] MeleeAttackStamina { get { return Data.MeleeAttackStamina; } set { Data.MeleeAttackStamina = value; } }
 
-    public GlobalPlayerStateData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
+    public GlobalGameData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade; } set { Data.EquipmentDropUpgrade = value; } }
 
     public float BoomRadius;
@@ -159,11 +159,11 @@ public class PlayerModel : MonoBehaviour, IDebuff
         {
             GlobalStateData.NewPlayerSetting();
         }
-        Data.CopyGlobalPlayerData(GlobalStateData);
+        Data.CopyGlobalPlayerData(GlobalStateData, GameData);
     }
 
     private float prevAttackSpeed;
-    private GlobalPlayerStateData.AmWeapon prevWeapon;
+    private GlobalGameData.AmWeapon prevWeapon;
     void Start()
     {
         this.FixedUpdateAsObservable()
@@ -363,7 +363,7 @@ public partial class PlayerData
         public CriticalStruct Critical;
         public ThrowStruct Throw;
         public AdditionalStruct Additional;
-        public GlobalPlayerStateData.AmWeapon NowWeapon;
+        public GlobalGameData.AmWeapon NowWeapon;
         public float MoveSpeed;
         public float DrainLife;
         public float[] MeleeAttackStamina;
@@ -432,7 +432,7 @@ public partial class PlayerData
     public float GainMoreThrowables { get { return Data.Throw.GainMoreThrowables; } set { Data.Throw.GainMoreThrowables = value; } }
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.Throw.ThrowObjectStack; } set { Data.Throw.ThrowObjectStack = value; } }
     // 암유닛
-    public GlobalPlayerStateData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
+    public GlobalGameData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
     //추가효과
     public List<AdditionalEffect> AdditionalEffects { get { return Data.Additional.AdditionalEffects; } set { Data.Additional.AdditionalEffects = value; } }
     public List<HitAdditional> HitAdditionals { get { return Data.Additional.HitAdditionals; } set { Data.Additional.HitAdditionals = value; } }
@@ -453,7 +453,7 @@ public partial class PlayerData
     public InventoryStruct Inventory;
 
     public EquipmentEffect EquipStatus => Inventory.Inventory.CurrentEquipmentEffect;
-    public void CopyGlobalPlayerData(GlobalPlayerStateData globalData)
+    public void CopyGlobalPlayerData(GlobalPlayerStateData globalData, GlobalGameData gameData)
     {
         Data.Hp.MaxHp = (int)globalData.maxHp;
         Data.Hp.CurHp = (int)globalData.maxHp;
@@ -496,7 +496,7 @@ public partial class PlayerData
         Data.Special.ManaConsumption[2] = globalData.manaConsumption[2];
         Data.Throw.GainMoreThrowables = globalData.gainMoreThrowables;
         Data.Throw.MaxThrowables = (int)globalData.maxThrowables;
-        Data.NowWeapon = globalData.nowWeapon;
+        Data.NowWeapon = gameData.nowWeapon;
         Data.Special.MaxMana = globalData.maxMana;
         Data.Jump.MaxJumpCount = (int)globalData.maxJumpCount;
         Data.Jump.JumpPower = globalData.jumpPower;

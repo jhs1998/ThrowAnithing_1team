@@ -446,24 +446,24 @@ public class LobbyUpGrade : MonoBehaviour
         OnCoinChanged?.Invoke();
     }
 
-    // ¾Ï À¯´Ö ±³Ã¼ R
-    public void AmWeaponChangeR()
-    {
-        if (playerState.nowWeapon == AmWeapon.Balance)
-            playerState.nowWeapon = AmWeapon.Power;       
-        if (playerState.nowWeapon == AmWeapon.Power)
-            playerState.nowWeapon = AmWeapon.Speed;
-        if (playerState.nowWeapon == AmWeapon.Speed)
-            playerState.nowWeapon = AmWeapon.Balance;
-    }
-    // ¾Ï À¯´Ö ±³Ã¼ L
-    public void AmWeaponChangeL()
-    {
-        if (playerState.nowWeapon == AmWeapon.Balance)
-            playerState.nowWeapon = AmWeapon.Speed;
-        if (playerState.nowWeapon == AmWeapon.Speed)
-            playerState.nowWeapon = AmWeapon.Power;
-        if (playerState.nowWeapon == AmWeapon.Power)
-            playerState.nowWeapon = AmWeapon.Balance;
-    }
+    //// ¾Ï À¯´Ö ±³Ã¼ R
+    //public void AmWeaponChangeR()
+    //{
+    //    if (playerState.nowWeapon == AmWeapon.Balance)
+    //        playerState.nowWeapon = AmWeapon.Power;       
+    //    if (playerState.nowWeapon == AmWeapon.Power)
+    //        playerState.nowWeapon = AmWeapon.Speed;
+    //    if (playerState.nowWeapon == AmWeapon.Speed)
+    //        playerState.nowWeapon = AmWeapon.Balance;
+    //}
+    //// ¾Ï À¯´Ö ±³Ã¼ L
+    //public void AmWeaponChangeL()
+    //{
+    //    if (playerState.nowWeapon == AmWeapon.Balance)
+    //        playerState.nowWeapon = AmWeapon.Speed;
+    //    if (playerState.nowWeapon == AmWeapon.Speed)
+    //        playerState.nowWeapon = AmWeapon.Power;
+    //    if (playerState.nowWeapon == AmWeapon.Power)
+    //        playerState.nowWeapon = AmWeapon.Balance;
+    //}
 }

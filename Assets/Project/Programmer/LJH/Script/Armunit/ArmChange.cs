@@ -6,7 +6,7 @@ using Zenject;
 public class ArmChange : BaseUI
 {
     [Inject]
-    GlobalPlayerStateData playerStateData;
+    GlobalGameData playerStateData;
     [Inject]
     PlayerData playerData;
     int arm_cur;
@@ -120,14 +120,14 @@ public class ArmChange : BaseUI
     public void Power()
     {
         Debug.Log("파워 타입 선택");
-        playerStateData.nowWeapon = GlobalPlayerStateData.AmWeapon.Power;
+        playerStateData.nowWeapon = GlobalGameData.AmWeapon.Power;
         playerData.NowWeapon = playerStateData.nowWeapon;
     }
 
     public void Balance()
     {
         Debug.Log("밸런스 타입 선택");
-        playerStateData.nowWeapon = GlobalPlayerStateData.AmWeapon.Balance;
+        playerStateData.nowWeapon = GlobalGameData.AmWeapon.Balance;
         playerData.NowWeapon = playerStateData.nowWeapon;
     }
 

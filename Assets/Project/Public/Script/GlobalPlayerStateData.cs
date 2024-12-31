@@ -11,6 +11,8 @@ using Zenject;
 [System.Serializable]
 public class GlobalPlayerStateData
 {
+    [Inject]
+    GlobalGameData gameData;
     // GlobalGameData의 로비 특성 강화 단계 확인 후 플레이어의 스탯 변동
     // 굳이 json으로 저장할 필요 없이 업그레이드 단계를 저장하여 그에 따라 스탯 적용
     // 로비 업그레이드 로직은 따로 제작
@@ -72,6 +74,8 @@ public class GlobalPlayerStateData
     public float[] shortRangeAttackStamina = new float[3];
     // 특수 공격력 수치 기본 : 1타 75 2타 150 3타 225
     public float[] specialAttack = new float[3];
+
+    //public GlobalGameData.AmWeapon nowWeapon { get { return gameData.nowWeapon; }set { gameData.nowWeapon = value; } }
     public void NewPlayerSetting()
     {
         maxHp = 60;

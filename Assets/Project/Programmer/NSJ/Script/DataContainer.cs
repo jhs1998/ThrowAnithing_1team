@@ -43,8 +43,8 @@ public class DataContainer : MonoBehaviour
     private Dictionary<int, ThrowObject> _throwObjectDic = new Dictionary<int, ThrowObject>();
     private static Dictionary<int, ThrowObject> s_ThrowObjectDic { get { return Instance._throwObjectDic; } }
     [SerializeField] ArmUnit[] _armUnits;
-    private Dictionary<GlobalPlayerStateData.AmWeapon, ArmUnit> _armUnitDic = new Dictionary<GlobalPlayerStateData.AmWeapon, ArmUnit>();
-    private static Dictionary<GlobalPlayerStateData.AmWeapon, ArmUnit> s_armUnitDic { get { return Instance._armUnitDic; } }
+    private Dictionary<GlobalGameData.AmWeapon, ArmUnit> _armUnitDic = new Dictionary<GlobalGameData.AmWeapon, ArmUnit>();
+    private static Dictionary<GlobalGameData.AmWeapon, ArmUnit> s_armUnitDic { get { return Instance._armUnitDic; } }
     private void Awake()
     {
         InitSingleTon();
@@ -69,7 +69,7 @@ public class DataContainer : MonoBehaviour
     /// <summary>
     /// ¾ÏÀ¯´Ö ¾ò±â
     /// </summary>
-    public static ArmUnit GetArmUnit(GlobalPlayerStateData.AmWeapon armUnit)
+    public static ArmUnit GetArmUnit(GlobalGameData.AmWeapon armUnit)
     {
         return s_armUnitDic[armUnit];
     }
