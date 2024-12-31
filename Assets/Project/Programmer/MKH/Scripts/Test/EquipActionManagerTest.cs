@@ -38,14 +38,9 @@ namespace MKH
 
                 equipmentSlot.ClearSlot();
             }
-            else if (item == null)
-            {
-                return false;
-            }
 
             mEquipmentInventory.CalculateEffect();
             return true;
-
         }
     }
 }
