@@ -49,6 +49,7 @@ namespace MKH
             ButtonsControl();               // 키 조작
             Use(selectedButtonsIndex);      // 키 버튼 조작
             Info();                         // 아이템 정보
+            Clear();
         }
 
         #region 키 조작
@@ -142,7 +143,7 @@ namespace MKH
             }
 
             // 아이템 삭제 - 인벤토리, 장비 둘 다 삭제 가능
-            if (Input.GetButtonDown("Negative"))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 // 장비
                 if (index < 9)
@@ -162,6 +163,38 @@ namespace MKH
             }
         }
         #endregion
+
+        private void Clear()
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                for (int i = 0; i < buttonCount; i++)
+                {
+                    if (i < 9)
+                    {
+                        if (eqSlots[i] != null)
+                        {
+                            eqSlots[i].RemoveEquipmentSlot();
+                        }
+                        else if (eqSlots[i] == null)
+                        {
+                            eqSlots[i] = null;
+                        }
+                    }
+                    else if (i >= 9)
+                    {
+                        if (ivSlots[i - 9] != null)
+                        {
+                            ivSlots[i - 9].ClearSlot();
+                        }
+                        else if (ivSlots[i - 9] == null)
+                        {
+                            ivSlots[i - 9] = null;
+                        }
+                    }
+                }
+            }
+        }
 
         #region 아이템 정보
         private void Info()
