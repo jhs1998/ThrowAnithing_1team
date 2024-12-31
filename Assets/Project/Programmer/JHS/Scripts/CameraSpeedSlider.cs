@@ -6,7 +6,7 @@ using Zenject;
 
 public class CameraSpeedSlider : MonoBehaviour
 {
-    
+    [Range(0.1f, 5f)]
     [SerializeField] private Slider cameraSpeedSlider;
 
     [Inject]
@@ -14,18 +14,22 @@ public class CameraSpeedSlider : MonoBehaviour
 
     private void Start()
     {
-        // 초기값 설정 
         cameraSpeedSlider = GetComponent<Slider>();
 
         // json으로 당겨온 속도 값으로 변경
         cameraSpeedSlider.value = setting.cameraSpeed;
+
+        // 슬라이더 값 변경 시 SettingCameraSpeed 메서드 호출
+        cameraSpeedSlider.onValueChanged.AddListener(SettingCameraSpeed);
     }
-
-    // 슬라이더를 수정하고 나올때 
-
     public void SettingCameraSpeed(float value)
     {
-        value = cameraSpeedSlider.value;
         setting.cameraSpeed = value;
+    }
+
+    private void OnDestroy()
+    {
+        // 이벤트 리스너 해제
+        cameraSpeedSlider.onValueChanged.RemoveListener(SettingCameraSpeed);
     }
 }
