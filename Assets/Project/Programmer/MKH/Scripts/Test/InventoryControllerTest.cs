@@ -178,16 +178,16 @@ namespace MKH
                         {
                             eqName.text = eqSlots[i].Item.Name;
                             eqDescription.text = eqSlots[i].Item.Description;
-                            ivName.text = null;
-                            ivDescription.text = null;
+                            ivName.text = "-";
+                            ivDescription.text = "";
                         }
                         // 장비 슬롯에 아이템이 없는 상태
                         else if (eqSlots[i].Item == null)
                         {
-                            eqName.text = null;
-                            eqDescription.text = null;
-                            ivName.text = null;
-                            ivDescription.text = null;
+                            eqName.text = "-";
+                            eqDescription.text = "";
+                            ivName.text = "-";
+                            ivDescription.text = "";
                         }
                     }
 
@@ -211,8 +211,8 @@ namespace MKH
                                     }
                                     else
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Shirts:
@@ -223,8 +223,8 @@ namespace MKH
                                     }
                                     else
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Glasses:
@@ -235,8 +235,8 @@ namespace MKH
                                     }
                                     else
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Gloves:
@@ -247,8 +247,8 @@ namespace MKH
                                     }
                                     else
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Pants:
@@ -259,8 +259,8 @@ namespace MKH
                                     }
                                     else
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Earring:
@@ -271,8 +271,8 @@ namespace MKH
                                     }
                                     else
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Ring:
@@ -283,8 +283,8 @@ namespace MKH
                                     }
                                     else
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Shoes:
@@ -295,8 +295,8 @@ namespace MKH
                                     }
                                     else
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                                 case ItemType.Necklace:
@@ -307,8 +307,8 @@ namespace MKH
                                     }
                                     else
                                     {
-                                        eqName.text = null;
-                                        eqDescription.text = null;
+                                        eqName.text = "-";
+                                        eqDescription.text = "";
                                     }
                                     break;
                             }
@@ -316,10 +316,10 @@ namespace MKH
                         // 인벤토리 슬롯에 아이템이 없는 상태
                         else if (ivSlots[i - 9].Item == null)
                         {
-                            ivName.text = null;
-                            ivDescription.text = null;
-                            eqName.text = null;
-                            eqDescription.text = null;
+                            ivName.text = "-";
+                            ivDescription.text = "";
+                            eqName.text = "-";
+                            eqDescription.text = "";
                         }
                     }
                 }

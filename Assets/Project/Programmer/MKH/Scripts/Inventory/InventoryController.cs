@@ -141,16 +141,13 @@ namespace MKH
                 }
             }
 
-            // 아이템 삭제 - 인벤토리, 장비 둘 다 삭제 가능
+            // 아이템 삭제 - 인벤토리만 삭제 가능
             if (Input.GetButtonDown("Negative"))
             {
                 // 장비
                 if (index < 9)
                 {
-                    eqSlots[index].RemoveEquipmentSlot();
-                    Debug.Log($"장비 {index}버튼 누름");
-                    Debug.Log($"장비 {index}번 삭제");
-
+                    return;
                 }
                 // 인벤토리
                 else if (index >= 9)
