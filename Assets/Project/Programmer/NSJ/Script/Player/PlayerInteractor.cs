@@ -45,7 +45,10 @@ public class PlayerInteractor : MonoBehaviour
             {
                 IsInteractiveActive = true;
                 Forge = other.GetComponent<Forge>();
-                _player.ChangeState(PlayerController.State.Interative);
+                if (other.gameObject.tag != Tag.UnInteractable)
+                {
+                    _player.ChangeState(PlayerController.State.Interative);
+                }
 
             }
             yield return null;

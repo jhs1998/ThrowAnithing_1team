@@ -12,7 +12,6 @@ public class LSH_Teleport : MonoBehaviour
 
     [SerializeField] bool isSceneAdditive; //T애디티브 씬이 열려있음, F아님
 
-
     private void OnTriggerEnter(Collider other)
     {
 
@@ -33,10 +32,20 @@ public class LSH_Teleport : MonoBehaviour
 
                 //플레이어 기존씬에 있던 자리로 돌려놓고
                 transform.position = beforeTeleportPos;
-
+                // 전체 씬 탐색
+                for(int i = 0; i<SceneManager.sceneCount; i++)
+                {
+                    Scene loadedScene = SceneManager.GetSceneAt(i);
+                    // 탐색한 씬이 히든 씬 이름과 같을 때
+                    if(loadedScene.name == randomHiddenRoom.SceneName)
+                    {
+                        SceneManager.UnloadSceneAsync(loadedScene);
+                    }
+                }
                 ////열어둔 랜덤 씬을 저장한 뒤 언로드씬() 해줌 -> 오류, 닫지 않는것으로 해결
                 //Scene additiveScene = SceneManager.GetSceneByName(randomHiddenRoom);
-                //SceneManager.UnloadScene(additiveScene);
+
+               // SceneManager.UnloadScene(additiveScene);
 
                 //변수 false로 바꿈
                 isSceneAdditive = false;

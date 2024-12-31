@@ -19,7 +19,6 @@ public class BlueChipChoice : MonoBehaviour
     private void Awake()
     {
         _player = GetComponent<PlayerController>();
-        Debug.Log(playerData.Inventory.BlueChipPanel);
         blueChipPanel = playerData.Inventory.BlueChipPanel;
         choice = playerData.Inventory.BlueChipChoice;
     }
