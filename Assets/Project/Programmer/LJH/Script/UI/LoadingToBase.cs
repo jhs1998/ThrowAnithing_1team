@@ -20,7 +20,7 @@ public class LoadingToBase : MonoBehaviour
     {
         Time.timeScale = 1f;
         nextScene = sceneName;
-        SceneManager.LoadScene("BaseLoadingScene");
+        SceneManager.LoadScene(SceneName.ToLobbyLoading);
     }
 
     IEnumerator LoadScene()
