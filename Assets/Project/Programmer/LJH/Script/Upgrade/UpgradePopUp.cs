@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class UpgradePopUp : MonoBehaviour
 {
-    [SerializeField] GameObject upgrade;
-    [SerializeField] GameObject player;
+    [SerializeField] GameObject _object;
+    //[SerializeField] GameObject player;
     private void Update()
     {
-        if(gameObject.activeSelf)
+        if(gameObject.activeSelf && Time.deltaTime != 0)
         {
             if(Input.GetButtonDown("Interaction"))
-                upgrade.SetActive(true);
-
+                _object.SetActive(true);
         }
     }
 
