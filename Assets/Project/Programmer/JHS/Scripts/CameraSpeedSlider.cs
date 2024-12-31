@@ -2,23 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class CameraSpeedSlider : MonoBehaviour
 {
+    
     [SerializeField] private Slider cameraSpeedSlider;
-    [SerializeField] private CameraSettingsSO cameraSettings;
+
+    [Inject]
+    private OptionSetting setting;
 
     private void Start()
     {
-        // 슬라이더 초기값 설정
-        cameraSpeedSlider.value = cameraSettings.GetCameraSpeed();
-        cameraSpeedSlider.onValueChanged.AddListener(OnCameraSpeedChanged);
-    }
+        // 초기값 설정 
+        cameraSpeedSlider = GetComponent<Slider>();
 
-    private void OnCameraSpeedChanged(float value)
-    {
-        // ScriptableObject에 값 저장
-        cameraSettings.SetCameraSpeed(value);
-        Debug.Log($"Camera Rotate Speed updated: {value}");
+        // json으로 당겨온 속도 값으로 변경
+        cameraSpeedSlider.value = setting.cameraSpeed;
     }
 }
