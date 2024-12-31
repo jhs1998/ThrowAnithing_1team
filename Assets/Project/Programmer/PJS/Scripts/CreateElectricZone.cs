@@ -16,7 +16,8 @@ public class CreateElectricZone : MonoBehaviour
             obj.transform.parent = transform;
         }*/
 
-        Instantiate(electricZone, transform.position, transform.rotation);
+        GameObject obj = Instantiate(electricZone, transform.position, transform.rotation);
+        obj.transform.parent = transform;
 
         Destroy(gameObject, 3f);
     }

@@ -7,16 +7,17 @@ public class ElectricArmour : Action
 	[SerializeField] BossSkillState skillState;
 	[SerializeField] GlobalState globalState;
 
-	private BossEnemy enemy;
+    private BossEnemy enemy;
 
 	public override void OnStart()
 	{
 		enemy = GetComponent<BossEnemy>();
-	}
+    }
 
-	public override TaskStatus OnUpdate()
+
+    public override TaskStatus OnUpdate()
 	{
-		StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
+        StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
 		StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
 		return TaskStatus.Success;
 	}

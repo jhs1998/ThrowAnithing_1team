@@ -22,12 +22,14 @@ public class LightningFist : Action
 
         for (int i = 0; i < hits.Length; i++)
         {
+            //BattleSystem hitObj = hits[i].collider.GetComponent<BattleSystem>();
             IHit hitObj = hits[i].collider.GetComponent<IHit>();
             if (hitObj != null)
             {
                 if (hits[i].collider.gameObject.name.CompareTo("Boss") == 0)
                     continue;
 
+                //hitObj.TargetAttackWithDebuff(hits[i].collider.transform, skillState.damage, true);
                 hitObj.TakeDamage(skillState.damage, true);
             }
         }
@@ -35,8 +37,7 @@ public class LightningFist : Action
         StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
         StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
 
-        GameObject obj = GameObject.Instantiate(electricZone, createPos.position, createPos.rotation);
-        obj.transform.parent = createPos;
+        GameObject.Instantiate(electricZone, createPos.position, createPos.rotation);
         return TaskStatus.Success;
     }
 }

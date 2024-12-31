@@ -108,7 +108,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
             if (hit != null)
             {
                 if (overLapCollider[i].gameObject.name.CompareTo("Boss") == 0)
-                    return;
+                    continue;
 
                 hit.TakeDamage(damage, false);
             }

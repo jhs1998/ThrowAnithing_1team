@@ -22,7 +22,7 @@ public class TrashObj : MonoBehaviour, IHit
 
     public void TakeDamage(int damage, bool isStun)
     {
-        Debug.Log($"{gameObject} ÀÇ TakeDamage");
+        //Debug.Log($"{gameObject} ÀÇ TakeDamage");
     }
 
     private void OnTriggerEnter(Collider other)
