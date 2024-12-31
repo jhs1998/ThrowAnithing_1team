@@ -4918,7 +4918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7d064cec16dca47b9d07860a6f1d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isTest: 0
+  _isTest: 1
   Data:
     Data:
       Hp:
@@ -5033,7 +5033,6 @@ MonoBehaviour:
     consumesStamina: 0
     gainMoreThrowables: 0
     maxThrowables: 0
-    nowWeapon: 0
     maxMana: 0
     maxJumpCount: 0
     jumpPower: 0
@@ -5057,7 +5056,7 @@ MonoBehaviour:
     upgradeCosts: e8030000e8030000e8030000e803000088130000881300008813000088130000102700001027000010270000102700003075000030750000307500003075000050c3000050c3000050c3000050c30000
     usingCoin: 0
     bringData: 1
-  Inventory: {fileID: 3875810010306935403}
+    nowWeapon: 0
   Arm: {fileID: 11400000, guid: 6441f13e10367454c82ce59acb25674f, type: 2}
   BoomRadius: 0.2
   DrainDistance: 10
@@ -7285,9 +7284,12 @@ MonoBehaviour:
   buttons:
   - {fileID: 7570757275006665417}
   - {fileID: 3964551554480425991}
-  lobbyScene:
+  mainScene:
     _sceneAsset: {fileID: 102900000, guid: 6927defe3930baf4f993898720ce4775, type: 3}
     _sceneName: CombineJsonScene
+  lobbyScene:
+    _sceneAsset: {fileID: 102900000, guid: 52b94334dc86c6b42bc9d5084680bde2, type: 3}
+    _sceneName: CombineLobbyScene
 --- !u!1 &6308802569421148141
 GameObject:
   m_ObjectHideFlags: 0
@@ -7749,7 +7751,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6218232794442157312
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11442,17 +11444,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dadea1c875969834f8cf0c2dbe12724d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3875810010306935403 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5339654006195871626, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
-  m_PrefabInstance: {fileID: 9210960390030403041}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cadca680a500b48818ec8ec8b687a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &8340959707891665586 stripped

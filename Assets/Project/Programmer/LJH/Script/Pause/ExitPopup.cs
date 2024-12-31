@@ -10,10 +10,11 @@ public class ExitPopup : MonoBehaviour
     [SerializeField] GameObject pause;
     [SerializeField] Button[] buttons;
 
+    [SerializeField] SceneField mainScene;
     [SerializeField] SceneField lobbyScene;
     private void Start()
     {
-        buttons[0].onClick.AddListener(() => LoadingToBase.LoadScene(lobbyScene));
+        buttons[0].onClick.AddListener(ExitScene);
         buttons[1].onClick.AddListener(Exit);
     }
     private void Update()
@@ -25,6 +26,19 @@ public class ExitPopup : MonoBehaviour
             buttons[1].onClick.Invoke();
     }
     
+    private void ExitScene()
+    {
+        // ·Îºñ¾À¿¡¼­´Â ¸ÞÀÎ¾ÀÀ¸·Î º¸³¿
+        if (SceneManager.GetActiveScene().name == lobbyScene.SceneName)
+        {
+            LoadingToBase.LoadScene(mainScene);
+        }
+        else
+        {
+            LoadingToBase.LoadScene(lobbyScene);
+        }
+    }
+
 
     public void Exit()
     {
