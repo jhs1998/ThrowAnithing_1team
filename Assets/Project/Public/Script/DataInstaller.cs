@@ -9,7 +9,6 @@ public class DataInstaller : MonoInstaller
     [SerializeField] private UserDataManager userDataManager;
     [SerializeField] private GlobalPlayerStateData globalPlayerStateData;
     [SerializeField] private LobbyUpGrade lobbyUpGrade;
-    [SerializeField] private OptionSetting optionSetting;
         public override void InstallBindings()
     {
         Container.Bind<GlobalGameData>()
@@ -29,10 +28,6 @@ public class DataInstaller : MonoInstaller
 
         Container.Bind<LobbyUpGrade>()
             .FromInstance(lobbyUpGrade)
-            .AsSingle();
-
-        Container.Bind<OptionSetting>()
-            .FromInstance(optionSetting)
             .AsSingle();
     }
 }
