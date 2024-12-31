@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,8 @@ public class Option_GamePlay : Main_Option
     int gamePlay_Ho = 0;
     int gamePlay_Ver = 1;
 
+    List<Button> gamePlayButtons = new List<Button>();
+
     GameObject defaultPopUp;
 
 
@@ -34,6 +37,7 @@ public class Option_GamePlay : Main_Option
     [SerializeField] Button cancelButton;
     [SerializeField] Button defaultButton;
 
+    int _curIndex;
 
 
     void Start()
@@ -57,62 +61,106 @@ public class Option_GamePlay : Main_Option
         }
 
     }
+    
     private IEnumerator GamePlay_Select()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = -Input.GetAxisRaw("Vertical");
+        float x = Input.GetAxisRaw(InputKey.Horizontal);
+        float y = Input.GetAxisRaw(InputKey.Vertical);
 
-
-        gamePlay_Ho += (int)x;
-        gamePlay_Ver += (int)y;
-
-
-        if (gamePlay_Ver != 0)
+        Button curButton = gamePlayButtons[_curIndex];
+        for (int i = 0; i < gamePlayButtons.Count; i++)
         {
-            if (x != 0)
+            if (gamePlayButtons[i] == curButton)
             {
-                gamePlay_Ver = 0;
-                gamePlay_Ho = 1;
+                gamePlayButtons[i].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+            }
+            else
+            {
+                gamePlayButtons[i].GetComponent<TMP_Text>().color = Color.white;
             }
         }
 
-        if (gamePlay_Ho != 0)
+        if (_curIndex > -1 && _curIndex < 3)
         {
-            if (y != 0)
+            // 아래 버튼 눌렀을 때
+            if (y < 0)
             {
-                gamePlay_Ho = 0;
-                gamePlay_Ver = 1;
+                _curIndex++;
+                
+
+                if (_curIndex > 2)
+                {
+                    _curIndex = 3;
+                }
+
+                
+
+            }
+            // 위 버튼 눌렀을 때
+            else if (y > 0)
+            {
+                _curIndex--;
+                if (_curIndex < 0)
+                {
+                    _curIndex = gamePlayButtons.Count - 1;
+                }
+            }
+            // 오른쪽 키 눌렀을 때
+            if (x > 0)
+            {
+                _curIndex = 3;
+            }
+            else if (x < 0)
+            {
+                _curIndex = 3;
             }
         }
 
-        if (gamePlay_Ver <= 0)
-        {
-            if (gamePlay_Ho == 4)
-                gamePlay_Ho = 1;
+            if (_curIndex > 2 && _curIndex < gamePlayButtons.Count)
+            {
+                // 아래 버튼 눌렀을 때
+                if (y < 0)
+                {
+                    _curIndex = 0;
+                }
+                else if (y > 0)
+                {
+                    _curIndex = 2;
+                }
+                // 오른쪽 키 눌렀을 때
+                if (x > 0)
+                {
+                    _curIndex ++;
+                if (_curIndex > gamePlayButtons.Count - 1)
+                { 
+                    _curIndex = 0;
+                }
+                }
+                else if (x < 0)
+                {
+                    _curIndex --;
+                }
+            }
 
-            if (gamePlay_Ho <= 0)
-                gamePlay_Ho = 3;
+        if (Input.GetButtonDown("Interaction"))
+        {
+            Debug.Log("E키 눌림");
+            if (gamePlayButtons[_curIndex] == GetUI("CancelButton_GamePlay"))
+            {
+                CancelButton();
+            }
         }
 
-        if (gamePlay_Ho <= 0)
-        {
-            if (gamePlay_Ver == 4)
-                gamePlay_Ver = 1;
-
-            if (gamePlay_Ver <= 0)
-                gamePlay_Ver = 3;
-        }
-
-
-        ButtonReset();
-
-        buttons[gamePlay_Ver, gamePlay_Ho].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
+        // 입력없으면 프레임마다
         if (x == 0 && y == 0)
+        {
             yield return null;
+        }
         else
+        {
             yield return inputDelay.GetRealTimeDelay();
+        }
         menuCo = null;
-
 
     }
 
@@ -132,30 +180,30 @@ public class Option_GamePlay : Main_Option
 
     void ButtonSelect()
     {
-        switch (gamePlay_Ver, gamePlay_Ho)
+        switch (_curIndex)
         {
-            case (0, 1):
-                acceptButton.onClick.Invoke();
-                break;
-
-            case (0, 2):
-                cancelButton.onClick.Invoke();
-                break;
-
-            case (0, 3):
-                defaultButton.onClick.Invoke();
-                break;
-
-            case (1, 0):
+            case 0:
                 ActCheck();
                 break;
 
-            case (2, 0):
+            case 1:
                 FixCheck();
                 break;
 
-            case (3, 0):
+            case 2:
                 Debug.Log("랭귀지");
+                break;
+
+            case 3:
+                acceptButton.onClick.Invoke();
+                break;
+
+            case 4:
+                cancelButton.onClick.Invoke();
+                break;
+
+            case 5:
+                defaultButton.onClick.Invoke();
                 break;
 
         }
@@ -226,14 +274,22 @@ public class Option_GamePlay : Main_Option
 
     void Init()
     {
-        buttons = new GameObject[4, 4];
+        // buttons = new GameObject[4, 4];
+        //
+        // buttons[1, 0] = miniMapAct = GetUI("Activate");
+        // buttons[2, 0] = miniMapFix = GetUI("Fixed");
+        // buttons[3, 0] = languageDrop = GetUI("Language");
+        // buttons[0, 1] = GetUI("AcceptButton_gameplay");
+        // buttons[0, 2] = GetUI("CancelButton_gameplay");
+        // buttons[0, 3] = GetUI("DefaultButton_gameplay");
 
-        buttons[1, 0] = miniMapAct = GetUI("Activate");
-        buttons[2, 0] = miniMapFix = GetUI("Fixed");
-        buttons[3, 0] = languageDrop = GetUI("Language");
-        buttons[0, 1] = GetUI("AcceptButton_gameplay");
-        buttons[0, 2] = GetUI("CancelButton_gameplay");
-        buttons[0, 3] = GetUI("DefaultButton_gameplay");
+        gamePlayButtons.Add(GetUI<Button>("Activate"));
+        gamePlayButtons.Add(GetUI<Button>("Fixed"));
+        gamePlayButtons.Add(GetUI<Button>("Language"));
+        gamePlayButtons.Add(GetUI<Button>("AcceptButton_gameplay"));
+        gamePlayButtons.Add(GetUI<Button>("CancelButton_gameplay"));
+        gamePlayButtons.Add(GetUI<Button>("DefaultButton_gameplay"));
+
 
 
         acceptButton = GetUI<Button>("AcceptButton_gameplay");
