@@ -7,7 +7,7 @@ using UnityEngine;
 /// 담당자: 정현수
 /// 사용 시 허락 맡으시오
 /// </summary>
-
+public enum AmWeapon { Balance, Power, Speed }
 [System.Serializable]
 public partial class GlobalGameData
 {
@@ -28,18 +28,7 @@ public partial class GlobalGameData
     public int usingCoin;
     public bool bringData = true;
 
-    public enum AmWeapon { Balance, Power, Speed }
-    private AmWeapon _nowWeapon = AmWeapon.Balance;
-
-    public AmWeapon NowWeapon
-    {
-        get => _nowWeapon;
-        set
-        {
-            _nowWeapon = value;
-            Debug.Log($"현재 무기가 {_nowWeapon}로 변경되었습니다.");
-        }
-    }
+    public AmWeapon nowWeapon { get; set; } = AmWeapon.Balance;
 
     // 로비 공유 특성 강화 로직
     public bool BuyUpgradeSlot(int slot)

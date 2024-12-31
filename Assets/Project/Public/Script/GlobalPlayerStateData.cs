@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Zenject;
 
 /// <summary>
 /// 글로벌 플레이어 스텟 데이터
@@ -13,7 +14,10 @@ public class GlobalPlayerStateData
     // GlobalGameData의 로비 특성 강화 단계 확인 후 플레이어의 스탯 변동
     // 굳이 json으로 저장할 필요 없이 업그레이드 단계를 저장하여 그에 따라 스탯 적용
     // 로비 업그레이드 로직은 따로 제작
-    
+
+    [Inject]
+    private GlobalGameData globalGameData;
+
     // 로비에서 조작되는 플레이어 스탯
     // 최대 체력 기본 : 60
     public float maxHp;
@@ -52,6 +56,11 @@ public class GlobalPlayerStateData
     // 암 유닛 선택 종류 (Balance, _power, MoveSpeed)
     //public enum AmWeapon { Balance, Power, Speed }
     //public AmWeapon nowWeapon;
+    public AmWeapon nowWeapon
+    {
+        get => globalGameData.nowWeapon;
+        set => globalGameData.nowWeapon = value;
+    }
     // 로비에서 조작되지 않는 플레이어 스탯
 
     // 받는 피해 감소 (확정 아님)
@@ -73,7 +82,7 @@ public class GlobalPlayerStateData
     public float[] shortRangeAttackStamina = new float[3];
     // 특수 공격력 수치 기본 : 1타 75 2타 150 3타 225
     public float[] specialAttack = new float[3];
-    public void NewPlayerSetting(GlobalGameData gameData)
+    public void NewPlayerSetting()
     {
         maxHp = 60;
         commonAttack = 0;
@@ -102,7 +111,7 @@ public class GlobalPlayerStateData
         consumesStamina = 0;
         gainMoreThrowables = 0;
         maxThrowables = 50;
-        gameData.NowWeapon = GlobalGameData.AmWeapon.Balance;
+        nowWeapon = AmWeapon.Balance;
         maxMana = 100;
         maxJumpCount = 2;
         jumpPower = 100;
