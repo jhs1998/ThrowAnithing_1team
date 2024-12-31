@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
@@ -133,13 +134,23 @@ public class Upgrade : UpgradeBinding
 
     }
 
-
-    // Comment : for Test
-    public void Â¥ÀÜ()
+    void ItemInfo(Button button)
     {
-        Debug.Log("Â¥ÀÜ");
+        itemName.text = button.name;
+        itemImage.sprite = button.transform.GetChild(0).GetComponent<Image>().sprite;
+        itemInfo.text = button.name;
+
+        ClickedSlots(button);
 
 
+       // itemName.text = EventSystem.current.currentSelectedGameObject.name;
+       // itemImage.sprite = EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<Image>().sprite;
+       // itemInfo.text = EventSystem.current.currentSelectedGameObject.name;
+    }
+
+    void ClickedSlots(Button button)
+    {
+        slots[ho, ver] = button;
     }
 
     void ColorReset()
@@ -188,6 +199,11 @@ public class Upgrade : UpgradeBinding
             for (int j = 0; j < 4; j++)
             {
                 slotImages[i, j] = slots[i, j].transform.GetChild(0).GetComponent<Image>();
+
+                int row = i;
+                int col = j;
+                
+                slots[i, j].onClick.AddListener(() => ItemInfo(slots[row,col]));
             }
         }
     }

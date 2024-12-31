@@ -824,7 +824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &290474840
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2256,9 +2256,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1267994368}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: Select
+      - m_Target: {fileID: 828223050}
+        m_TargetAssemblyTypeName: Option_GamePlay, Assembly-CSharp
+        m_MethodName: FixCheck
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2972,9 +2972,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2048593928}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: Select
+      - m_Target: {fileID: 828223050}
+        m_TargetAssemblyTypeName: Option_GamePlay, Assembly-CSharp
+        m_MethodName: ActCheck
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4442,6 +4442,7 @@ MonoBehaviour:
   acceptButton: {fileID: 1871787877}
   cancelButton: {fileID: 738836499}
   defaultButton: {fileID: 708740317}
+  _curIndex: 0
 --- !u!114 &828223051
 MonoBehaviour:
   m_ObjectHideFlags: 0

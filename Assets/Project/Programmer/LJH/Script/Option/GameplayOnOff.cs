@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class GameplayOnOff : MonoBehaviour
 {
-    [SerializeField] Main_Option option;
-    private void OnDisable()
+    [SerializeField] Option_GamePlay gp;
+    private void OnEnable()
     {
-        //option.optionCheck--;
+        gp._curIndex = 0;
     }
 }
