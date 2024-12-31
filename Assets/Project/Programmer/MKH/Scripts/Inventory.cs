@@ -26,7 +26,7 @@ public class Inventory : MonoBehaviour
         // 임시로 싱글톤 갈아끼우기 꼼수
         // TODO : 이후 블루칩 초기화 기능 구현후 제거 필요
         else if (SceneManager.GetActiveScene().name == SceneName.LobbyScene)
-        {
+        {        
             Destroy(Instance.gameObject);
             Instance = this;
             transform.SetParent(null);

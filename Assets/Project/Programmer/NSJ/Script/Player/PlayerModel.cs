@@ -2,7 +2,9 @@ using MKH;
 using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class PlayerModel : MonoBehaviour, IDebuff
@@ -159,6 +161,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
         {
             GlobalStateData.NewPlayerSetting();
         }
+
         Data.CopyGlobalPlayerData(GlobalStateData, GameData);
     }
 
