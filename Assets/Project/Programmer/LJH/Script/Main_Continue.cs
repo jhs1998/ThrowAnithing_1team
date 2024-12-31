@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Main_Continue : MainScene
 {
     GameObject[] slots;
+    List<Button> buttons = new List<Button>();
 
     GameObject slot1;
     GameObject slot2;
@@ -43,7 +42,7 @@ public class Main_Continue : MainScene
         if (slots_cur == slots.Length)
         {
             slots_cur = 0;
-            slots[slots.Length -1].GetComponent<Outline>().effectDistance = new(0, 0);
+            slots[slots.Length - 1].GetComponent<Outline>().effectDistance = new(0, 0);
             slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
             yield return null;
         }
@@ -61,8 +60,10 @@ public class Main_Continue : MainScene
             slots[i].GetComponent<Outline>().effectDistance = new(0, 0);
         }
         slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
-
-        yield return inputDelay.GetDelay();
+        if (y == 0)
+            yield return null;
+        else
+            yield return inputDelay.GetDelay();
         menuCo = null;
     }
 
@@ -103,23 +104,24 @@ public class Main_Continue : MainScene
     {
         if (Input.GetButtonDown("Interaction"))
         {
-            switch (slots_cur)
-            {
-                case 0:
-                    Debug.Log("1번 슬롯으로 게임 진행");
-                    
-                    break;
+            //switch (slots_cur)
+            //{
+            //    case 0:
+            //        Debug.Log("1번 슬롯으로 게임 진행");
+            //        buttons[slots_cur].onClick.Invoke();
+            //        break;
 
-                case 1:
-                    Debug.Log("2번 슬롯으로 게임 진행");
-                    //Todo : 게임 화면으로 이동 만들어야함
-                    break;
+            //    case 1:
+            //        Debug.Log("2번 슬롯으로 게임 진행");
+            //        //Todo : 게임 화면으로 이동 만들어야함
+            //        break;
 
-                case 2:
-                    Debug.Log("3번 슬롯으로 게임 진행");
-                    //Todo : 옵션 팝업 만들어야함
-                    break;
-            }
+            //    case 2:
+            //        Debug.Log("3번 슬롯으로 게임 진행");
+            //        //Todo : 옵션 팝업 만들어야함
+            //        break;
+            //}
+            buttons[slots_cur].onClick.Invoke();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -145,7 +147,10 @@ public class Main_Continue : MainScene
         slots[0] = slot1 = GetUI("FirstSlot");
         slots[1] = slot2 = GetUI("SecondSlot");
         slots[2] = slot3 = GetUI("ThirdSlot");
-
+        Debug.Log(GetUI<Button>("FirstSlot"));
+        buttons.Add(GetUI<Button>("FirstSlot"));
+        buttons.Add(GetUI<Button>("SecondSlot"));
+        buttons.Add(GetUI<Button>("ThirdSlot"));
         slots_cur = 0;
     }
 

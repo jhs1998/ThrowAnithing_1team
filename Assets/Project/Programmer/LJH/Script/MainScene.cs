@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public enum CurState
@@ -67,8 +64,8 @@ public class MainScene : BaseUI
         if (!option.activeSelf && !main_continue.activeSelf)
             curState = CurState.main;
 
-       // if (option.activeSelf)
-       //     curState = CurState.optionDepth1;
+        // if (option.activeSelf)
+        //     curState = CurState.optionDepth1;
 
         if (curState == CurState.main)
         {
@@ -145,7 +142,10 @@ public class MainScene : BaseUI
         }
         menuButtons[curMenu].gameObject.SetActive(true);
 
-        yield return inputDelay.GetDelay();
+        if (y == 0)
+            yield return null;
+        else
+            yield return inputDelay.GetDelay();
         menuCo = null;
     }
 
@@ -210,47 +210,47 @@ public class MainScene : BaseUI
     public void ExitButton()
     {
         exitPopUpObj.SetActive(true);
-        exitCheck ++;
+        exitCheck++;
         Debug.Log(exitCheck);
     }
 
     void ExitPopUp()
     {
-            switch (exitNum)
-            {
-                case 0:
-                    exitButtons[exitNum].GetComponent<Image>().color = Color.black;
-                    if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
-                    {
-                        exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                        exitNum = 1;
-                    }
-                    if (Input.GetButtonDown("Interaction"))
-                    {
-                        Debug.Log("종료");
+        switch (exitNum)
+        {
+            case 0:
+                exitButtons[exitNum].GetComponent<Image>().color = Color.black;
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitNum = 1;
+                }
+                if (Input.GetButtonDown("Interaction"))
+                {
+                    Debug.Log("종료");
                     if (exitCheck > 1)
                     {
                         ExitGame();
                     }
                     exitCheck++;
-                    }
-                    break;
+                }
+                break;
 
-                case 1:
-                    exitNo.GetComponent<Image>().color = Color.black;
-                    if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
-                    {
-                        exitNo.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                        exitNum = 0;
-                    }
-                    if (Input.GetButtonDown("Interaction"))
-                    {
-                        exitCheck = 0;
-                        exitPopUpObj.SetActive(false);
-                    }
-                    break;
+            case 1:
+                exitNo.GetComponent<Image>().color = Color.black;
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    exitNo.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitNum = 0;
+                }
+                if (Input.GetButtonDown("Interaction"))
+                {
+                    exitCheck = 0;
+                    exitPopUpObj.SetActive(false);
+                }
+                break;
 
-            }
+        }
     }
     protected void ExitGame()
     {
