@@ -129,7 +129,8 @@ public class BossEnemy : BaseEnemy
 
             int finalDamage = state.Atk;
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage, true);
+            //Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage, true);
+            Battle.TargetAttack(overLapCollider[i], finalDamage, true);
         }
     }
 

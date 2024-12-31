@@ -8,45 +8,28 @@ public class LightningFist : Action
     [SerializeField] GlobalState globalState;
     [SerializeField] GameObject electricZone;
     [SerializeField] Transform createPos;
-    [SerializeField] SharedFloat speed;
-    [SerializeField] string animName;
 
-    private float preSpeed;
     private BossEnemy enemy;
-    private Animator anim;
 
     public override void OnStart()
     {
         enemy = GetComponent<BossEnemy>();
-        anim = GetComponent<Animator>();
-        preSpeed = speed.Value;
-    }
-
-    public override void OnEnd()
-    {
-        speed.SetValue(preSpeed);
     }
 
     public override TaskStatus OnUpdate()
     {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName(animName) == true)
-        {
-            speed.Value = 0;
-            Debug.Log($"{speed.Value} ¼Óµµ");
-        }
-        else 
-            Debug.Log("fail");
-
         RaycastHit[] hits = Physics.BoxCastAll(createPos.position, transform.lossyScale / 2f, transform.forward, transform.rotation, skillState.range);
 
         for (int i = 0; i < hits.Length; i++)
         {
+            //BattleSystem hitObj = hits[i].collider.GetComponent<BattleSystem>();
             IHit hitObj = hits[i].collider.GetComponent<IHit>();
             if (hitObj != null)
             {
                 if (hits[i].collider.gameObject.name.CompareTo("Boss") == 0)
                     continue;
 
+                //hitObj.TargetAttackWithDebuff(hits[i].collider.transform, skillState.damage, true);
                 hitObj.TakeDamage(skillState.damage, true);
             }
         }
