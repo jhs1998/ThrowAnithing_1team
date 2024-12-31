@@ -60,7 +60,6 @@ public class Pause : Main_Option
     {
         while (true)
         {
-            Debug.Log(3123);
             float y = -Input.GetAxisRaw("Vertical");
             curMenu_p += (int)y;
 

@@ -14,7 +14,6 @@ public class PlayerModel : MonoBehaviour, IDebuff
     [HideInInspector] public GlobalPlayerStateData GlobalStateData;
     [Inject]
     [HideInInspector] public GlobalGameData GameData;
-    public EquipmentInventory Inventory;
 
     public ArmUnit Arm;
     public int MaxHp { get { return Data.MaxHp; } set { Data.MaxHp = value; } }

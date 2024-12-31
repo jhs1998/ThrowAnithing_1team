@@ -19,11 +19,12 @@ public class BlueChipChoice : MonoBehaviour
     private void Awake()
     {
         _player = GetComponent<PlayerController>();
-        playerData.Inventory.BlueChipPanel = blueChipPanel;
-        playerData.Inventory.BlueChipChoice = choice;
+        Debug.Log(playerData.Inventory.BlueChipPanel);
+        blueChipPanel = playerData.Inventory.BlueChipPanel;
+        choice = playerData.Inventory.BlueChipChoice;
     }
     private void Start()
-    {
+    {       
         choice.SetActive(false);
     }
     private void OnTriggerEnter(Collider other)

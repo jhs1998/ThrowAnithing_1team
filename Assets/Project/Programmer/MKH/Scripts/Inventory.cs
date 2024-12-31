@@ -7,27 +7,17 @@ using Zenject;
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
-    [SerializeField] EquipmentInventory _inventory;
-    [SerializeField] InventoryMain _inventoryMain;
-    [SerializeField] GameObject _blueChipChoice;
-    [SerializeField] BlueChipPanel _blueChipPanel;
+    [SerializeField] public EquipmentInventory EquipInventory;
+    [SerializeField] public InventoryMain InventoryMain;
+    [SerializeField] public GameObject BlueChipChoice;
+    [SerializeField] public BlueChipPanel BlueChipPanel;
 
     [Inject]
     PlayerData playerData;
 
     private void Awake()
     {
-        InitSingleTon();
-        playerData.Inventory.Inventory = _inventory;
-        playerData.Inventory.InventoryMain = _inventoryMain;
-        playerData.Inventory.BlueChipChoice = _blueChipChoice;
-        playerData.Inventory.BlueChipPanel = _blueChipPanel;
-    }
-
-
-    private void InitSingleTon()
-    {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             transform.SetParent(null);
@@ -36,6 +26,17 @@ public class Inventory : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
+        playerData.Inventory.Inventory = EquipInventory;
+        playerData.Inventory.InventoryMain = InventoryMain;
+        playerData.Inventory.BlueChipChoice = BlueChipChoice;
+        playerData.Inventory.BlueChipPanel = BlueChipPanel;
+    }
+
+
+    private void InitSingleTon()
+    {
+
     }
 }
