@@ -513,4 +513,12 @@ public partial class PlayerData
         Data.MeleeAttackStamina[1] = globalData.shortRangeAttackStamina[1];
         Data.MeleeAttackStamina[2] = globalData.shortRangeAttackStamina[2];
     }
+
+    public void ClearAdditional()
+    {
+        AdditionalEffects.Clear();
+        HitAdditionals.Clear();
+        ThrowAdditionals.Clear();
+        PlayerAdditionals.Clear();
+    }
 }
