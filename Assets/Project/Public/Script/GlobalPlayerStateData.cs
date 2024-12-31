@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine.Playables;
 using Zenject;
 
 /// <summary>
@@ -7,16 +8,12 @@ using Zenject;
 /// 담당자: 정현수
 /// 사용 시 허락 맡으시오
 /// </summary>
-
 [System.Serializable]
 public class GlobalPlayerStateData
 {
     // GlobalGameData의 로비 특성 강화 단계 확인 후 플레이어의 스탯 변동
     // 굳이 json으로 저장할 필요 없이 업그레이드 단계를 저장하여 그에 따라 스탯 적용
     // 로비 업그레이드 로직은 따로 제작
-
-    [Inject]
-    private GlobalGameData globalGameData;
 
     // 로비에서 조작되는 플레이어 스탯
     // 최대 체력 기본 : 60
@@ -53,14 +50,7 @@ public class GlobalPlayerStateData
     public float gainMoreThrowables;
     // 보유 투척물 제한 증가 / 기본 50
     public float maxThrowables;
-    // 암 유닛 선택 종류 (Balance, _power, MoveSpeed)
-    //public enum AmWeapon { Balance, Power, Speed }
-    //public AmWeapon nowWeapon;
-    public AmWeapon nowWeapon
-    {
-        get => globalGameData.nowWeapon;
-        set => globalGameData.nowWeapon = value;
-    }
+
     // 로비에서 조작되지 않는 플레이어 스탯
 
     // 받는 피해 감소 (확정 아님)
@@ -111,7 +101,6 @@ public class GlobalPlayerStateData
         consumesStamina = 0;
         gainMoreThrowables = 0;
         maxThrowables = 50;
-        nowWeapon = AmWeapon.Balance;
         maxMana = 100;
         maxJumpCount = 2;
         jumpPower = 100;

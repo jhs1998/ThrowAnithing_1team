@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Zenject;
+using static GlobalGameData;
 
 [System.Serializable]
 public class UserDataManager : MonoBehaviour
@@ -63,6 +64,7 @@ public class UserDataManager : MonoBehaviour
             nowPlayer.saveDateTime = loadedData.saveDateTime;
             nowPlayer.upgradeLevels = loadedData.upgradeLevels;
             nowPlayer.usingCoin = loadedData.usingCoin;
+            nowPlayer.nowWeapon = loadedData.nowWeapon;
             // 강화 플레이어 스탯 새팅을 위한 값
             nowPlayer.bringData = true;
             Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
@@ -79,7 +81,7 @@ public class UserDataManager : MonoBehaviour
         nowPlayer.saveDateTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         nowPlayer.upgradeLevels = new int[20];
         nowPlayer.usingCoin = 0;
-
+        nowPlayer.nowWeapon = AmWeapon.Balance;
         // 플레이어 스탯 리셋
         playerstate.NewPlayerSetting();
     }
