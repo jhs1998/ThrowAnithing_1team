@@ -16,8 +16,8 @@ public class Upgrade : UpgradeBinding
     Button[,] slots;
     Image[,] slotImages;
 
-    int ho = 0;
-    int ver = 0;
+    int ho;
+    int ver;
 
     Coroutine slotCo;
     Coroutine buttonCo;
@@ -118,9 +118,9 @@ public class Upgrade : UpgradeBinding
             ver = 0;
         }
 
-        // Comment : Other Buttons color Reset
+        // Comment : 다른 슬롯 색 리셋
         ColorReset();
-        // Comment : Selected Button color Changed
+        // Comment : 선택한 슬롯 노란색으로
 
         slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
 
@@ -134,23 +134,12 @@ public class Upgrade : UpgradeBinding
 
     }
 
-    void ItemInfo(Button button)
-    {
-        itemName.text = button.name;
-        itemImage.sprite = button.transform.GetChild(0).GetComponent<Image>().sprite;
-        itemInfo.text = button.name;
-
-        ClickedSlots(button);
-
-
-       // itemName.text = EventSystem.current.currentSelectedGameObject.name;
-       // itemImage.sprite = EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<Image>().sprite;
-       // itemInfo.text = EventSystem.current.currentSelectedGameObject.name;
-    }
 
     void ClickedSlots(Button button)
     {
-        slots[ho, ver] = button;
+        //ver = ;
+        slots[ver, ho] = button;
+        slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
     }
 
     void ColorReset()
@@ -203,7 +192,7 @@ public class Upgrade : UpgradeBinding
                 int row = i;
                 int col = j;
                 
-                slots[i, j].onClick.AddListener(() => ItemInfo(slots[row,col]));
+                slots[i, j].onClick.AddListener(() => ClickedSlots(slots[row,col]));
             }
         }
     }
