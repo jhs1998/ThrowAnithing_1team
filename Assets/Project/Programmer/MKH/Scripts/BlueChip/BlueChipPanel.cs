@@ -15,18 +15,18 @@ namespace MKH
 
         private void Update()
         {
-            TryOpenPanel();
+            //TryOpenPanel();
         }
 
         private void TryOpenPanel()
         {
             if (inventory.activeSelf == true)
             {
-                if (Input.GetKey(KeyCode.CapsLock))
+                if (Input.GetKeyDown(KeyCode.B))
                 {
                     OpenPanel();
                 }
-                else
+                else if(Input.GetKeyDown(KeyCode.C))
                 {
                     ClosePanel();
                 }
