@@ -2,9 +2,13 @@ using MKH;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class BlueChipChoice : MonoBehaviour
 {
+    [Inject]
+    private PlayerData playerData;
+
     [SerializeField] GameObject choice;
 
     private TestBlueChip blueChip;
@@ -15,6 +19,8 @@ public class BlueChipChoice : MonoBehaviour
     private void Awake()
     {
         _player = GetComponent<PlayerController>();
+        playerData.Inventory.BlueChipPanel = blueChipPanel;
+        playerData.Inventory.BlueChipChoice = choice;
     }
     private void Start()
     {

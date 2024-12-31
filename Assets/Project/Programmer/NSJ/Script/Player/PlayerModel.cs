@@ -161,7 +161,6 @@ public class PlayerModel : MonoBehaviour, IDebuff
             GlobalStateData.NewPlayerSetting();
         }
         Data.CopyGlobalPlayerData(GlobalStateData);
-        Data.Inventory = Inventory;
     }
 
     private float prevAttackSpeed;
@@ -444,8 +443,17 @@ public partial class PlayerData
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + (100 * EquipStatus.EquipRate); } set { Data.EquipmentDropUpgrade = value; } }
 
 
-    public EquipmentInventory Inventory;
-    public EquipmentEffect EquipStatus => Inventory.CurrentEquipmentEffect;
+    [System.Serializable]
+    public struct InventoryStruct
+    {
+       public EquipmentInventory Inventory;
+       public InventoryMain InventoryMain;
+       public GameObject BlueChipChoice;
+       public BlueChipPanel BlueChipPanel;
+    }
+    public InventoryStruct Inventory;
+
+    public EquipmentEffect EquipStatus => Inventory.Inventory.CurrentEquipmentEffect;
     public void CopyGlobalPlayerData(GlobalPlayerStateData globalData)
     {
         Data.Hp.MaxHp = (int)globalData.maxHp;
