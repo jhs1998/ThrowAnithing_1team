@@ -59,6 +59,28 @@ public class Option_GamePlay : Main_Option
 
             if (Input.GetButtonDown("Interaction"))
                 ButtonSelect();
+
+            if (Input.GetButtonDown("Interaction"))
+            {
+                if (gamePlayButtons[_curIndex] == GetUI("CancelButton_sound"))
+                {
+                    CancelButton();
+                }
+                else if (gamePlayButtons[_curIndex] == GetUI("AcceptButton_sound"))
+                {
+                    AcceptButton();
+                }
+                else if (gamePlayButtons[_curIndex] == GetUI("DefaultButton_sound"))
+                {
+                    DefaultButton();
+                }
+                //sound_Ver = 0;
+                //sound_Ho = 1;
+            }
+        }
+        else
+        {
+            _curIndex = 0;
         }
 
     }
@@ -130,15 +152,6 @@ public class Option_GamePlay : Main_Option
             else if (x < 0)
             {
                 _curIndex--;
-            }
-        }
-
-        if (Input.GetButtonDown("Interaction"))
-        {
-            Debug.Log("EÅ° ´­¸²");
-            if (gamePlayButtons[_curIndex] == GetUI("CancelButton_GamePlay"))
-            {
-                CancelButton();
             }
         }
 

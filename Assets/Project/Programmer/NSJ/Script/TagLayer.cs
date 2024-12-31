@@ -19,6 +19,7 @@ public static partial class Tag
     public const string Trash = "Trash";
     public const string BlueChip = "BlueChip";
     public const string PortalHidden = "PortalHidden";
+    public const string UnInteractable = "UnInteractable";
 }
 public static partial class Layer
 {

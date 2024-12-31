@@ -18,6 +18,7 @@ public class LoadingToBase : MonoBehaviour
 
     public static void LoadScene(string sceneName)
     {
+        Time.timeScale = 1f;
         nextScene = sceneName;
         SceneManager.LoadScene("BaseLoadingScene");
     }

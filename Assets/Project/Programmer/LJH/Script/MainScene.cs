@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public enum CurState
@@ -17,9 +14,9 @@ public class MainScene : BaseUI
 {
     public CurState curState { get; protected set; }
 
-    //¸ŞÀÎ È­¸é
+    //ë©”ì¸ í™”ë©´
     protected GameObject main;
-    //¸Ş´º ¹öÆ°
+    //ë©”ë‰´ ë²„íŠ¼
     Button[] menuButtons;
 
     Button continueImage;
@@ -27,25 +24,25 @@ public class MainScene : BaseUI
     Button optionImage;
     Button exitImage;
 
-    //ÀÌ¾îÇÏ±â ÆĞ³Î
+    //ì´ì–´í•˜ê¸° íŒ¨ë„
     GameObject main_continue;
 
-    //»õ·ÎÇÏ±â
+    //ìƒˆë¡œí•˜ê¸°
     GameObject main_new;
 
-    //¿É¼Ç ÆĞ³Î
+    //ì˜µì…˜ íŒ¨ë„
     protected GameObject option;
 
-    //³ª°¡±â ÆË¾÷
+    //ë‚˜ê°€ê¸° íŒì—…
     GameObject exitPopUpObj;
     GameObject[] exitButtons;
 
-    //Comment : Exit Ã¼Å©¿ë º¯¼ö
+    //Comment : Exit ì²´í¬ìš© ë³€ìˆ˜
     int exitCheck;
 
     int exitNum;
 
-    //¸Ş´º ¼±ÅÃÇÏ´Â ¹è¿­ÀÇ ÀÎµ¦½º(ÇöÀç ¼±ÅÃµÈ ¸Ş´º)
+    //ë©”ë‰´ ì„ íƒí•˜ëŠ” ë°°ì—´ì˜ ì¸ë±ìŠ¤(í˜„ì¬ ì„ íƒëœ ë©”ë‰´)
     int curMenu;
 
     protected bool isOption;
@@ -68,8 +65,8 @@ public class MainScene : BaseUI
         if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf)
             curState = CurState.main;
 
-       // if (option.activeSelf)
-       //     curState = CurState.optionDepth1;
+        // if (option.activeSelf)
+        //     curState = CurState.optionDepth1;
 
         if (curState == CurState.main)
         {
@@ -86,7 +83,7 @@ public class MainScene : BaseUI
 
     }
 
-    // Comment : ÃÊ±âÈ­ ¿ëµµÀÇ ÇÔ¼ö
+    // Comment : ì´ˆê¸°í™” ìš©ë„ì˜ í•¨ìˆ˜
     void Init()
     {
         main = GetUI("MainButtons");
@@ -117,7 +114,7 @@ public class MainScene : BaseUI
 
     }
 
-    // Comment : W/S ¶Ç´Â À§/¾Æ·¡ È­»ìÇ¥ Å°¸¦ ÀÌ¿ëÇØ ¸Ş´º º¯°æ °¡´É ÇÔ¼ö
+    // Comment : W/S ë˜ëŠ” ìœ„/ì•„ë˜ í™”ì‚´í‘œ í‚¤ë¥¼ ì´ìš©í•´ ë©”ë‰´ ë³€ê²½ ê°€ëŠ¥ í•¨ìˆ˜
 
     private IEnumerator MenuSelect()
     {
@@ -148,39 +145,42 @@ public class MainScene : BaseUI
         }
         menuButtons[curMenu].gameObject.SetActive(true);
 
-        yield return inputDelay.GetDelay();
+        if (y == 0)
+            yield return null;
+        else
+            yield return inputDelay.GetDelay();
         menuCo = null;
     }
 
 
-    //Comment : ¼±ÅÃÇÑ ¸Ş´º·Î ÁøÀÔÇÏ´Â ÇÔ¼ö
+    //Comment : ì„ íƒí•œ ë©”ë‰´ë¡œ ì§„ì…í•˜ëŠ” í•¨ìˆ˜
     void SelectedEnter()
     {
-        // Todo: ÆĞµå±îÁö Áö¿ø °¡´ÉÇÏ°Ô ¹Ù²ã¾ßÇÔ
+        // Todo: íŒ¨ë“œê¹Œì§€ ì§€ì› ê°€ëŠ¥í•˜ê²Œ ë°”ê¿”ì•¼í•¨
         if (Input.GetButtonDown("Interaction"))
         {
             switch (curMenu)
             {
                 case 0:
-                    Debug.Log("°è¼ÓÇÏ±â ¼±ÅÃ_½½·Ô ¼±ÅÃ ÆË¾÷ ³ëÃâ");
-                    //Todo : ½½·Ô ¼±ÅÃ ÆË¾÷ ¸¸µé¾î¾ßÇÔ > ¹é¿£µå¿Í Çù¾÷ ÇÊ¿äÇÒ µí
+                    Debug.Log("ê³„ì†í•˜ê¸° ì„ íƒ_ìŠ¬ë¡¯ ì„ íƒ íŒì—… ë…¸ì¶œ");
+                    //Todo : ìŠ¬ë¡¯ ì„ íƒ íŒì—… ë§Œë“¤ì–´ì•¼í•¨ > ë°±ì—”ë“œì™€ í˜‘ì—… í•„ìš”í•  ë“¯
                     ContinueButton();
                     break;
 
                 case 1:
-                    Debug.Log("»õ·ÎÇÏ±â ¼±ÅÃ_°ÔÀÓ ½ÃÀÛ È­¸éÀ¸·Î ÀÌµ¿");
-                    //Todo : °ÔÀÓ È­¸éÀ¸·Î ÀÌµ¿ ¸¸µé¾î¾ßÇÔ
+                    Debug.Log("ìƒˆë¡œí•˜ê¸° ì„ íƒ_ê²Œì„ ì‹œì‘ í™”ë©´ìœ¼ë¡œ ì´ë™");
+                    //Todo : ê²Œì„ í™”ë©´ìœ¼ë¡œ ì´ë™ ë§Œë“¤ì–´ì•¼í•¨
                     NewButton();
                     break;
 
                 case 2:
-                    Debug.Log("¿É¼Ç ¼±ÅÃ_¿É¼Ç ÆË¾÷ ³ëÃâ");
+                    Debug.Log("ì˜µì…˜ ì„ íƒ_ì˜µì…˜ íŒì—… ë…¸ì¶œ");
                     OptionButton();
-                    //Todo : ¿É¼Ç ÆË¾÷ ¸¸µé¾î¾ßÇÔ
+                    //Todo : ì˜µì…˜ íŒì—… ë§Œë“¤ì–´ì•¼í•¨
                     break;
 
                 case 3:
-                    Debug.Log("°ÔÀÓ Á¾·á ¼±ÅÃ_°ÔÀÓ Á¾·á");
+                    Debug.Log("ê²Œì„ ì¢…ë£Œ ì„ íƒ_ê²Œì„ ì¢…ë£Œ");
                     ExitButton();
                     break;
             }
@@ -189,7 +189,7 @@ public class MainScene : BaseUI
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             exitPopUpObj.SetActive(true);
-            Debug.Log("°ÔÀÓ Á¾·á ¼±ÅÃ_°ÔÀÓ Á¾·á");
+            Debug.Log("ê²Œì„ ì¢…ë£Œ ì„ íƒ_ê²Œì„ ì¢…ë£Œ");
         }
     }
 
@@ -215,31 +215,45 @@ public class MainScene : BaseUI
     public void ExitButton()
     {
         exitPopUpObj.SetActive(true);
-        exitCheck ++;
+        exitCheck++;
         Debug.Log(exitCheck);
     }
 
     void ExitPopUp()
     {
-            switch (exitNum)
-            {
-                case 0:
-                    exitButtons[exitNum].GetComponent<Image>().color = Color.black;
-                    if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
-                    {
-                        exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                        exitNum = 1;
-                    }
-                    if (Input.GetButtonDown("Interaction"))
-                    {
-                        Debug.Log("Á¾·á");
+        switch (exitNum)
+        {
+            case 0:
+                exitButtons[exitNum].GetComponent<Image>().color = Color.black;
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitNum = 1;
+                }
+                if (Input.GetButtonDown("Interaction"))
+                {
+                    Debug.Log("ì¢…ë£Œ");
                     if (exitCheck > 1)
                     {
                         ExitGame();
                     }
                     exitCheck++;
-                    }
-                    break;
+                }
+                break;
+
+            case 1:
+                exitNo.GetComponent<Image>().color = Color.black;
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    exitNo.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitNum = 0;
+                }
+                if (Input.GetButtonDown("Interaction"))
+                {
+                    exitCheck = 0;
+                    exitPopUpObj.SetActive(false);
+                }
+                break;
 
                 case 1:
                 exitButtons[exitNum].GetComponent<Image>().color = Color.black;
@@ -260,10 +274,10 @@ public class MainScene : BaseUI
     protected void ExitGame()
     {
 #if UNITY_EDITOR
-        //Comment : À¯´ÏÆ¼ ¿¡µğÅÍ»ó¿¡¼­ Á¾·á
+        //Comment : ìœ ë‹ˆí‹° ì—ë””í„°ìƒì—ì„œ ì¢…ë£Œ
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-        //Comment : ºôµå »ó¿¡¼­ Á¾·á
+        //Comment : ë¹Œë“œ ìƒì—ì„œ ì¢…ë£Œ
         Application.Quit();
 #endif
     }

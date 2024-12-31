@@ -14,7 +14,7 @@ public class PlayerCameraHold : MonoBehaviour
     private PlayerController _player;
 
     private int _targetIndex;
-
+    private bool _isStart;
     Coroutine _checkDistanceToTarget;
     Coroutine _changeTargetRoutine;
     [System.Serializable]
@@ -37,9 +37,12 @@ public class PlayerCameraHold : MonoBehaviour
     private void Start()
     {
         gameObject.SetActive(false);
+        _isStart = true;
     }
     private void OnEnable()
     {
+        if (_isStart == false)
+            return;
         _targetEffect.SetActive(true);
         SetTargetList();
 

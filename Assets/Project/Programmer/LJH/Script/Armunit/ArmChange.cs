@@ -1,12 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class ArmChange : BaseUI
 {
+    [Inject]
+    GlobalPlayerStateData playerStateData;
+    [Inject]
+    PlayerData playerData;
     int arm_cur;
     GameObject[] armUnits;
     Button[] armButtons;
@@ -20,66 +22,81 @@ public class ArmChange : BaseUI
     private void Awake()
     {
         Bind();
+        Init();
     }
 
     private void Start()
     {
-        Init();
+        
     }
-
-    private void Update()
+    private void OnEnable()
     {
         if (armCo == null)
             armCo = StartCoroutine(ArmUnit_Select());
-
+    }
+    private void OnDisable()
+    {
+        if(armCo != null)
+        {
+            StopCoroutine(armCo);
+            armCo = null;
+        }
+    }
+    private void Update()
+    {
         Select_ArmUnit();
     }
     private IEnumerator ArmUnit_Select()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-
-        arm_cur += (int)x;
-
-        if (arm_cur == armUnits.Length)
+        while (true)
         {
-            arm_cur = 0;
-            // Comment 이전 버튼의 투명도를 0.1로 설정
-            color = armUnits[armUnits.Length - 1].GetComponent<Image>().color;
-            color.a = 0.1f;
-            armUnits[armUnits.Length - 1].GetComponent<Image>().color = color;
+            float x = Input.GetAxisRaw("Horizontal");
 
-            // Comment : 선택된 버튼의 투명도를 1로 설정
+            arm_cur += (int)x;
+            if (arm_cur == armUnits.Length)
+            {
+                arm_cur = 0;
+                // Comment 이전 버튼의 투명도를 0.1로 설정
+                color = armUnits[armUnits.Length - 1].GetComponent<Image>().color;
+                color.a = 0.1f;
+                armUnits[armUnits.Length - 1].GetComponent<Image>().color = color;
+
+                // Comment : 선택된 버튼의 투명도를 1로 설정
+                color = armUnits[arm_cur].GetComponent<Image>().color;
+                color.a = 1;
+                armUnits[arm_cur].GetComponent<Image>().color = color;
+                yield return null;
+            }
+
+            if (arm_cur == -1)
+            {
+                arm_cur = armUnits.Length - 1;
+                // Comment 이전 버튼의 투명도를 0.1로 설정
+                color = armUnits[0].GetComponent<Image>().color;
+                color.a = 0.1f;
+                armUnits[0].GetComponent<Image>().color = color;
+
+                // Comment : 선택된 버튼의 투명도를 1로 설정
+                color = armUnits[arm_cur].GetComponent<Image>().color;
+                color.a = 1;
+                armUnits[arm_cur].GetComponent<Image>().color = color;
+                yield return null;
+            }
+
+            //Comment : 모든 버튼의 투명도를 0.1로 설정
+            ButtonReset();
+
+            //Comment : 선택된 버튼의 투명도를 1로 설정
             color = armUnits[arm_cur].GetComponent<Image>().color;
-            color.a = 1;
+            color.a = 1f;
             armUnits[arm_cur].GetComponent<Image>().color = color;
-            yield return null;
+
+            if (x == 0)
+                yield return null;
+            else
+                yield return inputDelay.GetDelay();
         }
 
-        if (arm_cur == -1)
-        {
-            arm_cur = armUnits.Length - 1;
-            // Comment 이전 버튼의 투명도를 0.1로 설정
-            color = armUnits[0].GetComponent<Image>().color;
-            color.a = 0.1f;
-            armUnits[0].GetComponent<Image>().color = color;
-
-            // Comment : 선택된 버튼의 투명도를 1로 설정
-            color = armUnits[arm_cur].GetComponent<Image>().color;
-            color.a = 1;
-            armUnits[arm_cur].GetComponent<Image>().color = color;
-            yield return null;
-        }
-
-        //Comment : 모든 버튼의 투명도를 0.1로 설정
-        ButtonReset();
-
-        //Comment : 선택된 버튼의 투명도를 1로 설정
-        color = armUnits[arm_cur].GetComponent<Image>().color;
-        color.a = 1f;
-        armUnits[arm_cur].GetComponent<Image>().color = color;
-
-        yield return inputDelay.GetDelay();
-        armCo = null;
     }
 
     void ButtonReset()
@@ -103,11 +120,15 @@ public class ArmChange : BaseUI
     public void Power()
     {
         Debug.Log("파워 타입 선택");
+        playerStateData.nowWeapon = GlobalPlayerStateData.AmWeapon.Power;
+        playerData.NowWeapon = playerStateData.nowWeapon;
     }
 
     public void Balance()
     {
         Debug.Log("밸런스 타입 선택");
+        playerStateData.nowWeapon = GlobalPlayerStateData.AmWeapon.Balance;
+        playerData.NowWeapon = playerStateData.nowWeapon;
     }
 
     public void Speed()

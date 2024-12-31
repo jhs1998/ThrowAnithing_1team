@@ -1,12 +1,21 @@
 using UnityEngine;
+using Zenject;
 
 namespace MKH
 {
     public class ItemTrigger : MonoBehaviour
     {
+        [Inject]
+        private PlayerData playerData;
+
         private ItemPickUp mCurrentItem;
 
         [SerializeField] private InventoryMain mInventory;      // 인벤토리
+
+        private void Awake()
+        {
+            mInventory = playerData.Inventory.InventoryMain;
+        }
 
         private void OnTriggerEnter(Collider other)
         {

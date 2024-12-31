@@ -54,6 +54,30 @@ public class Option_Sound : Main_Option
             {
                 menuCo = StartCoroutine(Sound_Select());
             }
+
+            //Todo : 수정 필요
+            if (Input.GetButtonDown("Interaction"))
+            {
+                if (buttonStructs[_curIndex].Button == GetUI("CancelButton_sound"))
+                {
+                    CancelButton();
+                }
+                else if (buttonStructs[_curIndex].Button == GetUI("AcceptButton_sound"))
+                {
+                    AcceptButton();
+                }
+                else if (buttonStructs[_curIndex].Button == GetUI("DefaultButton_sound"))
+                {
+                    DefaultButton();
+                }
+                //sound_Ver = 0;
+                //sound_Ho = 1;
+            }
+
+        }
+        else
+        {
+            _curIndex = 0;
         }
     }
 
@@ -129,19 +153,8 @@ public class Option_Sound : Main_Option
                 _curIndex = 2;
             }
         }
-        //Todo : 수정 필요
-        if (Input.GetButtonDown("Interaction"))
-        {
-            Debug.Log("E키 눌림");
-            if (buttonStructs[_curIndex].Button == GetUI("CancelButton_sound"))
-            {
-                CancelButton();
-            }
-            //sound_Ver = 0;
-            //sound_Ho = 1;
-        }
 
-
+        Debug.Log(1);
         // 입력없으면 프레임마다
         if (x == 0 && y == 0)
         {
