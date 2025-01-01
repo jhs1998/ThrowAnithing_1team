@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Upgrade : UpgradeBinding
 {
@@ -39,6 +40,7 @@ public class Upgrade : UpgradeBinding
 
     // Comment : Cost Tier
     int tier;
+    Color lockedColor = new(0.1f, 0, 0.2f);
 
     private void Awake()
     {
@@ -52,6 +54,7 @@ public class Upgrade : UpgradeBinding
 
     private void Update()
     {
+        Debug.Log($"현재 Ho값{ho} 현재 ver값{ver}");
         if (slotCo == null)
             slotCo = StartCoroutine(Slot_Selected());
 
@@ -135,11 +138,37 @@ public class Upgrade : UpgradeBinding
     }
 
 
+    //슬롯 클릭시
     void ClickedSlots(Button button)
     {
-        //ver = ;
-        slots[ver, ho] = button;
-        slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
+        if (button.GetComponent<Image>().color != lockedColor)
+        {
+            slots[ver, ho].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
+            
+            (ver, ho) = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
+                
+            
+            slotImages[ver, ho] = button.transform.GetChild(0).GetComponent<Image>();
+            slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
+        }
+    }
+
+    // 선택한 버튼의 인덱스로 slots 인덱스 교체
+    (int,int) FindButton(Button button)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if (slots[i, j].name == button.name)
+                {
+                    return (i, j);
+                }
+            }
+        }
+        //인식 못했을 때 0,0 으로 초기화
+        return (0, 0);
+
     }
 
     void ColorReset()

@@ -1711,19 +1711,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 174097006}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1753645223}
-        m_TargetAssemblyTypeName: Upgrade, Assembly-CSharp
-        m_MethodName: "\uC9DC\uC794"
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &174097006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3146,7 +3134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upPopup: {fileID: 476370507}
-  _upgrade: {fileID: 0}
+  _ui: {fileID: 1588068608}
+  IsUIActive: 0
 --- !u!1 &351366769
 GameObject:
   m_ObjectHideFlags: 0
@@ -3578,6 +3567,12 @@ MonoBehaviour:
   buttons:
   - {fileID: 536043044}
   - {fileID: 725521592}
+  mainScene:
+    _sceneAsset: {fileID: 0}
+    _sceneName: 
+  lobbyScene:
+    _sceneAsset: {fileID: 0}
+    _sceneName: 
 --- !u!114 &434340758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3967,8 +3962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588dbc8fa45beb0439e524023d360aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgrade: {fileID: 1588068608}
-  player: {fileID: 1734727768}
+  _object: {fileID: 0}
 --- !u!1 &481037409
 GameObject:
   m_ObjectHideFlags: 0
@@ -8300,6 +8294,7 @@ MonoBehaviour:
   Panel: {fileID: 0}
   optionCheck: 0
   depth1_cur: 0
+  _isMain: 0
 --- !u!114 &892932838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8448,6 +8443,7 @@ MonoBehaviour:
   Panel: {fileID: 0}
   optionCheck: 0
   depth1_cur: 0
+  _isMain: 0
 --- !u!114 &898657456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9345,6 +9341,7 @@ MonoBehaviour:
   Panel: {fileID: 0}
   optionCheck: 0
   depth1_cur: 0
+  _isMain: 0
   ingameOptions: {fileID: 892932836}
 --- !u!1 &1007935100
 GameObject:
@@ -16279,6 +16276,7 @@ MonoBehaviour:
   Panel: {fileID: 0}
   optionCheck: 0
   depth1_cur: 0
+  _isMain: 0
   miniMapAct: {fileID: 171075424}
   miniMapFix: {fileID: 191365962}
   languageDrop: {fileID: 1740209044}
@@ -17377,7 +17375,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1863907186
 RectTransform:
   m_ObjectHideFlags: 0
