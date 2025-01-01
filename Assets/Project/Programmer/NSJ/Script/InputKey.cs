@@ -17,27 +17,90 @@ public static partial class InputKey
         public bool IsPress;
     }
 
+    /// <summary>
+    /// a/d , LeftStick
+    /// </summary>
     public static InputStruct Horizontal;
+    /// <summary>
+    /// w/s , LeftStick
+    /// </summary>
     public static InputStruct Vertical;
+    /// <summary>
+    ///  Mouse, RightStick
+    /// </summary>
     public static InputStruct MouseX;
-    public static InputStruct MouseY;
+    /// <summary>
+    /// Mouse, RightStick
+    /// </summary>
+    public static InputStruct MouseY;       
+    /// <summary>
+    /// Mouse 0, B
+    /// </summary>
     public static InputStruct Throw;
-    public static InputStruct Special;
-    public static InputStruct Jump;
-    public static InputStruct Melee;
-    public static InputStruct RockOn;
-    public static InputStruct RockCancel;
-    public static InputStruct Negative;
-    public static InputStruct Interaction;
-    public static InputStruct Dash;
-    public static InputStruct Drain;
-    public static InputStruct Escape;
-    public static InputStruct Inventory;
-    public static InputStruct Cheat;
-    public static InputStruct Mouse_ScrollWheel;
-    public static InputStruct Decomposition;
-    public static InputStruct InventoryEquip;
-    public static InputStruct PopUpClose;
+    /// <summary>
+    /// Mouse 1, Y
+    /// </summary>
+    public static InputStruct Special;     
+    /// <summary>
+    /// Space , A
+    /// </summary>
+    public static InputStruct Jump;        
+    /// <summary>
+    /// v , X
+    /// </summary>
+    public static InputStruct Melee;       
+    /// <summary>
+    /// Tab , LT
+    /// </summary>
+    public static InputStruct RockOn;      
+    /// <summary>
+    /// C , LB
+    /// </summary>
+    public static InputStruct RockCancel;  
+    /// <summary>
+    ///  C , D-pad Up
+    /// </summary>
+    public static InputStruct Negative;    
+    /// <summary>
+    ///  E , RB
+    /// </summary>
+    public static InputStruct Interaction; 
+    /// <summary>
+    /// Left Shift , RT
+    /// </summary>
+    public static InputStruct Dash;        
+    /// <summary>
+    ///  Q, LS
+    /// </summary>
+    public static InputStruct Drain;       
+    /// <summary>
+    ///  esc, Start
+    /// </summary>
+    public static InputStruct Cancel;      
+    /// <summary>
+    ///  B , D-pad Down
+    /// </summary>
+    public static InputStruct Inventory;   
+    /// <summary>
+    /// F1 , ?
+    /// </summary>
+    public static InputStruct Cheat;       
+    /// <summary>
+    ///  MouseWheel , ?
+    /// </summary>
+    public static InputStruct Mouse_ScrollWheel;   
+    /// <summary>
+    ///  Q , X
+    /// </summary>
+    public static InputStruct Decomposition;   
+    /// <summary>
+    ///  E , B
+    /// </summary>
+    public static InputStruct InventoryEquip;  
+    /// <summary>
+    ///  c , D-Pad Up
+    /// </summary>
+    public static InputStruct PopUpClose;      
 
 
     private static Dictionary<string , InputStruct> InputStructDic = new Dictionary<string , InputStruct>();
@@ -59,7 +122,7 @@ public static partial class InputKey
         Interaction = GetInputStruct("Interaction", Axis.None);
         Dash = GetInputStruct("Dash", Axis.AxisUp);
         Drain = GetInputStruct("Drain", Axis.None);
-        Escape = GetInputStruct("Escape", Axis.None);
+        Cancel = GetInputStruct("Cancel", Axis.None);
         Inventory = GetInputStruct("Inventory", Axis.AxisDown);
         Cheat = GetInputStruct("Cheat", Axis.None);
         Mouse_ScrollWheel = GetInputStruct("Mouse ScrollWheel", Axis.None);
@@ -68,15 +131,9 @@ public static partial class InputKey
         PopUpClose = GetInputStruct("PopUp Close", Axis.AxisUp);
         RockCancel = GetInputStruct("Rock Cancel", Axis.None);
     }
-    private static InputStruct GetInputStruct(string name, Axis axis)
-    {
-        InputStruct inputStruct = new InputStruct();
-        inputStruct.Name = name;
-        inputStruct.Axis = axis;
-        inputStruct.IsPress = false;
-        InputStructDic.Add(name, inputStruct);
-        return inputStruct;
-    }
+    /// <summary>
+    /// 버튼을 누르는 도중 호출
+    /// </summary>
     public static bool GetButton(InputStruct inputStruct)
     {
         inputStruct = InputStructDic[inputStruct.Name];
@@ -102,6 +159,33 @@ public static partial class InputKey
             return Input.GetButton(inputStruct.Name);
         }
     }
+
+    public static bool GetButton(string name)
+    {
+        if (InputStructDic[name].Axis == Axis.AxisUp)
+        {
+            float x = Input.GetAxisRaw(InputStructDic[name].Name);
+            if (x > 0)
+                return true;
+            else
+                return false;
+        }
+        else if (InputStructDic[name].Axis == Axis.AxisDown)
+        {
+            float x = Input.GetAxisRaw(InputStructDic[name].Name);
+            if (x < 0)
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            return Input.GetButton(InputStructDic[name].Name);
+        }
+    }
+    /// <summary>
+    /// 버튼을 눌렀을 때 호출
+    /// </summary>
     public static bool GetButtonDown(InputStruct inputStruct)
     {
         if (InputStructDic[inputStruct.Name].Axis == Axis.AxisUp)
@@ -138,6 +222,45 @@ public static partial class InputKey
             return Input.GetButtonDown(inputStruct.Name);
         }
     }
+    public static bool GetButtonDown(string name)
+    {
+        if (InputStructDic[name].Axis == Axis.AxisUp)
+        {
+            float x = Input.GetAxisRaw(InputStructDic[name].Name);
+            if (x == 0 && InputStructDic[InputStructDic[name].Name].IsPress == true)
+            {
+                InputStructDic[name].SetIsPress(false);
+            }
+            if (x > 0 && InputStructDic[name].IsPress == false)
+            {
+                InputStructDic[name].SetIsPress(true);
+                return true;
+            }
+            else
+                return false;
+        }
+        else if (InputStructDic[name].Axis == Axis.AxisDown)
+        {
+            float x = Input.GetAxisRaw(InputStructDic[name].Name);
+            if (x == 0 && InputStructDic[InputStructDic[name].Name].IsPress == true)
+                InputStructDic[name].SetIsPress(false);
+
+            if (x < 0 && InputStructDic[name].IsPress == false)
+            {
+                InputStructDic[name].SetIsPress(true);
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+        {
+            return Input.GetButtonDown(name);
+        }
+    }
+    /// <summary>
+    /// 버튼 누르기를 그만둘떄 호출
+    /// </summary>
     public static bool GetButtonUp(InputStruct inputStruct)
     {
         inputStruct = InputStructDic[inputStruct.Name];
@@ -175,6 +298,44 @@ public static partial class InputKey
             return Input.GetButtonUp(inputStruct.Name);
         }
     }
+    public static bool GetButtonUp(string name)
+    {
+        if (InputStructDic[name].Axis == Axis.AxisUp)
+        {
+            float x = Input.GetAxisRaw(InputStructDic[name].Name);
+            if (x > 0 && InputStructDic[name].IsPress == false)
+                InputStructDic[name].SetIsPress(true);
+
+            if (x == 0 && InputStructDic[name].IsPress == true)
+            {
+                InputStructDic[name].SetIsPress(false);
+                return true;
+            }
+            else
+                return false;
+        }
+        else if (InputStructDic[name].Axis == Axis.AxisDown)
+        {
+            float x = Input.GetAxisRaw(InputStructDic[name].Name);
+            if (x < 0 && InputStructDic[name].IsPress == false)
+                InputStructDic[name].SetIsPress(true);
+
+            if (x == 0 && InputStructDic[name].IsPress == true)
+            {
+                InputStructDic[name].SetIsPress(false);
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+        {
+            return Input.GetButtonUp(name);
+        }
+    }
+    /// <summary>
+    /// Axis 값 1, 0 , -1 반환
+    /// </summary>
     public static float GetAxisRaw(InputStruct inputStruct)
     {
         if (inputStruct.Axis == Axis.None)
@@ -182,7 +343,16 @@ public static partial class InputKey
 
         return Input.GetAxisRaw(inputStruct.Name);
     }
+    public static float GetAxisRaw(string name)
+    {
+        if (InputStructDic[name].Axis == Axis.None)
+            return 0;
 
+        return Input.GetAxisRaw(name);
+    }
+    /// <summary>
+    /// Axis 값 -1 ~ 1 반환
+    /// </summary>
     public static float GetAxis(InputStruct inputStruct)
     {
         if (inputStruct.Axis == Axis.None)
@@ -190,12 +360,28 @@ public static partial class InputKey
 
         return Input.GetAxis(inputStruct.Name);
     }
+    public static float GetAxis(string name)
+    {
+        if (InputStructDic[name].Axis == Axis.None)
+            return 0;
 
+        return Input.GetAxis(name);
+    }
 
     private static void SetIsPress(this InputStruct inputStruct, bool isPress)
     {
         InputStruct newInputStruct =  InputStructDic[inputStruct.Name];
         newInputStruct.IsPress = isPress;
         InputStructDic[inputStruct.Name] = newInputStruct;
+    }
+
+    private static InputStruct GetInputStruct(string name, Axis axis)
+    {
+        InputStruct inputStruct = new InputStruct();
+        inputStruct.Name = name;
+        inputStruct.Axis = axis;
+        inputStruct.IsPress = false;
+        InputStructDic.Add(name, inputStruct);
+        return inputStruct;
     }
 }
