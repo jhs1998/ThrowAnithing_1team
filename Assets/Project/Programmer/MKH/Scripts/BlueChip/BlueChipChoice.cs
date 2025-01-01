@@ -30,6 +30,7 @@ public class BlueChipChoice : MonoBehaviour
     {
         if(other.gameObject.tag == Tag.BlueChip)
         {
+            Debug.Log("??");
             choice.SetActive(true);
             if(_addBlueChipRoutine == null)
             {

@@ -5273,7 +5273,6 @@ Transform:
   - {fileID: 3757278611412066816}
   - {fileID: 6387847629478384557}
   - {fileID: 7900352097967561918}
-  - {fileID: 2671481244906634364}
   - {fileID: 5639721683236730089}
   - {fileID: 8340959707891665586}
   m_Father: {fileID: 0}
@@ -6409,7 +6408,6 @@ GameObject:
   - component: {fileID: 1677546885287232052}
   - component: {fileID: 3649475375974216816}
   - component: {fileID: 2989412457899199054}
-  - component: {fileID: 1937602945920728987}
   m_Layer: 0
   m_Name: DrainField
   m_TagString: Untagged
@@ -6430,7 +6428,7 @@ Transform:
   m_LocalScale: {x: 5, y: 0.01, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7904341024521288259}
+  m_Father: {fileID: 3453428110555488438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1677546885287232052
 MeshFilter:
@@ -6499,23 +6497,10 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1937602945920728987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4583900314278610065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 331dfa2505f944049be9e659f510603b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _player: {fileID: 1205980712391702014}
 --- !u!1 &4640493832328800312
 GameObject:
   m_ObjectHideFlags: 0
@@ -7627,6 +7612,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4802781844120233942}
+  - {fileID: 2671481244906634364}
   m_Father: {fileID: 2406947119258283227}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5981605603407611244
