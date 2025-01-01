@@ -70,12 +70,12 @@ namespace NSJ_TesterPanel
             while (true)
             {
 
-                if (Input.GetKeyDown(KeyCode.F1)) 
+                if (InputKey.GetButtonDown(InputKey.Cheat)) ;
                 {
                     ChangeHighlight(-10);
                 }
 
-                if (Input.GetButtonDown(InputKey.Interaction))
+                if (InputKey.GetButtonDown(InputKey.Interaction))
                 {
                     if (_canControl == false)
                     {
@@ -88,7 +88,7 @@ namespace NSJ_TesterPanel
                         InteractButton(_buttonIndex);
                     }
                 }
-                if (Input.GetButtonDown(InputKey.Negative))
+                if (InputKey.GetButtonDown(InputKey.Negative))
                 {
                     _canControl = false;
                     ChangeHighlight(-10);
@@ -100,7 +100,7 @@ namespace NSJ_TesterPanel
                     continue;
                 }
 
-                float x = Input.GetAxisRaw(InputKey.Horizontal);
+                float x = InputKey.GetAxisRaw(InputKey.Horizontal);
                 if (x < 0)
                 {
                     _buttonIndex--;

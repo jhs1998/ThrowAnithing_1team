@@ -102,7 +102,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
         {
             ProcessCharge();
 
-            if (Input.GetButtonUp(InputKey.Special))
+            if (InputKey.GetButtonUp(InputKey.Special))
             {
                 Model.SpecialChargeGage = 0;
                 if (_instanceDropObject)

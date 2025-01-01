@@ -6,10 +6,9 @@ public class dakhdjskla : MonoBehaviour
 {
     private void Update()
     {
-        float x= Input.GetAxisRaw(InputKey.Negative);
-        if ( x != 0)
+        if (InputKey.GetButtonUp(InputKey.Inventory))
         {
-            Debug.Log(x);
+            Debug.Log("´©¸§");
         }
     }
 }

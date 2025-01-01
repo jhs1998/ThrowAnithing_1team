@@ -102,19 +102,19 @@ public class FallState : PlayerState
     {
         while (true)
         {
-            if (Input.GetButtonDown(InputKey.Jump) && Player.IsDoubleJump == false)
+            if (InputKey.GetButtonDown(InputKey.Jump) && Player.IsDoubleJump == false)
             {
                 Player.IsDoubleJump = true;
                 ChangeState(PlayerController.State.DoubleJump);
                 break;
             }
-            if (Input.GetButtonDown(InputKey.Throw) && Player.IsDoubleJump == false && Player.IsJumpAttack == false)
+            if (InputKey.GetButtonDown(InputKey.Throw) && Player.IsDoubleJump == false && Player.IsJumpAttack == false)
             {
                 Player.IsJumpAttack = true;
                 ChangeState(PlayerController.State.JumpAttack);
                 break;
             }
-            if (Input.GetButtonDown(InputKey.Melee) && Player.IsDoubleJump == true )
+            if (InputKey.GetButtonDown(InputKey.Melee) && Player.IsDoubleJump == true )
             {
                 Player.IsDoubleJump = false;              
                 ChangeState(PlayerController.State.JumpDown);

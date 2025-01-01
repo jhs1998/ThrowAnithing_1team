@@ -543,11 +543,11 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCamera()
     {
-        float angleX = Input.GetAxis(InputKey.MouseX);
+        float angleX = InputKey.GetAxis(InputKey.MouseX);
         float angleY = default;
         // 체크시 마우스 상하도 가능
         if (IsVerticalCameraMove == true)
-            angleY = Input.GetAxis(InputKey.MouseY);
+            angleY = InputKey.GetAxis(InputKey.MouseY);
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
         float x = camAngle.x - mouseDelta.y;
@@ -682,8 +682,8 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void ChackInput()
     {
-        float x = Input.GetAxisRaw(InputKey.Horizontal);
-        float z = Input.GetAxisRaw(InputKey.Vertical);
+        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
+        float z = InputKey.GetAxisRaw(InputKey.Vertical);
         MoveDir = new Vector3(x, 0, z);
 
         if(IsTargetHolding == false && IsTargetToggle == false)
@@ -694,7 +694,7 @@ public class PlayerController : MonoBehaviour, IHit
             //    IsTargetHolding = true;
             //    _cameraHolder.gameObject.SetActive(true);
             //}
-            if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding ==false)
+            if (InputKey.GetButtonDown(InputKey.RockOn) && IsTargetHolding ==false)
             {
                 //TODO: 카메라 몬스터 홀딩 기능
                 IsTargetToggle = true;
@@ -709,7 +709,7 @@ public class PlayerController : MonoBehaviour, IHit
             //    IsTargetHolding = false;
             //    _cameraHolder.gameObject.SetActive(false);
             //}
-            if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
+            if (InputKey.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기
                 IsTargetToggle = false;
@@ -722,7 +722,7 @@ public class PlayerController : MonoBehaviour, IHit
         if (IsDead == true || IsHit == true)
             return;
 
-        if (Input.GetButtonDown(InputKey.Dash) && CurState != State.Dash)
+        if (InputKey.GetButtonDown(InputKey.Dash) && CurState != State.Dash)
         {
             ChangeState(PlayerController.State.Dash);
         }

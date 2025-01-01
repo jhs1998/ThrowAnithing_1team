@@ -84,8 +84,8 @@ public class Option_Sound : Main_Option
     private IEnumerator Sound_Select()
     {
         
-        float x = Input.GetAxisRaw(InputKey.Horizontal);
-        float y = Input.GetAxisRaw(InputKey.Vertical);
+        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
+        float y = InputKey.GetAxisRaw(InputKey.Vertical);
 
         ButtonStruct curButton = buttonStructs[_curIndex];
         for(int i = 0;  i < buttonStructs.Count; i++)

@@ -1,13 +1,15 @@
 
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 using static InputKey;
 
 public static partial class InputKey
 {
-    public enum Axis { None, AxisUp, AxisDown }
+    public enum Axis { None, Axis,AxisUp, AxisDown }
     public struct InputStruct
     {
         public string Name;
@@ -15,14 +17,10 @@ public static partial class InputKey
         public bool IsPress;
     }
 
-    public static InputStruct Horizontals;
-    public static string Horizontal => Horizontals.Name; 
-    public static InputStruct Verticals;
-    public static string Vertical => Verticals.Name;
-    public static InputStruct MouseXs;
-    public static string MouseX => MouseXs.Name;
-    public static InputStruct MouseYs;
-    public static string MouseY => MouseYs.Name;
+    public static InputStruct Horizontal;
+    public static InputStruct Vertical;
+    public static InputStruct MouseX;
+    public static InputStruct MouseY;
     public static InputStruct Throw;
     public static InputStruct Special;
     public static InputStruct Jump;
@@ -41,15 +39,16 @@ public static partial class InputKey
     public static InputStruct InventoryEquip;
     public static InputStruct PopUpClose;
 
-
+    private static Dictionary<string , InputStruct> InputStructDic = new Dictionary<string , InputStruct>();
 
     [RuntimeInitializeOnLoadMethod]
     private static void Test()
     {
-        Horizontals = GetInputStruct("Horizontal", Axis.None);
-        Verticals = GetInputStruct("Vertical", Axis.None);
-        MouseXs = GetInputStruct("Mouse X", Axis.None);
-        MouseYs = GetInputStruct("Mouse Y", Axis.None);
+        InputStructDic.Clear();
+        Horizontal = GetInputStruct("Horizontal", Axis.Axis);
+        Vertical = GetInputStruct("Vertical", Axis.Axis);
+        MouseX = GetInputStruct("Mouse X", Axis.Axis);
+        MouseY = GetInputStruct("Mouse Y", Axis.Axis);
         Throw = GetInputStruct("Throw", Axis.None);
         Special = GetInputStruct("Special", Axis.None);
         Jump = GetInputStruct("Jump", Axis.None);
@@ -73,10 +72,13 @@ public static partial class InputKey
         inputStruct.Name = name;
         inputStruct.Axis = axis;
         inputStruct.IsPress = false;
+        InputStructDic.Add(name, inputStruct);
         return inputStruct;
     }
     public static bool GetButton(InputStruct inputStruct)
     {
+        inputStruct = InputStructDic[inputStruct.Name];
+
         if (inputStruct.Axis == Axis.AxisUp)
         {
             float x = Input.GetAxisRaw(inputStruct.Name);
@@ -100,28 +102,32 @@ public static partial class InputKey
     }
     public static bool GetButtonDown(InputStruct inputStruct)
     {
-        if (inputStruct.Axis == Axis.AxisUp)
+        if (InputStructDic[inputStruct.Name].Axis == Axis.AxisUp)
         {
-            float x = Input.GetAxisRaw(inputStruct.Name);
-            CheckInput(x, ref inputStruct);
-
-            if (x > 0 && inputStruct.IsPress == false)
+            float x = Input.GetAxisRaw(InputStructDic[inputStruct.Name].Name);
+            if (x == 0 && InputStructDic[InputStructDic[inputStruct.Name].Name].IsPress == true)
             {
+                InputStructDic[inputStruct.Name].SetIsPress(false);
+            }
+            if (x > 0 && InputStructDic[inputStruct.Name].IsPress == false)
+            {
+                InputStructDic[inputStruct.Name].SetIsPress(true);
                 return true;
             }
             else
                 return false;
         }
-        else if (inputStruct.Axis == Axis.AxisDown)
+        else if (InputStructDic[inputStruct.Name].Axis == Axis.AxisDown)
         {
-            float x = Input.GetAxisRaw(inputStruct.Name);
-            CheckInput(x, ref inputStruct);
+            float x = Input.GetAxisRaw(InputStructDic[inputStruct.Name].Name);
+            if (x == 0 && InputStructDic[InputStructDic[inputStruct.Name].Name].IsPress == true)
+                InputStructDic[inputStruct.Name].SetIsPress(false);
 
-            if (x < 0 && inputStruct.IsPress == false)
+            if (x < 0 && InputStructDic[inputStruct.Name].IsPress == false)
             {
-                inputStruct.IsPress = true;
+                InputStructDic[inputStruct.Name].SetIsPress(true);
                 return true;
-            }
+            }                       
             else
                 return false;
         }
@@ -130,31 +136,33 @@ public static partial class InputKey
             return Input.GetButtonDown(inputStruct.Name);
         }
     }
-    public static bool GetBUttonUp(InputStruct inputStruct)
+    public static bool GetButtonUp(InputStruct inputStruct)
     {
-        if (inputStruct.Axis == Axis.AxisUp)
-        {
-            float x = Input.GetAxisRaw(inputStruct.Name);
-               if (x != 0 && inputStruct.IsPress == false)
-                inputStruct.IsPress = true;
+        inputStruct = InputStructDic[inputStruct.Name];
 
-            if (x == 0 && inputStruct.IsPress == true)
+        if (InputStructDic[inputStruct.Name].Axis == Axis.AxisUp)
+        {
+            float x = Input.GetAxisRaw(InputStructDic[inputStruct.Name].Name);
+               if (x > 0 && InputStructDic[inputStruct.Name].IsPress == false)
+                InputStructDic[inputStruct.Name].SetIsPress(true);
+
+            if (x == 0 && InputStructDic[inputStruct.Name].IsPress == true)
             {
-                inputStruct.IsPress = false;
+                InputStructDic[inputStruct.Name].SetIsPress(false);
                 return true;
             }
             else
                 return false;
         }
-        else if (inputStruct.Axis == Axis.AxisDown)
+        else if (InputStructDic[inputStruct.Name].Axis == Axis.AxisDown)
         {
-            float x = Input.GetAxisRaw(inputStruct.Name);
-            if (x != 0 && inputStruct.IsPress == false)
-                inputStruct.IsPress = true;
+            float x = Input.GetAxisRaw(InputStructDic[inputStruct.Name].Name);
+            if (x < 0 && InputStructDic[inputStruct.Name].IsPress == false)
+                InputStructDic[inputStruct.Name].SetIsPress(true);
 
-            if (x < 0 == inputStruct.IsPress == true)
+            if (x == 0 && InputStructDic[inputStruct.Name].IsPress == true)
             {
-                inputStruct.IsPress = false;
+                InputStructDic[inputStruct.Name].SetIsPress(false);
                 return true;
             }
             else
@@ -165,12 +173,27 @@ public static partial class InputKey
             return Input.GetButtonUp(inputStruct.Name);
         }
     }
-
-    private static void CheckInput(float x, ref InputStruct inputStruct)
+    public static float GetAxisRaw(InputStruct inputStruct)
     {
-        if (x == 0 && inputStruct.IsPress == true)
-            inputStruct.IsPress = false;
-        else if (x != 0 && inputStruct.IsPress == false)
-            inputStruct.IsPress = true;
+        if (inputStruct.Axis == Axis.None)
+            return 0;
+
+        return Input.GetAxisRaw(inputStruct.Name);
+    }
+
+    public static float GetAxis(InputStruct inputStruct)
+    {
+        if (inputStruct.Axis == Axis.None)
+            return 0;
+
+        return Input.GetAxis(inputStruct.Name);
+    }
+
+
+    private static void SetIsPress(this InputStruct inputStruct, bool isPress)
+    {
+        InputStruct newInputStruct =  InputStructDic[inputStruct.Name];
+        newInputStruct.IsPress = isPress;
+        InputStructDic[inputStruct.Name] = newInputStruct;
     }
 }

@@ -67,7 +67,7 @@ public class DrainState : PlayerState
     private void CheckInput()
     {
         //드레인 키를 뗐을 때
-        if (Input.GetButtonUp(InputKey.Drain))
+        if (InputKey.GetButtonUp(InputKey.Drain))
         {
             View.SetBool(PlayerView.Parameter.Drain, false);
         }

@@ -41,7 +41,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         while (true)
         {
-            if (Input.GetButtonDown(InputKey.Interaction))
+            if (InputKey.GetButtonDown(InputKey.Interaction))
             {
                 IsInteractiveActive = true;
                 Forge = other.GetComponent<Forge>();
