@@ -85,7 +85,6 @@ public class DrainState : PlayerState
             if (_curDrainDistance > Model.DrainDistance)
                 _curDrainDistance = Model.DrainDistance;
             int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _curDrainDistance, _overlapColliders);
-            Debug.Log(hitCount);
             for (int i = 0; i < hitCount; i++)
             {
                 if (_overlapColliders[i].tag != Tag.Trash && _overlapColliders[i].tag != Tag.Item)

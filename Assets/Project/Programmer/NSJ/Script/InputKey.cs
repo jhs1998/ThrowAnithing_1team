@@ -26,6 +26,7 @@ public static partial class InputKey
     public static InputStruct Jump;
     public static InputStruct Melee;
     public static InputStruct RockOn;
+    public static InputStruct RockCancel;
     public static InputStruct Negative;
     public static InputStruct Interaction;
     public static InputStruct Dash;
@@ -33,16 +34,16 @@ public static partial class InputKey
     public static InputStruct Escape;
     public static InputStruct Inventory;
     public static InputStruct Cheat;
-    public static InputStruct Mouse_ScrollWheels;
-    public static string Mouse_ScrollWheel  => Mouse_ScrollWheels.Name;
+    public static InputStruct Mouse_ScrollWheel;
     public static InputStruct Decomposition;
     public static InputStruct InventoryEquip;
     public static InputStruct PopUpClose;
 
+
     private static Dictionary<string , InputStruct> InputStructDic = new Dictionary<string , InputStruct>();
 
     [RuntimeInitializeOnLoadMethod]
-    private static void Test()
+    private static void Init()
     {
         InputStructDic.Clear();
         Horizontal = GetInputStruct("Horizontal", Axis.Axis);
@@ -54,17 +55,18 @@ public static partial class InputKey
         Jump = GetInputStruct("Jump", Axis.None);
         Melee = GetInputStruct("Melee", Axis.None);
         RockOn = GetInputStruct("Rock On", Axis.AxisUp);
-        Negative = GetInputStruct("Negative", Axis.None);
+        Negative = GetInputStruct("Negative", Axis.AxisUp);
         Interaction = GetInputStruct("Interaction", Axis.None);
         Dash = GetInputStruct("Dash", Axis.AxisUp);
         Drain = GetInputStruct("Drain", Axis.None);
         Escape = GetInputStruct("Escape", Axis.None);
         Inventory = GetInputStruct("Inventory", Axis.AxisDown);
         Cheat = GetInputStruct("Cheat", Axis.None);
-        Mouse_ScrollWheels = GetInputStruct("Mouse ScrollWheel", Axis.None);
+        Mouse_ScrollWheel = GetInputStruct("Mouse ScrollWheel", Axis.None);
         Decomposition = GetInputStruct("Decomposition", Axis.None);
         InventoryEquip = GetInputStruct("InventoryEquip", Axis.None);
         PopUpClose = GetInputStruct("PopUp Close", Axis.AxisUp);
+        RockCancel = GetInputStruct("Rock Cancel", Axis.None);
     }
     private static InputStruct GetInputStruct(string name, Axis axis)
     {

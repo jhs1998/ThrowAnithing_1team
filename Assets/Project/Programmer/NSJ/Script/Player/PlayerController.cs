@@ -709,7 +709,7 @@ public class PlayerController : MonoBehaviour, IHit
             //    IsTargetHolding = false;
             //    _cameraHolder.gameObject.SetActive(false);
             //}
-            if (InputKey.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
+            if (InputKey.GetButtonDown(InputKey.RockCancel) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기
                 IsTargetToggle = false;
@@ -867,7 +867,7 @@ public class PlayerController : MonoBehaviour, IHit
         InitGetComponent();
         InitPlayerStates();
 
-        _defaultMuzzlePointRot = MuzzletPoint.rotation;
+        _defaultMuzzlePointRot = MuzzletPoint.localRotation;
     }
 
     /// <summary>

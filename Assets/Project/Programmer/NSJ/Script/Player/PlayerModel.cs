@@ -161,7 +161,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
         {
             GlobalStateData.NewPlayerSetting();
         }
-
+        Data.IsDead = false;
         Data.CopyGlobalPlayerData(GlobalStateData, GameData);
     }
 

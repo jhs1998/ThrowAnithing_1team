@@ -174,8 +174,7 @@ public class PlayerCameraHold : MonoBehaviour
     {
         while (true)
         {
-            float mouseScroll = Input.GetAxisRaw(InputKey.Mouse_ScrollWheel);
-            if (_player.IsTargetToggle == true && mouseScroll > 0)
+            if (_player.IsTargetToggle == true && InputKey.GetButtonDown(InputKey.RockOn))
             {
                 // 타겟 인덱스 올림
                 _targetIndex++;
@@ -186,21 +185,20 @@ public class PlayerCameraHold : MonoBehaviour
                 }
                 // 해당 타겟으로 변경
                 _target = _targetList[_targetIndex].Target;
-                yield return 0.2f.GetDelay();
             }
-            else if (_player.IsTargetToggle == true && mouseScroll < 0)
-            {
-                // 타겟 인덱스 내림
-                _targetIndex--;
-                // 타겟 인덱스가 0 이하라면 맨 위부터
-                if (_targetIndex < 0)
-                {
-                    _targetIndex = _targetList.Count - 1;
-                }
-                // 해당 타겟으로 변경
-                _target = _targetList[_targetIndex].Target;
-                yield return 0.2f.GetDelay();
-            }
+            //else if (_player.IsTargetToggle == true && mouseScroll < 0)
+            //{
+            //    // 타겟 인덱스 내림
+            //    _targetIndex--;
+            //    // 타겟 인덱스가 0 이하라면 맨 위부터
+            //    if (_targetIndex < 0)
+            //    {
+            //        _targetIndex = _targetList.Count - 1;
+            //    }
+            //    // 해당 타겟으로 변경
+            //    _target = _targetList[_targetIndex].Target;
+            //    yield return 0.2f.GetDelay();
+            //}
             yield return null;
         }
     }

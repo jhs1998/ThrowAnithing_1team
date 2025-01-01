@@ -70,7 +70,7 @@ namespace NSJ_TesterPanel
             while (true)
             {
 
-                if (InputKey.GetButtonDown(InputKey.Cheat)) ;
+                if (InputKey.GetButtonDown(InputKey.Cheat))
                 {
                     ChangeHighlight(-10);
                 }
