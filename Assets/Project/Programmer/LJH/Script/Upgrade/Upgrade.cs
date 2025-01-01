@@ -54,7 +54,6 @@ public class Upgrade : UpgradeBinding
 
     private void Update()
     {
-        Debug.Log($"현재 Ho값{ho} 현재 ver값{ver}");
         if (slotCo == null)
             slotCo = StartCoroutine(Slot_Selected());
 
@@ -104,22 +103,20 @@ public class Upgrade : UpgradeBinding
         ho += (int)x;
         ver += (int)y;
 
-        if (ho == -1)
-        {
+        ho = ho == -1 ? 3 : ho == 4 ? 0 : ho;
+        ver = ver == -1 ? tier - 1 : ver == tier ? 0 : ver;
+
+        if (ho == -1 )
             ho = 3;
-        }
+
         if (ho == 4)
-        {
             ho = 0;
-        }
+
         if (ver == -1)
-        {
             ver = tier - 1;
-        }
+
         if (ver == tier)
-        {
             ver = 0;
-        }
 
         // Comment : 다른 슬롯 색 리셋
         ColorReset();
@@ -144,10 +141,14 @@ public class Upgrade : UpgradeBinding
         if (button.GetComponent<Image>().color != lockedColor)
         {
             slots[ver, ho].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
-            
-            (ver, ho) = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
-                
-            
+
+            if (EventSystem.current.currentInputModule != Input.GetButtonDown("Interaction"))
+            {
+                (ver, ho) = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
+            }
+
+            itemName.text = button.name;
+            itemInfo.text = button.name;
             slotImages[ver, ho] = button.transform.GetChild(0).GetComponent<Image>();
             slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
         }
