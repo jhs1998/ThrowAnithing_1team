@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -5204339912961527784}
   - component: {fileID: 2843022970376083190}
   - component: {fileID: 3185848396629662587}
+  - component: {fileID: 7223853129513055123}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -141,7 +142,12 @@ MonoBehaviour:
       DrainLife: 0
       MeleeAttackStamina: []
       EquipmentDropUpgrade: 0
-    Inventory: {fileID: 0}
+    IsDead: 0
+    Inventory:
+      Inventory: {fileID: 0}
+      InventoryMain: {fileID: 0}
+      BlueChipChoice: {fileID: 0}
+      BlueChipPanel: {fileID: 0}
     test: 1
   userDataManager: {fileID: 2843022970376083190}
   globalPlayerStateData:
@@ -176,7 +182,6 @@ MonoBehaviour:
     consumesStamina: 0
     gainMoreThrowables: 0
     maxThrowables: 0
-    nowWeapon: 0
     maxMana: 0
     maxJumpCount: 0
     jumpPower: 0
@@ -193,11 +198,7 @@ MonoBehaviour:
     - 0
     - 0
   lobbyUpGrade: {fileID: 3185848396629662587}
-  optionSetting:
-    effectSound: 0
-    backgroundSound: 0
-    cameraSpeed: 0
-    minimapOn: 0
+  optionSetting: {fileID: 7223853129513055123}
 --- !u!114 &2843022970376083190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +252,6 @@ MonoBehaviour:
     consumesStamina: 0
     gainMoreThrowables: 0
     maxThrowables: 0
-    nowWeapon: 0
     maxMana: 0
     maxJumpCount: 0
     jumpPower: 0
@@ -322,7 +322,6 @@ MonoBehaviour:
     consumesStamina: 0
     gainMoreThrowables: 0
     maxThrowables: 0
-    nowWeapon: 0
     maxMana: 0
     maxJumpCount: 0
     jumpPower: 0
@@ -338,5 +337,22 @@ MonoBehaviour:
     - 0
     - 0
     - 0
+  saveSystem: {fileID: 0}
   coinText: {fileID: 0}
   usingCoinText: {fileID: 0}
+--- !u!114 &7223853129513055123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5497864121346949552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697e51160e2db114097fb494f7514944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectSound: 0
+  backgroundSound: 0
+  cameraSpeed: 0.1
+  miniMapOn: 0
