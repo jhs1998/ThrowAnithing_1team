@@ -128,7 +128,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
             // 스테미나가 부족하면 차지 멈춤
             if (Model.CurStamina < _charges[_index + 1].Stamina)
             {
-                _curChargeTime = _charges[_index].ChargeTime;
+                ChargeEnd();
                 return;
             }
             // 차지 시간이 다음 단계로 넘어갈 수 있을 때
@@ -141,7 +141,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         }
         else
         {
-            _curChargeTime = _charges[_index].ChargeTime + 0.01f;
+            ChargeEnd();
         }
     }
     public void AttackMelee()
@@ -212,5 +212,21 @@ public class PowerMeleeAttack : ArmMeleeAttack
         _charges[_index].ArmEffect.SetActive(true);
         _charges[_index].ArmEffect.transform.SetParent(Player.ArmPoint, false);
         _curArmEffect = _charges[_index].ArmEffect;
+    }
+
+    private void ChargeEnd()
+    {
+        if (_chargeRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_chargeRoutine);
+            _chargeRoutine = null;
+        }
+        Player.IsInvincible = true;
+
+        _chargeRoutine = null;
+        // 공격방향 바라보기
+        Player.LookAtAttackDir();
+        // 애니메이션 실행
+        View.SetTrigger(PlayerView.Parameter.ChargeEnd);
     }
 }

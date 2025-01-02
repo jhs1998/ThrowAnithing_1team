@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -765,9 +766,9 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Rigidbody targetRb = target.GetComponent<Rigidbody>();
 
-        targetRb.AddForce(dir * distance * 10f, ForceMode.Impulse);
+        //targetRb.AddForce(dir * distance * 10f, ForceMode.Impulse);
 
-        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, dir,distance));
     }
     /// <summary>
     /// 공격자 중심으로 입력거리만큼 넉백
@@ -779,9 +780,10 @@ public class PlayerController : MonoBehaviour, IHit
         Vector3 knockBackDir = targetPos - attackerPos;
         Rigidbody targetRb = target.GetComponent<Rigidbody>();
 
-        targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
 
-        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+        //targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
+
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, knockBackDir, distance));
     }
 
     /// <summary>
@@ -797,22 +799,33 @@ public class PlayerController : MonoBehaviour, IHit
         Vector3 knockBackDir = targetPos - attackerPos;
         Rigidbody targetRb = target.GetComponent<Rigidbody>();
 
-        targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
+        //targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
 
-        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, knockBackDir, distance));
     }
 
-    IEnumerator KnockBackRoutine(Rigidbody targetRb, float distance)
+    IEnumerator KnockBackRoutine(Rigidbody targetRb, Vector3 knockBackDir,float distance)
     {
         Vector3 originPos = targetRb.position;
+
+        targetRb.transform.LookAt(transform.position);
+        targetRb.transform.rotation = Quaternion.Euler(0, targetRb.transform.eulerAngles.y, 0);
+        // 타겟이 날 바라보도록
         while (true)
         {
+            targetRb.transform.Translate(knockBackDir * Time.deltaTime * 30f,Space.World);
+
             if (Vector3.Distance(originPos, targetRb.position) > distance)
             {
-                targetRb.velocity = new(0, targetRb.velocity.y, 0);
                 break;
             }
-            yield return 0.1f.GetDelay();
+
+            Vector3 targetPos = new(targetRb.transform.position.x, targetRb.transform.position.y + 0.75f, targetRb.transform.position.z);
+            if(Physics.SphereCast(targetRb.transform.position, 0.2f, knockBackDir,out RaycastHit hit,0.3f, 1<< Layer.Wall, QueryTriggerInteraction.Ignore))
+            {
+                break;
+            }
+            yield return null;
         }
     }
     #endregion
