@@ -171,9 +171,22 @@ public class PlayerController : MonoBehaviour, IHit
         StartRoutine();
         InitAdditionnal();
         ChangeArmUnit(Model.NowWeapon);
-
        //Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
+    }
+    public bool IsMouseVisible;
+    private void ControlMousePoint()
+    {
+        if (Time.timeScale == 1 && IsMouseVisible == false)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else if (Time.timeScale == 0 || IsMouseVisible == true)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     private void OnDisable()
@@ -193,6 +206,7 @@ public class PlayerController : MonoBehaviour, IHit
         RotateCamera();
         ChackInput();
         UpdatePlayerAdditional();
+        ControlMousePoint();
     }
 
     private void FixedUpdate()

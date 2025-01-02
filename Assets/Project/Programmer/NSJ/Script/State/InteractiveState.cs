@@ -16,11 +16,12 @@ public class InteractiveState : PlayerState
     public override void Enter()
     {
         Rb.velocity = new Vector3(0,Rb.velocity.y,0);
+        Player.IsMouseVisible = true;
     }
 
     public override void Exit()
     {
-        
+        Player.IsMouseVisible = false;
     }
     public override void Update()
     {
