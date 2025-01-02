@@ -46,7 +46,14 @@ public class BasicJumpAttack : ArmJumpAttack
     }
     public override void EndAnimation()
     {
-        ChangeState(PlayerController.State.Fall);
+        if (Player.IsDoubleJump == false)
+        {
+            ChangeState(PlayerController.State.Fall);
+        }
+        else
+        {
+            ChangeState(PlayerController.State.DoubleJumpFall);
+        }
     }
 
     private void ThrowObject()

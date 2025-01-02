@@ -1,14 +1,14 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class FallState : PlayerState
+public class DoubleJumpFallState : PlayerState
 {
-
     private Vector3 _inertia; // °ü¼º·Â
 
     Coroutine _fallRoutine;
     Coroutine _checkInputRoutine;
-    public FallState(PlayerController controller) : base(controller)
+    public DoubleJumpFallState(PlayerController controller) : base(controller)
     {
     }
     public override void Enter()
@@ -40,10 +40,7 @@ public class FallState : PlayerState
             _checkInputRoutine = null;
         }
     }
-    public override void Update()
-    {
-        CheckGround();
-    }
+
     public override void FixedUpdate()
     {
         CheckIsNearGround();
@@ -57,15 +54,12 @@ public class FallState : PlayerState
             Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
         }
     }
-    private void CheckGround()
+    public override void EndAnimation()
     {
-        if (Player.IsGround == true && Rb.velocity.y < 0)
-        {
-            Player.IsDoubleJump = false;
-            Player.IsJumpAttack = false;
+        Player.IsDoubleJump = false;
+        Player.IsJumpAttack = false;
 
-            ChangeState(PlayerController.State.Idle);
-        }
+        ChangeState(PlayerController.State.Idle);
     }
 
     IEnumerator FallRoutine()
@@ -117,13 +111,14 @@ public class FallState : PlayerState
             }
             if (InputKey.GetButtonDown(InputKey.Throw) && Player.IsJumpAttack == false)
             {
+                Debug.Log(1231);
                 Player.IsJumpAttack = true;
                 ChangeState(PlayerController.State.JumpAttack);
                 break;
             }
-            if (InputKey.GetButtonDown(InputKey.Melee) && Player.IsDoubleJump == true )
+            if (InputKey.GetButtonDown(InputKey.Melee) && Player.IsDoubleJump == true)
             {
-                Player.IsDoubleJump = false;              
+                Player.IsDoubleJump = false;
                 ChangeState(PlayerController.State.JumpDown);
                 break;
             }

@@ -40,7 +40,7 @@ public class DoubleJumpState : PlayerState
 
         Rb.AddForce(Vector3.up * Model.JumpPower, ForceMode.Impulse);
         // 점프 이후 바로 추락 모드 실행
-        ChangeState(PlayerController.State.Fall);
+        ChangeState(PlayerController.State.DoubleJumpFall);
     }
 
     private void Temp()

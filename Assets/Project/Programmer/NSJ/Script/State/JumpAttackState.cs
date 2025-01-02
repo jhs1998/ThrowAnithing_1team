@@ -9,6 +9,7 @@ public class JumpAttackState : PlayerState
     }
     public override void Enter()
     {
+        Debug.Log("점프어택");
         Arm.Enter();
     }
     public override void Exit()
