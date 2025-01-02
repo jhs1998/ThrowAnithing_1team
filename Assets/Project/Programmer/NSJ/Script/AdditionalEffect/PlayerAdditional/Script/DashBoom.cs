@@ -22,7 +22,7 @@ public class DashBoom : PlayerAdditional
         CoroutineHandler.StartRoutine(CreateAttackEffectRoutien());
 
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _range, Player.OverLapColliders, 1 << Layer.Monster);
-        int finalDamage = Player.GetFinalDamage(_damage);
+        int finalDamage = Player.GetFinalDamage((int)_damage);
         for (int i = 0; i < hitCount; i++)
         {
             // 데미지 주기

@@ -58,7 +58,7 @@ public class IdleState : PlayerState
     }
     public override void FixedUpdate()
     {
-
+        
     }
 
 }
