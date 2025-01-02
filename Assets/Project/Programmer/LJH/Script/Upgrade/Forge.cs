@@ -32,13 +32,10 @@ public class Forge : MonoBehaviour
         {
             return;
         }
-        Debug.Log($"{name} {InputKey.GetButtonDown(InputKey.PopUpClose)}");
         if (InputKey.GetButtonDown(InputKey.PopUpClose))
         {
-            Debug.Log("´ÝÀ½");
             if (_ui.activeSelf == true && IsUIActive == true)
             {
-                Debug.Log("´ÝÀ½");
                 _ui.SetActive(false);
             }
         }

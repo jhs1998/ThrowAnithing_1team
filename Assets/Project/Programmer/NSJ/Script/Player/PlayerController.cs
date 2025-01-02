@@ -757,10 +757,25 @@ public class PlayerController : MonoBehaviour, IHit
     {
         if (IsDead == true || IsHit == true)
             return;
+        if (CurState == State.Interative)
+            return;
+
 
         if (InputKey.GetButtonDown(InputKey.Dash) && CurState != State.Dash && CurState != State.JumpDown)
         {
             ChangeState(PlayerController.State.Dash);
+        }
+    }
+
+    public void ChangeStateInteract(bool isInteract)
+    {
+        if (isInteract ==true)
+        {
+            ChangeState(State.Interative);
+        }
+        else
+        {
+            ChangeState(State.Idle);
         }
     }
     #endregion

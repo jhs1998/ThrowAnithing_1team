@@ -59,7 +59,7 @@ namespace MKH
                 if (_Inventory.activeSelf)
                     return;
 
-                player.enabled = false;
+                player.ChangeStateInteract(true);
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
@@ -70,7 +70,7 @@ namespace MKH
                 if (_BlueChipPanel.activeSelf)
                     return;
 
-                player.enabled = true;
+                player.ChangeStateInteract(false);
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
                 _State.SetActive(false);
