@@ -1,7 +1,7 @@
-using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyDropItem : Action
 {
@@ -9,15 +9,15 @@ public class EnemyDropItem : Action
     [SerializeField] int maxPersent;
     [SerializeField] List<GameObject> dropItems;
     public override void OnStart()
-	{
-		if(reward.Value > maxPersent)
+    {
+        if (reward.Value > maxPersent)
             reward.Value = reward.Value / maxPersent;
-	}
+    }
 
-	public override TaskStatus OnUpdate()
-	{
+    public override TaskStatus OnUpdate()
+    {
         // 몬스터가 죽었을 시 아이템 드랍
-        int randNum = Random.Range(0, maxPersent+1);
+        int randNum = Random.Range(0, maxPersent + 1);
         Debug.Log(randNum);
         GameObject.Instantiate(dropItems[0], transform.position, transform.rotation);
 
@@ -37,5 +37,5 @@ public class EnemyDropItem : Action
         }*/
 
         return TaskStatus.Success;
-	}
+    }
 }
