@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using UniRx.Triggers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -163,7 +164,7 @@ public class PlayerController : MonoBehaviour, IHit
     Quaternion _defaultMuzzlePointRot;
     private void Awake()
     {
-        
+
     }
 
     private void Start()

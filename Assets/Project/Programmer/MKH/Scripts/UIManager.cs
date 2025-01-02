@@ -15,7 +15,6 @@ namespace MKH
         private void Awake()
         {
             Bind();
-            Debug.Log(11);
             //_Inventory = GameObject.Find("InventoryUI").transform.Find("Inventory").gameObject;
             //_EquipInventory = GameObject.Find("InventoryUI").transform.Find("EquipmentInventory").gameObject;
             //_State = GameObject.Find("InventoryUI").transform.Find("State").gameObject;
