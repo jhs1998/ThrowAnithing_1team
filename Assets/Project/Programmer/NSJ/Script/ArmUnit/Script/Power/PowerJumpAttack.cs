@@ -54,7 +54,9 @@ public class PowerJumpAttack : ArmJumpAttack
     private void ThrowObject()
     {
         //int throwObjectID = Model.ThrowObjectStack.Count > 0 ? Model.PopThrowObject().ID : 0;
-        Quaternion _muzzleRot = Quaternion.Euler(_muzzlePoint.eulerAngles.x + _downAngle, _muzzlePoint.eulerAngles.y, _muzzlePoint.eulerAngles.z);
+        float downAngle = Player.IsTargetHolding || Player.IsTargetToggle ? 0 : _downAngle;
+        Debug.Log(downAngle);
+        Quaternion _muzzleRot = Quaternion.Euler(_muzzlePoint.eulerAngles.x + downAngle, _muzzlePoint.eulerAngles.y, _muzzlePoint.eulerAngles.z);
         ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(0), _muzzlePoint.position, _muzzleRot);
         throwObject.Init(Player, Model.ThrowAdditionals);
         throwObject.Shoot(Player.ThrowPower);

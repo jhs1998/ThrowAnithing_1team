@@ -20,10 +20,10 @@ namespace MKH
 
         private void Start()
         {
-            mEffectImage.sprite = null;
-            nameText.text = "-";
-            descriptionText.text = "";
-            levelText.text = "";
+            //mEffectImage.sprite = null;
+            //nameText.text = "-";
+            //descriptionText.text = "";
+            //levelText.text = "";
         }
 
         // 아이템 이미지 투명도 조절

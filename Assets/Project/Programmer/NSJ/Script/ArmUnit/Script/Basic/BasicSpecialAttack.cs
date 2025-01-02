@@ -27,6 +27,16 @@ public class BasicSpecialAttack : ArmSpecialAttack
     private GameObject _instanceSpecialRange;
     private Vector3 _dropPos;
     Coroutine _chargeRoutine;
+
+    public override void Init(PlayerController player)
+    {
+        base.Init(player);
+        for (int i = 0; i < _charges.Length; i++)
+        {
+            _charges[i].Damage = (int)Model.PowerSpecialAttack[i];
+            View.Panel.StepTexts[i].SetText(_charges[i].ObjectCount.GetText());
+        }
+    }
     public override void Enter()
     {
         if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount)
@@ -92,7 +102,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
         {
             ProcessCharge();
 
-            if (Input.GetButtonUp(InputKey.Special))
+            if (InputKey.GetButtonUp(InputKey.Special))
             {
                 Model.SpecialChargeGage = 0;
                 if (_instanceDropObject)

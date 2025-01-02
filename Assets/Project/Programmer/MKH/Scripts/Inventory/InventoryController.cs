@@ -337,7 +337,7 @@ namespace MKH
 
 
         // 아이템 모두 삭제 (인게임 끝날 시 초기화용)
-        private void ItemReset()
+        public void ItemReset()
         {
             for (int i = 0; i < buttonCount; i++)
             {

@@ -15,7 +15,7 @@ namespace MKH
 
         private void Update()
         {
-            //TryOpenPanel();
+            TryOpenPanel();
         }
 
         private void TryOpenPanel()

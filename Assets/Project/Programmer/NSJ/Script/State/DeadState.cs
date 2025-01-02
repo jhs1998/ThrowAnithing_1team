@@ -15,6 +15,7 @@ public class DeadState : PlayerState
     public override void Enter()
     {
         Player.IsInvincible = true;
+        Model.Data.IsDead = true;
         View.SetTrigger(PlayerView.Parameter.Dead);
     }
 

@@ -109,11 +109,11 @@ namespace NSJ_TesterPanel
             _canControl = true;
             while (true)
             {
-                if (Input.GetButtonDown(InputKey.Interaction))
+                if (InputKey.GetButtonDown(InputKey.Interaction))
                 {
                     _canControl = false;
                 }
-                if (Input.GetButtonDown(InputKey.Negative))
+                if (InputKey.GetButtonDown(InputKey.Negative))
                 {
                     _canControl = true;
                 }
@@ -124,7 +124,7 @@ namespace NSJ_TesterPanel
                     continue;
                 }
 
-                float x = Input.GetAxisRaw(InputKey.Horizontal);
+                float x = InputKey.GetAxisRaw(InputKey.Horizontal);
                 if (x < 0)
                 {
                     _curBundle--;

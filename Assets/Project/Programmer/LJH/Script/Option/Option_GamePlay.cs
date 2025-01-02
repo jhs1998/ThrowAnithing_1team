@@ -87,8 +87,8 @@ public class Option_GamePlay : Main_Option
 
     private IEnumerator GamePlay_Select()
     {
-        float x = Input.GetAxisRaw(InputKey.Horizontal);
-        float y = Input.GetAxisRaw(InputKey.Vertical);
+        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
+        float y = InputKey.GetAxisRaw(InputKey.Vertical);
 
         Button curButton = gamePlayButtons[_curIndex];
         for (int i = 0; i < gamePlayButtons.Count; i++)

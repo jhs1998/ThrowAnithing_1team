@@ -2,7 +2,9 @@ using MKH;
 using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class PlayerModel : MonoBehaviour, IDebuff
@@ -159,6 +161,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
         {
             GlobalStateData.NewPlayerSetting();
         }
+        Data.IsDead = false;
         Data.CopyGlobalPlayerData(GlobalStateData, GameData);
     }
 
@@ -441,7 +444,7 @@ public partial class PlayerData
     public float[] MeleeAttackStamina { get { return Data.MeleeAttackStamina; } set { Data.MeleeAttackStamina = value; } }
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + (100 * EquipStatus.EquipRate); } set { Data.EquipmentDropUpgrade = value; } }
 
-
+    [HideInInspector] public bool IsDead;
     [System.Serializable]
     public struct InventoryStruct
     {
@@ -509,5 +512,13 @@ public partial class PlayerData
         Data.MeleeAttackStamina[0] = globalData.shortRangeAttackStamina[0];
         Data.MeleeAttackStamina[1] = globalData.shortRangeAttackStamina[1];
         Data.MeleeAttackStamina[2] = globalData.shortRangeAttackStamina[2];
+    }
+
+    public void ClearAdditional()
+    {
+        AdditionalEffects.Clear();
+        HitAdditionals.Clear();
+        ThrowAdditionals.Clear();
+        PlayerAdditionals.Clear();
     }
 }

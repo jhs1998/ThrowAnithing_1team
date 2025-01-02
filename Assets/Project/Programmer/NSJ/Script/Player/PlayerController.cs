@@ -157,8 +157,9 @@ public class PlayerController : MonoBehaviour, IHit
 
     [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
 
-    [HideInInspector] public Vector3 MoveDir; 
+    [HideInInspector] public Vector3 MoveDir;
 
+    Quaternion _defaultMuzzlePointRot;
     private void Awake()
     {
         Init();
@@ -295,6 +296,7 @@ public class PlayerController : MonoBehaviour, IHit
         {
             CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
+        MuzzletPoint.localRotation = _defaultMuzzlePointRot;
     }
 
     /// <summary>
@@ -348,11 +350,12 @@ public class PlayerController : MonoBehaviour, IHit
         }
 
         Quaternion cameraTempRot = CamareArm.rotation;
-
+        targetPos = new Vector3 (targetPos.x, targetPos.y + 2f, targetPos.z);
         // 입력한 방향쪽을 플레이어가 바라봄
-        transform.LookAt(TargetPos);
+        transform.LookAt(targetPos);
         transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         CamareArm.rotation = cameraTempRot;
+        MuzzletPoint.LookAt(targetPos);
     }
 
     /// <summary>
@@ -540,11 +543,11 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCamera()
     {
-        float angleX = Input.GetAxis(InputKey.MouseX);
+        float angleX = InputKey.GetAxis(InputKey.MouseX);
         float angleY = default;
         // 체크시 마우스 상하도 가능
         if (IsVerticalCameraMove == true)
-            angleY = Input.GetAxis(InputKey.MouseY);
+            angleY = InputKey.GetAxis(InputKey.MouseY);
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
         float x = camAngle.x - mouseDelta.y;
@@ -666,7 +669,8 @@ public class PlayerController : MonoBehaviour, IHit
             if (IsStaminaCool == true)
             {
                 IsStaminaCool = false;
-                yield return Model.StaminaCoolTime.GetDelay();
+                yield return 1f.GetDelay();
+                //yield return Model.StaminaCoolTime.GetDelay();
             }
 
             yield return null;
@@ -678,8 +682,8 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void ChackInput()
     {
-        float x = Input.GetAxisRaw(InputKey.Horizontal);
-        float z = Input.GetAxisRaw(InputKey.Vertical);
+        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
+        float z = InputKey.GetAxisRaw(InputKey.Vertical);
         MoveDir = new Vector3(x, 0, z);
 
         if(IsTargetHolding == false && IsTargetToggle == false)
@@ -690,7 +694,7 @@ public class PlayerController : MonoBehaviour, IHit
             //    IsTargetHolding = true;
             //    _cameraHolder.gameObject.SetActive(true);
             //}
-            if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding ==false)
+            if (InputKey.GetButtonDown(InputKey.RockOn) && IsTargetHolding ==false)
             {
                 //TODO: 카메라 몬스터 홀딩 기능
                 IsTargetToggle = true;
@@ -705,7 +709,7 @@ public class PlayerController : MonoBehaviour, IHit
             //    IsTargetHolding = false;
             //    _cameraHolder.gameObject.SetActive(false);
             //}
-            if (Input.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
+            if (InputKey.GetButtonDown(InputKey.RockCancel) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기
                 IsTargetToggle = false;
@@ -718,7 +722,7 @@ public class PlayerController : MonoBehaviour, IHit
         if (IsDead == true || IsHit == true)
             return;
 
-        if (Input.GetButtonDown(InputKey.Dash) && CurState != State.Dash)
+        if (InputKey.GetButtonDown(InputKey.Dash) && CurState != State.Dash)
         {
             ChangeState(PlayerController.State.Dash);
         }
@@ -862,6 +866,8 @@ public class PlayerController : MonoBehaviour, IHit
     {         
         InitGetComponent();
         InitPlayerStates();
+
+        _defaultMuzzlePointRot = MuzzletPoint.localRotation;
     }
 
     /// <summary>
