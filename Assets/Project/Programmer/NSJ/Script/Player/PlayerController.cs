@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -102,18 +103,19 @@ public class PlayerController : MonoBehaviour, IHit
         public float WallCheckDistance;
         [Space(10)]
         public bool IsGround; // 지면 접촉 여부
+        public bool IsNearGround; 
         public bool IsWall; // 벽 접촉 여부
         public bool CanClimbSlope; // 오를 수 있는 경사면 각도 인지 체크
     }
     [System.Serializable]
-    struct WallCheckStruct
+    public struct WallCheckStruct
     {
         public Transform Head;
         public Transform Foot;
     }
     [SerializeField] private CheckStruct _checkStruct;
     private Transform _groundCheckPos => _checkStruct.GroundCheckPos;
-    private WallCheckStruct _wallCheckPos => _checkStruct.WallCheckPos;
+    public WallCheckStruct WallCheckPos => _checkStruct.WallCheckPos;
 
     private float _wallCheckDistance { get { return _checkStruct.WallCheckDistance; } set { _checkStruct.WallCheckDistance = value; } }
     private float _slopeAngle { get { return _checkStruct.SlopeAngle; } set { _checkStruct.SlopeAngle = value; } }
@@ -154,6 +156,7 @@ public class PlayerController : MonoBehaviour, IHit
     public GameObject DrainField;
 
     public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround = value; } }// 지면 접촉 여부
+    public bool IsNearGround { get { return _checkStruct.IsNearGround; } set { _checkStruct.IsNearGround = value; } }
     public bool IsWall { get { return _checkStruct.IsWall; } set { _checkStruct.IsWall = value; } } // 벽 접촉 여부
     public bool CanClimbSlope { get { return _checkStruct.CanClimbSlope; } set { _checkStruct.CanClimbSlope = value; } } // 오를 수 있는 경사면 각도 인지 체크
 
@@ -222,6 +225,7 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)CurState].FixedUpdate();
         CheckGround();
         CheckWall();
+        CheckIsNearGround();
         FixedPlayerAdditional();
     }
 
@@ -233,6 +237,7 @@ public class PlayerController : MonoBehaviour, IHit
 
         DrawCheckGround();
         DrawWallCheck();
+        DrawIsNearGround();
     }
 
     /// <summary>
@@ -629,6 +634,33 @@ public class PlayerController : MonoBehaviour, IHit
     }
 
     /// <summary>
+    /// 지면에 가까운지 체크
+    /// </summary>
+    private void CheckIsNearGround()
+    {
+        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
+        {
+            IsNearGround = true;
+        }
+        else
+        {
+            IsNearGround = false;
+        }
+    }
+
+    private void DrawIsNearGround()
+    {
+        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(CheckPos, hit.point);
+            Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
+        }
+    }
+
+    /// <summary>
     /// 벽체크
     /// </summary>
     private void CheckWall()
@@ -637,8 +669,8 @@ public class PlayerController : MonoBehaviour, IHit
         layerMask |= 1 << Layer.Wall;
         layerMask |= 1 << Layer.Monster;
         int hitCount = Physics.OverlapCapsuleNonAlloc(
-            _wallCheckPos.Foot.position, 
-            _wallCheckPos.Head.position,
+            WallCheckPos.Foot.position, 
+            WallCheckPos.Head.position,
             _wallCheckDistance, 
             OverLapColliders,
             layerMask );
@@ -658,8 +690,8 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Gizmos.color = Color.green;
 
-        Vector3 footPos = _wallCheckPos.Foot.position + transform.forward * _wallCheckDistance;
-        Vector3 headPos = _wallCheckPos.Head.position + transform.forward * _wallCheckDistance;
+        Vector3 footPos = WallCheckPos.Foot.position + transform.forward * _wallCheckDistance;
+        Vector3 headPos = WallCheckPos.Head.position + transform.forward * _wallCheckDistance;
 
         Gizmos.DrawLine(footPos, headPos);
     }
@@ -741,7 +773,7 @@ public class PlayerController : MonoBehaviour, IHit
         if (IsDead == true || IsHit == true)
             return;
 
-        if (InputKey.GetButtonDown(InputKey.Dash) && CurState != State.Dash)
+        if (InputKey.GetButtonDown(InputKey.Dash) && CurState != State.Dash && CurState != State.JumpDown)
         {
             ChangeState(PlayerController.State.Dash);
         }
@@ -765,9 +797,9 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Rigidbody targetRb = target.GetComponent<Rigidbody>();
 
-        targetRb.AddForce(dir * distance * 10f, ForceMode.Impulse);
+        //targetRb.AddForce(dir * distance * 10f, ForceMode.Impulse);
 
-        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, dir,distance));
     }
     /// <summary>
     /// 공격자 중심으로 입력거리만큼 넉백
@@ -779,9 +811,10 @@ public class PlayerController : MonoBehaviour, IHit
         Vector3 knockBackDir = targetPos - attackerPos;
         Rigidbody targetRb = target.GetComponent<Rigidbody>();
 
-        targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
 
-        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+        //targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
+
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, knockBackDir, distance));
     }
 
     /// <summary>
@@ -797,22 +830,33 @@ public class PlayerController : MonoBehaviour, IHit
         Vector3 knockBackDir = targetPos - attackerPos;
         Rigidbody targetRb = target.GetComponent<Rigidbody>();
 
-        targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
+        //targetRb.AddForce(knockBackDir.normalized * distance * 10f, ForceMode.Impulse);
 
-        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, distance));
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, knockBackDir, distance));
     }
 
-    IEnumerator KnockBackRoutine(Rigidbody targetRb, float distance)
+    IEnumerator KnockBackRoutine(Rigidbody targetRb, Vector3 knockBackDir,float distance)
     {
         Vector3 originPos = targetRb.position;
+
+        targetRb.transform.LookAt(transform.position);
+        targetRb.transform.rotation = Quaternion.Euler(0, targetRb.transform.eulerAngles.y, 0);
+        // 타겟이 날 바라보도록
         while (true)
         {
+            targetRb.transform.Translate(knockBackDir * Time.deltaTime * 30f,Space.World);
+
             if (Vector3.Distance(originPos, targetRb.position) > distance)
             {
-                targetRb.velocity = new(0, targetRb.velocity.y, 0);
                 break;
             }
-            yield return 0.1f.GetDelay();
+
+            Vector3 targetPos = new(targetRb.transform.position.x, targetRb.transform.position.y + 0.75f, targetRb.transform.position.z);
+            if(Physics.SphereCast(targetRb.transform.position, 0.2f, knockBackDir,out RaycastHit hit,0.3f, 1<< Layer.Wall, QueryTriggerInteraction.Ignore))
+            {
+                break;
+            }
+            yield return null;
         }
     }
     #endregion

@@ -76,7 +76,7 @@ public class RunState : PlayerState
             ChangeState(PlayerController.State.Jump);
         }
         // 공중에서 떨어질 시 추락
-        else if (Player.IsGround == false && Rb.velocity.y <= -1f)
+        else if (Player.IsGround == false && Rb.velocity.y <= -1f && Player.IsNearGround == false)
         {
             ChangeState(PlayerController.State.Fall);
         }

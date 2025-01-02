@@ -44,19 +44,6 @@ public class FallState : PlayerState
     {
         CheckGround();
     }
-    public override void FixedUpdate()
-    {
-        CheckIsNearGround();
-    }
-    public override void OnDrawGizmos()
-    {
-        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
-        {
-            Gizmos.DrawLine(CheckPos, hit.point);
-            Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
-        }
-    }
     private void CheckGround()
     {
         if (Player.IsGround == true && Rb.velocity.y < 0)
@@ -77,12 +64,17 @@ public class FallState : PlayerState
         yield return 0.1f.GetDelay();
         while (Player.IsGround == false)
         {
+           // if(MoveDir == Vector3.zero)
+           // {
+                Rb.velocity = new Vector3(_inertia.x, Rb.velocity.y, _inertia.z );
+            //}
+            //else
+            //{
+            //    Rb.velocity = new Vector3(MoveDir.x * Model.MoveSpeed, Rb.velocity.y, MoveDir.z * Model.MoveSpeed);
+            //}
+
             // 관성 유지, 벽과 접촉시 이동안함
-            if (Player.IsWall == false)
-            {
-                Rb.velocity = new Vector3(_inertia.x, Rb.velocity.y, _inertia.z);
-            }
-            else
+            if (Player.IsWall == true)
             {
                 Rb.velocity = new Vector3(0, Rb.velocity.y, 0);
             }
@@ -90,7 +82,7 @@ public class FallState : PlayerState
             if (Rb.velocity.y < 0)
             {
                 Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-                if (CheckIsNearGround() && Rb.velocity.y < 0)
+                if (Player.IsNearGround == true && Rb.velocity.y < 0)
                     break;
             }
             yield return 0.02f.GetDelay();
@@ -132,19 +124,4 @@ public class FallState : PlayerState
         _checkInputRoutine = null;
     }
 
-    /// <summary>
-    /// 지면에 가까운지 체크
-    /// </summary>
-    private bool CheckIsNearGround()
-    {
-        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 }

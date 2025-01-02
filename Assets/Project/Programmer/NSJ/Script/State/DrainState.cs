@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class DrainState : PlayerState
@@ -6,16 +7,24 @@ public class DrainState : PlayerState
     private GameObject _drainField => Player.DrainField;
     private float _drainDistance => Model.DrainDistance * 2;
 
+    private bool _isEnd;
+    private bool _isFirst;
     private Vector3 _drainStartPos;
     private Collider[] _overlapColliders = new Collider[150];
     private Coroutine _drainRoutine;
     public DrainState(PlayerController controller) : base(controller)
     {
+        UseStamina = true;
+        StaminaAmount = 10;
         _drainField.SetActive(false);
     }
 
     public override void Enter()
     {
+        Model.CurStamina += 10;
+        _isEnd = false;
+        _isFirst = false;
+
         Player.Rb.velocity = Vector3.zero;
         View.SetBool(PlayerView.Parameter.Drain, true);
         _drainField.SetActive(true);
@@ -23,6 +32,8 @@ public class DrainState : PlayerState
 
         // 플레이어 위치 고정시킬 좌표 캐싱
         _drainStartPos = transform.position;
+
+        Player.CanStaminaRecovery = false;
 
         if (_drainRoutine == null)
         {
@@ -56,7 +67,7 @@ public class DrainState : PlayerState
             CoroutineHandler.StopRoutine(_drainRoutine);
             _drainRoutine = null;
         }
-
+        Player.CanStaminaRecovery = true;     
         View.SetBool(PlayerView.Parameter.Drain, false);
         Player.DrainField.SetActive(false);
     }
@@ -92,6 +103,14 @@ public class DrainState : PlayerState
 
                 _overlapColliders[i].transform.position = Vector3.MoveTowards(_overlapColliders[i].transform.position, transform.position, 5f * Time.deltaTime);
             }
+
+            Model.CurStamina -= Time.deltaTime * 10f;
+
+            if(Model.CurStamina <= 0)
+            {
+                _isEnd = true;
+                EndDrain();
+            }
             yield return null;
         }
     }
@@ -109,6 +128,17 @@ public class DrainState : PlayerState
         //드레인 키를 뗐을 때
         if (InputKey.GetButtonUp(InputKey.Drain))
         {
+            _isEnd = true;
+            EndDrain();
+        }
+    }
+
+    private void EndDrain()
+    {
+        if (_isEnd == true && _isFirst == false)
+        {
+            _isEnd = false;
+            _isFirst = true;
             View.SetBool(PlayerView.Parameter.Drain, false);
         }
     }

@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class PlayerAdditional : AdditionalEffect
 {
-    protected PlayerController _player;
-    protected PlayerModel _model => _player.Model;
+    protected PlayerController Player;
+    protected Transform transform => Player.transform;
+    protected Rigidbody Rb => Player.Rb;
+    protected PlayerModel _model => Player.Model;
 
     public void Init(PlayerController player, AdditionalEffect addtional)
     {
         Origin = addtional.Origin;
-        _player = player;
+        Player = player;
     }
 }

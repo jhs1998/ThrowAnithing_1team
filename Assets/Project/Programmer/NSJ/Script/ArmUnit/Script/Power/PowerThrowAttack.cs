@@ -82,11 +82,7 @@ public class PowerThrowAttack : ArmThrowAttack
             // 차지 해제 시 던지는 애니메이션 실행
             if (InputKey.GetButtonUp(InputKey.Throw))
             {
-                Player.LookAtAttackDir();
-                View.SetTrigger(PlayerView.Parameter.ChargeEnd);
-                _chargeRoutine = null;
-                // 캐릭터 임시 무적
-                Player.IsInvincible = true;
+                ChargeEnd();
                 break;
             }
             yield return null;
@@ -121,7 +117,8 @@ public class PowerThrowAttack : ArmThrowAttack
             // 소모 오브젝트가 부족하면 차지 멈춤
             if (Model.ThrowObjectStack.Count <= _charges[_index].ObjectCount)
             {
-                _curChargeTime = _charges[_index].ChargeTime;
+                //_curChargeTime = _charges[_index].ChargeTime;
+                ChargeEnd();
                 return;
             }
             // 차지 시간이 다음 단계로 넘어 갈 수 있을 때
@@ -132,8 +129,8 @@ public class PowerThrowAttack : ArmThrowAttack
         }
         else
         {
-            _curChargeTime = _charges[_index].ChargeTime + 0.01f;
-
+            //_curChargeTime = _charges[_index].ChargeTime + 0.01f;
+            ChargeEnd();
         }
     }
 
@@ -146,5 +143,19 @@ public class PowerThrowAttack : ArmThrowAttack
                 Model.PopThrowObject();
             }
         }
+    }
+
+    private void ChargeEnd()
+    {
+        if (_chargeRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_chargeRoutine);
+            _chargeRoutine = null;
+        }
+        Player.LookAtAttackDir();
+        View.SetTrigger(PlayerView.Parameter.ChargeEnd);
+        _chargeRoutine = null;
+        // 캐릭터 임시 무적
+        Player.IsInvincible = true;
     }
 }
