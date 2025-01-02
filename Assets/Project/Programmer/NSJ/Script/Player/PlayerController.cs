@@ -162,11 +162,12 @@ public class PlayerController : MonoBehaviour, IHit
     Quaternion _defaultMuzzlePointRot;
     private void Awake()
     {
-        Init();
+        
     }
 
     private void Start()
     {
+        Init();
         InitUIEvent();
         StartRoutine();
         InitAdditionnal();
