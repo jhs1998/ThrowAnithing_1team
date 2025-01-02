@@ -12,6 +12,7 @@ namespace MKH
         [SerializeField] InventorySlotTest[] ivSlots;               // 인벤토리 슬롯들
         [SerializeField] GameObject mEquipmentSlotsParent;      // 장비 슬롯 모음집
         [SerializeField] InventorySlotTest[] eqSlots;               // 장비 슬롯들
+        [SerializeField] GameObject blueChipPanel;           // 블루칩 패널
 
         [Header("슬롯 버튼")]
         [SerializeField] GameObject[] buttons;                  // 슬롯 버튼
@@ -55,53 +56,54 @@ namespace MKH
         #region 키 조작
         private void ButtonsControl()
         {
-            float x = InputKey.GetAxisRaw("Horizontal");       // 좌 우 조작
-            float y = InputKey.GetAxisRaw("Vertical");         // 상 하 조작
+            float x = Input.GetAxisRaw("Horizontal");       // 좌 우 조작
+            float y = Input.GetAxisRaw("Vertical");         // 상 하 조작
 
             // 인벤토리 켜져 있을 때만 조작 가능
-
-            // 왼쪽
-            if (x == -1)
+            if (inventory.activeSelf && !blueChipPanel.activeSelf)
             {
-                if (selectedButtonsIndex > 0 && axisInUse == false)
+                // 왼쪽
+                if (x == -1)
                 {
-                    axisInUse = true;
-                    selectedButtonsIndex -= 1;
+                    if (selectedButtonsIndex > 0 && axisInUse == false)
+                    {
+                        axisInUse = true;
+                        selectedButtonsIndex -= 1;
+                    }
+                }
+                // 오른쪽
+                else if (x == 1)
+                {
+                    if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
+                    {
+                        axisInUse = true;
+                        selectedButtonsIndex += 1;
+                    }
+                }
+                // 위
+                else if (y == 1)
+                {
+                    if (selectedButtonsIndex > 2 && axisInUse == false)
+                    {
+                        axisInUse = true;
+                        selectedButtonsIndex -= 3;
+                    }
+                }
+                // 아래
+                else if (y == -1)
+                {
+                    if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
+                    {
+                        axisInUse = true;
+                        selectedButtonsIndex += 3;
+                    }
+                }
+                // 키 멈춤 방지
+                else
+                {
+                    axisInUse = false;
                 }
             }
-            // 오른쪽
-            else if (x == 1)
-            {
-                if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
-                {
-                    axisInUse = true;
-                    selectedButtonsIndex += 1;
-                }
-            }
-            // 위
-            else if (y == 1)
-            {
-                if (selectedButtonsIndex > 2 && axisInUse == false)
-                {
-                    axisInUse = true;
-                    selectedButtonsIndex -= 3;
-                }
-            }
-            // 아래
-            else if (y == -1)
-            {
-                if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
-                {
-                    axisInUse = true;
-                    selectedButtonsIndex += 3;
-                }
-            }
-            // 키 멈춤 방지
-            else
-            {
-                axisInUse = false;
-            }
-
 
             // 선택 슬롯 색 입히기
             for (int i = 0; i < buttons.Length; i++)
@@ -115,61 +117,66 @@ namespace MKH
                     buttons[i].GetComponent<Image>().color = color;
                 }
             }
+
+
         }
         #endregion
 
         #region 아이템 버튼 조작
         private void Use(int index)
         {
-            // 아이템 장착 - 인벤토리만 착용 가능
-            if (InputKey.GetButtonDown("InventoryEquip"))
+            if (inventory.activeSelf && !blueChipPanel.activeSelf)
             {
-                // 인벤토리
-                if (index >= 9)
+                // 아이템 장착 - 인벤토리만 착용 가능
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (ivSlots[index - 9].Item != null)
+                    // 인벤토리
+                    if (index >= 9)
                     {
-                        ivSlots[index - 9].UseItem();
-                        Debug.Log($"인벤토리 {index - 9}번 장비 장착");
-                    }
-                    else if (ivSlots[index - 9].Item == null)
-                    {
-                        Debug.Log("장착 할 장비가 없습니다.");
-                        return;
+                        if (ivSlots[index - 9].Item != null)
+                        {
+                            ivSlots[index - 9].UseItem();
+                            Debug.Log($"인벤토리 {index - 9}번 장비 장착");
+                        }
+                        else if (ivSlots[index - 9].Item == null)
+                        {
+                            Debug.Log("장착 할 장비가 없습니다.");
+                            return;
+                        }
                     }
                 }
-            }
 
-            // 아이템 삭제 - 인벤토리, 장비 둘 다 삭제 가능
-            if (InputKey.GetButtonDown("Decomposition"))
-            {
-                // 장비
-                //if (index < 9)
-                //{
-                //    if (eqSlots[index].Item != null)
-                //    {
-                //        eqSlots[index].RemoveEquipmentSlot();
-                //        Debug.Log($"장비 {index}번 삭제");
-                //    }
-                //    else if(eqSlots[index].Item == null)
-                //    {
-                //        Debug.Log("분해 할 장비가 없습니다");
-                //        return;
-                //    }
-
-                //}
-                // 인벤토리
-                if (index >= 9)
+                // 아이템 삭제 - 인벤토리, 장비 둘 다 삭제 가능
+                if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    if (ivSlots[index - 9].Item != null)
+                    // 장비
+                    //if (index < 9)
+                    //{
+                    //    if (eqSlots[index].Item != null)
+                    //    {
+                    //        eqSlots[index].RemoveEquipmentSlot();
+                    //        Debug.Log($"장비 {index}번 삭제");
+                    //    }
+                    //    else if(eqSlots[index].Item == null)
+                    //    {
+                    //        Debug.Log("분해 할 장비가 없습니다");
+                    //        return;
+                    //    }
+
+                    //}
+                    // 인벤토리
+                    if (index >= 9)
                     {
-                        ivSlots[index - 9].ClearSlot();
-                        Debug.Log($"인벤토리 {index - 9}번 장비 분해");
-                    }
-                    else if (ivSlots[index - 9].Item == null)
-                    {
-                        Debug.Log("분해 할 장비가 없습니다.");
-                        return;
+                        if (ivSlots[index - 9].Item != null)
+                        {
+                            ivSlots[index - 9].ClearSlot();
+                            Debug.Log($"인벤토리 {index - 9}번 장비 분해");
+                        }
+                        else if (ivSlots[index - 9].Item == null)
+                        {
+                            Debug.Log("분해 할 장비가 없습니다.");
+                            return;
+                        }
                     }
                 }
             }
