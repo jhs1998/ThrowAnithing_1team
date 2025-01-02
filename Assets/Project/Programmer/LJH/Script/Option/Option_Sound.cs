@@ -23,9 +23,6 @@ public class Option_Sound : Main_Option
     List<ButtonStruct> buttonStructs = new List<ButtonStruct>();
     GameObject[,] buttons;
 
-    int sound_Ho = 0;
-    int sound_Ver = 1;
-
     float preTotal;
     float newTotal;
     float defaultTotal;

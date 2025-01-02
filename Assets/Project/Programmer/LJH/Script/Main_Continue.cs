@@ -15,6 +15,8 @@ public class Main_Continue : MainScene
 
     int slots_cur;
 
+    [SerializeField] GameObject deleteTab;
+
 
     void Start()
     {
@@ -25,11 +27,14 @@ public class Main_Continue : MainScene
 
     void Update()
     {
-        if (menuCo == null)
+        if (!deleteTab.activeSelf)
         {
-            menuCo = StartCoroutine(Slots_Select());
+            if (menuCo == null)
+            {
+                menuCo = StartCoroutine(Slots_Select());
+            }
+            SelectedEnter();
         }
-        SelectedEnter();
     }
 
     private IEnumerator Slots_Select()
