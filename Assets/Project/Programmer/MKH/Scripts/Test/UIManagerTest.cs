@@ -34,21 +34,23 @@ namespace MKH
 
         private void Inventory()
         {
-            if (InputKey.GetButtonDown("Inventory"))
+            if (Input.GetKeyDown(KeyCode.B))
             {
                 if (_Inventory.activeSelf)
                     return;
 
+                Time.timeScale = 0;
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
             }
 
-            if (InputKey.GetButtonDown("Negative"))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 if (_BlueChipPanel.activeSelf)
                     return;
 
+                Time.timeScale = 1;
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
                 _State.SetActive(false);
@@ -60,7 +62,7 @@ namespace MKH
             if (!_Inventory.activeSelf)
                 return;
 
-            if (InputKey.GetButtonDown("Inventory"))
+            if (Input.GetKeyDown(KeyCode.B))
             {
                 _BlueChipPanel.SetActive(true);
             }
@@ -68,7 +70,7 @@ namespace MKH
 
         private void CloseBlueChip()
         {
-            if (InputKey.GetButtonDown("PopUp Close"))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 _BlueChipPanel.SetActive(false);
             }
