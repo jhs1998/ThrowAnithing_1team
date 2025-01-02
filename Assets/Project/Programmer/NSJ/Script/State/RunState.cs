@@ -1,17 +1,28 @@
+using System.Collections;
+using System.Text;
 using UnityEngine;
 
 public class RunState : PlayerState
 {
+    private bool _isInput;
+
+    Coroutine _checkInputRoutine;
     public RunState(PlayerController controller) : base(controller)
     {
     }
 
     public override void Enter()
     {
+        _isInput = true;
+
         View.SetBool(PlayerView.Parameter.Idle, true);
         View.SetBool(PlayerView.Parameter.Run, true);
     }
-
+    public override void Exit()
+    {
+        View.SetBool(PlayerView.Parameter.Idle, false);
+        View.SetBool(PlayerView.Parameter.Run, false);
+    }
     public override void Update()
     {
         CheckChangeState();
@@ -22,21 +33,18 @@ public class RunState : PlayerState
         Run();
     }
 
-    public override void Exit()
-    {
-        View.SetBool(PlayerView.Parameter.Idle, false);
-        View.SetBool(PlayerView.Parameter.Run, false);
-    }
+
 
     private void Run()
-    { 
+    {
+        if (MoveDir == Vector3.zero)
+            return;
         Player.LookAtMoveDir();
 
         // 플레이어 이동
         // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동
         if (Player.IsGround == false && Player.IsWall == true)
             return;
-
         Vector3 originRb = Rb.velocity;
         Vector3 velocityDir = transform.forward * Model.MoveSpeed;
         Rb.velocity = new Vector3(velocityDir.x, originRb.y, velocityDir.z);
@@ -80,5 +88,5 @@ public class RunState : PlayerState
             ChangeState(PlayerController.State.Drain);
         }
     }
-
+    float _inputBuffer;
 }
