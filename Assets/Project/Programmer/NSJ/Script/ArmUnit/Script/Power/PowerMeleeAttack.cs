@@ -13,6 +13,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         public float AttackRange;
         [Range(0, 180)] public float AttackAngle;
         public float KnockBackRange;
+        public float MovePower;
         [HideInInspector] public float Stamina;
         [HideInInspector] public GameObject ArmEffect;
     }
@@ -149,6 +150,10 @@ public class PowerMeleeAttack : ArmMeleeAttack
         // 자원소모 처리
         Model.CurStamina -= _charges[_index].Stamina;
 
+        Debug.Log(transform.name);
+        // 캐릭터 전방 조금 이동
+        Rb.AddForce(Vector3.forward * _charges[_index].MovePower);
+
         // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
         // 1. 전방에 있는 몬스터 확인
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + Player.AttackHeight, transform.position.z);
@@ -183,6 +188,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
             if (_index == 0)
                 break;
         }
+
     }
     public override void OnDrawGizmos()
     {
