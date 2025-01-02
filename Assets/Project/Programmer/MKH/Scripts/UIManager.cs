@@ -24,6 +24,7 @@ namespace MKH
             set { _player = value; }
         }
 
+        private bool _isOpenInventory;
         private void Awake()
         {
             Bind();
@@ -58,7 +59,7 @@ namespace MKH
             {
                 if (_Inventory.activeSelf)
                     return;
-
+                _isOpenInventory = true;
                 player.ChangeStateInteract(true);
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
@@ -69,7 +70,10 @@ namespace MKH
             {
                 if (_BlueChipPanel.activeSelf)
                     return;
+                if (_isOpenInventory == false)
+                    return;
 
+                _isOpenInventory = false;
                 player.ChangeStateInteract(false);
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
