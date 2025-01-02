@@ -27,7 +27,7 @@ public class EnemyDead : Action
             rb.velocity = Vector3.zero;
             rb.useGravity = false;
             Collider collider = GetComponent<Collider>();
-            collider.isTrigger = true;
+            collider.enabled = false;
         }
         return TaskStatus.Running;
     }
