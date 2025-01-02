@@ -62,12 +62,6 @@ public class MainScene : BaseUI
 
     private void Update()
     {
-        Debug.Log($"현재 exitCheck {exitCheck}");
-
-        if (exitNum == 0)
-            Debug.Log("현재 커서 : 예");
-        if (exitNum == 1)
-            Debug.Log("현재 커서 : 아니요");
 
         if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf && !exitPopUpObj.activeSelf)
             curState = CurState.main;
@@ -171,25 +165,18 @@ public class MainScene : BaseUI
             switch (curMenu)
             {
                 case 0:
-                    Debug.Log("계속하기 선택_슬롯 선택 팝업 노출");
-                    //Todo : 슬롯 선택 팝업 만들어야함 > 백엔드와 협업 필요할 듯
                     ContinueButton();
                     break;
 
                 case 1:
-                    Debug.Log("새로하기 선택_게임 시작 화면으로 이동");
-                    //Todo : 게임 화면으로 이동 만들어야함
                     NewButton();
                     break;
 
                 case 2:
-                    Debug.Log("옵션 선택_옵션 팝업 노출");
                     OptionButton();
-                    //Todo : 옵션 팝업 만들어야함
                     break;
 
                 case 3:
-                    Debug.Log("게임 종료 선택_게임 종료");
                     ExitButton();
                     break;
             }
@@ -198,7 +185,6 @@ public class MainScene : BaseUI
         if (InputKey.GetButtonDown(InputKey.Cancel))
         {
             ExitButton();
-            Debug.Log("게임 종료 선택_게임 종료");
         }
     }
 

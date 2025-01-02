@@ -14,20 +14,20 @@ public class Upgrade : UpgradeBinding
     [Inject]
     private GlobalGameData _gameData;
 
+    //플레이어
+    PlayerController player;
+
     Button[,] slots;
     Image[,] slotImages;
 
     int ho;
     int ver;
 
-    Coroutine slotCo;
-    Coroutine buttonCo;
-    float inputDelay = 0.15f;
-
     //Comment : Infomation > name
     [SerializeField] TMP_Text itemName;
     [SerializeField] Image itemImage;
     [SerializeField] TMP_Text itemInfo;
+    [SerializeField] TMP_Text infotext;
 
 
     //Comment : for Test
@@ -59,15 +59,11 @@ public class Upgrade : UpgradeBinding
     {
         ver = 0;
         ho = 0;
-       // StopCoroutine(slotCo);
-       // slotCo = null;
     }
 
     private void Update()
     {
         Slot_Selected();
-       // if (slotCo == null)
-       //     slotCo = StartCoroutine(Slot_Selected());
 
         //Comment : For test
         if (InputKey.GetButtonDown(InputKey.Interaction))
@@ -154,60 +150,13 @@ public class Upgrade : UpgradeBinding
         itemImage.sprite = slotImages[ver, ho].sprite;
         itemInfo.text = slots[ver, ho].name;
 
+        int slot = ver * 4 + ho; // 1차원 배열의 인덱스를 계산
+        infotext.text = $"{_gameData.upgradeLevels[slot]} / 5";
+
         SlotLimit();
     }
 
-    IEnumerator Slot_SelectedOld()
-    {
-
-        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
-        float y = -InputKey.GetAxisRaw(InputKey.Vertical);
-
-        //ho += (int)x;
-        //ver += (int)y;
-
-        if (x != 0)
-        {
-            if (axisInUse == false)
-            {
-                ho += (int)x;
-                Debug.Log("실행됨");
-                axisInUse = true;
-            }
-        }
-        else if (y != 0)
-        {
-            if (axisInUse == false)
-            {
-                ver += (int)y;
-                axisInUse = true;
-            }
-        }
-        else
-        {
-            axisInUse = false;
-        }
-
-
-        ho = ho == -1 ? 3 : ho == 4 ? 0 : ho;
-        ver = ver == -1 ? tier - 1 : ver == tier ? 0 : ver;
-
-        // Comment : 다른 슬롯 색 리셋
-        ColorReset();
-        // Comment : 선택한 슬롯 노란색으로
-
-        slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
-
-        itemName.text = slots[ver, ho].name;
-        itemImage.sprite = slotImages[ver, ho].sprite;
-        itemInfo.text = slots[ver, ho].name;
-
-        SlotLimit();
-        yield return inputDelay.GetDelay();
-        slotCo = null;
-    }
-
-
+    
     //슬롯 클릭시
     void ClickedSlots(Button button)
     {
@@ -215,7 +164,7 @@ public class Upgrade : UpgradeBinding
         {
             slots[ver, ho].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
 
-            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.Horizontal))
+            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.Interaction))
             {
                 (ver, ho) = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
             }
@@ -298,5 +247,7 @@ public class Upgrade : UpgradeBinding
                 slots[i, j].onClick.AddListener(() => ClickedSlots(slots[row, col]));
             }
         }
+
+        player = GameObject.FindWithTag(Tag.Player).GetComponent<PlayerController>();
     }
 }
