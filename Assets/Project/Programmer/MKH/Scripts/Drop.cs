@@ -9,12 +9,6 @@ namespace MKH
     {
         public DropList dropList;
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-                DropItem();
-        }
-
         private void DropItem()
         {
             GameObject dropPrefab = dropList.itemList[Random.Range(0, dropList.Count)];
