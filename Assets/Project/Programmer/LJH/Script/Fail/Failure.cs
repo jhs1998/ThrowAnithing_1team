@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Failure : MonoBehaviour
 {
-    [SerializeField] GameObject scoreBoard;
+    [SerializeField] GameObject result;
     Coroutine co;
 
 
@@ -25,7 +25,7 @@ public class Failure : MonoBehaviour
     {
         yield return 2f.GetRealTimeDelay();
 
-        scoreBoard.SetActive(true);
+        result.SetActive(true);
         gameObject.SetActive(false);
     }
 

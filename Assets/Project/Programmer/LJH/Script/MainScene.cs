@@ -125,7 +125,7 @@ public class MainScene : BaseUI
 
     private IEnumerator MenuSelect()
     {
-        float y = -Input.GetAxisRaw("Vertical");
+        float y = -InputKey.GetAxisRaw(InputKey.Vertical);
 
 
         curMenu += (int)y;
@@ -267,43 +267,6 @@ public class MainScene : BaseUI
         }
     }
 
-    void ExitPopUpOld()
-    {
-        switch (exitNum)
-        {
-            case 0:
-                exitButtons[exitNum].GetComponent<Image>().color = Color.black;
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
-                {
-                    exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                    exitNum = 1;
-                }
-                if (Input.GetButtonDown("Interaction"))
-                {
-                    Debug.Log("종료");
-                    if (exitCheck > 1)
-                    {
-                        ExitGame();
-                    }
-                    exitCheck++;
-                }
-                break;
-
-            case 1:
-                exitButtons[exitNum].GetComponent<Image>().color = Color.black;
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
-                {
-                    exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                    exitNum = 0;
-                }
-                if (Input.GetButtonDown("Interaction"))
-                {
-                    exitCheck = 0;
-                    exitPopUpObj.SetActive(false);
-                }
-                break;
-        }
-    }
     protected void ExitGame()
     {
 #if UNITY_EDITOR

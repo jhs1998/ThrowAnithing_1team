@@ -9,7 +9,7 @@ public class TitleScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (InputKey.GetButtonDown(InputKey.Interaction))
             SceneManager.LoadScene("MainMenuScene");
     }
 }

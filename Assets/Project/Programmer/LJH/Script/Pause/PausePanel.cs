@@ -21,9 +21,8 @@ public class PausePanel : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
+        if (InputKey.GetButtonDown(InputKey.Cancel))
         {
-                        Debug.Log("esc≈∞¥≠∑»¿Ω");
             PauseOnOff();
         }
     }
