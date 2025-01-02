@@ -10,7 +10,7 @@ namespace MKH
         new private void Awake()
         {
             base.Awake();
-            state.SetActive(false);
+            //state.SetActive(false);
         }
        
         public void AcquireItem(Item item)

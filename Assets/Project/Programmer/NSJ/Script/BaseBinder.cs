@@ -47,6 +47,7 @@ public class BaseBinder : MonoBehaviour
     // GetObject("Key") : Key 이름의 게임오브젝트 가져오기
     public GameObject GetObject(in string name)
     {
+        Debug.Log(name);
         gameObjectDic.TryGetValue(name, out GameObject gameObject);
         return gameObject;
     }

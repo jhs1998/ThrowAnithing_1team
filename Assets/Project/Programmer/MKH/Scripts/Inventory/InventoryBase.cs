@@ -12,10 +12,10 @@ namespace MKH
 
         protected void Awake()
         {
-            if (mInventoryBase.activeSelf)
-            {
-                mInventoryBase.SetActive(false);
-            }
+            //if (mInventoryBase.activeSelf)
+            //{
+            //    mInventoryBase.SetActive(false);
+            //}
 
              mSlots = mInventorySlotsParent.GetComponentsInChildren<InventorySlot>();
         }

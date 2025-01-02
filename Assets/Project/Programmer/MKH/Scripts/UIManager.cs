@@ -4,19 +4,33 @@ using UnityEngine;
 
 namespace MKH
 {
-    public class UIManager : MonoBehaviour
+    public class UIManager : BaseBinder
     {
         [SerializeField] GameObject _Inventory;
         [SerializeField] GameObject _EquipInventory;
         [SerializeField] GameObject _State;
         [SerializeField] GameObject _BlueChipPanel;
+        [SerializeField] GameObject _BlueChipChoice;
 
         private void Awake()
         {
-            _Inventory = GameObject.Find("InventoryUI").transform.Find("Inventory").gameObject;
-            _EquipInventory = GameObject.Find("InventoryUI").transform.Find("EquipmentInventory").gameObject;
-            _State = GameObject.Find("InventoryUI").transform.Find("State").gameObject;
-            _BlueChipPanel = GameObject.Find("InventoryUI").transform.Find("BlueChipPanel").gameObject;
+            Bind();
+            Debug.Log(11);
+            //_Inventory = GameObject.Find("InventoryUI").transform.Find("Inventory").gameObject;
+            //_EquipInventory = GameObject.Find("InventoryUI").transform.Find("EquipmentInventory").gameObject;
+            //_State = GameObject.Find("InventoryUI").transform.Find("State").gameObject;
+            //_BlueChipPanel = GameObject.Find("InventoryUI").transform.Find("BlueChipPanel").gameObject;
+            _Inventory = GetObject("Inventory");
+            _EquipInventory = GetObject("EquipmentInventory");
+            _State = GetObject("State");
+            _BlueChipPanel = GetObject("BlueChipPanel");
+            _BlueChipChoice = GetObject("BlueChipChoice");
+
+            _Inventory.SetActive(false);
+            _EquipInventory.SetActive(false);
+            _State.SetActive(false);
+            _BlueChipChoice.SetActive(false);
+            _BlueChipPanel.SetActive(false);
         }
 
         private void Start()
