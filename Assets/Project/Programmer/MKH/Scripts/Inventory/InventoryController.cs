@@ -12,7 +12,7 @@ namespace MKH
         [SerializeField] InventorySlot[] ivSlots;               // 인벤토리 슬롯들
         [SerializeField] GameObject mEquipmentSlotsParent;      // 장비 슬롯 모음집
         [SerializeField] InventorySlot[] eqSlots;               // 장비 슬롯들
-        [SerializeField] BlueChipPanel blueChipPanel;
+        [SerializeField] GameObject blueChipPanel;              // 블루칩 패널
 
         [Header("슬롯 버튼")]
         [SerializeField] GameObject[] buttons;                  // 슬롯 버튼
@@ -59,7 +59,7 @@ namespace MKH
             float y = InputKey.GetAxisRaw("Vertical");         // 상 하 조작
 
             // 인벤토리만 켜져있을 때
-            if (inventory.activeSelf == true && blueChipPanel == false)
+            if (inventory.activeSelf && !blueChipPanel.activeSelf)
             {
                 // 왼쪽
                 if (x == -1)
@@ -102,19 +102,18 @@ namespace MKH
                 {
                     axisInUse = false;
                 }
+            }
 
-
-                // 선택 슬롯 색 입히기
-                for (int i = 0; i < buttons.Length; i++)
+            // 선택 슬롯 색 입히기
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                if (i == selectedButtonsIndex)
                 {
-                    if (i == selectedButtonsIndex)
-                    {
-                        buttons[i].GetComponent<Image>().color = HighlightedColor;
-                    }
-                    else
-                    {
-                        buttons[i].GetComponent<Image>().color = color;
-                    }
+                    buttons[i].GetComponent<Image>().color = HighlightedColor;
+                }
+                else
+                {
+                    buttons[i].GetComponent<Image>().color = color;
                 }
             }
         }
@@ -124,7 +123,7 @@ namespace MKH
         private void Use(int index)
         {
             // 인벤토리만 켜져있을 때
-            if (inventory.activeSelf == true && blueChipPanel == false)
+            if (inventory.activeSelf && !blueChipPanel.activeSelf)
             {
                 // 아이템 장착
                 if (InputKey.GetButtonDown("InventoryEquip"))
