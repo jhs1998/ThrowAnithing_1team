@@ -110,7 +110,7 @@ public class SlotManager : MonoBehaviour
         SceneManager.LoadScene(_lobbyScene);
     }
 
-    private void OnConfirmDelete()
+    public void OnConfirmDelete()
     {
         string slotPath = userDataManager.path + $"slot_{selectedSlotIndex}.json";
         if (File.Exists(slotPath))
@@ -126,7 +126,7 @@ public class SlotManager : MonoBehaviour
         confirmDeleteUI.SetActive(false);
     }
     // 확인 UI 취소 버튼 
-    private void OnCancelDelete()
+    public void OnCancelDelete()
     {
         // 확인 UI 비활성화
         confirmDeleteUI.SetActive(false);

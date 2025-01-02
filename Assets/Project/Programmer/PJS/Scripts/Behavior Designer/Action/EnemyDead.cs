@@ -24,8 +24,8 @@ public class EnemyDead : Action
             _isFirst = true;
 
             Rigidbody rb = GetComponent<Rigidbody>();
-            rb.velocity = Vector3.zero;
             rb.useGravity = false;
+            rb.isKinematic = true;
             Collider collider = GetComponent<Collider>();
             collider.enabled = false;
         }

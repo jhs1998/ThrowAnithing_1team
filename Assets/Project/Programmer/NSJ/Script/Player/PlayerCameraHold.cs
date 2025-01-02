@@ -101,7 +101,7 @@ public class PlayerCameraHold : MonoBehaviour
     private void SetTargetList()
     {
         // 플레이어가 앞을 바라봄
-        //_player.LookAtCameraFoward();
+        //Player.LookAtCameraFoward();
         
         // 주변에 몬스터가 있는지 스캔
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _detectRange, _player.OverLapColliders, 1 << Layer.Monster);
@@ -186,7 +186,7 @@ public class PlayerCameraHold : MonoBehaviour
                 // 해당 타겟으로 변경
                 _target = _targetList[_targetIndex].Target;
             }
-            //else if (_player.IsTargetToggle == true && mouseScroll < 0)
+            //else if (Player.IsTargetToggle == true && mouseScroll < 0)
             //{
             //    // 타겟 인덱스 내림
             //    _targetIndex--;

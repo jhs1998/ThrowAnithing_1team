@@ -20,6 +20,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
     }
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private GameObject _specialRange;
+    [SerializeField] private float _moveSpeedMultyPlier;
 
     private float _maxChargeTime => _charges[_charges.Length - 1].ChargeTime;
     private int _triggerIndex;
@@ -39,7 +40,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
     }
     public override void Enter()
     {
-        if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount)
+        if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount ||  Model.CurMana < 30)
         {
             EndAnimation();
             return;
@@ -100,6 +101,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
     {
         while (true)
         {
+            Move();
             ProcessCharge();
 
             if (InputKey.GetButtonUp(InputKey.Special))
@@ -143,7 +145,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
         // 오른손 효과 손 따라다니기
         if (_instanceDropObject != null)
         {
-            _instanceDropObject.transform.position = Vector3.MoveTowards(_instanceDropObject.transform.position, Player.ArmPoint.position, Time.deltaTime * 1f);
+            _instanceDropObject.transform.position = Player.ArmPoint.position;
         }
 
 
@@ -223,5 +225,20 @@ public class BasicSpecialAttack : ArmSpecialAttack
         }
 
         Destroy(_instanceSpecialRange);
+    }
+
+    private void Move()
+    {
+        if (Player.MoveDir == Vector3.zero)
+            return;
+        Player.LookAtMoveDir();
+
+        // 플레이어 이동
+        // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동
+        if (Player.IsGround == false && Player.IsWall == true)
+            return;
+        Vector3 originRb = Rb.velocity;
+        Vector3 velocityDir = transform.forward * (Model.MoveSpeed * _moveSpeedMultyPlier);
+        Rb.velocity = new Vector3(velocityDir.x, originRb.y, velocityDir.z);
     }
 }

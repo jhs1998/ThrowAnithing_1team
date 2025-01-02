@@ -18,9 +18,6 @@ public class Option_GamePlay : Main_Option
 
     protected GameObject[,] buttons;
 
-    int gamePlay_Ho = 0;
-    int gamePlay_Ver = 1;
-
     List<Button> gamePlayButtons = new List<Button>();
 
     GameObject defaultPopUp;
@@ -110,12 +107,10 @@ public class Option_GamePlay : Main_Option
             {
                 if (_curIndex == 2)
                 {
-                    Debug.Log("2일때 동작");
                     _curIndex = 3;
                 }
                 else
                 {
-                    Debug.Log("그 외임");
                     _curIndex++;
                 }
                 
