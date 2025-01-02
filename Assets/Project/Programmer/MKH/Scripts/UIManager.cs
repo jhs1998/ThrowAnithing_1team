@@ -9,7 +9,20 @@ namespace MKH
         [SerializeField] GameObject _State;
         [SerializeField] GameObject _BlueChipPanel;
         [SerializeField] GameObject _BlueChipChoice;
-        //[SerializeField] PlayerController player;
+        private PlayerController _player;
+        [SerializeField]
+        PlayerController player
+        {
+            get
+            {
+                if (_player == null)
+                {
+                    _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+                }
+                return _player;
+            }
+            set { _player = value; }
+        }
 
         private void Awake()
         {
@@ -46,7 +59,7 @@ namespace MKH
                 if (_Inventory.activeSelf)
                     return;
 
-                //player.enabled = false;
+                player.enabled = false;
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
@@ -57,7 +70,7 @@ namespace MKH
                 if (_BlueChipPanel.activeSelf)
                     return;
 
-                //player.enabled = true;
+                player.enabled = true;
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
                 _State.SetActive(false);
