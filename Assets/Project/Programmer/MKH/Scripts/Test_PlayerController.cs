@@ -2,7 +2,6 @@ using Assets.Project.Programmer.NSJ.RND.Script.Test.ZenjectTest;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class Test_PlayerController : MonoBehaviour
 {
