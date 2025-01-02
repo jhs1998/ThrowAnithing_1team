@@ -6,16 +6,17 @@ using System.Linq;
 using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
-using static InputKey;
 
-public static partial class InputKey
+public class InputKey : MonoBehaviour
 {
+    public static InputKey Instance;
     public enum Axis { None, Axis, AxisUp, AxisDown }
     public struct InputStruct
     {
         public string Name;
         public Axis Axis;
-        public bool IsPress;
+        public bool PrevPress;
+        public bool CurPress;
     }
 
     /// <summary>
@@ -105,9 +106,36 @@ public static partial class InputKey
 
 
     private static Dictionary<string, InputStruct> InputStructDic = new Dictionary<string, InputStruct>();
+    private static List<InputStruct> inputStructs = new List<InputStruct>();
 
-    [RuntimeInitializeOnLoadMethod]
-    private static void Init()
+    private void Awake()
+    {
+        InitSingleTon();
+
+        Init();
+    }
+    private void InitSingleTon()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            transform.SetParent(null);
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        foreach(InputStruct inputStruct in inputStructs)
+        {
+            SetPrevPress(InputStructDic[inputStruct.Name], InputStructDic[inputStruct.Name].CurPress);
+        }
+    }
+    private void Init()
     {
         InputStructDic.Clear();
         Horizontal = GetInputStruct("Horizontal", Axis.Axis);
@@ -193,14 +221,19 @@ public static partial class InputKey
         {
             float x = Input.GetAxisRaw(InputStructDic[inputStruct.Name].Name);
             // 버튼 누르고 뗏을때
-            if (x == 0 && InputStructDic[InputStructDic[inputStruct.Name].Name].IsPress == true)
+            if (x == 0 && InputStructDic[InputStructDic[inputStruct.Name].Name].PrevPress == true)
             {
-                InputStructDic[inputStruct.Name].SetIsPress(false);
+                SetCurPress(InputStructDic[inputStruct.Name], false);
             }
             // 버튼 누르기 시작했을 때
-            if (x > 0 && InputStructDic[inputStruct.Name].IsPress == false)
+            if(inputStruct.Name == "PopUp Close")
             {
-                InputStructDic[inputStruct.Name].SetIsPress(true);
+                Debug.Log(InputStructDic[inputStruct.Name].PrevPress);
+            }
+
+            if (x > 0 && InputStructDic[inputStruct.Name].PrevPress == false)
+            {
+                SetCurPress(InputStructDic[inputStruct.Name], true);
                 return true;
             }
             else
@@ -209,12 +242,12 @@ public static partial class InputKey
         else if (InputStructDic[inputStruct.Name].Axis == Axis.AxisDown)
         {
             float x = Input.GetAxisRaw(InputStructDic[inputStruct.Name].Name);
-            if (x == 0 && InputStructDic[InputStructDic[inputStruct.Name].Name].IsPress == true)
-                InputStructDic[inputStruct.Name].SetIsPress(false);
+            if (x == 0 && InputStructDic[InputStructDic[inputStruct.Name].Name].PrevPress == true)
+                SetCurPress(InputStructDic[inputStruct.Name], false);
 
-            if (x < 0 && InputStructDic[inputStruct.Name].IsPress == false)
+            if (x < 0 && InputStructDic[inputStruct.Name].PrevPress == false)
             {
-                InputStructDic[inputStruct.Name].SetIsPress(true);
+                SetCurPress(InputStructDic[inputStruct.Name], true);
                 return true;
             }
             else
@@ -230,13 +263,13 @@ public static partial class InputKey
         if (InputStructDic[name].Axis == Axis.AxisUp)
         {
             float x = Input.GetAxisRaw(InputStructDic[name].Name);
-            if (x == 0 && InputStructDic[InputStructDic[name].Name].IsPress == true)
+            if (x == 0 && InputStructDic[InputStructDic[name].Name].PrevPress == true)
             {
-                InputStructDic[name].SetIsPress(false);
+                SetCurPress(InputStructDic[name], false);
             }
-            if (x > 0 && InputStructDic[name].IsPress == false)
+            if (x > 0 && InputStructDic[name].PrevPress == false)
             {
-                InputStructDic[name].SetIsPress(true);
+                SetCurPress(InputStructDic[name], true);
                 return true;
             }
             else
@@ -245,12 +278,12 @@ public static partial class InputKey
         else if (InputStructDic[name].Axis == Axis.AxisDown)
         {
             float x = Input.GetAxisRaw(InputStructDic[name].Name);
-            if (x == 0 && InputStructDic[InputStructDic[name].Name].IsPress == true)
-                InputStructDic[name].SetIsPress(false);
+            if (x == 0 && InputStructDic[InputStructDic[name].Name].PrevPress == true)
+                SetCurPress(InputStructDic[name], false);
 
-            if (x < 0 && InputStructDic[name].IsPress == false)
+            if (x < 0 && InputStructDic[name].PrevPress == false)
             {
-                InputStructDic[name].SetIsPress(true);
+                SetCurPress(InputStructDic[name], true);
                 return true;
             }
             else
@@ -273,12 +306,12 @@ public static partial class InputKey
         if (InputStructDic[inputStruct.Name].Axis == Axis.AxisUp)
         {
             float x = Input.GetAxisRaw(InputStructDic[inputStruct.Name].Name);
-            if (x > 0 && InputStructDic[inputStruct.Name].IsPress == false)
-                InputStructDic[inputStruct.Name].SetIsPress(true);
+            if (x > 0 && InputStructDic[inputStruct.Name].PrevPress == false)
+                SetCurPress(InputStructDic[inputStruct.Name], true);
 
-            if (x == 0 && InputStructDic[inputStruct.Name].IsPress == true)
+            if (x == 0 && InputStructDic[inputStruct.Name].PrevPress == true)
             {
-                InputStructDic[inputStruct.Name].SetIsPress(false);
+                SetCurPress(InputStructDic[inputStruct.Name], false);
                 return true;
             }
             else
@@ -287,12 +320,12 @@ public static partial class InputKey
         else if (InputStructDic[inputStruct.Name].Axis == Axis.AxisDown)
         {
             float x = Input.GetAxisRaw(InputStructDic[inputStruct.Name].Name);
-            if (x < 0 && InputStructDic[inputStruct.Name].IsPress == false)
-                InputStructDic[inputStruct.Name].SetIsPress(true);
+            if (x < 0 && InputStructDic[inputStruct.Name].PrevPress == false)
+                SetCurPress(InputStructDic[inputStruct.Name], true);
 
-            if (x == 0 && InputStructDic[inputStruct.Name].IsPress == true)
+            if (x == 0 && InputStructDic[inputStruct.Name].PrevPress == true)
             {
-                InputStructDic[inputStruct.Name].SetIsPress(false);
+                SetCurPress(InputStructDic[inputStruct.Name], false);
                 return true;
             }
             else
@@ -308,12 +341,12 @@ public static partial class InputKey
         if (InputStructDic[name].Axis == Axis.AxisUp)
         {
             float x = Input.GetAxisRaw(InputStructDic[name].Name);
-            if (x > 0 && InputStructDic[name].IsPress == false)
-                InputStructDic[name].SetIsPress(true);
+            if (x > 0 && InputStructDic[name].PrevPress == false)
+                SetCurPress(InputStructDic[name], true);
 
-            if (x == 0 && InputStructDic[name].IsPress == true)
+            if (x == 0 && InputStructDic[name].PrevPress == true)
             {
-                InputStructDic[name].SetIsPress(false);
+                SetCurPress(InputStructDic[name], false);
                 return true;
             }
             else
@@ -322,12 +355,12 @@ public static partial class InputKey
         else if (InputStructDic[name].Axis == Axis.AxisDown)
         {
             float x = Input.GetAxisRaw(InputStructDic[name].Name);
-            if (x < 0 && InputStructDic[name].IsPress == false)
-                InputStructDic[name].SetIsPress(true);
+            if (x < 0 && InputStructDic[name].PrevPress == false)
+                SetCurPress(InputStructDic[name], true);
 
-            if (x == 0 && InputStructDic[name].IsPress == true)
+            if (x == 0 && InputStructDic[name].PrevPress == true)
             {
-                InputStructDic[name].SetIsPress(false);
+                SetCurPress(InputStructDic[name],false);
                 return true;
             }
             else
@@ -373,26 +406,28 @@ public static partial class InputKey
         return Input.GetAxis(name);
     }
 
-    private static void SetIsPress(this InputStruct inputStruct, bool isPress)
+    private static void SetCurPress(InputStruct inputStruct, bool isPress)
     {
-        CoroutineHandler.StartRoutine(SetIsPressRoutine(inputStruct, isPress));
+        InputStruct newInputStruct = InputStructDic[inputStruct.Name];
+        newInputStruct.CurPress = isPress;
+        InputStructDic[inputStruct.Name] = newInputStruct;
     }
 
-    private static IEnumerator SetIsPressRoutine(InputStruct inputStruct, bool isPress)
+    private static void SetPrevPress(InputStruct inputStruct, bool isPress)
     {
-        yield return null;
         InputStruct newInputStruct = InputStructDic[inputStruct.Name];
-        newInputStruct.IsPress = isPress;
+        newInputStruct.PrevPress = isPress;
         InputStructDic[inputStruct.Name] = newInputStruct;
-    } 
+    }
 
     private static InputStruct GetInputStruct(string name, Axis axis)
     {
         InputStruct inputStruct = new InputStruct();
         inputStruct.Name = name;
         inputStruct.Axis = axis;
-        inputStruct.IsPress = false;
+        inputStruct.CurPress = false;
         InputStructDic.Add(name, inputStruct);
+        inputStructs.Add(inputStruct);
         return inputStruct;
     }
 }
