@@ -244,12 +244,12 @@ public class PowerMeleeAttack : ArmMeleeAttack
             if (Player.IsWall)
                 break;
 
-            transform.Translate(rushDir * Time.deltaTime * RushSpeed, Space.World);
-
-            if (Vector3.Distance(originPos, transform.position) > rushDistance)
+            if (Vector3.Distance(originPos, transform.position) >= rushDistance)
             {
                 break;
             }
+
+            transform.Translate(rushDir * Time.deltaTime * RushSpeed, Space.World);
             yield return null;
         }
     }

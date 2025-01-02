@@ -5,7 +5,7 @@ public class FallState : PlayerState
 {
 
     private Vector3 _inertia; // 관성력
-
+    private bool _isInertia;
     Coroutine _fallRoutine;
     Coroutine _checkInputRoutine;
     public FallState(PlayerController controller) : base(controller)
@@ -19,7 +19,7 @@ public class FallState : PlayerState
             View.SetTrigger(PlayerView.Parameter.Fall);
         }
 
-        _inertia = new Vector3(Rb.velocity.x, Rb.velocity.y, Rb.velocity.z);
+        _inertia = new Vector3(Rb.velocity.x, 0,Rb.velocity.z);
         if (_fallRoutine == null)
         {
             _fallRoutine = CoroutineHandler.StartRoutine(FallRoutine());
@@ -64,14 +64,19 @@ public class FallState : PlayerState
         yield return 0.1f.GetDelay();
         while (Player.IsGround == false)
         {
-           // if(MoveDir == Vector3.zero)
-           // {
-                Rb.velocity = new Vector3(_inertia.x, Rb.velocity.y, _inertia.z );
-            //}
-            //else
-            //{
-            //    Rb.velocity = new Vector3(MoveDir.x * Model.MoveSpeed, Rb.velocity.y, MoveDir.z * Model.MoveSpeed);
-            //}
+            if (MoveDir == Vector3.zero)
+            {
+                Rb.velocity = new Vector3(_inertia.x, Rb.velocity.y, _inertia.z);
+            }
+            else
+            {
+                Player.LookAtMoveDir();
+
+                Vector3 moveDir = transform.forward * Model.MoveSpeed;
+                //Vector3 moveDir = transform.forward * MoveDir.z * Model.MoveSpeed + transform.right * MoveDir.x * Model.MoveSpeed;
+                Rb.velocity = new Vector3(moveDir.x, Rb.velocity.y, moveDir.z);
+                _inertia = Rb.velocity;
+            }
 
             // 관성 유지, 벽과 접촉시 이동안함
             if (Player.IsWall == true)
@@ -113,9 +118,9 @@ public class FallState : PlayerState
                 ChangeState(PlayerController.State.JumpAttack);
                 break;
             }
-            if (InputKey.GetButtonDown(InputKey.Melee) && Player.IsDoubleJump == true )
+            if (InputKey.GetButtonDown(InputKey.Melee) && Player.IsDoubleJump == true)
             {
-                Player.IsDoubleJump = false;              
+                Player.IsDoubleJump = false;
                 ChangeState(PlayerController.State.JumpDown);
                 break;
             }

@@ -71,12 +71,20 @@ public class DoubleJumpFallState : PlayerState
         yield return 0.1f.GetDelay();
         while (Player.IsGround == false)
         {
-            // 관성 유지, 벽과 접촉시 이동안함
-            if (Player.IsWall == false)
+            if (MoveDir == Vector3.zero)
             {
                 Rb.velocity = new Vector3(_inertia.x, Rb.velocity.y, _inertia.z);
             }
             else
+            {
+                Player.LookAtMoveDir();
+
+                Vector3 moveDir = transform.forward * Model.MoveSpeed;
+                //Vector3 moveDir = transform.forward * MoveDir.z * Model.MoveSpeed + transform.right * MoveDir.x * Model.MoveSpeed;
+                Rb.velocity = new Vector3(moveDir.x, Rb.velocity.y, moveDir.z);
+                _inertia = Rb.velocity;
+            }
+            if (Player.IsWall == true)
             {
                 Rb.velocity = new Vector3(0, Rb.velocity.y, 0);
             }
