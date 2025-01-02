@@ -4,45 +4,12 @@ namespace MKH
 {
     public class BlueChipPanel : BlueChipBase
     {
-        public static bool IsBlueChipActive = false;
-
         [SerializeField] GameObject inventory;
 
         new private void Awake()
         {
             base.Awake();
-        }
-
-        private void Update()
-        {
-            TryOpenPanel();
-        }
-
-        private void TryOpenPanel()
-        {
-            if (inventory.activeSelf == true)
-            {
-                if (Input.GetKeyDown(KeyCode.B))
-                {
-                    OpenPanel();
-                }
-                else if(Input.GetKeyDown(KeyCode.C))
-                {
-                    ClosePanel();
-                }
-            }
-        }
-
-        private void OpenPanel()
-        {
-            mBlueChipBase.SetActive(true);
-            IsBlueChipActive = true;
-        }
-
-        private void ClosePanel()
-        {
-            mBlueChipBase.SetActive(false);
-            IsBlueChipActive = false;
+            Setting();
         }
 
         public bool AcquireEffect(AdditionalEffect effect)
@@ -56,9 +23,16 @@ namespace MKH
                     Debug.Log(effect);
                     return true;
                 }
-                
             }
             return false;
+        }
+
+        public void Setting()
+        {
+            for (int i = 0; i < mSlots.Length; i++)
+            {
+                mSlots[i].SetSlot();
+            }
         }
     }
 }
