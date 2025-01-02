@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Upgrade : UpgradeBinding
 {
@@ -39,6 +40,7 @@ public class Upgrade : UpgradeBinding
 
     // Comment : Cost Tier
     int tier;
+    Color lockedColor = new(0.1f, 0, 0.2f);
 
     private void Awake()
     {
@@ -101,22 +103,20 @@ public class Upgrade : UpgradeBinding
         ho += (int)x;
         ver += (int)y;
 
-        if (ho == -1)
-        {
+        ho = ho == -1 ? 3 : ho == 4 ? 0 : ho;
+        ver = ver == -1 ? tier - 1 : ver == tier ? 0 : ver;
+
+        if (ho == -1 )
             ho = 3;
-        }
+
         if (ho == 4)
-        {
             ho = 0;
-        }
+
         if (ver == -1)
-        {
             ver = tier - 1;
-        }
+
         if (ver == tier)
-        {
             ver = 0;
-        }
 
         // Comment : 다른 슬롯 색 리셋
         ColorReset();
@@ -135,11 +135,41 @@ public class Upgrade : UpgradeBinding
     }
 
 
+    //슬롯 클릭시
     void ClickedSlots(Button button)
     {
-        //ver = ;
-        slots[ver, ho] = button;
-        slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
+        if (button.GetComponent<Image>().color != lockedColor)
+        {
+            slots[ver, ho].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
+
+            if (EventSystem.current.currentInputModule != Input.GetButtonDown("Interaction"))
+            {
+                (ver, ho) = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
+            }
+
+            itemName.text = button.name;
+            itemInfo.text = button.name;
+            slotImages[ver, ho] = button.transform.GetChild(0).GetComponent<Image>();
+            slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
+        }
+    }
+
+    // 선택한 버튼의 인덱스로 slots 인덱스 교체
+    (int,int) FindButton(Button button)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if (slots[i, j].name == button.name)
+                {
+                    return (i, j);
+                }
+            }
+        }
+        //인식 못했을 때 0,0 으로 초기화
+        return (0, 0);
+
     }
 
     void ColorReset()
