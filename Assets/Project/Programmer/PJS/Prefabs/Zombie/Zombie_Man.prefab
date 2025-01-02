@@ -317,7 +317,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Battle: {fileID: 0}
-  attakArm: {fileID: 6290868372224578768}
+  attakArm: {fileID: 0}
 --- !u!114 &8247683989728437042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,7 +350,7 @@ MonoBehaviour:
         Check Squence"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"CanDeadth","NodeData":{"Offset":"(-327.1174,147.224976)"},"ID":4,"Name":"Can
         Deadth","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-256.930328,253.2648)"},"ID":5,"Name":"Set
         Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Death"}},{"Type":"EnemyDead","NodeData":{"Offset":"(-180.6459,164.0195)"},"ID":6,"Name":"Enemy
-        Dead","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Log","NodeData":{"Offset":"(-113.337051,253.8382)"},"ID":7,"Name":"Log","Instant":true,"SharedStringtext":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null},"SharedBoollogError":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBoollogTime":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-40.17153,156.2012)"},"ID":8,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"EnemyDropItem","NodeData":{"Offset":"(17.6064262,286.142822)"},"ID":9,"Name":"Enemy
+        Dead","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Log","NodeData":{"Offset":"(-113.337051,253.8382)"},"ID":7,"Name":"Log","Instant":true,"SharedStringtext":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null},"SharedBoollogError":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBoollogTime":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-40.17153,156.2012)"},"ID":8,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":2.5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"EnemyDropItem","NodeData":{"Offset":"(17.6064262,286.142822)"},"ID":9,"Name":"Enemy
         Drop Item","Instant":true,"SharedFloatreward":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Reward","IsShared":true,"SinglemValue":0},"Int32maxPersent":100,"List`1dropItems":[0]},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject.SetActive","NodeData":{"Offset":"(113.617905,158.228333)","Comment":"Active
         == false \uacbd\uc6b0\n\ud574\ub2f9 \ub178\ub4dc \uc774\ud6c4\ub294 \uc791\ub3d9
         X"},"ID":10,"Name":"Set Active","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedBoolactive":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-695.6352,150.917908)","Comment":"Collision
@@ -454,61 +454,6 @@ Transform:
   - {fileID: 9150092450476812136}
   m_Father: {fileID: 4735525628967592624}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &9067933890233357294
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3309212971233130827}
-  - component: {fileID: 6290868372224578768}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3309212971233130827
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9067933890233357294}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7781106599643736833}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &6290868372224578768
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9067933890233357294}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.05
-  m_Height: 0.35
-  m_Direction: 0
-  m_Center: {x: -0.18, y: 0, z: 0}
 --- !u!1001 &4810069522479901559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -563,17 +508,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2971469237319532662, guid: 472a9f6a5f9de0c47b9caf44c639f2dc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3309212971233130827}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 472a9f6a5f9de0c47b9caf44c639f2dc, type: 3}
---- !u!4 &7781106599643736833 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2971469237319532662, guid: 472a9f6a5f9de0c47b9caf44c639f2dc, type: 3}
-  m_PrefabInstance: {fileID: 4810069522479901559}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9150092450476812136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4340172772975021087, guid: 472a9f6a5f9de0c47b9caf44c639f2dc, type: 3}
