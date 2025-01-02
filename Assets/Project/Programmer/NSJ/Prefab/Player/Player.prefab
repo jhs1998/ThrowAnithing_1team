@@ -5424,6 +5424,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   MoveDir: {x: 0, y: 0, z: 0}
+  IsMouseVisible: 0
 --- !u!114 &7144022000353682797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5436,7 +5437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7d064cec16dca47b9d07860a6f1d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isTest: 1
+  _isTest: 0
   Data:
     Data:
       Hp:
@@ -5577,7 +5578,7 @@ MonoBehaviour:
     bringData: 1
     nowWeapon: 0
   Arm: {fileID: 11400000, guid: 6441f13e10367454c82ce59acb25674f, type: 2}
-  BoomRadius: 0.2
+  BoomRadius: 0.5
   DrainDistance: 10
   ChargeStep: 0
 --- !u!114 &7667531888297289878

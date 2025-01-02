@@ -181,11 +181,13 @@ public class PlayerController : MonoBehaviour, IHit
     {
         if (Time.timeScale == 1 && IsMouseVisible == false)
         {
+            Debug.Log("커서 안보임");
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
         else if (Time.timeScale == 0 || IsMouseVisible == true)
         {
+            Debug.Log("커서 보임");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
