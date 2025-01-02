@@ -27,26 +27,27 @@ namespace MKH
 
         private void Update()
         {
+            OpenBlueChip();
             Inventory();
-            //BlueChip();
+            CloseBlueChip();
         }
 
         private void Inventory()
         {
-            if (Input.GetKeyDown(KeyCode.B))
+            if (InputKey.GetButtonDown("Inventory"))
             {
-                Debug.Log("1");
+                if (_Inventory.activeSelf)
+                    return;
+
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
             }
-            else if (Input.GetKeyDown(KeyCode.C))
+
+            if (InputKey.GetButtonDown("Negative"))
             {
                 if (_BlueChipPanel.activeSelf)
-                {
-                    Debug.Log("1");
                     return;
-                }
 
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
@@ -54,22 +55,22 @@ namespace MKH
             }
         }
 
-        private void BlueChip()
+        private void OpenBlueChip()
         {
-            if (_Inventory.activeSelf)
-            {
-                if (Input.GetKeyDown(KeyCode.B))
-                {
-                    Debug.Log("2");
-                    if (!_Inventory.activeSelf)
-                        return;
+            if (!_Inventory.activeSelf)
+                return;
 
-                    _BlueChipPanel.SetActive(true);
-                }
-                else if (Input.GetKeyDown(KeyCode.C))
-                {
-                    _BlueChipPanel.SetActive(false);
-                }
+            if (InputKey.GetButtonDown("Inventory"))
+            {
+                _BlueChipPanel.SetActive(true);
+            }
+        }
+
+        private void CloseBlueChip()
+        {
+            if (InputKey.GetButtonDown("PopUp Close"))
+            {
+                _BlueChipPanel.SetActive(false);
             }
 
         }

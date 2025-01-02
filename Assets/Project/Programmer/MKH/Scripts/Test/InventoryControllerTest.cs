@@ -55,8 +55,8 @@ namespace MKH
         #region 키 조작
         private void ButtonsControl()
         {
-            float x = Input.GetAxisRaw("Horizontal");       // 좌 우 조작
-            float y = Input.GetAxisRaw("Vertical");         // 상 하 조작
+            float x = InputKey.GetAxisRaw("Horizontal");       // 좌 우 조작
+            float y = InputKey.GetAxisRaw("Vertical");         // 상 하 조작
 
             // 인벤토리 켜져 있을 때만 조작 가능
 
@@ -122,15 +122,10 @@ namespace MKH
         private void Use(int index)
         {
             // 아이템 장착 - 인벤토리만 착용 가능
-            if (Input.GetButtonDown("Interaction"))
+            if (InputKey.GetButtonDown("InventoryEquip"))
             {
-                // 장비
-                if (index < 9)
-                {
-                    return;
-                }
                 // 인벤토리
-                else if (index >= 9)
+                if (index >= 9)
                 {
                     if (ivSlots[index - 9].Item != null)
                     {
@@ -146,25 +141,25 @@ namespace MKH
             }
 
             // 아이템 삭제 - 인벤토리, 장비 둘 다 삭제 가능
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (InputKey.GetButtonDown("Decomposition"))
             {
                 // 장비
-                if (index < 9)
-                {
-                    if (eqSlots[index].Item != null)
-                    {
-                        eqSlots[index].RemoveEquipmentSlot();
-                        Debug.Log($"장비 {index}번 삭제");
-                    }
-                    else if(eqSlots[index].Item == null)
-                    {
-                        Debug.Log("분해 할 장비가 없습니다");
-                        return;
-                    }
+                //if (index < 9)
+                //{
+                //    if (eqSlots[index].Item != null)
+                //    {
+                //        eqSlots[index].RemoveEquipmentSlot();
+                //        Debug.Log($"장비 {index}번 삭제");
+                //    }
+                //    else if(eqSlots[index].Item == null)
+                //    {
+                //        Debug.Log("분해 할 장비가 없습니다");
+                //        return;
+                //    }
 
-                }
+                //}
                 // 인벤토리
-                else if (index >= 9)
+                if (index >= 9)
                 {
                     if (ivSlots[index - 9].Item != null)
                     {
