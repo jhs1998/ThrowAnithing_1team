@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MKH
@@ -11,6 +9,7 @@ namespace MKH
         [SerializeField] GameObject _State;
         [SerializeField] GameObject _BlueChipPanel;
         [SerializeField] GameObject _BlueChipChoice;
+        //[SerializeField] PlayerController player;
 
         private void Awake()
         {
@@ -24,20 +23,13 @@ namespace MKH
             _State = GetObject("State");
             _BlueChipPanel = GetObject("BlueChipPanel");
             _BlueChipChoice = GetObject("BlueChipChoice");
+            //player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 
             _Inventory.SetActive(false);
             _EquipInventory.SetActive(false);
             _State.SetActive(false);
             _BlueChipChoice.SetActive(false);
             _BlueChipPanel.SetActive(false);
-        }
-
-        private void Start()
-        {
-            _Inventory.SetActive(false);
-            _EquipInventory.SetActive(false);
-            _BlueChipPanel.SetActive(false);
-            _State.SetActive(false);
         }
 
         private void Update()
@@ -54,6 +46,7 @@ namespace MKH
                 if (_Inventory.activeSelf)
                     return;
 
+                //player.enabled = false;
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
@@ -64,6 +57,7 @@ namespace MKH
                 if (_BlueChipPanel.activeSelf)
                     return;
 
+                //player.enabled = true;
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
                 _State.SetActive(false);
