@@ -52,6 +52,16 @@ public class Upgrade : UpgradeBinding
         Init();
     }
 
+    private void OnDisable()
+    {
+        ver = 0;
+        Debug.Log(ver);
+        ho = 0;
+        Debug.Log(ho);
+        StopCoroutine(slotCo);
+        slotCo = null;
+    }
+
     private void Update()
     {
         if (slotCo == null)
@@ -62,7 +72,10 @@ public class Upgrade : UpgradeBinding
         {
             slots[ver, ho].onClick.Invoke();
         }
+
     }
+
+
 
     //Comment : if usedCost greater than costLimit Method
     void TierCal()
@@ -97,6 +110,7 @@ public class Upgrade : UpgradeBinding
     //Comment : 슬롯 이동 함수
     IEnumerator Slot_Selected()
     {
+        Debug.Log("이동");
         float x = InputKey.GetAxisRaw(InputKey.Horizontal);
         float y = -InputKey.GetAxisRaw(InputKey.Horizontal);
 
@@ -106,17 +120,17 @@ public class Upgrade : UpgradeBinding
         ho = ho == -1 ? 3 : ho == 4 ? 0 : ho;
         ver = ver == -1 ? tier - 1 : ver == tier ? 0 : ver;
 
-        if (ho == -1 )
-            ho = 3;
-
-        if (ho == 4)
-            ho = 0;
-
-        if (ver == -1)
-            ver = tier - 1;
-
-        if (ver == tier)
-            ver = 0;
+        // if (ho == -1 )
+        //     ho = 3;
+        //
+        // if (ho == 4)
+        //     ho = 0;
+        //
+        // if (ver == -1)
+        //     ver = tier - 1;
+        //
+        // if (ver == tier)
+        //     ver = 0;
 
         // Comment : 다른 슬롯 색 리셋
         ColorReset();
@@ -155,7 +169,7 @@ public class Upgrade : UpgradeBinding
     }
 
     // 선택한 버튼의 인덱스로 slots 인덱스 교체
-    (int,int) FindButton(Button button)
+    (int, int) FindButton(Button button)
     {
         for (int i = 0; i < 5; i++)
         {
@@ -221,8 +235,8 @@ public class Upgrade : UpgradeBinding
 
                 int row = i;
                 int col = j;
-                
-                slots[i, j].onClick.AddListener(() => ClickedSlots(slots[row,col]));
+
+                slots[i, j].onClick.AddListener(() => ClickedSlots(slots[row, col]));
             }
         }
     }
