@@ -2808,11 +2808,11 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1034229175}
   - {fileID: 849948526}
   - {fileID: 1594561043}
   - {fileID: 140491796}
   - {fileID: 1412977752}
-  - {fileID: 1034229175}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5678,7 +5678,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "F\uD0A4\uB97C \uB204\uB974\uC138\uC694"
+  m_text: "E\uD0A4\uB97C \uB204\uB974\uC138\uC694"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f73b8af2fe6a0c4eb7585d10588ce1c, type: 2}
   m_sharedMaterial: {fileID: -4644083668820827268, guid: 6f73b8af2fe6a0c4eb7585d10588ce1c, type: 2}
@@ -13696,7 +13696,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1970327864}
-  - component: {fileID: 1970327863}
+  - component: {fileID: 1970327865}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -13704,19 +13704,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1970327863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970327862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44f6a81f1ab6c0d4ba9c90e39890c057, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropList: {fileID: 11400000, guid: 3c0b509fa81ed3d428c41258138f97a7, type: 2}
 --- !u!4 &1970327864
 Transform:
   m_ObjectHideFlags: 0
@@ -13732,6 +13719,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1970327865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970327862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d53f668869fe6043a2b849a7b383a18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropList: {fileID: 11400000, guid: 3c0b509fa81ed3d428c41258138f97a7, type: 2}
 --- !u!1 &1987609374
 GameObject:
   m_ObjectHideFlags: 0

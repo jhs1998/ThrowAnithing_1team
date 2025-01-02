@@ -18,14 +18,6 @@ namespace MKH
         [SerializeField] TMP_Text descriptionText;
         [SerializeField] TMP_Text levelText;
 
-        private void Start()
-        {
-            //mEffectImage.sprite = null;
-            //nameText.text = "-";
-            //descriptionText.text = "";
-            //levelText.text = "";
-        }
-
         // 아이템 이미지 투명도 조절
         private void SetColor(float _alpha)
         {
@@ -54,6 +46,15 @@ namespace MKH
             mEffectImage.sprite = null;
             levelText.text = "";
             SetColor(0);
+        }
+
+        // 슬롯 셋팅
+        public void SetSlot()
+        {
+            mEffectImage.sprite = null;
+            nameText.text = "-";
+            descriptionText.text = "";
+            levelText.text = "";
         }
     }
 }

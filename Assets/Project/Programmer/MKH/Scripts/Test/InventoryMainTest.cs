@@ -5,7 +5,6 @@ namespace MKH
 {
     public class InventoryMainTest : InventoryBaseTest
     {
-        public static bool IsInventoryActive = false;
         [SerializeField] GameObject state;
 
         [SerializeField] GameObject blueChipPanel;
@@ -14,53 +13,6 @@ namespace MKH
         new private void Awake()
         {
             base.Awake();
-            state.SetActive(false);
-        }
-
-        private void Update()
-        {
-            //TryOpenInventory();
-            //TryCloseInventory();
-        }
-
-        private void TryOpenInventory()
-        {
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                if (!IsInventoryActive)
-                    OpenInventory();
-            }
-
-        }
-
-        private void TryCloseInventory()
-        {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                if (blueChipPanel.activeSelf)
-                {
-                    Debug.Log("1");
-                    return;
-                }
-                
-                if (IsInventoryActive && !blueChipPanel.activeSelf)
-                {
-                    CloseInventory();
-                }
-            }
-        }
-
-        private void OpenInventory()
-        {
-            mInventoryBase.SetActive(true);
-            IsInventoryActive = true;
-            state.SetActive(true);
-        }
-
-        private void CloseInventory()
-        {
-            mInventoryBase.SetActive(false);
-            IsInventoryActive = false;
             state.SetActive(false);
         }
 

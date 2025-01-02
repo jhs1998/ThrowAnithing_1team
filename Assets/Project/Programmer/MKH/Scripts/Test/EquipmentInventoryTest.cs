@@ -5,8 +5,6 @@ namespace MKH
 {
     public class EquipmentInventoryTest : InventoryBaseTest
     {
-        public static bool IsInventoryActive = false;
-
         [SerializeField] GameObject blueChipPanel;
 
         [Header("현재 계산된 수치를 표현할 텍스트 라벨들")]
@@ -96,44 +94,5 @@ namespace MKH
 
             return null;
         }
-        private void Update()
-        {
-            //TryOpenInventory();
-        }
-
-        private void TryOpenInventory()
-        {
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                if (!IsInventoryActive)
-                    OpenInventory();
-            }
-            
-            if(Input.GetKeyDown(KeyCode.C))
-            {
-                if (blueChipPanel.activeSelf)
-                {
-                    return;
-                }
-                
-                if (IsInventoryActive && !blueChipPanel.activeSelf)
-                {
-                    CloseInventory();
-                }
-            }
-        }
-
-        private void OpenInventory()
-        {
-            mInventoryBase.SetActive(true);
-            IsInventoryActive = true;
-        }
-
-        private void CloseInventory()
-        {
-            mInventoryBase.SetActive(false);
-            IsInventoryActive = false;
-        }
-
     }
 }

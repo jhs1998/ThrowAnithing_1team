@@ -30,7 +30,6 @@ public class BlueChipChoice : MonoBehaviour
     {
         if(other.gameObject.tag == Tag.BlueChip)
         {
-            Debug.Log("??");
             choice.SetActive(true);
             if(_addBlueChipRoutine == null)
             {
@@ -60,7 +59,7 @@ public class BlueChipChoice : MonoBehaviour
         {
             if (other.gameObject.tag == Tag.BlueChip)
             {
-                if (Input.GetKeyDown(KeyCode.F))
+                if (InputKey.GetButtonDown("Interaction"))
                 {
                     choice.SetActive(false);
                     bool success = blueChipPanel.AcquireEffect(blueChip.Effect);
@@ -71,7 +70,6 @@ public class BlueChipChoice : MonoBehaviour
                         _player.AddAdditional(blueChip.Effect);
                     }
 
-                    //Debug.Log(blueChip.Effect);
                     _addBlueChipRoutine = null;
                     Destroy(other.gameObject);
                     yield break;
@@ -79,10 +77,5 @@ public class BlueChipChoice : MonoBehaviour
             }
             yield return null;
         }
-    }
-
-    private void Open()
-    {
-       
     }
 }
