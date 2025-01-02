@@ -69,24 +69,27 @@ public class MainScene : BaseUI
         if (exitNum == 1)
             Debug.Log("현재 커서 : 아니요");
 
-        if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf)
+        if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf && !exitPopUpObj.activeSelf)
             curState = CurState.main;
 
         // if (option.activeSelf)
         //     curState = CurState.optionDepth1;
 
-        if (curState == CurState.main)
+        if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf && !exitPopUpObj.activeSelf)
         {
-            if (menuCo == null)
+            if (curState == CurState.main)
             {
-                menuCo = StartCoroutine(MenuSelect());
-            }
-            SelectedEnter();
+                if (menuCo == null)
+                {
+                    menuCo = StartCoroutine(MenuSelect());
+                }
+                SelectedEnter();
 
-            if (exitPopUpObj.activeSelf)
-                ExitPopUp();
+            }
         }
 
+        if (exitPopUpObj.activeSelf)
+            ExitPopUp();
 
     }
 
@@ -240,11 +243,7 @@ public class MainScene : BaseUI
                 }
                 if (InputKey.GetButtonDown(InputKey.Interaction))
                 {
-                    if (exitCheck > 1)
-                    {
-                        ExitGame();
-                    }
-                    exitCheck++;
+                    ExitYes();
                 }
                 break;
 
@@ -257,15 +256,30 @@ public class MainScene : BaseUI
                 }
                 if (InputKey.GetButtonDown(InputKey.Interaction))
                 {
-                    exitCheck = 0;
-                    exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
-                    exitNum = 0;
-                    exitButtons[exitNum].GetComponent<Image>().color = Color.black;
-                    exitPopUpObj.SetActive(false);
+                    ExitNo();
                 }
                 break;
         }
     }
+
+    public void ExitYes()
+    {
+        if (exitCheck > 1)
+        {
+            ExitGame();
+        }
+        exitCheck++;
+    }
+
+    public void ExitNo()
+    {
+        exitCheck = 0;
+        exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+        exitNum = 0;
+        exitButtons[exitNum].GetComponent<Image>().color = Color.black;
+        exitPopUpObj.SetActive(false);
+    }
+
 
     protected void ExitGame()
     {

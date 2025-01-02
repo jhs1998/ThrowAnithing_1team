@@ -1125,6 +1125,7 @@ MonoBehaviour:
   Panel: {fileID: 0}
   optionCheck: 0
   depth1_cur: 0
+  _isMain: 0
 --- !u!1 &336111091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,6 +1221,12 @@ MonoBehaviour:
   buttons:
   - {fileID: 917787432}
   - {fileID: 842503446}
+  mainScene:
+    _sceneAsset: {fileID: 0}
+    _sceneName: 
+  lobbyScene:
+    _sceneAsset: {fileID: 0}
+    _sceneName: 
 --- !u!1 &339637525
 GameObject:
   m_ObjectHideFlags: 0
@@ -4796,6 +4803,7 @@ MonoBehaviour:
   Panel: {fileID: 0}
   optionCheck: 0
   depth1_cur: 0
+  _isMain: 0
   miniMapAct: {fileID: 601699686}
   miniMapFix: {fileID: 529111621}
   languageDrop: {fileID: 445073154}
@@ -5114,9 +5122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 336111095}
-        m_TargetAssemblyTypeName: ExitPopup, Assembly-CSharp
-        m_MethodName: Exit
+      - m_Target: {fileID: 1568461133}
+        m_TargetAssemblyTypeName: MainScene, Assembly-CSharp
+        m_MethodName: ExitNo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5726,7 +5734,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1568461133}
         m_TargetAssemblyTypeName: MainScene, Assembly-CSharp
-        m_MethodName: ExitGame
+        m_MethodName: ExitYes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7722,6 +7730,7 @@ MonoBehaviour:
   Panel: {fileID: 0}
   optionCheck: 0
   depth1_cur: 0
+  _isMain: 0
 --- !u!114 &1354708964
 MonoBehaviour:
   m_ObjectHideFlags: 0
