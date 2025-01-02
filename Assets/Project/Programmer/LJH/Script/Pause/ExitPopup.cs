@@ -19,10 +19,10 @@ public class ExitPopup : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetButtonDown("Interaction"))
+        if(InputKey.GetButtonDown(InputKey.Interaction))
             buttons[0].onClick.Invoke();
 
-        if(Input.GetButtonDown("Negative"))
+        if(InputKey.GetButtonDown(InputKey.Negative))
             buttons[1].onClick.Invoke();
     }
     

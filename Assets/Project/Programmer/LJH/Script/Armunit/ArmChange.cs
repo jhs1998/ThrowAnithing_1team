@@ -50,7 +50,7 @@ public class ArmChange : BaseUI
     {
         while (true)
         {
-            float x = Input.GetAxisRaw("Horizontal");
+            float x = InputKey.GetAxisRaw(InputKey.Horizontal);
 
             arm_cur += (int)x;
             if (arm_cur == armUnits.Length)
@@ -111,7 +111,7 @@ public class ArmChange : BaseUI
 
     void Select_ArmUnit()
     {
-        if (Input.GetButtonDown("Interaction"))
+        if (InputKey.GetButtonDown(InputKey.Interaction))
         {
             armButtons[arm_cur].onClick.Invoke();
         }

@@ -34,7 +34,7 @@ public class Main_Continue : MainScene
 
     private IEnumerator Slots_Select()
     {
-        float y = -Input.GetAxisRaw("Vertical");
+        float y = -InputKey.GetAxisRaw(InputKey.Vertical);
 
 
         slots_cur += (int)y;
@@ -67,42 +67,9 @@ public class Main_Continue : MainScene
         menuCo = null;
     }
 
-    private void slots_Select()
-    {
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            slots[slots_cur].GetComponent<Outline>().effectDistance = new(0, 0);
-
-            if (slots_cur == slots.Length - 1)
-            {
-                slots_cur = 0;
-                slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
-                return;
-            }
-
-            slots_cur++;
-            slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
-        }
-
-        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        {
-            slots[slots_cur].GetComponent<Outline>().effectDistance = new(0, 0);
-
-            if (slots_cur == 0)
-            {
-                slots_cur = slots.Length - 1;
-                slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
-                return;
-            }
-
-            slots_cur--;
-            slots[slots_cur].GetComponent<Outline>().effectDistance = new(10, 10);
-        }
-    }
-
     void SelectedEnter()
     {
-        if (Input.GetButtonDown("Interaction"))
+        if (InputKey.GetButtonDown(InputKey.Interaction))
         {
             //switch (slots_cur)
             //{
@@ -124,7 +91,7 @@ public class Main_Continue : MainScene
             buttons[slots_cur].onClick.Invoke();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (InputKey.GetButtonDown(InputKey.Cancel))
         {
             gameObject.SetActive(false);
             Debug.Log("이어하기 화면 나가기");

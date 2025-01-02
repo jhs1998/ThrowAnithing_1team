@@ -58,7 +58,7 @@ public class Upgrade : UpgradeBinding
             slotCo = StartCoroutine(Slot_Selected());
 
         //Comment : For test
-        if (Input.GetButtonDown("Interaction"))
+        if (InputKey.GetButtonDown(InputKey.Interaction))
         {
             slots[ver, ho].onClick.Invoke();
         }
@@ -97,8 +97,8 @@ public class Upgrade : UpgradeBinding
     //Comment : 슬롯 이동 함수
     IEnumerator Slot_Selected()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = -Input.GetAxisRaw("Vertical");
+        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
+        float y = -InputKey.GetAxisRaw(InputKey.Horizontal);
 
         ho += (int)x;
         ver += (int)y;
@@ -142,7 +142,7 @@ public class Upgrade : UpgradeBinding
         {
             slots[ver, ho].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
 
-            if (EventSystem.current.currentInputModule != Input.GetButtonDown("Interaction"))
+            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.Horizontal))
             {
                 (ver, ho) = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
             }
