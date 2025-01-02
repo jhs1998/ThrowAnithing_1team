@@ -5,6 +5,9 @@ using BehaviorDesigner.Runtime.Tasks;
 public class CanStiff : Conditional
 {
 	[SerializeField] SharedBool Stiff;
+    public SharedBool hitAble;
+
+    private bool able;
 
     public override void OnEnd()
     {
@@ -13,6 +16,8 @@ public class CanStiff : Conditional
 
     public override TaskStatus OnUpdate()
 	{
-		return Stiff.Value ? TaskStatus.Success : TaskStatus.Failure;
+        able = Stiff.Value == true && hitAble.Value == true;
+
+		return able ? TaskStatus.Success : TaskStatus.Failure;
 	}
 }
