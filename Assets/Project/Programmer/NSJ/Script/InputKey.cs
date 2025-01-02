@@ -60,7 +60,7 @@ public static partial class InputKey
     /// <summary>
     ///  C , D-pad Up
     /// </summary>
-    public static InputStruct Negative;    
+    //public static InputStruct Negative;     임시 삭제
     /// <summary>
     ///  E , RB
     /// </summary>
@@ -118,7 +118,7 @@ public static partial class InputKey
         Jump = GetInputStruct("Jump", Axis.None);
         Melee = GetInputStruct("Melee", Axis.None);
         RockOn = GetInputStruct("Rock On", Axis.AxisUp);
-        Negative = GetInputStruct("Negative", Axis.AxisUp);
+        //Negative = GetInputStruct("Negative", Axis.AxisUp);
         Interaction = GetInputStruct("Interaction", Axis.None);
         Dash = GetInputStruct("Dash", Axis.AxisUp);
         Drain = GetInputStruct("Drain", Axis.None);

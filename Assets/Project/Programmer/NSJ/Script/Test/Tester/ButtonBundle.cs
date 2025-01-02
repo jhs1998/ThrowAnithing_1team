@@ -113,7 +113,7 @@ namespace NSJ_TesterPanel
                 {
                     _canControl = false;
                 }
-                if (InputKey.GetButtonDown(InputKey.Negative))
+                if (InputKey.GetButtonDown(InputKey.PopUpClose))
                 {
                     _canControl = true;
                 }

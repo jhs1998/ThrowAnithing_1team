@@ -22,7 +22,7 @@ public class Upgrade : UpgradeBinding
 
     Coroutine slotCo;
     Coroutine buttonCo;
-    float inputDelay = 0.25f;
+    float inputDelay = 0.15f;
 
     //Comment : Infomation > name
     [SerializeField] TMP_Text itemName;
@@ -42,6 +42,8 @@ public class Upgrade : UpgradeBinding
     int tier;
     Color lockedColor = new(0.1f, 0, 0.2f);
 
+    bool axisInUse; // 연속 조작 방지용
+
     private void Awake()
     {
         Bind();
@@ -50,6 +52,7 @@ public class Upgrade : UpgradeBinding
     private void Start()
     {
         Init();
+
     }
 
     private void OnDisable()
@@ -114,8 +117,16 @@ public class Upgrade : UpgradeBinding
         float x = InputKey.GetAxisRaw(InputKey.Horizontal);
         float y = -InputKey.GetAxisRaw(InputKey.Horizontal);
 
-        ho += (int)x;
-        ver += (int)y;
+        if (axisInUse == false)
+        {
+            axisInUse = true;
+            ho += (int)x;
+            ver += (int)y;
+        }
+        else
+        {
+            axisInUse = false;
+        }
 
         ho = ho == -1 ? 3 : ho == 4 ? 0 : ho;
         ver = ver == -1 ? tier - 1 : ver == tier ? 0 : ver;

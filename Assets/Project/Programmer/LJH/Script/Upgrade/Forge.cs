@@ -28,7 +28,7 @@ public class Forge : MonoBehaviour
 
     private void Update()
     {
-        if (InputKey.GetButtonDown(InputKey.Negative))
+        if (InputKey.GetButtonDown(InputKey.PopUpClose))
         {
             if(_ui.activeSelf == true && IsUIActive == true)
             {

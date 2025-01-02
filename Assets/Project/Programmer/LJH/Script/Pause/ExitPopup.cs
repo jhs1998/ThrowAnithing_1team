@@ -22,7 +22,7 @@ public class ExitPopup : MonoBehaviour
         if(InputKey.GetButtonDown(InputKey.Interaction))
             buttons[0].onClick.Invoke();
 
-        if(InputKey.GetButtonDown(InputKey.Negative))
+        if(InputKey.GetButtonDown(InputKey.PopUpClose))
             buttons[1].onClick.Invoke();
     }
     

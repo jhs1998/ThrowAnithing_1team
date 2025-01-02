@@ -88,7 +88,7 @@ namespace NSJ_TesterPanel
                         InteractButton(_buttonIndex);
                     }
                 }
-                if (InputKey.GetButtonDown(InputKey.Negative))
+                if (InputKey.GetButtonDown(InputKey.PopUpClose))
                 {
                     _canControl = false;
                     ChangeHighlight(-10);
