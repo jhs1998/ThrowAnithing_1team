@@ -163,6 +163,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
         }
         Data.IsDead = false;
         Data.CopyGlobalPlayerData(GlobalStateData, GameData);
+        JumpDownStamina = 40;
     }
 
     private float prevAttackSpeed;
