@@ -1,5 +1,6 @@
 using BehaviorDesigner.Runtime;
 using System;
+using System.Collections;
 using UnityEngine;
 
 [System.Serializable]
@@ -114,6 +115,21 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
             }
         }
     }
+
+    /// <summary>
+    /// 패턴 쿨타임 관련 코루틴
+    /// </summary>
+    /// <param name="atkAble">해당 스킬의 bool 타입</param>
+    /// <param name="coolTime">쿨타임 시간</param>
+    public IEnumerator CoolTimeRoutine(SharedBool atkAble, float coolTime)
+    {
+        atkAble.SetValue(false);
+        Debug.Log($"{atkAble.Name} 쿨타임 시작");
+        yield return coolTime.GetDelay();
+        atkAble.SetValue(true);
+        Debug.Log($"{atkAble.Name} 쿨타임 끝");
+    }
+
 
     private void OnDrawGizmosSelected()
     {
