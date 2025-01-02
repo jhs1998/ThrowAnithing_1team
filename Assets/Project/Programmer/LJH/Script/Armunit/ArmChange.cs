@@ -12,6 +12,7 @@ public class ArmChange : BaseUI
     int arm_cur;
     GameObject[] armUnits;
     Button[] armButtons;
+    [SerializeField] SaveSystem saveSystem;
 
     float inputDelay = 0.25f;
 
@@ -90,7 +91,8 @@ public class ArmChange : BaseUI
             color = armUnits[arm_cur].GetComponent<Image>().color;
             color.a = 1f;
             armUnits[arm_cur].GetComponent<Image>().color = color;
-
+            // 데이터 세이브
+            saveSystem.SavePlayerData();
             if (x == 0)
                 yield return null;
             else
