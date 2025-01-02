@@ -91,18 +91,18 @@ namespace NSJ_TesterPanel
 
         private void Create()
         {
-            ItemPickUp instance = null;
+            GameObject instance = null;
 
             switch (_itemStep)
             {
                 case 0:
-                    instance = Instantiate(DataContainer.Items.NormalItems[_equipmentIndex]);
+                    instance = Instantiate(DataContainer.GetItemPrefab(DataContainer.Items.NormalItems));
                     break;
                 case 1:
-                    instance = Instantiate(DataContainer.Items.MagicItems[_equipmentIndex]);
+                    instance = Instantiate(DataContainer.GetItemPrefab(DataContainer.Items.MagicItems));
                     break;
                 case 2:
-                    instance = Instantiate(DataContainer.Items.RareItems[_equipmentIndex]);
+                    instance = Instantiate(DataContainer.GetItemPrefab(DataContainer.Items.RareItems));
                     break;
                 default:
                     return;
