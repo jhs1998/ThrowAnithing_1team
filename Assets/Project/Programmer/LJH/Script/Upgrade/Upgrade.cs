@@ -22,7 +22,7 @@ public class Upgrade : UpgradeBinding
 
     Coroutine slotCo;
     Coroutine buttonCo;
-    float inputDelay = 0.25f;
+    float inputDelay = 0.15f;
 
     //Comment : Infomation > name
     [SerializeField] TMP_Text itemName;
@@ -42,6 +42,8 @@ public class Upgrade : UpgradeBinding
     int tier;
     Color lockedColor = new(0.1f, 0, 0.2f);
 
+    bool axisInUse; // 연속 조작 방지용
+
     private void Awake()
     {
         Bind();
@@ -50,19 +52,32 @@ public class Upgrade : UpgradeBinding
     private void Start()
     {
         Init();
+
+    }
+
+    private void OnDisable()
+    {
+        ver = 0;
+        ho = 0;
+       // StopCoroutine(slotCo);
+       // slotCo = null;
     }
 
     private void Update()
     {
-        if (slotCo == null)
-            slotCo = StartCoroutine(Slot_Selected());
+        Slot_Selected();
+       // if (slotCo == null)
+       //     slotCo = StartCoroutine(Slot_Selected());
 
         //Comment : For test
         if (InputKey.GetButtonDown(InputKey.Interaction))
         {
             slots[ver, ho].onClick.Invoke();
         }
+
     }
+
+
 
     //Comment : if usedCost greater than costLimit Method
     void TierCal()
@@ -95,28 +110,87 @@ public class Upgrade : UpgradeBinding
 
 
     //Comment : 슬롯 이동 함수
-    IEnumerator Slot_Selected()
+    void Slot_Selected()
     {
+        
         float x = InputKey.GetAxisRaw(InputKey.Horizontal);
-        float y = -InputKey.GetAxisRaw(InputKey.Horizontal);
+        float y = -InputKey.GetAxisRaw(InputKey.Vertical);
 
-        ho += (int)x;
-        ver += (int)y;
+        //ho += (int)x;
+        //ver += (int)y;
+
+        if (x != 0)
+        {
+            if (axisInUse == false)
+            {
+                ho += (int)x;
+                axisInUse = true;
+            }
+        }
+        else if (y != 0)
+        {
+            if (axisInUse == false)
+            {
+                ver += (int)y;
+                axisInUse = true;
+            }
+        }
+        else
+        {
+            axisInUse = false;
+        }
+
 
         ho = ho == -1 ? 3 : ho == 4 ? 0 : ho;
         ver = ver == -1 ? tier - 1 : ver == tier ? 0 : ver;
 
-        if (ho == -1 )
-            ho = 3;
+        // Comment : 다른 슬롯 색 리셋
+        ColorReset();
+        // Comment : 선택한 슬롯 노란색으로
 
-        if (ho == 4)
-            ho = 0;
+        slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
 
-        if (ver == -1)
-            ver = tier - 1;
+        itemName.text = slots[ver, ho].name;
+        itemImage.sprite = slotImages[ver, ho].sprite;
+        itemInfo.text = slots[ver, ho].name;
 
-        if (ver == tier)
-            ver = 0;
+        SlotLimit();
+    }
+
+    IEnumerator Slot_SelectedOld()
+    {
+
+        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
+        float y = -InputKey.GetAxisRaw(InputKey.Vertical);
+
+        //ho += (int)x;
+        //ver += (int)y;
+
+        if (x != 0)
+        {
+            if (axisInUse == false)
+            {
+                ho += (int)x;
+                Debug.Log("실행됨");
+                axisInUse = true;
+            }
+        }
+        else if (y != 0)
+        {
+            if (axisInUse == false)
+            {
+                ver += (int)y;
+                axisInUse = true;
+            }
+        }
+        else
+        {
+            axisInUse = false;
+        }
+
+
+        ho = ho == -1 ? 3 : ho == 4 ? 0 : ho;
+        ver = ver == -1 ? tier - 1 : ver == tier ? 0 : ver;
 
         // Comment : 다른 슬롯 색 리셋
         ColorReset();
@@ -131,7 +205,6 @@ public class Upgrade : UpgradeBinding
         SlotLimit();
         yield return inputDelay.GetDelay();
         slotCo = null;
-
     }
 
 
@@ -155,7 +228,7 @@ public class Upgrade : UpgradeBinding
     }
 
     // 선택한 버튼의 인덱스로 slots 인덱스 교체
-    (int,int) FindButton(Button button)
+    (int, int) FindButton(Button button)
     {
         for (int i = 0; i < 5; i++)
         {
@@ -221,8 +294,8 @@ public class Upgrade : UpgradeBinding
 
                 int row = i;
                 int col = j;
-                
-                slots[i, j].onClick.AddListener(() => ClickedSlots(slots[row,col]));
+
+                slots[i, j].onClick.AddListener(() => ClickedSlots(slots[row, col]));
             }
         }
     }
