@@ -14,6 +14,7 @@ public class LobbyUpGrade : MonoBehaviour
     public GlobalGameData gameData;
     [Inject]
     public GlobalPlayerStateData playerState;
+    [SerializeField] SaveSystem saveSystem;
 
     // 코인 변경 이벤트
     public event Action OnCoinChanged;
@@ -45,6 +46,7 @@ public class LobbyUpGrade : MonoBehaviour
         // 현재 코인과 최대 코인 값에 따라 텍스트 업데이트
         coinText.text = "coin: " + gameData.coin.ToString();
         usingCoinText.text = "usingCoin: " + gameData.usingCoin.ToString();
+        saveSystem.SavePlayerData();
         // 뉴게임이라 true일 경우 false
         gameData.bringData = false;
     }
@@ -446,24 +448,4 @@ public class LobbyUpGrade : MonoBehaviour
         OnCoinChanged?.Invoke();
     }
 
-    //// 암 유닛 교체 R
-    //public void AmWeaponChangeR()
-    //{
-    //    if (playerState.nowWeapon == AmWeapon.Balance)
-    //        playerState.nowWeapon = AmWeapon.Power;       
-    //    if (playerState.nowWeapon == AmWeapon.Power)
-    //        playerState.nowWeapon = AmWeapon.Speed;
-    //    if (playerState.nowWeapon == AmWeapon.Speed)
-    //        playerState.nowWeapon = AmWeapon.Balance;
-    //}
-    //// 암 유닛 교체 L
-    //public void AmWeaponChangeL()
-    //{
-    //    if (playerState.nowWeapon == AmWeapon.Balance)
-    //        playerState.nowWeapon = AmWeapon.Speed;
-    //    if (playerState.nowWeapon == AmWeapon.Speed)
-    //        playerState.nowWeapon = AmWeapon.Power;
-    //    if (playerState.nowWeapon == AmWeapon.Power)
-    //        playerState.nowWeapon = AmWeapon.Balance;
-    //}
 }
