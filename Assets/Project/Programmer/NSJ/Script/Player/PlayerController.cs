@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour, IHit
     Quaternion _defaultMuzzlePointRot;
     private void Awake()
     {
-
+       
     }
 
     private void Start()
@@ -177,25 +177,11 @@ public class PlayerController : MonoBehaviour, IHit
         StartRoutine();
         InitAdditionnal();
         ChangeArmUnit(Model.NowWeapon);
-       //Camera.main.transform.SetParent(_cameraPos, true);
+        StartCoroutine(ControlMousePointer());
+        //Camera.main.transform.SetParent(_cameraPos, true);
         _states[(int)CurState].Enter();
     }
     public bool IsMouseVisible;
-    private void ControlMousePoint()
-    {
-        if (Time.timeScale == 1 && IsMouseVisible == false)
-        {
-           // Debug.Log("커서 안보임");
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else if (Time.timeScale == 0 || IsMouseVisible == true)
-        {
-            //Debug.Log("커서 보임");
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-    }
 
     private void OnDisable()
     {
@@ -214,7 +200,6 @@ public class PlayerController : MonoBehaviour, IHit
         RotateCamera();
         ChackInput();
         UpdatePlayerAdditional();
-        ControlMousePoint();
     }
 
     private void FixedUpdate()
@@ -921,6 +906,24 @@ public class PlayerController : MonoBehaviour, IHit
         return finalDamage;
     }
     #endregion
+
+    IEnumerator ControlMousePointer()
+    {
+        while (true)
+        {
+            if (Time.timeScale == 1 && IsMouseVisible == false)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else if (Time.timeScale == 0 || IsMouseVisible == true)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            yield return null;
+        }
+    }
     // 초기 설정 ============================================================================================================================================ //
     /// <summary>
     /// 초기 설정
