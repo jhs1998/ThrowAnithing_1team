@@ -1,60 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &502795394981323523
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8999335022267763831}
-  - component: {fileID: 7305854929109279629}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8999335022267763831
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502795394981323523}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 726148758547489966}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &7305854929109279629
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502795394981323523}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.05
-  m_Height: 0.35
-  m_Direction: 0
-  m_Center: {x: -0.18, y: 0, z: 0}
 --- !u!1 &5133058034523766357
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +349,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Battle: {fileID: 0}
-  attakArm: {fileID: 7305854929109279629}
+  attakArm: {fileID: 0}
 --- !u!114 &726060013821442983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,7 +382,7 @@ MonoBehaviour:
         Check Squence"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"CanDeadth","NodeData":{"Offset":"(-329.022156,147.224976)"},"ID":4,"Name":"Can
         Deadth","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-257.761963,251)"},"ID":5,"Name":"Set
         Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Death"}},{"Type":"EnemyDead","NodeData":{"Offset":"(-194.455414,152.114746)"},"ID":6,"Name":"Enemy
-        Dead","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Log","NodeData":{"Offset":"(-113.337051,243.8382)"},"ID":7,"Name":"Log","Instant":true,"SharedStringtext":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null},"SharedBoollogError":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBoollogTime":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-40.17153,156.2012)"},"ID":8,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"EnemyDropItem","NodeData":{"Offset":"(27.6064262,286.142822)"},"ID":9,"Name":"Enemy
+        Dead","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Log","NodeData":{"Offset":"(-113.337051,243.8382)"},"ID":7,"Name":"Log","Instant":true,"SharedStringtext":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null},"SharedBoollogError":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBoollogTime":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-40.17153,156.2012)"},"ID":8,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":2.5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"EnemyDropItem","NodeData":{"Offset":"(27.6064262,286.142822)"},"ID":9,"Name":"Enemy
         Drop Item","Instant":true,"SharedFloatreward":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Reward","IsShared":true,"SinglemValue":0},"Int32maxPersent":100,"List`1dropItems":[0]},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject.SetActive","NodeData":{"Offset":"(113.617905,170.133087)","Comment":"Active
         == false \uacbd\uc6b0\n\ud574\ub2f9 \ub178\ub4dc \uc774\ud6c4\ub294 \uc791\ub3d9
         X"},"ID":10,"Name":"Set Active","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedBoolactive":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-690.0008,152.105347)","Comment":"Collision
@@ -577,17 +522,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4247341584369848480, guid: ba2edcb8451286643910570fbd5ba8f9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8999335022267763831}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba2edcb8451286643910570fbd5ba8f9, type: 3}
---- !u!4 &726148758547489966 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4247341584369848480, guid: ba2edcb8451286643910570fbd5ba8f9, type: 3}
-  m_PrefabInstance: {fileID: 3522477743378560014}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2239537860376094919 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3456008079970999497, guid: ba2edcb8451286643910570fbd5ba8f9, type: 3}
