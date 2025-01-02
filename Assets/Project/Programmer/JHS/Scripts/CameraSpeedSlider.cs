@@ -6,18 +6,19 @@ using Zenject;
 
 public class CameraSpeedSlider : MonoBehaviour
 {
-    [Range(0.1f, 5f)]
-    [SerializeField] private Slider cameraSpeedSlider;
+    [SerializeField, Range(0.1f, 5f)]
+    public Slider cameraSpeedSlider;
 
     [Inject]
-    private OptionSetting setting;
+    public OptionSetting setting;
 
     private void Start()
     {
         cameraSpeedSlider = GetComponent<Slider>();
 
-        // json으로 당겨온 속도 값으로 변경
-        cameraSpeedSlider.value = setting.cameraSpeed;
+        cameraSpeedSlider.minValue = 0.1f;
+        cameraSpeedSlider.maxValue = 5f;
+        cameraSpeedSlider.value = Mathf.Clamp(setting.cameraSpeed, cameraSpeedSlider.minValue, cameraSpeedSlider.maxValue);
 
         // 슬라이더 값 변경 시 SettingCameraSpeed 메서드 호출
         cameraSpeedSlider.onValueChanged.AddListener(SettingCameraSpeed);
