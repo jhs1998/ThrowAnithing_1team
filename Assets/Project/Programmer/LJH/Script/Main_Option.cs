@@ -71,14 +71,14 @@ public class Main_Option : MainScene
         switch (depth1_cur)
         {
             case 0:
-                optionTitle.GetComponent<TMP_Text>().text = "MiniMap";
+                optionTitle.GetComponent<TMP_Text>().text = "미니맵";
                 break;
             case 1:
-                optionTitle.GetComponent<TMP_Text>().text = "Sound";
+                optionTitle.GetComponent<TMP_Text>().text = "소리";
                 break;
 
             case 2:
-                optionTitle.GetComponent<TMP_Text>().text = "Input";
+                optionTitle.GetComponent<TMP_Text>().text = "조작키";
                 break;
 
             case 3:
@@ -115,7 +115,7 @@ public class Main_Option : MainScene
 
         if (!gameplayOnOff.activeSelf && !soundOnOff.activeSelf)
         {
-            float y = -Input.GetAxisRaw("Vertical");
+            float y = -InputKey.GetAxisRaw(InputKey.Vertical);
             if (y == 0)
                 yield return null;
             else
@@ -162,7 +162,7 @@ public class Main_Option : MainScene
 
     void SelectedEnter()
     {
-        if (Input.GetButtonDown("Interaction"))
+        if (InputKey.GetButtonDown(InputKey.Interaction))
         {
             switch (depth1_cur)
             {
@@ -185,7 +185,7 @@ public class Main_Option : MainScene
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (InputKey.GetButtonDown(InputKey.Cancel))
         {
             gameObject.SetActive(false);
             Debug.Log("옵션 화면 나가기");

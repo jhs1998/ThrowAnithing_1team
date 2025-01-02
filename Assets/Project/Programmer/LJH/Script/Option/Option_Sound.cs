@@ -56,7 +56,7 @@ public class Option_Sound : Main_Option
             }
 
             //Todo : 수정 필요
-            if (Input.GetButtonDown("Interaction"))
+            if (InputKey.GetButtonDown(InputKey.Interaction))
             {
                 if (buttonStructs[_curIndex].Button == GetUI("CancelButton_sound"))
                 {
