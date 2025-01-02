@@ -225,11 +225,6 @@ public class InputKey : MonoBehaviour
             {
                 SetCurPress(InputStructDic[inputStruct.Name], false);
             }
-            // 버튼 누르기 시작했을 때
-            if(inputStruct.Name == "PopUp Close")
-            {
-                Debug.Log(InputStructDic[inputStruct.Name].PrevPress);
-            }
 
             if (x > 0 && InputStructDic[inputStruct.Name].PrevPress == false)
             {
