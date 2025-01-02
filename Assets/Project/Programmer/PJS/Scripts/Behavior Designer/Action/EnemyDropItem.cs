@@ -1,7 +1,7 @@
-using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyDropItem : Action
 {
@@ -9,22 +9,25 @@ public class EnemyDropItem : Action
     [SerializeField] int maxPersent;
     [SerializeField] List<GameObject> dropItems;
     public override void OnStart()
-	{
-		if(reward.Value > maxPersent)
+    {
+        if (reward.Value > maxPersent)
             reward.Value = reward.Value / maxPersent;
-	}
+    }
 
-	public override TaskStatus OnUpdate()
-	{
-        // ¸ó½ºÅÍ°¡ Á×¾úÀ» ½Ã ¾ÆÀÌÅÛ µå¶ø
+    public override TaskStatus OnUpdate()
+    {
+        // ëª¬ìŠ¤í„°ê°€ ì£½ì—ˆì„ ì‹œ ì•„ì´í…œ ë“œë
         //int randNum = Random.Range(0, maxPersent+1);
         //Debug.Log(randNum);
         GameObject.Instantiate(DataContainer.GetItemPrefab(), transform.position, transform.rotation);
+        //int randNum = Random.Range(0, maxPersent + 1);
+        //Debug.Log(randNum);
+        //GameObject.Instantiate(dropItems[0], transform.position, transform.rotation);
 
-        // TODO : È®·ü ÀÎ½ºÆåÅÍ¿¡¼­ Á¤ÇØ¼­ °ª °¡Á®¿À±â
+        // TODO : í™•ë¥  ì¸ìŠ¤í™í„°ì—ì„œ ì •í•´ì„œ ê°’ ê°€ì ¸ì˜¤ê¸°
         /*if (randNum <= reward.Value)
         {
-            Debug.Log("ÀçÈ­ »ı¼º");
+            Debug.Log("ì¬í™” ìƒì„±");
             if (dropItems == null)
             {
                 return TaskStatus.Success;
@@ -37,5 +40,5 @@ public class EnemyDropItem : Action
         }*/
 
         return TaskStatus.Success;
-	}
+    }
 }

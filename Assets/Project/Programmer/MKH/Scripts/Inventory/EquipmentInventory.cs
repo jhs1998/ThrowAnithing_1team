@@ -9,8 +9,6 @@ namespace MKH
         [Inject]
         public PlayerData playerData;
 
-        public static bool IsInventoryActive = false;
-
         [Header("현재 계산된 수치를 표현할 텍스트 라벨들")]
         [SerializeField] private TMP_Text mDamageLabel;
         [SerializeField] private TMP_Text mDefenseLabel;
@@ -100,33 +98,6 @@ namespace MKH
             }
 
             return null;
-        }
-        private void Update()
-        {
-            TryOpenInventory();
-        }
-
-        private void TryOpenInventory()
-        {
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                if (!IsInventoryActive)
-                    OpenInventory();
-                else
-                    CloseInventory();
-            }
-        }
-
-        private void OpenInventory()
-        {
-            mInventoryBase.SetActive(true);
-            IsInventoryActive = true;
-        }
-
-        private void CloseInventory()
-        {
-            mInventoryBase.SetActive(false);
-            IsInventoryActive = false;
         }
     }
 }

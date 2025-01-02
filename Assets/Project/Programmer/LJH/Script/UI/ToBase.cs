@@ -6,6 +6,6 @@ public class ToBase : MonoBehaviour
 {
     public static void ToLobby()
     {
-        LoadingToBase.LoadScene("LobbyScene");
+        LoadingToBase.LoadScene(SceneName.LobbyScene);
     }
 }

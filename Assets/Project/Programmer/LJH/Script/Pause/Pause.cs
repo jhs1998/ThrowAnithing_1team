@@ -41,7 +41,7 @@ public class Pause : Main_Option
     {
         if (pause.activeSelf)
         {
-            if (Input.GetButtonDown("Interaction"))
+            if (InputKey.GetButtonDown(InputKey.Interaction))
                 SelectedEnter();
 
             //Time.timeScale = 0;
@@ -60,7 +60,7 @@ public class Pause : Main_Option
     {
         while (true)
         {
-            float y = -Input.GetAxisRaw("Vertical");
+            float y = -InputKey.GetAxisRaw(InputKey.Vertical);
             curMenu_p += (int)y;
 
             //Comment : 마지막 버튼일 때, 첫 버튼으로 돌아가게
@@ -101,7 +101,7 @@ public class Pause : Main_Option
     //Comment : 선택한 메뉴로 진입하는 함수
     void SelectedEnter()
     {
-        if (Input.GetButtonDown("Interaction"))
+        if (InputKey.GetButtonDown(InputKey.Interaction))
         {
             switch (curMenu_p)
             {

@@ -12,9 +12,7 @@ public class ElectricArmour : Action
 	public override void OnStart()
 	{
 		enemy = GetComponent<BossEnemy>();
-        StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
     }
-
 
     public override TaskStatus OnUpdate()
 	{

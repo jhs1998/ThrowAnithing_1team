@@ -62,6 +62,13 @@ public class MainScene : BaseUI
 
     private void Update()
     {
+        Debug.Log($"현재 exitCheck {exitCheck}");
+
+        if (exitNum == 0)
+            Debug.Log("현재 커서 : 예");
+        if (exitNum == 1)
+            Debug.Log("현재 커서 : 아니요");
+
         if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf)
             curState = CurState.main;
 
@@ -118,7 +125,7 @@ public class MainScene : BaseUI
 
     private IEnumerator MenuSelect()
     {
-        float y = -Input.GetAxisRaw("Vertical");
+        float y = -InputKey.GetAxisRaw(InputKey.Vertical);
 
 
         curMenu += (int)y;
@@ -156,8 +163,7 @@ public class MainScene : BaseUI
     //Comment : 선택한 메뉴로 진입하는 함수
     void SelectedEnter()
     {
-        // Todo: 패드까지 지원 가능하게 바꿔야함
-        if (Input.GetButtonDown("Interaction"))
+        if (InputKey.GetButtonDown(InputKey.Interaction))
         {
             switch (curMenu)
             {
@@ -186,9 +192,9 @@ public class MainScene : BaseUI
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (InputKey.GetButtonDown(InputKey.Cancel))
         {
-            exitPopUpObj.SetActive(true);
+            ExitButton();
             Debug.Log("게임 종료 선택_게임 종료");
         }
     }
@@ -214,9 +220,11 @@ public class MainScene : BaseUI
 
     public void ExitButton()
     {
-        exitPopUpObj.SetActive(true);
-        exitCheck++;
-        Debug.Log(exitCheck);
+        if (exitCheck <= 0)
+        {
+            exitPopUpObj.SetActive(true);
+            exitCheck++;
+        }
     }
 
     void ExitPopUp()
@@ -225,14 +233,13 @@ public class MainScene : BaseUI
         {
             case 0:
                 exitButtons[exitNum].GetComponent<Image>().color = Color.black;
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                if (InputKey.GetButtonDown(InputKey.Horizontal))
                 {
                     exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
                     exitNum = 1;
                 }
-                if (Input.GetButtonDown("Interaction"))
+                if (InputKey.GetButtonDown(InputKey.Interaction))
                 {
-                    Debug.Log("종료");
                     if (exitCheck > 1)
                     {
                         ExitGame();
@@ -243,19 +250,23 @@ public class MainScene : BaseUI
 
             case 1:
                 exitButtons[exitNum].GetComponent<Image>().color = Color.black;
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                if (InputKey.GetButtonDown(InputKey.Horizontal))
                 {
                     exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
                     exitNum = 0;
                 }
-                if (Input.GetButtonDown("Interaction"))
+                if (InputKey.GetButtonDown(InputKey.Interaction))
                 {
                     exitCheck = 0;
+                    exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                    exitNum = 0;
+                    exitButtons[exitNum].GetComponent<Image>().color = Color.black;
                     exitPopUpObj.SetActive(false);
                 }
                 break;
         }
     }
+
     protected void ExitGame()
     {
 #if UNITY_EDITOR

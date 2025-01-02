@@ -7,6 +7,6 @@ public class BaseLoadingEnter : MonoBehaviour
 {
     void EnterBase()
     {
-        SceneManager.LoadScene("BaseLoadingScene");
+        SceneManager.LoadScene(SceneName.ToLobbyLoading);
     }
 }

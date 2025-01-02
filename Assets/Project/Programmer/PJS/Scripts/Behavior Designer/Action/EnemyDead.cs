@@ -25,6 +25,7 @@ public class EnemyDead : Action
 
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.velocity = Vector3.zero;
+            rb.useGravity = false;
             Collider collider = GetComponent<Collider>();
             collider.isTrigger = true;
         }

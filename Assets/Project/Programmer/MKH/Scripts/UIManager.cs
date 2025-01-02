@@ -1,8 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MKH
 {
-    public class UIManagerTest : MonoBehaviour
+    public class UIManager : MonoBehaviour
     {
         [SerializeField] GameObject _Inventory;
         [SerializeField] GameObject _EquipInventory;
@@ -68,11 +70,13 @@ namespace MKH
 
         private void CloseBlueChip()
         {
+            if (!_Inventory.activeSelf)
+                return;
+
             if (InputKey.GetButtonDown("PopUp Close"))
             {
                 _BlueChipPanel.SetActive(false);
             }
-
         }
     }
 }
