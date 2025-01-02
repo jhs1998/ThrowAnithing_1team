@@ -46,7 +46,7 @@ public class IdleState : PlayerState
             ChangeState(PlayerController.State.Jump);
         }
         // 공중에서 y축 물리값 음수일때 추락
-        else if (Player.IsGround == false && Rb.velocity.y <= -1f)
+        else if (Player.IsGround == false && Rb.velocity.y <= -1f && Player.IsNearGround == false)
         {
             ChangeState(PlayerController.State.Fall);
         }

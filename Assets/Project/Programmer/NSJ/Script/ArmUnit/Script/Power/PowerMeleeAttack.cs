@@ -13,11 +13,12 @@ public class PowerMeleeAttack : ArmMeleeAttack
         public float AttackRange;
         [Range(0, 180)] public float AttackAngle;
         public float KnockBackRange;
-        public float MovePower;
+        public float RushDistance;
         [HideInInspector] public float Stamina;
         [HideInInspector] public GameObject ArmEffect;
     }
     [SerializeField] private ChargeStruct[] _charges;
+    [SerializeField] private float RushSpeed;
     private float m_curChargeTime;
     private float _curChargeTime
     {
@@ -150,10 +151,8 @@ public class PowerMeleeAttack : ArmMeleeAttack
         // 자원소모 처리
         Model.CurStamina -= _charges[_index].Stamina;
 
-        Debug.Log(transform.name);
         // 캐릭터 전방 조금 이동
-        Rb.AddForce(Vector3.forward * _charges[_index].MovePower);
-
+        CoroutineHandler.StartRoutine(RushRoutine(transform.forward, _charges[_index].RushDistance));
         // 전방 앞에 있는 몬스터들을 확인하고 피격 진행
         // 1. 전방에 있는 몬스터 확인
         Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + Player.AttackHeight, transform.position.z);
@@ -234,5 +233,24 @@ public class PowerMeleeAttack : ArmMeleeAttack
         Player.LookAtAttackDir();
         // 애니메이션 실행
         View.SetTrigger(PlayerView.Parameter.ChargeEnd);
+    }
+
+    IEnumerator RushRoutine(Vector3 rushDir, float rushDistance)
+    {
+        Vector3 originPos = transform.position;
+
+        while (true)
+        {
+            if (Player.IsWall)
+                break;
+
+            transform.Translate(rushDir * Time.deltaTime * RushSpeed, Space.World);
+
+            if (Vector3.Distance(originPos, transform.position) > rushDistance)
+            {
+                break;
+            }
+            yield return null;
+        }
     }
 }
