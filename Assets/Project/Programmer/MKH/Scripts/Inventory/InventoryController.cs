@@ -12,6 +12,7 @@ namespace MKH
         [SerializeField] InventorySlot[] ivSlots;               // 인벤토리 슬롯들
         [SerializeField] GameObject mEquipmentSlotsParent;      // 장비 슬롯 모음집
         [SerializeField] InventorySlot[] eqSlots;               // 장비 슬롯들
+        [SerializeField] BlueChipPanel blueChipPanel;
 
         [Header("슬롯 버튼")]
         [SerializeField] GameObject[] buttons;                  // 슬롯 버튼
@@ -57,61 +58,63 @@ namespace MKH
             float x = InputKey.GetAxisRaw("Horizontal");       // 좌 우 조작
             float y = InputKey.GetAxisRaw("Vertical");         // 상 하 조작
 
-            // 인벤토리 켜져 있을 때만 조작 가능
-
-            // 왼쪽
-            if (x == -1)
+            // 인벤토리만 켜져있을 때
+            if (inventory.activeSelf == true && blueChipPanel == false)
             {
-                if (selectedButtonsIndex > 0 && axisInUse == false)
+                // 왼쪽
+                if (x == -1)
                 {
-                    axisInUse = true;
-                    selectedButtonsIndex -= 1;
+                    if (selectedButtonsIndex > 0 && axisInUse == false)
+                    {
+                        axisInUse = true;
+                        selectedButtonsIndex -= 1;
+                    }
                 }
-            }
-            // 오른쪽
-            else if (x == 1)
-            {
-                if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
+                // 오른쪽
+                else if (x == 1)
                 {
-                    axisInUse = true;
-                    selectedButtonsIndex += 1;
+                    if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
+                    {
+                        axisInUse = true;
+                        selectedButtonsIndex += 1;
+                    }
                 }
-            }
-            // 위
-            else if (y == 1)
-            {
-                if (selectedButtonsIndex > 2 && axisInUse == false)
+                // 위
+                else if (y == 1)
                 {
-                    axisInUse = true;
-                    selectedButtonsIndex -= 3;
+                    if (selectedButtonsIndex > 2 && axisInUse == false)
+                    {
+                        axisInUse = true;
+                        selectedButtonsIndex -= 3;
+                    }
                 }
-            }
-            // 아래
-            else if (y == -1)
-            {
-                if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
+                // 아래
+                else if (y == -1)
                 {
-                    axisInUse = true;
-                    selectedButtonsIndex += 3;
+                    if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
+                    {
+                        axisInUse = true;
+                        selectedButtonsIndex += 3;
+                    }
                 }
-            }
-            // 키 멈춤 방지
-            else
-            {
-                axisInUse = false;
-            }
-
-
-            // 선택 슬롯 색 입히기
-            for (int i = 0; i < buttons.Length; i++)
-            {
-                if (i == selectedButtonsIndex)
-                {
-                    buttons[i].GetComponent<Image>().color = HighlightedColor;
-                }
+                // 키 멈춤 방지
                 else
                 {
-                    buttons[i].GetComponent<Image>().color = color;
+                    axisInUse = false;
+                }
+
+
+                // 선택 슬롯 색 입히기
+                for (int i = 0; i < buttons.Length; i++)
+                {
+                    if (i == selectedButtonsIndex)
+                    {
+                        buttons[i].GetComponent<Image>().color = HighlightedColor;
+                    }
+                    else
+                    {
+                        buttons[i].GetComponent<Image>().color = color;
+                    }
                 }
             }
         }
@@ -120,40 +123,44 @@ namespace MKH
         #region 아이템 버튼 조작
         private void Use(int index)
         {
-            // 아이템 장착
-            if (InputKey.GetButtonDown("InventoryEquip"))
+            // 인벤토리만 켜져있을 때
+            if (inventory.activeSelf == true && blueChipPanel == false)
             {
-                // 인벤토리
-                if (index >= 9)
+                // 아이템 장착
+                if (InputKey.GetButtonDown("InventoryEquip"))
                 {
-                    if (ivSlots[index - 9].Item != null)
+                    // 인벤토리
+                    if (index >= 9)
                     {
-                        ivSlots[index - 9].UseItem();
-                        Debug.Log($"인벤토리 {index - 9}번 장비 장착");
-                    }
-                    else if (ivSlots[index - 9].Item == null)
-                    {
-                        Debug.Log("장착 할 장비가 없습니다.");
-                        return;
+                        if (ivSlots[index - 9].Item != null)
+                        {
+                            ivSlots[index - 9].UseItem();
+                            Debug.Log($"인벤토리 {index - 9}번 장비 장착");
+                        }
+                        else if (ivSlots[index - 9].Item == null)
+                        {
+                            Debug.Log("장착 할 장비가 없습니다.");
+                            return;
+                        }
                     }
                 }
-            }
 
-            // 아이템 분해
-            if (InputKey.GetButtonDown("Decomposition"))
-            {
-                // 인벤토리
-                if (index >= 9)
+                // 아이템 분해
+                if (InputKey.GetButtonDown("Decomposition"))
                 {
-                    if (ivSlots[index - 9].Item != null)
+                    // 인벤토리
+                    if (index >= 9)
                     {
-                        ivSlots[index - 9].ClearSlot();
-                        Debug.Log($"인벤토리 {index - 9}번 장비 분해");
-                    }
-                    else if (ivSlots[index - 9].Item == null)
-                    {
-                        Debug.Log("분해 할 장비가 없습니다.");
-                        return;
+                        if (ivSlots[index - 9].Item != null)
+                        {
+                            ivSlots[index - 9].ClearSlot();
+                            Debug.Log($"인벤토리 {index - 9}번 장비 분해");
+                        }
+                        else if (ivSlots[index - 9].Item == null)
+                        {
+                            Debug.Log("분해 할 장비가 없습니다.");
+                            return;
+                        }
                     }
                 }
             }
