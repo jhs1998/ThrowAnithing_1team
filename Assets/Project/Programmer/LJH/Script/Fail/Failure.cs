@@ -13,6 +13,7 @@ public class Failure : MonoBehaviour
         //다른 UI 다 닫아야함
         // .SetActive(false);
         co = StartCoroutine(GameOver());
+
     }
 
     private void OnDisable()
