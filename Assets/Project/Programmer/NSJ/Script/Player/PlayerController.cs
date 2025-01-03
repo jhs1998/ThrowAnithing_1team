@@ -705,8 +705,8 @@ public class PlayerController : MonoBehaviour, IHit
             if (IsStaminaCool == true)
             {
                 IsStaminaCool = false;
-                yield return 1f.GetDelay();
-                //yield return Model.StaminaCoolTime.GetDelay();
+                //yield return 1f.GetDelay();
+                yield return Model.StaminaCoolTime.GetDelay();
             }
 
             yield return null;

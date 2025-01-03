@@ -171,6 +171,8 @@ public class PlayerModel : MonoBehaviour, IDebuff
 
         JumpDownStamina = 40;
         CriticalDamage = 200;
+        StaminaCoolTime = 1;
+
     }
 
     private float prevAttackSpeed;
