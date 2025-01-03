@@ -48,7 +48,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
             Data.CurThrowables = value;
         }
     }
-    public Subject<int> CurThrowCountSubject { get { return Data.CurThrowCountSubject; } }
+    public Subject<int> CurThrowCountSubject { get { return Data.CurThrowCountSubject; } set { Data.CurThrowCountSubject = value; } }
 
     public List<AdditionalEffect> AdditionalEffects { get { return Data.AdditionalEffects; } set { Data.AdditionalEffects = value; } } // 블루칩 모음 리스트
     public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals = value; } }

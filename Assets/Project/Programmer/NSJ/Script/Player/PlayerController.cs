@@ -982,9 +982,10 @@ public class PlayerController : MonoBehaviour, IHit
         PlayerPanel panel = View.Panel;
 
         // 투척오브젝트
+        Model.CurThrowCountSubject = new Subject<int>();
         Model.CurThrowCountSubject
             .DistinctUntilChanged()
-            .Subscribe(x => View.UpdateText(panel.ObjectCount, $"{x} / {Model.MaxThrowables}"));
+            .Subscribe(x =>  View.UpdateText(panel.ObjectCount, $"{x} / {Model.MaxThrowables}") );
         View.UpdateText(panel.ObjectCount, $"{Model.CurThrowables} / {Model.MaxThrowables}");
 
         // 체력

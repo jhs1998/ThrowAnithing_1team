@@ -62,6 +62,11 @@ public class PlayerView : MonoBehaviour
     {
         Init();
     }
+
+    private void Update()
+    {
+        
+    }
     // 애니메이션 =========================================================================================================//
     /// <summary>
     /// 플레이어 애니메이션 SetTrigger
