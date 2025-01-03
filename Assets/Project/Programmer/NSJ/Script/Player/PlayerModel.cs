@@ -44,11 +44,9 @@ public class PlayerModel : MonoBehaviour, IDebuff
         set
         {
             Data.CurThrowables = value;
-            CurThrowCountSubject?.OnNext(Data.CurThrowables);
-
         }
     }
-    public Subject<int> CurThrowCountSubject = new Subject<int>();
+    public Subject<int> CurThrowCountSubject { get { return Data.CurThrowCountSubject; } }
 
     public List<AdditionalEffect> AdditionalEffects { get { return Data.AdditionalEffects; } set { Data.AdditionalEffects = value; } } // 블루칩 모음 리스트
     public List<HitAdditional> HitAdditionals { get { return Data.HitAdditionals; } set { Data.HitAdditionals = value; } }
@@ -84,7 +82,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public float StaminaCoolTime { get { return Data.StaminaCoolTime; } set { Data.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
 
     public float MaxStaminaCharge { get { return Data.MaxStaminaCharge; } set { Data.MaxStaminaCharge = value; } }
-    public float CurStaminaCharge { get { return Data.CurStaminaCharge; } set { Data.CurStaminaCharge = value; CurStaminaChargeSubject?.OnNext(Data.CurStaminaCharge); } }
+    public float CurStaminaCharge { get { return Data.CurStaminaCharge; } set { Data.CurStaminaCharge = value; } }
     public Subject<float> CurStaminaChargeSubject = new Subject<float>();
 
     public float MaxMana { get { return Data.MaxMana; } set { Data.MaxMana = value; } } // 최대 특수자원
@@ -136,21 +134,20 @@ public class PlayerModel : MonoBehaviour, IDebuff
     private PlayerController _player;
     public void PushThrowObject(ThrowObjectData throwObjectData)
     {
-        ThrowObjectStack.Add(throwObjectData);
-        CurThrowables++;
+        Data.PushThrowObject(throwObjectData);
     }
 
     public ThrowObjectData PopThrowObject()
     {
-        CurThrowables--;
-        ThrowObjectData data = ThrowObjectStack[CurThrowables];
-        ThrowObjectStack.RemoveAt(CurThrowables);
-        return data;
+        return Data.PopThrowObject();
     }
     public ThrowObjectData PeekThrowObject()
     {
-        ThrowObjectData data = ThrowObjectStack[CurThrowables - 1];
-        return data;
+        return Data.PeekThrowObject();
+    }
+    public void ClearThrowObject()
+    {
+        Data.ClearThrowObject();
     }
 
     private void Awake()
@@ -433,7 +430,8 @@ public partial class PlayerData
     public float CriticalDamage { get { return Data.Critical.CriticalDamage; } set { Data.Critical.CriticalDamage = value; } }
     // 투척오브젝트
     public int MaxThrowables { get { return Data.Throw.MaxThrowables; } set { Data.Throw.MaxThrowables = value; } }
-    public int CurThrowables { get { return Data.Throw.CurThrowables; } set { Data.Throw.CurThrowables = value; } }
+    public int CurThrowables { get { return Data.Throw.CurThrowables; } set { Data.Throw.CurThrowables = value; CurThrowCountSubject.OnNext(Data.Throw.CurThrowables); } }
+    public Subject<int> CurThrowCountSubject  = new Subject<int>();
     public float GainMoreThrowables { get { return Data.Throw.GainMoreThrowables; } set { Data.Throw.GainMoreThrowables = value; } }
     public List<ThrowObjectData> ThrowObjectStack { get { return Data.Throw.ThrowObjectStack; } set { Data.Throw.ThrowObjectStack = value; } }
     // 암유닛
@@ -522,5 +520,29 @@ public partial class PlayerData
         HitAdditionals.Clear();
         ThrowAdditionals.Clear();
         PlayerAdditionals.Clear();
+    }
+
+    public void PushThrowObject(ThrowObjectData throwObjectData)
+    {
+        ThrowObjectStack.Add(throwObjectData);
+        CurThrowables++;
+    }
+
+    public ThrowObjectData PopThrowObject()
+    {
+        CurThrowables--;
+        ThrowObjectData data = ThrowObjectStack[CurThrowables];
+        ThrowObjectStack.RemoveAt(CurThrowables);
+        return data;
+    }
+    public ThrowObjectData PeekThrowObject()
+    {
+        ThrowObjectData data = ThrowObjectStack[CurThrowables - 1];
+        return data;
+    }
+    public void ClearThrowObject()
+    {
+        ThrowObjectStack.Clear();
+        CurThrowables = 0;
     }
 }
