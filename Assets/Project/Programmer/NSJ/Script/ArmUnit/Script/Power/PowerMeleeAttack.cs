@@ -19,6 +19,8 @@ public class PowerMeleeAttack : ArmMeleeAttack
     }
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private float RushSpeed;
+    [SerializeField] private float _moveSpeedMultyPlier;
+
     private float m_curChargeTime;
     private float _curChargeTime
     {
@@ -104,6 +106,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         _index = 0;
         while (true)
         {
+            Move();
             ProcessCharge();
 
             if (InputKey.GetButtonUp(InputKey.Melee))
@@ -252,5 +255,20 @@ public class PowerMeleeAttack : ArmMeleeAttack
             transform.Translate(rushDir * Time.deltaTime * RushSpeed, Space.World);
             yield return null;
         }
+    }
+
+    private void Move()
+    {
+        if (Player.MoveDir == Vector3.zero)
+            return;
+        Player.LookAtMoveDir();
+
+        // 플레이어 이동
+        // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동
+        if (Player.IsGround == false && Player.IsWall == true)
+            return;
+        Vector3 originRb = Rb.velocity;
+        Vector3 velocityDir = transform.forward * (Model.MoveSpeed * _moveSpeedMultyPlier);
+        Rb.velocity = new Vector3(velocityDir.x, originRb.y, velocityDir.z);
     }
 }

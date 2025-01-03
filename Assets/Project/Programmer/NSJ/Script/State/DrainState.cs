@@ -98,10 +98,11 @@ public class DrainState : PlayerState
             int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _curDrainDistance, _overlapColliders);
             for (int i = 0; i < hitCount; i++)
             {
-                if (_overlapColliders[i].tag != Tag.Trash && _overlapColliders[i].tag != Tag.Item)
+                if (_overlapColliders[i].tag != Tag.Trash && _overlapColliders[i].tag != Tag.Item && _overlapColliders[i].tag != Tag.BlueChip)
                     continue;
 
-                _overlapColliders[i].transform.position = Vector3.MoveTowards(_overlapColliders[i].transform.position, transform.position, 5f * Time.deltaTime);
+                Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+                _overlapColliders[i].transform.position = Vector3.MoveTowards(_overlapColliders[i].transform.position, playerPos, 5f * Time.deltaTime);
             }
 
             Model.CurStamina -= Time.deltaTime * 10f;

@@ -21,9 +21,9 @@ namespace MKH
 
         private void Update()
         {
-            Vector3 v = pos;
-            v.y += range * Mathf.Sin(Time.time * speed);
-            transform.position = v;
+            //Vector3 v = pos;
+            //v.y += range * Mathf.Sin(Time.time * speed);
+            //transform.position = v;
 
             transform.LookAt(Camera.main.transform.position);
             transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y + 180, 0);
