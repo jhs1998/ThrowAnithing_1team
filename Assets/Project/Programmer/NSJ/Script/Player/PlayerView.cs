@@ -17,6 +17,7 @@ public class PlayerView : MonoBehaviour
         Jump,
         DoubleJump,
         Fall,
+        DoubleJumpFall,
         Landing,
         JumpDown,
         JumpAttack,
@@ -145,7 +146,7 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.JumpAttack] = Animator.StringToHash("JumpAttack");
         _animatorHashes[(int)Parameter.Hit] = Animator.StringToHash("Hit");
         _animatorHashes[(int)Parameter.Dead] = Animator.StringToHash("Dead");
-
+        _animatorHashes[(int)Parameter.DoubleJumpFall] = Animator.StringToHash("DoubleJumpFall");
 
 
 
