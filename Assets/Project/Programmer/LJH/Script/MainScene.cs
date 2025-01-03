@@ -2,17 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum CurState
-{
-    main,
-    _continue,
-    _new,
-    optionDepth1,
-    optionDepth2,
-};
 public class MainScene : BaseUI
 {
-    public CurState curState { get; protected set; }
 
     //메인 화면
     protected GameObject main;
@@ -67,22 +58,13 @@ public class MainScene : BaseUI
 
     private void Update()
     {
-
-        if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf && !exitPopUpObj.activeSelf)
-            curState = CurState.main;
-
-
         if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf && !exitPopUpObj.activeSelf)
         {
-            if (curState == CurState.main)
-            {
                 if (menuCo == null)
                 {
                     menuCo = StartCoroutine(MenuSelect());
                 }
                 SelectedEnter();
-
-            }
         }
 
         if (exitPopUpObj.activeSelf)
@@ -203,20 +185,17 @@ public class MainScene : BaseUI
     public void ContinueButton()
     {
         main_continue.SetActive(true);
-        curState = CurState._continue;
     }
 
     public void NewButton()
     {
         main_new.SetActive(true);
-        curState = CurState._new;
 
     }
 
     public void OptionButton()
     {
         option.SetActive(true);
-        curState = CurState.optionDepth1;
     }
 
     public void ExitButton()
