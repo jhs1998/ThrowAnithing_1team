@@ -27,6 +27,7 @@ public class Main_Continue : MainScene
 
     void Update()
     {
+
         if (!deleteTab.activeSelf)
         {
             if (menuCo == null)
@@ -35,6 +36,11 @@ public class Main_Continue : MainScene
             }
             SelectedEnter();
         }
+    }
+
+    private void OnDisable()
+    {
+        menuCo = null;
     }
 
     private IEnumerator Slots_Select()

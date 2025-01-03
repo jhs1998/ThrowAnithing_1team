@@ -64,6 +64,11 @@ public class Main_Option : MainScene
         }
     }
 
+    private void OnDisable()
+    {
+        menuCo = null;
+    }
+
     void OptionTitle()
     {
         GameObject optionTitle = GetUI("optionTitle");

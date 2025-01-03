@@ -78,6 +78,11 @@ public class Option_Sound : Main_Option
         }
     }
 
+    private void OnDisable()
+    {
+        menuCo = null;
+    }
+
     private IEnumerator Sound_Select()
     {
         
@@ -271,6 +276,10 @@ public class Option_Sound : Main_Option
         defaultTotal = 100;
         defaultBgm = 100;
         defaultEffect = 100;
+
+        preTotal = defaultTotal;
+        preBgm = defaultBgm;
+        preEffect = defaultEffect;
 
     }
 

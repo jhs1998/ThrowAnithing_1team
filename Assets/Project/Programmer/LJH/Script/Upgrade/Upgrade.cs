@@ -9,13 +9,14 @@ using UnityEngine.UI;
 using Zenject;
 using static UnityEngine.Rendering.DebugUI.Table;
 
-public class Upgrade : UpgradeBinding
+public class Upgrade : BaseUI
 {
     [Inject]
     private GlobalGameData _gameData;
 
-    //플레이어
+    //플레이어 / 카메라 제어용
     PlayerController player;
+    float cameraSpeed;
 
     Button[,] slots;
     Image[,] slotImages;
@@ -47,18 +48,26 @@ public class Upgrade : UpgradeBinding
     private void Awake()
     {
         Bind();
+        Init();
     }
 
     private void Start()
     {
-        Init();
 
+    }
+
+    private void OnEnable()
+    {
+        cameraSpeed = player.setting.cameraSpeed;
+        player.setting.cameraSpeed = 0;
     }
 
     private void OnDisable()
     {
         ver = 0;
         ho = 0;
+
+        player.setting.cameraSpeed = cameraSpeed;
     }
 
     private void Update()
