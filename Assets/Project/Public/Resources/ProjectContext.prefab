@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -5204339912961527784}
   - component: {fileID: 2843022970376083190}
   - component: {fileID: 3185848396629662587}
-  - component: {fileID: 7223853129513055123}
+  - component: {fileID: 1292623483343411748}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -198,7 +198,7 @@ MonoBehaviour:
     - 0
     - 0
   lobbyUpGrade: {fileID: 3185848396629662587}
-  optionSetting: {fileID: 7223853129513055123}
+  optionSetting: {fileID: 1292623483343411748}
 --- !u!114 &2843022970376083190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,10 +337,73 @@ MonoBehaviour:
     - 0
     - 0
     - 0
+  player:
+    Data:
+      Hp:
+        MaxHp: 0
+        CurHp: 0
+      Defense:
+        Defense: 0
+        DamageReduction: 0
+      Stamina:
+        MaxStamina: 0
+        CurStamina: 0
+        RegainStamina: 0
+        StaminaCoolTime: 0
+        ConsumesStamina: 0
+        MaxStaminaCharge: 0
+        CurStaminaCharge: 0
+      Special:
+        MaxMana: 0
+        CurMana: 0
+        RegainMana: []
+        ManaConsumption: []
+        SpecialChargeGage: 0
+      Jump:
+        JumpPower: 0
+        JumpStamina: 0
+        DoubleJumpStamina: 0
+        JumpDownStamina: 0
+        MaxJumpCount: 0
+        CurJumpCount: 0
+      Dash:
+        DashDistance: 0
+        DashStamina: 0
+      Attack:
+        AttackPower: 0
+        AttackSpeed: 0
+        PowerMeleeAttack: []
+        PowerThrowAttack: []
+        PowerSpecialAttack: []
+      Critical:
+        CriticalChance: 0
+        CriticalDamage: 0
+      Throw:
+        MaxThrowables: 0
+        CurThrowables: 0
+        GainMoreThrowables: 0
+        ThrowObjectStack: []
+      Additional:
+        AdditionalEffects: []
+        HitAdditionals: []
+        ThrowAdditionals: []
+        PlayerAdditionals: []
+      NowWeapon: 0
+      MoveSpeed: 0
+      DrainLife: 0
+      MeleeAttackStamina: []
+      EquipmentDropUpgrade: 0
+    IsDead: 0
+    Inventory:
+      Inventory: {fileID: 0}
+      InventoryMain: {fileID: 0}
+      BlueChipChoice: {fileID: 0}
+      BlueChipPanel: {fileID: 0}
+    test: 
   saveSystem: {fileID: 0}
   coinText: {fileID: 0}
   usingCoinText: {fileID: 0}
---- !u!114 &7223853129513055123
+--- !u!114 &1292623483343411748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -354,5 +417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectSound: 0
   backgroundSound: 0
+  wholesound: 0
   cameraSpeed: 0.1
   miniMapOn: 0
+  miniMapFix: 0
