@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-[System.Serializable]
 public class OptionSetting : MonoBehaviour
 {
     // 설정값 저장
@@ -33,7 +32,6 @@ public class OptionSetting : MonoBehaviour
 
     public void Start()
     {
-        ResetPlayerPrefs();
         OptionLode();
     }
 
@@ -70,6 +68,7 @@ public class OptionSetting : MonoBehaviour
             cameraSpeed = 5;
             miniMapOn = 1;
             miniMapFix = 1;
+            OptionSave();
             return;
         }
         Debug.Log("옵션 세팅 불러오기");       
