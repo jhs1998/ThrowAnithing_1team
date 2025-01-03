@@ -92,6 +92,7 @@ public class Option_GamePlay : Main_Option
         {
             if (gamePlayButtons[i] == curButton)
             {
+                Debug.Log(curButton);
                 gamePlayButtons[i].GetComponent<TMP_Text>().color = new Color(1, 0.5f, 0);
             }
             else
@@ -285,6 +286,8 @@ public class Option_GamePlay : Main_Option
         gamePlayButtons.Add(GetUI<Button>("AcceptButton_gameplay"));
         gamePlayButtons.Add(GetUI<Button>("CancelButton_gameplay"));
         gamePlayButtons.Add(GetUI<Button>("DefaultButton_gameplay"));
+
+        Debug.Log($"게임플레이 버튼 드가있나{gamePlayButtons[0].name}");
 
 
 
