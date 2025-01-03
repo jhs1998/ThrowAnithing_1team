@@ -19,6 +19,9 @@ public class PowerMeleeAttack : ArmMeleeAttack
     }
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private float RushSpeed;
+    [SerializeField] private float _moveSpeedMultyPlier;
+    [SerializeField] private float _autoAttackDelay;
+
     private float m_curChargeTime;
     private float _curChargeTime
     {
@@ -33,6 +36,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
     private GameObject _curArmEffect;
     Coroutine _chargeRoutine;
+    Coroutine _autoAttackRoutine;
     public override void Init(PlayerController player)
     {
         base.Init(player);
@@ -73,6 +77,11 @@ public class PowerMeleeAttack : ArmMeleeAttack
             CoroutineHandler.StopRoutine(_chargeRoutine);
             _chargeRoutine = null;
         }
+        if (_autoAttackRoutine != null) 
+        {
+            CoroutineHandler.StopRoutine(_autoAttackRoutine);
+            _autoAttackRoutine = null;
+        }
         // 스테미나 다시 회복 시작
         Player.CanStaminaRecovery = true;
 
@@ -104,6 +113,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         _index = 0;
         while (true)
         {
+            Move();
             ProcessCharge();
 
             if (InputKey.GetButtonUp(InputKey.Melee))
@@ -123,6 +133,9 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
     private void ProcessCharge()
     {
+        if (_autoAttackRoutine != null)
+            return;
+
         // 차지시간 계산
         _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
         if (_charges.Length > _index + 1)
@@ -130,7 +143,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
             // 스테미나가 부족하면 차지 멈춤
             if (Model.CurStamina < _charges[_index + 1].Stamina)
             {
-                ChargeEnd();
+                ChargeAutoEnd();
                 return;
             }
             // 차지 시간이 다음 단계로 넘어갈 수 있을 때
@@ -143,7 +156,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         }
         else
         {
-            ChargeEnd();
+            ChargeAutoEnd();
         }
     }
     public void AttackMelee()
@@ -252,5 +265,34 @@ public class PowerMeleeAttack : ArmMeleeAttack
             transform.Translate(rushDir * Time.deltaTime * RushSpeed, Space.World);
             yield return null;
         }
+    }
+
+    private void Move()
+    {
+        if (Player.MoveDir == Vector3.zero)
+            return;
+        Player.LookAtMoveDir();
+
+        // 플레이어 이동
+        // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동
+        if (Player.IsGround == false && Player.IsWall == true)
+            return;
+        Vector3 originRb = Rb.velocity;
+        Vector3 velocityDir = transform.forward * (Model.MoveSpeed * _moveSpeedMultyPlier);
+        Rb.velocity = new Vector3(velocityDir.x, originRb.y, velocityDir.z);
+    }
+
+    private void ChargeAutoEnd()
+    {
+        if(_autoAttackRoutine == null)
+        {
+            _autoAttackRoutine = CoroutineHandler.StartRoutine(AutoAttackRoutine());
+        }
+    }
+    IEnumerator AutoAttackRoutine()
+    {
+        yield return _autoAttackDelay.GetDelay();
+        ChargeEnd();
+        _autoAttackRoutine = null;
     }
 }

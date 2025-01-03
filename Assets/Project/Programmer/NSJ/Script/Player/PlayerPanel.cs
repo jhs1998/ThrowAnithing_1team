@@ -14,6 +14,7 @@ public class PlayerPanel : BaseUI
     public Slider ChargingMpBar => GetUI<Slider>("ChargingMpBar");
     public Slider ChanrgeStaminaBar => GetUI<Slider>("ChargeStaminaBar");
     [HideInInspector]public List<TMP_Text> StepTexts = new List<TMP_Text>(3);
+    [HideInInspector]public List<Slider> StepHandle = new List<Slider>(3);
     private void Awake()
     {
         Bind();
@@ -26,6 +27,9 @@ public class PlayerPanel : BaseUI
         StepTexts.Add(GetUI<TMP_Text>("2StepText"));
         StepTexts.Add(GetUI<TMP_Text>("3StepText"));
 
+        StepHandle.Add(GetUI<Slider>("1StepHandle"));
+        StepHandle.Add(GetUI<Slider>("2StepHandle"));
+        StepHandle.Add(GetUI<Slider>("3StepHandle"));
     }
 
     public void BarValueController(Slider bar,float curValue,float maxValue)
@@ -33,5 +37,14 @@ public class PlayerPanel : BaseUI
         float per;
         per = curValue / maxValue;
         bar.value = per;
+    }
+
+    public void SetChargingMpVarMaxValue(float value)
+    {
+        ChargingMpBar.maxValue = value;
+        foreach(Slider slider in StepHandle)
+        {
+            slider.maxValue = value;
+        }
     }
 }

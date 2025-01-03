@@ -16,7 +16,7 @@ public class DoubleJumpFallState : PlayerState
         if (Player.PrevState != PlayerController.State.Jump &&
             Player.PrevState != PlayerController.State.DoubleJump)
         {
-            View.SetTrigger(PlayerView.Parameter.Fall);
+            View.SetTrigger(PlayerView.Parameter.DoubleJumpFall);
         }
 
         _inertia = new Vector3(Rb.velocity.x, Rb.velocity.y, Rb.velocity.z);

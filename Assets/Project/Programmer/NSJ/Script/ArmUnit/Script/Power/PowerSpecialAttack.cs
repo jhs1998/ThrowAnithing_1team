@@ -11,6 +11,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         public GameObject DropObject;
         public Vector3 DropSize;
         public float ChargeTime;
+        public float ChargeMana;
         public int ObjectCount;
         public Vector3 AttackOffset;
         public float Radius;
@@ -23,6 +24,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
 
     private float _maxChargeTime => _charges[_charges.Length - 1].ChargeTime;
     private int _triggerIndex;
+    private float _maxChargeMana => _charges[_charges.Length - 1].ChargeMana;
     private GameObject _instanceDropObject;
     private GameObject _instanceSpecialRange;
     private Vector3 _dropPos;
@@ -35,13 +37,14 @@ public class PowerSpecialAttack : ArmSpecialAttack
         {
             _charges[i].Damage = (int)Model.PowerSpecialAttack[i];
             View.Panel.StepTexts[i].SetText(_charges[i].ObjectCount.GetText());
+            _charges[i].ChargeMana = Model.ManaConsumption[i];
         }
     }
     public override void Enter()
     {
-        if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount || Model.CurMana < 30)
+        if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount || Model.CurMana < Model.ManaConsumption[0])
         {
-            EndAnimation();
+            ChangeState(Player.PrevState);
             return;
         }
         Player.Rb.velocity = Vector3.zero;
@@ -150,9 +153,9 @@ public class PowerSpecialAttack : ArmSpecialAttack
             _instanceDropObject.transform.position = Player.ArmPoint.position;
         }
 
-
+        Debug.Log(_dropPos);
         // 차지시간 계산
-        Model.SpecialChargeGage += Time.deltaTime / _maxChargeTime;
+        Model.SpecialChargeGage += Time.deltaTime * 100 / _maxChargeTime;
         // 인덱스가 배열 크기보다 작을떄만
         if (_index < _charges.Length)
         {
@@ -160,7 +163,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
             if (Model.ThrowObjectStack.Count >= _charges[_index].ObjectCount)
             {
                 // 차지 시간이 다음 단계 차징 조건시간을 넘긴 경우
-                if (Model.SpecialChargeGage >= _charges[_index].ChargeTime / _maxChargeTime)
+                if (Model.SpecialChargeGage >= _charges[_index].ChargeMana)
                 {
                     // 오른손 그래픽
                     CreateSpecialObject();
@@ -170,15 +173,19 @@ public class PowerSpecialAttack : ArmSpecialAttack
                     _index++;
                 }
                 // 현재 특수자원량보다 차지량이 더 많은 경우
-                else if (Model.SpecialChargeGage > Model.CurMana / Model.MaxMana)
+                else if (Model.SpecialChargeGage > _charges[_index].ChargeMana)
                 {
-                    Model.SpecialChargeGage = Model.CurMana / Model.MaxMana;
+                    Model.SpecialChargeGage = _charges[_index].ChargeMana;
                 }
             }
             else
             {
-                Model.SpecialChargeGage = _index == 0 ? 0 : _charges[_index - 1].ChargeTime / _maxChargeTime;
+                Model.SpecialChargeGage = _charges[_index - 1].ChargeMana;
             }
+        }
+        else
+        {
+            Model.SpecialChargeGage = _charges[_index - 1].ChargeMana;
         }
     }
 
@@ -220,7 +227,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
                 Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, _charges[_index].KnockBackDistance);
         }
         // 차지 사용량만큼 제거
-        Model.CurMana -= (_charges[_index].ChargeTime / _maxChargeTime) * Model.MaxMana;
+        Model.CurMana -= _charges[_index].ChargeMana;
         // 사용한 오브젝트만큼 제거
         for (int i = 0; i < _charges[_index].ObjectCount; i++)
         {

@@ -7,6 +7,7 @@ using UnityEngine;
 public class BasicMeleeAttack : ArmMeleeAttack
 {
     [SerializeField] float _range;
+    [SerializeField] int _damage;
     [Range(0,180)][SerializeField] float _angle;
     [SerializeField] float _damageMultiplier;
 
@@ -76,7 +77,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
             // 적 넉백
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, 0.5f);
             
-            int finalDamage = Player.GetFinalDamage(_damageMultiplier);
+            int finalDamage = Player.GetFinalDamage(_damage,_damageMultiplier);
             // 데미지 주기
             Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true);
         }

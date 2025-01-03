@@ -11,5 +11,6 @@ public class InitializePlayer : MonoBehaviour
     {
         Inventory.Instance.Controller.ItemReset();
         _playerData.ClearAdditional();
+        _playerData.ClearThrowObject();
     }
 }
