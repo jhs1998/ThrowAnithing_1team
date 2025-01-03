@@ -19,7 +19,7 @@ public class EnemyDropItem : Action
         // 몬스터가 죽었을 시 아이템 드랍
         //int randNum = Random.Range(0, maxPersent+1);
         //Debug.Log(randNum);
-        GameObject.Instantiate(DataContainer.GetItemPrefab(), transform.position, transform.rotation);
+        GameObject.Instantiate(DataContainer.GetItemPrefab(), transform.position + new Vector3(0, 1, 0), transform.rotation);
         //int randNum = Random.Range(0, maxPersent + 1);
         //Debug.Log(randNum);
         //GameObject.Instantiate(dropItems[0], transform.position, transform.rotation);
