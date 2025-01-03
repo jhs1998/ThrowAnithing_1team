@@ -49,6 +49,11 @@ public class MainScene : BaseUI
     protected float inputDelay = 0.15f;
 
     protected Coroutine menuCo;
+
+    //로직 변경으로 필요한 컬러
+    Color curButtonColor = new(0.5f, 0.2f, 0);
+    Color notButtonColor = new(0.5f, 0.2f, 0, 0.1f);
+
     private void Awake()
     {
         Bind();
@@ -66,8 +71,6 @@ public class MainScene : BaseUI
         if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf && !exitPopUpObj.activeSelf)
             curState = CurState.main;
 
-        // if (option.activeSelf)
-        //     curState = CurState.optionDepth1;
 
         if (!option.activeSelf && !main_continue.activeSelf && !main_new.activeSelf && !exitPopUpObj.activeSelf)
         {
@@ -119,6 +122,7 @@ public class MainScene : BaseUI
     }
 
     // Comment : W/S 또는 위/아래 화살표 키를 이용해 메뉴 변경 가능 함수
+    // Comment : 함수 내 주석처리된 코드는 비활성화/활성화 방식일 때 코드, 혹시 몰라 남겨놓겠음
 
     private IEnumerator MenuSelect()
     {
@@ -130,24 +134,32 @@ public class MainScene : BaseUI
         if (curMenu == menuButtons.Length)
         {
             curMenu = 0;
-            menuButtons[menuButtons.Length - 1].gameObject.SetActive(false);
-            menuButtons[curMenu].gameObject.SetActive(true);
+            //menuButtons[menuButtons.Length - 1].gameObject.SetActive(false);
+            menuButtons[menuButtons.Length - 1].GetComponent<Image>().color = notButtonColor;
+            //menuButtons[curMenu].gameObject.SetActive(true);
+            menuButtons[curMenu].GetComponent<Image>().color = curButtonColor;
+
             yield return null;
         }
 
         if (curMenu == -1)
         {
             curMenu = menuButtons.Length - 1;
-            menuButtons[0].gameObject.SetActive(false);
-            menuButtons[curMenu].gameObject.SetActive(true);
+            //menuButtons[0].gameObject.SetActive(false);
+            menuButtons[0].GetComponent<Image>().color = notButtonColor;
+            //menuButtons[curMenu].gameObject.SetActive(true);
+            menuButtons[curMenu].GetComponent<Image>().color = curButtonColor;
+
             yield return null;
         }
 
         for (int i = 0; i < menuButtons.Length; i++)
         {
-            menuButtons[i].gameObject.SetActive(false);
+            //menuButtons[i].gameObject.SetActive(false);
+            menuButtons[i].GetComponent<Image>().color = notButtonColor;
         }
-        menuButtons[curMenu].gameObject.SetActive(true);
+        //menuButtons[curMenu].gameObject.SetActive(true);
+        menuButtons[curMenu].GetComponent<Image>().color = curButtonColor;
 
         if (y == 0)
             yield return null;

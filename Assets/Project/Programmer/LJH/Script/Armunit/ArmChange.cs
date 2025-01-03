@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using Zenject.SpaceFighter;
 
 public class ArmChange : BaseUI
 {
@@ -22,6 +24,10 @@ public class ArmChange : BaseUI
 
     Color color;
 
+    //카메라 제어용
+    PlayerController player;
+    float cameraSpeed;
+
     private void Awake()
     {
         Bind();
@@ -29,18 +35,21 @@ public class ArmChange : BaseUI
         _forge = GetComponentInParent<Forge>();
     }
 
-    private void Start()
-    {
-        
-    }
+
     private void OnEnable()
     {
+        cameraSpeed = player.setting.cameraSpeed;
+        player.setting.cameraSpeed = 0;
+
         if (armCo == null)
             armCo = StartCoroutine(ArmUnit_Select());
     }
     private void OnDisable()
     {
-        if(armCo != null)
+
+        player.setting.cameraSpeed = cameraSpeed;
+
+        if (armCo != null)
         {
             StopCoroutine(armCo);
             armCo = null;
@@ -164,5 +173,7 @@ public class ArmChange : BaseUI
         armButtons[0].onClick.AddListener(Power);
         armButtons[1].onClick.AddListener(Balance);
         armButtons[2].onClick.AddListener(Speed);
+
+        player = GameObject.FindWithTag(Tag.Player).GetComponent<PlayerController>();
     }
 }

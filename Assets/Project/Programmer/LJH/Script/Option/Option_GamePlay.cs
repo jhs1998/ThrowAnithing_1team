@@ -82,6 +82,11 @@ public class Option_GamePlay : Main_Option
 
     }
 
+    private void OnDisable()
+    {
+        menuCo = null;
+    }
+
     private IEnumerator GamePlay_Select()
     {
         float x = InputKey.GetAxisRaw(InputKey.Horizontal);
