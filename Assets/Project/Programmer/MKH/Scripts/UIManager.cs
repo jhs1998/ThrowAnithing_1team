@@ -17,7 +17,7 @@ namespace MKH
             {
                 if (_player == null)
                 {
-                    _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+                    _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
                 }
                 return _player;
             }
@@ -60,7 +60,7 @@ namespace MKH
                 if (_Inventory.activeSelf)
                     return;
                 _isOpenInventory = true;
-                player.ChangeStateInteract(true);
+                player.CantOperate = true;
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
@@ -74,7 +74,7 @@ namespace MKH
                     return;
 
                 _isOpenInventory = false;
-                player.ChangeStateInteract(false);
+                player.CantOperate = false;
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
                 _State.SetActive(false);

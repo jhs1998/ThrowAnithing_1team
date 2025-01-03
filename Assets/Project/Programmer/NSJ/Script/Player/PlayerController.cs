@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour, IHit
         SpecialAttack,
         Hit,
         Dead,
-        Interative,
         Size
     }
 
@@ -132,6 +131,7 @@ public class PlayerController : MonoBehaviour, IHit
     public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
     #region 조건체크 Bool 필드
+    [System.Serializable]
     public struct BoolField
     {
         public bool IsDoubleJump; // 더블점프 했음?
@@ -141,8 +141,9 @@ public class PlayerController : MonoBehaviour, IHit
         public bool IsDead; // 죽음?
         public bool IsStaminaCool; // 스테미나 사용 후 쿨타임인지?
         public bool CanStaminaRecovery; // 스테미나 회복 할 수 있는지?
+        public bool CantOperate; // 조작할 수 있는지?
     }
-    private BoolField _boolField;
+    [SerializeField]private BoolField _boolField;
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
     public bool IsJumpAttack { get { return _boolField.IsJumpAttack; } set { _boolField.IsJumpAttack = value; } }
     public bool IsInvincible { get { return _boolField.IsInvincible; } set { _boolField.IsInvincible = value; } }
@@ -150,6 +151,7 @@ public class PlayerController : MonoBehaviour, IHit
     public bool IsDead { get { return _boolField.IsDead; } set { _boolField.IsDead = value; } }
     public bool IsStaminaCool { get { return _boolField.IsStaminaCool; } set { _boolField.IsStaminaCool = value; } }
     public bool CanStaminaRecovery { get { return _boolField.CanStaminaRecovery; } set { _boolField.CanStaminaRecovery = value; } }
+    public bool CantOperate { get { return _boolField.CantOperate; } set { _boolField.CantOperate = value; TriggerCantOperate(); } }
     #endregion
 
     //TODO: 인스펙터 정리 필요
@@ -191,6 +193,9 @@ public class PlayerController : MonoBehaviour, IHit
 
     private void Update()
     {
+        if (CantOperate == true)
+            return;
+
         if (Time.timeScale == 0)
             return;
 
@@ -263,7 +268,6 @@ public class PlayerController : MonoBehaviour, IHit
     {
         OnPlayerDieEvent?.Invoke();
     }
-
 
     #region Instantiate 대리 메서드
     public T InstantiateObject<T>(T instance) where T : Component
@@ -757,25 +761,10 @@ public class PlayerController : MonoBehaviour, IHit
     {
         if (IsDead == true || IsHit == true)
             return;
-        if (CurState == State.Interative)
-            return;
-
 
         if (InputKey.GetButtonDown(InputKey.Dash) && CurState != State.Dash && CurState != State.JumpDown)
         {
             ChangeState(PlayerController.State.Dash);
-        }
-    }
-
-    public void ChangeStateInteract(bool isInteract)
-    {
-        if (isInteract == true)
-        {
-            ChangeState(State.Interative);
-        }
-        else
-        {
-            ChangeState(State.Idle);
         }
     }
     #endregion
@@ -939,6 +928,11 @@ public class PlayerController : MonoBehaviour, IHit
             yield return null;
         }
     }
+
+    private void TriggerCantOperate()
+    {
+        _states[(int)CurState].TriggerCantOperate();
+    }
     // 초기 설정 ============================================================================================================================================ //
     /// <summary>
     /// 초기 설정
@@ -971,7 +965,6 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)State.Drain] = new DrainState(this);               // 드레인
         _states[(int)State.Hit] = new HitState(this);                   // 피격
         _states[(int)State.Dead] = new DeadState(this);                 // 사망
-        _states[(int)State.Interative] = new InteractiveState(this);    // 상호작용
     }
 
     /// <summary>

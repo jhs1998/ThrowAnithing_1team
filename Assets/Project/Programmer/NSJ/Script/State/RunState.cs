@@ -31,6 +31,14 @@ public class RunState : PlayerState
         Run();
     }
 
+    public override void TriggerCantOperate()
+    {
+        if (Player.CantOperate == true)
+        {
+            ChangeState(PlayerController.State.Idle);
+        }
+    }
+
 
 
     private void Run()
@@ -86,5 +94,4 @@ public class RunState : PlayerState
             ChangeState(PlayerController.State.Drain);
         }
     }
-    float _inputBuffer;
 }

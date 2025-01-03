@@ -49,12 +49,10 @@ public class PlayerInteractor : MonoBehaviour
                 {
                     if(IsInteractableActive == false && IsInteractive ==false)
                     {
-                        _player.ChangeStateInteract(true);
+                        _player.CantOperate = true;
                         IsInteractive = true;
                     }
                 }
-
-
 
             }
             yield return null;

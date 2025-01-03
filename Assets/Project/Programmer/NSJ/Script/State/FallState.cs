@@ -8,6 +8,7 @@ public class FallState : PlayerState
     private bool _isInertia;
     Coroutine _fallRoutine;
     Coroutine _checkInputRoutine;
+    Coroutine _checkLandingRoutine;
     public FallState(PlayerController controller) : base(controller)
     {
     }
@@ -20,47 +21,20 @@ public class FallState : PlayerState
         }
 
         _inertia = new Vector3(Rb.velocity.x, 0,Rb.velocity.z);
-        if (_fallRoutine == null)
-        {
-            _fallRoutine = CoroutineHandler.StartRoutine(FallRoutine());
-        }
+        StartCoroutine();
     }
 
     public override void Exit()
     {
-        if (_fallRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_fallRoutine);
-            _fallRoutine = null;
-        }
-
-        if (_checkInputRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_checkInputRoutine);
-            _checkInputRoutine = null;
-        }
+        StopCoroutine();
     }
     public override void Update()
     {
-        CheckGround();
-    }
-    private void CheckGround()
-    {
-        if (Player.IsGround == true && Rb.velocity.y < 0)
-        {
-            Player.IsDoubleJump = false;
-            Player.IsJumpAttack = false;
-
-            ChangeState(PlayerController.State.Idle);
-        }
+        
     }
 
     IEnumerator FallRoutine()
     {
-        // Fall 상태에서 받을 수 있는 입력 대기
-        if (_checkInputRoutine == null)
-            _checkInputRoutine = CoroutineHandler.StartRoutine(CheckInputRoutine());
-
         yield return 0.1f.GetDelay();
         while (Player.IsGround == false)
         {
@@ -125,9 +99,59 @@ public class FallState : PlayerState
                 ChangeState(PlayerController.State.JumpDown);
                 break;
             }
+
+         
+
+
             yield return null;
         }
         _checkInputRoutine = null;
     }
+    IEnumerator CheckLandingRoutine()
+    {
+        while (true)
+        {
+            if (Player.IsGround == true && Rb.velocity.y < 0)
+            {
+                Player.IsDoubleJump = false;
+                Player.IsJumpAttack = false;
+                ChangeState(PlayerController.State.Idle);
+                yield break;
+            }
+            yield return null;
+        }
+    }
 
+    private void StartCoroutine()
+    {
+        if (_fallRoutine == null)
+        {
+            _fallRoutine = CoroutineHandler.StartRoutine(FallRoutine());
+        }
+        // Fall 상태에서 받을 수 있는 입력 대기
+        if (_checkInputRoutine == null)
+            _checkInputRoutine = CoroutineHandler.StartRoutine(CheckInputRoutine());
+        if (_checkLandingRoutine == null)
+            _checkLandingRoutine = CoroutineHandler.StartRoutine(CheckLandingRoutine());
+    }
+
+    private void StopCoroutine()
+    {
+        if (_fallRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_fallRoutine);
+            _fallRoutine = null;
+        }
+
+        if (_checkInputRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_checkInputRoutine);
+            _checkInputRoutine = null;
+        }
+        if (_checkLandingRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_checkLandingRoutine);
+            _checkLandingRoutine = null;
+        }
+    }
 }
