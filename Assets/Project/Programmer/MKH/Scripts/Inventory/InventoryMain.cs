@@ -7,10 +7,9 @@ namespace MKH
     {
         [SerializeField] GameObject state;
 
-        new private void Awake()
+        new public void Awake()
         {
             base.Awake();
-            //state.SetActive(false);
         }
        
         public void AcquireItem(Item item)

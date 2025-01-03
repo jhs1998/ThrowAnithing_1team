@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace MKH
@@ -6,7 +7,7 @@ namespace MKH
     {
         private ItemPickUp mCurrentItem;
 
-        [SerializeField] private InventoryMainTest  mInventory;      // 인벤토리
+        [SerializeField] private InventoryMainTest mInventory;      // 인벤토리
 
         private void OnTriggerEnter(Collider other)
         {
@@ -16,12 +17,16 @@ namespace MKH
             // Item 태그 붙은 other 오브젝트
             if (other.gameObject.tag == Tag.Item)
             {
-                // 아이템 타입이 None이 아닐 시 
-                if (mCurrentItem.Item.Type != ItemType.None)
+                for (int i = 0; i < mInventory.mSlots.Length; i++)
                 {
-                    // 인벤토리에 아이템 추가
-                    mInventory.AcquireItem(mCurrentItem.Item);
-                    Destroy(other.gameObject);
+                    // 아이템 타입이 None이 아닐 시, 슬롯이 다 안찼을 때
+                    if (mCurrentItem.Item.Type != ItemType.None && mInventory.mSlots[i].Item == null)
+                    {
+                        // 인벤토리에 아이템 추가
+                        mInventory.AcquireItem(mCurrentItem.Item);
+                        Destroy(other.gameObject);
+                        return;
+                    }
                 }
             }
         }
