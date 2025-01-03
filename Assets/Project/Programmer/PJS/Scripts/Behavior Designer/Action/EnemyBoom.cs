@@ -8,6 +8,7 @@ public class EnemyBoom : Action
 	[SerializeField] SharedBool isBoom;
     [SerializeField] SharedFloat attackDist;    // Æø¹ß ¹üÀ§
     [SerializeField] ParticleSystem paticle;
+
     private BaseEnemy enemy;
 
 	public override void OnStart()
@@ -27,6 +28,7 @@ public class EnemyBoom : Action
 
         paticle.Play();
         isBoom.SetValue(true);
+
         return TaskStatus.Success;
 	}
 }

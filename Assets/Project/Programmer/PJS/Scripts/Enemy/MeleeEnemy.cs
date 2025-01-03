@@ -6,9 +6,6 @@ using Zenject.SpaceFighter;
 
 public class MeleeEnemy : BaseEnemy
 {
-    [SerializeField] CapsuleCollider attakArm;
-
-    //private bool _canAttack;
     public void BeginAttack()
     {
         AttackMelee();
@@ -18,15 +15,6 @@ public class MeleeEnemy : BaseEnemy
     {
      
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.transform.tag == Tag.Player && _canAttack == true)
-    //    {
-    //        IHit hit = other.transform.GetComponent<IHit>();
-    //        hit.TakeDamage(Damage, true);
-    //    }
-    //}
 
     /// <summary>
     /// 근접 공격
@@ -50,7 +38,6 @@ public class MeleeEnemy : BaseEnemy
             float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
             if (targetAngle > 120 * 0.5f)
                 continue;
-
 
             int finalDamage = state.Atk;
             // 데미지 주기

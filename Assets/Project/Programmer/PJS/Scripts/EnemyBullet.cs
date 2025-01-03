@@ -28,7 +28,6 @@ public class EnemyBullet : MonoBehaviour
     {
         if (other.transform.tag == Tag.Player)
         {
-            //Debug.Log("Ãæµ¹");
             Battle.TargetAttack(other.transform, Atk, true);
             Destroy(gameObject);
         }

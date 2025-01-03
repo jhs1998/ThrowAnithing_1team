@@ -28,10 +28,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
     [Header("현재 체력")]
     [SerializeField] int curHp;
 
-    [HideInInspector] int maxHp;      // 최대 체력
-    [HideInInspector] float speed;      // 이동속도
     [HideInInspector] float jumpPower;  // 점프력
-    [HideInInspector] float attackSpeed;// 공격속도
 
     [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
     [HideInInspector] public Collider[] overLapCollider = new Collider[100];
@@ -51,16 +48,12 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
         playerObj = GameObject.FindGameObjectWithTag("Player");
         tree = GetComponent<BehaviorTree>();
         Battle = GetComponent<BattleSystem>();
-        // FIXME : 나중에 수정 필요
-        gameObject.layer = Layer.Monster;
     }
 
     private void Start()
     {
         SettingVariable();
         curHp = state.MaxHp;
-        speed = state.Speed;
-        attackSpeed = state.AtkDelay;
     }
 
     public State GetState()
@@ -129,7 +122,6 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
         atkAble.SetValue(true);
         Debug.Log($"{atkAble.Name} 쿨타임 끝");
     }
-
 
     private void OnDrawGizmosSelected()
     {
