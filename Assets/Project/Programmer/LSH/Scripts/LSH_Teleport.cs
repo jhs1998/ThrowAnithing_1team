@@ -16,9 +16,10 @@ public class LSH_Teleport : MonoBehaviour
     {
 
         if (other.tag == "PortalHidden")
-        {            
+        {
             //멀티 씬 로딩, LoadSceneMode.Additive
-            randomHiddenRoom = other.GetComponent<PortalSceneNumber>().hiddenSceneArr[Random.Range(0, 2)];
+            PortalSceneNumber portalSceneNumber = other.GetComponent<PortalSceneNumber>();
+            randomHiddenRoom = portalSceneNumber.hiddenSceneArr[Random.Range(0, portalSceneNumber.hiddenSceneArr.Length)];
             ChangeScene(randomHiddenRoom); //0함정 1몬스터 2블루칩
             other.gameObject.SetActive(false);
         }
@@ -31,13 +32,14 @@ public class LSH_Teleport : MonoBehaviour
             {
 
                 //플레이어 기존씬에 있던 자리로 돌려놓고
+                Vector3 beforePos = new Vector3(beforeTeleportPos.x, beforeTeleportPos.y, beforeTeleportPos.z);
                 transform.position = beforeTeleportPos;
                 // 전체 씬 탐색
-                for(int i = 0; i<SceneManager.sceneCount; i++)
+                for (int i = 0; i < SceneManager.sceneCount; i++)
                 {
                     Scene loadedScene = SceneManager.GetSceneAt(i);
                     // 탐색한 씬이 히든 씬 이름과 같을 때
-                    if(loadedScene.name == randomHiddenRoom.SceneName)
+                    if (loadedScene.name == randomHiddenRoom.SceneName)
                     {
                         SceneManager.UnloadSceneAsync(loadedScene);
                     }
@@ -45,11 +47,11 @@ public class LSH_Teleport : MonoBehaviour
                 ////열어둔 랜덤 씬을 저장한 뒤 언로드씬() 해줌 -> 오류, 닫지 않는것으로 해결
                 //Scene additiveScene = SceneManager.GetSceneByName(randomHiddenRoom);
 
-               // SceneManager.UnloadScene(additiveScene);
+                // SceneManager.UnloadScene(additiveScene);
 
                 //변수 false로 바꿈
                 isSceneAdditive = false;
-                
+
 
             }
             //스테이지 이동할때
@@ -59,14 +61,14 @@ public class LSH_Teleport : MonoBehaviour
                 //직접 씬 이동, LoadSceneMode.Single
                 nextStage = other.GetComponent<PortalSceneNumber>().nextScene;
                 SceneManager.LoadScene(nextStage);
-                
+
 
 
             }
 
         }
-        
-        
+
+
 
     }
 

@@ -34,7 +34,7 @@ public class PlayerInteractor : MonoBehaviour
         {
             StopCoroutine(_interactorRoutine);
             _interactorRoutine = null;
-            _player.ChangeStateInteract(false);
+            //_player.ChangeStateInteract(false);
         }
     }
 

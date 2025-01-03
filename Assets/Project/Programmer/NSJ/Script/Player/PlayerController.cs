@@ -230,7 +230,6 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public void ChangeState(State state)
     {
-
         // 스테미나 쓰는 상태
         if (_states[(int)state].UseStamina == true)
         {
@@ -246,7 +245,7 @@ public class PlayerController : MonoBehaviour, IHit
         CurState = state;
         _states[(int)CurState].Enter();
 
-        //Debug.Log(CurState);
+        Debug.Log(CurState);
     }
 
     /// <summary>

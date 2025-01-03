@@ -39,6 +39,7 @@ public class Forge : MonoBehaviour
         {
             return;
         }
+
         if (InputKey.GetButtonDown(InputKey.PopUpClose))
         {
             SetUnActiveUI();
@@ -57,9 +58,10 @@ public class Forge : MonoBehaviour
 
     public void SetUnActiveUI()
     {
-        _player.ChangeStateInteract(false);
+      
         if (_ui.activeSelf == true && IsUIActive == true)
         {
+            _player.ChangeStateInteract(false);
             _ui.SetActive(false);
         }
     }
