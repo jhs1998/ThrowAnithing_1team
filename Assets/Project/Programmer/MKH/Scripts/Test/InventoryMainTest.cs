@@ -9,7 +9,6 @@ namespace MKH
 
         [SerializeField] GameObject blueChipPanel;
 
-
         new private void Awake()
         {
             base.Awake();
