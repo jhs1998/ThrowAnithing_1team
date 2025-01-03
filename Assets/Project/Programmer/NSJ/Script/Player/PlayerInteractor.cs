@@ -34,7 +34,7 @@ public class PlayerInteractor : MonoBehaviour
         {
             StopCoroutine(_interactorRoutine);
             _interactorRoutine = null;
-            //_player.ChangeStateInteract(false);
+            _player.CantOperate = false;
         }
     }
 
@@ -43,14 +43,13 @@ public class PlayerInteractor : MonoBehaviour
         while (true)
         {
             if (InputKey.GetButtonDown(InputKey.Interaction))
-            {        
+            {
                 Forge = other.GetComponent<Forge>();
                 if (other.gameObject.tag != Tag.UnInteractable)
                 {
-                    if(IsInteractableActive == false && IsInteractive ==false)
+                    if (IsInteractableActive == false)
                     {
                         _player.CantOperate = true;
-                        IsInteractive = true;
                     }
                 }
 
