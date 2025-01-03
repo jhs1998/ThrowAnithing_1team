@@ -13,6 +13,7 @@ public class PowerThrowAttack : ArmThrowAttack
         public float KnockBackDistance;
     }
     [SerializeField] private ChargeStruct[] _charges;
+    [SerializeField] private float _autoAttackDelay;
     private float m_curChargeTime;
     private float _curChargeTime
     {
@@ -25,6 +26,7 @@ public class PowerThrowAttack : ArmThrowAttack
         }
     }
     Coroutine _chargeRoutine;
+    Coroutine _autoAttackRoutine;
     public override void Init(PlayerController player)
     {
         base.Init(player);
@@ -118,7 +120,7 @@ public class PowerThrowAttack : ArmThrowAttack
             if (Model.ThrowObjectStack.Count <= _charges[_index].ObjectCount)
             {
                 //_curChargeTime = _charges[_index].ChargeTime;
-                ChargeEnd();
+                ChargeAutoEnd();
                 return;
             }
             // 차지 시간이 다음 단계로 넘어 갈 수 있을 때
@@ -130,7 +132,7 @@ public class PowerThrowAttack : ArmThrowAttack
         else
         {
             //_curChargeTime = _charges[_index].ChargeTime + 0.01f;
-            ChargeEnd();
+            ChargeAutoEnd();
         }
     }
 
@@ -157,5 +159,19 @@ public class PowerThrowAttack : ArmThrowAttack
         _chargeRoutine = null;
         // 캐릭터 임시 무적
         Player.IsInvincible = true;
+    }
+
+    private void ChargeAutoEnd()
+    {
+        if (_autoAttackRoutine == null)
+        {
+            _autoAttackRoutine = CoroutineHandler.StartRoutine(AutoAttackRoutine());
+        }
+    }
+    IEnumerator AutoAttackRoutine()
+    {
+        yield return _autoAttackDelay.GetDelay();
+        ChargeEnd();
+        _autoAttackRoutine = null;
     }
 }
