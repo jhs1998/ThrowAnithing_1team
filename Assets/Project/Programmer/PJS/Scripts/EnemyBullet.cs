@@ -22,6 +22,7 @@ public class EnemyBullet : MonoBehaviour
 
     private void Start()
     {
+        // TODO : 플레이어 바라보는거 좋은 방법 있을 시 교체
         transform.LookAt(target.position + new Vector3(0, 1, 0));
     }
 
