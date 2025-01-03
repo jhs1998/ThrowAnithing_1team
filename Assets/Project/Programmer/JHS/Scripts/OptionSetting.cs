@@ -64,4 +64,15 @@ public class OptionSetting : MonoBehaviour
         miniMapOn = PlayerPrefs.GetInt("MiniMapOn");
         miniMapFix = PlayerPrefs.GetInt("MiniMapFix");
     }
+
+    public void OptionReset()
+    {
+        effectSound = 100;
+        backgroundSound = 100;
+        wholesound = 100;
+        cameraSpeed = 5;
+        miniMapOn = 1;
+        miniMapFix = 1;
+        OptionSave();
+    }
 }
