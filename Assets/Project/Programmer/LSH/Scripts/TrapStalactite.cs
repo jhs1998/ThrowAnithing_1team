@@ -16,6 +16,7 @@ public class TrapStalactite : MonoBehaviour
 
     [SerializeField] GameObject stalactite;
     [SerializeField] GameObject boxArea;
+    [SerializeField] GameObject particle;
 
     [SerializeField] Transform stalactiteBeforeMove;
     [SerializeField] Transform stalactiteAfterMove;
@@ -55,6 +56,7 @@ public class TrapStalactite : MonoBehaviour
     
     IEnumerator DeleteRoutine()
     {
+        particle.SetActive(false);
         wait = new WaitForSeconds(deleteCount);
         yield return wait;
         stalactite.SetActive(false);
