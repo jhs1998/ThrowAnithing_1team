@@ -24,28 +24,44 @@ public class OptionSetting : MonoBehaviour
     // 미니맵 고정 기능 저장 1 = on , 0 = off
     public int miniMapFix;
 
-    public void Awake()
+    private const string EffectSoundKey = "Option_EffectSound";
+    private const string BackgroundSoundKey = "Option_BackgroundSound";
+    private const string WholeSoundKey = "Option_WholeSound";
+    private const string CameraSpeedKey = "Option_CameraSpeed";
+    private const string MiniMapOnKey = "Option_MiniMapOn";
+    private const string MiniMapFixKey = "Option_MiniMapFix";
+
+    public void Start()
     {
+        ResetPlayerPrefs();
         OptionLode();
+    }
+
+    public void ResetPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+        Debug.Log("PlayerPrefs 초기화 완료");
     }
 
     // 옵션 세팅 수치 세이브
     public void OptionSave()
-    {
-        PlayerPrefs.SetFloat("EffectSound", effectSound);
-        PlayerPrefs.SetFloat("BackgroundSound", backgroundSound);
-        PlayerPrefs.SetFloat("WholeSound", wholesound);
-        PlayerPrefs.SetFloat("CameraSpeed", cameraSpeed);
-        PlayerPrefs.SetInt("MiniMapOn", miniMapOn);
-        PlayerPrefs.SetInt("MiniMapFix", miniMapFix);
+    {      
+        PlayerPrefs.SetFloat(EffectSoundKey, effectSound);
+        PlayerPrefs.SetFloat(BackgroundSoundKey, backgroundSound);
+        PlayerPrefs.SetFloat(WholeSoundKey, wholesound);
+        PlayerPrefs.SetFloat(CameraSpeedKey, cameraSpeed);
+        PlayerPrefs.SetInt(MiniMapOnKey, miniMapOn);
+        PlayerPrefs.SetInt(MiniMapFixKey, miniMapFix);
+        Debug.Log($"After OptionSave - EffectSound: {effectSound}, BackgroundSound: {backgroundSound}, WholeSound: {wholesound}, CameraSpeed: {cameraSpeed}, MiniMapOn: {miniMapOn}, MiniMapFix: {miniMapFix}");
+        PlayerPrefs.Save();
         Debug.Log("옵션 세팅 저장");
     }
 
     // 옵션 세팅 수치 로드
     public void OptionLode()
     {
-        if (!PlayerPrefs.HasKey("EffectSound") || !PlayerPrefs.HasKey("BackgroundSound") || !PlayerPrefs.HasKey("CameraSpeed") || !PlayerPrefs.HasKey("miniMapOn") 
-            || !PlayerPrefs.HasKey("WholeSound") || !PlayerPrefs.HasKey("MiniMapFix"))
+        if (!PlayerPrefs.HasKey(EffectSoundKey) || !PlayerPrefs.HasKey(BackgroundSoundKey) || !PlayerPrefs.HasKey(WholeSoundKey) || !PlayerPrefs.HasKey(CameraSpeedKey) 
+            || !PlayerPrefs.HasKey(MiniMapOnKey) || !PlayerPrefs.HasKey(MiniMapFixKey))
         {
             Debug.Log("기본 세팅 완료");
             effectSound = 100;
@@ -56,13 +72,14 @@ public class OptionSetting : MonoBehaviour
             miniMapFix = 1;
             return;
         }
-        Debug.Log("옵션 세팅 불러오기");
-        effectSound = PlayerPrefs.GetFloat("EffectSound");
-        backgroundSound = PlayerPrefs.GetFloat("BackgroundSound");
-        wholesound = PlayerPrefs.GetFloat("WholeSound");
-        cameraSpeed = PlayerPrefs.GetFloat("CameraSpeed");
-        miniMapOn = PlayerPrefs.GetInt("MiniMapOn");
-        miniMapFix = PlayerPrefs.GetInt("MiniMapFix");
+        Debug.Log("옵션 세팅 불러오기");       
+        effectSound = PlayerPrefs.GetFloat(EffectSoundKey);
+        backgroundSound = PlayerPrefs.GetFloat(BackgroundSoundKey);
+        wholesound = PlayerPrefs.GetFloat(WholeSoundKey);
+        cameraSpeed = PlayerPrefs.GetFloat(CameraSpeedKey);
+        miniMapOn = PlayerPrefs.GetInt(MiniMapOnKey);
+        miniMapFix = PlayerPrefs.GetInt(MiniMapFixKey);
+        Debug.Log($"After OptionLode - EffectSound: {effectSound}, BackgroundSound: {backgroundSound}, WholeSound: {wholesound}, CameraSpeed: {cameraSpeed}, MiniMapOn: {miniMapOn}, MiniMapFix: {miniMapFix}");
     }
 
     public void OptionReset()
@@ -72,7 +89,7 @@ public class OptionSetting : MonoBehaviour
         wholesound = 100;
         cameraSpeed = 5;
         miniMapOn = 1;
-        miniMapFix = 1;
+        miniMapFix = 1;       
         OptionSave();
     }
 }
