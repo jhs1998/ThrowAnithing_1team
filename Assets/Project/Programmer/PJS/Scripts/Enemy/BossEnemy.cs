@@ -1,4 +1,3 @@
-using BehaviorDesigner.Runtime;
 using System.Collections;
 using UnityEngine;
 
@@ -60,7 +59,6 @@ public class BossEnemy : BaseEnemy
     /// </summary>
     public void ThunderStomp()
     {
-        //Debug.Log("ThunderStomp()");
         // 체력의 의한 패턴 변경
         if (CurHp > state.MaxHp * 0.8f)
         {
@@ -93,7 +91,6 @@ public class BossEnemy : BaseEnemy
     /// </summary>
     public void Shooting()
     {
-        //Debug.Log("Shooting()");
         if (transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack"))
             AttackMelee();
         // 일반 근접 공격 - 모든 페이즈에 존재
@@ -144,7 +141,6 @@ public class BossEnemy : BaseEnemy
     /// <summary>
     /// 공격 딜레이
     /// </summary>
-    /// <returns></returns>
     IEnumerator AttackDelayRoutine()
     {
         // 공격 딜레이 시작
@@ -155,8 +151,6 @@ public class BossEnemy : BaseEnemy
         tree.SetVariableValue("AttackAble", true);
         Debug.Log("공격 딜레이 끝");
     }
-
-
 
     private void OnDrawGizmosSelected()
     {
