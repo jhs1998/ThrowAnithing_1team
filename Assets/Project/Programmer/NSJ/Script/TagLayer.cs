@@ -33,6 +33,8 @@ public static partial class Layer
     public static int Monster => LayerEnum.Monster.GetLayer();
     public static int ThrowObject => LayerEnum.ThrowObject.GetLayer();
     public static int Forge => LayerEnum.Forge.GetLayer();
+    public static int CanPickTrash => LayerEnum.CanPickTrash.GetLayer();
+    public static int CantPickTrash => LayerEnum.CantPickTrash.GetLayer();
     public enum LayerEnum
     {
         Default,
@@ -44,6 +46,8 @@ public static partial class Layer
         Forge,
         Player,
         Monster,
+        CanPickTrash,
+        CantPickTrash,
         ThrowObject
     }
 
@@ -61,6 +65,8 @@ public static partial class Layer
         everyThing |= 1 << Player;
         everyThing |= 1 << Monster;
         everyThing |= 1 << ThrowObject;
+        everyThing |= 1 << CantPickTrash;
+        everyThing |= 1 << CanPickTrash;
 
         return everyThing;
     }
