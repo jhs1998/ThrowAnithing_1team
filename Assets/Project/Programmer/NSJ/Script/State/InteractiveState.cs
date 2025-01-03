@@ -21,5 +21,6 @@ public class InteractiveState : PlayerState
     {
         View.SetBool(PlayerView.Parameter.Idle, false);
         Player.IsMouseVisible = false;
+        interactor.IsInteractive = false;
     }
 }

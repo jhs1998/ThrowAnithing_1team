@@ -14,6 +14,8 @@ public class ArmChange : BaseUI
     Button[] armButtons;
     [SerializeField] SaveSystem saveSystem;
 
+    Forge _forge;
+
     float inputDelay = 0.25f;
 
     Coroutine armCo;
@@ -24,6 +26,7 @@ public class ArmChange : BaseUI
     {
         Bind();
         Init();
+        _forge = GetComponentInParent<Forge>();
     }
 
     private void Start()
@@ -141,7 +144,8 @@ public class ArmChange : BaseUI
 
     public void ArmUnitClose()
     {
-        gameObject.SetActive(false);
+       // gameObject.SetActive(false);
+       _forge.SetUnActiveUI();
     }
     void Init()
     {

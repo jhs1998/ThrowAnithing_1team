@@ -8,7 +8,7 @@ public class UpgradePopUp : MonoBehaviour
     //[SerializeField] GameObject player;
     private void Update()
     {
-        if(gameObject.activeSelf && Time.deltaTime != 0)
+        if(gameObject.activeSelf&& _object.activeSelf == false && Time.deltaTime != 0)
         {
             if(InputKey.GetButtonDown(InputKey.Interaction))
                 _object.SetActive(true);
