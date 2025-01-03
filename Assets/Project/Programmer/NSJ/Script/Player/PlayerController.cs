@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerModel))]
@@ -16,6 +17,8 @@ using Random = UnityEngine.Random;
 public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public Transform ArmPoint;
+    [Inject]
+    public OptionSetting setting;
 
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
@@ -556,6 +559,7 @@ public class PlayerController : MonoBehaviour, IHit
         // 체크시 마우스 상하도 가능
         if (IsVerticalCameraMove == true)
             angleY = InputKey.GetAxis(InputKey.MouseY);
+        _cameraRotateSpeed = setting.cameraSpeed;
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
         float x = camAngle.x - mouseDelta.y;
