@@ -70,7 +70,7 @@ public class Interactable : MonoBehaviour
     public void DropRandomItems()
     {        
         int itemRandom = Random.Range(0, itemPrefabs.Length);
-        Instantiate(itemPrefabs[itemRandom], itemRandomSpawnArea, Quaternion.identity);
+        Instantiate(itemPrefabs[itemRandom], transform.position, Quaternion.identity);
 
 
     }
