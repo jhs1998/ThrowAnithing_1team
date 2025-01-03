@@ -49,12 +49,7 @@ public class PowerThrowAttack : ArmThrowAttack
     }
     public override void Exit()
     {
-        if (_chargeRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_chargeRoutine);
-            _chargeRoutine = null;
-        }
-
+        StopCoroutine();
         _curChargeTime = 0;
         _index = 0;
         // 캐릭터 임시 무적
@@ -84,6 +79,7 @@ public class PowerThrowAttack : ArmThrowAttack
             // 차지 해제 시 던지는 애니메이션 실행
             if (InputKey.GetButtonUp(InputKey.Throw))
             {
+                Debug.Log("손뗌");
                 ChargeEnd();
                 break;
             }
@@ -112,6 +108,8 @@ public class PowerThrowAttack : ArmThrowAttack
 
     private void ProcessCharge()
     {
+        if (_autoAttackRoutine != null)
+            return;
         // 차지시간 계산
         _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
         if (_charges.Length > _index + 1)
@@ -120,7 +118,7 @@ public class PowerThrowAttack : ArmThrowAttack
             if (Model.ThrowObjectStack.Count <= _charges[_index].ObjectCount)
             {
                 //_curChargeTime = _charges[_index].ChargeTime;
-                ChargeAutoEnd();
+                ChargeEnd();
                 return;
             }
             // 차지 시간이 다음 단계로 넘어 갈 수 있을 때
@@ -132,7 +130,7 @@ public class PowerThrowAttack : ArmThrowAttack
         else
         {
             //_curChargeTime = _charges[_index].ChargeTime + 0.01f;
-            ChargeAutoEnd();
+            ChargeEnd();
         }
     }
 
@@ -149,11 +147,8 @@ public class PowerThrowAttack : ArmThrowAttack
 
     private void ChargeEnd()
     {
-        if (_chargeRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_chargeRoutine);
-            _chargeRoutine = null;
-        }
+        StopCoroutine();
+
         Player.LookAtAttackDir();
         View.SetTrigger(PlayerView.Parameter.ChargeEnd);
         _chargeRoutine = null;
@@ -161,17 +156,17 @@ public class PowerThrowAttack : ArmThrowAttack
         Player.IsInvincible = true;
     }
 
-    private void ChargeAutoEnd()
+    private void StopCoroutine()
     {
-        if (_autoAttackRoutine == null)
+        if (_chargeRoutine != null)
         {
-            _autoAttackRoutine = CoroutineHandler.StartRoutine(AutoAttackRoutine());
+            CoroutineHandler.StopRoutine(_chargeRoutine);
+            _chargeRoutine = null;
         }
-    }
-    IEnumerator AutoAttackRoutine()
-    {
-        yield return _autoAttackDelay.GetDelay();
-        ChargeEnd();
-        _autoAttackRoutine = null;
+        if (_autoAttackRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_autoAttackRoutine);
+            _autoAttackRoutine = null;
+        }
     }
 }

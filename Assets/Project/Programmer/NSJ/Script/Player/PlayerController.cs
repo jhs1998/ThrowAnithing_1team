@@ -245,7 +245,7 @@ public class PlayerController : MonoBehaviour, IHit
         CurState = state;
         _states[(int)CurState].Enter();
 
-        Debug.Log(CurState);
+        //Debug.Log(CurState);
     }
 
     /// <summary>

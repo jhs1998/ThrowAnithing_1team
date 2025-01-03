@@ -72,16 +72,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
     }
     public override void Exit()
     {
-        if (_chargeRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_chargeRoutine);
-            _chargeRoutine = null;
-        }
-        if (_autoAttackRoutine != null) 
-        {
-            CoroutineHandler.StopRoutine(_autoAttackRoutine);
-            _autoAttackRoutine = null;
-        }
+        StopCoroutines();
         // 스테미나 다시 회복 시작
         Player.CanStaminaRecovery = true;
 
@@ -143,7 +134,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
             // 스테미나가 부족하면 차지 멈춤
             if (Model.CurStamina < _charges[_index + 1].Stamina)
             {
-                ChargeAutoEnd();
+                ChargeEnd();
                 return;
             }
             // 차지 시간이 다음 단계로 넘어갈 수 있을 때
@@ -156,7 +147,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         }
         else
         {
-            ChargeAutoEnd();
+            ChargeEnd();
         }
     }
     public void AttackMelee()
@@ -234,11 +225,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
     private void ChargeEnd()
     {
-        if (_chargeRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_chargeRoutine);
-            _chargeRoutine = null;
-        }
+        StopCoroutines();
         Player.IsInvincible = true;
 
         _chargeRoutine = null;
@@ -282,17 +269,17 @@ public class PowerMeleeAttack : ArmMeleeAttack
         Rb.velocity = new Vector3(velocityDir.x, originRb.y, velocityDir.z);
     }
 
-    private void ChargeAutoEnd()
+    private void StopCoroutines()
     {
-        if(_autoAttackRoutine == null)
+        if (_chargeRoutine != null)
         {
-            _autoAttackRoutine = CoroutineHandler.StartRoutine(AutoAttackRoutine());
+            CoroutineHandler.StopRoutine(_chargeRoutine);
+            _chargeRoutine = null;
         }
-    }
-    IEnumerator AutoAttackRoutine()
-    {
-        yield return _autoAttackDelay.GetDelay();
-        ChargeEnd();
-        _autoAttackRoutine = null;
+        if (_autoAttackRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_autoAttackRoutine);
+            _autoAttackRoutine = null;
+        }
     }
 }
