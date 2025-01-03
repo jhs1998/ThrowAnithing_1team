@@ -67,6 +67,7 @@ public static partial class Layer
         everyThing |= 1 << ThrowObject;
         everyThing |= 1 << CantPickTrash;
         everyThing |= 1 << CanPickTrash;
+        everyThing |= 1 << Forge;
 
         return everyThing;
     }
