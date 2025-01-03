@@ -82,7 +82,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public float StaminaCoolTime { get { return Data.StaminaCoolTime; } set { Data.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
 
     public float MaxStaminaCharge { get { return Data.MaxStaminaCharge; } set { Data.MaxStaminaCharge = value; } }
-    public float CurStaminaCharge { get { return Data.CurStaminaCharge; } set { Data.CurStaminaCharge = value; } }
+    public float CurStaminaCharge { get { return Data.CurStaminaCharge; } set { Data.CurStaminaCharge = value; CurStaminaChargeSubject.OnNext(value); } }
     public Subject<float> CurStaminaChargeSubject = new Subject<float>();
 
     public float MaxMana { get { return Data.MaxMana; } set { Data.MaxMana = value; } } // 최대 특수자원
