@@ -18,9 +18,11 @@ public class EnemyBoom : Action
 
 	public override TaskStatus OnUpdate()
 	{
+        // Æø¹ß ¿©ºÎ - true => ÀÌ¹Ì ÀÚÆøÇÔ, false => ÀÚÆøÇÏÁö ¾ÊÀ½
         if (isBoom.Value == true) 
             return TaskStatus.Failure;
 
+        // Æø¹ß
         enemy.TakeChargeBoom(attackDist.Value, enemy.Damage);
 
         if(enemy.CurHp > 0)
