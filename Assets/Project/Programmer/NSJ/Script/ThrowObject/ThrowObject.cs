@@ -51,13 +51,16 @@ public class ThrowObject : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
+        if (other.isTrigger == true)
+            return;
+
         string tag = other.gameObject.tag;
         int layer = other.gameObject.layer;
         if (layer == Layer.Monster)
         {
             HitTarget();
         } 
-        else if (tag != Tag.Player && tag != Tag.Item && tag != Tag.BlueChip )
+        else if (tag != Tag.Player )
         {
             CanAttack = false;
             _collider.isTrigger = false;
