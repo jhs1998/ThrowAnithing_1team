@@ -98,7 +98,7 @@ public class DrainState : PlayerState
             int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _curDrainDistance, _overlapColliders);
             for (int i = 0; i < hitCount; i++)
             {
-                if (_overlapColliders[i].tag != Tag.Trash && _overlapColliders[i].tag != Tag.Item && _overlapColliders[i].tag != Tag.BlueChip)
+                if (_overlapColliders[i].tag != Tag.Trash && _overlapColliders[i].tag != Tag.Item)
                     continue;
 
                 Vector3 playerPos = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);

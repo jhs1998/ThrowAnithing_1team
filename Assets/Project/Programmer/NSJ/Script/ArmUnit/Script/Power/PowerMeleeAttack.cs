@@ -23,6 +23,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
     [SerializeField] private float _autoAttackDelay;
 
     private float m_curChargeTime;
+    float _autoAttackTime;
     private float _curChargeTime
     {
         get { return m_curChargeTime; }
@@ -134,20 +135,21 @@ public class PowerMeleeAttack : ArmMeleeAttack
             // 스테미나가 부족하면 차지 멈춤
             if (Model.CurStamina < _charges[_index + 1].Stamina)
             {
-                ChargeEnd();
+                ProcessAutoAttackTmer();
                 return;
             }
             // 차지 시간이 다음 단계로 넘어갈 수 있을 때
             if (_curChargeTime > _charges[_index + 1].ChargeTime)
             {
                 _index++;
+                _autoAttackTime = 0;
                 ShowArmEffect();
             }
             
         }
         else
         {
-            ChargeEnd();
+            ProcessAutoAttackTmer();
         }
     }
     public void AttackMelee()
@@ -227,6 +229,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
     {
         StopCoroutines();
         Player.IsInvincible = true;
+        _autoAttackTime = 0;
 
         _chargeRoutine = null;
         // 공격방향 바라보기
@@ -280,6 +283,14 @@ public class PowerMeleeAttack : ArmMeleeAttack
         {
             CoroutineHandler.StopRoutine(_autoAttackRoutine);
             _autoAttackRoutine = null;
+        }
+    }
+    private void ProcessAutoAttackTmer()
+    {
+        _autoAttackTime += Time.deltaTime;
+        if (_autoAttackTime > _autoAttackDelay)
+        {
+            ChargeEnd();
         }
     }
 }

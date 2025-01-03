@@ -15,6 +15,7 @@ public class PowerThrowAttack : ArmThrowAttack
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private float _autoAttackDelay;
     private float m_curChargeTime;
+    float _autoAttackTime;
     private float _curChargeTime
     {
         get { return m_curChargeTime; }
@@ -110,6 +111,7 @@ public class PowerThrowAttack : ArmThrowAttack
     {
         if (_autoAttackRoutine != null)
             return;
+
         // 차지시간 계산
         _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
         if (_charges.Length > _index + 1)
@@ -118,19 +120,20 @@ public class PowerThrowAttack : ArmThrowAttack
             if (Model.ThrowObjectStack.Count <= _charges[_index].ObjectCount)
             {
                 //_curChargeTime = _charges[_index].ChargeTime;
-                ChargeEnd();
+                ProcessAutoAttackTmer();
                 return;
             }
             // 차지 시간이 다음 단계로 넘어 갈 수 있을 때
             if (_curChargeTime > _charges[_index + 1].ChargeTime)
             {
+                _autoAttackTime = 0;
                 _index++;
             }
         }
         else
         {
             //_curChargeTime = _charges[_index].ChargeTime + 0.01f;
-            ChargeEnd();
+            ProcessAutoAttackTmer();
         }
     }
 
@@ -148,6 +151,7 @@ public class PowerThrowAttack : ArmThrowAttack
     private void ChargeEnd()
     {
         StopCoroutine();
+        _autoAttackTime = 0;
 
         Player.LookAtAttackDir();
         View.SetTrigger(PlayerView.Parameter.ChargeEnd);
@@ -167,6 +171,15 @@ public class PowerThrowAttack : ArmThrowAttack
         {
             CoroutineHandler.StopRoutine(_autoAttackRoutine);
             _autoAttackRoutine = null;
+        }
+    }
+
+    private void ProcessAutoAttackTmer()
+    {
+        _autoAttackTime += Time.deltaTime;
+        if (_autoAttackTime > _autoAttackDelay)
+        {
+            ChargeEnd();
         }
     }
 }
