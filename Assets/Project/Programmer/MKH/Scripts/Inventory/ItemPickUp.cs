@@ -10,5 +10,21 @@ namespace MKH
         [SerializeField] private Item mItem;
         public Item Item { get { return mItem; } }
 
+        Vector3 pos = new Vector3(0, 1, 0);
+        private float range = 0.2f;
+        private float speed = 2f;
+
+        private void Start()
+        {
+            pos = transform.position;
+        }
+
+        private void Update()
+        {
+            Vector3 v = pos;
+            v.y += range * Mathf.Sin(Time.time * speed);
+            transform.position = v;
+        }
+
     }
 }
