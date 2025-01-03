@@ -21,7 +21,7 @@ public class ThrowObject : MonoBehaviour
     {
         Rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
-
+        _player = GameObject.FindGameObjectWithTag(Tag.Player).GetComponent<PlayerController>();
         gameObject.layer = Layer.ThrowObject;
 
         CanAttack = true;
@@ -41,8 +41,7 @@ public class ThrowObject : MonoBehaviour
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
-
-        if (collision.gameObject.tag == Tag.Player)
+        if (collision.gameObject.layer == Layer.Player)
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.AddThrowObject(this);
@@ -59,7 +58,6 @@ public class ThrowObject : MonoBehaviour
         else if (other.gameObject.tag != Tag.Player)
         {
             CanAttack = false;
-            gameObject.layer = 0;
             _collider.isTrigger = false;
         }
     }
@@ -67,6 +65,18 @@ public class ThrowObject : MonoBehaviour
     private void Update()
     {
         UpdateThrowAdditional();
+
+        if(CanAttack == false)
+        {
+            if(_player.Model.CurThrowables >= _player.Model.MaxThrowables)
+            {
+                gameObject.layer = Layer.CantPickTrash;
+            }
+            else
+            {
+                gameObject.layer = Layer.CanPickTrash;
+            }
+        }
     }
     private void FixedUpdate()
     {

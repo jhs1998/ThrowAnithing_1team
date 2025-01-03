@@ -32,6 +32,9 @@ public class PlayerCameraHold : MonoBehaviour
         _targetEffect.transform.SetParent(null);
 
         Camera.main.GetOrAddComponent<CinemachineBrain>();
+
+        Camera.main.cullingMask = Layer.GetLayerMaskEveryThing();
+        Camera.main.cullingMask &= Layer.IgnoreRaycast;
     }
 
     private void Start()

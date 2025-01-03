@@ -4,7 +4,8 @@ using UnityEngine;
 public class PlayerInteractor : MonoBehaviour
 {
     public Forge Forge;
-    public bool IsInteractiveActive;
+    public bool IsInteractableActive;
+    public bool IsInteractive;
     private PlayerController _player;
 
 
@@ -33,7 +34,7 @@ public class PlayerInteractor : MonoBehaviour
         {
             StopCoroutine(_interactorRoutine);
             _interactorRoutine = null;
-            _player.ChangeStateInteract(false);
+            //_player.ChangeStateInteract(false);
         }
     }
 
@@ -42,18 +43,23 @@ public class PlayerInteractor : MonoBehaviour
         while (true)
         {
             if (InputKey.GetButtonDown(InputKey.Interaction))
-            {
-                _player.ChangeStateInteract(true);
+            {        
                 Forge = other.GetComponent<Forge>();
                 if (other.gameObject.tag != Tag.UnInteractable)
                 {
-                    _player.ChangeState(PlayerController.State.Interative);
+                    if(IsInteractableActive == false && IsInteractive ==false)
+                    {
+                        _player.ChangeStateInteract(true);
+                        IsInteractive = true;
+                    }
                 }
+
+
 
             }
             yield return null;
             if (Forge != null)
-                IsInteractiveActive = Forge.IsUIActive;
+                IsInteractableActive = Forge.IsUIActive;
         }
     }
 }

@@ -31,7 +31,6 @@ public class Result : BaseUI
     }
 
 
-
     void Init()
     {
         // 연동 후 내용 채워야함

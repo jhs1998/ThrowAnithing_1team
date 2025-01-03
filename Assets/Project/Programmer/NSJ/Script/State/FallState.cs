@@ -84,12 +84,13 @@ public class FallState : PlayerState
                 Rb.velocity = new Vector3(0, Rb.velocity.y, 0);
             }
             // 떨어지기 시작했을때 지면과 충분히 가까워졌다면 지면 체크 로직 종료
-            if (Rb.velocity.y < 0)
+            if (Rb.velocity.y <= 0)
             {
                 Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-                if (Player.IsNearGround == true && Rb.velocity.y < 0)
+                if (Player.IsNearGround == true && Rb.velocity.y <=  0)
                     break;
             }
+            
             yield return 0.02f.GetDelay();
         }
 

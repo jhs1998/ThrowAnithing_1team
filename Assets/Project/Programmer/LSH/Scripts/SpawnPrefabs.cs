@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class SpawnPrefabs : MonoBehaviour
 {
@@ -16,9 +14,9 @@ public class SpawnPrefabs : MonoBehaviour
     {
 
         childCube = prefabs.GetComponentsInChildren<Transform>(true);
-                
-        SpawnPrefabPos();        
-    
+
+        SpawnPrefabPos();
+
 
     }
 
@@ -31,14 +29,14 @@ public class SpawnPrefabs : MonoBehaviour
             return;
         }
         else
-        {                      
+        {
 
             while (spwanCount != 0)
             {
-                
+
                 int num = Random.Range(0, spawnPos.Count);
                 Instantiate(prefabs, spawnPos[num]);
-                
+
                 if (prefabs.tag == Tag.Trash)
                 {
                     SpawnTrashPos();
@@ -66,7 +64,7 @@ public class SpawnPrefabs : MonoBehaviour
 
         }
 
-        
+
     }
 
 }

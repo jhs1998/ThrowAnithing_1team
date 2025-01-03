@@ -7,6 +7,12 @@ public class Forge : MonoBehaviour
 
     public bool IsUIActive;
     public bool IsActive;
+    PlayerController _player;
+
+    private void Awake()
+    {
+        _player = GameObject.FindGameObjectWithTag(Tag.Player).GetComponent<PlayerController>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag(Tag.Player))
@@ -20,6 +26,7 @@ public class Forge : MonoBehaviour
     {
         if (other.gameObject.CompareTag(Tag.Player))
         {
+            
             upPopup.SetActive(false);
             _ui.SetActive(false);
             IsActive = false;
@@ -32,12 +39,10 @@ public class Forge : MonoBehaviour
         {
             return;
         }
+
         if (InputKey.GetButtonDown(InputKey.PopUpClose))
         {
-            if (_ui.activeSelf == true && IsUIActive == true)
-            {
-                _ui.SetActive(false);
-            }
+            SetUnActiveUI();
         }
 
         //UI 활성화 됬는지 감지
@@ -50,4 +55,16 @@ public class Forge : MonoBehaviour
             IsUIActive = false;
         }
     }
+
+    public void SetUnActiveUI()
+    {
+      
+        if (_ui.activeSelf == true && IsUIActive == true)
+        {
+            _player.ChangeStateInteract(false);
+            _ui.SetActive(false);
+        }
+    }
 }
+
+
