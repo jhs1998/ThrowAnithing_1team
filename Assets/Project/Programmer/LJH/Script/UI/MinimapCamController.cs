@@ -8,7 +8,7 @@ public class MinimapCamController : MonoBehaviour
 {
     //마커는 캐릭터, 오브젝트, 몬스터 등에 프리팹에 붙여넣고 레이어 처리
 
-    [SerializeField] GameObject player;
+    GameObject player;
     [SerializeField] GameObject minimap;
 
     [SerializeField] GameObject minimapActCheckBox;
@@ -16,6 +16,11 @@ public class MinimapCamController : MonoBehaviour
 
     [SerializeField] bool minimapAct;
     [SerializeField] bool minimapFix;
+
+    private void Start()
+    {
+        Init();
+    }
     private void Update()
     {
         CamPos();
@@ -45,5 +50,10 @@ public class MinimapCamController : MonoBehaviour
         minimapAct = minimapActCheckBox.activeSelf;
         minimap.SetActive(minimapAct);
         
+    }
+
+    void Init()
+    {
+        player = GameObject.FindWithTag(Tag.Player);
     }
 }
