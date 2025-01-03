@@ -6,7 +6,6 @@ public class CanAttack : Conditional
 {
     [SerializeField] SharedTransform playerPos;
     [SerializeField] SharedFloat attackDis;
-    [SerializeField] SharedBool attakAble;
 
     private float distance;
 

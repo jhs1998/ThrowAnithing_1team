@@ -1,7 +1,6 @@
 using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
-using Zenject.SpaceFighter;
 
 public class LookAtPlayer : Action
 {

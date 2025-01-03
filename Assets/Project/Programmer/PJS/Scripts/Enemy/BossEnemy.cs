@@ -17,12 +17,8 @@ public class BossEnemy : BaseEnemy
         if (onFrezenyPassive == false)
             return;
 
-        Debug.Log($"{MoveSpeed}, {AttackSpeed}");
-
-        MoveSpeed = MoveSpeed + (MoveSpeed * 0.2f);
-        AttackSpeed = AttackSpeed - (AttackSpeed * 0.2f);
-
-        Debug.Log($"{MoveSpeed}, {AttackSpeed}");
+        tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
+        tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
     }
 
     IEnumerator PassiveOn()

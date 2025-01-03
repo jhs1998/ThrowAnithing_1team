@@ -28,7 +28,6 @@ public class EnemyTrace : Action
         {
             transform.position = Vector3.MoveTowards(transform.position, movePos, speed.Value * Time.deltaTime);
         }
-       // transform.position = Vector3.MoveTowards(transform.position, movePos, speed.Value * Time.deltaTime);
 
         transform.LookAt(player.Value);
         // 각도 다시 잡아주기
