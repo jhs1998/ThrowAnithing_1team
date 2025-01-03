@@ -14,6 +14,8 @@ public class LobbyUpGrade : MonoBehaviour
     public GlobalGameData gameData;
     [Inject]
     public GlobalPlayerStateData playerState;
+    [Inject]
+    public PlayerData player;
     [SerializeField] SaveSystem saveSystem;
 
     // 코인 변경 이벤트
@@ -46,6 +48,7 @@ public class LobbyUpGrade : MonoBehaviour
         // 현재 코인과 최대 코인 값에 따라 텍스트 업데이트
         coinText.text = "coin: " + gameData.coin.ToString();
         usingCoinText.text = "usingCoin: " + gameData.usingCoin.ToString();
+        player.CopyGlobalPlayerData(playerState, gameData);
         saveSystem.SavePlayerData();
         // 뉴게임이라 true일 경우 false
         gameData.bringData = false;
@@ -74,6 +77,7 @@ public class LobbyUpGrade : MonoBehaviour
                 upgradeMethods[i](i); // 업그레이드 함수 실행
             }
         }
+        player.CopyGlobalPlayerData(playerState, gameData);
         Debug.Log("스탯 세팅 완료");
         gameData.bringData = false;
     }
