@@ -6,8 +6,9 @@ public class EnemyTrace : Action
 {
     [SerializeField] SharedFloat speed;         // 몬스터 이동속도
     [SerializeField] SharedTransform player;    // 플레이어
-    [SerializeField] SharedFloat traceDist;          // 인식 거리
-    [SerializeField] SharedFloat attackDis;
+    [SerializeField] SharedFloat traceDist;     // 추격 인식 거리
+    [SerializeField] SharedFloat attackDis;     // 공격 인식 거리
+    public SharedBool onTakeHit;                // 데미지 받았는지
 
     public override TaskStatus OnUpdate()
     {
@@ -15,7 +16,7 @@ public class EnemyTrace : Action
         
         if (dir < attackDis.Value)
             return TaskStatus.Success;
-        else if(dir > traceDist.Value)
+        else if (dir > traceDist.Value && onTakeHit.Value == false)
             return TaskStatus.Failure;
 
         // x,z축만 추적

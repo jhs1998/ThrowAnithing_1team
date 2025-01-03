@@ -17,11 +17,6 @@ public class EnemyGetDamage : Action
 		enemy = GetComponent<BaseEnemy>();
 	}
 
-    public override void OnEnd()
-    {
-        takeDamage.SetValue(false);
-    }
-
     public override TaskStatus OnUpdate()
 	{
 		//Debug.Log("ÁøÀÔ");
