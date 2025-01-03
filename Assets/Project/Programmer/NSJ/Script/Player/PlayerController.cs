@@ -3,9 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
-using UniRx.Triggers;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -50,7 +47,7 @@ public class PlayerController : MonoBehaviour, IHit
     public State PrevState;
 
     #region 이벤트
-    public event UnityAction<int,bool> OnPlayerHitEvent;
+    public event UnityAction<int, bool> OnPlayerHitEvent;
     public event UnityAction OnPlayerDieEvent;
     #endregion
     #region 공격 관련 필드
@@ -60,9 +57,9 @@ public class PlayerController : MonoBehaviour, IHit
         public float AttackHeight;
         public float ThrowPower;
         public Transform MuzzlePoint;
-        [HideInInspector]public bool IsTargetHolding;
-        [HideInInspector]public bool IsTargetToggle; 
-        [HideInInspector]public Vector3 TargetPos;
+        [HideInInspector] public bool IsTargetHolding;
+        [HideInInspector] public bool IsTargetToggle;
+        [HideInInspector] public Vector3 TargetPos;
     }
     [Header("공격 관련 필드")]
     [SerializeField] private AttackStruct _attackStruct;
@@ -71,7 +68,7 @@ public class PlayerController : MonoBehaviour, IHit
     public float ThrowPower { get { return _attackStruct.ThrowPower; } set { _attackStruct.ThrowPower = value; } }
     public bool IsTargetHolding { get { return _attackStruct.IsTargetHolding; } set { _attackStruct.IsTargetHolding = value; } }
     public bool IsTargetToggle { get { return _attackStruct.IsTargetToggle; } set { _attackStruct.IsTargetToggle = value; } }
-    public Vector3 TargetPos { get { return _attackStruct.TargetPos; } set { _attackStruct.TargetPos = value; } }   
+    public Vector3 TargetPos { get { return _attackStruct.TargetPos; } set { _attackStruct.TargetPos = value; } }
     #endregion
     #region Camera 관련 필드
     /// <summary>
@@ -93,7 +90,7 @@ public class PlayerController : MonoBehaviour, IHit
     private Transform _cameraPos { get { return _cameraStruct.CameraPos; } set { _cameraStruct.CameraPos = value; } }
     private float _cameraRotateAngle { get { return _cameraStruct.CameraRotateAngle; } set { _cameraStruct.CameraRotateAngle = value; } }
     private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
-    private PlayerCameraHold _cameraHolder { get { return _cameraStruct.CameraHolder; }set{ _cameraStruct.CameraHolder = value; } }
+    private PlayerCameraHold _cameraHolder { get { return _cameraStruct.CameraHolder; } set { _cameraStruct.CameraHolder = value; } }
     public bool IsVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
     #region 감지 관련 필드
@@ -106,7 +103,7 @@ public class PlayerController : MonoBehaviour, IHit
         public float WallCheckDistance;
         [Space(10)]
         public bool IsGround; // 지면 접촉 여부
-        public bool IsNearGround; 
+        public bool IsNearGround;
         public bool IsWall; // 벽 접촉 여부
         public bool CanClimbSlope; // 오를 수 있는 경사면 각도 인지 체크
     }
@@ -170,7 +167,7 @@ public class PlayerController : MonoBehaviour, IHit
     Quaternion _defaultMuzzlePointRot;
     private void Awake()
     {
-       
+
     }
 
     private void Start()
@@ -361,7 +358,7 @@ public class PlayerController : MonoBehaviour, IHit
         }
 
         Quaternion cameraTempRot = CamareArm.rotation;
-        targetPos = new Vector3 (targetPos.x, targetPos.y + 2f, targetPos.z);
+        targetPos = new Vector3(targetPos.x, targetPos.y + 2f, targetPos.z);
         // 입력한 방향쪽을 플레이어가 바라봄
         transform.LookAt(targetPos);
         transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
@@ -584,7 +581,7 @@ public class PlayerController : MonoBehaviour, IHit
             CheckPos,
             0.25f,
             Vector3.down,
-            out RaycastHit hit, 
+            out RaycastHit hit,
             0.4f,
             Layer.GetLayerMaskEveryThing(),
             QueryTriggerInteraction.Ignore))
@@ -657,11 +654,11 @@ public class PlayerController : MonoBehaviour, IHit
         layerMask |= 1 << Layer.Wall;
         layerMask |= 1 << Layer.Monster;
         int hitCount = Physics.OverlapCapsuleNonAlloc(
-            WallCheckPos.Foot.position, 
+            WallCheckPos.Foot.position,
             WallCheckPos.Head.position,
-            _wallCheckDistance, 
+            _wallCheckDistance,
             OverLapColliders,
-            layerMask );
+            layerMask);
 
         if (hitCount > 0)
         {
@@ -725,7 +722,7 @@ public class PlayerController : MonoBehaviour, IHit
         float z = InputKey.GetAxisRaw(InputKey.Vertical);
         MoveDir = new Vector3(x, 0, z);
 
-        if(IsTargetHolding == false && IsTargetToggle == false)
+        if (IsTargetHolding == false && IsTargetToggle == false)
         {
             //if (Input.GetMouseButtonDown(2))
             //{
@@ -733,7 +730,7 @@ public class PlayerController : MonoBehaviour, IHit
             //    IsTargetHolding = true;
             //    _cameraHolder.gameObject.SetActive(true);
             //}
-            if (InputKey.GetButtonDown(InputKey.RockOn) && IsTargetHolding ==false)
+            if (InputKey.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 기능
                 IsTargetToggle = true;
@@ -772,7 +769,7 @@ public class PlayerController : MonoBehaviour, IHit
 
     public void ChangeStateInteract(bool isInteract)
     {
-        if (isInteract ==true)
+        if (isInteract == true)
         {
             ChangeState(State.Interative);
         }
@@ -802,7 +799,7 @@ public class PlayerController : MonoBehaviour, IHit
 
         //targetRb.AddForce(dir * distance * 10f, ForceMode.Impulse);
 
-        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, dir,distance));
+        CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, dir, distance));
     }
     /// <summary>
     /// 공격자 중심으로 입력거리만큼 넉백
@@ -838,7 +835,7 @@ public class PlayerController : MonoBehaviour, IHit
         CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, knockBackDir, distance));
     }
 
-    IEnumerator KnockBackRoutine(Rigidbody targetRb, Vector3 knockBackDir,float distance)
+    IEnumerator KnockBackRoutine(Rigidbody targetRb, Vector3 knockBackDir, float distance)
     {
         Vector3 originPos = targetRb.position;
 
@@ -847,7 +844,7 @@ public class PlayerController : MonoBehaviour, IHit
         // 타겟이 날 바라보도록
         while (true)
         {
-            targetRb.transform.Translate(knockBackDir * Time.deltaTime * 30f,Space.World);
+            targetRb.transform.Translate(knockBackDir * Time.deltaTime * 30f, Space.World);
 
             if (Vector3.Distance(originPos, targetRb.position) > distance)
             {
@@ -855,7 +852,7 @@ public class PlayerController : MonoBehaviour, IHit
             }
 
             Vector3 targetPos = new(targetRb.transform.position.x, targetRb.transform.position.y + 0.75f, targetRb.transform.position.z);
-            if(Physics.SphereCast(targetRb.transform.position, 0.2f, knockBackDir,out RaycastHit hit,0.3f, 1<< Layer.Wall, QueryTriggerInteraction.Ignore))
+            if (Physics.SphereCast(targetRb.transform.position, 0.2f, knockBackDir, out RaycastHit hit, 0.3f, 1 << Layer.Wall, QueryTriggerInteraction.Ignore))
             {
                 break;
             }
@@ -893,7 +890,7 @@ public class PlayerController : MonoBehaviour, IHit
         finalDamage = GetCommonDamage(finalDamage);
 
         // 데미지 배율 추가
-        finalDamage =  (int)(finalDamage*multiplier);
+        finalDamage = (int)(finalDamage * multiplier);
         return finalDamage;
     }
     /// <summary>
@@ -918,8 +915,8 @@ public class PlayerController : MonoBehaviour, IHit
         // 기본 스텟 데미지 
         finalDamage += Model.AttackPower;
         // 치명타 데미지
-        if (Random.value < Model.CriticalChance/100f)
-            finalDamage = (int)(finalDamage*(Model.CriticalDamage/100f));
+        if (Random.value < Model.CriticalChance / 100f)
+            finalDamage = (int)(finalDamage * (Model.CriticalDamage / 100f));
 
         return finalDamage;
     }
@@ -947,7 +944,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// 초기 설정
     /// </summary>
     private void Init()
-    {         
+    {
         InitGetComponent();
         InitPlayerStates();
 
@@ -1003,10 +1000,10 @@ public class PlayerController : MonoBehaviour, IHit
         panel.BarValueController(panel.StaminaBar, Model.CurStamina, Model.MaxStamina);
 
         // 특수자원
-        Model.CurSpecialGageSubject
+        Model.CurManaSubject
             .DistinctUntilChanged()
-            .Subscribe(x => panel.BarValueController(panel.MpBar, Model.CurMana, Model.MaxMana));
-        panel.BarValueController(panel.MpBar, Model.CurMana, Model.MaxMana);
+            .Subscribe(x => panel.MpBar.value = x);
+        panel.MpBar.value = Model.CurHp;
 
         // 특수공격 차지
         Model.SpecialChargeGageSubject

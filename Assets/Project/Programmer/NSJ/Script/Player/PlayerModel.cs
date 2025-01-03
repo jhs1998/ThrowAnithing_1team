@@ -1,11 +1,13 @@
 using MKH;
 using System.Collections.Generic;
+using TMPro;
 using UniRx;
 using UniRx.Triggers;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerModel : MonoBehaviour, IDebuff
 {
@@ -86,6 +88,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public Subject<float> CurStaminaChargeSubject = new Subject<float>();
 
     public float MaxMana { get { return Data.MaxMana; } set { Data.MaxMana = value; } } // 최대 특수자원
+    public Subject<float> MaxManaSubject { get { return Data.MaxManaSubject; } }
     public float CurMana // 현재 특수 자원
     {
         get { return Data.CurMana; }
@@ -101,10 +104,11 @@ public class PlayerModel : MonoBehaviour, IDebuff
             {
                 Data.CurMana = 0;
             }
-            CurSpecialGageSubject.OnNext(Data.CurMana);
+            CurManaSubject.OnNext(Data.CurMana);
         }
     }
-    public Subject<float> CurSpecialGageSubject = new Subject<float>();
+    public Subject<float> CurManaSubject = new Subject<float>();
+    public float[] ManaConsumption { get { return Data.ManaConsumption; } set { Data.ManaConsumption = value; } }
     public float[] RegainMana { get { return Data.RegainMana; } set { Data.RegainMana = value; } } // 특수자원 회복량
     public float SpecialChargeGage // 특수공격 차지량
     {
@@ -112,8 +116,6 @@ public class PlayerModel : MonoBehaviour, IDebuff
         set
         {
             Data.SpecialChargeGage = value;
-            if (Data.SpecialChargeGage > 1)
-                SpecialChargeGage = 1;
             SpecialChargeGageSubject.OnNext(Data.SpecialChargeGage);
         }
     }
@@ -154,18 +156,26 @@ public class PlayerModel : MonoBehaviour, IDebuff
     {
         _view = GetComponent<PlayerView>();
         _player = GetComponent<PlayerController>();
-        if (_isTest == true)
+        Data.IsDead = false;
+        if (_isTest == false)
+        {
+            Data.CopyGlobalPlayerData(GlobalStateData, GameData);
+        }
+        else
         {
             GlobalStateData.NewPlayerSetting();
+            Data.CopyGlobalPlayerData(GlobalStateData, GameData);
+            RegainStamina = 100;
+            RegainMana[0] = 100;
         }
-        Data.IsDead = false;
-        Data.CopyGlobalPlayerData(GlobalStateData, GameData);
+
         JumpDownStamina = 40;
         CriticalDamage = 200;
     }
 
     private float prevAttackSpeed;
     private GlobalGameData.AmWeapon prevWeapon;
+    private float prevMaxMana;
     void Start()
     {
         this.FixedUpdateAsObservable()
@@ -179,6 +189,15 @@ public class PlayerModel : MonoBehaviour, IDebuff
         this.FixedUpdateAsObservable()
             .Where(x => prevWeapon != NowWeapon)
             .Subscribe(x => { _player.ChangeArmUnit(NowWeapon); prevWeapon = NowWeapon; });
+
+        this.FixedUpdateAsObservable()
+            .Where(x => prevMaxMana != MaxMana)
+        .Subscribe(x =>
+            {
+                _view.Panel.MpBar.maxValue = MaxMana;
+                _view.Panel.SetChargingMpVarMaxValue(MaxMana);
+                prevMaxMana = MaxMana;
+            });
     }
     private void Update()
     {
@@ -392,7 +411,8 @@ public partial class PlayerData
     public float MaxStaminaCharge { get { return Data.Stamina.MaxStaminaCharge; } set { Data.Stamina.MaxStaminaCharge = value; } }
     public float CurStaminaCharge { get { return Data.Stamina.CurStaminaCharge; } set { Data.Stamina.CurStaminaCharge = value; } }
     // 특수공격
-    public float MaxMana { get { return Data.Special.MaxMana + EquipStatus.Mana; } set { Data.Special.MaxMana = value; } }
+    public float MaxMana { get { return Data.Special.MaxMana + EquipStatus.Mana; } set { Data.Special.MaxMana = value; MaxManaSubject.OnNext(value); } }
+    public Subject<float> MaxManaSubject = new Subject<float>();
     public float CurMana { get { return Data.Special.CurMana; } set { Data.Special.CurMana = value; } }
     public float[] RegainMana { get { return Data.Special.RegainMana; } set { Data.Special.RegainMana = value; } }
     public float[] ManaConsumption { get { return Data.Special.ManaConsumption; } set { Data.Special.ManaConsumption = value; } }
