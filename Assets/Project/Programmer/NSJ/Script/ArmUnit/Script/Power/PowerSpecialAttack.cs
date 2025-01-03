@@ -41,7 +41,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     {
         if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount || Model.CurMana < 30)
         {
-            EndAnimation();
+            ChangeState(Player.PrevState);
             return;
         }
         Player.Rb.velocity = Vector3.zero;

@@ -42,7 +42,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
     {
         if (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount ||  Model.CurMana < 30)
         {
-            EndAnimation();
+            ChangeState(Player.PrevState);
             return;
         }
 
