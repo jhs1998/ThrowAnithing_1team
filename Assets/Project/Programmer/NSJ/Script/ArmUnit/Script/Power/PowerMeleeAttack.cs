@@ -24,6 +24,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
     private float m_curChargeTime;
     float _autoAttackTime;
+    bool _isAutoAttack;
     private float _curChargeTime
     {
         get { return m_curChargeTime; }
@@ -84,6 +85,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         // 초기화
         _curChargeTime = 0;
         _index = 0;
+        _isAutoAttack = false;
         Player.IsInvincible = false;
     }
     public override void Update()
@@ -128,8 +130,11 @@ public class PowerMeleeAttack : ArmMeleeAttack
         if (_autoAttackRoutine != null)
             return;
 
-        // 차지시간 계산
-        _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
+        if (_isAutoAttack == false)
+        {
+            // 차지시간 계산
+            _curChargeTime += Time.deltaTime * View.GetFloat(PlayerView.Parameter.AttackSpeed);
+        }
         if (_charges.Length > _index + 1)
         {
             // 스테미나가 부족하면 차지 멈춤
@@ -287,6 +292,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
     }
     private void ProcessAutoAttackTmer()
     {
+        _isAutoAttack = true;
         _autoAttackTime += Time.deltaTime;
         if (_autoAttackTime > _autoAttackDelay)
         {

@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
-using Zenject.Asteroids;
 public enum DamageType { Default }
 
 public class DamageText : BaseUI
@@ -20,8 +17,8 @@ public class DamageText : BaseUI
         Bind();
     }
     private void OnEnable()
-    {        
-        if(_gfxRoutine  == null)
+    {
+        if (_gfxRoutine == null)
         {
             _gfxRoutine = StartCoroutine(GFXRoutine());
         }
@@ -31,7 +28,7 @@ public class DamageText : BaseUI
         if (_gfxRoutine != null)
         {
             StopCoroutine(_gfxRoutine);
-            _gfxRoutine = null; 
+            _gfxRoutine = null;
         }
     }
 
@@ -41,7 +38,7 @@ public class DamageText : BaseUI
     }
     private void OnDrawGizmos()
     {
-       
+
     }
     /// <summary>
     /// 데미지 수치 설정
@@ -50,7 +47,11 @@ public class DamageText : BaseUI
     public void SetDamageText(int damage, Transform target)
     {
         text.SetText(damage.GetText());
-        _targetPos = target.position;
+        _targetPos = new Vector3(
+            Random.Range(target.position.x - 0.5f, target.position.x + 0.5f),
+            Random.Range(target.position.y - 0.5f, target.position.y + 0.5f),
+            Random.Range(target.position.z - 0.5f, target.position.z + 0.5f)
+            );
     }
 
     IEnumerator GFXRoutine()
@@ -73,10 +74,10 @@ public class DamageText : BaseUI
         StartCoroutine(MoveUpRoutine());
         yield return 1f.GetDelay();
 
-        float aValue= text.color.a; 
-        while(true)
+        float aValue = text.color.a;
+        while (true)
         {
-            aValue -= Time.deltaTime * 3;
+            aValue -= Time.deltaTime * 5;
             text.color = text.color.GetColor(aValue);
             if (aValue < 0)
                 break;
@@ -86,7 +87,7 @@ public class DamageText : BaseUI
 
     IEnumerator MoveUpRoutine()
     {
-        while (true) 
+        while (true)
         {
             _targetPos.y += Time.deltaTime / 2;
             yield return null;
