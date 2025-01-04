@@ -6,6 +6,7 @@ public interface IBattle
 {
     IHit Hit { get; set; }
     IDebuff Debuff { get; set; }
+    public Transform HitTransform { get; set; }
     public void ITakeDebuff(HitAdditional debuff);
     public void ITakeDebuff(List<HitAdditional> debuff);
     public void ITakeAttack(int damage, bool isStun);

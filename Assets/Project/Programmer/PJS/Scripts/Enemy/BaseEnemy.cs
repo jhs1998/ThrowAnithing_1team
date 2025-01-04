@@ -75,7 +75,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public void TakeDamage(int damage, bool isStun)
+    public int TakeDamage(int damage, bool isStun)
     {
         resultDamage = damage - (int)state.Def;
         tree.SetVariableValue("TakeDamage", true);
@@ -88,6 +88,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
         // TODO : 결과 값은 TakeDamage 매개변수로 변환
         tree.SetVariableValue("Stiff", isStun);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
+        return resultDamage;
     }
 
     /// <summary>

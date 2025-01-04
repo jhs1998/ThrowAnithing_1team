@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour, IHit
     public State PrevState;
 
     #region 이벤트
-    public event UnityAction<int, bool> OnPlayerHitEvent;
+    public event Func<int, bool,int> OnPlayerHitEvent;
     public event UnityAction OnPlayerDieEvent;
     #endregion
     #region 공격 관련 필드
@@ -256,9 +256,10 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 데미지 받기
     /// </summary>
-    public void TakeDamage(int damage, bool isStun)
+    public int TakeDamage(int damage, bool isStun)
     {
-        OnPlayerHitEvent?.Invoke(damage, isStun);
+        int hitDamage = (int)OnPlayerHitEvent?.Invoke(damage, isStun);
+        return hitDamage;
     }
 
     /// <summary>
@@ -915,12 +916,12 @@ public class PlayerController : MonoBehaviour, IHit
     {
         while (true)
         {
-            if (Time.timeScale == 1 && IsMouseVisible == false)
+            if (Time.timeScale == 1 && CantOperate == false)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-            else if (Time.timeScale == 0 || IsMouseVisible == true)
+            else if (Time.timeScale == 0 || CantOperate == true)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;

@@ -6,6 +6,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     public IHit Hit { get; set; }
     public IDebuff Debuff { get; set; }
 
+    public Transform HitTransform { get { return transform; } set { } }
+
     [SerializeField] private List<HitAdditional> _hitAdditionalList;
     [SerializeField] private List<HitAdditional> _debuffList;
 
