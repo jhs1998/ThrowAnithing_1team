@@ -7,7 +7,11 @@ public class ThrowObject : MonoBehaviour
 
     [SerializeField] public bool CanAttack;
     [SerializeField] public List<ThrowAdditional> ThrowAdditionals = new List<ThrowAdditional>();
-    public int Damage;
+
+    public int ObjectDamage;
+    public int PlayerDamage { get; private set; }
+    public int Damage => ObjectDamage + PlayerDamage;
+    [Space(10)]
     public float Radius;
     public float KnockBackDistance;
     public float SpecialRecovery;
@@ -88,10 +92,10 @@ public class ThrowObject : MonoBehaviour
         FixedUpdateThrowAdditional();
     }
 
-    public void Init(PlayerController player, List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player, int finalDamage,List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
-        Damage += player.GetFinalDamage();
+        PlayerDamage += finalDamage;
         Radius = player.Model.BoomRadius;
         SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
         AddThrowAdditional(throwAdditionals, player);

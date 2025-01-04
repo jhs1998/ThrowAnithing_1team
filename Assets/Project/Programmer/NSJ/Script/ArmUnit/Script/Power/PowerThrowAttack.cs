@@ -93,17 +93,14 @@ public class PowerThrowAttack : ArmThrowAttack
     {
         int throwObjectID = Model.ThrowObjectStack.Count > 0 && _index > 0 ? Model.PopThrowObject().ID : 0;
 
-        ThrowObject throwObject = Player.InstantiateObject(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
-        throwObject.Init(Player, Model.ThrowAdditionals);
+        ThrowObject throwObject = Instantiate(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
+        throwObject.Init(Player, Player.GetFinalDamage(_charges[_index].Damage), Model.ThrowAdditionals);
 
         // 넉백가능하면 넉백
         if (_charges[_index].KnockBackDistance > 0)
         {
             throwObject.KnockBackDistance = _charges[_index].KnockBackDistance;
         }
-
-        //TODO : 데미지 계산식 검토 필요
-        throwObject.Damage = Player.GetFinalDamage(_charges[_index].Damage);
         UseThrowObject(_charges[_index].ObjectCount);
         throwObject.Shoot(Player.ThrowPower);
         throwObject.TriggerFirstThrowAddtional();

@@ -270,23 +270,6 @@ public class PlayerController : MonoBehaviour, IHit
         OnPlayerDieEvent?.Invoke();
     }
 
-    #region Instantiate 대리 메서드
-    public T InstantiateObject<T>(T instance) where T : Component
-    {
-        T instanceObject = Instantiate(instance);
-        return instanceObject;
-    }
-    public T InstantiateObject<T>(T instance, Transform parent) where T : Component
-    {
-        T instanceObject = Instantiate(instance, parent);
-        return instanceObject;
-    }
-    public T InstantiateObject<T>(T instance, Vector3 pos, Quaternion rot) where T : Component
-    {
-        T instanceObject = Instantiate(instance, pos, rot);
-        return instanceObject;
-    }
-    #endregion
     #region 플레이어 방향 처리
     public void LookAtAttackDir()
     {
