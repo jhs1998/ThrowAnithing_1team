@@ -6,15 +6,24 @@ public class BattleSystem : MonoBehaviour, IBattle
     public IHit Hit { get; set; }
     public IDebuff Debuff { get; set; }
 
-    public Transform HitTransform { get { return transform; } set { } }
+    [SerializeField] private Transform _hitTextPoint;
 
     [SerializeField] private List<HitAdditional> _hitAdditionalList;
     [SerializeField] private List<HitAdditional> _debuffList;
+
+
 
     private void Awake()
     {
         Hit = GetComponent<IHit>();
         Debuff = GetComponent<IDebuff>();
+
+        if (_hitTextPoint == null)
+        {
+            _hitTextPoint = new GameObject("HitTextPoint").transform;
+            _hitTextPoint.SetParent(transform, true);
+            _hitTextPoint.localPosition = new Vector3(0, 1f, 0);
+        }
     }
     #region 공격 메서드
     /// <summary>
@@ -108,7 +117,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     public void ITakeAttack(int damage, bool isStun)
     {
         // 데미지 주기
-        Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isStun);
+        CreateDamageText(hitDamage);
     }
     /// <summary>
     /// 공격하면서 가진 디버프 전부 주기
@@ -116,7 +126,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     public void ITakeAttackWithDebuff(int damage, bool isStun, List<HitAdditional> debuffs)
     {
         // 데미지 주기
-        Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isStun);
+        CreateDamageText(hitDamage);
         // 디버프 추가
         foreach (HitAdditional hitAdditional in debuffs) 
         {
@@ -129,8 +140,22 @@ public class BattleSystem : MonoBehaviour, IBattle
     public void ITakeAttackWithDebuff(int damage, bool isStun, HitAdditional debuff)
     {
         // 데미지 주기
-        Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isStun);
+        CreateDamageText(hitDamage);
+
         AddDebuff(debuff);
+    }
+
+    /// <summary>
+    /// 데미지 UI 띄우기
+    /// </summary>
+    private void CreateDamageText(int damage)
+    {
+        if (gameObject.tag == Tag.Player)
+            return;
+
+        DamageText text = Instantiate(DataContainer.GetDamageText(DamageType.Default), transform.position, Quaternion.identity);
+        text.SetDamageText(damage, _hitTextPoint);
     }
     #endregion
     #region 효과 등록

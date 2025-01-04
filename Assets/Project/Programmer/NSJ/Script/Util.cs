@@ -47,4 +47,13 @@ public static partial class Util
         return Sb;
     }
 
+    /// <summary>
+    /// 컬러값에 알파값(투명도) 값까지 얻기
+    /// </summary>
+    public static Color GetColor(this Color color, float a)
+    {
+        color.a = a;
+        return color;
+    }
+
 }

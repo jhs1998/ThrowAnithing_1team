@@ -178,6 +178,7 @@ public class PlayerCameraHold : MonoBehaviour
     {
         while (true)
         {
+            yield return null;
             if (_player.IsTargetToggle == true && InputKey.GetButtonDown(InputKey.RockOn))
             {
                 // ≈∏∞Ÿ ¿Œµ¶Ω∫ ø√∏≤
@@ -203,7 +204,6 @@ public class PlayerCameraHold : MonoBehaviour
             //    _target = _targetList[_targetIndex].transform;
             //    yield return 0.2f.GetDelay();
             //}
-            yield return null;
         }
     }
 }

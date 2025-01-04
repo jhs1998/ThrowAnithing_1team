@@ -41,13 +41,23 @@ public class DataContainer : MonoBehaviour
     public static ItemStruct Items { get { return Instance._items; } }
     public static List<DropList> ItemList = new List<DropList>();
 
+    /// <summary>
+    /// 투척물 데이터
+    /// </summary>
     [SerializeField] ThrowObject[] _throwObjects;
     public static ThrowObject[] ThrowObjects { get { return Instance._throwObjects; } }
     private Dictionary<int, ThrowObject> _throwObjectDic = new Dictionary<int, ThrowObject>();
     private static Dictionary<int, ThrowObject> s_ThrowObjectDic { get { return Instance._throwObjectDic; } }
+    /// <summary>
+    /// 암유닛 데이터
+    /// </summary>
     [SerializeField] ArmUnit[] _armUnits;
     private Dictionary<GlobalGameData.AmWeapon, ArmUnit> _armUnitDic = new Dictionary<GlobalGameData.AmWeapon, ArmUnit>();
     private static Dictionary<GlobalGameData.AmWeapon, ArmUnit> s_armUnitDic { get { return Instance._armUnitDic; } }
+
+    [SerializeField] DamageText[] _damageTexts;
+    private Dictionary<DamageType, DamageText> _damageTextDic = new Dictionary<DamageType, DamageText>();
+    private static Dictionary<DamageType,DamageText> s_damageTextDic { get { return Instance._damageTextDic; } }
     private void Awake()
     {
         InitSingleTon();
@@ -59,6 +69,10 @@ public class DataContainer : MonoBehaviour
         foreach(ArmUnit armUnit in _armUnits)
         {
             _armUnitDic.Add(armUnit.ArmType, armUnit);
+        }
+        foreach(DamageText damageText in _damageTexts)
+        {
+            _damageTextDic.Add(damageText.Type, damageText);
         }
         ItemList.Add(Items.NormalItems);
         ItemList.Add(Items.MagicItems);
@@ -78,6 +92,13 @@ public class DataContainer : MonoBehaviour
     public static ArmUnit GetArmUnit(GlobalGameData.AmWeapon armUnit)
     {
         return s_armUnitDic[armUnit];
+    }
+    /// <summary>
+    /// 데미지 UI 프리팹 얻기
+    /// </summary>
+    public static DamageText GetDamageText(DamageType type)
+    {
+        return s_damageTextDic[type];
     }
     /// <summary>
     /// 랜덤 아이템 오브젝트 얻기
