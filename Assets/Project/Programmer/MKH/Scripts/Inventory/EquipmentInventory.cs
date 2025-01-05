@@ -30,6 +30,7 @@ namespace MKH
         private void Start()
         {
             CalculateEffect();
+            playerData.OnChangePlayerDataEvent += CalculateEffect;
         }
         public void CalculateEffect()
         {

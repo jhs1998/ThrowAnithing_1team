@@ -93,21 +93,29 @@ public class DamageText : BaseUI
         yield return null;
         TextStruct textStruct = _isCritical == false ? _noCriticalText : _criticalText;
 
-        text.fontSize = textStruct.FontSize + 15;
-        while (true)
+        if (_isCritical == true)
         {
-            text.fontSize += Time.deltaTime * 120;
-            if (text.fontSize > textStruct.FontSize + 25)
-                break;
-            yield return null;
+            text.fontSize = textStruct.FontSize + 15;
+            while (true)
+            {
+                text.fontSize += Time.deltaTime * 120;
+                if (text.fontSize > textStruct.FontSize + 25)
+                    break;
+                yield return null;
+            }
+            while (true)
+            {
+                text.fontSize -= Time.deltaTime * 160;
+                if (text.fontSize < textStruct.FontSize)
+                    break;
+                yield return null;
+            }
         }
-        while (true)
+        else
         {
-            text.fontSize -= Time.deltaTime * 160;
-            if (text.fontSize < textStruct.FontSize)
-                break;
-            yield return null;
+            text.fontSize = textStruct.FontSize;
         }
+
         StartCoroutine(MoveUpRoutine());
         yield return textStruct.Duration.GetDelay();
 
