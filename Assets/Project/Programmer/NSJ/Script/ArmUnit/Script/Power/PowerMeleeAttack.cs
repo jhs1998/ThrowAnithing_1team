@@ -184,8 +184,8 @@ public class PowerMeleeAttack : ArmMeleeAttack
                 continue;
 
 
-            int attackDamage = Player.GetFinalDamage(_charges[_index].Damage);
-            Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], attackDamage, true);
+            int attackDamage = Player.GetFinalDamage(_charges[_index].Damage, out bool isCritical);
+            Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], attackDamage, true, isCritical);
 
             if (_charges[_index].KnockBackRange > 0)
             {

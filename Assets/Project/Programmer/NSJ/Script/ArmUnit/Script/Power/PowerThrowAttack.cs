@@ -94,7 +94,7 @@ public class PowerThrowAttack : ArmThrowAttack
         int throwObjectID = Model.ThrowObjectStack.Count > 0 && _index > 0 ? Model.PopThrowObject().ID : 0;
 
         ThrowObject throwObject = Instantiate(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
-        throwObject.Init(Player, Player.GetFinalDamage(_charges[_index].Damage), Model.ThrowAdditionals);
+        throwObject.Init(Player, (int)Model.PowerThrowAttack[_index],Model.ThrowAdditionals);
 
         // ³Ë¹é°¡´ÉÇÏ¸é ³Ë¹é
         if (_charges[_index].KnockBackDistance > 0)

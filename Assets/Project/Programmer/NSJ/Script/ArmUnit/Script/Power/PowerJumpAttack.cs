@@ -68,7 +68,7 @@ public class PowerJumpAttack : ArmJumpAttack
 
         Quaternion _muzzleRot = Quaternion.Euler(_muzzlePoint.eulerAngles.x + downAngle, _muzzlePoint.eulerAngles.y, _muzzlePoint.eulerAngles.z);
         ThrowObject throwObject = Instantiate(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzleRot);
-        throwObject.Init(Player, Player.GetFinalDamage((int)Model.PowerThrowAttack[0]), Model.ThrowAdditionals);
+        throwObject.Init(Player , (int)Model.PowerThrowAttack[0],  Model.ThrowAdditionals);
         throwObject.Shoot(Player.ThrowPower);
         throwObject.TriggerFirstThrowAddtional();
     }

@@ -837,30 +837,30 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 기본 스텟 데미지
     /// </summary>
-    public int GetFinalDamage()
+    public int GetFinalDamage(out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage);
+        finalDamage = GetCommonDamage(finalDamage,out isCritical);
         return finalDamage;
     }
     /// <summary>
     /// 데미지 추가
     /// </summary>
-    public int GetFinalDamage(int addtionalDamage)
+    public int GetFinalDamage(int addtionalDamage, out bool isCritical)
     {
         int finalDamage = 0;
         // 추가 데미지
         finalDamage += addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
         return finalDamage;
     }
     /// <summary>
     /// 데미지 배율
     /// </summary>
-    public int GetFinalDamage(float multiplier)
+    public int GetFinalDamage(float multiplier, out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
 
         // 데미지 배율 추가
         finalDamage = (int)(finalDamage * multiplier);
@@ -869,12 +869,12 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 추가 데미지 + 데미지 배율
     /// </summary>
-    public int GetFinalDamage(int addtionalDamage, float multiplier)
+    public int GetFinalDamage(int addtionalDamage, float multiplier, out bool isCritical)
     {
         int finalDamage = 0;
         // 추가 데미지
         finalDamage += addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
 
         // 데미지 배율 추가
         finalDamage = (int)(finalDamage * multiplier);
@@ -883,13 +883,18 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 공통계산 용
     /// </summary>
-    private int GetCommonDamage(int finalDamage)
+    private int GetCommonDamage(int finalDamage, out bool isCritical)
     {
         // 기본 스텟 데미지 
         finalDamage += Model.AttackPower;
         // 치명타 데미지
         if (Random.value < Model.CriticalChance / 100f)
+        {
             finalDamage = (int)(finalDamage * (Model.CriticalDamage / 100f));
+            isCritical = true;
+        }
+        else
+            isCritical = false;
 
         return finalDamage;
     }

@@ -14,10 +14,18 @@ public class DamageText : BaseUI
         public Color Poison;
     }
     [SerializeField] private ColorStruct TextColor;
+    [System.Serializable]
+    struct TextStruct
+    {
+        public float FontSize;
+        public float Duration;
+    }
+    [SerializeField] private TextStruct _noCriticalText;
+    [SerializeField] private TextStruct _criticalText;
     private Color[] _textColors = new Color[(int)DamageType.Size];
     private TMP_Text text => GetUI<TMP_Text>("DamageText");
     private Vector3 _targetPos;
-
+    private bool _isCritical;
     Coroutine _gfxRoutine;
     private void Awake()
     {
@@ -67,7 +75,7 @@ public class DamageText : BaseUI
     /// 데미지 수치 설정
     /// </summary>
     /// <param name="damage"></param>
-    public void SetDamageText(int damage, Transform target, DamageType type)
+    public void SetDamageText(int damage, Transform target, DamageType type, bool isCritical)
     {
         text.SetText(damage.GetText());
         _targetPos = new Vector3(
@@ -75,30 +83,33 @@ public class DamageText : BaseUI
             Random.Range(target.position.y - 0.5f, target.position.y + 0.5f),
             Random.Range(target.position.z - 0.5f, target.position.z + 0.5f)
             );
-
+        _isCritical = isCritical;
         SetTextColor(type);
     }
 
 
     IEnumerator GFXRoutine()
     {
-        text.fontSize = 50;
+        yield return null;
+        TextStruct textStruct = _isCritical == false ? _noCriticalText : _criticalText;
+
+        text.fontSize = textStruct.FontSize + 15;
         while (true)
         {
             text.fontSize += Time.deltaTime * 120;
-            if (text.fontSize > 65)
+            if (text.fontSize > textStruct.FontSize + 25)
                 break;
             yield return null;
         }
         while (true)
         {
             text.fontSize -= Time.deltaTime * 160;
-            if (text.fontSize < 35)
+            if (text.fontSize < textStruct.FontSize)
                 break;
             yield return null;
         }
         StartCoroutine(MoveUpRoutine());
-        yield return 1f.GetDelay();
+        yield return textStruct.Duration.GetDelay();
 
         float aValue = text.color.a;
         while (true)
@@ -109,6 +120,8 @@ public class DamageText : BaseUI
                 break;
             yield return null;
         }
+
+        Destroy(gameObject);
     }
 
     IEnumerator MoveUpRoutine()
