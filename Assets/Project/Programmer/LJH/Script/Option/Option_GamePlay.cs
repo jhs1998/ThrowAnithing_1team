@@ -220,14 +220,17 @@ public class Option_GamePlay : Main_Option
                 break;
 
             case 3:
-                acceptButton.onClick.Invoke();
                 break;
 
             case 4:
-                cancelButton.onClick.Invoke();
+                acceptButton.onClick.Invoke();
                 break;
 
             case 5:
+                cancelButton.onClick.Invoke();
+                break;
+
+            case 6:
                 defaultButton.onClick.Invoke();
                 break;
 
