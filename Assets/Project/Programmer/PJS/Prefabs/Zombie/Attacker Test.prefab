@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 254488991685751613}
-  - component: {fileID: 6666692435970658984}
+  - component: {fileID: 951443799350884555}
   - component: {fileID: 3033522797582796364}
   - component: {fileID: 418218525214398539}
   - component: {fileID: 754880611680432719}
   - component: {fileID: 6399784573856491384}
   - component: {fileID: 4648765538334251057}
   m_Layer: 11
-  m_Name: Attacker
+  m_Name: Attacker Test
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,8 +40,8 @@ Transform:
   - {fileID: 1551721150309293097}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &6666692435970658984
-CapsuleCollider:
+--- !u!65 &951443799350884555
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -58,11 +58,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.29399955
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.5, z: 1}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!54 &3033522797582796364
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -259,7 +257,7 @@ MonoBehaviour:
         Stiff","Instant":true,"SharedBoolStiff":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"Stiff","IsShared":true,"BooleanmValue":false},"SharedBoolhitAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HitAble","IsShared":true,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(116.579712,139.473846)"},"ID":15,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(-353.633148,209.473816)"},"ID":16,"Name":"Set
         Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Move"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-217.675659,209.473816)"},"ID":17,"Name":"Set
         Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Hit"}},{"Type":"TakeHit","NodeData":{"Offset":"(-111.19149,206)"},"ID":18,"Name":"Take
-        Hit","Instant":true,"SharedBoolhitAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HitAble","IsShared":true,"BooleanmValue":true},"SinglecoolTime":2},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-3.19149017,210)"},"ID":19,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-186.395676,165.541626)","Comment":"Attack
+        Hit","Instant":true,"SharedBoolhitAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HitAble","IsShared":true,"BooleanmValue":true},"SinglecoolTime":2},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-3.1914978,210)"},"ID":19,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-186.395676,165.541626)","Comment":"Attack
         Sequence"},"ID":20,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"CanAttack","NodeData":{"Offset":"(-175.230637,130.340088)","Comment":"\uacf5\uaca9\uac00\ub2a5\ud55c\uc9c0"},"ID":21,"Name":"Can
         Attack","Instant":true,"SharedTransformplayerPos":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true},"SharedFloatattackDis":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AttackDis","IsShared":true,"SinglemValue":0}},{"Type":"LookAtPlayer","NodeData":{"Offset":"(-122.174225,274.130585)"},"ID":22,"Name":"Look
         At Player","Instant":true,"SharedTransformplayer":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(-38.1076355,128.378418)"},"ID":23,"Name":"Set
@@ -294,7 +292,7 @@ Animator:
   m_GameObject: {fileID: 1364103528471589098}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f34b99ca2454aeb42a316f5fa7a1a5ba, type: 3}
-  m_Controller: {fileID: 9100000, guid: cf025e4350a6baf41b42d00fdb0fcf33, type: 2}
+  m_Controller: {fileID: 9100000, guid: f7e7ad82860f05343a504fdc369539e5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
