@@ -45,6 +45,9 @@ public class Upgrade : BaseUI
 
     bool axisInUse; // 연속 조작 방지용
 
+    //텍스트 처리용
+    [SerializeField] GameObject upText;
+
     private void Awake()
     {
         Bind();
@@ -153,6 +156,8 @@ public class Upgrade : BaseUI
         ColorReset();
         // Comment : 선택한 슬롯 노란색으로
 
+        //요놈이 지금 문제임
+        Debug.Log(slots[0, 0]);
         slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
 
         itemName.text = slots[ver, ho].name;
@@ -162,8 +167,16 @@ public class Upgrade : BaseUI
         int slot = ver * 4 + ho; // 1차원 배열의 인덱스를 계산
         infotext.text = $"{_gameData.upgradeLevels[slot]} / 5";
 
+        //테스트용
+        if(_gameData.upgradeLevels[slot] == 5)
+        {
+            slots[ver, ho].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(true);
+            slots[ver, ho].onClick.RemoveAllListeners();
+        }
+
         SlotLimit();
     }
+
 
     
     //슬롯 클릭시
@@ -214,6 +227,12 @@ public class Upgrade : BaseUI
         }
     }
 
+    public void UpgradeText()
+    {
+        // 업그레이드 완료 문구 없을때만 동작
+        Instantiate(upText, slots[2,3].transform.position, Quaternion.identity);
+    }
+
     void Init()
     {
         slots = new Button[5, 4];
@@ -254,6 +273,8 @@ public class Upgrade : BaseUI
                 int col = j;
 
                 slots[i, j].onClick.AddListener(() => ClickedSlots(slots[row, col]));
+                slots[i, j].onClick.AddListener(() => UpgradeText());
+                
             }
         }
 

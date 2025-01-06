@@ -25,8 +25,8 @@ public class Pause : Main_Option
 
 
     //로직 변경으로 필요한 컬러
-    Color curButtonColor = new(0.5f, 0.2f, 0);
-    Color notButtonColor = new(0.5f, 0.2f, 0, 0.1f);
+    Color _curButtonColor = new(0.5f, 0.2f, 0);
+    Color _notButtonColor = new(0.5f, 0.2f, 0, 0.1f);
 
 
 
@@ -72,9 +72,9 @@ public class Pause : Main_Option
             {
                 curMenu_p = 0;
                 //pauseButtons[pauseButtons.Length - 1].gameObject.SetActive(false);
-                pauseButtons[pauseButtons.Length - 1].GetComponent<Image>().color = notButtonColor;
+                pauseButtons[pauseButtons.Length - 1].GetComponent<Image>().color = _notButtonColor;
                 //pauseButtons[curMenu_p].gameObject.SetActive(true);
-                pauseButtons[curMenu_p].GetComponent<Image>().color = curButtonColor;
+                pauseButtons[curMenu_p].GetComponent<Image>().color = _curButtonColor;
 
                 yield return null;
             }
@@ -84,9 +84,9 @@ public class Pause : Main_Option
             {
                 curMenu_p = pauseButtons.Length - 1;
                 //pauseButtons[0].gameObject.SetActive(false);
-                pauseButtons[0].GetComponent<Image>().color = notButtonColor;
+                pauseButtons[0].GetComponent<Image>().color = _notButtonColor;
                 //pauseButtons[curMenu_p].gameObject.SetActive(true);
-                pauseButtons[curMenu_p].GetComponent<Image>().color = curButtonColor;
+                pauseButtons[curMenu_p].GetComponent<Image>().color = _curButtonColor;
 
                 yield return null;
             }
@@ -95,12 +95,12 @@ public class Pause : Main_Option
             for (int i = 0; i < pauseButtons.Length; i++)
             {
                 //pauseButtons[i].gameObject.SetActive(false);
-                pauseButtons[i].GetComponent<Image>().color = notButtonColor;
+                pauseButtons[i].GetComponent<Image>().color = _notButtonColor;
             }
 
             //Comment : 선택한 버튼 활성화
             //pauseButtons[curMenu_p].gameObject.SetActive(true);
-            pauseButtons[curMenu_p].GetComponent<Image>().color = curButtonColor;
+            pauseButtons[curMenu_p].GetComponent<Image>().color = _curButtonColor;
 
             if (y == 0)
                 yield return null;
@@ -119,7 +119,7 @@ public class Pause : Main_Option
             {
                 case 0:
                     Debug.Log("게임 다시 진행");
-                    ContinueButton();
+                    _ContinueButton();
                     break;
 
                 case 1:
@@ -130,23 +130,23 @@ public class Pause : Main_Option
 
                 case 2:
                     Debug.Log("게임 종료");
-                    ExitButton();
+                    _ExitButton();
                     break;
             }
         }
     }
 
-    public void ContinueButton()
+    public void _ContinueButton()
     {
         Panel.ChangeBundle(PausePanel.Bundle.None);
     }
 
-    public void OptionButton()
+    public void _OptionButton()
     {
         Panel.ChangeBundle(PausePanel.Bundle.Option);
     }
 
-    public void ExitButton()
+    public void _ExitButton()
     {
         exitPopUpObj_p.SetActive(true);
     }
