@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour, IHit
     public State PrevState;
 
     #region 이벤트
-    public event UnityAction<int, bool> OnPlayerHitEvent;
+    public event Func<int, bool,int> OnPlayerHitEvent;
     public event UnityAction OnPlayerDieEvent;
     #endregion
     #region 공격 관련 필드
@@ -256,9 +256,10 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 데미지 받기
     /// </summary>
-    public void TakeDamage(int damage, bool isStun)
+    public int TakeDamage(int damage, bool isStun)
     {
-        OnPlayerHitEvent?.Invoke(damage, isStun);
+        int hitDamage = (int)OnPlayerHitEvent?.Invoke(damage, isStun);
+        return hitDamage;
     }
 
     /// <summary>
@@ -269,23 +270,6 @@ public class PlayerController : MonoBehaviour, IHit
         OnPlayerDieEvent?.Invoke();
     }
 
-    #region Instantiate 대리 메서드
-    public T InstantiateObject<T>(T instance) where T : Component
-    {
-        T instanceObject = Instantiate(instance);
-        return instanceObject;
-    }
-    public T InstantiateObject<T>(T instance, Transform parent) where T : Component
-    {
-        T instanceObject = Instantiate(instance, parent);
-        return instanceObject;
-    }
-    public T InstantiateObject<T>(T instance, Vector3 pos, Quaternion rot) where T : Component
-    {
-        T instanceObject = Instantiate(instance, pos, rot);
-        return instanceObject;
-    }
-    #endregion
     #region 플레이어 방향 처리
     public void LookAtAttackDir()
     {
@@ -853,30 +837,30 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 기본 스텟 데미지
     /// </summary>
-    public int GetFinalDamage()
+    public int GetFinalDamage(out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage);
+        finalDamage = GetCommonDamage(finalDamage,out isCritical);
         return finalDamage;
     }
     /// <summary>
     /// 데미지 추가
     /// </summary>
-    public int GetFinalDamage(int addtionalDamage)
+    public int GetFinalDamage(int addtionalDamage, out bool isCritical)
     {
         int finalDamage = 0;
         // 추가 데미지
         finalDamage += addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
         return finalDamage;
     }
     /// <summary>
     /// 데미지 배율
     /// </summary>
-    public int GetFinalDamage(float multiplier)
+    public int GetFinalDamage(float multiplier, out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
 
         // 데미지 배율 추가
         finalDamage = (int)(finalDamage * multiplier);
@@ -885,12 +869,12 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 추가 데미지 + 데미지 배율
     /// </summary>
-    public int GetFinalDamage(int addtionalDamage, float multiplier)
+    public int GetFinalDamage(int addtionalDamage, float multiplier, out bool isCritical)
     {
         int finalDamage = 0;
         // 추가 데미지
         finalDamage += addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
 
         // 데미지 배율 추가
         finalDamage = (int)(finalDamage * multiplier);
@@ -899,13 +883,18 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 공통계산 용
     /// </summary>
-    private int GetCommonDamage(int finalDamage)
+    private int GetCommonDamage(int finalDamage, out bool isCritical)
     {
         // 기본 스텟 데미지 
         finalDamage += Model.AttackPower;
         // 치명타 데미지
         if (Random.value < Model.CriticalChance / 100f)
+        {
             finalDamage = (int)(finalDamage * (Model.CriticalDamage / 100f));
+            isCritical = true;
+        }
+        else
+            isCritical = false;
 
         return finalDamage;
     }
@@ -915,12 +904,12 @@ public class PlayerController : MonoBehaviour, IHit
     {
         while (true)
         {
-            if (Time.timeScale == 1 && IsMouseVisible == false)
+            if (Time.timeScale == 1 && CantOperate == false)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-            else if (Time.timeScale == 0 || IsMouseVisible == true)
+            else if (Time.timeScale == 0 || CantOperate == true)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;

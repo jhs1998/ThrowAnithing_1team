@@ -77,9 +77,9 @@ public class BasicMeleeAttack : ArmMeleeAttack
             // 적 넉백
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, 0.5f);
             
-            int finalDamage = Player.GetFinalDamage(_damage,_damageMultiplier);
+            int finalDamage = Player.GetFinalDamage(_damage,_damageMultiplier, out bool isCritical);
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true, isCritical);
         }
     }
 

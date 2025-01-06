@@ -89,10 +89,10 @@ public class BasicJumpDown : ArmJumpDown
         CoroutineHandler.StartRoutine(CreateAttackEffectRoutien());
 
         int hitCount = Physics.OverlapSphereNonAlloc(_landingPoint, _range, Player.OverLapColliders, 1 << Layer.Monster);
-        int finalDamage = Player.GetFinalDamage(_damage);
+        int finalDamage = Player.GetFinalDamage(_damage, out bool isCritical);
         for (int i = 0; i < hitCount; i++)
         {
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true, isCritical);
             // ³Ë¹é
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, 1f);
         }

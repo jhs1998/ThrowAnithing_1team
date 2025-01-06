@@ -27,12 +27,8 @@ public class TripleShot : ThrowAdditional
         {
             // 점프 공격일 땐 기본 오브젝트만 던져야함
             int throwObjectID = 0;
-            if (_player.CurState == PlayerController.State.JumpAttack)
-            {
-                throwObjectID = 0;
-            }
             // 기본 오브젝트를 던진 경우에는 기본 오브젝트만 던져야 함
-            else if (_throwObject.Data.ID == 0)
+           if (_throwObject.Data.ID == 0)
             {
                 throwObjectID = 0;
             }
@@ -48,8 +44,7 @@ public class TripleShot : ThrowAdditional
                originObjectRot.z);
 
             ThrowObject throwObject = GameObject.Instantiate(DataContainer.GetThrowObject(throwObjectID), _throwObject.transform.position, shotAngle);
-            throwObject.Init(_player, _model.ThrowAdditionals);
-            throwObject.Damage = _throwObject.Damage;
+            throwObject.Init(_player, _throwObject.PlayerDamage,_model.ThrowAdditionals);
             throwObject.Shoot(_player.ThrowPower);
         }
     }

@@ -36,7 +36,7 @@ public class PoizonAdditional : HitAdditional
         int damage = (int)(Battle.Debuff.MaxHp * 0.05f);
         while (count > 0)
         {
-            Battle.Hit.TakeDamage(damage, false);
+            Battle.TakeDamage(damage, false, DamageType.Posion);
             yield return 1f.GetDelay(); 
             count--;
         }

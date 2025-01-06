@@ -37,21 +37,21 @@ public class HitState : PlayerState
         ChangeState(PlayerController.State.Idle);
     }
 
-    private void TakeDamage(int damage, bool isStun)
+    private int TakeDamage(int damage, bool isStun)
     {
         if (Player.IsInvincible == true)
-            return;
+            return 0;
 
         // 방어력 계산
         int finalDamage = damage - Model.Defense;
         // 받는 피해 감소 계산
-        finalDamage = (int)(finalDamage * (1 - Model.DamageReduction/100f));
+        finalDamage = (int)(finalDamage * (1 - Model.DamageReduction / 100f));
         // 0보다 작으면 값을 0으로 고정 시킴
         finalDamage = finalDamage <= 0 ? 0 : finalDamage;
 
         // 입은 데미지가 없을때 Hit 상태 안들어감
         if (finalDamage == 0)
-            return;
+            return finalDamage;
 
         Model.CurHp -= finalDamage;
 
@@ -59,15 +59,18 @@ public class HitState : PlayerState
         if (Model.CurHp > 0)
         {
             // 경직 없음
-            if (isStun == false)
-                return;
-            ChangeState(PlayerController.State.Hit);
+            if (isStun == true)
+            {
+                ChangeState(PlayerController.State.Hit);
+            }
         }
         else
         {
             // Die
             Player.Die();
         }
+
+        return finalDamage;
     }
 
 }

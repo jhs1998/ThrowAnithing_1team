@@ -20,9 +20,10 @@ public class TrashObj : MonoBehaviour, IHit
         }
     }
 
-    public void TakeDamage(int damage, bool isStun)
+    public int TakeDamage(int damage, bool isStun)
     {
         //Debug.Log($"{gameObject} ÀÇ TakeDamage");
+        return damage;
     }
 
     private void OnTriggerEnter(Collider other)

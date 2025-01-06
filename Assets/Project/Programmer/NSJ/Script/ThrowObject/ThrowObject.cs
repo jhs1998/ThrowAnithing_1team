@@ -4,12 +4,20 @@ using UnityEngine;
 public class ThrowObject : MonoBehaviour
 {
     public ThrowObjectData Data;
-
-    [SerializeField] public bool CanAttack;
+    public bool CanAttack;
     [SerializeField] public List<ThrowAdditional> ThrowAdditionals = new List<ThrowAdditional>();
-    public int Damage;
+
+    // 오브젝트 자체 데미지
+    public int ObjectDamage;
+    // 플레이어의 추가 데미지
+    public int PlayerDamage { get; private set; }
+    public int Damage => ObjectDamage + PlayerDamage;
+    [Space(10)]
+    // 공격 범위(폭발식)
     public float Radius;
+    // 넉백거리
     public float KnockBackDistance;
+    // 스테미나 회복량
     public float SpecialRecovery;
     protected Collider[] _overlapCollider = new Collider[20];
     protected PlayerController _player;
@@ -91,7 +99,14 @@ public class ThrowObject : MonoBehaviour
     public void Init(PlayerController player, List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
-        Damage += player.GetFinalDamage();
+        Radius = player.Model.BoomRadius;
+        SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
+        AddThrowAdditional(throwAdditionals, player);
+    }
+    public void Init(PlayerController player, int addionalDamage,List<ThrowAdditional> throwAdditionals)
+    {
+        _player = player;
+        PlayerDamage = addionalDamage;
         Radius = player.Model.BoomRadius;
         SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
         AddThrowAdditional(throwAdditionals, player);
@@ -172,9 +187,9 @@ public class ThrowObject : MonoBehaviour
 
         for (int i = 0; i < hitCount; i++)
         {
-
+            int finalDamage = _player.GetFinalDamage(Damage, out bool isCritical);
             // 디버프 주기
-            _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], Damage, true);
+            _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], finalDamage, true, isCritical);
 
             if (KnockBackDistance > 0)
                 _player.DoKnockBack(_player.OverLapColliders[i].transform, transform.forward, KnockBackDistance);

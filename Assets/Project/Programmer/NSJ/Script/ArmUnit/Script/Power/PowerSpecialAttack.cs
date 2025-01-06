@@ -214,13 +214,13 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     private void AttackSpecial()
     {
-        int finalDamage = Player.GetFinalDamage(_charges[_index].Damage);
+        int finalDamage = Player.GetFinalDamage(_charges[_index].Damage, out bool isCritical);
         // 범위 내 적에게 데미지
         int hitCount = Physics.OverlapSphereNonAlloc(_dropPos, _charges[_index].Radius, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true, isCritical);
 
             // 넉백 가능하면 넉백
             if (_charges[_index].KnockBackDistance > 0)
