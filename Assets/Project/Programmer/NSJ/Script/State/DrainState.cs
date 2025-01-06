@@ -6,7 +6,7 @@ public class DrainState : PlayerState
 {
     private GameObject _drainField => Player.DrainField;
     private float _drainDistance => Model.DrainDistance * 2;
-
+    private float _curDrainDistance;
     private bool _isEnd;
     private bool _isFirst;
     private Vector3 _drainStartPos;
@@ -40,7 +40,7 @@ public class DrainState : PlayerState
             _drainRoutine = CoroutineHandler.StartRoutine(DrainRoutine());
         }
     }
-    private float _curDrainDistance;
+
     public override void Update()
     {
         // 플레이어 위치 고정

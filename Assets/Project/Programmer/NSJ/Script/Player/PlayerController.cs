@@ -941,6 +941,9 @@ public class PlayerController : MonoBehaviour, IHit
         InitPlayerStates();
 
         _defaultMuzzlePointRot = MuzzletPoint.localRotation;
+
+
+     
     }
 
     /// <summary>

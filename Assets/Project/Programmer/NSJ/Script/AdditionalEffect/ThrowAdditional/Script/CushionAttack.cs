@@ -11,7 +11,7 @@ public class CushionAttack : ThrowAdditional
     [Range(0, 100)]
     [Header("데미지 감소량 ( % )")]
     [SerializeField] float _ReductionDamage;
-    private int _cushionCount;
+    [SerializeField] private int _cushionCount;
 
     [System.Serializable]
     struct TargetInfo
@@ -63,8 +63,12 @@ public class CushionAttack : ThrowAdditional
         // 해당 적방향으로 공격
         _throwObject.IgnoreTargets.Clear();
         _throwObject.IgnoreTargets.Add(_targetList[0].transform.gameObject);
-        ThrowObject newObject = Instantiate(_throwObject, _throwObject.transform.position, _throwObject.transform.rotation);
-        _throwObject = newObject;
+        //ThrowObject newObject = Instantiate(_throwObject, _throwObject.transform.position, _throwObject.transform.rotation);
+        //_throwObject = newObject;
+
+        ThrowObject newObject = Instantiate(DataContainer.GetThrowObject(_throwObject.Data.ID), _throwObject.transform.position, _throwObject.transform.rotation);
+        newObject.Init(Player, _throwObject.PlayerDamage, _throwObject.ThrowAdditionals);
+        newObject.IgnoreTargets = _throwObject.IgnoreTargets;
 
         // 데미지 감소
         newObject.ObjectDamage = (int)(newObject.ObjectDamage * (_ReductionDamage / 100f));
