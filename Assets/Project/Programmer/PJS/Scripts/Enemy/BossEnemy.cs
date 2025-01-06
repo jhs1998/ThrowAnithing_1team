@@ -38,23 +38,20 @@ public class BossEnemy : BaseEnemy
         else if (CurHp <= MaxHp * 0.5f && CurHp > MaxHp * 0.3f)
         {
             curPhase = PhaseType.Phase3;
-            onFrezenyPassive = true;
+            //onFrezenyPassive = true;
         }
     }
 
     private void FrenzyPassive()
     {
-        Debug.Log("FrenzyPassive on");
         if (onFrezenyPassive == false)
         {
-            Debug.Log("확인용");
             return;
         }
 
         tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
         tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
         
-        Debug.Log("FrenzyPassive off");
         onFrezenyPassive = false;
     }
 
@@ -64,7 +61,8 @@ public class BossEnemy : BaseEnemy
         {
             if (curPhase == PhaseType.Phase3)
             {
-                FrenzyPassive();
+                tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
+                tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
                 yield break;
             }
 

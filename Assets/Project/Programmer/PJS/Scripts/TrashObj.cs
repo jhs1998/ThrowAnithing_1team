@@ -31,7 +31,7 @@ public class TrashObj : MonoBehaviour, IHit
         if(other.transform.tag == Tag.Monster)
         {
             Debug.Log(other.transform);
-            IHit hit = other.transform.GetComponent<IHit>();
+            IHit hit = other.transform.GetComponentInParent<IHit>();
             hit.TakeDamage(atk, true);
         }
 
