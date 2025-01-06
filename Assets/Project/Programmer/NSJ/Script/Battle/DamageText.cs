@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-public enum DamageType {PlayerHit ,Default,Critical , Posion, Size }
+public enum DamageType { Default, PlayerHit ,Critical , Posion, Size }
 
 public class DamageText : BaseUI
 {
@@ -10,8 +10,8 @@ public class DamageText : BaseUI
     [System.Serializable]
     struct ColorStruct
     {
-        public Color PlayerHit;
         public Color Default;
+        public Color PlayerHit;
         public Color Critical;
         public Color Poison;
     }
@@ -166,8 +166,8 @@ public class DamageText : BaseUI
 
     private void Init()
     {
-        _textColors[(int)DamageType.PlayerHit] = TextColor.PlayerHit;
         _textColors[(int)DamageType.Default] = TextColor.Default;
+        _textColors[(int)DamageType.PlayerHit] = TextColor.PlayerHit;
         _textColors[(int)DamageType.Critical] = TextColor.Critical;
         _textColors[(int)DamageType.Posion] = TextColor.Poison;
     }

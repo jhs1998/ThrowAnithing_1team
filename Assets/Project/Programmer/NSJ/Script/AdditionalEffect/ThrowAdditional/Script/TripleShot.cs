@@ -34,7 +34,7 @@ public class TripleShot : ThrowAdditional
             }
             else
             {
-                throwObjectID = _model.ThrowObjectStack.Count > 0 ? _model.PopThrowObject().ID : 0;
+                throwObjectID = Model.ThrowObjectStack.Count > 0 ? Model.PopThrowObject().ID : 0;
             }
 
             float angleY = i == 0 ? originObjectRot.y - _angle : originObjectRot.y + _angle;
@@ -44,8 +44,8 @@ public class TripleShot : ThrowAdditional
                originObjectRot.z);
 
             ThrowObject throwObject = GameObject.Instantiate(DataContainer.GetThrowObject(throwObjectID), _throwObject.transform.position, shotAngle);
-            throwObject.Init(_player, _throwObject.PlayerDamage,_model.ThrowAdditionals);
-            throwObject.Shoot(_player.ThrowPower);
+            throwObject.Init(Player, _throwObject.PlayerDamage,Model.ThrowAdditionals);
+            throwObject.Shoot(Player.ThrowPower);
         }
     }
 

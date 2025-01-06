@@ -39,7 +39,7 @@ public class GuidedAttack : ThrowAdditional
         // 적 감지하면 적한테 날아감
         else
         {
-            float guidedSpeed = _player.ThrowPower;
+            float guidedSpeed = Player.ThrowPower;
 
             Vector3 targetPos = new Vector3(_targets[0].transform.position.x, _targets[0].transform.position.y + 0.7f, _targets[0].transform.position.z);
 

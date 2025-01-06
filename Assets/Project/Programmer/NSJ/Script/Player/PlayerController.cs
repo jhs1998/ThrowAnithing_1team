@@ -372,7 +372,6 @@ public class PlayerController : MonoBehaviour, IHit
         if (Model.CurThrowables < Model.MaxThrowables)
         {
             Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
-            Destroy(throwObject.gameObject);
         }
     }
 
