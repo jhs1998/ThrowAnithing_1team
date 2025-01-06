@@ -12,6 +12,7 @@ public class Option_GamePlay : Main_Option
     [SerializeField] GameObject miniMapAct;
     [SerializeField] GameObject miniMapFix;
     [SerializeField] GameObject languageDrop;
+    [SerializeField] Slider SensBar;
 
     GameObject actChecked;
     GameObject fixChecked;
@@ -31,11 +32,17 @@ public class Option_GamePlay : Main_Option
     bool newFix;
     bool defaultFix;
 
+    float preSens;
+    float newSens;
+    float defaultSens;
+
     [SerializeField] Button acceptButton;
     [SerializeField] Button cancelButton;
     [SerializeField] Button defaultButton;
 
     public int _curIndex;
+
+    int checker;
 
 
     void Start()
@@ -106,14 +113,14 @@ public class Option_GamePlay : Main_Option
             }
         }
         // 상단 버튼일 때
-        if (_curIndex > -1 && _curIndex < 3)
+        if (_curIndex > -1 && _curIndex < 4)
         {
             // 아래 버튼 눌렀을 때
             if (y < 0)
             {
-                if (_curIndex == 2)
+                if (_curIndex == 3)
                 {
-                    _curIndex = 3;
+                    _curIndex = 4;
                 }
                 else
                 {
@@ -135,11 +142,11 @@ public class Option_GamePlay : Main_Option
             
         }
 
-        if (_curIndex > 2 && _curIndex < gamePlayButtons.Count)
+        if (_curIndex > 3 && _curIndex < gamePlayButtons.Count)
         {
             if (y > 0)
             {
-                _curIndex = 2;
+                _curIndex = 3;
             }
             // 오른쪽 키 눌렀을 때
             if (x > 0)
@@ -147,12 +154,24 @@ public class Option_GamePlay : Main_Option
                 _curIndex++;
                 if (_curIndex > gamePlayButtons.Count - 1)
                 {
-                    _curIndex = 0;
+                    _curIndex = gamePlayButtons.Count-1;
                 }
             }
             else if (x < 0)
             {
                 _curIndex--;
+            }
+        }
+        //감도 조절용
+        if(_curIndex == 3)
+        {
+            if(x < 0)
+            {
+                SensBar.value -= 0.1f;
+            }
+            if(x > 0)
+            {
+                SensBar.value += 0.1f;
             }
         }
 
@@ -185,7 +204,11 @@ public class Option_GamePlay : Main_Option
         switch (_curIndex)
         {
             case 0:
-                ActCheck();
+                if (checker >= 1)
+                {
+                    ActCheck();
+                }
+                checker++;
                 break;
 
             case 1:
@@ -197,14 +220,17 @@ public class Option_GamePlay : Main_Option
                 break;
 
             case 3:
-                acceptButton.onClick.Invoke();
                 break;
 
             case 4:
-                cancelButton.onClick.Invoke();
+                acceptButton.onClick.Invoke();
                 break;
 
             case 5:
+                cancelButton.onClick.Invoke();
+                break;
+
+            case 6:
                 defaultButton.onClick.Invoke();
                 break;
 
@@ -227,13 +253,17 @@ public class Option_GamePlay : Main_Option
         MinimapCheck();
         actChecked.SetActive(newAct);
         fixChecked.SetActive(newFix);
+        SensBar.value = newSens;
 
         preAct = actChecked.activeSelf;
         preFix = fixChecked.activeSelf;
+        preSens = SensBar.value;
 
         ButtonReset();
 
         gameplayOnOff.SetActive(false);
+
+        checker = 0;
 
         //Todo : depth1으로 복귀
     }
@@ -248,8 +278,11 @@ public class Option_GamePlay : Main_Option
     {
         actChecked.SetActive(preAct);
         fixChecked.SetActive(preFix);
+        SensBar.value = preSens;
 
         ButtonReset();
+
+        checker = 0;
 
         gameplayOnOff.SetActive(false);
         //Todo : depth1으로 복귀
@@ -263,11 +296,15 @@ public class Option_GamePlay : Main_Option
 
         actChecked.SetActive(defaultAct);
         fixChecked.SetActive(defaultFix);
+        SensBar.value = defaultSens;
 
         preAct = actChecked.activeSelf;
         preFix = fixChecked.activeSelf;
+        preSens = SensBar.value;
 
         ButtonReset();
+
+        checker = 0;
 
         gameplayOnOff.SetActive(false);
 
@@ -288,11 +325,11 @@ public class Option_GamePlay : Main_Option
         gamePlayButtons.Add(GetUI<Button>("Activate"));
         gamePlayButtons.Add(GetUI<Button>("Fixed"));
         gamePlayButtons.Add(GetUI<Button>("Language"));
+        gamePlayButtons.Add(GetUI<Button>("Sensitivity"));
         gamePlayButtons.Add(GetUI<Button>("AcceptButton_gameplay"));
         gamePlayButtons.Add(GetUI<Button>("CancelButton_gameplay"));
         gamePlayButtons.Add(GetUI<Button>("DefaultButton_gameplay"));
 
-        Debug.Log($"게임플레이 버튼 드가있나{gamePlayButtons[0].name}");
 
 
 
@@ -307,8 +344,12 @@ public class Option_GamePlay : Main_Option
 
         defaultAct = true;
         defaultFix = true;
+        defaultSens = 1f;
 
         preAct = actChecked.activeSelf;
         preFix = fixChecked.activeSelf;
+        preSens = SensBar.value;
+
+        checker = 0;
     }
 }

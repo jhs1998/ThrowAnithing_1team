@@ -17,9 +17,12 @@ public class MinimapCamController : MonoBehaviour
     [SerializeField] bool minimapAct;
     [SerializeField] bool minimapFix;
 
+    GameObject playerCamera;
+
     private void Start()
     {
         Init();
+        gameObject.transform.parent = null;
     }
     private void Update()
     {
@@ -55,5 +58,6 @@ public class MinimapCamController : MonoBehaviour
     void Init()
     {
         player = GameObject.FindWithTag(Tag.Player);
+        playerCamera = GameObject.FindWithTag(Tag.MainCamera);
     }
 }
