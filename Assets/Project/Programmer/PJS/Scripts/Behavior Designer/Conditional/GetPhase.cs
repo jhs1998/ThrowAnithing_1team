@@ -3,11 +3,11 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using static BossEnemy;
 
-public class CanPhase : Conditional
+public class GetPhase : Conditional
 {
-	[SerializeField] PhaseType phase;
+    public PhaseType phase;
 
-	private BossEnemy enemy;
+    private BossEnemy enemy;
 
     public override void OnStart()
     {

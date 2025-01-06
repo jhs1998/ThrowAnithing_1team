@@ -52,13 +52,18 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
 
     private void Start()
     {
-        SettingVariable();
-        curHp = state.MaxHp;
+        Init();
     }
 
     public State GetState()
     {
         return state;
+    }
+
+    protected void Init()
+    {
+        SettingVariable();
+        curHp = state.MaxHp;
     }
 
     private void SettingVariable()
