@@ -1,3 +1,4 @@
+using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace MKH
@@ -6,22 +7,23 @@ namespace MKH
     {
         [Header("장비 인벤토리")]
         [SerializeField] private EquipmentInventory mEquipmentInventory;
+        [SerializeField] private InventoryMain minventoryMain;
 
         // 장비 교체
         public bool UseEquip(Item item)
         {
             InventorySlot equipmentSlot = mEquipmentInventory.GetEquipmentSlot(item.Type);
+            InventorySlot inventorySlot = minventoryMain.IsCanAquireItem(item);
 
             Item tempItem = equipmentSlot.Item;
+
+            equipmentSlot.AddItem(item);
 
             if (tempItem != null)
             {
                 equipmentSlot.ClearSlot();
                 equipmentSlot.AddItem(item);
-            }
-            else
-            {
-                equipmentSlot.AddItem(item);
+                inventorySlot.AddItem(tempItem);
             }
 
             mEquipmentInventory.CalculateEffect();

@@ -11,7 +11,7 @@ namespace MKH
         {
             base.Awake();
         }
-       
+
         public void AcquireItem(Item item)
         {
             Item _item = item.Create();
@@ -25,6 +25,18 @@ namespace MKH
                     return;
                 }
             }
+        }
+
+        public InventorySlot IsCanAquireItem(Item item)
+        {
+            foreach (InventorySlot slot in mSlots)
+            {
+                if (slot.Item == null)
+                {
+                    return slot;
+                }
+            }
+            return null;
         }
     }
 }
