@@ -33,10 +33,6 @@ public class Option_GamePlay : Main_Option
     bool newFix;
     bool defaultFix;
 
-    float preSens;
-    float newSens;
-    float defaultSens;
-
     [SerializeField] Button acceptButton;
     [SerializeField] Button cancelButton;
     [SerializeField] Button defaultButton;
@@ -256,11 +252,9 @@ public class Option_GamePlay : Main_Option
         MinimapCheck();
         actChecked.SetActive(newAct);
         fixChecked.SetActive(newFix);
-        SensBar.value = newSens;
 
         preAct = actChecked.activeSelf;
         preFix = fixChecked.activeSelf;
-        preSens = SensBar.value;
 
         ButtonReset();
 
@@ -281,7 +275,6 @@ public class Option_GamePlay : Main_Option
     {
         actChecked.SetActive(preAct);
         fixChecked.SetActive(preFix);
-        SensBar.value = preSens;
 
         ButtonReset();
 
@@ -299,11 +292,9 @@ public class Option_GamePlay : Main_Option
 
         actChecked.SetActive(defaultAct);
         fixChecked.SetActive(defaultFix);
-        SensBar.value = defaultSens;
 
         preAct = actChecked.activeSelf;
         preFix = fixChecked.activeSelf;
-        preSens = SensBar.value;
 
         ButtonReset();
 
@@ -347,11 +338,9 @@ public class Option_GamePlay : Main_Option
 
         defaultAct = setting.miniMapOnBool;
         defaultFix = setting.miniMapFixBool;
-        defaultSens = 1f;
 
         preAct = defaultAct;
         preFix = defaultFix;
-        preSens = SensBar.value;
 
         actChecked.SetActive(preAct);
         fixChecked.SetActive(preFix);

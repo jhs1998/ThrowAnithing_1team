@@ -16,6 +16,14 @@ public class ButtonActionInstaller : MonoBehaviour
     // OptionReset()
     [SerializeField] public Button resetButton;
 
+    // OptionSave()
+    [SerializeField] public Button saveSoundButton;
+    // OptionLode()
+    [SerializeField] public Button cancelSoundButton;
+    // OptionReset()
+    [SerializeField] public Button resetSoundButton;
+
+    // 미니맵 클릭이벤트 추가
     [SerializeField] public Button MinimapOn;
     [SerializeField] public Button MinimapOff;
     [SerializeField] public Button MiniMapFixOn;
@@ -27,7 +35,14 @@ public class ButtonActionInstaller : MonoBehaviour
     {
         saveButton.onClick.AddListener(setting.OptionSave);
         cancelButton.onClick.AddListener(setting.OptionLode);
-        resetButton.onClick.AddListener(setting.OptionReset);
+        resetButton.onClick.AddListener(() =>
+        {
+            setting.OptionReset(); // OptionReset 실행
+            FindObjectOfType<CameraSpeedSlider>()?.ResetCameraSpeed(); // 슬라이더 강제 갱신
+        });
+        saveSoundButton.onClick.AddListener(setting.OptionSave);
+        cancelSoundButton.onClick.AddListener(setting.OptionLode);
+        resetSoundButton.onClick.AddListener(setting.OptionReset);
         MinimapOn.onClick.AddListener(setting.MinimapOn);
         MinimapOff.onClick.AddListener(setting.MinimapOff);
         MiniMapFixOn.onClick.AddListener(setting.MiniMapFixOn);
