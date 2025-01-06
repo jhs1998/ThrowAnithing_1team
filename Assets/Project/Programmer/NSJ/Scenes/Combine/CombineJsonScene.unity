@@ -2594,6 +2594,7 @@ GameObject:
   m_Component:
   - component: {fileID: 378884595}
   - component: {fileID: 378884596}
+  - component: {fileID: 378884597}
   m_Layer: 5
   m_Name: BGMVolumeBar
   m_TagString: Untagged
@@ -2674,6 +2675,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &378884597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378884594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce8ed0601b164041baa2fcef0fd7b55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundVolume: {fileID: 0}
+  setting: {fileID: 0}
 --- !u!1 &383180644
 GameObject:
   m_ObjectHideFlags: 0
@@ -2872,6 +2887,7 @@ MonoBehaviour:
   cancelButton: {fileID: 1092833210}
   defaultButton: {fileID: 534515292}
   _curIndex: 0
+  setting: {fileID: 0}
 --- !u!114 &391423916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3325,6 +3341,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Option_GamePlay, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5146,6 +5174,17 @@ MonoBehaviour:
   saveButton: {fileID: 310144065}
   cancelButton: {fileID: 1092833210}
   resetButton: {fileID: 534515292}
+  saveSoundButton: {fileID: 309190912}
+  cancelSoundButton: {fileID: 142451665}
+  resetSoundButton: {fileID: 369444935}
+  MinimapOn: {fileID: 439775282}
+  MinimapOff: {fileID: 988725484}
+  MiniMapFixOn: {fileID: 1363042553}
+  MiniMapFixOff: {fileID: 1937479086}
+  SensitivityBar: {fileID: 1757119260}
+  totalVolumeBar: {fileID: 1720480134}
+  backGroundVolume: {fileID: 378884597}
+  effectVolume: {fileID: 1838181090}
   setting: {fileID: 0}
 --- !u!1 &833095239
 GameObject:
@@ -10425,6 +10464,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1720480132}
   - component: {fileID: 1720480133}
+  - component: {fileID: 1720480134}
   m_Layer: 5
   m_Name: TotalVolumeBar
   m_TagString: Untagged
@@ -10505,6 +10545,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1720480134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720480131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f36426ab0388f7439a190b832b57c3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalVolumeSlider: {fileID: 0}
+  setting: {fileID: 0}
 --- !u!1 &1734718670
 GameObject:
   m_ObjectHideFlags: 0
@@ -11560,6 +11614,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1838181088}
   - component: {fileID: 1838181089}
+  - component: {fileID: 1838181090}
   m_Layer: 5
   m_Name: EffectVolumeBar
   m_TagString: Untagged
@@ -11640,6 +11695,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1838181090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838181087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ffb0a3e76e7e5f46a10a60be16933c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectVolume: {fileID: 0}
+  setting: {fileID: 0}
 --- !u!1 &1847472202
 GameObject:
   m_ObjectHideFlags: 0

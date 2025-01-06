@@ -13,6 +13,9 @@ public class GlobalPlayerStateData
 {
     [Inject]
     GlobalGameData gameData;
+
+    // ScriptableObject 가져오기
+    public PlayerStateBase playerStateBase;
     // GlobalGameData의 로비 특성 강화 단계 확인 후 플레이어의 스탯 변동
     // 굳이 json으로 저장할 필요 없이 업그레이드 단계를 저장하여 그에 따라 스탯 적용
     // 로비 업그레이드 로직은 따로 제작
@@ -50,7 +53,7 @@ public class GlobalPlayerStateData
     public float consumesStamina;
     // 투척물 추가 획득 확률 증가 기본 : 0
     public float gainMoreThrowables;
-    // 보유 투척물 제한 증가 / 기본 50
+    // 보유 투척물 제한 / 기본 50
     public float maxThrowables;
 
     // 로비에서 조작되지 않는 플레이어 스탯
@@ -75,48 +78,34 @@ public class GlobalPlayerStateData
     // 특수 공격력 수치 기본 : 1타 75 2타 150 3타 225
     public float[] specialAttack = new float[3];
 
-    //public GlobalGameData.AmWeapon nowWeapon { get { return gameData.nowWeapon; }set { gameData.nowWeapon = value; } }
     public void NewPlayerSetting()
     {
-        maxHp = 60;
-        commonAttack = 0;
-        shortRangeAttack[0] = 25;
-        shortRangeAttack[1] = 40;
-        shortRangeAttack[2] = 60;
-        longRangeAttack[0] = 10;
-        longRangeAttack[1] = 40;
-        longRangeAttack[2] = 70;
-        longRangeAttack[3] = 110;
-        attackSpeed = 1;
-        movementSpeed = 100;
-        criticalChance = 10;
-        defense = 0;
-        equipmentDropUpgrade = 0;
-        drainLife = 0;
-        maxStamina = 100;
-        regainStamina = 20;
-        regainMana[0] = 3;
-        regainMana[1] = 8;
-        regainMana[2] = 13;
-        regainMana[3] = 20;
-        manaConsumption[0] = 30;
-        manaConsumption[1] = 70;
-        manaConsumption[2] = 100;
-        consumesStamina = 0;
-        gainMoreThrowables = 0;
-        maxThrowables = 50;
-        maxMana = 100;
-        maxJumpCount = 2;
-        jumpPower = 100;
-        jumpConsumesStamina = 20;
-        doubleJumpConsumesStamina = 10;
-        dashDistance = 200;
-        dashConsumesStamina = 50;
-        shortRangeAttackStamina[0] = 20;
-        shortRangeAttackStamina[1] = 30;
-        shortRangeAttackStamina[2] = 50;
-        specialAttack[0] = 75;
-        specialAttack[1] = 150;
-        specialAttack[2] = 225;
+        // 변수에 ScriptableObject로 가져온 값을 투입
+        maxHp = playerStateBase.maxHp;
+        commonAttack = playerStateBase.commonAttack;
+        shortRangeAttack = playerStateBase.shortRangeAttack;
+        longRangeAttack = playerStateBase.longRangeAttack;
+        attackSpeed = playerStateBase.attackSpeed;
+        movementSpeed = playerStateBase.movementSpeed;
+        criticalChance = playerStateBase.criticalChance;
+        defense = playerStateBase.defense;
+        equipmentDropUpgrade = playerStateBase.equipmentDropUpgrade;
+        drainLife = playerStateBase.drainLife;
+        maxStamina = playerStateBase.maxStamina;
+        regainStamina = playerStateBase.regainStamina;
+        regainMana = playerStateBase.regainMana;
+        manaConsumption = playerStateBase.manaConsumption;
+        consumesStamina = playerStateBase.consumesStamina;
+        gainMoreThrowables = playerStateBase.gainMoreThrowables;
+        maxThrowables = playerStateBase.maxThrowables;
+        maxMana = playerStateBase.maxMana;
+        maxJumpCount = playerStateBase.maxJumpCount;
+        jumpPower = playerStateBase.jumpPower;
+        jumpConsumesStamina = playerStateBase.jumpConsumesStamina;
+        doubleJumpConsumesStamina = playerStateBase.doubleJumpConsumesStamina;
+        dashDistance = playerStateBase.dashDistance;
+        dashConsumesStamina = playerStateBase.dashConsumesStamina;
+        shortRangeAttackStamina = playerStateBase.shortRangeAttackStamina;
+        specialAttack = playerStateBase.specialAttack;
     }
 }

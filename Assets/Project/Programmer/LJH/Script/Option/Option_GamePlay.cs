@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 
 public class Option_GamePlay : Main_Option
@@ -32,10 +33,6 @@ public class Option_GamePlay : Main_Option
     bool newFix;
     bool defaultFix;
 
-    float preSens;
-    float newSens;
-    float defaultSens;
-
     [SerializeField] Button acceptButton;
     [SerializeField] Button cancelButton;
     [SerializeField] Button defaultButton;
@@ -44,6 +41,8 @@ public class Option_GamePlay : Main_Option
 
     int checker;
 
+    [Inject]
+    public OptionSetting setting;
 
     void Start()
     {
@@ -253,11 +252,9 @@ public class Option_GamePlay : Main_Option
         MinimapCheck();
         actChecked.SetActive(newAct);
         fixChecked.SetActive(newFix);
-        SensBar.value = newSens;
 
         preAct = actChecked.activeSelf;
         preFix = fixChecked.activeSelf;
-        preSens = SensBar.value;
 
         ButtonReset();
 
@@ -278,7 +275,6 @@ public class Option_GamePlay : Main_Option
     {
         actChecked.SetActive(preAct);
         fixChecked.SetActive(preFix);
-        SensBar.value = preSens;
 
         ButtonReset();
 
@@ -296,11 +292,9 @@ public class Option_GamePlay : Main_Option
 
         actChecked.SetActive(defaultAct);
         fixChecked.SetActive(defaultFix);
-        SensBar.value = defaultSens;
 
         preAct = actChecked.activeSelf;
         preFix = fixChecked.activeSelf;
-        preSens = SensBar.value;
 
         ButtonReset();
 
@@ -342,13 +336,14 @@ public class Option_GamePlay : Main_Option
 
         gameplayOnOff = GetUI("GameplayOnOff");
 
-        defaultAct = true;
-        defaultFix = true;
-        defaultSens = 1f;
+        defaultAct = setting.miniMapOnBool;
+        defaultFix = setting.miniMapFixBool;
 
-        preAct = actChecked.activeSelf;
-        preFix = fixChecked.activeSelf;
-        preSens = SensBar.value;
+        preAct = defaultAct;
+        preFix = defaultFix;
+
+        actChecked.SetActive(preAct);
+        fixChecked.SetActive(preFix);
 
         checker = 0;
     }

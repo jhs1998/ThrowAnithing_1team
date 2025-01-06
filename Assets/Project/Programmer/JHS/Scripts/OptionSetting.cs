@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Zenject;
 
@@ -19,8 +20,10 @@ public class OptionSetting : MonoBehaviour
     public float cameraSpeed;
 
     // 미니맵 온오프 기능 저장 1 = on , 0 = off
+    public bool miniMapOnBool;
     public int miniMapOn;
     // 미니맵 고정 기능 저장 1 = on , 0 = off
+    public bool miniMapFixBool;
     public int miniMapFix;
 
     private const string EffectSoundKey = "Option_EffectSound";
@@ -43,7 +46,13 @@ public class OptionSetting : MonoBehaviour
 
     // 옵션 세팅 수치 세이브
     public void OptionSave()
-    {      
+    {
+        if (miniMapOnBool == true)
+            miniMapOn = 1;
+        else miniMapOn = 0;
+        if (miniMapFixBool == true)
+            miniMapFix = 1;
+        else miniMapFix = 0;
         PlayerPrefs.SetFloat(EffectSoundKey, effectSound);
         PlayerPrefs.SetFloat(BackgroundSoundKey, backgroundSound);
         PlayerPrefs.SetFloat(WholeSoundKey, wholesound);
@@ -62,13 +71,7 @@ public class OptionSetting : MonoBehaviour
             || !PlayerPrefs.HasKey(MiniMapOnKey) || !PlayerPrefs.HasKey(MiniMapFixKey))
         {
             Debug.Log("기본 세팅 완료");
-            effectSound = 100;
-            backgroundSound = 100;
-            wholesound = 100;
-            cameraSpeed = 5;
-            miniMapOn = 1;
-            miniMapFix = 1;
-            OptionSave();
+            OptionReset();
             return;
         }
         Debug.Log("옵션 세팅 불러오기");       
@@ -78,6 +81,12 @@ public class OptionSetting : MonoBehaviour
         cameraSpeed = PlayerPrefs.GetFloat(CameraSpeedKey);
         miniMapOn = PlayerPrefs.GetInt(MiniMapOnKey);
         miniMapFix = PlayerPrefs.GetInt(MiniMapFixKey);
+        if (miniMapOn == 1)
+            miniMapOnBool = true;
+        else miniMapOnBool = false;
+        if (miniMapFix == 1)
+            miniMapFixBool = true;
+        else miniMapFixBool = false;
         Debug.Log($"After OptionLode - EffectSound: {effectSound}, BackgroundSound: {backgroundSound}, WholeSound: {wholesound}, CameraSpeed: {cameraSpeed}, MiniMapOn: {miniMapOn}, MiniMapFix: {miniMapFix}");
     }
 
@@ -87,8 +96,32 @@ public class OptionSetting : MonoBehaviour
         backgroundSound = 100;
         wholesound = 100;
         cameraSpeed = 5;
-        miniMapOn = 1;
-        miniMapFix = 1;       
+        miniMapOnBool = true;
+        miniMapFixBool = true;
         OptionSave();
+    }
+
+    public void MinimapOn()
+    {
+        miniMapOnBool = true;
+        Debug.Log("미니맵 On");
+    }
+
+    public void MinimapOff()
+    {
+        miniMapOnBool = false;
+        Debug.Log("미니맵 Off");
+    }
+
+    public void MiniMapFixOn()
+    {
+        miniMapFixBool = true;
+        Debug.Log("미니맵픽스 On");
+    }
+
+    public void MiniMapFixOff()
+    {
+        miniMapFixBool = false;
+        Debug.Log("미니맵픽스 Off");
     }
 }
