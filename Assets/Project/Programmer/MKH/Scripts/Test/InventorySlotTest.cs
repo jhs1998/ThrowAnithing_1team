@@ -10,7 +10,7 @@ namespace MKH
     {
         // 아이템
         private Item mItem;
-        public Item Item { get { return mItem; } }
+        public Item Item { get { return mItem; } set { mItem = value; } }
 
         [Header("해당 슬롯에 들어갈 수 있는 타입")]
         [SerializeField] private ItemType mSlotMask;
@@ -59,7 +59,6 @@ namespace MKH
                 if(mItem.Type >= ItemType.Helmet && mItem.Type <= ItemType.Necklace)
                 {
                     ChangeEquipmentSlot();
-                    ClearSlot();
                 }
             }
         }
@@ -67,7 +66,9 @@ namespace MKH
         // 장비 교체
         public void ChangeEquipmentSlot()
         {
-            equipActionManager.UseEquip(mItem);
+            Item item = mItem;
+            ClearSlot();
+            equipActionManager.UseEquip(item);
         }
 
         // 장비 제거
