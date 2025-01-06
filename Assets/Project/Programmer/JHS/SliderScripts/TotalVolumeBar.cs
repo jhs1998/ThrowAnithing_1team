@@ -41,4 +41,11 @@ public class TotalVolumeBar : MonoBehaviour
             totalVolumeSlider.onValueChanged.RemoveListener(SettingTotalVolume);
         }
     }
+
+    // 리셋 버튼 누를떄 ui 갱신
+    public void ResetTotalVolume()
+    {
+        totalVolumeSlider.value = Mathf.Clamp(setting.wholesound, totalVolumeSlider.minValue, totalVolumeSlider.maxValue);
+        totalVolumeSlider.SetValueWithoutNotify(totalVolumeSlider.value);
+    }
 }

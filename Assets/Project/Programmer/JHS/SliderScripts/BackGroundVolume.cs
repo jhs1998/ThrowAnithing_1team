@@ -25,9 +25,9 @@ public class BackGroundVolume : MonoBehaviour
         backgroundVolume.maxValue = 100f;
         backgroundVolume.value = Mathf.Clamp(setting.backgroundSound, backgroundVolume.minValue, backgroundVolume.maxValue);
 
-        backgroundVolume.onValueChanged.AddListener(SettingTotalVolume);
+        backgroundVolume.onValueChanged.AddListener(SettingBackGroundVolume);
     }
-    public void SettingTotalVolume(float value)
+    public void SettingBackGroundVolume(float value)
     {
         setting.backgroundSound = value;
     }
@@ -37,7 +37,13 @@ public class BackGroundVolume : MonoBehaviour
         // 이벤트 리스너 해제
         if (backgroundVolume != null)
         {
-            backgroundVolume.onValueChanged.RemoveListener(SettingTotalVolume);
+            backgroundVolume.onValueChanged.RemoveListener(SettingBackGroundVolume);
         }
+    }
+    // 리셋 버튼 누를떄 ui 갱신
+    public void ResetBackGroundVolume()
+    {
+        backgroundVolume.value = Mathf.Clamp(setting.backgroundSound, backgroundVolume.minValue, backgroundVolume.maxValue);
+        backgroundVolume.SetValueWithoutNotify(backgroundVolume.value);
     }
 }

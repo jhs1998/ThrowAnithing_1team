@@ -25,9 +25,9 @@ public class EffectVolume : MonoBehaviour
         effectVolume.maxValue = 100f;
         effectVolume.value = Mathf.Clamp(setting.effectSound, effectVolume.minValue, effectVolume.maxValue);
 
-        effectVolume.onValueChanged.AddListener(SettingTotalVolume);
+        effectVolume.onValueChanged.AddListener(SettingEffectVolume);
     }
-    public void SettingTotalVolume(float value)
+    public void SettingEffectVolume(float value)
     {
         setting.effectSound = value;
     }
@@ -37,7 +37,14 @@ public class EffectVolume : MonoBehaviour
         // 이벤트 리스너 해제
         if (effectVolume != null)
         {
-            effectVolume.onValueChanged.RemoveListener(SettingTotalVolume);
+            effectVolume.onValueChanged.RemoveListener(SettingEffectVolume);
         }
+    }
+
+    // 리셋 버튼 누를떄 ui 갱신
+    public void ResetTotalVolume()
+    {
+        effectVolume.value = Mathf.Clamp(setting.effectSound, effectVolume.minValue, effectVolume.maxValue);
+        effectVolume.SetValueWithoutNotify(effectVolume.value);
     }
 }
