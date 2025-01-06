@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AdditionalEffect : ScriptableObject
 {
+    public Sprite Image;
     public AdditionalEffect Origin;
     public enum Type { Throw, Hit, Player }
 
