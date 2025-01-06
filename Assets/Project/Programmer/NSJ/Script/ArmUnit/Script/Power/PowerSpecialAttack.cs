@@ -151,9 +151,9 @@ public class PowerSpecialAttack : ArmSpecialAttack
         if (_instanceDropObject != null)
         {
             _instanceDropObject.transform.position = Player.ArmPoint.position;
+            _instanceDropObject.transform.rotation = Quaternion.LookRotation(transform.forward);
         }
 
-        Debug.Log(_dropPos);
         // 차지시간 계산
         Model.SpecialChargeGage += Time.deltaTime * 100 / _maxChargeTime;
         // 인덱스가 배열 크기보다 작을떄만

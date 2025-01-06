@@ -152,6 +152,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
         if (_instanceDropObject != null)
         {
             _instanceDropObject.transform.position = Player.ArmPoint.position;
+            _instanceDropObject.transform.rotation = Quaternion.LookRotation(transform.forward);
         }
 
 
