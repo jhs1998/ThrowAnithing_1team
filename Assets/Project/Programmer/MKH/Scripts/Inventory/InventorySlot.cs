@@ -59,7 +59,6 @@ namespace MKH
                 if(mItem.Type >= ItemType.Helmet && mItem.Type <= ItemType.Necklace)
                 {
                     ChangeEquipmentSlot();
-                    ClearSlot();
                 }
             }
         }
@@ -67,7 +66,9 @@ namespace MKH
         // 장비 교체
         public void ChangeEquipmentSlot()
         {
-            equipActionManager.UseEquip(mItem);
+            Item item = mItem;
+            ClearSlot();
+            equipActionManager.UseEquip(item);
         }
 
         // 장비 제거

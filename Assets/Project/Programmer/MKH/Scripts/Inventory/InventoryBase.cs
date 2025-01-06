@@ -8,7 +8,7 @@ namespace MKH
     {
         [SerializeField] protected GameObject mInventoryBase;
         [SerializeField] protected GameObject mInventorySlotsParent;
-        [SerializeField] protected InventorySlot[] mSlots;
+        [SerializeField] public InventorySlot[] mSlots;
 
         protected void Awake()
         {

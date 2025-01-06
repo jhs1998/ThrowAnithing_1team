@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 namespace MKH
@@ -6,8 +5,6 @@ namespace MKH
     public class InventoryMainTest : InventoryBaseTest
     {
         [SerializeField] GameObject state;
-
-        [SerializeField] GameObject blueChipPanel;
 
         new private void Awake()
         {
@@ -29,5 +26,18 @@ namespace MKH
                 }
             }
         }
+        public InventorySlotTest IsCanAquireItem(Item item)
+        {
+            foreach (InventorySlotTest slot in base.mSlots)
+            {
+                //비어있는 슬롯을 발견한경우
+                if (slot.Item == null) { return slot; }
+
+            }
+
+            return null;
+        }
     }
 }
+
+
