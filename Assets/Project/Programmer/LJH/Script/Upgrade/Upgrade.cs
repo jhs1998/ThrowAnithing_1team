@@ -45,6 +45,9 @@ public class Upgrade : BaseUI
 
     bool axisInUse; // 연속 조작 방지용
 
+    //텍스트 처리용
+    [SerializeField] GameObject upText;
+
     private void Awake()
     {
         Bind();
@@ -212,6 +215,12 @@ public class Upgrade : BaseUI
                 slots[i, j].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
             }
         }
+    }
+
+    public void UpgradeText()
+    {
+        Debug.Log("문구 출력");
+        Instantiate(upText, slots[2,3].transform.position, Quaternion.identity);
     }
 
     void Init()
