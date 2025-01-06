@@ -16,6 +16,10 @@ public class ButtonActionInstaller : MonoBehaviour
     // OptionReset()
     [SerializeField] public Button resetButton;
 
+    [SerializeField] public Button MinimapOn;
+    [SerializeField] public Button MinimapOff;
+    [SerializeField] public Button MiniMapFixOn;
+    [SerializeField] public Button MiniMapFixOff;
     [Inject]
     public OptionSetting setting;
 
@@ -24,5 +28,9 @@ public class ButtonActionInstaller : MonoBehaviour
         saveButton.onClick.AddListener(setting.OptionSave);
         cancelButton.onClick.AddListener(setting.OptionLode);
         resetButton.onClick.AddListener(setting.OptionReset);
+        MinimapOn.onClick.AddListener(setting.MinimapOn);
+        MinimapOff.onClick.AddListener(setting.MinimapOff);
+        MiniMapFixOn.onClick.AddListener(setting.MiniMapFixOn);
+        MiniMapFixOff.onClick.AddListener(setting.MiniMapFixOff);
     }
 }

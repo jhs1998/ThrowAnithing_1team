@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 
 public class Option_GamePlay : Main_Option
@@ -44,6 +45,8 @@ public class Option_GamePlay : Main_Option
 
     int checker;
 
+    [Inject]
+    public OptionSetting setting;
 
     void Start()
     {
@@ -342,13 +345,16 @@ public class Option_GamePlay : Main_Option
 
         gameplayOnOff = GetUI("GameplayOnOff");
 
-        defaultAct = true;
-        defaultFix = true;
+        defaultAct = setting.miniMapOnBool;
+        defaultFix = setting.miniMapFixBool;
         defaultSens = 1f;
 
-        preAct = actChecked.activeSelf;
-        preFix = fixChecked.activeSelf;
+        preAct = defaultAct;
+        preFix = defaultFix;
         preSens = SensBar.value;
+
+        actChecked.SetActive(preAct);
+        fixChecked.SetActive(preFix);
 
         checker = 0;
     }

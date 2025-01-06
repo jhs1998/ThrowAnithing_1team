@@ -100,4 +100,28 @@ public class OptionSetting : MonoBehaviour
         miniMapFixBool = true;
         OptionSave();
     }
+
+    public void MinimapOn()
+    {
+        miniMapOnBool = true;
+        Debug.Log("¹Ì´Ï¸Ê On");
+    }
+
+    public void MinimapOff()
+    {
+        miniMapOnBool = false;
+        Debug.Log("¹Ì´Ï¸Ê Off");
+    }
+
+    public void MiniMapFixOn()
+    {
+        miniMapFixBool = true;
+        Debug.Log("¹Ì´Ï¸ÊÇÈ½º On");
+    }
+
+    public void MiniMapFixOff()
+    {
+        miniMapFixBool = false;
+        Debug.Log("¹Ì´Ï¸ÊÇÈ½º Off");
+    }
 }
