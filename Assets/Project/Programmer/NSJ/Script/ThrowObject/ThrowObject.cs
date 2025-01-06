@@ -102,12 +102,15 @@ public class ThrowObject : MonoBehaviour
     {
         FixedUpdateThrowAdditional();
     }
-
+    #region Init
     public void Init(PlayerController player, List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
         Radius = player.Model.BoomRadius;
-        SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
+        // 적중시 회복 마나량
+        SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep] ;
+        SpecialRecovery += SpecialRecovery * player.Model.RegainAdditiveMana / 100; 
+
         AddThrowAdditional(throwAdditionals, player);
     }
     public void Init(PlayerController player, int addionalDamage,List<ThrowAdditional> throwAdditionals)
@@ -115,10 +118,13 @@ public class ThrowObject : MonoBehaviour
         _player = player;
         PlayerDamage = addionalDamage;
         Radius = player.Model.BoomRadius;
+        // 적중시 회복 마나량
         SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
+        SpecialRecovery += SpecialRecovery * player.Model.RegainAdditiveMana / 100;
+
         AddThrowAdditional(throwAdditionals, player);
     }
-
+    #endregion
     public void Shoot(float throwPower)
     {
         Rb.AddForce(transform.forward * throwPower, ForceMode.Impulse);
@@ -170,16 +176,6 @@ public class ThrowObject : MonoBehaviour
         foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
         {
             throwAdditional.Trigger();
-        }
-    }
-    public void TriggerFirstThrowAddtional()
-    {
-        if (CanAttack == false)
-            return;
-
-        foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
-        {
-            throwAdditional.TriggerFirst();
         }
     }
     /// <summary>

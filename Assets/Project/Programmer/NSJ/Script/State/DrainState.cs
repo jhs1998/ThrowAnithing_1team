@@ -105,7 +105,7 @@ public class DrainState : PlayerState
                 _overlapColliders[i].transform.position = Vector3.MoveTowards(_overlapColliders[i].transform.position, playerPos, 5f * Time.deltaTime);
             }
 
-            Model.CurStamina -= Time.deltaTime * 10f;
+            Model.CurStamina -= Time.deltaTime * Model.DrainStamina;
 
             if(Model.CurStamina <= 0)
             {

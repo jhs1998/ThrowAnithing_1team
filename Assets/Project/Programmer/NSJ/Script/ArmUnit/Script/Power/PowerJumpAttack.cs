@@ -70,6 +70,5 @@ public class PowerJumpAttack : ArmJumpAttack
         ThrowObject throwObject = Instantiate(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzleRot);
         throwObject.Init(Player , (int)Model.PowerThrowAttack[0],  Model.ThrowAdditionals);
         throwObject.Shoot(Player.ThrowPower);
-        throwObject.TriggerFirstThrowAddtional();
     }
 }

@@ -29,13 +29,13 @@ public class PoizonAdditional : HitAdditional
 
     IEnumerator PoisonRoutine()
     {
-        RemainDuraiton = Duration;
+        _remainDuration = Duration;
         int damage = (int)(Battle.Debuff.MaxHp * 0.05f);
-        while (RemainDuraiton > 0)
+        while (_remainDuration > 0)
         {
             yield return 1f.GetDelay();
             Battle.TakeDamage(damage, false, DamageType.Posion);
-            RemainDuraiton--;
+            _remainDuration--;
         }
         Battle.EndDebuff(this);
     }

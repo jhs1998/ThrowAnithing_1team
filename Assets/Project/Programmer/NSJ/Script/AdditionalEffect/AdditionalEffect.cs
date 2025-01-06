@@ -36,9 +36,4 @@ public class AdditionalEffect : ScriptableObject
     /// 트리거 됬을 때만 호출
     /// </summary>
     public virtual void Trigger() { }
-    /// <summary>
-    /// 트리거 됬을 때 첫번째만 호출
-    /// </summary>
-    public virtual void TriggerFirst() { }
-
 }

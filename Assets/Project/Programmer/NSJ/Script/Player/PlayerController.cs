@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour, IHit
     public State PrevState;
 
     #region 이벤트
-    public event Func<int, bool,int> OnPlayerHitEvent;
+    public event Func<int, bool, int> OnPlayerHitEvent;
     public event UnityAction OnPlayerDieEvent;
     #endregion
     #region 공격 관련 필드
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour, IHit
         public bool CanStaminaRecovery; // 스테미나 회복 할 수 있는지?
         public bool CantOperate; // 조작할 수 있는지?
     }
-    [SerializeField]private BoolField _boolField;
+    [SerializeField] private BoolField _boolField;
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
     public bool IsJumpAttack { get { return _boolField.IsJumpAttack; } set { _boolField.IsJumpAttack = value; } }
     public bool IsInvincible { get { return _boolField.IsInvincible; } set { _boolField.IsInvincible = value; } }
@@ -363,6 +363,7 @@ public class PlayerController : MonoBehaviour, IHit
         Rb.velocity = tempVelocity; // 대입
     }
     #endregion
+    #region 투척오브젝트 추가
     /// <summary>
     /// 오브젝트 줍기
     /// </summary>
@@ -374,6 +375,18 @@ public class PlayerController : MonoBehaviour, IHit
             Model.PushThrowObject(DataContainer.GetThrowObject(throwObject.Data.ID).Data);
         }
     }
+    /// <summary>
+    /// 오브젝트 줍기
+    /// </summary>
+    public void AddThrowObject(ThrowObjectData throwObjectData)
+    {
+
+        if (Model.CurThrowables < Model.MaxThrowables)
+        {
+            Model.PushThrowObject(throwObjectData);
+        }
+    }
+    #endregion
 
     public void ChangeArmUnit(ArmUnit armUnit)
     {
@@ -489,13 +502,6 @@ public class PlayerController : MonoBehaviour, IHit
         foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
         {
             playerAdditional.Trigger();
-        }
-    }
-    public void TriggerFirstPlayerAdditional()
-    {
-        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
-        {
-            playerAdditional.TriggerFirst();
         }
     }
     /// <summary>
@@ -839,7 +845,7 @@ public class PlayerController : MonoBehaviour, IHit
     public int GetFinalDamage(out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage,out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
         return finalDamage;
     }
     /// <summary>
@@ -894,6 +900,10 @@ public class PlayerController : MonoBehaviour, IHit
         }
         else
             isCritical = false;
+
+        // 데미지 배율이 0까지 떨어진 경우 0으로 고정
+        float attackMultiplier = 1 + Model.AttackPowerMultiplier / 100 >= 0 ? 1 + Model.AttackPowerMultiplier / 100 : 0;
+        finalDamage = (int)(finalDamage * attackMultiplier);
 
         return finalDamage;
     }
@@ -966,7 +976,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model.CurThrowCountSubject = new Subject<int>();
         Model.CurThrowCountSubject
             .DistinctUntilChanged()
-            .Subscribe(x =>  View.UpdateText(panel.ObjectCount, $"{x} / {Model.MaxThrowables}") );
+            .Subscribe(x => View.UpdateText(panel.ObjectCount, $"{x} / {Model.MaxThrowables}"));
         View.UpdateText(panel.ObjectCount, $"{Model.CurThrowables} / {Model.MaxThrowables}");
 
         // 체력
@@ -1044,8 +1054,8 @@ public class PlayerController : MonoBehaviour, IHit
 
     public void OnTrigger()
     {
-        TriggerPlayerAdditional();
         _states[(int)CurState].OnTrigger();
+        TriggerPlayerAdditional();
     }
     public void EndAnimation()
     {

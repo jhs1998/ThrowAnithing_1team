@@ -35,10 +35,10 @@ public class FreezeAdditional : HitAdditional
 
     IEnumerator FreezeRoutine()
     {
-        RemainDuraiton = Duration;
-        while (RemainDuraiton > 0)
+        _remainDuration = Duration;
+        while (_remainDuration > 0)
         {
-            RemainDuraiton -= Time.deltaTime;
+            _remainDuration -= Time.deltaTime;
             yield return null;
         }
 

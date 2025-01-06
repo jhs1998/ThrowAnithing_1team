@@ -48,10 +48,10 @@ public class ElectricShockAdditonal : HitAdditional
 
     IEnumerator DurationRoutine()
     {
-        RemainDuraiton = Duration;
-        while(RemainDuraiton > 0)
+        _remainDuration = Duration;
+        while(_remainDuration > 0)
         {
-            RemainDuraiton -= Time.deltaTime;
+            _remainDuration -= Time.deltaTime;
             yield return null;
         }
         Battle.EndDebuff(this);

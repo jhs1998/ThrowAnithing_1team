@@ -103,7 +103,6 @@ public class PowerThrowAttack : ArmThrowAttack
         }
         UseThrowObject(_charges[_index].ObjectCount);
         throwObject.Shoot(Player.ThrowPower);
-        throwObject.TriggerFirstThrowAddtional();
     }
 
     private void ProcessCharge()
