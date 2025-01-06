@@ -151,6 +151,7 @@ MonoBehaviour:
     test: 1
   userDataManager: {fileID: 2843022970376083190}
   globalPlayerStateData:
+    playerStateBase: {fileID: 11400000, guid: 197ede65146724b4e8dc68a0baf4f754, type: 2}
     maxHp: 0
     commonAttack: 0
     shortRangeAttack:
@@ -221,6 +222,7 @@ MonoBehaviour:
     bringData: 1
     nowWeapon: 0
   playerstate:
+    playerStateBase: {fileID: 0}
     maxHp: 0
     commonAttack: 0
     shortRangeAttack:
@@ -291,6 +293,7 @@ MonoBehaviour:
     bringData: 1
     nowWeapon: 0
   playerState:
+    playerStateBase: {fileID: 0}
     maxHp: 0
     commonAttack: 0
     shortRangeAttack:
@@ -419,5 +422,7 @@ MonoBehaviour:
   backgroundSound: 0
   wholesound: 0
   cameraSpeed: 0.1
+  miniMapOnBool: 0
   miniMapOn: 0
+  miniMapFixBool: 0
   miniMapFix: 0
