@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-public enum DamageType { Default , Posion, Size }
+public enum DamageType {PlayerHit ,Default,Critical , Posion, Size }
 
 public class DamageText : BaseUI
 {
@@ -10,7 +10,9 @@ public class DamageText : BaseUI
     [System.Serializable]
     struct ColorStruct
     {
+        public Color PlayerHit;
         public Color Default;
+        public Color Critical;
         public Color Poison;
     }
     [SerializeField] private ColorStruct TextColor;
@@ -60,7 +62,7 @@ public class DamageText : BaseUI
     /// 데미지 수치 설정
     /// </summary>
     /// <param name="damage"></param>
-    public void SetDamageText(int damage, Transform target)
+    public void SetDamageText(int damage, Transform target, bool isPlayer)
     {
         text.SetText(damage.GetText());
         _targetPos = new Vector3(
@@ -69,13 +71,13 @@ public class DamageText : BaseUI
             Random.Range(target.position.z - 0.5f, target.position.z + 0.5f)
             );
 
-        SetTextColor(DamageType.Default);
+        SetTextColor(DamageType.Default, _isCritical, isPlayer);
     }
     /// <summary>
     /// 데미지 수치 설정
     /// </summary>
     /// <param name="damage"></param>
-    public void SetDamageText(int damage, Transform target, DamageType type, bool isCritical)
+    public void SetDamageText(int damage, Transform target, DamageType type, bool isCritical, bool isPlayer)
     {
         text.SetText(damage.GetText());
         _targetPos = new Vector3(
@@ -84,7 +86,7 @@ public class DamageText : BaseUI
             Random.Range(target.position.z - 0.5f, target.position.z + 0.5f)
             );
         _isCritical = isCritical;
-        SetTextColor(type);
+        SetTextColor(type, _isCritical, isPlayer);
     }
 
 
@@ -141,14 +143,32 @@ public class DamageText : BaseUI
         }
     }
 
-    private void SetTextColor(DamageType type)
+    private void SetTextColor(DamageType type,bool isCritical ,bool isPlayer)
     {
+        if (isPlayer == true)
+        {
+           if(type == DamageType.Default)
+            {
+                text.color = _textColors[(int)DamageType.PlayerHit];
+                return;
+            }
+        }
+        else
+        {
+            if(isCritical == true)
+            {
+                text.color = _textColors[(int)DamageType.Critical];
+                return;
+            }
+        }
         text.color = _textColors[(int)type];
     }
 
     private void Init()
     {
+        _textColors[(int)DamageType.PlayerHit] = TextColor.PlayerHit;
         _textColors[(int)DamageType.Default] = TextColor.Default;
+        _textColors[(int)DamageType.Critical] = TextColor.Critical;
         _textColors[(int)DamageType.Posion] = TextColor.Poison;
     }
 }

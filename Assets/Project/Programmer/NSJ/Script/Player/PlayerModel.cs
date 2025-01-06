@@ -336,7 +336,7 @@ public partial class PlayerData
         [Header("방어력")]
         public int Defense;
         [Header("피해 감소량")]
-        [Range(0, 100)] public float DamageReduction;
+        public float DamageReduction;
     }
     [System.Serializable]
     public struct CriticalStruct
@@ -374,16 +374,16 @@ public partial class PlayerData
     public struct DataStruct
     {
         public HpStruct Hp;
+        public AttackStruct Attack;
         public DefenseStruct Defense;
+        public CriticalStruct Critical;
         public StaminaStruct Stamina;
         public SpecialStruct Special;
-        public JumpStruct Jump;
         public DashStruct Dash;
-        public AttackStruct Attack;
-        public CriticalStruct Critical;
-        public ThrowStruct Throw;
-        public AdditionalStruct Additional;
+        public JumpStruct Jump;
         public GlobalGameData.AmWeapon NowWeapon;
+        public ThrowStruct Throw;   
+        public AdditionalStruct Additional;
         public float MoveSpeed;
         public float DrainLife;
         public float[] MeleeAttackStamina;
