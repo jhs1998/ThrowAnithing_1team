@@ -1,32 +1,68 @@
 using System.Collections;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 public class BossEnemy : BaseEnemy
 {
-    public enum Phase { Phase1, Phase2, Phase3 }
-    public Phase curPhase = Phase.Phase1;
+    public enum PhaseType { Phase1, Phase2, Phase3 }
+    public PhaseType curPhase = PhaseType.Phase1;
     //[SerializeField] BossEnemyState bossState;
     [SerializeField] ParticleSystem shieldParticle;
 
     private Coroutine attackAble;
     private bool onFrezenyPassive = false;
 
+    private void Start()
+    {
+        Init();
+
+        StartCoroutine(PassiveOn());
+
+        this.UpdateAsObservable()
+            .Select(x => CurHp)
+            .Subscribe(x => ChangePhase());
+    }
+
+    private void ChangePhase()
+    {
+        // 현재 체력으로 페이즈 변경
+        if (CurHp > MaxHp * 0.8f)
+        {
+            curPhase = PhaseType.Phase1;
+        }
+        else if (CurHp <= MaxHp * 0.8f && CurHp > MaxHp * 0.5f)
+        {
+            curPhase = PhaseType.Phase2;
+        }
+        else if (CurHp <= MaxHp * 0.5f && CurHp > MaxHp * 0.3f)
+        {
+            curPhase = PhaseType.Phase3;
+            //onFrezenyPassive = true;
+        }
+    }
+
     private void FrenzyPassive()
     {
         if (onFrezenyPassive == false)
+        {
             return;
+        }
 
         tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
         tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
+        
+        onFrezenyPassive = false;
     }
 
     IEnumerator PassiveOn()
     {
         while (true)
         {
-            if (curPhase == Phase.Phase3)
+            if (curPhase == PhaseType.Phase3)
             {
-                FrenzyPassive();
+                tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
+                tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
                 yield break;
             }
 
@@ -63,7 +99,6 @@ public class BossEnemy : BaseEnemy
         if (CurHp > state.MaxHp * 0.8f)
         {
             // 1페이즈 - 일렉트릭 아머
-            //Debug.Log("curHp > 80");
             shieldParticle.Play();
         }
         else if (CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)

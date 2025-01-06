@@ -14,18 +14,19 @@ public class SetPhase : Action
 
     public override TaskStatus OnUpdate()
     {
+        Debug.Log("확인용");
         // 현재 체력으로 페이즈 변경
         if (enemy.CurHp > enemy.MaxHp * 0.8f)
         {
-            enemy.curPhase = Phase.Phase1;
+            enemy.curPhase = PhaseType.Phase1;
         }
         else if (enemy.CurHp <= enemy.MaxHp * 0.8f && enemy.CurHp > enemy.MaxHp * 0.5f)
         {
-            enemy.curPhase = Phase.Phase2;
+            enemy.curPhase = PhaseType.Phase2;
         }
         else if (enemy.CurHp <= enemy.MaxHp * 0.5f && enemy.CurHp > enemy.MaxHp * 0.3f)
         {
-            enemy.curPhase = Phase.Phase3;
+            enemy.curPhase = PhaseType.Phase3;
         }
 
         return TaskStatus.Failure;
