@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ThrowAdditional : AdditionalEffect
 {
-    protected PlayerController _player;
-    protected PlayerModel _model => _player.Model;
+    protected PlayerController Player;
+    protected PlayerModel Model => Player.Model;
 
     protected ThrowObject _throwObject;
 
     public void Init(PlayerController player, AdditionalEffect addtional,ThrowObject throwObject)
     {
         Origin = addtional.Origin;
-        _player = player;
+        Player = player;
         _throwObject = throwObject;
     }
 }

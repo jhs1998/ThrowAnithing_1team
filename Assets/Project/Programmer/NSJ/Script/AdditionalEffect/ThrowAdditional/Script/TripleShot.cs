@@ -9,19 +9,18 @@ public class TripleShot : ThrowAdditional
 {
     [Range(0, 90)][SerializeField] private float _angle;
 
-    [HideInInspector]public bool CanTripleShot = true;
+     public bool CanTripleShot = true;
     public override void Enter()
     {
-       
-    }
+        if (CanTripleShot == false)
+            return;
 
-    public override void TriggerFirst()
-    {
         Shot();
     }
 
     private void Shot()
-    { 
+    {
+        CanTripleShot = false;
         Vector3 originObjectRot = _throwObject.transform.eulerAngles;
         for (int i = 0; i < 2; i++)
         {
@@ -34,7 +33,7 @@ public class TripleShot : ThrowAdditional
             }
             else
             {
-                throwObjectID = _model.ThrowObjectStack.Count > 0 ? _model.PopThrowObject().ID : 0;
+                throwObjectID = Model.ThrowObjectStack.Count > 0 ? Model.PopThrowObject().ID : 0;
             }
 
             float angleY = i == 0 ? originObjectRot.y - _angle : originObjectRot.y + _angle;
@@ -42,10 +41,10 @@ public class TripleShot : ThrowAdditional
                originObjectRot.x,
                angleY,
                originObjectRot.z);
-
+    
             ThrowObject throwObject = GameObject.Instantiate(DataContainer.GetThrowObject(throwObjectID), _throwObject.transform.position, shotAngle);
-            throwObject.Init(_player, _throwObject.PlayerDamage,_model.ThrowAdditionals);
-            throwObject.Shoot(_player.ThrowPower);
+            throwObject.Init(Player, _throwObject.PlayerDamage,_throwObject.ThrowAdditionals);
+            throwObject.Shoot(Player.ThrowPower);
         }
     }
 

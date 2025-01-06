@@ -5,7 +5,6 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Freeze")]
 public class FreezeAdditional : HitAdditional
 {
-    [SerializeField] private float _duration;
     private float _decreasedMoveSpeed;
     public override void Enter()
     {
@@ -36,7 +35,12 @@ public class FreezeAdditional : HitAdditional
 
     IEnumerator FreezeRoutine()
     {
-        yield return _duration.GetDelay();
+        _remainDuration = Duration;
+        while (_remainDuration > 0)
+        {
+            _remainDuration -= Time.deltaTime;
+            yield return null;
+        }
 
         Battle.EndDebuff(this);
     }

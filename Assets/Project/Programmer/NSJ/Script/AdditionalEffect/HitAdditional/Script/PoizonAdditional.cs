@@ -5,9 +5,7 @@ using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Poison")]
 public class PoizonAdditional : HitAdditional
-{
-
-    public int Duration;
+{ 
     [Range(0,1)]public float DamageMultiplier;
 
     public override void Enter()
@@ -31,14 +29,13 @@ public class PoizonAdditional : HitAdditional
 
     IEnumerator PoisonRoutine()
     {
-        yield return 1f.GetDelay();
-        int count = Duration;
+        _remainDuration = Duration;
         int damage = (int)(Battle.Debuff.MaxHp * 0.05f);
-        while (count > 0)
+        while (_remainDuration > 0)
         {
+            yield return 1f.GetDelay();
             Battle.TakeDamage(damage, false, DamageType.Posion);
-            yield return 1f.GetDelay(); 
-            count--;
+            _remainDuration--;
         }
         Battle.EndDebuff(this);
     }

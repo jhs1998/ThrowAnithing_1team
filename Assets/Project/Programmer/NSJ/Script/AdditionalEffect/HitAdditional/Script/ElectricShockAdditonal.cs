@@ -10,7 +10,6 @@ public class ElectricShockAdditonal : HitAdditional
     [SerializeField] private float _moveSpeedReduction;
     [Range(0, 100)]
     [SerializeField] private float _attackSpeedReduction;
-    [SerializeField] private float _duration;
 
     private float _decreasedMoveSpeed;
     private float _decreasedAttackSpeed;
@@ -49,7 +48,12 @@ public class ElectricShockAdditonal : HitAdditional
 
     IEnumerator DurationRoutine()
     {
-        yield return _duration.GetDelay();
+        _remainDuration = Duration;
+        while(_remainDuration > 0)
+        {
+            _remainDuration -= Time.deltaTime;
+            yield return null;
+        }
         Battle.EndDebuff(this);
     }
 }

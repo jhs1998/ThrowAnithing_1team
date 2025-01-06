@@ -1,4 +1,3 @@
-using Assets.Project.Programmer.NSJ.RND.Script;
 using System.Collections;
 using UnityEngine;
 
@@ -23,7 +22,6 @@ public class PowerSpecialAttack : ArmSpecialAttack
     [SerializeField] private float _moveSpeedMultyPlier;
 
     private float _maxChargeTime => _charges[_charges.Length - 1].ChargeTime;
-    private int _triggerIndex;
     private float _maxChargeMana => _charges[_charges.Length - 1].ChargeMana;
     private GameObject _instanceDropObject;
     private GameObject _instanceSpecialRange;
@@ -77,24 +75,15 @@ public class PowerSpecialAttack : ArmSpecialAttack
 
         Model.SpecialChargeGage = 0;
         _index = 0;
-        _triggerIndex = 0;
         Player.IsInvincible = false;
     }
     public override void Update()
     {
-       
+
     }
     public override void OnTrigger()
     {
-        if (_triggerIndex == 0)
-        {
-            Player.LookAtAttackDir();
-            _triggerIndex++;
-        }
-        else
-        {
-            AttackSpecial();
-        }
+        AttackSpecial();
     }
     public override void EndAnimation()
     {
@@ -119,6 +108,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
                 if (_index != 0)
                 {
                     _index--;
+                    Player.LookAtAttackDir();
                     View.SetTrigger(PlayerView.Parameter.ChargeEnd);
                 }
                 else

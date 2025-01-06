@@ -10,7 +10,7 @@ public class ThrowObject : MonoBehaviour
     // 오브젝트 자체 데미지
     public int ObjectDamage;
     // 플레이어의 추가 데미지
-    public int PlayerDamage { get; private set; }
+    [HideInInspector]public int PlayerDamage;
     public int Damage => ObjectDamage + PlayerDamage;
     [Space(10)]
     // 공격 범위(폭발식)
@@ -19,6 +19,8 @@ public class ThrowObject : MonoBehaviour
     public float KnockBackDistance;
     // 스테미나 회복량
     public float SpecialRecovery;
+
+    public List<GameObject> IgnoreTargets = new List<GameObject>();
     protected Collider[] _overlapCollider = new Collider[20];
     protected PlayerController _player;
 
@@ -45,7 +47,7 @@ public class ThrowObject : MonoBehaviour
     }
     private void OnDisable()
     {
-        ExitThrowAdditional();
+        //ExitThrowAdditional();
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
@@ -53,6 +55,7 @@ public class ThrowObject : MonoBehaviour
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.AddThrowObject(this);
+            DestroyObject();
         }
 
     }
@@ -66,6 +69,10 @@ public class ThrowObject : MonoBehaviour
         int layer = other.gameObject.layer;
         if (layer == Layer.Monster)
         {
+            // 무시해야하는 타겟대상은 공격하지 않음
+            if (IgnoreTargets.Contains(other.gameObject) == true) 
+                return;
+
             HitTarget();
         } 
         else if (tag != Tag.Player )
@@ -95,12 +102,15 @@ public class ThrowObject : MonoBehaviour
     {
         FixedUpdateThrowAdditional();
     }
-
+    #region Init
     public void Init(PlayerController player, List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
         Radius = player.Model.BoomRadius;
-        SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
+        // 적중시 회복 마나량
+        SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep] ;
+        SpecialRecovery += SpecialRecovery * player.Model.RegainAdditiveMana / 100; 
+
         AddThrowAdditional(throwAdditionals, player);
     }
     public void Init(PlayerController player, int addionalDamage,List<ThrowAdditional> throwAdditionals)
@@ -108,10 +118,13 @@ public class ThrowObject : MonoBehaviour
         _player = player;
         PlayerDamage = addionalDamage;
         Radius = player.Model.BoomRadius;
+        // 적중시 회복 마나량
         SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
+        SpecialRecovery += SpecialRecovery * player.Model.RegainAdditiveMana / 100;
+
         AddThrowAdditional(throwAdditionals, player);
     }
-
+    #endregion
     public void Shoot(float throwPower)
     {
         Rb.AddForce(transform.forward * throwPower, ForceMode.Impulse);
@@ -163,16 +176,6 @@ public class ThrowObject : MonoBehaviour
         foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
         {
             throwAdditional.Trigger();
-        }
-    }
-    public void TriggerFirstThrowAddtional()
-    {
-        if (CanAttack == false)
-            return;
-
-        foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
-        {
-            throwAdditional.TriggerFirst();
         }
     }
     /// <summary>
@@ -227,7 +230,7 @@ public class ThrowObject : MonoBehaviour
 
     protected void DestroyObject()
     {
-        //ExitThrowAdditional();              
+        ExitThrowAdditional();              
         Destroy(gameObject);
     }
 }

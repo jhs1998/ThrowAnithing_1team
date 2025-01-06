@@ -25,6 +25,5 @@ public interface IBattle
     public void Update();
     public void FixedUpdate();
     public void Trigger();
-    public void TriggerFirst();
     public void EndDebuff(HitAdditional debuff);
 }
