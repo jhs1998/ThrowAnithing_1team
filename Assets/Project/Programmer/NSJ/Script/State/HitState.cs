@@ -4,7 +4,7 @@ public class HitState : PlayerState
 {
     public HitState(PlayerController controller) : base(controller)
     {
-        Player.OnPlayerHitEvent += TakeDamage;
+        Player.OnPlayerHitFuncEvent += TakeDamage;
     }
 
 
@@ -39,9 +39,10 @@ public class HitState : PlayerState
 
     private int TakeDamage(int damage, bool isStun)
     {
+        if (Player.IsShield == true)
+            return 0;
         if (Player.IsInvincible == true)
             return 0;
-
         // 방어력 계산
         int finalDamage = damage - Model.Defense;
         // 받는 피해 감소 계산
@@ -69,7 +70,6 @@ public class HitState : PlayerState
             // Die
             Player.Die();
         }
-
         return finalDamage;
     }
 

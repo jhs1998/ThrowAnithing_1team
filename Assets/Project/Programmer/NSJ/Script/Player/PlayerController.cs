@@ -46,8 +46,10 @@ public class PlayerController : MonoBehaviour, IHit
     public State PrevState;
 
     #region 이벤트
-    public event Func<int, bool, int> OnPlayerHitEvent;
+    public event Func<int, bool, int> OnPlayerHitFuncEvent;
+    public event UnityAction OnPlayerHitActionEvent;
     public event UnityAction OnPlayerDieEvent;
+    public event UnityAction<bool> OnThrowObjectResult;
     #endregion
     #region 공격 관련 필드
     [System.Serializable]
@@ -137,6 +139,7 @@ public class PlayerController : MonoBehaviour, IHit
         public bool IsDoubleJump; // 더블점프 했음?
         public bool IsJumpAttack; // 점프공격 했음?
         public bool IsInvincible; // 무적상태임?
+        public bool IsShield; // 쉴드가 존재하는지?
         public bool IsHit; // 맞음?
         public bool IsDead; // 죽음?
         public bool IsStaminaCool; // 스테미나 사용 후 쿨타임인지?
@@ -147,6 +150,7 @@ public class PlayerController : MonoBehaviour, IHit
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
     public bool IsJumpAttack { get { return _boolField.IsJumpAttack; } set { _boolField.IsJumpAttack = value; } }
     public bool IsInvincible { get { return _boolField.IsInvincible; } set { _boolField.IsInvincible = value; } }
+    public bool IsShield { get { return _boolField.IsShield; } set { _boolField.IsShield = value; } }
     public bool IsHit { get { return _boolField.IsHit; } set { _boolField.IsHit = value; } }
     public bool IsDead { get { return _boolField.IsDead; } set { _boolField.IsDead = value; } }
     public bool IsStaminaCool { get { return _boolField.IsStaminaCool; } set { _boolField.IsStaminaCool = value; } }
@@ -181,14 +185,14 @@ public class PlayerController : MonoBehaviour, IHit
         ChangeArmUnit(Model.NowWeapon);
         StartCoroutine(ControlMousePointer());
         //Camera.main.transform.SetParent(_cameraPos, true);
-        _states[(int)CurState].Enter();
+        EnterState(CurState);
     }
     public bool IsMouseVisible;
 
     private void OnDisable()
     {
         ExitPlayerAdditional();
-        _states[(int)CurState].Exit();
+        ExiteState(CurState);
     }
 
     private void Update()
@@ -245,12 +249,22 @@ public class PlayerController : MonoBehaviour, IHit
             Model.CurStamina -= _states[(int)state].StaminaAmount;
         }
 
-        _states[(int)CurState].Exit();
+        ExiteState(CurState);
         PrevState = CurState;
         CurState = state;
-        _states[(int)CurState].Enter();
+        EnterState(CurState);
 
         //Debug.Log(CurState);
+    }
+    private void EnterState(State state)
+    {
+        _states[(int)state].Enter();
+        EnterStatePlayerAdditional();
+    }
+    private void ExiteState(State state)
+    {
+        _states[(int)state].Exit();
+        ExitStatePlayerAdditional();
     }
 
     /// <summary>
@@ -258,7 +272,8 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public int TakeDamage(int damage, bool isStun)
     {
-        int hitDamage = (int)OnPlayerHitEvent?.Invoke(damage, isStun);
+        int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, isStun);
+        OnPlayerHitActionEvent?.Invoke();
         return hitDamage;
     }
 
@@ -462,6 +477,7 @@ public class PlayerController : MonoBehaviour, IHit
 
                     addtionalEffect.Exit();
                     Model.PlayerAdditionals.Remove(addtionalEffect as PlayerAdditional);
+                    Destroy(addtionalEffect);
                 }
                 break;
         }
@@ -481,7 +497,20 @@ public class PlayerController : MonoBehaviour, IHit
             playerAdditional.Exit();
         }
     }
-
+    public void EnterStatePlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.EnterState();
+        }
+    }
+    public void ExitStatePlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.ExitState();
+        }
+    }
     public void UpdatePlayerAdditional()
     {
         foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
@@ -545,18 +574,27 @@ public class PlayerController : MonoBehaviour, IHit
     private void RotateCamera()
     {
         float angleX = InputKey.GetAxis(InputKey.MouseX);
-        float angleY = default;
+        if (Mathf.Abs(angleX) < 0.1f)
+            angleX = 0;
         // 체크시 마우스 상하도 가능
-        if (IsVerticalCameraMove == true)
-            angleY = InputKey.GetAxis(InputKey.MouseY);
+        float angleY = IsVerticalCameraMove == true ? angleY = InputKey.GetAxis(InputKey.MouseY) : default;
+
         _cameraRotateSpeed = setting.cameraSpeed;
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
+
+        // 마우스 상하값 제한
         float x = camAngle.x - mouseDelta.y;
         x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
-        CamareArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
 
-        if (IsVerticalCameraMove)
+        // 카메라 조정
+        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
+
+
+
+
+
+        if (IsVerticalCameraMove == true)
         {
             // 머즐포인트 각도조절
             MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
@@ -840,12 +878,21 @@ public class PlayerController : MonoBehaviour, IHit
     #endregion
     #region 데미지 계산
     /// <summary>
+    /// 모델의 데미지 반영 X
+    /// </summary>
+    public int GetDamage(int damage, out bool isCritical)
+    {
+        int finalDamage = damage;
+        finalDamage = GetCommonDamage(finalDamage, false, out isCritical);
+        return finalDamage;
+    }
+    /// <summary>
     /// 기본 스텟 데미지
     /// </summary>
     public int GetFinalDamage(out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
         return finalDamage;
     }
     /// <summary>
@@ -853,45 +900,44 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public int GetFinalDamage(int addtionalDamage, out bool isCritical)
     {
-        int finalDamage = 0;
-        // 추가 데미지
-        finalDamage += addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage, out isCritical);
+        int finalDamage = addtionalDamage;
+        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
         return finalDamage;
     }
     /// <summary>
     /// 데미지 배율
     /// </summary>
-    public int GetFinalDamage(float multiplier, out bool isCritical)
+    public int GetFinalDamage(float addtionalMultiplier, out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
 
         // 데미지 배율 추가
-        finalDamage = (int)(finalDamage * multiplier);
+        finalDamage = (int)(finalDamage * (1 + addtionalMultiplier / 100));
         return finalDamage;
     }
     /// <summary>
     /// 추가 데미지 + 데미지 배율
     /// </summary>
-    public int GetFinalDamage(int addtionalDamage, float multiplier, out bool isCritical)
+    public int GetFinalDamage(int addtionalDamage, float additionalMultiplier, out bool isCritical)
     {
         int finalDamage = 0;
         // 추가 데미지
         finalDamage += addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
 
         // 데미지 배율 추가
-        finalDamage = (int)(finalDamage * multiplier);
+        finalDamage = (int)(finalDamage *  (1 + additionalMultiplier / 100));
         return finalDamage;
     }
     /// <summary>
     /// 공통계산 용
     /// </summary>
-    private int GetCommonDamage(int finalDamage, out bool isCritical)
+    private int GetCommonDamage(int finalDamage, bool isModelDamage, out bool isCritical)
     {
         // 기본 스텟 데미지 
-        finalDamage += Model.AttackPower;
+        if (isModelDamage == true)
+            finalDamage += Model.AttackPower;
         // 치명타 데미지
         if (Random.value < Model.CriticalChance / 100f)
         {
@@ -943,7 +989,7 @@ public class PlayerController : MonoBehaviour, IHit
         _defaultMuzzlePointRot = MuzzletPoint.localRotation;
 
 
-     
+
     }
 
     /// <summary>
@@ -1073,4 +1119,9 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)CurState].EndCombo();
     }
     #endregion
+
+    public void ThrowObjectResultCallback(bool successHit)
+    {
+        OnThrowObjectResult?.Invoke(successHit);
+    }
 }

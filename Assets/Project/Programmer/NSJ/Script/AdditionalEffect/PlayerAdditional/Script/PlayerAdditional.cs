@@ -8,10 +8,16 @@ public class PlayerAdditional : AdditionalEffect
     protected Transform transform => Player.transform;
     protected Rigidbody Rb => Player.Rb;
     protected PlayerModel Model => Player.Model;
+    protected PlayerController.State CurState => Player.CurState;
 
     public void Init(PlayerController player, AdditionalEffect addtional)
     {
         Origin = addtional.Origin;
         Player = player;
+    }
+
+    protected int GetPlayerAttackPower(int attackPower)
+    {
+        return (Model.AttackPower - (int)Model.Data.EquipStatus.Damage) + attackPower;
     }
 }

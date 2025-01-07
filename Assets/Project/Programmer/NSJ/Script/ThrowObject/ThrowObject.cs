@@ -12,6 +12,8 @@ public class ThrowObject : MonoBehaviour
     // 플레이어의 추가 데미지
     [HideInInspector]public int PlayerDamage;
     public int Damage => ObjectDamage + PlayerDamage;
+    // 데미지 배수
+    [HideInInspector] public float DamageMultyPlier;
     [Space(10)]
     // 공격 범위(폭발식)
     public float Radius;
@@ -47,7 +49,7 @@ public class ThrowObject : MonoBehaviour
     }
     private void OnDisable()
     {
-        //ExitThrowAdditional();
+        ClearThrowAddtional();
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
@@ -73,12 +75,15 @@ public class ThrowObject : MonoBehaviour
             if (IgnoreTargets.Contains(other.gameObject) == true) 
                 return;
 
+            TriggerThrowAddtional();
             HitTarget();
+            _player.ThrowObjectResultCallback(true);
         } 
         else if (tag != Tag.Player )
         {
             CanAttack = false;
             _collider.isTrigger = false;
+            _player.ThrowObjectResultCallback(false);
         }
     }
 
@@ -172,7 +177,7 @@ public class ThrowObject : MonoBehaviour
     {
         if (CanAttack == false)
             return;
-
+     
         foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
         {
             throwAdditional.Trigger();
@@ -190,7 +195,7 @@ public class ThrowObject : MonoBehaviour
 
         for (int i = 0; i < hitCount; i++)
         {
-            int finalDamage = _player.GetFinalDamage(Damage, out bool isCritical);
+            int finalDamage = _player.GetFinalDamage(Damage, DamageMultyPlier, out bool isCritical);
             // 디버프 주기
             _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], finalDamage, true, isCritical);
 
@@ -227,10 +232,23 @@ public class ThrowObject : MonoBehaviour
             }
         }
     }
+    private void RemoveThrowAddtional(ThrowAdditional throwAdditional)
+    {
+        throwAdditional.Exit();
+        ThrowAdditionals.Remove(throwAdditional);
+        Destroy(throwAdditional);
+    }
+    private void ClearThrowAddtional()
+    {
+        for(int i = ThrowAdditionals.Count -1 ; i >= 0; i--)
+        {
+            RemoveThrowAddtional(ThrowAdditionals[i]);
+        }
+    }
 
     protected void DestroyObject()
     {
-        ExitThrowAdditional();              
+        ExitThrowAdditional();
         Destroy(gameObject);
     }
 }

@@ -31,6 +31,7 @@ public class DashState : PlayerState
             _timeBuffer = 0;
         }
     }
+    public override void OnTrigger() { }
     public override void EndAnimation()
     {
         if(_timeBuffer < 0.25f)

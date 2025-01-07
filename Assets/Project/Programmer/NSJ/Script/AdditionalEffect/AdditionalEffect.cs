@@ -15,7 +15,6 @@ public class AdditionalEffect : ScriptableObject
     [TextArea]
     public string Description;
 
-    protected bool _isTriggerFirst;
 
     /// <summary>
     /// 적용 시 호출
@@ -25,6 +24,14 @@ public class AdditionalEffect : ScriptableObject
     /// 해제 시 호출
     /// </summary>
     public virtual void Exit() { }
+    /// <summary>
+    /// 상태 진입 시 호출
+    /// </summary>
+    public virtual void EnterState() { }
+    /// <summary>
+    /// 상태 퇴장 시 호출
+    /// </summary>
+    public virtual void ExitState() { }
     /// <summary>
     /// 프레임마다 호출
     /// </summary>

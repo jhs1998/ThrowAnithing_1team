@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace NSJ_TesterPanel
@@ -36,14 +37,13 @@ namespace NSJ_TesterPanel
         }
         private void OnEnable()
         {
+            EventSystem.current.SetSelectedGameObject(GetUI<Button>("MonsterButton").gameObject);
             StartCoroutines();
-
         }
 
         private void OnDisable()
         {
             StopCoroutines();
-
         }
 
 
@@ -140,7 +140,7 @@ namespace NSJ_TesterPanel
                         _curBundle = Bundle.Size - 1;
                     ChangeBundle(_curBundle);
                     yield return 0.2f.GetRealTimeDelay();
-                }         
+                }
                 yield return null;
             }
         }

@@ -19,8 +19,6 @@ public class CushionAttack : ThrowAdditional
         public Transform transform;
         public float Distance;
     }
-
-
     private List<TargetInfo> _targetList = new List<TargetInfo>();
     private TargetInfo _target;
     public override void Exit()
