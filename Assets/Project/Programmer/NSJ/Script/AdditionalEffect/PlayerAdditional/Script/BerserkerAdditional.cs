@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Berserker", menuName = "AdditionalEffect/Player/Berserker")]
@@ -14,11 +13,11 @@ public class BerserkerAdditional : PlayerAdditional
     public override void Enter()
     {
         _increaseDamageAmount = (int)(Model.AttackPower * _increaseDamage / 100);
-        Model.AttackPower = (Model.AttackPower - (int)Model.Data.EquipStatus.Damage) + _increaseDamageAmount;
+        Model.AttackPower = GetPlayerAttackPower(_increaseDamageAmount);
     }
     public override void Exit()
     {
-        Model.AttackPower = (Model.AttackPower - (int)Model.Data.EquipStatus.Damage) - _increaseDamageAmount;
+        Model.AttackPower = GetPlayerAttackPower(-_increaseDamageAmount);
     }
 
     public override void Trigger()

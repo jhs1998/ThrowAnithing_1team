@@ -480,8 +480,8 @@ public partial class PlayerData
         {
             Data.Hp.CurHp = value;
             // 현재체력이 최대체력을 넘지 못하도록
-            if (CurHp > MaxHp)
-                CurHp = MaxHp;
+            if (Data.Hp.CurHp > MaxHp)
+                Data.Hp.CurHp = MaxHp;
         }
     }
     #endregion
