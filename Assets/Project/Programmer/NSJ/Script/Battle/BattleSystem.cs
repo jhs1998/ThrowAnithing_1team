@@ -8,8 +8,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     public IDebuff Debuff { get; set; }
 
     [SerializeField] private Transform _hitTextPoint;
-    [SerializeField] private List<HitAdditional> _hitAdditionalList;
-    [SerializeField] private List<HitAdditional> _debuffList;
+    public List<HitAdditional> HitAdditionalList;
+    public List<HitAdditional> DebuffList;
 
     private PlayerController _player;
 
@@ -29,6 +29,11 @@ public class BattleSystem : MonoBehaviour, IBattle
             _hitTextPoint.localPosition = new Vector3(0, 1f, 0);
         }
     }
+
+    private void OnDisable()
+    {
+        ClearDebuff();
+    }
     #region 공격 메서드
     /// <summary>
     /// 가진 모든 디버프만 주는 공격
@@ -38,7 +43,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDebuff(_hitAdditionalList);
+        battle.TakeDebuff(HitAdditionalList);
     }
     /// <summary>
     /// 특정 디버프만 주는 공격
@@ -118,7 +123,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     public int TargetAttackWithDebuff<T>(T target, int damage, bool isStun) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, HitAdditionalList); // 상대를 공격
 
         OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
@@ -129,7 +134,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     public int TargetAttackWithDebuff<T>(T target, int damage, bool isStun, bool isCritical) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        int hitDamage =  battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList, isCritical); // 상대를 공격
+        int hitDamage =  battle.TakeDamageWithDebuff(damage, isStun, HitAdditionalList, isCritical); // 상대를 공격
 
         OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
@@ -140,7 +145,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     public int TargetAttackWithDebuff<T>(T target, int damage, bool isStun, DamageType type) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList, type); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, HitAdditionalList, type); // 상대를 공격
 
         OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
@@ -151,7 +156,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     public int TargetAttackWithDebuff<T>(T target, int damage, bool isStun, DamageType type, bool isCritical) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList, type, isCritical);
+        int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, HitAdditionalList, type, isCritical);
 
         OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
@@ -475,11 +480,11 @@ public class BattleSystem : MonoBehaviour, IBattle
     public void AddHitAdditionalList(HitAdditional hitAdditional)
     {
         // 중복체크
-        int index = _hitAdditionalList.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
+        int index = HitAdditionalList.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
         // 중복시 등록안함
         if (index != -1)
             return;
-        _hitAdditionalList.Add(hitAdditional);
+        HitAdditionalList.Add(hitAdditional);
     }
     /// <summary>
     /// 적중 효과 삭제
@@ -488,11 +493,11 @@ public class BattleSystem : MonoBehaviour, IBattle
     public void RemoveHitAdditionalList(HitAdditional hitAdditional)
     {
         // 중복체크
-        int index = _hitAdditionalList.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
+        int index = HitAdditionalList.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
         // 중복 없을 시 삭제 안함
         if (index == -1)
             return;
-        _hitAdditionalList.Remove(hitAdditional);
+        HitAdditionalList.Remove(hitAdditional);
     }
     #endregion
     #region 디버프 추가/삭제
@@ -502,22 +507,22 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <param name="debuff"></param>
     private void AddDebuff(HitAdditional debuff)
     {
-        int index = _debuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
-        if (index >= _debuffList.Count)
+        int index = DebuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
+        if (index >= DebuffList.Count)
             return;
         // 디버프 중복 시
         if (index != -1)
         {
             // 기존 디버프 지속시간 갱신
-            _debuffList[index].Init(0, false, _debuffList[index].Duration);
+            DebuffList[index].Init(0, false, DebuffList[index].Duration);
             // 디버프 재 발동
-            _debuffList[index].Enter();
+            DebuffList[index].Enter();
         }
         else
         {
             HitAdditional cloneDebuff = Instantiate(debuff);
             // 디버프 추가 후 발동
-            _debuffList.Add(cloneDebuff);
+            DebuffList.Add(cloneDebuff);
             cloneDebuff.Origin = debuff.Origin;
             cloneDebuff.Battle = this;
             cloneDebuff.transform = transform;
@@ -531,22 +536,22 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <param name="debuff"></param>
     private void AddDebuff(HitAdditional debuff, int damage, bool isCritical)
     {
-        int index = _debuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
-        if (index >= _debuffList.Count)
+        int index = DebuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
+        if (index >= DebuffList.Count)
             return;
         // 디버프 중복 시
         if (index != -1)
         {
             // 기존 디버프 지속시간 갱신
-            _debuffList[index].Init(damage, isCritical, _debuffList[index].Duration);
+            DebuffList[index].Init(damage, isCritical, DebuffList[index].Duration);
             // 디버프 재 발동
-            _debuffList[index].Enter();
+            DebuffList[index].Enter();
         }
         else
         {
             HitAdditional cloneDebuff = Instantiate(debuff);
             // 디버프 추가 후 발동
-            _debuffList.Add(cloneDebuff);
+            DebuffList.Add(cloneDebuff);
             cloneDebuff.Origin = debuff.Origin;
             cloneDebuff.Battle = this;
             cloneDebuff.transform = transform;
@@ -561,8 +566,19 @@ public class BattleSystem : MonoBehaviour, IBattle
     private void RemoveDebuff(HitAdditional debuff)
     {
         debuff.Exit();
-        _debuffList.Remove(debuff);
+        DebuffList.Remove(debuff);
         Destroy(debuff);
+    }
+    /// <summary>
+    /// 디버프 모두 삭제(정리)
+    /// </summary>
+    private void ClearDebuff()
+    {
+        foreach (HitAdditional debuff in DebuffList)
+        {
+            debuff.Exit();
+            Destroy(debuff);
+        }
     }
     #endregion
     /// <summary>
@@ -575,7 +591,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     #region 콜백
     public void Enter()
     {
-        foreach (HitAdditional debuff in _debuffList) 
+        foreach (HitAdditional debuff in DebuffList) 
         {
             debuff.Enter();
         }
@@ -583,7 +599,7 @@ public class BattleSystem : MonoBehaviour, IBattle
 
     public void Exit()
     {
-        foreach (HitAdditional debuff in _debuffList)
+        foreach (HitAdditional debuff in DebuffList)
         {
             debuff.Exit();
         }
@@ -591,7 +607,7 @@ public class BattleSystem : MonoBehaviour, IBattle
 
     public void Update()
     {
-        foreach (HitAdditional debuff in _debuffList)
+        foreach (HitAdditional debuff in DebuffList)
         {
             debuff.Update();
         }
@@ -599,7 +615,7 @@ public class BattleSystem : MonoBehaviour, IBattle
 
     public void FixedUpdate()
     {
-        foreach (HitAdditional debuff in _debuffList)
+        foreach (HitAdditional debuff in DebuffList)
         {
             debuff.FixedUpdate();
         }
@@ -607,7 +623,7 @@ public class BattleSystem : MonoBehaviour, IBattle
 
     public void Trigger()
     {
-        foreach (HitAdditional debuff in _debuffList)
+        foreach (HitAdditional debuff in DebuffList)
         {
             debuff.Trigger();
         }
