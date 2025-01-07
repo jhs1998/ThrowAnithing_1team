@@ -907,19 +907,19 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 데미지 배율
     /// </summary>
-    public int GetFinalDamage(float multiplier, out bool isCritical)
+    public int GetFinalDamage(float addtionalMultiplier, out bool isCritical)
     {
         int finalDamage = 0;
         finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
 
         // 데미지 배율 추가
-        finalDamage = (int)(finalDamage * multiplier);
+        finalDamage = (int)(finalDamage * (1 + addtionalMultiplier / 100));
         return finalDamage;
     }
     /// <summary>
     /// 추가 데미지 + 데미지 배율
     /// </summary>
-    public int GetFinalDamage(int addtionalDamage, float multiplier, out bool isCritical)
+    public int GetFinalDamage(int addtionalDamage, float additionalMultiplier, out bool isCritical)
     {
         int finalDamage = 0;
         // 추가 데미지
@@ -927,7 +927,7 @@ public class PlayerController : MonoBehaviour, IHit
         finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
 
         // 데미지 배율 추가
-        finalDamage = (int)(finalDamage * multiplier);
+        finalDamage = (int)(finalDamage *  (1 + additionalMultiplier / 100));
         return finalDamage;
     }
     /// <summary>
