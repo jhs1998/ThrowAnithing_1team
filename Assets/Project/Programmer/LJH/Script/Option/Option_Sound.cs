@@ -11,11 +11,6 @@ public class Option_Sound : Main_Option
     [Inject]
     OptionSetting setting;
 
-
-    Slider totalSoundBar;
-    Slider bgmSoundBar;
-    Slider effectSoundBar;
-
     struct ButtonStruct
     {
         public GameObject Button;
@@ -171,20 +166,10 @@ public class Option_Sound : Main_Option
         menuCo = null;
     }
 
-    // OptionSetting 에 사운드바 값 저장
-    void AudioCal()
-    {
-        setting.wholesound = totalSoundBar.value;
-        //setting.backgroundSound = bgmSoundBar.value;
-        setting.effectSound = effectSoundBar.value;
-    }
-
-    
     void AudioVolumeCotroller()
     {
         VolumeListCotroller(AudioManager.instance.bgmList, setting.backgroundSound, setting.wholesound);
         VolumeListCotroller(AudioManager.instance.effectList, setting.effectSound, setting.wholesound);
-
 
     }
 
@@ -199,13 +184,13 @@ public class Option_Sound : Main_Option
     public void AcceptButton()
     {
         VolumeCheck();
-        totalSoundBar.value = newTotal;
+        setting.wholesound = newTotal;
         setting.backgroundSound = newBgm;
-        effectSoundBar.value = newEffect;
+        setting.effectSound = newEffect;
 
-        preTotal = totalSoundBar.value;
+        preTotal = setting.wholesound;
         preBgm = setting.backgroundSound;
-        preEffect = effectSoundBar.value;
+        preEffect = setting.effectSound;
 
         setting.OptionSave();
 
@@ -217,16 +202,16 @@ public class Option_Sound : Main_Option
 
     void VolumeCheck()
     {
-        newTotal = totalSoundBar.value;
+        newTotal = setting.wholesound;
         newBgm = setting.backgroundSound;
-        newEffect = effectSoundBar.value;
+        newEffect = setting.effectSound;
     }
 
     public void CancelButton()
     {
-        totalSoundBar.value = preTotal;
+        setting.wholesound = preTotal;
         setting.backgroundSound = preBgm;
-        effectSoundBar.value = preEffect;
+        setting.effectSound = preEffect;
 
         setting.OptionSave();
         //Todo : depth1으로 복귀
@@ -239,9 +224,9 @@ public class Option_Sound : Main_Option
         // defaultPopUp.SetActive(true);
         // Todo: 팝업 과정 거쳐야함
 
-        totalSoundBar.value = defaultTotal;
+        setting.wholesound = defaultTotal;
         setting.backgroundSound = defaultBgm;
-        effectSoundBar.value = defaultEffect;
+        setting.effectSound = defaultEffect;
 
         setting.OptionSave();
         //Todo : depth1으로 복귀
@@ -275,23 +260,11 @@ public class Option_Sound : Main_Option
         buttonStructs.Add(GetButtonStruct(GetUI("CancelButton_sound"), null, GetUI<TMP_Text>("CancelButton_sound")));
         buttonStructs.Add(GetButtonStruct(GetUI("DefaultButton_sound"), null, GetUI<TMP_Text>("DefaultButton_sound")));
 
-
-
-
-        totalSoundBar = GetUI("TotalVolumeBar").GetComponent<Slider>();
-        bgmSoundBar = GetUI("BGMVolumeBar").GetComponent<Slider>();
-        effectSoundBar = GetUI("EffectVolumeBar").GetComponent<Slider>();
-
-
-        totalSoundBar.value = setting.wholesound;
-        //bgmSoundBar.value = setting.backgroundSound;
-        effectSoundBar.value = setting.effectSound;
-
         soundOnOff = GetUI("SoundOnOff");
 
-        defaultTotal = 10;
+        defaultTotal = setting.wholesound;
         defaultBgm = setting.backgroundSound;
-        defaultEffect = 100;
+        defaultEffect = setting.effectSound;
 
         preTotal = defaultTotal;
         preBgm = defaultBgm;
