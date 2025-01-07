@@ -17,13 +17,13 @@ public class State
 }
 
 [RequireComponent(typeof(BattleSystem))]
-public class BaseEnemy : MonoBehaviour, IHit,IDebuff
+public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 {
     [SerializeField] protected BehaviorTree tree;
 
     [Header("몬스터 기본 스테이터스")]
     [SerializeField] protected State state;
-    [Header("아이템 드랍 확률(100 단위)")]
+    [Header("아이템 드랍 확률(100 단위)"), Range(0, 100)]
     [SerializeField] float reward;
     [Header("현재 체력")]
     [SerializeField] int curHp;
@@ -35,7 +35,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
     [HideInInspector] public BattleSystem Battle;
 
     public int Damage { get { return state.Atk; } }
-    public int MaxHp {  get { return state.MaxHp; } set { state.MaxHp = value; } }
+    public int MaxHp { get { return state.MaxHp; } set { state.MaxHp = value; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
     public float MoveSpeed { get { return state.Speed; } set { state.Speed = value; } }
     public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
@@ -52,7 +52,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
 
     private void Start()
     {
-        Init();
+        BaseInit();
     }
 
     public State GetState()
@@ -60,7 +60,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
         return state;
     }
 
-    protected void Init()
+    protected void BaseInit()
     {
         SettingVariable();
         curHp = state.MaxHp;
@@ -90,7 +90,6 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
 
         curHp -= resultDamage;
 
-        // TODO : 결과 값은 TakeDamage 매개변수로 변환
         tree.SetVariableValue("Stiff", isStun);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
         return resultDamage;

@@ -3,20 +3,31 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
-public class BossEnemy : BaseEnemy
+public class BossEnemy : BaseEnemy, IHit
 {
     public enum PhaseType { Phase1, Phase2, Phase3 }
     public PhaseType curPhase = PhaseType.Phase1;
-    //[SerializeField] BossEnemyState bossState;
-    [SerializeField] ParticleSystem shieldParticle;
+
+    [Header("회복할 최대 시간 ( 초 단위)")]
+    [SerializeField] int maxTime;
+    [Header("회복할 최대 HP ( % 단위)"), Range(0, 100)]
+    [SerializeField] int maxRecoveryHp;
+    [Header("2페이즈에 생성되는 실드 파괴 카운트")]
+    [SerializeField] int breakshieldCount = 20;
+
+    [Space, SerializeField] ParticleSystem shieldParticle;
 
     private Coroutine attackAble;
+    public Coroutine recovery;  // 회복 관련 코루틴
     private bool onFrezenyPassive = false;
+    private bool onEntryStop;
+    [HideInInspector]public bool createShield;
+    [HideInInspector]public bool breakShield;
 
     private void Start()
     {
-        Init();
-
+        BaseInit();
+        StateInit();
         StartCoroutine(PassiveOn());
 
         this.UpdateAsObservable()
@@ -24,12 +35,19 @@ public class BossEnemy : BaseEnemy
             .Subscribe(x => ChangePhase());
     }
 
+    private void StateInit()
+    {
+        tree.SetVariableValue("MaxTime", maxTime);
+        tree.SetVariableValue("MaxRecoveryHp", maxRecoveryHp);
+    }
+
     private void ChangePhase()
     {
         // 현재 체력으로 페이즈 변경
-        if (CurHp > MaxHp * 0.8f)
+        if (CurHp > MaxHp * 0.8f && onEntryStop == false)
         {
             curPhase = PhaseType.Phase1;
+            onEntryStop = true;
         }
         else if (CurHp <= MaxHp * 0.8f && CurHp > MaxHp * 0.5f)
         {
@@ -51,7 +69,7 @@ public class BossEnemy : BaseEnemy
 
         tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
         tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
-        
+
         onFrezenyPassive = false;
     }
 
@@ -70,6 +88,67 @@ public class BossEnemy : BaseEnemy
         }
     }
 
+    // 회복관련 루틴
+    public void RecoveryStartCoroutine(int time, float value)
+    {
+        recovery = StartCoroutine(RecoveryRoutin(time, value));
+    }
+    public void RecoveryStopCotoutine()
+    {
+        StopCoroutine(recovery);
+    }
+
+    IEnumerator RecoveryRoutin(int maxTime, float recoveryValue)
+    {
+        int time = maxTime;
+        int recoveryHp = Mathf.RoundToInt(state.MaxHp * recoveryValue);
+        Debug.Log("회복 시작");
+        while (time > 0)    // 회복 하는 시간
+        {
+            yield return 1f.GetDelay();
+            CurHp += recoveryHp;
+            time--;
+            Debug.Log("회복 중...");
+        }
+
+        Debug.Log("회복 끝");
+        // 회복 끝
+        createShield = false;
+        transform.GetComponent<Animator>().SetBool("Recovery", false);
+    }
+
+    /// <summary>
+    /// 몬스터가 피해받는 데미지
+    /// </summary>
+    public new int TakeDamage(int damage, bool isStun)
+    {
+        if(createShield == true)
+        {
+            breakshieldCount--;
+            if (breakshieldCount <= 0) // 실드 깨짐
+            {
+                breakShield = true;
+                createShield = false;   
+            }
+
+            return 0;
+        }
+
+        resultDamage = damage - (int)state.Def;
+        tree.SetVariableValue("TakeDamage", true);
+
+        if (resultDamage <= 0)
+            resultDamage = 0;
+
+        CurHp -= resultDamage;
+
+        tree.SetVariableValue("Stiff", isStun);
+        Debug.Log($"{resultDamage} 피해를 입음. curHP : {CurHp}");
+        return resultDamage;
+    }
+
+
+    #region 애니메이션 이벤트
     /// <summary>
     /// Move 애니메이션 이벤트
     /// </summary>
@@ -131,6 +210,7 @@ public class BossEnemy : BaseEnemy
         // 일반 근접 공격 - 모든 페이즈에 존재
         // 라이트닝 피스트 - 1페이즈에만 존재
     }
+    #endregion
 
     /// <summary>
     /// 근접 공격
@@ -187,6 +267,7 @@ public class BossEnemy : BaseEnemy
         Debug.Log("공격 딜레이 끝");
     }
 
+    #region Gizmo
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -211,4 +292,5 @@ public class BossEnemy : BaseEnemy
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
+    #endregion
 }

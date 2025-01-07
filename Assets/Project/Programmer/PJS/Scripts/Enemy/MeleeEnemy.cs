@@ -6,11 +6,11 @@ using Zenject.SpaceFighter;
 
 public class MeleeEnemy : BaseEnemy
 {
+    // 공격 애니메이션 이벤트
     public void BeginAttack()
     {
         AttackMelee();
     }
-
     public void EndAttack()
     {
      
