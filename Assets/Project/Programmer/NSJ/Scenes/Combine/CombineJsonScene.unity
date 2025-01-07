@@ -3897,6 +3897,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1129557213}
+        m_TargetAssemblyTypeName: LanguageChoce, Assembly-CSharp
+        m_MethodName: ReturnLanguage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &534515293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6808,6 +6820,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1129557213}
+        m_TargetAssemblyTypeName: LanguageChoce, Assembly-CSharp
+        m_MethodName: CancellLanguage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1092833211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6971,6 +6995,7 @@ GameObject:
   - component: {fileID: 1129557211}
   - component: {fileID: 1129557210}
   - component: {fileID: 1129557209}
+  - component: {fileID: 1129557213}
   m_Layer: 5
   m_Name: Dropdown
   m_TagString: Untagged
@@ -7096,6 +7121,20 @@ RectTransform:
   m_AnchoredPosition: {x: 781, y: -12.5}
   m_SizeDelta: {x: 500, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1129557213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129557208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd516b37c781b1409534e0e1e882260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  langaugeDropdown: {fileID: 1129557209}
+  setting: {fileID: 0}
 --- !u!1 &1142947120
 GameObject:
   m_ObjectHideFlags: 0

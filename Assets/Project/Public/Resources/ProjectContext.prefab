@@ -91,9 +91,20 @@ MonoBehaviour:
       Hp:
         MaxHp: 0
         CurHp: 0
+      Attack:
+        AttackPower: 0
+        AttackPowerMultiplier: 0
+        AttackSpeed: 0
+        AttackSpeedMultiplier: 0
+        PowerMeleeAttack: []
+        PowerThrowAttack: []
+        PowerSpecialAttack: []
       Defense:
         Defense: 0
         DamageReduction: 0
+      Critical:
+        CriticalChance: 0
+        CriticalDamage: 0
       Stamina:
         MaxStamina: 0
         CurStamina: 0
@@ -106,8 +117,12 @@ MonoBehaviour:
         MaxMana: 0
         CurMana: 0
         RegainMana: []
+        RegainAdditiveMana: 0
         ManaConsumption: []
         SpecialChargeGage: 0
+      Dash:
+        DashDistance: 0
+        DashStamina: 0
       Jump:
         JumpPower: 0
         JumpStamina: 0
@@ -115,18 +130,7 @@ MonoBehaviour:
         JumpDownStamina: 0
         MaxJumpCount: 0
         CurJumpCount: 0
-      Dash:
-        DashDistance: 0
-        DashStamina: 0
-      Attack:
-        AttackPower: 0
-        AttackSpeed: 0
-        PowerMeleeAttack: []
-        PowerThrowAttack: []
-        PowerSpecialAttack: []
-      Critical:
-        CriticalChance: 0
-        CriticalDamage: 0
+      NowWeapon: 0
       Throw:
         MaxThrowables: 0
         CurThrowables: 0
@@ -137,7 +141,6 @@ MonoBehaviour:
         HitAdditionals: []
         ThrowAdditionals: []
         PlayerAdditionals: []
-      NowWeapon: 0
       MoveSpeed: 0
       DrainLife: 0
       MeleeAttackStamina: []
@@ -200,6 +203,7 @@ MonoBehaviour:
     - 0
   lobbyUpGrade: {fileID: 3185848396629662587}
   optionSetting: {fileID: 1292623483343411748}
+  lobbyUpGradeState: {fileID: 11400000, guid: 6cb3b3edd0462a5428eff41aeff09f38, type: 2}
 --- !u!114 &2843022970376083190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +226,7 @@ MonoBehaviour:
     bringData: 1
     nowWeapon: 0
   playerstate:
-    playerStateBase: {fileID: 0}
+    playerStateBase: {fileID: 11400000, guid: 197ede65146724b4e8dc68a0baf4f754, type: 2}
     maxHp: 0
     commonAttack: 0
     shortRangeAttack:
@@ -293,7 +297,7 @@ MonoBehaviour:
     bringData: 1
     nowWeapon: 0
   playerState:
-    playerStateBase: {fileID: 0}
+    playerStateBase: {fileID: 11400000, guid: 197ede65146724b4e8dc68a0baf4f754, type: 2}
     maxHp: 0
     commonAttack: 0
     shortRangeAttack:
@@ -345,9 +349,20 @@ MonoBehaviour:
       Hp:
         MaxHp: 0
         CurHp: 0
+      Attack:
+        AttackPower: 0
+        AttackPowerMultiplier: 0
+        AttackSpeed: 0
+        AttackSpeedMultiplier: 0
+        PowerMeleeAttack: []
+        PowerThrowAttack: []
+        PowerSpecialAttack: []
       Defense:
         Defense: 0
         DamageReduction: 0
+      Critical:
+        CriticalChance: 0
+        CriticalDamage: 0
       Stamina:
         MaxStamina: 0
         CurStamina: 0
@@ -360,8 +375,12 @@ MonoBehaviour:
         MaxMana: 0
         CurMana: 0
         RegainMana: []
+        RegainAdditiveMana: 0
         ManaConsumption: []
         SpecialChargeGage: 0
+      Dash:
+        DashDistance: 0
+        DashStamina: 0
       Jump:
         JumpPower: 0
         JumpStamina: 0
@@ -369,18 +388,7 @@ MonoBehaviour:
         JumpDownStamina: 0
         MaxJumpCount: 0
         CurJumpCount: 0
-      Dash:
-        DashDistance: 0
-        DashStamina: 0
-      Attack:
-        AttackPower: 0
-        AttackSpeed: 0
-        PowerMeleeAttack: []
-        PowerThrowAttack: []
-        PowerSpecialAttack: []
-      Critical:
-        CriticalChance: 0
-        CriticalDamage: 0
+      NowWeapon: 0
       Throw:
         MaxThrowables: 0
         CurThrowables: 0
@@ -391,7 +399,6 @@ MonoBehaviour:
         HitAdditionals: []
         ThrowAdditionals: []
         PlayerAdditionals: []
-      NowWeapon: 0
       MoveSpeed: 0
       DrainLife: 0
       MeleeAttackStamina: []
@@ -406,7 +413,7 @@ MonoBehaviour:
   saveSystem: {fileID: 0}
   coinText: {fileID: 0}
   usingCoinText: {fileID: 0}
-  lobbyUpGradeState: {fileID: 11400000, guid: 6cb3b3edd0462a5428eff41aeff09f38, type: 2}
+  lobbyUpGradeState: {fileID: 0}
 --- !u!114 &1292623483343411748
 MonoBehaviour:
   m_ObjectHideFlags: 0
