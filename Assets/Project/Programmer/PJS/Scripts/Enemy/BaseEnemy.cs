@@ -17,7 +17,7 @@ public class State
 }
 
 [RequireComponent(typeof(BattleSystem))]
-public class BaseEnemy : MonoBehaviour, IHit,IDebuff
+public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 {
     [SerializeField] protected BehaviorTree tree;
 
@@ -35,7 +35,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
     [HideInInspector] public BattleSystem Battle;
 
     public int Damage { get { return state.Atk; } }
-    public int MaxHp {  get { return state.MaxHp; } set { state.MaxHp = value; } }
+    public int MaxHp { get { return state.MaxHp; } set { state.MaxHp = value; } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
     public float MoveSpeed { get { return state.Speed; } set { state.Speed = value; } }
     public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
@@ -90,7 +90,6 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
 
         curHp -= resultDamage;
 
-        // TODO : 결과 값은 TakeDamage 매개변수로 변환
         tree.SetVariableValue("Stiff", isStun);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
         return resultDamage;

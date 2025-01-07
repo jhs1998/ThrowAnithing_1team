@@ -10,11 +10,12 @@ public class HealthRecovery : Action
 
     private BossEnemy enemy;
     private float minRecoveryPersent;  // 최소 회복하는 퍼센트 ex) 초당 n%
-    private bool able;
+    private bool able;  // 사용 여부 확인
+
     public override void OnStart()
     {
         enemy = GetComponent<BossEnemy>();
-
+        enemy.createShield = true;
         minRecoveryPersent = (maxAddHp.Value / 100f) / maxTime.Value;
     }
 

@@ -3,7 +3,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
-public class BossEnemy : BaseEnemy
+public class BossEnemy : BaseEnemy, IHit
 {
     public enum PhaseType { Phase1, Phase2, Phase3 }
     public PhaseType curPhase = PhaseType.Phase1;
@@ -12,12 +12,15 @@ public class BossEnemy : BaseEnemy
     [SerializeField] int maxTime;
     [Header("회복할 최대 HP ( % 단위)"), Range(0, 100)]
     [SerializeField] int maxRecoveryHp;
+    [Header("2페이즈에 생성되는 실드 파괴 카운트")]
+    [SerializeField] int breakshieldCount = 20;
 
     [Space, SerializeField] ParticleSystem shieldParticle;
 
     private Coroutine attackAble;
     private bool onFrezenyPassive = false;
     private bool onEntryStop;
+    [HideInInspector]public bool createShield;
 
     private void Start()
     {
@@ -84,6 +87,37 @@ public class BossEnemy : BaseEnemy
     }
 
     /// <summary>
+    /// 몬스터가 피해받는 데미지
+    /// </summary>
+    public new int TakeDamage(int damage, bool isStun)
+    {
+        if(createShield == true)
+        {
+            breakshieldCount--;
+            if (breakshieldCount <= 0)
+            {
+                createShield = false;
+            }
+
+            return 0;
+        }
+
+        resultDamage = damage - (int)state.Def;
+        tree.SetVariableValue("TakeDamage", true);
+
+        if (resultDamage <= 0)
+            resultDamage = 0;
+
+        CurHp -= resultDamage;
+
+        tree.SetVariableValue("Stiff", isStun);
+        Debug.Log($"{resultDamage} 피해를 입음. curHP : {CurHp}");
+        return resultDamage;
+    }
+
+
+    #region 애니메이션 이벤트
+    /// <summary>
     /// Move 애니메이션 이벤트
     /// </summary>
     public void FootStep()
@@ -144,6 +178,7 @@ public class BossEnemy : BaseEnemy
         // 일반 근접 공격 - 모든 페이즈에 존재
         // 라이트닝 피스트 - 1페이즈에만 존재
     }
+    #endregion
 
     /// <summary>
     /// 근접 공격
@@ -200,6 +235,7 @@ public class BossEnemy : BaseEnemy
         Debug.Log("공격 딜레이 끝");
     }
 
+    #region Gizmo
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -224,4 +260,5 @@ public class BossEnemy : BaseEnemy
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
+    #endregion
 }
