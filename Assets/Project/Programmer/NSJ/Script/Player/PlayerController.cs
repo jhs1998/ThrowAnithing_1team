@@ -570,15 +570,18 @@ public class PlayerController : MonoBehaviour, IHit
     private void RotateCamera()
     {
         float angleX = InputKey.GetAxis(InputKey.MouseX);
-        float angleY = default;
         // 체크시 마우스 상하도 가능
-        if (IsVerticalCameraMove == true)
-            angleY = InputKey.GetAxis(InputKey.MouseY);
+        float angleY = IsVerticalCameraMove == true ? angleY = InputKey.GetAxis(InputKey.MouseY) : default;
+
         _cameraRotateSpeed = setting.cameraSpeed;
         Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
+
+        // 마우스 상하값 제한
         float x = camAngle.x - mouseDelta.y;
         x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
+
+        // 카메라 조정
         CamareArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
 
         if (IsVerticalCameraMove)

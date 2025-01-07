@@ -5,10 +5,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DashBoom", menuName = "AdditionalEffect/Player/DashBoom")]
 public class DashBoom : PlayerAdditional
 {
-    [SerializeField] GameObject _attackEffect;
+    [System.Serializable]
+    struct EffectStrcut
+    {
+        public GameObject EffectPrefab;
+        [HideInInspector] public GameObject Effect;
+        public float EffectDuration;
+    }
+    [SerializeField] EffectStrcut _effect;
+
+    [Header("폭발 범위")]
     [SerializeField] float _range;
-    [SerializeField] float _damage;
-    [SerializeField] private float _maxScaleEffectTime;
+    [Header("기절 시간")]
+    [SerializeField] float _stunTime;
     public override void Trigger()
     {
         if(Player.CurState == PlayerController.State.Dash)
@@ -22,29 +31,26 @@ public class DashBoom : PlayerAdditional
         CoroutineHandler.StartRoutine(CreateAttackEffectRoutien());
 
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _range, Player.OverLapColliders, 1 << Layer.Monster);
-        int finalDamage = Player.GetFinalDamage((int)_damage, out bool isCritical);
         for (int i = 0; i < hitCount; i++)
         {
-            // 데미지 주기
-            Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true, isCritical);
-            // 넉백
-            Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, 1f);
+            // TODO : 몬스터 기절 기능 
+            Debug.Log($"{Player.OverLapColliders[i].name} 기절");
         }
     }
 
     IEnumerator CreateAttackEffectRoutien()
     {
-        if (_attackEffect == null)
+        if (_effect.EffectPrefab == null)
             yield break;
 
-        GameObject instance = Instantiate(_attackEffect, transform.position, transform.rotation);
+        GameObject instance = Instantiate(_effect.EffectPrefab, transform.position, transform.rotation);
         while (true)
         {
             // 이펙트 점점 커짐
             instance.transform.localScale = new Vector3(
-              instance.transform.localScale.x + _range * 2 * Time.deltaTime * (1 / _maxScaleEffectTime),
-              instance.transform.localScale.y + _range * 2 * Time.deltaTime * (1 / _maxScaleEffectTime),
-              instance.transform.localScale.z + _range * 2 * Time.deltaTime * (1 / _maxScaleEffectTime));
+              instance.transform.localScale.x + _range * 2 * Time.deltaTime * (1 / _effect.EffectDuration),
+              instance.transform.localScale.y + _range * 2 * Time.deltaTime * (1 / _effect.EffectDuration),
+              instance.transform.localScale.z + _range * 2 * Time.deltaTime * (1 / _effect.EffectDuration));
             if (instance.transform.localScale.x > _range * 2)
             {
                 break;

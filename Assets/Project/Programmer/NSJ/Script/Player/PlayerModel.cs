@@ -68,6 +68,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     #endregion
     #region 이동
     public float MoveSpeed { get { return (Data.MoveSpeed) / 20; } set { Data.MoveSpeed = value * 20f; } } // 이동속도
+    public float MoveSpeedMultyplier { get { return Data.MoveSpeedMultyplier; } set { Data.MoveSpeedMultyplier = value; } }
     // 대쉬
     public float DashDistance { get { return Data.DashDistance / 20f; } set { Data.DashDistance = value * 20f; } }
     public int DashStamina { get { return Data.DashStamina; } set { Data.DashStamina = value; } }
@@ -388,6 +389,14 @@ public partial class PlayerData
         public List<PlayerAdditional> PlayerAdditionals; // 플레이어 추가효과 리스트
     }
     [System.Serializable]
+    public struct MoveStruct
+    {
+        [Header("이동속도")]
+        public float MoveSpeed;
+        [Header("이동속도 배율")]
+        public float MoveSpeedMultyplier;
+    }
+    [System.Serializable]
     public struct DataStruct
     {
         public HpStruct Hp;
@@ -396,12 +405,12 @@ public partial class PlayerData
         public CriticalStruct Critical;
         public StaminaStruct Stamina;
         public SpecialStruct Special;
+        public MoveStruct Move;
         public DashStruct Dash;
         public JumpStruct Jump;
         public GlobalGameData.AmWeapon NowWeapon;
         public ThrowStruct Throw;
         public AdditionalStruct Additional;
-        public float MoveSpeed;
         public float DrainLife;
         public float[] MeleeAttackStamina;
         public float EquipmentDropUpgrade;
@@ -530,7 +539,19 @@ public partial class PlayerData
     public float SpecialChargeGage { get { return Data.Special.SpecialChargeGage; } set { Data.Special.SpecialChargeGage = value; } }
     #endregion
     #region 이동
-    public float MoveSpeed { get { return Data.MoveSpeed * (1 + EquipStatus.Speed); } set { Data.MoveSpeed = value; OnChangePlayerDataEvent?.Invoke(); } }
+    public float MoveSpeed
+    {
+        get
+        {
+            return Data.Move.MoveSpeed * (1 + EquipStatus.Speed) * ( 1 + MoveSpeedMultyplier/100); // 기본 이동속도 * 장비 이동속도 * 이동속도 배율
+        }
+        set
+        {
+            Data.Move.MoveSpeed = value;
+            OnChangePlayerDataEvent?.Invoke();
+        }
+    }
+    public float MoveSpeedMultyplier { get { return Data.Move.MoveSpeedMultyplier; } set { Data.Move.MoveSpeedMultyplier = value; } }
     // 점프
     public float JumpPower { get { return Data.Jump.JumpPower; } set { Data.Jump.JumpPower = value; OnChangePlayerDataEvent?.Invoke(); } }
     public int JumpStamina { get { return Data.Jump.JumpStamina; } set { Data.Jump.JumpStamina = value; } }
@@ -604,7 +625,8 @@ public partial class PlayerData
         Data.Attack.PowerSpecialAttack[1] = (int)globalData.specialAttack[1];
         Data.Attack.PowerSpecialAttack[2] = (int)globalData.specialAttack[2];
         Data.Attack.AttackSpeed = globalData.attackSpeed;
-        Data.MoveSpeed = globalData.movementSpeed;
+
+        Data.Move.MoveSpeed = globalData.movementSpeed;
         Data.Critical.CriticalChance = globalData.criticalChance;
         Data.Defense.Defense = (int)globalData.defense;
         Data.EquipmentDropUpgrade = globalData.equipmentDropUpgrade;

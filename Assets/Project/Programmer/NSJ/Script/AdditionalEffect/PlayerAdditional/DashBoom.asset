@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5672b16764d6d64aa77f27a7b12a9d9, type: 3}
   m_Name: DashBoom
   m_EditorClassIdentifier: 
+  Image: {fileID: 0}
   Origin: {fileID: 11400000}
   AdditionalType: 2
-  Name: "\uB300\uC26C Boom"
-  Description: "\uB300\uC26C\uC2DC \uC8FC\uBCC0 \uACF5\uACA9\uD568"
-  _attackEffect: {fileID: 5632013062670761951, guid: 74209175a73465f40b263ff3916d2f6d, type: 3}
+  Name: "\uAE30\uAC00 \uC784\uD329\uD2B8"
+  Description: "\uB300\uC26C \uC2DC, \uB3C4\uCC29 \uC9C0\uC810\uC5D0 \uD3ED\uBC1C\uC744
+    \uC77C\uC73C\uCF1C \uC801\uB4E4\uC774 n\uCD08\uAC04 \uAE30\uC808 \uC2DC\uD0B5\uB2C8\uB2E4."
+  _effect:
+    EffectPrefab: {fileID: 5632013062670761951, guid: 74209175a73465f40b263ff3916d2f6d, type: 3}
+    Effect: {fileID: 0}
+    EffectDuration: 0.2
   _range: 4
-  _damage: 25
-  _maxScaleEffectTime: 0.2
+  _stunTime: 2

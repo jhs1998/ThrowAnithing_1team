@@ -23,6 +23,7 @@ public class RunState : PlayerState
     }
     public override void Update()
     {
+        Player.LookAtMoveDir();
         CheckChangeState();
     }
 
@@ -45,7 +46,6 @@ public class RunState : PlayerState
     {
         if (MoveDir == Vector3.zero)
             return;
-        Player.LookAtMoveDir();
 
         // 플레이어 이동
         // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동
