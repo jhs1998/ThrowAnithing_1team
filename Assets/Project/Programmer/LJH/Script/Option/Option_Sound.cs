@@ -8,7 +8,9 @@ using Zenject;
 
 public class Option_Sound : Main_Option
 {
-    SettingManager setManager;
+    [Inject]
+    OptionSetting setting;
+
 
     Slider totalSoundBar;
     Slider bgmSoundBar;
@@ -43,7 +45,7 @@ public class Option_Sound : Main_Option
 
     void Update()
     {
-        //AudioVolumeCotroller();
+        AudioVolumeCotroller();
 
         if (soundOnOff.activeSelf)
         {
@@ -123,11 +125,11 @@ public class Option_Sound : Main_Option
             // 오른쪽 키 눌렀을 때
             if (x > 0)
             {
-                buttonStructs[_curIndex].Bar.value += x * 0.05f;
+                buttonStructs[_curIndex].Bar.value += x * 10f;
             }
             else if (x < 0)
             {
-                buttonStructs[_curIndex].Bar.value -= -x * 0.05f;
+                buttonStructs[_curIndex].Bar.value -= -x * 10f;
             }
         }
         // Bar 없을때
@@ -169,31 +171,43 @@ public class Option_Sound : Main_Option
         menuCo = null;
     }
 
-    //void AudioVolumeCotroller()
-    //{
-    //    VolumeArrayCotroller(setManager.totalSoundSources, totalSoundBar);
-    //    VolumeArrayCotroller(setManager.effectSources, effectSoundBar);
-    //    setManager.bgmSource.volume = bgmSoundBar.value;
+    // OptionSetting 에 사운드바 값 저장
+    void AudioCal()
+    {
+        setting.wholesound = totalSoundBar.value;
+        //setting.backgroundSound = bgmSoundBar.value;
+        setting.effectSound = effectSoundBar.value;
+    }
 
-    //}
+    
+    void AudioVolumeCotroller()
+    {
+        VolumeListCotroller(AudioManager.instance.bgmList, setting.backgroundSound, setting.wholesound);
+        VolumeListCotroller(AudioManager.instance.effectList, setting.effectSound, setting.wholesound);
 
-    //void VolumeArrayCotroller(AudioSource[] audioArray, Slider slider)
-    //{
-    //    for (int i = 0; i < audioArray.Length; i++)
-    //    {
-    //        audioArray[i].volume = slider.value;
-    //    }
-    //}
+
+    }
+
+    // AudioVolumeController를 통해 오디오 매니저의 오디오 볼륨 조절
+    void VolumeListCotroller(List<AudioSource> audioList, float volume, float totalVolume)
+    {
+        for (int i = 0; i < audioList.Count; i++)
+        {
+            audioList[i].volume = volume * 0.01f;
+        }
+    }
     public void AcceptButton()
     {
         VolumeCheck();
         totalSoundBar.value = newTotal;
-        bgmSoundBar.value = newBgm;
+        setting.backgroundSound = newBgm;
         effectSoundBar.value = newEffect;
 
         preTotal = totalSoundBar.value;
-        preBgm = bgmSoundBar.value;
+        preBgm = setting.backgroundSound;
         preEffect = effectSoundBar.value;
+
+        setting.OptionSave();
 
 
         //Todo : depth1으로 복귀
@@ -204,16 +218,17 @@ public class Option_Sound : Main_Option
     void VolumeCheck()
     {
         newTotal = totalSoundBar.value;
-        newBgm = bgmSoundBar.value;
+        newBgm = setting.backgroundSound;
         newEffect = effectSoundBar.value;
     }
 
     public void CancelButton()
     {
         totalSoundBar.value = preTotal;
-        bgmSoundBar.value = preBgm;
+        setting.backgroundSound = preBgm;
         effectSoundBar.value = preEffect;
 
+        setting.OptionSave();
         //Todo : depth1으로 복귀
         soundOnOff.SetActive(false);
         UnActiveAllText();
@@ -225,9 +240,10 @@ public class Option_Sound : Main_Option
         // Todo: 팝업 과정 거쳐야함
 
         totalSoundBar.value = defaultTotal;
-        bgmSoundBar.value = defaultBgm;
+        setting.backgroundSound = defaultBgm;
         effectSoundBar.value = defaultEffect;
 
+        setting.OptionSave();
         //Todo : depth1으로 복귀
         soundOnOff.SetActive(false);
         UnActiveAllText();
@@ -267,14 +283,14 @@ public class Option_Sound : Main_Option
         effectSoundBar = GetUI("EffectVolumeBar").GetComponent<Slider>();
 
 
-        totalSoundBar.value = 1;
-        bgmSoundBar.value = 1;
-        effectSoundBar.value = 1;
+        totalSoundBar.value = setting.wholesound;
+        //bgmSoundBar.value = setting.backgroundSound;
+        effectSoundBar.value = setting.effectSound;
 
         soundOnOff = GetUI("SoundOnOff");
 
-        defaultTotal = 100;
-        defaultBgm = 100;
+        defaultTotal = 10;
+        defaultBgm = setting.backgroundSound;
         defaultEffect = 100;
 
         preTotal = defaultTotal;

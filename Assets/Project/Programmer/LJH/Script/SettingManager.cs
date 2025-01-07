@@ -15,7 +15,7 @@ public class SettingManager : MonoBehaviour
     [Header("사운드 관련")]
     [SerializeField] public AudioSource[] totalSoundSources;
 
-    [SerializeField] public AudioSource bgmSource;
+    [SerializeField] public AudioSource[] bgmSources;
 
     [SerializeField] public AudioSource[] effectSources;
 
@@ -37,7 +37,7 @@ public class SettingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bgmSource.volume = bgm.value * total.value;
+        bgmSources[0].volume = bgm.value * total.value;
 
         for (int i = 0; i < effectSources.Length -1; i++)
         {
