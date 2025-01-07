@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8045181125485467432}
   - component: {fileID: 4438522950601313107}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: SwingObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,6 +57,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3378716420506949058}
+  - component: {fileID: 8783451353621635256}
   m_Layer: 0
   m_Name: Trap_Type4
   m_TagString: Untagged
@@ -82,6 +83,18 @@ Transform:
   - {fileID: 4361821452425928838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8783451353621635256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827339954422927460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3444d415b8c488b43adb09663134d185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2933548603351287936
 GameObject:
   m_ObjectHideFlags: 0
