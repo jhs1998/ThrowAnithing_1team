@@ -11,6 +11,7 @@ public class HealthRecovery : Action
     private BossEnemy enemy;
     private float minRecoveryPersent;  // 최소 회복하는 퍼센트 ex) 초당 n%
     private bool able;  // 사용 여부 확인
+    private Coroutine recovery;
 
     public override void OnStart()
     {
@@ -21,18 +22,26 @@ public class HealthRecovery : Action
 
     public override TaskStatus OnUpdate()
     {
-        if (able == true && enemy.createShield == true)
+        if (recovery != null && enemy.createShield == true)
             return TaskStatus.Running;
         else if (enemy.createShield == false)
+        {
+            // 회복이 끝남 -> 일반 상태로 전환 => 코루틴에서 해결함
+            // 실드가 깨짐 -> 그로기 상태로 전환
+            if (enemy.breakShield == true)
+            {
+                StopCoroutine(RecoveryRoutin());
+                Debug.Log(123);
+            }
             return TaskStatus.Failure;
+        }
 
-        StartCoroutine(RecoveryRoutin());
+        recovery = StartCoroutine(RecoveryRoutin());
         return TaskStatus.Success;
     }
 
     IEnumerator RecoveryRoutin()
     {
-        able = true;
         int time = maxTime.Value;
         int recoveryHp = Mathf.RoundToInt(enemy.GetState().MaxHp * minRecoveryPersent);
         Debug.Log("회복 시작");

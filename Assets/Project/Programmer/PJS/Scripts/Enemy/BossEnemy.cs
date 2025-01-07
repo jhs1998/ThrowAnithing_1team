@@ -21,6 +21,7 @@ public class BossEnemy : BaseEnemy, IHit
     private bool onFrezenyPassive = false;
     private bool onEntryStop;
     [HideInInspector]public bool createShield;
+    [HideInInspector]public bool breakShield;
 
     private void Start()
     {
@@ -94,9 +95,10 @@ public class BossEnemy : BaseEnemy, IHit
         if(createShield == true)
         {
             breakshieldCount--;
-            if (breakshieldCount <= 0)
+            if (breakshieldCount <= 0) // 실드 깨짐
             {
-                createShield = false;
+                breakShield = true;
+                createShield = false;   
             }
 
             return 0;
