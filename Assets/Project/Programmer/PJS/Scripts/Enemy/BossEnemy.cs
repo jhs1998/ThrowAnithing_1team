@@ -14,6 +14,8 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] int maxRecoveryHp;
     [Header("2페이즈에 생성되는 실드 파괴 카운트")]
     [SerializeField] int breakshieldCount = 20;
+    [Header("실드 파괴 후 그로기 시간 ( 초 단위)")]
+    [SerializeField] float stunTime;
 
     [Space, SerializeField] ParticleSystem shieldParticle;
 
@@ -39,6 +41,7 @@ public class BossEnemy : BaseEnemy, IHit
     {
         tree.SetVariableValue("MaxTime", maxTime);
         tree.SetVariableValue("MaxRecoveryHp", maxRecoveryHp);
+        tree.SetVariableValue("StunTime", stunTime);
     }
 
     private void ChangePhase()
