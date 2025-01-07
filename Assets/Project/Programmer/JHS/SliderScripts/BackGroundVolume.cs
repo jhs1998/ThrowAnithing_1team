@@ -32,7 +32,7 @@ public class BackGroundVolume : MonoBehaviour
         setting.backgroundSound = value;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         // 이벤트 리스너 해제
         if (backgroundVolume != null)

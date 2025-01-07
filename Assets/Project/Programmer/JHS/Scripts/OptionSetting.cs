@@ -77,7 +77,7 @@ public class OptionSetting : MonoBehaviour
             || !PlayerPrefs.HasKey(MiniMapOnKey) || !PlayerPrefs.HasKey(MiniMapFixKey) || !PlayerPrefs.HasKey(LanguageKey))
         {
             Debug.Log("기본 세팅 완료");
-            OptionReset();
+            OptionResetAll();
             return;
         }
         Debug.Log("옵션 세팅 불러오기");       
@@ -97,18 +97,34 @@ public class OptionSetting : MonoBehaviour
         Debug.Log($"After OptionLode - EffectSound: {effectSound}, BackgroundSound: {backgroundSound}, WholeSound: {wholesound}, CameraSpeed: {cameraSpeed}, MiniMapOn: {miniMapOn}, MiniMapFix: {miniMapFix}");
     }
 
-    public void OptionReset()
+    public void OptionReset(int value)
     {
-        effectSound = 100;
-        backgroundSound = 100;
-        wholesound = 100;
+        if (value == 1)
+        {
+            cameraSpeed = 5;
+            miniMapOnBool = true;
+            miniMapFixBool = true;
+            language = 0;
+        }
+        else if (value == 2)
+        {
+            effectSound = 100;
+            backgroundSound = 100;
+            wholesound = 100;
+        }         
+        OptionSave();
+    }
+    public void OptionResetAll()
+    {
         cameraSpeed = 5;
         miniMapOnBool = true;
         miniMapFixBool = true;
         language = 0;
+        effectSound = 100;
+        backgroundSound = 100;
+        wholesound = 100;
         OptionSave();
     }
-
     public void MinimapOn()
     {
         miniMapOnBool = true;

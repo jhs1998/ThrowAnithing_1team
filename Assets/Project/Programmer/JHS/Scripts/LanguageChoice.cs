@@ -24,7 +24,17 @@ public class LanguageChoce : MonoBehaviour
         setting.language = value;
     }
 
-    private void OnDisable()
+    public void ReturnLanguage()
+    {
+        langaugeDropdown.value = 0;
+    }
+
+    public void CancellLanguage()
+    {
+        langaugeDropdown.value = setting.language;
+    }
+
+    private void OnDestroy()
     {
         // 이벤트 연결 해제
         langaugeDropdown.onValueChanged.RemoveListener(ChangeLanguage);

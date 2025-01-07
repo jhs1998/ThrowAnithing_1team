@@ -40,14 +40,14 @@ public class ButtonActionInstaller : MonoBehaviour
         cancelButton.onClick.AddListener(setting.OptionLode);
         resetButton.onClick.AddListener(() =>
         {
-            setting.OptionReset(); // OptionReset 角青
+            setting.OptionReset(1); // OptionReset1 角青
             SensitivityBar.ResetCameraSpeed();
         });
         saveSoundButton.onClick.AddListener(setting.OptionSave);
         cancelSoundButton.onClick.AddListener(setting.OptionLode);
         resetSoundButton.onClick.AddListener(() =>
         {
-            setting.OptionReset(); // OptionReset 角青
+            setting.OptionReset(2); // OptionReset2 角青
             totalVolumeBar.ResetTotalVolume();
             backGroundVolume.ResetBackGroundVolume();
             effectVolume.ResetTotalVolume();
