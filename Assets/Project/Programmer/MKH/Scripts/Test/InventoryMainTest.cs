@@ -37,6 +37,26 @@ namespace MKH
 
             return null;
         }
+
+        public void Sorting()
+        {
+            for (int i = 0; i < mSlots.Length - 1; i++)
+            {
+                if (mSlots[i].Item == null)
+                {
+                    mSlots[i].ItemImage.sprite = mSlots[i + 1].ItemImage.sprite;
+                    mSlots[i].Item = mSlots[i + 1].Item;
+                    mSlots[i + 1].Item = null;
+
+                    if(mSlots[i].ItemImage.sprite == null)
+                    {
+                        Color color = mSlots[i].ItemImage.color;
+                        color.a = 0;
+                        mSlots[i].ItemImage.color = color;
+                    }
+                }
+            }
+        }
     }
 }
 

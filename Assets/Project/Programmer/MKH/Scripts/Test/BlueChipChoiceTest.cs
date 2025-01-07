@@ -48,7 +48,7 @@ public class BlueChipChoiceTest : MonoBehaviour
         {
             if (other.gameObject.tag == Tag.BlueChip)
             {
-                if (Input.GetKeyDown(KeyCode.F))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
                     choice.SetActive(false);
                     bool success = blueChipPanel.AcquireEffect(blueChip.Effect);
