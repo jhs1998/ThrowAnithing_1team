@@ -10,7 +10,7 @@ public class HealthRecovery : Action
 
     private BossEnemy enemy;
     private float minRecoveryPersent;  // 최소 회복하는 퍼센트 ex) 초당 n%
-
+    private bool able;
     public override void OnStart()
     {
         enemy = GetComponent<BossEnemy>();
@@ -20,6 +20,9 @@ public class HealthRecovery : Action
 
     public override TaskStatus OnUpdate()
     {
+        if (able == true)
+            return TaskStatus.Failure;
+
         StartCoroutine(RecoveryRoutin());
 
         return TaskStatus.Success;
@@ -27,6 +30,7 @@ public class HealthRecovery : Action
 
     IEnumerator RecoveryRoutin()
     {
+        able = true;
         int time = maxTime.Value;
         int recoveryHp = Mathf.RoundToInt(enemy.GetState().MaxHp * minRecoveryPersent);
         Debug.Log(time);
