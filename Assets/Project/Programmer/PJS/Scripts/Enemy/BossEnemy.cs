@@ -8,7 +8,7 @@ public class BossEnemy : BaseEnemy, IHit
     public enum PhaseType { Phase1, Phase2, Phase3 }
     public PhaseType curPhase = PhaseType.Phase1;
 
-    [Header("회복할 최대 시간( 초 단위)")]
+    [Header("회복할 최대 시간 ( 초 단위)")]
     [SerializeField] int maxTime;
     [Header("회복할 최대 HP ( % 단위)"), Range(0, 100)]
     [SerializeField] int maxRecoveryHp;
@@ -18,7 +18,7 @@ public class BossEnemy : BaseEnemy, IHit
     [Space, SerializeField] ParticleSystem shieldParticle;
 
     private Coroutine attackAble;
-    public Coroutine recovery;
+    public Coroutine recovery;  // 회복 관련 코루틴
     private bool onFrezenyPassive = false;
     private bool onEntryStop;
     [HideInInspector]public bool createShield;
@@ -88,6 +88,7 @@ public class BossEnemy : BaseEnemy, IHit
         }
     }
 
+    // 회복관련 루틴
     public void RecoveryStartCoroutine(int time, float value)
     {
         recovery = StartCoroutine(RecoveryRoutin(time, value));

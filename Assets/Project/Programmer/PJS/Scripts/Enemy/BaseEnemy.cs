@@ -23,7 +23,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 
     [Header("몬스터 기본 스테이터스")]
     [SerializeField] protected State state;
-    [Header("아이템 드랍 확률(100 단위)")]
+    [Header("아이템 드랍 확률(100 단위)"), Range(0, 100)]
     [SerializeField] float reward;
     [Header("현재 체력")]
     [SerializeField] int curHp;
