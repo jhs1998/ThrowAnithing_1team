@@ -93,7 +93,7 @@ public class LobbyUpGrade : MonoBehaviour
             // 강화 성공 시 근접 공격 강화
             for (int i = 0; i < 3; i++)
             {
-                playerState.shortRangeAttack[i] += lobbyUpGradeState.shortRangeAttackUPO; ;
+                playerState.shortRangeAttack[i] += lobbyUpGradeState.shortRangeAttackUPO;
             }            
             Debug.Log($"근접 공격 증가");          
             OnCoinChanged?.Invoke();
@@ -179,7 +179,7 @@ public class LobbyUpGrade : MonoBehaviour
         if (gameData.BuyUpgradeSlot(slot))
         {
             // 강화 성공 시 공격 속도 5퍼 증가
-            playerState.attackSpeed += lobbyUpGradeState.attackSpeedUP;
+            playerState.attackSpeed += (0.01f * lobbyUpGradeState.attackSpeedUP);
             Debug.Log($"공격 속도: {playerState.attackSpeed}");
             OnCoinChanged?.Invoke();
         }
@@ -278,7 +278,7 @@ public class LobbyUpGrade : MonoBehaviour
             // 강화 성공 시 마나 회복량 10퍼 증가 (힙연산)
             for (int i = 0; i < 4; i++)
             {
-                playerState.regainMana[i] += playerState.regainMana[i]* lobbyUpGradeState.regainManaUP;
+                playerState.regainMana[i] += playerState.regainMana[i]* (0.01f * lobbyUpGradeState.regainManaUP);
             }
             Debug.Log($"마나 회복량 증가");
             OnCoinChanged?.Invoke();
@@ -381,7 +381,7 @@ public class LobbyUpGrade : MonoBehaviour
             // 강화 성공 시 마나 소모량 감소 6퍼
             for (int i = 0; i < 3; i++)
             {
-                playerState.manaConsumption[i] -= playerState.manaConsumption[i] * lobbyUpGradeState.manaConsumptionUP;
+                playerState.manaConsumption[i] -= playerState.manaConsumption[i] * (0.01f * lobbyUpGradeState.manaConsumptionUP);
             }
             Debug.Log($"마나 소모량 감소");
             OnCoinChanged?.Invoke();
