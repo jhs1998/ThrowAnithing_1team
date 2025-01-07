@@ -74,11 +74,15 @@ public class ThrowObject : MonoBehaviour
                 return;
 
             HitTarget();
+
+            _player.ThrowObjectResultCallback(true);
         } 
         else if (tag != Tag.Player )
         {
             CanAttack = false;
             _collider.isTrigger = false;
+
+            _player.ThrowObjectResultCallback(false);
         }
     }
 

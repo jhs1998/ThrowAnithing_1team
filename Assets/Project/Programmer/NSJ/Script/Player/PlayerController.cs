@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour, IHit
     #region 이벤트
     public event Func<int, bool, int> OnPlayerHitEvent;
     public event UnityAction OnPlayerDieEvent;
+    public event UnityAction<bool> OnThrowObjectResult;
     #endregion
     #region 공격 관련 필드
     [System.Serializable]
@@ -181,14 +182,14 @@ public class PlayerController : MonoBehaviour, IHit
         ChangeArmUnit(Model.NowWeapon);
         StartCoroutine(ControlMousePointer());
         //Camera.main.transform.SetParent(_cameraPos, true);
-        _states[(int)CurState].Enter();
+        EnterState(CurState);
     }
     public bool IsMouseVisible;
 
     private void OnDisable()
     {
         ExitPlayerAdditional();
-        _states[(int)CurState].Exit();
+       ExiteState(CurState);
     }
 
     private void Update()
@@ -245,12 +246,22 @@ public class PlayerController : MonoBehaviour, IHit
             Model.CurStamina -= _states[(int)state].StaminaAmount;
         }
 
-        _states[(int)CurState].Exit();
+        ExiteState(CurState);
         PrevState = CurState;
         CurState = state;
-        _states[(int)CurState].Enter();
+        EnterState(CurState);
 
         //Debug.Log(CurState);
+    }
+    private void EnterState(State state)
+    {
+        _states[(int)state].Enter();
+        EnterStatePlayerAdditional();
+    }
+    private void ExiteState(State state)
+    {
+        _states[(int)state].Exit();
+        ExitStatePlayerAdditional();
     }
 
     /// <summary>
@@ -481,7 +492,20 @@ public class PlayerController : MonoBehaviour, IHit
             playerAdditional.Exit();
         }
     }
-
+    public void EnterStatePlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.EnterState();
+        }
+    }
+    public void ExitStatePlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.ExitState();
+        }
+    }
     public void UpdatePlayerAdditional()
     {
         foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
@@ -1073,4 +1097,9 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)CurState].EndCombo();
     }
     #endregion
+
+    public void ThrowObjectResultCallback(bool successHit) 
+    {
+        OnThrowObjectResult?.Invoke(successHit);
+    }
 }

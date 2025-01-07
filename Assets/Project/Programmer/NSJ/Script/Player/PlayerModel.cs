@@ -19,6 +19,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public ArmUnit Arm;
     #region 체력
     public int MaxHp { get { return Data.MaxHp; } set { Data.MaxHp = value; } }
+    public float MaxHpMultiplier { get { return Data.MaxHpMultiplier; } set { Data.MaxHpMultiplier = value; } }
     public int CurHp { get { return Data.CurHp; } set { Data.CurHp = value; CurHpSubject?.OnNext(Data.CurHp); } }
     public Subject<int> CurHpSubject = new Subject<int>();
     #endregion
@@ -265,6 +266,8 @@ public partial class PlayerData
     {
         [Header("최대 체력")]
         public int MaxHp;
+        [Header("최대 체력 배율(%)")]
+        public float MaxHpMultiplier;
         [Header("현재 체력")]
         public int CurHp;
     }
@@ -278,7 +281,7 @@ public partial class PlayerData
         public float AttackPowerMultiplier;
         [Header("공격 속도")]
         public float AttackSpeed;
-        [Header("공격 속도 배율")]
+        [Header("공격 속도 배율(%)")]
         public float AttackSpeedMultiplier;
         [Header("암슈트-파워 근접공격력")]
         public float[] PowerMeleeAttack;
@@ -404,10 +407,47 @@ public partial class PlayerData
         public float EquipmentDropUpgrade;
         // 상태이상 지속시간
     }
-    [SerializeField] private DataStruct Data;
+    [SerializeField] public DataStruct Data;
     #region 체력
     // 체력
-    public int MaxHp { get { return Data.Hp.MaxHp + (int)EquipStatus.HP; } set { Data.Hp.MaxHp = value; OnChangePlayerDataEvent?.Invoke(); } }
+    public int MaxHp
+    {
+        get
+        {
+            float maxHpMultiplier = 1 + MaxHpMultiplier / 100 >= 0 ? 1 + MaxHpMultiplier / 100 : 0;
+            return (int)((Data.Hp.MaxHp + (int)EquipStatus.HP) * maxHpMultiplier); // (기본 체력+장비체력) * 체력 배율
+        }
+        set
+        {
+            Data.Hp.MaxHp = value;
+            OnChangePlayerDataEvent?.Invoke();
+        }
+    }
+    public float MaxHpMultiplier
+    {
+        get { return Data.Hp.MaxHpMultiplier; }
+        set
+        {
+            int prevMaxHp = MaxHp;
+            float prevMaxHpMultiplier = MaxHpMultiplier;
+
+            Data.Hp.MaxHpMultiplier = value;
+            // 체력 배율이 낮아진 경우 현재체력 맞춰줌
+            if (Data.Hp.MaxHpMultiplier < prevMaxHpMultiplier)
+            {
+                if (CurHp > MaxHp)
+                    CurHp = MaxHp;
+            }
+            // 체력 배율이 높아진 경우 현재체력을 증가한 체력만큼 올려줌
+            else if (Data.Hp.MaxHpMultiplier > prevMaxHpMultiplier)
+            {
+                int HpComparison = MaxHp - prevMaxHp;
+                CurHp += HpComparison;
+            }
+
+            OnChangePlayerDataEvent?.Invoke();
+        }
+    }
     public int CurHp
     {
         get { return Data.Hp.CurHp + (int)EquipStatus.HP; }
@@ -415,7 +455,7 @@ public partial class PlayerData
         {
             Data.Hp.CurHp = value;
             // 현재체력이 최대체력을 넘지 못하도록
-            if(CurHp > MaxHp) 
+            if (CurHp > MaxHp)
                 CurHp = MaxHp;
         }
     }
@@ -425,8 +465,7 @@ public partial class PlayerData
     public int Defense { get { return Data.Defense.Defense + (int)EquipStatus.Defense; } set { Data.Defense.Defense = value; OnChangePlayerDataEvent?.Invoke(); } }
     public float DamageReduction { get { return Data.Defense.DamageReduction; } set { Data.Defense.DamageReduction = value; } }
     #endregion
-    #region 공격
-    // 공격
+    #region 공격 
     public int AttackPower
     {
         get
@@ -486,7 +525,7 @@ public partial class PlayerData
     public Subject<float> MaxManaSubject = new Subject<float>();
     public float CurMana { get { return Data.Special.CurMana; } set { Data.Special.CurMana = value; } }
     public float[] RegainMana { get { return Data.Special.RegainMana; } set { Data.Special.RegainMana = value; } }
-    public float RegainAdditiveMana{ get { return Data.Special.RegainAdditiveMana; } set { Data.Special.RegainAdditiveMana = value; } }
+    public float RegainAdditiveMana { get { return Data.Special.RegainAdditiveMana; } set { Data.Special.RegainAdditiveMana = value; } }
     public float[] ManaConsumption { get { return Data.Special.ManaConsumption; } set { Data.Special.ManaConsumption = value; } }
     public float SpecialChargeGage { get { return Data.Special.SpecialChargeGage; } set { Data.Special.SpecialChargeGage = value; } }
     #endregion
@@ -526,7 +565,7 @@ public partial class PlayerData
     public float DrainLife { get { return Data.DrainLife; } set { Data.DrainLife = value; } }
     // 암유닛
     public GlobalGameData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
-    
+
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + (100 * EquipStatus.EquipRate); } set { Data.EquipmentDropUpgrade = value; } }
 
     [HideInInspector] public bool IsDead;
