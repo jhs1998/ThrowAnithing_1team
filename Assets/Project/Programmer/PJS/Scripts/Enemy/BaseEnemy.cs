@@ -52,7 +52,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
 
     private void Start()
     {
-        Init();
+        BaseInit();
     }
 
     public State GetState()
@@ -60,7 +60,7 @@ public class BaseEnemy : MonoBehaviour, IHit,IDebuff
         return state;
     }
 
-    protected void Init()
+    protected void BaseInit()
     {
         SettingVariable();
         curHp = state.MaxHp;

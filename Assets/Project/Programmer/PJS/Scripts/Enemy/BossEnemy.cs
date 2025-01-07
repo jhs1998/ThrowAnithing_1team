@@ -7,16 +7,22 @@ public class BossEnemy : BaseEnemy
 {
     public enum PhaseType { Phase1, Phase2, Phase3 }
     public PhaseType curPhase = PhaseType.Phase1;
-    //[SerializeField] BossEnemyState bossState;
-    [SerializeField] ParticleSystem shieldParticle;
+
+    [Header("회복할 최대 시간( 초 단위)")]
+    [SerializeField] int maxTime;
+    [Header("회복할 최대 HP ( % 단위)"), Range(0, 100)]
+    [SerializeField] int maxRecoveryHp;
+
+    [Space, SerializeField] ParticleSystem shieldParticle;
 
     private Coroutine attackAble;
     private bool onFrezenyPassive = false;
+    private bool onEntryStop;
 
     private void Start()
     {
-        Init();
-
+        BaseInit();
+        StateInit();
         StartCoroutine(PassiveOn());
 
         this.UpdateAsObservable()
@@ -24,12 +30,19 @@ public class BossEnemy : BaseEnemy
             .Subscribe(x => ChangePhase());
     }
 
+    private void StateInit()
+    {
+        tree.SetVariableValue("MaxTime", maxTime);
+        tree.SetVariableValue("MaxRecoveryHp", maxRecoveryHp);
+    }
+
     private void ChangePhase()
     {
         // 현재 체력으로 페이즈 변경
-        if (CurHp > MaxHp * 0.8f)
+        if (CurHp > MaxHp * 0.8f && onEntryStop == false)
         {
             curPhase = PhaseType.Phase1;
+            onEntryStop = true;
         }
         else if (CurHp <= MaxHp * 0.8f && CurHp > MaxHp * 0.5f)
         {
@@ -51,7 +64,7 @@ public class BossEnemy : BaseEnemy
 
         tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
         tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
-        
+
         onFrezenyPassive = false;
     }
 

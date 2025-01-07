@@ -1,28 +1,21 @@
+using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using System.Collections;
-using Unity.Collections;
 using UnityEngine;
 
 public class HealthRecovery : Action
 {
-    public int addHp;
-    public float maxTime = 15f;   // 최대 시간()
-    public float minTime = 3f;   // 최소 시간
-    public int maxAddHp = 10;    // 회복 되는 최대 수치
-    [ReadOnly] public int minAddHp;        // 회복하는 최소 수치
+    public SharedInt maxTime = 15;   // 최대 시간 n초
+    public SharedInt maxAddHp = 10;    // 회복 되는 최대 수치 n%
 
-    const float persent = 100f;
     private BossEnemy enemy;
-    public float minRecoveryPersent;  // 최소 회복할 퍼센트 ex) 초당 n% 회복
-    public float maxRecoveryPersent;  // 최대 회복할 퍼센트 ex) n%까지 회복
+    private float minRecoveryPersent;  // 최소 회복하는 퍼센트 ex) 초당 n%
 
     public override void OnStart()
     {
         enemy = GetComponent<BossEnemy>();
 
-        minAddHp = maxAddHp / (int)(maxTime / minTime);
-        minRecoveryPersent = minAddHp / persent;
-        maxRecoveryPersent = maxAddHp / persent;
+        minRecoveryPersent = (maxAddHp.Value / 100f) / maxTime.Value;
     }
 
     public override TaskStatus OnUpdate()
@@ -34,14 +27,15 @@ public class HealthRecovery : Action
 
     IEnumerator RecoveryRoutin()
     {
-        //while ()    // 다 회복 되었는가?
-        //{
-        //    enemy.CurHp += (int)(enemy.GetState().MaxHp * 0.2f);
-        //    yield return minTime.GetDelay();
-        //}
-
-        yield return minTime.GetDelay();
-        enemy.CurHp += (int)(enemy.GetState().MaxHp * minRecoveryPersent);
-        Debug.Log("시간지남");
+        int time = maxTime.Value;
+        int recoveryHp = Mathf.RoundToInt(enemy.GetState().MaxHp * minRecoveryPersent);
+        Debug.Log(time);
+        while (time > 0)    // 회복 하는 시간
+        {
+            yield return 1f.GetDelay();
+            enemy.CurHp += recoveryHp;
+            time--;
+            Debug.Log("회복");
+        }
     }
 }
