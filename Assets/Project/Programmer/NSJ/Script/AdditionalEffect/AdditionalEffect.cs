@@ -15,7 +15,6 @@ public class AdditionalEffect : ScriptableObject
     [TextArea]
     public string Description;
 
-    protected bool _isTriggerFirst;
 
     /// <summary>
     /// 적용 시 호출

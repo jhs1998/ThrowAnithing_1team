@@ -189,7 +189,7 @@ public class PlayerController : MonoBehaviour, IHit
     private void OnDisable()
     {
         ExitPlayerAdditional();
-       ExiteState(CurState);
+        ExiteState(CurState);
     }
 
     private void Update()
@@ -864,12 +864,21 @@ public class PlayerController : MonoBehaviour, IHit
     #endregion
     #region 데미지 계산
     /// <summary>
+    /// 모델의 데미지 반영 X
+    /// </summary>
+    public int GetDamage(int damage, out bool isCritical)
+    {
+        int finalDamage = damage;
+        finalDamage = GetCommonDamage(finalDamage, false, out isCritical);
+        return finalDamage;
+    }
+    /// <summary>
     /// 기본 스텟 데미지
     /// </summary>
     public int GetFinalDamage(out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
         return finalDamage;
     }
     /// <summary>
@@ -877,10 +886,8 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public int GetFinalDamage(int addtionalDamage, out bool isCritical)
     {
-        int finalDamage = 0;
-        // 추가 데미지
-        finalDamage += addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage, out isCritical);
+        int finalDamage = addtionalDamage;
+        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
         return finalDamage;
     }
     /// <summary>
@@ -889,7 +896,7 @@ public class PlayerController : MonoBehaviour, IHit
     public int GetFinalDamage(float multiplier, out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
 
         // 데미지 배율 추가
         finalDamage = (int)(finalDamage * multiplier);
@@ -903,7 +910,7 @@ public class PlayerController : MonoBehaviour, IHit
         int finalDamage = 0;
         // 추가 데미지
         finalDamage += addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
 
         // 데미지 배율 추가
         finalDamage = (int)(finalDamage * multiplier);
@@ -912,10 +919,11 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 공통계산 용
     /// </summary>
-    private int GetCommonDamage(int finalDamage, out bool isCritical)
+    private int GetCommonDamage(int finalDamage, bool isModelDamage, out bool isCritical)
     {
         // 기본 스텟 데미지 
-        finalDamage += Model.AttackPower;
+        if (isModelDamage == true)
+            finalDamage += Model.AttackPower;
         // 치명타 데미지
         if (Random.value < Model.CriticalChance / 100f)
         {
@@ -967,7 +975,7 @@ public class PlayerController : MonoBehaviour, IHit
         _defaultMuzzlePointRot = MuzzletPoint.localRotation;
 
 
-     
+
     }
 
     /// <summary>
@@ -1098,7 +1106,7 @@ public class PlayerController : MonoBehaviour, IHit
     }
     #endregion
 
-    public void ThrowObjectResultCallback(bool successHit) 
+    public void ThrowObjectResultCallback(bool successHit)
     {
         OnThrowObjectResult?.Invoke(successHit);
     }
