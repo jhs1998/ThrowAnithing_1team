@@ -357,7 +357,6 @@ public class BattleSystem : MonoBehaviour, IBattle
     private void CreateDamageText(int damage)
     {
         DamageText text = Instantiate(DataContainer.GetDamageText(DamageType.Default), transform.position, Quaternion.identity);
-
         bool isPlayer = gameObject.tag == Tag.Player;
         text.SetDamageText(damage, _hitTextPoint, isPlayer);
     }

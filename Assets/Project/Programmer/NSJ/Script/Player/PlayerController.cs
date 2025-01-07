@@ -46,7 +46,8 @@ public class PlayerController : MonoBehaviour, IHit
     public State PrevState;
 
     #region 이벤트
-    public event Func<int, bool, int> OnPlayerHitEvent;
+    public event Func<int, bool, int> OnPlayerHitFuncEvent;
+    public event UnityAction OnPlayerHitActionEvent;
     public event UnityAction OnPlayerDieEvent;
     public event UnityAction<bool> OnThrowObjectResult;
     #endregion
@@ -138,6 +139,7 @@ public class PlayerController : MonoBehaviour, IHit
         public bool IsDoubleJump; // 더블점프 했음?
         public bool IsJumpAttack; // 점프공격 했음?
         public bool IsInvincible; // 무적상태임?
+        public bool IsShield; // 쉴드가 존재하는지?
         public bool IsHit; // 맞음?
         public bool IsDead; // 죽음?
         public bool IsStaminaCool; // 스테미나 사용 후 쿨타임인지?
@@ -148,6 +150,7 @@ public class PlayerController : MonoBehaviour, IHit
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
     public bool IsJumpAttack { get { return _boolField.IsJumpAttack; } set { _boolField.IsJumpAttack = value; } }
     public bool IsInvincible { get { return _boolField.IsInvincible; } set { _boolField.IsInvincible = value; } }
+    public bool IsShield { get { return _boolField.IsShield; } set { _boolField.IsShield = value; } }
     public bool IsHit { get { return _boolField.IsHit; } set { _boolField.IsHit = value; } }
     public bool IsDead { get { return _boolField.IsDead; } set { _boolField.IsDead = value; } }
     public bool IsStaminaCool { get { return _boolField.IsStaminaCool; } set { _boolField.IsStaminaCool = value; } }
@@ -269,7 +272,8 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public int TakeDamage(int damage, bool isStun)
     {
-        int hitDamage = (int)OnPlayerHitEvent?.Invoke(damage, isStun);
+        int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, isStun);
+        OnPlayerHitActionEvent?.Invoke();
         return hitDamage;
     }
 
@@ -570,6 +574,8 @@ public class PlayerController : MonoBehaviour, IHit
     private void RotateCamera()
     {
         float angleX = InputKey.GetAxis(InputKey.MouseX);
+        if (Mathf.Abs(angleX) < 0.1f)
+            angleX = 0;
         // 체크시 마우스 상하도 가능
         float angleY = IsVerticalCameraMove == true ? angleY = InputKey.GetAxis(InputKey.MouseY) : default;
 
@@ -582,9 +588,13 @@ public class PlayerController : MonoBehaviour, IHit
         x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
 
         // 카메라 조정
-        CamareArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
+        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
 
-        if (IsVerticalCameraMove)
+
+
+
+
+        if (IsVerticalCameraMove == true)
         {
             // 머즐포인트 각도조절
             MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
