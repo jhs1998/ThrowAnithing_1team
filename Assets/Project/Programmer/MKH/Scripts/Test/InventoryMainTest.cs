@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace MKH
 {
@@ -6,10 +8,20 @@ namespace MKH
     {
         [SerializeField] GameObject state;
 
+        [SerializeField] Button button;
+
         new private void Awake()
         {
             base.Awake();
             state.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            if(gameObject.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(button.gameObject);
+            }
         }
 
         public void AcquireItem(Item item)
@@ -36,6 +48,27 @@ namespace MKH
             }
 
             return null;
+        }
+
+        public void Sorting()
+        {
+            for (int i = 0; i < mSlots.Length - 1; i++)
+            {
+                if (mSlots[i].Item == null)
+                {
+                    mSlots[i].ItemImage.sprite = mSlots[i + 1].ItemImage.sprite;
+                    mSlots[i].ItemImage.color = mSlots[i + 1].ItemImage.color;
+                    mSlots[i].Item = mSlots[i + 1].Item;
+                    mSlots[i + 1].Item = null;
+
+                    if(mSlots[i].ItemImage.sprite == null)
+                    {
+                        Color color = mSlots[i].ItemImage.color;
+                        color.a = 0f;
+                        mSlots[i].ItemImage.color = color;
+                    }
+                }
+            }
         }
     }
 }

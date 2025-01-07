@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace MKH
 {
@@ -8,6 +10,9 @@ namespace MKH
         [SerializeField] GameObject _EquipInventory;
         [SerializeField] GameObject _State;
         [SerializeField] GameObject _BlueChipPanel;
+        [SerializeField] InventorySlotTest _Slot;
+
+        [SerializeField] Button button;
 
         private void Awake()
         {
@@ -15,6 +20,15 @@ namespace MKH
             _EquipInventory = GameObject.Find("InventoryUI").transform.Find("EquipmentInventory").gameObject;
             _State = GameObject.Find("InventoryUI").transform.Find("State").gameObject;
             _BlueChipPanel = GameObject.Find("InventoryUI").transform.Find("BlueChipPanel").gameObject;
+            _Slot = GetComponent<InventorySlotTest>();
+        }
+
+        private void OnEnable()
+        {
+            if (_Inventory.activeSelf && !_BlueChipPanel.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(button.gameObject);
+            }
         }
 
         private void Start()
@@ -75,6 +89,11 @@ namespace MKH
                 _BlueChipPanel.SetActive(false);
             }
 
+        }
+
+        public void Click()
+        {
+            _Slot.UseItem();
         }
     }
 }

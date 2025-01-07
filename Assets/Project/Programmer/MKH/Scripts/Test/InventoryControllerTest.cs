@@ -30,11 +30,14 @@ namespace MKH
         [SerializeField] TMP_Text eqName;                       // 장비 아이템 이름
         [SerializeField] TMP_Text eqDescription;                // 장비 아이템 설명
 
+        InventoryMainTest mInventory;
+
         private void Awake()
         {
             // 인벤토리, 장비 슬롯들 불러오기
             ivSlots = mInventorySlotsParent.GetComponentsInChildren<InventorySlotTest>();
             eqSlots = mEquipmentSlotsParent.GetComponentsInChildren<InventorySlotTest>();
+            mInventory = GetComponent<InventoryMainTest>();
         }
 
         private void Start()
@@ -136,6 +139,7 @@ namespace MKH
                         if (ivSlots[index - 9].Item != null)
                         {
                             ivSlots[index - 9].UseItem();
+                            mInventory.Sorting();
                             Debug.Log($"인벤토리 {index - 9}번 장비 장착");
                         }
                         else if (ivSlots[index - 9].Item == null)
@@ -170,6 +174,7 @@ namespace MKH
                         if (ivSlots[index - 9].Item != null)
                         {
                             ivSlots[index - 9].ClearSlot();
+                            mInventory.Sorting();
                             Debug.Log($"인벤토리 {index - 9}번 장비 분해");
                         }
                         else if (ivSlots[index - 9].Item == null)
