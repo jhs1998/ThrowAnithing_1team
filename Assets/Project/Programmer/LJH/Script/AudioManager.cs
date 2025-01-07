@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    [SerializeField] Option_Sound option_Sound;
+
     [Header("인스펙터에 소스와 클립을 끌어넣어서 사용")]
     [Header("배경음악")]
     [SerializeField] public List<AudioSource> bgmList;
@@ -23,6 +25,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        option_Sound.AudioVolumeCotroller();
         Play(bgmList[0]);
     }
 

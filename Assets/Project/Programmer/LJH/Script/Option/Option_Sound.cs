@@ -166,7 +166,7 @@ public class Option_Sound : Main_Option
         menuCo = null;
     }
 
-    void AudioVolumeCotroller()
+    public void AudioVolumeCotroller()
     {
         VolumeListCotroller(AudioManager.instance.bgmList, setting.backgroundSound, setting.wholesound);
         VolumeListCotroller(AudioManager.instance.effectList, setting.effectSound, setting.wholesound);
@@ -174,7 +174,7 @@ public class Option_Sound : Main_Option
     }
 
     // AudioVolumeController를 통해 오디오 매니저의 오디오 볼륨 조절
-    void VolumeListCotroller(List<AudioSource> audioList, float volume, float totalVolume)
+    public void VolumeListCotroller(List<AudioSource> audioList, float volume, float totalVolume)
     {
         for (int i = 0; i < audioList.Count; i++)
         {
