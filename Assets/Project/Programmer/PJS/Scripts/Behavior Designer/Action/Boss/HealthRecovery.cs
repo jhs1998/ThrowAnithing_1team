@@ -21,11 +21,12 @@ public class HealthRecovery : Action
 
     public override TaskStatus OnUpdate()
     {
-        if (able == true)
+        if (able == true && enemy.createShield == true)
+            return TaskStatus.Running;
+        else if (enemy.createShield == false)
             return TaskStatus.Failure;
 
         StartCoroutine(RecoveryRoutin());
-
         return TaskStatus.Success;
     }
 
@@ -34,13 +35,18 @@ public class HealthRecovery : Action
         able = true;
         int time = maxTime.Value;
         int recoveryHp = Mathf.RoundToInt(enemy.GetState().MaxHp * minRecoveryPersent);
-        Debug.Log(time);
+        Debug.Log("회복 시작");
         while (time > 0)    // 회복 하는 시간
         {
             yield return 1f.GetDelay();
             enemy.CurHp += recoveryHp;
             time--;
-            Debug.Log("회복");
+            Debug.Log("회복 중...");
         }
+
+        Debug.Log("회복 끝");
+        // 회복 끝
+        enemy.createShield = false;
+        transform.GetComponent<Animator>().SetBool("Recovery", false);
     }
 }
