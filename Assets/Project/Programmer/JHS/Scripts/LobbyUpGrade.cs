@@ -25,6 +25,7 @@ public class LobbyUpGrade : MonoBehaviour
     public TextMeshProUGUI usingCoinText;
 
     // ScriptableObject 가져오기
+    [Inject]
     public LobbyUpGradeState lobbyUpGradeState;
 
     private void Start()
