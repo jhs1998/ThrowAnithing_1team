@@ -10,13 +10,14 @@ namespace MKH
     {
         // 아이템
         private Item mItem;
-        public Item Item { get { return mItem; } }
+        public Item Item { get { return mItem; } set { mItem = value; } }
 
         [Header("해당 슬롯에 들어갈 수 있는 타입")]
         [SerializeField] private ItemType mSlotMask;
 
         [Header("슬롯에 있는 UI 오브젝트")]
         [SerializeField] private Image mItemImage;
+        public Image ItemImage { get {  return mItemImage; } set { mItemImage = value; } }
 
         [Header("장비 교체 매니저")]
         [SerializeField] private EquipActionManager equipActionManager;
@@ -48,7 +49,6 @@ namespace MKH
         {
             mItem = null;
             mItemImage.sprite = null;
-            SetColor(0);
         }
 
         // 아이템 사용
