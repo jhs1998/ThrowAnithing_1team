@@ -30,7 +30,7 @@ public class LobbyUpGrade : MonoBehaviour
     private void Start()
     {
         // 초기 UI 업데이트
-        UpdateCoinUI();
+        UpdateCoinUI();      
     }
     private void OnEnable()
     {
@@ -88,6 +88,26 @@ public class LobbyUpGrade : MonoBehaviour
     // 첫번째 줄 1번 슬롯 근접 공격 강화
     public void OneLine_UpgradeShortAttack(int slot)
     {
+        if (gameData == null)
+        {
+            Debug.LogError("gameData is null");
+            return;
+        }
+        if (playerState == null)
+        {
+            Debug.LogError("playerState is null");
+            return;
+        }
+        if (lobbyUpGradeState == null)
+        {
+            Debug.LogError("lobbyUpGradeState is null");
+            return;
+        }
+        if (playerState.shortRangeAttack == null || playerState.shortRangeAttack.Length < 3)
+        {
+            Debug.LogError("playerState.shortRangeAttack is not properly initialized or too small");
+            return;
+        }
         if (gameData.BuyUpgradeSlot(slot))
         {
             // 강화 성공 시 근접 공격 강화

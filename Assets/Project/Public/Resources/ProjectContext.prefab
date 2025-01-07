@@ -91,9 +91,20 @@ MonoBehaviour:
       Hp:
         MaxHp: 0
         CurHp: 0
+      Attack:
+        AttackPower: 0
+        AttackPowerMultiplier: 0
+        AttackSpeed: 0
+        AttackSpeedMultiplier: 0
+        PowerMeleeAttack: []
+        PowerThrowAttack: []
+        PowerSpecialAttack: []
       Defense:
         Defense: 0
         DamageReduction: 0
+      Critical:
+        CriticalChance: 0
+        CriticalDamage: 0
       Stamina:
         MaxStamina: 0
         CurStamina: 0
@@ -106,8 +117,12 @@ MonoBehaviour:
         MaxMana: 0
         CurMana: 0
         RegainMana: []
+        RegainAdditiveMana: 0
         ManaConsumption: []
         SpecialChargeGage: 0
+      Dash:
+        DashDistance: 0
+        DashStamina: 0
       Jump:
         JumpPower: 0
         JumpStamina: 0
@@ -115,18 +130,7 @@ MonoBehaviour:
         JumpDownStamina: 0
         MaxJumpCount: 0
         CurJumpCount: 0
-      Dash:
-        DashDistance: 0
-        DashStamina: 0
-      Attack:
-        AttackPower: 0
-        AttackSpeed: 0
-        PowerMeleeAttack: []
-        PowerThrowAttack: []
-        PowerSpecialAttack: []
-      Critical:
-        CriticalChance: 0
-        CriticalDamage: 0
+      NowWeapon: 0
       Throw:
         MaxThrowables: 0
         CurThrowables: 0
@@ -137,7 +141,6 @@ MonoBehaviour:
         HitAdditionals: []
         ThrowAdditionals: []
         PlayerAdditionals: []
-      NowWeapon: 0
       MoveSpeed: 0
       DrainLife: 0
       MeleeAttackStamina: []
@@ -293,7 +296,7 @@ MonoBehaviour:
     bringData: 1
     nowWeapon: 0
   playerState:
-    playerStateBase: {fileID: 0}
+    playerStateBase: {fileID: 11400000, guid: 197ede65146724b4e8dc68a0baf4f754, type: 2}
     maxHp: 0
     commonAttack: 0
     shortRangeAttack:
@@ -345,9 +348,20 @@ MonoBehaviour:
       Hp:
         MaxHp: 0
         CurHp: 0
+      Attack:
+        AttackPower: 0
+        AttackPowerMultiplier: 0
+        AttackSpeed: 0
+        AttackSpeedMultiplier: 0
+        PowerMeleeAttack: []
+        PowerThrowAttack: []
+        PowerSpecialAttack: []
       Defense:
         Defense: 0
         DamageReduction: 0
+      Critical:
+        CriticalChance: 0
+        CriticalDamage: 0
       Stamina:
         MaxStamina: 0
         CurStamina: 0
@@ -360,8 +374,12 @@ MonoBehaviour:
         MaxMana: 0
         CurMana: 0
         RegainMana: []
+        RegainAdditiveMana: 0
         ManaConsumption: []
         SpecialChargeGage: 0
+      Dash:
+        DashDistance: 0
+        DashStamina: 0
       Jump:
         JumpPower: 0
         JumpStamina: 0
@@ -369,18 +387,7 @@ MonoBehaviour:
         JumpDownStamina: 0
         MaxJumpCount: 0
         CurJumpCount: 0
-      Dash:
-        DashDistance: 0
-        DashStamina: 0
-      Attack:
-        AttackPower: 0
-        AttackSpeed: 0
-        PowerMeleeAttack: []
-        PowerThrowAttack: []
-        PowerSpecialAttack: []
-      Critical:
-        CriticalChance: 0
-        CriticalDamage: 0
+      NowWeapon: 0
       Throw:
         MaxThrowables: 0
         CurThrowables: 0
@@ -391,7 +398,6 @@ MonoBehaviour:
         HitAdditionals: []
         ThrowAdditionals: []
         PlayerAdditionals: []
-      NowWeapon: 0
       MoveSpeed: 0
       DrainLife: 0
       MeleeAttackStamina: []
