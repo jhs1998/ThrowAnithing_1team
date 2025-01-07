@@ -33,7 +33,7 @@ public class TotalVolumeBar : MonoBehaviour
         setting.wholesound = value;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         // 이벤트 리스너 해제
         if (totalVolumeSlider != null)

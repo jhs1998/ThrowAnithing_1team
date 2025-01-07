@@ -33,7 +33,8 @@ public class CameraSpeedSlider : MonoBehaviour
         setting.cameraSpeed = value;
     }
 
-    private void OnDestroy()
+    // 비활성화 시 이벤트 해제
+    private void OnDisable()
     {
         // 이벤트 리스너 해제
         if (cameraSpeedSlider != null)

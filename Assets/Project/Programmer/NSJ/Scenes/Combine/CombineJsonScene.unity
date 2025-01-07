@@ -6971,6 +6971,7 @@ GameObject:
   - component: {fileID: 1129557211}
   - component: {fileID: 1129557210}
   - component: {fileID: 1129557209}
+  - component: {fileID: 1129557213}
   m_Layer: 5
   m_Name: Dropdown
   m_TagString: Untagged
@@ -7096,6 +7097,20 @@ RectTransform:
   m_AnchoredPosition: {x: 781, y: -12.5}
   m_SizeDelta: {x: 500, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1129557213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129557208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd516b37c781b1409534e0e1e882260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  langaugeDropdown: {fileID: 1129557209}
+  setting: {fileID: 0}
 --- !u!1 &1142947120
 GameObject:
   m_ObjectHideFlags: 0

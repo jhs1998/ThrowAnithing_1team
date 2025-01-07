@@ -32,7 +32,7 @@ public class EffectVolume : MonoBehaviour
         setting.effectSound = value;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         // 이벤트 리스너 해제
         if (effectVolume != null)
