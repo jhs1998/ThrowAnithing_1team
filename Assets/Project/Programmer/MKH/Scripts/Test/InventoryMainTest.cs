@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace MKH
 {
@@ -6,10 +8,20 @@ namespace MKH
     {
         [SerializeField] GameObject state;
 
+        [SerializeField] Button button;
+
         new private void Awake()
         {
             base.Awake();
             state.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            if(gameObject.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(button.gameObject);
+            }
         }
 
         public void AcquireItem(Item item)
