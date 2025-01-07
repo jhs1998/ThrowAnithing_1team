@@ -3505,6 +3505,7 @@ MonoBehaviour:
   cancelButton: {fileID: 1934041489135161149}
   defaultButton: {fileID: 6426523019541534224}
   _curIndex: 0
+  setting: {fileID: 0}
 --- !u!114 &2504622924240067539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5526,6 +5527,7 @@ MonoBehaviour:
     IsDoubleJump: 0
     IsJumpAttack: 0
     IsInvincible: 0
+    IsShield: 0
     IsHit: 0
     IsDead: 0
     IsStaminaCool: 0
@@ -5652,10 +5654,32 @@ MonoBehaviour:
     Data:
       Hp:
         MaxHp: 60
+        MaxHpMultiplier: 0
         CurHp: 60
+      Attack:
+        AttackPower: 10
+        AttackPowerMultiplier: 0
+        AttackSpeed: 1
+        AttackSpeedMultiplier: 0
+        PowerMeleeAttack:
+        - 25
+        - 40
+        - 60
+        PowerThrowAttack:
+        - 10
+        - 40
+        - 70
+        - 110
+        PowerSpecialAttack:
+        - 75
+        - 150
+        - 225
       Defense:
         Defense: 0
         DamageReduction: 0
+      Critical:
+        CriticalChance: 30
+        CriticalDamage: 200
       Stamina:
         MaxStamina: 100
         CurStamina: 0
@@ -5672,11 +5696,18 @@ MonoBehaviour:
         - 20
         - 30
         - 40
+        RegainAdditiveMana: 0
         ManaConsumption:
         - 30
         - 70
         - 100
         SpecialChargeGage: 0
+      Move:
+        MoveSpeed: 0
+        MoveSpeedMultyplier: 0
+      Dash:
+        DashDistance: 200
+        DashStamina: 50
       Jump:
         JumpPower: 100
         JumpStamina: 20
@@ -5684,28 +5715,7 @@ MonoBehaviour:
         JumpDownStamina: 20
         MaxJumpCount: 2
         CurJumpCount: 0
-      Dash:
-        DashDistance: 200
-        DashStamina: 50
-      Attack:
-        AttackPower: 10
-        AttackSpeed: 1
-        PowerMeleeAttack:
-        - 25
-        - 40
-        - 60
-        PowerThrowAttack:
-        - 10
-        - 40
-        - 70
-        - 110
-        PowerSpecialAttack:
-        - 75
-        - 150
-        - 225
-      Critical:
-        CriticalChance: 30
-        CriticalDamage: 200
+      NowWeapon: 1
       Throw:
         MaxThrowables: 50
         CurThrowables: 0
@@ -5716,8 +5726,6 @@ MonoBehaviour:
         HitAdditionals: []
         ThrowAdditionals: []
         PlayerAdditionals: []
-      NowWeapon: 1
-      MoveSpeed: 100
       DrainLife: 0
       MeleeAttackStamina:
       - 20
@@ -5732,6 +5740,7 @@ MonoBehaviour:
       BlueChipPanel: {fileID: 0}
     test: 
   GlobalStateData:
+    playerStateBase: {fileID: 0}
     maxHp: 0
     commonAttack: 0
     shortRangeAttack:
@@ -5789,7 +5798,10 @@ MonoBehaviour:
     nowWeapon: 0
   Arm: {fileID: 11400000, guid: 6441f13e10367454c82ce59acb25674f, type: 2}
   BoomRadius: 0.5
-  DrainDistance: 10
+  Drain:
+    DrainDistance: 10
+    DrainDistanceMultyPlier: 0
+    DrainStamina: 10
   ChargeStep: 0
 --- !u!114 &7667531888297289878
 MonoBehaviour:
