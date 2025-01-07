@@ -484,7 +484,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         debuff.Exit();
         _debuffList.Remove(debuff);
-        //Destroy(debuff);
+        Destroy(debuff);
     }
     #endregion
     /// <summary>

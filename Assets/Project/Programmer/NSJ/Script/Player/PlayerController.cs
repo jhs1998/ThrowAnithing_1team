@@ -473,6 +473,7 @@ public class PlayerController : MonoBehaviour, IHit
 
                     addtionalEffect.Exit();
                     Model.PlayerAdditionals.Remove(addtionalEffect as PlayerAdditional);
+                    Destroy(addtionalEffect);
                 }
                 break;
         }

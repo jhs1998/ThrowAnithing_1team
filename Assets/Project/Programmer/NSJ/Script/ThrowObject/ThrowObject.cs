@@ -47,7 +47,7 @@ public class ThrowObject : MonoBehaviour
     }
     private void OnDisable()
     {
-        //ExitThrowAdditional();
+        ClearThrowAddtional();
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
@@ -231,10 +231,23 @@ public class ThrowObject : MonoBehaviour
             }
         }
     }
+    private void RemoveThrowAddtional(ThrowAdditional throwAdditional)
+    {
+        throwAdditional.Exit();
+        ThrowAdditionals.Remove(throwAdditional);
+        Destroy(throwAdditional);
+    }
+    private void ClearThrowAddtional()
+    {
+        for(int i = ThrowAdditionals.Count -1 ; i >= 0; i--)
+        {
+            RemoveThrowAddtional(ThrowAdditionals[i]);
+        }
+    }
 
     protected void DestroyObject()
     {
-        ExitThrowAdditional();              
+        ExitThrowAdditional();
         Destroy(gameObject);
     }
 }
