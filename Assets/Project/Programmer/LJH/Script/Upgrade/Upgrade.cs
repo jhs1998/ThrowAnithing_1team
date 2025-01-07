@@ -132,7 +132,7 @@ public class Upgrade : BaseUI
         //ho += (int)x;
         //ver += (int)y;
 
-        if (x != 0)
+        /*if (x != 0)
         {
             if (axisInUse == false)
             {
@@ -145,6 +145,43 @@ public class Upgrade : BaseUI
             if (axisInUse == false)
             {
                 ver += (int)y;
+                axisInUse = true;
+            }
+        }
+        else
+        {
+            axisInUse = false;
+        }*/
+        if (x > 0)
+        {
+            if (axisInUse == false)
+            {
+                ho += 1;
+                axisInUse = true;
+            }
+        }
+        else if (x < 0)
+        {
+            if (axisInUse == false)
+            {
+                ho -= 1;
+                axisInUse = true;
+            }
+        }
+
+        else if (y > 0)
+        {
+            if (axisInUse == false)
+            {
+                ver += 1;
+                axisInUse = true;
+            }
+        }
+        else if (y < 0)
+        {
+            if (axisInUse == false)
+            {
+                ver -= 1;
                 axisInUse = true;
             }
         }
