@@ -11,7 +11,7 @@ public class GuidedAttack : ThrowAdditional
 
     private bool _isDetect;
     private Transform _ignoreTarget;
-    private Transform _target;
+    private Collider _target;
 
     Collider[] _targets = new Collider[5];
     Coroutine _guidedRoutien;
@@ -45,7 +45,7 @@ public class GuidedAttack : ThrowAdditional
                 if (_targets[i].transform == _ignoreTarget)
                     continue;
 
-                _target = _targets[i].transform;
+                _target = _targets[i];
                 break;
             }
         }
@@ -54,11 +54,16 @@ public class GuidedAttack : ThrowAdditional
         {
             float guidedSpeed = Player.ThrowPower;
 
-            Vector3 targetPos = new Vector3(_target.position.x, _target.position.y + 1f, _target.position.z);
+            Vector3 targetPos = new Vector3(_target.transform.position.x, _target.transform.position.y + 1f, _target.transform.position.z);
 
             _throwObject.transform.LookAt(targetPos);
 
             _throwObject.Rb.velocity = _throwObject.transform.forward * guidedSpeed;
+
+            if(_target.transform == null || _target.gameObject.activeSelf == false || _target.enabled == false)
+            {
+                _isDetect = false;
+            }
         }
     }
 }

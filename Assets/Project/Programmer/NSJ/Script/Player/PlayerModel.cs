@@ -4,6 +4,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class PlayerModel : MonoBehaviour, IDebuff
@@ -140,7 +141,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     }
     public Subject<float> SpecialChargeGageSubject = new Subject<float>();
     #endregion
-
+    public float DrainLife { get { return Data.DrainLife; } set { Data.DrainLife = value; } }
     public GlobalGameData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade; } set { Data.EquipmentDropUpgrade = value; } }
 
@@ -192,11 +193,12 @@ public class PlayerModel : MonoBehaviour, IDebuff
         _view = GetComponent<PlayerView>();
         _player = GetComponent<PlayerController>();
         Data.IsDead = false;
-        if (_isTest == false)
+
+        if(SceneManager.GetActiveScene().name == SceneName.LobbyScene)
         {
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);
         }
-        else
+        if(_isTest == true)
         {
             GlobalStateData.NewPlayerSetting();
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);

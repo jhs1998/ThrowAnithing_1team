@@ -17,6 +17,9 @@ public class ExplosionThrowAdditonal : ThrowAdditional
 
     public override void Exit()
     {
+        if (_throwObject.CanAttack == false)
+            return;
+
         Explosion();
     }
 

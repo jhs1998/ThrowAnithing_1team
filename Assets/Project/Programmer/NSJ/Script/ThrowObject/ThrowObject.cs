@@ -248,7 +248,6 @@ public class ThrowObject : MonoBehaviour
 
     protected void DestroyObject()
     {
-        ExitThrowAdditional();
         Destroy(gameObject);
     }
 }

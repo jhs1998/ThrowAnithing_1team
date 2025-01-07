@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BattleSystem : MonoBehaviour, IBattle
 {
@@ -11,6 +12,9 @@ public class BattleSystem : MonoBehaviour, IBattle
     [SerializeField] private List<HitAdditional> _debuffList;
 
     private PlayerController _player;
+
+    public event UnityAction<int, bool> OnTargetAttackEvent;
+    public event UnityAction<int, bool> OnTakeDamageEvent;
 
     private void Awake()
     {
@@ -65,6 +69,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamage(damage, isStun); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
     }
     /// <summary>
@@ -76,6 +82,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamage(damage, isStun, isCritical); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -87,6 +95,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamage(damage, isStun, type); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
     }
     /// <summary>
@@ -98,6 +108,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamage(damage, isStun, type, isCritical); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -107,6 +119,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
     }
     /// <summary>
@@ -116,6 +130,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage =  battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList, isCritical); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -125,6 +141,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList, type); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
     }
     /// <summary>
@@ -134,6 +152,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList, type, isCritical);
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -143,6 +163,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, debuff);
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;; // 상대를 공격
     }
     /// <summary>
@@ -152,6 +174,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, debuff, isCritical);
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -161,6 +185,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, debuff, type); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
     }
     /// <summary>
@@ -170,6 +196,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, debuff, type, isCritical); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -179,6 +207,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage = battle.TakeDamageWithDebuff(damage, isStun, debuffs); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
     }
     /// <summary>
@@ -188,6 +218,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage =battle.TakeDamageWithDebuff(damage, isStun, debuffs, isCritical); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -197,6 +229,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage =battle.TakeDamageWithDebuff(damage, isStun, debuffs, type); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
     }
     /// <summary>
@@ -207,6 +241,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         int hitDamage= battle.TakeDamageWithDebuff(damage, isStun, debuffs, type, isCritical); // 상대를 공격
 
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
     }
     #endregion
@@ -238,6 +273,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         int hitDamage = Hit.TakeDamage(damage, isStun);
         CreateDamageText(hitDamage);
 
+        OnTakeDamageEvent?.Invoke(damage, false);
         return hitDamage;
     }
     /// <summary>
@@ -249,6 +285,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         int hitDamage = Hit.TakeDamage(damage, isStun);
         CreateDamageText(hitDamage, isCritical);
 
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -260,6 +297,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         int hitDamage = Hit.TakeDamage(damage, isStun);
         CreateDamageText(hitDamage,type);
 
+        OnTakeDamageEvent?.Invoke(damage, false);
         return hitDamage;
     }
     /// <summary>
@@ -271,6 +309,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         int hitDamage = Hit.TakeDamage(damage, isStun);
         CreateDamageText(hitDamage, type, isCritical);
 
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -286,7 +325,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         {
             AddDebuff(hitAdditional, hitDamage, false);
         }
-
+        OnTakeDamageEvent?.Invoke(damage, false);
         return hitDamage;
     }
     /// <summary>
@@ -302,7 +341,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         {
             AddDebuff(hitAdditional, hitDamage, isCritical);
         }
-
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -318,7 +357,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         {
             AddDebuff(hitAdditional, hitDamage, false);
         }
-
+        OnTakeDamageEvent?.Invoke(damage, false);
         return hitDamage;
     }
     /// <summary>
@@ -334,7 +373,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         {
             AddDebuff(hitAdditional, hitDamage, isCritical);
         }
-
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -347,7 +386,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         CreateDamageText(hitDamage);
 
         AddDebuff(debuff, hitDamage, false);
-
+        OnTakeDamageEvent?.Invoke(damage, false);
         return hitDamage;
     }
     /// <summary>
@@ -360,7 +399,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         CreateDamageText(hitDamage, isCritical);
 
         AddDebuff(debuff, hitDamage, isCritical);
-
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
         return hitDamage;
     }
     /// <summary>
@@ -373,7 +412,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         CreateDamageText(hitDamage,type);
 
         AddDebuff(debuff, hitDamage, false);
-
+        OnTakeDamageEvent?.Invoke(damage, false);
         return hitDamage;
     }
     /// <summary>
@@ -386,7 +425,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         CreateDamageText(hitDamage, type, isCritical);
 
         AddDebuff(debuff, hitDamage, isCritical);
-
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
         return hitDamage;
     }
     #endregion

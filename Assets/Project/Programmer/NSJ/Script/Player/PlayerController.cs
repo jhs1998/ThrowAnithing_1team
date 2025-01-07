@@ -180,6 +180,7 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Init();
         InitUIEvent();
+        SubscribeEvents();
         StartRoutine();
         InitAdditionnal();
         ChangeArmUnit(Model.NowWeapon);
@@ -187,6 +188,7 @@ public class PlayerController : MonoBehaviour, IHit
         //Camera.main.transform.SetParent(_cameraPos, true);
         EnterState(CurState);
     }
+
     public bool IsMouseVisible;
 
     private void OnDisable()
@@ -276,7 +278,6 @@ public class PlayerController : MonoBehaviour, IHit
         OnPlayerHitActionEvent?.Invoke();
         return hitDamage;
     }
-
     /// <summary>
     /// 사망
     /// </summary>
@@ -284,7 +285,24 @@ public class PlayerController : MonoBehaviour, IHit
     {
         OnPlayerDieEvent?.Invoke();
     }
-
+    #region 피해 흡혈
+    /// <summary>
+    /// 피해 흡혈
+    /// </summary>
+    public void DrainLife(int damage)
+    {
+        int drainAmount = (int)(damage * Model.DrainLife / 100);
+        Model.CurHp += drainAmount;
+    }
+    /// <summary>
+    /// 피해 흡혈
+    /// </summary>
+    public void DrainLife(int damage, float additionalDrainLife)
+    {
+        int drainAmount = (int)(damage * (Model.DrainLife + additionalDrainLife) / 100);
+        Model.CurHp += drainAmount;
+    }
+    #endregion
     #region 플레이어 방향 처리
     public void LookAtAttackDir()
     {
@@ -402,7 +420,7 @@ public class PlayerController : MonoBehaviour, IHit
         }
     }
     #endregion
-
+    #region 암유닛 변경
     public void ChangeArmUnit(ArmUnit armUnit)
     {
         Model.Arm = Instantiate(armUnit);
@@ -413,6 +431,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
         Model.Arm.Init(this);
     }
+    #endregion
     #region 플레이어 추가효과 관련
     /// <summary>
     /// 추가효과 추가
@@ -1059,6 +1078,14 @@ public class PlayerController : MonoBehaviour, IHit
             .Subscribe(x => panel.BarValueController(panel.ChanrgeStaminaBar, Model.CurStaminaCharge, Model.MaxStaminaCharge));
         panel.BarValueController(panel.ChanrgeStaminaBar, Model.CurStaminaCharge, Model.MaxStaminaCharge);
     }
+    /// <summary>
+    /// 이벤트 구독
+    /// </summary>
+    private void SubscribeEvents()
+    {
+        Battle.OnTargetAttackEvent += TargetAttackCallback;
+        Battle.OnTakeDamageEvent += TakeDamageCallback;
+    }
 
     /// <summary>
     /// 초기 겟컴포넌트 설정
@@ -1120,8 +1147,18 @@ public class PlayerController : MonoBehaviour, IHit
     }
     #endregion
 
+    #region 콜백
     public void ThrowObjectResultCallback(bool successHit)
     {
         OnThrowObjectResult?.Invoke(successHit);
     }
+    private void TargetAttackCallback(int damage, bool isCritical)
+    {
+        DrainLife(damage);
+    }
+    private void TakeDamageCallback(int damage, bool isCritical)
+    {
+        
+    }
+    #endregion
 }
