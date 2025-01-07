@@ -480,7 +480,10 @@ public partial class PlayerData
     }
     public int CurHp
     {
-        get { return Data.Hp.CurHp + (int)EquipStatus.HP; }
+        get 
+        {  
+            return Data.Hp.CurHp; 
+        }
         set
         {
             Data.Hp.CurHp = value;

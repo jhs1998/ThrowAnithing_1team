@@ -286,8 +286,9 @@ public class PlayerController : MonoBehaviour, IHit
         OnPlayerDieEvent?.Invoke();
     }
     #region ÇÇÇØ ÈíÇ÷
+
     /// <summary>
-    /// ÇÇÇØ ÈíÇ÷
+    /// ÇÇÇØ ÈíÇ÷(¸ğµ¨ ÇÇÈí ¸¸Å­)
     /// </summary>
     public void DrainLife(int damage)
     {
@@ -295,7 +296,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model.CurHp += drainAmount;
     }
     /// <summary>
-    /// ÇÇÇØ ÈíÇ÷
+    /// ÇÇÇØ ÈíÇ÷(¸ğµ¨ ÇÇÈí + Ãß°¡ ÇÇÈí)
     /// </summary>
     public void DrainLife(int damage, float additionalDrainLife)
     {
