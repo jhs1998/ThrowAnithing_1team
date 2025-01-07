@@ -948,7 +948,7 @@ public class PlayerController : MonoBehaviour, IHit
             isCritical = false;
 
         // 데미지 배율이 0까지 떨어진 경우 0으로 고정
-        float attackMultiplier = 1 + Model.AttackPowerMultiplier / 100 >= 0 ? 1 + Model.AttackPowerMultiplier / 100 : 0;
+        float attackMultiplier = 1 + Model.DamageMultiplier / 100 >= 0 ? 1 + Model.DamageMultiplier / 100 : 0;
         finalDamage = (int)(finalDamage * attackMultiplier);
 
         return finalDamage;
