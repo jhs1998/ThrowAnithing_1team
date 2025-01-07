@@ -18,6 +18,7 @@ public class BossEnemy : BaseEnemy, IHit
     [Space, SerializeField] ParticleSystem shieldParticle;
 
     private Coroutine attackAble;
+    public Coroutine recovery;
     private bool onFrezenyPassive = false;
     private bool onEntryStop;
     [HideInInspector]public bool createShield;
@@ -85,6 +86,34 @@ public class BossEnemy : BaseEnemy, IHit
 
             yield return null;
         }
+    }
+
+    public void RecoveryStartCoroutine(int time, float value)
+    {
+        recovery = StartCoroutine(RecoveryRoutin(time, value));
+    }
+    public void RecoveryStopCotoutine()
+    {
+        StopCoroutine(recovery);
+    }
+
+    IEnumerator RecoveryRoutin(int maxTime, float recoveryValue)
+    {
+        int time = maxTime;
+        int recoveryHp = Mathf.RoundToInt(state.MaxHp * recoveryValue);
+        Debug.Log("회복 시작");
+        while (time > 0)    // 회복 하는 시간
+        {
+            yield return 1f.GetDelay();
+            CurHp += recoveryHp;
+            time--;
+            Debug.Log("회복 중...");
+        }
+
+        Debug.Log("회복 끝");
+        // 회복 끝
+        createShield = false;
+        transform.GetComponent<Animator>().SetBool("Recovery", false);
     }
 
     /// <summary>
