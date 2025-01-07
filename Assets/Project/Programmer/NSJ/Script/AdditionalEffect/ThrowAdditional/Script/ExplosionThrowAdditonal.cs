@@ -9,7 +9,7 @@ public class ExplosionThrowAdditonal : ThrowAdditional
 
     [Header("Æø¹ß ¹üÀ§")]
     [SerializeField] private float _explosionRange;
-    [Header("Æø¹ß µ¥¹ÌÁö(&)")]
+    [Header("Æø¹ß µ¥¹ÌÁö(%)")]
     [SerializeField] private float _explosionDamage;
 
     private int damage => (int)(_throwObject.Damage * _explosionDamage/ 100);
