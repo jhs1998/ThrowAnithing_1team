@@ -32,7 +32,8 @@ public class ContinuousAttackAdditional : PlayerAdditional
         // 타이머 돌아가는 중일때 (공격력 증가 상태)
         if(_isTimerStart == true)
         {
-            Model.AttackPower = (Model.AttackPower - (int)Model.Data.EquipStatus.Damage) - _attackPower;
+            // 다시 공격력 감소
+            Model.AttackPower = GetPlayerAttackPower(-_attackPower);
         }
     }
 
@@ -57,7 +58,7 @@ public class ContinuousAttackAdditional : PlayerAdditional
 
                 timer = _duration;
                 _isTimerStart = true;
-                Model.AttackPower = (Model.AttackPower - (int)Model.Data.EquipStatus.Damage) + _attackPower;
+                Model.AttackPower = GetPlayerAttackPower(_attackPower);
             }
 
             timer -= Time.deltaTime;
@@ -66,7 +67,7 @@ public class ContinuousAttackAdditional : PlayerAdditional
                 _isTimerStart = false;
 
                 // 다시 공격력 감소
-                Model.AttackPower = (Model.AttackPower - (int)Model.Data.EquipStatus.Damage) - _attackPower;
+                Model.AttackPower = GetPlayerAttackPower(-_attackPower);
             }
             yield return null;
         }

@@ -145,8 +145,24 @@ public class PlayerModel : MonoBehaviour, IDebuff
 
     public float BoomRadius;
     // TODO : 인스펙터 정리 필요
-    public float DrainDistance;
-    public float DrainStamina;
+    [System.Serializable]
+    public struct DrainStruct
+    {
+        public float DrainDistance;
+        public float DrainDistanceMultyPlier;
+        public float DrainStamina;
+    }
+    [SerializeField] public DrainStruct Drain;
+    public float DrainDistance
+    {
+        get 
+        { 
+            return Drain.DrainDistance * (1 + DrainDistanceMultyPlier/100); // 드레인 기본 범위 * 드레인 범위 증가량(%)
+        }
+        set { Drain.DrainDistance = value; }
+    }
+    public float DrainDistanceMultyPlier { get { return Drain.DrainDistanceMultyPlier; } set { Drain.DrainDistanceMultyPlier = value; } }
+    public float DrainStamina { get { return Drain.DrainStamina; } set { Drain.DrainStamina = value; } }
     public int ChargeStep;
 
 

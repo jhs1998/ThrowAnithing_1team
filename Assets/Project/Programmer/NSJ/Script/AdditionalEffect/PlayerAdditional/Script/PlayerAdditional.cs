@@ -15,4 +15,9 @@ public class PlayerAdditional : AdditionalEffect
         Origin = addtional.Origin;
         Player = player;
     }
+
+    protected int GetPlayerAttackPower(int attackPower)
+    {
+        return (Model.AttackPower - (int)Model.Data.EquipStatus.Damage) + attackPower;
+    }
 }
