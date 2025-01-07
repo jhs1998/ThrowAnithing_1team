@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +24,27 @@ namespace MKH
         {
             Color color = mItemImage.color;
             color.a = _alpha;
+
+            // 등급에 따른 이미지 색
+            if (mItem.Rate == RateType.Nomal)
+            {
+                color.r = 0f;
+                color.g = 0f;
+                color.b = 0f;
+            }
+            else if (mItem.Rate == RateType.Magic)
+            {
+                color.r = 129f / 255f;
+                color.g = 193f / 255f;
+                color.b = 71f / 255f;
+            }
+            else if (mItem.Rate == RateType.Rare)
+            {
+                color.r = 0f;
+                color.g = 0f;
+                color.b = 255f / 255f;
+            }
+
             mItemImage.color = color;
         }
 
@@ -56,7 +74,7 @@ namespace MKH
         {
             if (mItem != null)
             {
-                if(mItem.Type >= ItemType.Helmet && mItem.Type <= ItemType.Necklace)
+                if (mItem.Type >= ItemType.Helmet && mItem.Type <= ItemType.Necklace)
                 {
                     ChangeEquipmentSlot();
                 }

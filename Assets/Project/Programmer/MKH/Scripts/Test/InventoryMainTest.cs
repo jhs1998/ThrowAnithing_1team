@@ -45,13 +45,14 @@ namespace MKH
                 if (mSlots[i].Item == null)
                 {
                     mSlots[i].ItemImage.sprite = mSlots[i + 1].ItemImage.sprite;
+                    mSlots[i].ItemImage.color = mSlots[i + 1].ItemImage.color;
                     mSlots[i].Item = mSlots[i + 1].Item;
                     mSlots[i + 1].Item = null;
 
                     if(mSlots[i].ItemImage.sprite == null)
                     {
                         Color color = mSlots[i].ItemImage.color;
-                        color.a = 0;
+                        color.a = 0f;
                         mSlots[i].ItemImage.color = color;
                     }
                 }
