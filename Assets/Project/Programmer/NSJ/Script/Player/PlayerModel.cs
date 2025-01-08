@@ -204,6 +204,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
         if (_isTest == true)
         {
             GlobalStateData.NewPlayerSetting();
+            Debug.Log($"원거리 데미지: {GlobalStateData.longRangeAttack[0]}");
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);
             RegainStamina = 100;
             RegainMana[0] = 100;

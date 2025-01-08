@@ -30,7 +30,7 @@ public class LightningFist : Action
                     continue;
 
                 //hitObj.TargetAttackWithDebuff(hits[i].collider.transform, skillState.damage, true);
-                hitObj.TakeDamage(skillState.damage, true);
+                hitObj.TakeDamage(skillState.damage, false,CrowdControlType.Stiff);
             }
         }
 

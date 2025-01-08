@@ -1,6 +1,7 @@
 using BehaviorDesigner.Runtime;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -76,11 +77,11 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
         tree.SetVariable("Reward", (SharedFloat)reward);
     }
-
+    #region TakeDamage
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public int TakeDamage(int damage, bool isStun)
+    public int TakeDamage(int damage, CrowdControlType type)
     {
         resultDamage = damage - (int)state.Def;
         tree.SetVariableValue("TakeDamage", true);
@@ -90,11 +91,28 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 
         curHp -= resultDamage;
 
-        tree.SetVariableValue("Stiff", isStun);
+        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
         return resultDamage;
     }
+    /// <summary>
+    /// 몬스터가 피해받는 데미지
+    /// </summary>
+    public int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
+    {
+        resultDamage = isIgnoreDef == true ? damage : damage - (int)state.Def;
+        tree.SetVariableValue("TakeDamage", true);
 
+        if (resultDamage <= 0)
+            resultDamage = 0;
+
+        curHp -= resultDamage;
+
+        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
+        Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
+        return resultDamage;
+    }
+    #endregion
     /// <summary>
     /// 차지 후 폭발 데미지 부여
     /// </summary>
@@ -109,7 +127,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
                 if (overLapCollider[i].gameObject.name.CompareTo("Boss") == 0)
                     continue;
 
-                hit.TakeDamage(damage, false);
+                hit.TakeDamage(damage, false,CrowdControlType.None);
             }
         }
     }

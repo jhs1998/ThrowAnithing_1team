@@ -20,11 +20,6 @@ public class TrashObj : MonoBehaviour, IHit
         }
     }
 
-    public int TakeDamage(int damage, bool isStun)
-    {
-        //Debug.Log($"{gameObject} ÀÇ TakeDamage");
-        return damage;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -32,9 +27,15 @@ public class TrashObj : MonoBehaviour, IHit
         {
             Debug.Log(other.transform);
             IHit hit = other.transform.GetComponentInParent<IHit>();
-            hit.TakeDamage(atk, true);
+            hit.TakeDamage(atk, false, CrowdControlType.Stiff);
         }
 
         //gameObject.SetActive(false);
+    }
+
+    public int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
+    {
+        //Debug.Log($"{gameObject} ÀÇ TakeDamage");
+        return damage;
     }
 }

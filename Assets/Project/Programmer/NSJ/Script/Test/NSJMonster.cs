@@ -35,21 +35,6 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
         }
     }
 
-    public int TakeDamage(int damage, bool isStun)
-    {
-        _hp -= damage;
-        //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
-        if (_canDie == true &&_hp <= 0 && Battle.IsDie == false)
-        {
-            Die();
-        }       
-        else if(Battle.IsDie == false)
-        {
-            StartCoroutine(HitRoutine());
-        }
-        return damage;
-    }
-
     private void Die()
     {
         Battle.Die();
@@ -65,4 +50,33 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
         _renderer.material.color = _origin;
     }
 
+    public int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
+    {
+        _hp -= damage;
+        //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
+        if (_canDie == true && _hp <= 0 && Battle.IsDie == false)
+        {
+            Die();
+        }
+        else if (Battle.IsDie == false)
+        {
+            StartCoroutine(HitRoutine());
+        }
+        return damage;
+    }
+
+    public int TakeDamage(int damage, CrowdControlType type)
+    {
+        _hp -= damage;
+        //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
+        if (_canDie == true && _hp <= 0 && Battle.IsDie == false)
+        {
+            Die();
+        }
+        else if (Battle.IsDie == false)
+        {
+            StartCoroutine(HitRoutine());
+        }
+        return damage;
+    }
 }

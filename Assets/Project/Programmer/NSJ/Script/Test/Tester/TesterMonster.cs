@@ -9,7 +9,7 @@ namespace NSJ_TesterPanel
         public void Die()
         {
             IHit hit = GetComponent<IHit>();
-            hit.TakeDamage(10000000, true);
+            hit.TakeDamage(10000000, false, CrowdControlType.Stiff);
         }
     }
 }

@@ -92,7 +92,7 @@ public class BasicJumpDown : ArmJumpDown
         int finalDamage = Player.GetFinalDamage(_damage, out bool isCritical);
         for (int i = 0; i < hitCount; i++)
         {
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true, isCritical);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, isCritical, false );
             // ³Ë¹é
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, 1f);
         }

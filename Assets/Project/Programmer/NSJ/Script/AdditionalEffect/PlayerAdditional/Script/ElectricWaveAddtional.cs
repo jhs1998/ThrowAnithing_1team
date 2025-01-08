@@ -50,7 +50,7 @@ public class ElectricWaveAddtional : PlayerAdditional
             for (int i = 0; i < hitCount; i++)
             {
                 int finalDamage = Player.GetDamage(_damage, out bool isCritical);
-                Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, false, _electricShock,isCritical);
+                Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, _electricShock,isCritical, false);
             }
             CreateEffect();
         }
