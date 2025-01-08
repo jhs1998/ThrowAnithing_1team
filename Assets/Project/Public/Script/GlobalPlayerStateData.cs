@@ -78,6 +78,8 @@ public class GlobalPlayerStateData
     // 특수 공격력 수치 기본 : 1타 75 2타 150 3타 225
     public float[] specialAttack = new float[3];
 
+    public enum AmUnit {Balance, Pawer, Speed};
+    public AmUnit amUnit;
     public void NewPlayerSetting()
     {
         // 변수에 ScriptableObject로 가져온 값을 투입
@@ -107,5 +109,6 @@ public class GlobalPlayerStateData
         dashConsumesStamina = playerStateBase.dashConsumesStamina;
         shortRangeAttackStamina = playerStateBase.shortRangeAttackStamina;
         specialAttack = playerStateBase.specialAttack;
+        amUnit = AmUnit.Balance;
     }
 }
