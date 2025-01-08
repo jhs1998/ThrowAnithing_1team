@@ -99,7 +99,8 @@ public class PowerJumpDown : ArmJumpDown
         for (int i = 0; i < hitCount; i++)
         {
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, CrowdControlType.Stiff, isCritical, false);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, finalDamage,  false);
+            Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
             // 넉백
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, 1f);
         }

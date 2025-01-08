@@ -32,7 +32,7 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
     {
         if (collision.gameObject.tag == Tag.Player)
         {
-            Battle.TargetAttackWithDebuff(collision.transform, _damage, CrowdControlType.Stiff, false);
+            Battle.TargetAttackWithDebuff(collision.transform, _damage);
         }
     }
 
@@ -76,7 +76,7 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
         return finalDamage;
     }
 
-    public int TakeDamage(int damage, CrowdControlType type)
+    public int TakeDamage(int damage, bool isIgnoreDef)
     {
         _hp -= damage;
         //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
@@ -89,5 +89,10 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
             StartCoroutine(HitRoutine());
         }
         return damage;
+    }
+
+    public void TakeCrowdControl(CrowdControlType type)
+    {
+        
     }
 }

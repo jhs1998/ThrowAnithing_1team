@@ -8,8 +8,8 @@ namespace NSJ_TesterPanel
     {
         public void Die()
         {
-            IHit hit = GetComponent<IHit>();
-            hit.TakeDamage(10000000, false, CrowdControlType.Stiff);
+            IBattle battle = GetComponent<IBattle>();
+            battle.TakeDamage(10000000);
         }
     }
 }

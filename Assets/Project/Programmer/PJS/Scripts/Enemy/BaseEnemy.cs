@@ -82,10 +82,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
         tree.SetVariable("Reward", (SharedFloat)reward);
     }
-    /// <summary>
-    /// 몬스터가 피해받는 데미지
-    /// </summary>
-    public int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
+    public int TakeDamage(int damage, bool isIgnoreDef)
     {
         resultDamage = isIgnoreDef == true ? damage : damage - (int)state.Def;
         tree.SetVariableValue("TakeDamage", true);
@@ -95,9 +92,14 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 
         curHp -= resultDamage;
 
-        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
+        
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
         return resultDamage;
+    }
+
+    public void TakeCrowdControl(CrowdControlType type)
+    {
+        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
     }
     /// <summary>
     /// 차지 후 폭발 데미지 부여
@@ -113,7 +115,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
                 if (overLapCollider[i].gameObject.name.CompareTo("Boss") == 0)
                     continue;
 
-                hit.TakeDamage(damage, CrowdControlType.None, false);
+                hit.TakeDamage(damage);
             }
         }
     }
@@ -139,4 +141,6 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
+
+
 }

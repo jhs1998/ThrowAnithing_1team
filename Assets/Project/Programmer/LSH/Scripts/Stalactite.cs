@@ -11,9 +11,10 @@ public class Stalactite : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == Tag.Player)
-        {
-            IHit hit = other.GetComponent<IHit>();
-            hit.TakeDamage(stalactiteDamage, false, CrowdControlType.Stiff);
+        { 
+            IBattle battle = other.GetComponent<IBattle>();
+            battle.TakeDamage(stalactiteDamage);
+            battle.TakeCrowdControl(CrowdControlType.Stiff);
         }
     }
 

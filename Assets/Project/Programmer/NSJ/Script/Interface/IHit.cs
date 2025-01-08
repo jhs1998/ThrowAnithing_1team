@@ -1,5 +1,7 @@
 
 public interface IHit
 {
-    int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type);
+    int TakeDamage(int damage, bool isIgnoreDef);
+
+    void TakeCrowdControl(CrowdControlType type);
 }

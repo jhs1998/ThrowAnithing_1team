@@ -1,4 +1,3 @@
-using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
 
@@ -23,15 +22,16 @@ public class LightningFist : Action
         for (int i = 0; i < hits.Length; i++)
         {
             //BattleSystem hitObj = hits[i].collider.GetComponent<BattleSystem>();
-            IBattle hitObj = hits[i].collider.GetComponent<IBattle>();
-            if (hitObj != null)
-            {
-                if (hits[i].collider.gameObject.name.CompareTo("Boss") == 0)
-                    continue;
+            //IBattle hitObj = hits[i].collider.GetComponent<IBattle>();
+            // if (hitObj != null)
+            // {
+            if (hits[i].collider.gameObject.name.CompareTo("Boss") == 0)
+                continue;
 
-                //hitObj.TargetAttackWithDebuff(hits[i].collider.transform, skillState.damage, true);
-                hitObj.TakeDamage(skillState.damage, CrowdControlType.Stiff, false);
-            }
+            //hitObj.TargetAttackWithDebuff(hits[i].collider.transform, skillState.damage, true);
+
+            enemy.Battle.TargetAttack(hits[i].transform, skillState.damage);
+            enemy.Battle.TargetCrowdControl(hits[i].transform, CrowdControlType.Stiff);
         }
 
         StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));

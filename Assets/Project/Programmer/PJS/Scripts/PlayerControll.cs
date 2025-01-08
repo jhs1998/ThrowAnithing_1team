@@ -41,15 +41,16 @@ public class PlayerControll : MonoBehaviour, IHit, IDebuff
         transform.Translate(dir.normalized * speed * Time.deltaTime);
     }
 
-    public int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
+
+
+    public int TakeDamage(int damage, bool isIgnoreDef)
     {
         Debug.Log($"{damage} 만큼의 피해를 입음");
         return damage;
     }
 
-    public int TakeDamage(int damage, CrowdControlType type)
+    public void TakeCrowdControl(CrowdControlType type)
     {
-        Debug.Log($"{damage} 만큼의 피해를 입음");
-        return damage;
+        
     }
 }

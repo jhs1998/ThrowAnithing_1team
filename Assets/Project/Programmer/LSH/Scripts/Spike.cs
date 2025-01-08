@@ -14,9 +14,9 @@ public class Spike : MonoBehaviour
         if (other.gameObject.tag == Tag.Player)
         {
 
-            IHit hit = other.GetComponent<IHit>();
+            IBattle battle = other.GetComponent<IBattle>();
             //hit.TakeDamage(spikeDamage, true);
-            spikeRoutine = StartCoroutine(SpikeDamageRoutine(hit));
+            spikeRoutine = StartCoroutine(SpikeDamageRoutine(battle));
         }
 
     }
@@ -34,11 +34,12 @@ public class Spike : MonoBehaviour
     }
 
 
-    IEnumerator SpikeDamageRoutine(IHit hit)
+    IEnumerator SpikeDamageRoutine(IBattle battle)
     {
         while (true)
         {
-            hit.TakeDamage(spikeDamage,false, CrowdControlType.Stiff);
+            battle.TakeDamage(spikeDamage);
+            battle.TakeCrowdControl(CrowdControlType.Stiff);
             yield return count.GetDelay();
         }
     }

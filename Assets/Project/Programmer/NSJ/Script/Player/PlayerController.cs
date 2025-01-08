@@ -49,7 +49,8 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// int : 데미지, bool : 고정데미지? CrowdControlType: CC기 타입 , 반환형 int 최종데미지
     /// </summary>
-    public event Func<int, bool, CrowdControlType, int> OnPlayerHitFuncEvent;
+    public event Func<int, bool, int> OnPlayerHitFuncEvent;
+    public event UnityAction<CrowdControlType> OnPlayerCCHitEvent;
     public event UnityAction OnPlayerHitActionEvent;
     public event UnityAction OnPlayerDieEvent;
     public event UnityAction<bool> OnThrowObjectResult;
@@ -278,13 +279,19 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 데미지 받기
     /// </summary>
-    public int TakeDamage(int damage, bool isIgnoreDefance, CrowdControlType type)
+
+
+    public int TakeDamage(int damage, bool isIgnoreDef)
     {
-        int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, isIgnoreDefance, type);
+        int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, isIgnoreDef);
         OnPlayerHitActionEvent?.Invoke();
         return hitDamage;
     }
 
+    public void TakeCrowdControl(CrowdControlType type)
+    {
+        OnPlayerCCHitEvent?.Invoke(type);
+    }
     /// <summary>
     /// 사망
     /// </summary>
