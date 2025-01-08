@@ -106,16 +106,14 @@ public class BossEnemy : BaseEnemy, IHit
     {
         int time = maxTime;
         int recoveryHp = Mathf.RoundToInt(state.MaxHp * recoveryValue);
-        Debug.Log("회복 시작");
+        
         while (time > 0)    // 회복 하는 시간
         {
             yield return 1f.GetDelay();
             CurHp += recoveryHp;
             time--;
-            Debug.Log("회복 중...");
         }
 
-        Debug.Log("회복 끝");
         // 회복 끝
         createShield = false;
         transform.GetComponent<Animator>().SetBool("Recovery", false);
@@ -147,7 +145,6 @@ public class BossEnemy : BaseEnemy, IHit
         CurHp -= resultDamage;
 
         tree.SetVariableValue("Stiff", isStun);
-        Debug.Log($"{resultDamage} 피해를 입음. curHP : {CurHp}");
         return resultDamage;
     }
 
@@ -158,7 +155,6 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void FootStep()
     {
-        //Debug.Log("FootSteop()");
     }
 
     /// <summary>
@@ -166,11 +162,9 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void OnHitBegin()
     {
-        //Debug.Log("OnHitBegin()");
     }
     public void OnHitEnd()
     {
-        //Debug.Log("OnHitEnd()");
     }
 
     /// <summary>
@@ -178,18 +172,7 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void ThunderStomp()
     {
-        // 체력의 의한 패턴 변경
-        if (CurHp > state.MaxHp * 0.8f)
-        {
-            // 1페이즈 - 일렉트릭 아머
-            shieldParticle.Play();
-        }
-        else if (CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
-        {
-            // 2페이즈 - 레이지 스톰
-            Debug.Log("80 >= curHP > 50");
-        }
-
+        shieldParticle.Play();
     }
 
     /// <summary>
@@ -197,11 +180,9 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void DieEff()
     {
-        Debug.Log("DieEff()");
     }
     public void ShakingForAni()
     {
-        Debug.Log("ShakingForAni()");
     }
 
     /// <summary>
@@ -264,11 +245,9 @@ public class BossEnemy : BaseEnemy, IHit
     {
         // 공격 딜레이 시작
         tree.SetVariableValue("AttackAble", false);
-        Debug.Log("공격 딜레이 시작");
         yield return state.AtkDelay.GetDelay();
         // 공격 딜레이 끝
         tree.SetVariableValue("AttackAble", true);
-        Debug.Log("공격 딜레이 끝");
     }
 
     #region Gizmo
