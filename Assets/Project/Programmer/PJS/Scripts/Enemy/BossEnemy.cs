@@ -106,7 +106,7 @@ public class BossEnemy : BaseEnemy, IHit
     {
         int time = maxTime;
         int recoveryHp = Mathf.RoundToInt(state.MaxHp * recoveryValue);
-        
+
         while (time > 0)    // 회복 하는 시간
         {
             yield return 1f.GetDelay();
@@ -122,15 +122,15 @@ public class BossEnemy : BaseEnemy, IHit
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public new int TakeDamage(int damage, bool isStun)
+    public new int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
     {
-        if(createShield == true)
+        if (createShield == true)
         {
             breakshieldCount--;
             if (breakshieldCount <= 0) // 실드 깨짐
             {
                 breakShield = true;
-                createShield = false;   
+                createShield = false;
             }
 
             return 0;
@@ -144,7 +144,7 @@ public class BossEnemy : BaseEnemy, IHit
 
         CurHp -= resultDamage;
 
-        tree.SetVariableValue("Stiff", isStun);
+        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
         return resultDamage;
     }
 

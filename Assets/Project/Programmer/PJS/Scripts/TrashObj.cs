@@ -26,8 +26,8 @@ public class TrashObj : MonoBehaviour, IHit
         if(other.transform.tag == Tag.Monster)
         {
             Debug.Log(other.transform);
-            IHit hit = other.transform.GetComponentInParent<IHit>();
-            hit.TakeDamage(atk, false, CrowdControlType.Stiff);
+            IBattle hit = other.transform.GetComponentInParent<IBattle>();
+            hit.TakeDamage(atk, CrowdControlType.Stiff, false);
         }
 
         //gameObject.SetActive(false);

@@ -107,13 +107,13 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, range, overLapCollider);
         for (int i = 0; i < hitCount; i++)
         {
-            IHit hit = overLapCollider[i].GetComponent<IHit>();
+            IBattle hit = overLapCollider[i].GetComponent<IBattle>();
             if (hit != null)
             {
                 if (overLapCollider[i].gameObject.name.CompareTo("Boss") == 0)
                     continue;
 
-                hit.TakeDamage(damage, false,CrowdControlType.None);
+                hit.TakeDamage(damage, CrowdControlType.None, false);
             }
         }
     }

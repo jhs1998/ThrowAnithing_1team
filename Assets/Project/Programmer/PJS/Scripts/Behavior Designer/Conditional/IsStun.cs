@@ -10,11 +10,6 @@ public class IsStun : Conditional
         enemy = GetComponent<BossEnemy>();
     }
 
-    public override void OnEnd()
-    {
-        enemy.breakShield = false;
-    }
-
     public override TaskStatus OnUpdate()
     {
         if (enemy.breakShield == true)
