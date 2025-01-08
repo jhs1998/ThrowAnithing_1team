@@ -136,6 +136,8 @@ public class ArmChange : BaseUI
         Debug.Log("파워 타입 선택");
         playerStateData.nowWeapon = GlobalGameData.AmWeapon.Power;
         playerData.NowWeapon = playerStateData.nowWeapon;
+        // 데이터 세이브
+        saveSystem.SavePlayerData();
     }
 
     public void Balance()
@@ -143,6 +145,8 @@ public class ArmChange : BaseUI
         Debug.Log("밸런스 타입 선택");
         playerStateData.nowWeapon = GlobalGameData.AmWeapon.Balance;
         playerData.NowWeapon = playerStateData.nowWeapon;
+        // 데이터 세이브
+        saveSystem.SavePlayerData();
     }
 
     public void Speed()
