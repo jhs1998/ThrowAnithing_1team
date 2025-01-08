@@ -7,6 +7,7 @@ using Zenject;
 public class NSJMonster : MonoBehaviour, IHit, IDebuff
 {
     [HideInInspector] public BattleSystem Battle;
+    [SerializeField] private bool _canDie;
     [SerializeField] private int _maxHp;
     [SerializeField] private int _hp;
     [SerializeField] private float _moveSpeed;
@@ -34,13 +35,10 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
         }
     }
 
-    public int TakeDamage(int damage, bool isStun)
+    private void Die()
     {
-        _hp -= damage;
-        //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
-
-        StartCoroutine(HitRoutine());
-        return damage;
+        Battle.Die();
+        gameObject.SetActive(false);
     }
     IEnumerator HitRoutine()
     {
@@ -52,4 +50,33 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
         _renderer.material.color = _origin;
     }
 
+    public int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
+    {
+        _hp -= damage;
+        //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
+        if (_canDie == true && _hp <= 0 && Battle.IsDie == false)
+        {
+            Die();
+        }
+        else if (Battle.IsDie == false)
+        {
+            StartCoroutine(HitRoutine());
+        }
+        return damage;
+    }
+
+    public int TakeDamage(int damage, CrowdControlType type)
+    {
+        _hp -= damage;
+        //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
+        if (_canDie == true && _hp <= 0 && Battle.IsDie == false)
+        {
+            Die();
+        }
+        else if (Battle.IsDie == false)
+        {
+            StartCoroutine(HitRoutine());
+        }
+        return damage;
+    }
 }

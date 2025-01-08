@@ -1,20 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
+public enum CrowdControlType { None, Stiff, Stun, Size}
 public class BattleSystem : MonoBehaviour, IBattle
 {
     public IHit Hit { get; set; }
     public IDebuff Debuff { get; set; }
 
     [SerializeField] private Transform _hitTextPoint;
-    [SerializeField] private List<HitAdditional> _hitAdditionalList;
-    [SerializeField] private List<HitAdditional> _debuffList;
+    public List<HitAdditional> HitAdditionalList;
+    public List<HitAdditional> DebuffList;
+    public event UnityAction<int, bool> OnTargetAttackEvent;
+    public event UnityAction<int, bool> OnTakeDamageEvent;
+    public event UnityAction OnDieEvent;
 
-    private PlayerController _player;
 
+    [HideInInspector]public bool IsDie;
     private void Awake()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         Hit = GetComponent<IHit>();
         Debuff = GetComponent<IDebuff>();
 
@@ -25,6 +29,11 @@ public class BattleSystem : MonoBehaviour, IBattle
             _hitTextPoint.localPosition = new Vector3(0, 1f, 0);
         }
     }
+
+    private void OnDisable()
+    {
+        ClearDebuff();
+    }
     #region 공격 메서드
     /// <summary>
     /// 가진 모든 디버프만 주는 공격
@@ -34,7 +43,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDebuff(_hitAdditionalList);
+        battle.TakeDebuff(HitAdditionalList);
     }
     /// <summary>
     /// 특정 디버프만 주는 공격
@@ -59,138 +68,185 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <summary>
     /// 디버프 안주는 공격
     /// </summary>
-    public void TargetAttack<T>(T target, int damage, bool isStun) where T : Component
+    public int TargetAttack<T>(T target, int damage, bool isIgnoreDef) where T : Component
     {
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamage(damage, isStun); // 상대를 공격
+        int hitDamage = battle.TakeDamage(damage, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 디버프 안주는 공격 (타입, 치명타)
     /// </summary>
-    public void TargetAttack<T>(T target, int damage, bool isStun, bool isCritical) where T : Component
+    public int TargetAttack<T>(T target, int damage,  bool isCritical, bool isIgnoreDef) where T : Component
     {
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamage(damage, isStun, isCritical); // 상대를 공격
+        int hitDamage = battle.TakeDamage(damage, isCritical, isCritical); // 상대를 공격
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 디버프 안주는 공격 (타입)
     /// </summary>
-    public void TargetAttack<T>(T target, int damage, bool isStun , DamageType type) where T : Component
+    public int TargetAttack<T>(T target, int damage, CrowdControlType type, bool isIgnoreDef) where T : Component
     {
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamage(damage, isStun, type); // 상대를 공격
+        int hitDamage = battle.TakeDamage(damage, type, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 디버프 안주는 공격 (타입, 치명타)
     /// </summary>
-    public void TargetAttack<T>(T target, int damage, bool isStun, DamageType type, bool isCritical) where T : Component
+    public int TargetAttack<T>(T target, int damage, CrowdControlType type, bool isCritical, bool isIgnoreDef) where T : Component
     {
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamage(damage, isStun, type, isCritical); // 상대를 공격
+        int hitDamage = battle.TakeDamage(damage, type, isCritical, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 가진 모든 디버프 주면서 공격
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, CrowdControlType.None, HitAdditionalList, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 가진 모든 디버프 주면서 공격 (타입, 치명타)
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, bool isCritical) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage,  bool isCritical, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList, isCritical); // 상대를 공격
+        int hitDamage =  battle.TakeDamageWithDebuff(damage, HitAdditionalList, isCritical, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 가진 모든 디버프 주면서 공격 (타입)
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, DamageType type) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, CrowdControlType type, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList, type); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, type, HitAdditionalList, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 가진 모든 디버프 주면서 공격 (타입, 치명타)
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, DamageType type, bool isCritical) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, CrowdControlType type,bool isCritical, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, _hitAdditionalList, type, isCritical); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, type, HitAdditionalList, isCritical, isIgnoreDef);
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프만 주면서 공격
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, HitAdditional debuff) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, HitAdditional debuff, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, debuff); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, debuff, isIgnoreDef);
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
+        return hitDamage;; // 상대를 공격
     }
     /// <summary>
     /// 특정 디버프만 주면서 공격 (타입, 치명타)
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, HitAdditional debuff, bool isCritical) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, HitAdditional debuff, bool isCritical, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, debuff, isCritical); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, debuff, isCritical, isIgnoreDef);
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프만 주면서 공격 (타입)
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, HitAdditional debuff, DamageType type) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, CrowdControlType type, HitAdditional debuff, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, debuff, type); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, type, debuff, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프만 주면서 공격 (타입, 치명타)
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, HitAdditional debuff, DamageType type, bool isCritical) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, CrowdControlType type, HitAdditional debuff, bool isCritical, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, debuff, type, isCritical); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, type, debuff, isCritical, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프들을 주면서 공격 가능
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, List<HitAdditional> debuffs) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, List<HitAdditional> debuffs, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, debuffs); // 상대를 공격
+        int hitDamage = battle.TakeDamageWithDebuff(damage, debuffs, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프들을 주면서 공격 가능 (타입, 치명타)
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, List<HitAdditional> debuffs, bool isCritical) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, List<HitAdditional> debuffs, bool isCritical, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, debuffs, isCritical); // 상대를 공격
+        int hitDamage =battle.TakeDamageWithDebuff(damage, debuffs, isCritical, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프들을 주면서 공격 가능 (타입)
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, List<HitAdditional> debuffs, DamageType type) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, CrowdControlType type, List<HitAdditional> debuffs, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, debuffs, type); // 상대를 공격
+        int hitDamage =battle.TakeDamageWithDebuff(damage, type, debuffs, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프들을 주면서 공격 가능 (타입, 치명타)
     /// </summary>
-    public void TargetAttackWithDebuff<T>(T target, int damage, bool isStun, List<HitAdditional> debuffs, DamageType type, bool isCritical) where T : Component
+    public int TargetAttackWithDebuff<T>(T target, int damage, CrowdControlType type, List<HitAdditional> debuffs,  bool isCritical, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        battle.TakeDamageWithDebuff(damage, isStun, debuffs, type, isCritical); // 상대를 공격
+        int hitDamage= battle.TakeDamageWithDebuff(damage, type, debuffs, isCritical, isIgnoreDef); // 상대를 공격
+
+        OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
+        return hitDamage;
     }
     #endregion
     #region 피격 메서드
@@ -212,142 +268,169 @@ public class BattleSystem : MonoBehaviour, IBattle
             AddDebuff(debuff);
         }
     }
-
     /// <summary>
     /// 디버프 안주는 공격 맞기
     /// </summary>
-    public void TakeDamage(int damage, bool isStun)
+    public int TakeDamage(int damage, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, CrowdControlType.None);
         CreateDamageText(hitDamage);
+
+        OnTakeDamageEvent?.Invoke(damage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 디버프 안주는 공격 맞기 (타입, 치명타 체크)
     /// </summary>
-    public void TakeDamage(int damage, bool isStun, bool isCritical)
+    public int TakeDamage(int damage, bool isCritical, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, CrowdControlType.None);
         CreateDamageText(hitDamage, isCritical);
+
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 디버프 안주는 공격 맞기 (타입)
     /// </summary>
-    public void TakeDamage(int damage, bool isStun, DamageType type)
+    public int TakeDamage(int damage, CrowdControlType type, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, type);
         CreateDamageText(hitDamage,type);
+
+        OnTakeDamageEvent?.Invoke(damage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 디버프 안주는 공격 맞기 (타입, 치명타 체크)
     /// </summary>
-    public void TakeDamage(int damage, bool isStun, DamageType type, bool isCritical)
+    public int TakeDamage(int damage, CrowdControlType type, bool isCritical, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, type);
         CreateDamageText(hitDamage, type, isCritical);
+
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 공격받으면서 디버프 전부 받기
     /// </summary>
-    public void TakeDamageWithDebuff(int damage, bool isStun, List<HitAdditional> debuffs)
+    public int TakeDamageWithDebuff(int damage, List<HitAdditional> debuffs, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, CrowdControlType.None);
         CreateDamageText(hitDamage);
         // 디버프 추가
         foreach (HitAdditional hitAdditional in debuffs) 
         {
             AddDebuff(hitAdditional, hitDamage, false);
         }
+        OnTakeDamageEvent?.Invoke(damage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 공격받으면서 디버프 전부 받기 (타입)
     /// </summary>
-    public void TakeDamageWithDebuff(int damage, bool isStun, List<HitAdditional> debuffs, bool isCritical)
+    public int TakeDamageWithDebuff(int damage, List<HitAdditional> debuffs, bool isCritical, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef,CrowdControlType.None);
         CreateDamageText(hitDamage, isCritical);
         // 디버프 추가
         foreach (HitAdditional hitAdditional in debuffs)
         {
             AddDebuff(hitAdditional, hitDamage, isCritical);
         }
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 공격받으면서 디버프 전부 받기 (타입)
     /// </summary>
-    public void TakeDamageWithDebuff(int damage, bool isStun, List<HitAdditional> debuffs, DamageType type)
+    public int TakeDamageWithDebuff(int damage, CrowdControlType type, List<HitAdditional> debuffs,  bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, type);
         CreateDamageText(hitDamage, type);
         // 디버프 추가
         foreach (HitAdditional hitAdditional in debuffs)
         {
             AddDebuff(hitAdditional, hitDamage, false);
         }
+        OnTakeDamageEvent?.Invoke(damage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 공격받으면서 디버프 전부 받기 (타입, 치명타)
     /// </summary>
-    public void TakeDamageWithDebuff(int damage, bool isStun, List<HitAdditional> debuffs, DamageType type, bool isCritical)
+    public int TakeDamageWithDebuff(int damage,  CrowdControlType type,List<HitAdditional> debuffs, bool isCritical, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, type);
         CreateDamageText(hitDamage, type, isCritical);
         // 디버프 추가
         foreach (HitAdditional hitAdditional in debuffs)
         {
             AddDebuff(hitAdditional, hitDamage, isCritical);
         }
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프만 받기
     /// </summary>
-    public void TakeDamageWithDebuff(int damage, bool isStun, HitAdditional debuff)
+    public int TakeDamageWithDebuff(int damage,  HitAdditional debuff, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, CrowdControlType.None);
         CreateDamageText(hitDamage);
 
         AddDebuff(debuff, hitDamage, false);
+        OnTakeDamageEvent?.Invoke(damage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프만 받기 (치명타)
     /// </summary>
-    public void TakeDamageWithDebuff(int damage, bool isStun, HitAdditional debuff, bool isCritical)
+    public int TakeDamageWithDebuff(int damage,  HitAdditional debuff, bool isCritical, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, CrowdControlType.None);
         CreateDamageText(hitDamage, isCritical);
 
         AddDebuff(debuff, hitDamage, isCritical);
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프만 받기 (타입)
     /// </summary>
-    public void TakeDamageWithDebuff(int damage, bool isStun, HitAdditional debuff, DamageType type)
+    public int TakeDamageWithDebuff(int damage, CrowdControlType type, HitAdditional debuff, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, type);
         CreateDamageText(hitDamage,type);
 
         AddDebuff(debuff, hitDamage, false);
+        OnTakeDamageEvent?.Invoke(damage, false);
+        return hitDamage;
     }
     /// <summary>
     /// 특정 디버프만 받기 (타입, 치명타)
     /// </summary>
-    public void TakeDamageWithDebuff(int damage, bool isStun, HitAdditional debuff, DamageType type, bool isCritical)
+    public int TakeDamageWithDebuff(int damage, CrowdControlType type, HitAdditional debuff,  bool isCritical, bool isIgnoreDef)
     {
         // 데미지 주기
-        int hitDamage = Hit.TakeDamage(damage, isStun);
+        int hitDamage = Hit.TakeDamage(damage, isIgnoreDef, type);
         CreateDamageText(hitDamage, type, isCritical);
 
         AddDebuff(debuff, hitDamage, isCritical);
+        OnTakeDamageEvent?.Invoke(damage, isCritical);
+        return hitDamage;
     }
     #endregion
     #region 데미지 UI 
@@ -356,7 +439,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// </summary>
     private void CreateDamageText(int damage)
     {
-        DamageText text = Instantiate(DataContainer.GetDamageText(DamageType.Default), transform.position, Quaternion.identity);
+        DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
         text.SetDamageText(damage, _hitTextPoint, isPlayer);
     }
@@ -365,25 +448,25 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// </summary>
     private void CreateDamageText(int damage, bool isCritical)
     {
-        DamageText text = Instantiate(DataContainer.GetDamageText(DamageType.Default), transform.position, Quaternion.identity);
+        DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
-        text.SetDamageText(damage, _hitTextPoint, DamageType.Default, isCritical, isPlayer);
+        text.SetDamageText(damage, _hitTextPoint, CrowdControlType.None, isCritical, isPlayer);
     }
     /// <summary>
     /// 데미지 UI 띄우기
     /// </summary>
-    private void CreateDamageText(int damage, DamageType type)
+    private void CreateDamageText(int damage, CrowdControlType type)
     {
-        DamageText text = Instantiate(DataContainer.GetDamageText(DamageType.Default), transform.position, Quaternion.identity);
+        DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
         text.SetDamageText(damage, _hitTextPoint, type, false, isPlayer);
     }
     /// <summary>
     /// 데미지 UI 띄우기
     /// </summary>
-    private void CreateDamageText(int damage, DamageType type, bool isCritical)
+    private void CreateDamageText(int damage, CrowdControlType type, bool isCritical)
     {
-        DamageText text = Instantiate(DataContainer.GetDamageText(DamageType.Default), transform.position, Quaternion.identity);
+        DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
         text.SetDamageText(damage, _hitTextPoint, type, isCritical, isPlayer);
     }
@@ -396,11 +479,11 @@ public class BattleSystem : MonoBehaviour, IBattle
     public void AddHitAdditionalList(HitAdditional hitAdditional)
     {
         // 중복체크
-        int index = _hitAdditionalList.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
+        int index = HitAdditionalList.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
         // 중복시 등록안함
         if (index != -1)
             return;
-        _hitAdditionalList.Add(hitAdditional);
+        HitAdditionalList.Add(hitAdditional);
     }
     /// <summary>
     /// 적중 효과 삭제
@@ -409,11 +492,11 @@ public class BattleSystem : MonoBehaviour, IBattle
     public void RemoveHitAdditionalList(HitAdditional hitAdditional)
     {
         // 중복체크
-        int index = _hitAdditionalList.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
+        int index = HitAdditionalList.FindIndex(origin => origin.Origin.Equals(hitAdditional.Origin));
         // 중복 없을 시 삭제 안함
         if (index == -1)
             return;
-        _hitAdditionalList.Remove(hitAdditional);
+        HitAdditionalList.Remove(hitAdditional);
     }
     #endregion
     #region 디버프 추가/삭제
@@ -423,22 +506,25 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <param name="debuff"></param>
     private void AddDebuff(HitAdditional debuff)
     {
-        int index = _debuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
-        if (index >= _debuffList.Count)
+        if (IsDie == true)
+            return;
+
+        int index = DebuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
+        if (index >= DebuffList.Count)
             return;
         // 디버프 중복 시
         if (index != -1)
         {
             // 기존 디버프 지속시간 갱신
-            _debuffList[index].Init(0, false, _debuffList[index].Duration);
+            DebuffList[index].Init(0, false, DebuffList[index].Duration);
             // 디버프 재 발동
-            _debuffList[index].Enter();
+            DebuffList[index].Enter();
         }
         else
         {
             HitAdditional cloneDebuff = Instantiate(debuff);
             // 디버프 추가 후 발동
-            _debuffList.Add(cloneDebuff);
+            DebuffList.Add(cloneDebuff);
             cloneDebuff.Origin = debuff.Origin;
             cloneDebuff.Battle = this;
             cloneDebuff.transform = transform;
@@ -452,22 +538,25 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <param name="debuff"></param>
     private void AddDebuff(HitAdditional debuff, int damage, bool isCritical)
     {
-        int index = _debuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
-        if (index >= _debuffList.Count)
+        if (IsDie == true)
+            return;
+
+        int index = DebuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
+        if (index >= DebuffList.Count)
             return;
         // 디버프 중복 시
         if (index != -1)
         {
             // 기존 디버프 지속시간 갱신
-            _debuffList[index].Init(damage, isCritical, _debuffList[index].Duration);
+            DebuffList[index].Init(damage, isCritical, DebuffList[index].Duration);
             // 디버프 재 발동
-            _debuffList[index].Enter();
+            DebuffList[index].Enter();
         }
         else
         {
             HitAdditional cloneDebuff = Instantiate(debuff);
             // 디버프 추가 후 발동
-            _debuffList.Add(cloneDebuff);
+            DebuffList.Add(cloneDebuff);
             cloneDebuff.Origin = debuff.Origin;
             cloneDebuff.Battle = this;
             cloneDebuff.transform = transform;
@@ -482,8 +571,61 @@ public class BattleSystem : MonoBehaviour, IBattle
     private void RemoveDebuff(HitAdditional debuff)
     {
         debuff.Exit();
-        _debuffList.Remove(debuff);
+        DebuffList.Remove(debuff);
         Destroy(debuff);
+    }
+    /// <summary>
+    /// 디버프 모두 삭제(정리)
+    /// </summary>
+    private void ClearDebuff()
+    {
+        foreach (HitAdditional debuff in DebuffList)
+        {
+            debuff.Exit();
+            Destroy(debuff);
+        }
+        DebuffList.Clear();
+    }
+    #endregion
+    #region 콜백
+    public void Enter()
+    {
+        foreach (HitAdditional debuff in DebuffList) 
+        {
+            debuff.Enter();
+        }
+    }
+
+    public void Exit()
+    {
+        foreach (HitAdditional debuff in DebuffList)
+        {
+            debuff.Exit();
+        }
+    }
+
+    public void Update()
+    {
+        foreach (HitAdditional debuff in DebuffList)
+        {
+            debuff.Update();
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        foreach (HitAdditional debuff in DebuffList)
+        {
+            debuff.FixedUpdate();
+        }
+    }
+
+    public void Trigger()
+    {
+        foreach (HitAdditional debuff in DebuffList)
+        {
+            debuff.Trigger();
+        }
     }
     #endregion
     /// <summary>
@@ -493,45 +635,10 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         RemoveDebuff(debuff);
     }
-    #region 콜백
-    public void Enter()
+    public void Die()
     {
-        foreach (HitAdditional debuff in _debuffList) 
-        {
-            debuff.Enter();
-        }
+        IsDie = true;
+        OnDieEvent?.Invoke();
+        ClearDebuff();
     }
-
-    public void Exit()
-    {
-        foreach (HitAdditional debuff in _debuffList)
-        {
-            debuff.Exit();
-        }
-    }
-
-    public void Update()
-    {
-        foreach (HitAdditional debuff in _debuffList)
-        {
-            debuff.Update();
-        }
-    }
-
-    public void FixedUpdate()
-    {
-        foreach (HitAdditional debuff in _debuffList)
-        {
-            debuff.FixedUpdate();
-        }
-    }
-
-    public void Trigger()
-    {
-        foreach (HitAdditional debuff in _debuffList)
-        {
-            debuff.Trigger();
-        }
-    }
-    #endregion
 }

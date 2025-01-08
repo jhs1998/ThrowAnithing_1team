@@ -13,7 +13,7 @@ public class Stalactite : MonoBehaviour
         if (other.gameObject.tag == Tag.Player)
         {
             IHit hit = other.GetComponent<IHit>();
-            hit.TakeDamage(stalactiteDamage, true);
+            hit.TakeDamage(stalactiteDamage, false, CrowdControlType.Stiff);
         }
     }
 

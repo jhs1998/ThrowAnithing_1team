@@ -11,6 +11,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
     [Range(0,180)][SerializeField] float _angle;
     [SerializeField] float _damageMultiplier;
 
+    private float _staminaReduction => 1 - Model.StaminaReduction / 100;
     Coroutine _meleeRoutine;
     public override void Enter()
     {
@@ -79,7 +80,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
             
             int finalDamage = Player.GetFinalDamage(_damage,_damageMultiplier, out bool isCritical);
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true, isCritical);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, isCritical, false);
         }
     }
 

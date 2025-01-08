@@ -11,12 +11,12 @@ public class TranceAddtional : PlayerAdditional
     [SerializeField] float IncreaseAttackSpeed;
     public override void Enter()
     {
-        Model.AttackPowerMultiplier -= DecreaseDamage;
+        Model.DamageMultiplier -= DecreaseDamage;
         Model.AttackSpeedMultiplier += IncreaseAttackSpeed;
     }
     public override void Exit()
     {
-        Model.AttackPowerMultiplier += DecreaseDamage;
+        Model.DamageMultiplier += DecreaseDamage;
         Model.AttackSpeedMultiplier -= IncreaseAttackSpeed;
     }
 }

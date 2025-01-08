@@ -213,7 +213,7 @@ public class BasicSpecialAttack : ArmSpecialAttack
         for (int i = 0; i < hitCount; i++)
         {
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true, isCritical);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, isCritical, false);
 
             // 넉백 가능하면 넉백
             if (_charges[_index].KnockBackDistance > 0)

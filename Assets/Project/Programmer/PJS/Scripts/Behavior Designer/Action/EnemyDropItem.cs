@@ -7,12 +7,6 @@ public class EnemyDropItem : Action
     const int maxPersent = 100;
     [SerializeField] SharedFloat reward;    // 드랍 확률
 
-    public override void OnStart()
-    {
-        if (reward.Value > maxPersent)
-            reward.Value = reward.Value / maxPersent;
-    }
-
     public override TaskStatus OnUpdate()
     {
         // 몬스터가 죽었을 시 아이템 드랍

@@ -34,7 +34,7 @@ public class PoizonAdditional : HitAdditional
         while (_remainDuration > 0)
         {
             yield return 1f.GetDelay();
-            Battle.TakeDamage(damage, false, DamageType.Posion);
+            Battle.TakeDamage(damage, CrowdControlType.None, true);
             _remainDuration--;
         }
         Battle.EndDebuff(this);

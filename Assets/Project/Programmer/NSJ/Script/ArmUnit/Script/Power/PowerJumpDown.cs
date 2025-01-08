@@ -99,7 +99,7 @@ public class PowerJumpDown : ArmJumpDown
         for (int i = 0; i < hitCount; i++)
         {
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, true, isCritical);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, isCritical, false);
             // 넉백
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, 1f);
         }
