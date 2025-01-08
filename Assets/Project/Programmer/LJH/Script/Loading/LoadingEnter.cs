@@ -26,6 +26,7 @@ public class LoadingEnter : MonoBehaviour
         //          Loading.LoadScene("GameSceneBoss");
         //  }
 
+        //테스트용
         if (other.transform.tag == Tag.Player)
                 Loading.LoadScene("GameSceneSta1");
     }

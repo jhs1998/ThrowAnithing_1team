@@ -15,7 +15,9 @@ public class Loading : MonoBehaviour
 
     private void Start()
     {
+        round = Round.instance.curRound;
         StartCoroutine(LoadScene(round));
+        Debug.Log("로딩중임");
     }
 
     public static void LoadScene(string sceneName)
