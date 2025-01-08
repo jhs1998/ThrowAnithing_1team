@@ -38,7 +38,7 @@ public class OptionSetting : MonoBehaviour
 
     public void Start()
     {
-        OptionLode();
+        OptionLoad();
     }
 
     public void ResetPlayerPrefs()
@@ -68,7 +68,7 @@ public class OptionSetting : MonoBehaviour
     }
 
     // 옵션 세팅 수치 로드
-    public void OptionLode()
+    public void OptionLoad()
     {
         if (!PlayerPrefs.HasKey(EffectSoundKey) || !PlayerPrefs.HasKey(BackgroundSoundKey) || !PlayerPrefs.HasKey(WholeSoundKey) || !PlayerPrefs.HasKey(CameraSpeedKey) 
             || !PlayerPrefs.HasKey(MiniMapOnKey) || !PlayerPrefs.HasKey(MiniMapFixKey) || !PlayerPrefs.HasKey(LanguageKey))

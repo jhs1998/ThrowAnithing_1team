@@ -8,16 +8,14 @@ public class BerserkerAdditional : PlayerAdditional
     [Header("공격 당 체력 감소 량(%)")]
     [SerializeField] private float _hitAmount;
 
-    private int _increaseDamageAmount;
 
     public override void Enter()
     {
-        _increaseDamageAmount = (int)(Model.AttackPower * _increaseDamage / 100);
-        Model.AttackPower = GetPlayerAttackPower(_increaseDamageAmount);
+        Model.AttackPowerMultiplier += _increaseDamage;
     }
     public override void Exit()
     {
-        Model.AttackPower = GetPlayerAttackPower(-_increaseDamageAmount);
+        Model.AttackPowerMultiplier -= _increaseDamage;
     }
 
     public override void Trigger()

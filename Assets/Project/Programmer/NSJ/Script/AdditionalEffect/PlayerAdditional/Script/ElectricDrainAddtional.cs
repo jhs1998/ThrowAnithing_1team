@@ -66,7 +66,7 @@ public class ElectricDrainAddtional : PlayerAdditional
             {
                 // 데미지, 디버프 주기
                 int finalDamage = Player.GetDamage(_damage, out bool isCritical);
-                Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, false,_electricShock ,isCritical);
+                Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage,_electricShock ,isCritical, false);
             }
             yield return 1f.GetDelay();
         }

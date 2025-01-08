@@ -14,6 +14,8 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] int maxRecoveryHp;
     [Header("2페이즈에 생성되는 실드 파괴 카운트")]
     [SerializeField] int breakshieldCount = 20;
+    [Header("실드 파괴 후 그로기 시간 ( 초 단위)")]
+    [SerializeField] float stunTime;
 
     [Space, SerializeField] ParticleSystem shieldParticle;
 
@@ -21,8 +23,8 @@ public class BossEnemy : BaseEnemy, IHit
     public Coroutine recovery;  // 회복 관련 코루틴
     private bool onFrezenyPassive = false;
     private bool onEntryStop;
-    [HideInInspector]public bool createShield;
-    [HideInInspector]public bool breakShield;
+    public bool createShield;
+    public bool breakShield;
 
     private void Start()
     {
@@ -39,6 +41,7 @@ public class BossEnemy : BaseEnemy, IHit
     {
         tree.SetVariableValue("MaxTime", maxTime);
         tree.SetVariableValue("MaxRecoveryHp", maxRecoveryHp);
+        tree.SetVariableValue("StunTime", stunTime);
     }
 
     private void ChangePhase()
@@ -96,22 +99,21 @@ public class BossEnemy : BaseEnemy, IHit
     public void RecoveryStopCotoutine()
     {
         StopCoroutine(recovery);
+        transform.GetComponent<Animator>().SetBool("Recovery", false);
     }
 
     IEnumerator RecoveryRoutin(int maxTime, float recoveryValue)
     {
         int time = maxTime;
         int recoveryHp = Mathf.RoundToInt(state.MaxHp * recoveryValue);
-        Debug.Log("회복 시작");
+
         while (time > 0)    // 회복 하는 시간
         {
             yield return 1f.GetDelay();
             CurHp += recoveryHp;
             time--;
-            Debug.Log("회복 중...");
         }
 
-        Debug.Log("회복 끝");
         // 회복 끝
         createShield = false;
         transform.GetComponent<Animator>().SetBool("Recovery", false);
@@ -120,15 +122,15 @@ public class BossEnemy : BaseEnemy, IHit
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public new int TakeDamage(int damage, bool isStun)
+    public new int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
     {
-        if(createShield == true)
+        if (createShield == true)
         {
             breakshieldCount--;
             if (breakshieldCount <= 0) // 실드 깨짐
             {
                 breakShield = true;
-                createShield = false;   
+                createShield = false;
             }
 
             return 0;
@@ -142,8 +144,7 @@ public class BossEnemy : BaseEnemy, IHit
 
         CurHp -= resultDamage;
 
-        tree.SetVariableValue("Stiff", isStun);
-        Debug.Log($"{resultDamage} 피해를 입음. curHP : {CurHp}");
+        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
         return resultDamage;
     }
 
@@ -154,7 +155,6 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void FootStep()
     {
-        //Debug.Log("FootSteop()");
     }
 
     /// <summary>
@@ -162,11 +162,9 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void OnHitBegin()
     {
-        //Debug.Log("OnHitBegin()");
     }
     public void OnHitEnd()
     {
-        //Debug.Log("OnHitEnd()");
     }
 
     /// <summary>
@@ -174,18 +172,7 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void ThunderStomp()
     {
-        // 체력의 의한 패턴 변경
-        if (CurHp > state.MaxHp * 0.8f)
-        {
-            // 1페이즈 - 일렉트릭 아머
-            shieldParticle.Play();
-        }
-        else if (CurHp <= state.MaxHp * 0.8f && CurHp > state.MaxHp * 0.5f)
-        {
-            // 2페이즈 - 레이지 스톰
-            Debug.Log("80 >= curHP > 50");
-        }
-
+        shieldParticle.Play();
     }
 
     /// <summary>
@@ -193,11 +180,9 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void DieEff()
     {
-        Debug.Log("DieEff()");
     }
     public void ShakingForAni()
     {
-        Debug.Log("ShakingForAni()");
     }
 
     /// <summary>
@@ -260,11 +245,9 @@ public class BossEnemy : BaseEnemy, IHit
     {
         // 공격 딜레이 시작
         tree.SetVariableValue("AttackAble", false);
-        Debug.Log("공격 딜레이 시작");
         yield return state.AtkDelay.GetDelay();
         // 공격 딜레이 끝
         tree.SetVariableValue("AttackAble", true);
-        Debug.Log("공격 딜레이 끝");
     }
 
     #region Gizmo

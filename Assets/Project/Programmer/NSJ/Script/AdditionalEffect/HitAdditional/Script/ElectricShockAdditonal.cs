@@ -17,32 +17,31 @@ public class ElectricShockAdditonal : HitAdditional
     {
         Debug.Log($"{gameObject.name} 감전");
 
-        // 깎인 이동속도 계산
-        float originMoveSpeed = Battle.Debuff.MoveSpeed;
-        Battle.Debuff.MoveSpeed *=  1 - _moveSpeedReduction / 100; 
-        _decreasedMoveSpeed = originMoveSpeed - Battle.Debuff.MoveSpeed;
-
-        // 깎인 공격속도 계산
-        float originAttackSpeed = Battle.Debuff.AttackSpeed;
-        Battle.Debuff.AttackSpeed *= 1 - _attackSpeedReduction / 100;
-        _decreasedAttackSpeed = originAttackSpeed - Battle.Debuff.AttackSpeed;
-        
-
+       
         if(_debuffRoutine == null)
         {
             _debuffRoutine = CoroutineHandler.StartRoutine(DurationRoutine());
+
+            // 깎인 이동속도 계산
+            float originMoveSpeed = Battle.Debuff.MoveSpeed;
+            Battle.Debuff.MoveSpeed *= 1 - _moveSpeedReduction / 100;
+            _decreasedMoveSpeed = originMoveSpeed - Battle.Debuff.MoveSpeed;
+
+            // 깎인 공격속도 계산
+            float originAttackSpeed = Battle.Debuff.AttackSpeed;
+            Battle.Debuff.AttackSpeed *= 1 - _attackSpeedReduction / 100;
+            _decreasedAttackSpeed = originAttackSpeed - Battle.Debuff.AttackSpeed;
         }
     }
     public override void Exit()
     {
-        // 깎인 양 만큼 복구
-        Battle.Debuff.MoveSpeed += _decreasedMoveSpeed;
-        Battle.Debuff.AttackSpeed += _decreasedAttackSpeed;
-
         if (_debuffRoutine != null) 
         {
             CoroutineHandler.StopRoutine(_debuffRoutine);
             _debuffRoutine = null;
+            // 깎인 양 만큼 복구
+            Battle.Debuff.MoveSpeed += _decreasedMoveSpeed;
+            Battle.Debuff.AttackSpeed += _decreasedAttackSpeed;
         }
     }
 

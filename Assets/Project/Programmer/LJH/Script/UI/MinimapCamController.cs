@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Zenject;
 
 public class MinimapCamController : MonoBehaviour
 {
     //마커는 캐릭터, 오브젝트, 몬스터 등에 프리팹에 붙여넣고 레이어 처리
+    [Inject]
+    OptionSetting option_setting;
+
 
     GameObject player;
     [SerializeField] GameObject minimap;
@@ -40,7 +44,7 @@ public class MinimapCamController : MonoBehaviour
     // 환경 설정에서 미니맵 픽스드 누를때마다 호출
     void CamRot()
     {
-        minimapFix = minimapFixCheckBox.activeSelf;
+        minimapFix = option_setting.miniMapFixBool;
 
         if(!minimapFix)
         transform.eulerAngles = new Vector3(90, player.transform.eulerAngles.y, 0);
@@ -50,7 +54,7 @@ public class MinimapCamController : MonoBehaviour
     // 환경 설정에서 미니맵 액티베이트 누를때마다 호출
     void CamActivated()
     {
-        minimapAct = minimapActCheckBox.activeSelf;
+        minimapAct = option_setting.miniMapOnBool;
         minimap.SetActive(minimapAct);
         
     }

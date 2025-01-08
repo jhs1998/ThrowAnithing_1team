@@ -1,6 +1,7 @@
 using BehaviorDesigner.Runtime;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -60,6 +61,11 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         return state;
     }
 
+    public BehaviorTree GetBT()
+    {
+        return tree;
+    }
+
     protected void BaseInit()
     {
         SettingVariable();
@@ -76,13 +82,12 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
         tree.SetVariable("Reward", (SharedFloat)reward);
     }
-
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public int TakeDamage(int damage, bool isStun)
+    public int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
     {
-        resultDamage = damage - (int)state.Def;
+        resultDamage = isIgnoreDef == true ? damage : damage - (int)state.Def;
         tree.SetVariableValue("TakeDamage", true);
 
         if (resultDamage <= 0)
@@ -90,11 +95,10 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 
         curHp -= resultDamage;
 
-        tree.SetVariableValue("Stiff", isStun);
+        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
         return resultDamage;
     }
-
     /// <summary>
     /// 차지 후 폭발 데미지 부여
     /// </summary>
@@ -103,13 +107,13 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, range, overLapCollider);
         for (int i = 0; i < hitCount; i++)
         {
-            IHit hit = overLapCollider[i].GetComponent<IHit>();
+            IBattle hit = overLapCollider[i].GetComponent<IBattle>();
             if (hit != null)
             {
                 if (overLapCollider[i].gameObject.name.CompareTo("Boss") == 0)
                     continue;
 
-                hit.TakeDamage(damage, false);
+                hit.TakeDamage(damage, CrowdControlType.None, false);
             }
         }
     }
@@ -122,10 +126,8 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     public IEnumerator CoolTimeRoutine(SharedBool atkAble, float coolTime)
     {
         atkAble.SetValue(false);
-        Debug.Log($"{atkAble.Name} 쿨타임 시작");
         yield return coolTime.GetDelay();
         atkAble.SetValue(true);
-        Debug.Log($"{atkAble.Name} 쿨타임 끝");
     }
 
     private void OnDrawGizmosSelected()

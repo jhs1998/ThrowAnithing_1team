@@ -4,6 +4,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class PlayerModel : MonoBehaviour, IDebuff
@@ -30,6 +31,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     #region 공격
     public int AttackPower { get { return Data.AttackPower; } set { Data.AttackPower = value; } }
     public float AttackPowerMultiplier { get { return Data.AttackPowerMultiplier; } set { Data.AttackPowerMultiplier = value; } }
+    public float DamageMultiplier { get { return Data.DamageMultiplier; } set { Data.DamageMultiplier = value; } }
     public float AttackSpeed
     {
         get
@@ -97,7 +99,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public Subject<float> CurStaminaSubject = new Subject<float>();
     public float RegainStamina { get { return Data.RegainStamina; } set { Data.RegainStamina = value; } } // 스테미나 초당 회복량
     public float StaminaCoolTime { get { return Data.StaminaCoolTime; } set { Data.StaminaCoolTime = value; } } // 스테미나 소진 후 쿨타임
-
+    public float StaminaReduction { get { return Data.StaminaReduction; } set { Data.StaminaReduction = value; } }
     public float MaxStaminaCharge { get { return Data.MaxStaminaCharge; } set { Data.MaxStaminaCharge = value; } }
     public float CurStaminaCharge { get { return Data.CurStaminaCharge; } set { Data.CurStaminaCharge = value; CurStaminaChargeSubject.OnNext(value); } }
     public Subject<float> CurStaminaChargeSubject = new Subject<float>();
@@ -139,7 +141,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     }
     public Subject<float> SpecialChargeGageSubject = new Subject<float>();
     #endregion
-
+    public float DrainLife { get { return Data.DrainLife; } set { Data.DrainLife = value; } }
     public GlobalGameData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade; } set { Data.EquipmentDropUpgrade = value; } }
 
@@ -155,15 +157,18 @@ public class PlayerModel : MonoBehaviour, IDebuff
     [SerializeField] public DrainStruct Drain;
     public float DrainDistance
     {
-        get 
-        { 
-            return Drain.DrainDistance * (1 + DrainDistanceMultyPlier/100); // 드레인 기본 범위 * 드레인 범위 증가량(%)
+        get
+        {
+            return Drain.DrainDistance * (1 + DrainDistanceMultyPlier / 100); // 드레인 기본 범위 * 드레인 범위 증가량(%)
         }
         set { Drain.DrainDistance = value; }
     }
     public float DrainDistanceMultyPlier { get { return Drain.DrainDistanceMultyPlier; } set { Drain.DrainDistanceMultyPlier = value; } }
-    public float DrainStamina { get { return Drain.DrainStamina; } set { Drain.DrainStamina = value; } }
+    public float DrainStamina { get { return Drain.DrainStamina * (1 - StaminaReduction / 100); } set { Drain.DrainStamina = value; } }
+    [Tooltip("현재 차지 단계")]
     public int ChargeStep;
+    [Tooltip("넉백 거리 증가")]
+    public float KnockBackDistanceMultiplier;
 
 
     private PlayerView _view;
@@ -191,13 +196,15 @@ public class PlayerModel : MonoBehaviour, IDebuff
         _view = GetComponent<PlayerView>();
         _player = GetComponent<PlayerController>();
         Data.IsDead = false;
-        if (_isTest == false)
+
+        if (SceneManager.GetActiveScene().name == SceneName.LobbyScene)
         {
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);
         }
-        else
+        if (_isTest == true)
         {
             GlobalStateData.NewPlayerSetting();
+            Debug.Log($"원거리 데미지: {GlobalStateData.longRangeAttack[0]}");
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);
             RegainStamina = 100;
             RegainMana[0] = 100;
@@ -294,8 +301,10 @@ public partial class PlayerData
     {
         [Header("공격력")]
         public int AttackPower;
-        [Header("공격력 배율(%)")]
+        [Header("공격력 배율")]
         public float AttackPowerMultiplier;
+        [Header("데미지 배율(%)")]
+        public float DamageMultiplier;
         [Header("공격 속도")]
         public float AttackSpeed;
         [Header("공격 속도 배율(%)")]
@@ -320,10 +329,14 @@ public partial class PlayerData
         public float StaminaCoolTime; // 스테미나 소진 후 쿨타임
         [Header("스테미나 소모량 (?)")]
         public float ConsumesStamina; // 스테미나 소모량
+        [Header("스테미나 소모 감소량(%)")]
+        public float StaminaReduction;
         [Header("스테미나 최대 차지 시간")]
         public float MaxStaminaCharge;
         [Header("현재 스테미나 차지 시간")]
         public float CurStaminaCharge;
+        [Header("암유닛-파워 근접공격 스테미나 소모량")]
+        public float[] MeleeAttackStamina;
     }
     [System.Serializable]
     public struct JumpStruct
@@ -428,7 +441,6 @@ public partial class PlayerData
         public ThrowStruct Throw;
         public AdditionalStruct Additional;
         public float DrainLife;
-        public float[] MeleeAttackStamina;
         public float EquipmentDropUpgrade;
         // 상태이상 지속시간
     }
@@ -475,7 +487,10 @@ public partial class PlayerData
     }
     public int CurHp
     {
-        get { return Data.Hp.CurHp + (int)EquipStatus.HP; }
+        get
+        {
+            return Data.Hp.CurHp;
+        }
         set
         {
             Data.Hp.CurHp = value;
@@ -495,8 +510,8 @@ public partial class PlayerData
     {
         get
         {
-            //float attackMultiplier = 1 + AttackPowerMultiplier / 100 >= 0 ? 1 + AttackPowerMultiplier / 100 : 0; // 데미지 배율이 0까지 떨어진 경우 0으로 고정
-            return (int)((Data.Attack.AttackPower + (int)EquipStatus.Damage) /* attackMultiplier*/); // (기본데미지+장비데미지)
+            float attackMultiplier = 1 + AttackPowerMultiplier / 100 >= 0 ? 1 + AttackPowerMultiplier / 100 : 0; // 데미지 배율이 0까지 떨어진 경우 0으로 고정
+            return (int)((Data.Attack.AttackPower + (int)EquipStatus.Damage) * attackMultiplier); // (기본데미지+장비데미지) * 공격력 배율
         }
         set
         {
@@ -505,6 +520,7 @@ public partial class PlayerData
         }
     }
     public float AttackPowerMultiplier { get { return Data.Attack.AttackPowerMultiplier; } set { Data.Attack.AttackPowerMultiplier = value; OnChangePlayerDataEvent?.Invoke(); } }
+    public float DamageMultiplier { get { return Data.Attack.DamageMultiplier; } set { Data.Attack.DamageMultiplier = value; } }
     public float AttackSpeed
     {
         get
@@ -531,9 +547,10 @@ public partial class PlayerData
     public float RegainStamina { get { return Data.Stamina.RegainStamina; } set { Data.Stamina.RegainStamina = value; } }
     public float StaminaCoolTime { get { return Data.Stamina.StaminaCoolTime; } set { Data.Stamina.StaminaCoolTime = value; } }
     public float ConsumesStamina { get { return Data.Stamina.ConsumesStamina; } set { Data.Stamina.ConsumesStamina = value; } }
+    public float StaminaReduction { get { return Data.Stamina.StaminaReduction; } set { Data.Stamina.StaminaReduction = value; } }
     public float MaxStaminaCharge { get { return Data.Stamina.MaxStaminaCharge; } set { Data.Stamina.MaxStaminaCharge = value; } }
     public float CurStaminaCharge { get { return Data.Stamina.CurStaminaCharge; } set { Data.Stamina.CurStaminaCharge = value; } }
-    public float[] MeleeAttackStamina { get { return Data.MeleeAttackStamina; } set { Data.MeleeAttackStamina = value; } }
+    public float[] MeleeAttackStamina { get { return Data.Stamina.MeleeAttackStamina; } set { Data.Stamina.MeleeAttackStamina = value; } }
     #endregion
     #region 마나
     // 특수공격
@@ -559,7 +576,7 @@ public partial class PlayerData
     {
         get
         {
-            return Data.Move.MoveSpeed * (1 + EquipStatus.Speed) * ( 1 + MoveSpeedMultyplier/100); // 기본 이동속도 * 장비 이동속도 * 이동속도 배율
+            return Data.Move.MoveSpeed * (1 + EquipStatus.Speed) * (1 + MoveSpeedMultyplier / 100); // 기본 이동속도 * 장비 이동속도 * 이동속도 배율
         }
         set
         {
@@ -570,14 +587,32 @@ public partial class PlayerData
     public float MoveSpeedMultyplier { get { return Data.Move.MoveSpeedMultyplier; } set { Data.Move.MoveSpeedMultyplier = value; } }
     // 점프
     public float JumpPower { get { return Data.Jump.JumpPower; } set { Data.Jump.JumpPower = value; OnChangePlayerDataEvent?.Invoke(); } }
-    public int JumpStamina { get { return Data.Jump.JumpStamina; } set { Data.Jump.JumpStamina = value; } }
-    public int DoubleJumpStamina { get { return Data.Jump.DoubleJumpStamina; } set { Data.Jump.DoubleJumpStamina = value; } }
-    public int JumpDownStamina { get { return Data.Jump.JumpDownStamina; } set { Data.Jump.JumpDownStamina = value; } }
+    public int JumpStamina
+    {
+        get { return (int)(Data.Jump.JumpStamina * (1 - StaminaReduction / 100)); }
+        set { Data.Jump.JumpStamina = value; }
+    }
+    public int DoubleJumpStamina
+    {
+        get
+        { return (int)(Data.Jump.DoubleJumpStamina * (1 - StaminaReduction / 100)); }
+        set
+        { Data.Jump.DoubleJumpStamina = value; }
+    }
+    public int JumpDownStamina
+    {
+        get { return (int)(Data.Jump.JumpDownStamina * (1 - StaminaReduction / 100)); }
+        set { Data.Jump.JumpDownStamina = value; }
+    }
     public int MaxJumpCount { get { return Data.Jump.MaxJumpCount; } set { Data.Jump.MaxJumpCount = value; } }
     public int CurJumpCount { get { return Data.Jump.CurJumpCount; } set { Data.Jump.CurJumpCount = value; } }
     // 대쉬
     public float DashDistance { get { return Data.Dash.DashDistance; } set { Data.Dash.DashDistance = value; } }
-    public int DashStamina { get { return Data.Dash.DashStamina; } set { Data.Dash.DashStamina = value; } }
+    public int DashStamina
+    {
+        get { return (int)(Data.Dash.DashStamina * (1 - StaminaReduction / 100)); }
+        set { Data.Dash.DashStamina = value; }
+    }
     #endregion
     #region 치명타
     // 크리티컬
@@ -602,7 +637,6 @@ public partial class PlayerData
     public float DrainLife { get { return Data.DrainLife; } set { Data.DrainLife = value; } }
     // 암유닛
     public GlobalGameData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
-
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + (100 * EquipStatus.EquipRate); } set { Data.EquipmentDropUpgrade = value; } }
 
     [HideInInspector] public bool IsDead;
@@ -672,10 +706,10 @@ public partial class PlayerData
         Data.Dash.DashDistance = globalData.dashDistance;
         Data.Dash.DashStamina = (int)globalData.dashConsumesStamina;
 
-        Data.MeleeAttackStamina = new float[globalData.shortRangeAttackStamina.Length];
-        Data.MeleeAttackStamina[0] = globalData.shortRangeAttackStamina[0];
-        Data.MeleeAttackStamina[1] = globalData.shortRangeAttackStamina[1];
-        Data.MeleeAttackStamina[2] = globalData.shortRangeAttackStamina[2];
+        Data.Stamina.MeleeAttackStamina = new float[globalData.shortRangeAttackStamina.Length];
+        Data.Stamina.MeleeAttackStamina[0] = globalData.shortRangeAttackStamina[0];
+        Data.Stamina.MeleeAttackStamina[1] = globalData.shortRangeAttackStamina[1];
+        Data.Stamina.MeleeAttackStamina[2] = globalData.shortRangeAttackStamina[2];
 
         OnChangePlayerDataEvent?.Invoke();
     }

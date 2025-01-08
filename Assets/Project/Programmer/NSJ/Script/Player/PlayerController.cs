@@ -46,7 +46,10 @@ public class PlayerController : MonoBehaviour, IHit
     public State PrevState;
 
     #region 이벤트
-    public event Func<int, bool, int> OnPlayerHitFuncEvent;
+    /// <summary>
+    /// int : 데미지, bool : 고정데미지? CrowdControlType: CC기 타입 , 반환형 int 최종데미지
+    /// </summary>
+    public event Func<int, bool, CrowdControlType , int> OnPlayerHitFuncEvent;
     public event UnityAction OnPlayerHitActionEvent;
     public event UnityAction OnPlayerDieEvent;
     public event UnityAction<bool> OnThrowObjectResult;
@@ -180,6 +183,7 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Init();
         InitUIEvent();
+        SubscribeEvents();
         StartRoutine();
         InitAdditionnal();
         ChangeArmUnit(Model.NowWeapon);
@@ -187,6 +191,7 @@ public class PlayerController : MonoBehaviour, IHit
         //Camera.main.transform.SetParent(_cameraPos, true);
         EnterState(CurState);
     }
+
     public bool IsMouseVisible;
 
     private void OnDisable()
@@ -242,11 +247,14 @@ public class PlayerController : MonoBehaviour, IHit
         // 스테미나 쓰는 상태
         if (_states[(int)state].UseStamina == true)
         {
+            // 스테미나 소모량
+            float staminaConsumption = _states[(int)state].StaminaAmount * (1 - Model.StaminaReduction / 100);
+
             // 사용할수 있음?(최소 스테미나)
-            if (Model.CurStamina < _states[(int)state].StaminaAmount)
+            if (Model.CurStamina < staminaConsumption)
                 return;
             // 사용가능하면 스테미나 깎음
-            Model.CurStamina -= _states[(int)state].StaminaAmount;
+            Model.CurStamina -= staminaConsumption;
         }
 
         ExiteState(CurState);
@@ -270,9 +278,9 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 데미지 받기
     /// </summary>
-    public int TakeDamage(int damage, bool isStun)
+    public int TakeDamage(int damage, bool isIgnoreDefance,CrowdControlType type )
     {
-        int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, isStun);
+        int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, false, type);
         OnPlayerHitActionEvent?.Invoke();
         return hitDamage;
     }
@@ -284,7 +292,25 @@ public class PlayerController : MonoBehaviour, IHit
     {
         OnPlayerDieEvent?.Invoke();
     }
+    #region 피해 흡혈
 
+    /// <summary>
+    /// 피해 흡혈(모델 피흡 만큼)
+    /// </summary>
+    public void DrainLife(int damage)
+    {
+        int drainAmount = (int)(damage * Model.DrainLife / 100);
+        Model.CurHp += drainAmount;
+    }
+    /// <summary>
+    /// 피해 흡혈(모델 피흡 + 추가 피흡)
+    /// </summary>
+    public void DrainLife(int damage, float additionalDrainLife)
+    {
+        int drainAmount = (int)(damage * (Model.DrainLife + additionalDrainLife) / 100);
+        Model.CurHp += drainAmount;
+    }
+    #endregion
     #region 플레이어 방향 처리
     public void LookAtAttackDir()
     {
@@ -402,7 +428,7 @@ public class PlayerController : MonoBehaviour, IHit
         }
     }
     #endregion
-
+    #region 암유닛 변경
     public void ChangeArmUnit(ArmUnit armUnit)
     {
         Model.Arm = Instantiate(armUnit);
@@ -413,6 +439,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
         Model.Arm.Init(this);
     }
+    #endregion
     #region 플레이어 추가효과 관련
     /// <summary>
     /// 추가효과 추가
@@ -855,6 +882,8 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Vector3 originPos = targetRb.position;
 
+        float knockbackDistance = distance * (1 + Model.KnockBackDistanceMultiplier/ 100f);
+
         targetRb.transform.LookAt(transform.position);
         targetRb.transform.rotation = Quaternion.Euler(0, targetRb.transform.eulerAngles.y, 0);
         // 타겟이 날 바라보도록
@@ -862,7 +891,7 @@ public class PlayerController : MonoBehaviour, IHit
         {
             targetRb.transform.Translate(knockBackDir * Time.deltaTime * 30f, Space.World);
 
-            if (Vector3.Distance(originPos, targetRb.position) > distance)
+            if (Vector3.Distance(originPos, targetRb.position) > knockbackDistance)
             {
                 break;
             }
@@ -948,7 +977,7 @@ public class PlayerController : MonoBehaviour, IHit
             isCritical = false;
 
         // 데미지 배율이 0까지 떨어진 경우 0으로 고정
-        float attackMultiplier = 1 + Model.AttackPowerMultiplier / 100 >= 0 ? 1 + Model.AttackPowerMultiplier / 100 : 0;
+        float attackMultiplier = 1 + Model.DamageMultiplier / 100 >= 0 ? 1 + Model.DamageMultiplier / 100 : 0;
         finalDamage = (int)(finalDamage * attackMultiplier);
 
         return finalDamage;
@@ -1059,6 +1088,14 @@ public class PlayerController : MonoBehaviour, IHit
             .Subscribe(x => panel.BarValueController(panel.ChanrgeStaminaBar, Model.CurStaminaCharge, Model.MaxStaminaCharge));
         panel.BarValueController(panel.ChanrgeStaminaBar, Model.CurStaminaCharge, Model.MaxStaminaCharge);
     }
+    /// <summary>
+    /// 이벤트 구독
+    /// </summary>
+    private void SubscribeEvents()
+    {
+        Battle.OnTargetAttackEvent += TargetAttackCallback;
+        Battle.OnTakeDamageEvent += TakeDamageCallback;
+    }
 
     /// <summary>
     /// 초기 겟컴포넌트 설정
@@ -1120,8 +1157,18 @@ public class PlayerController : MonoBehaviour, IHit
     }
     #endregion
 
+    #region 콜백
     public void ThrowObjectResultCallback(bool successHit)
     {
         OnThrowObjectResult?.Invoke(successHit);
     }
+    private void TargetAttackCallback(int damage, bool isCritical)
+    {
+        DrainLife(damage);
+    }
+    private void TakeDamageCallback(int damage, bool isCritical)
+    {
+        
+    }
+    #endregion
 }

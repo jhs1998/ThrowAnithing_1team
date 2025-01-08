@@ -1,8 +1,5 @@
-using Assets.Project.Programmer.NSJ.RND.Script;
 using System.Collections;
-using TMPro;
 using UnityEngine;
-using Zenject.SpaceFighter;
 
 public class MeleeEnemy : BaseEnemy
 {

@@ -21,7 +21,7 @@ public class ButtonActionInstaller : MonoBehaviour
     // OptionReset()
     [SerializeField] public Button resetSoundButton;
 
-    // ¹Ì´Ï¸Ê Å¬¸¯ÀÌº¥Æ® Ãß°¡
+    // ë¯¸ë‹ˆë§µ í´ë¦­ì´ë²¤íŠ¸ ì¶”ê°€
     [SerializeField] public Button MinimapOn;
     [SerializeField] public Button MinimapOff;
     [SerializeField] public Button MiniMapFixOn;
@@ -46,7 +46,7 @@ public class ButtonActionInstaller : MonoBehaviour
         });
         resetButton.onClick.AddListener(() =>
         {
-            setting.OptionReset(1); // OptionReset1 ½ÇÇà
+            setting.OptionReset(1); // OptionReset1 ì‹¤í–‰
             SensitivityBar.ResetCameraSpeed();
             languageChoce.ReturnLanguage();
         });
@@ -60,7 +60,7 @@ public class ButtonActionInstaller : MonoBehaviour
         });
         resetSoundButton.onClick.AddListener(() =>
         {
-            setting.OptionReset(2); // OptionReset2 ½ÇÇà
+            setting.OptionReset(2); // OptionReset2 ì‹¤í–‰
             totalVolumeBar.ResetTotalVolume();
             backGroundVolume.ResetBackGroundVolume();
             effectVolume.ResetTotalVolume();

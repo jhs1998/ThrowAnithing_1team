@@ -42,7 +42,7 @@ public class Lazer : MonoBehaviour
     {
         while (true)
         {
-            hit.TakeDamage(lazerDamage, false);
+            hit.TakeDamage(lazerDamage, false, CrowdControlType.Stiff);
             yield return timer.GetDelay();
         }
     }

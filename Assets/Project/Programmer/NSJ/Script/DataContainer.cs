@@ -56,8 +56,8 @@ public class DataContainer : MonoBehaviour
     private static Dictionary<GlobalGameData.AmWeapon, ArmUnit> s_armUnitDic { get { return Instance._armUnitDic; } }
 
     [SerializeField] DamageText[] _damageTexts;
-    private Dictionary<DamageType, DamageText> _damageTextDic = new Dictionary<DamageType, DamageText>();
-    private static Dictionary<DamageType,DamageText> s_damageTextDic { get { return Instance._damageTextDic; } }
+    private Dictionary<CrowdControlType, DamageText> _damageTextDic = new Dictionary<CrowdControlType, DamageText>();
+    private static Dictionary<CrowdControlType,DamageText> s_damageTextDic { get { return Instance._damageTextDic; } }
     private void Awake()
     {
         InitSingleTon();
@@ -96,7 +96,7 @@ public class DataContainer : MonoBehaviour
     /// <summary>
     /// 데미지 UI 프리팹 얻기
     /// </summary>
-    public static DamageText GetDamageText(DamageType type)
+    public static DamageText GetDamageText(CrowdControlType type)
     {
         return s_damageTextDic[type];
     }

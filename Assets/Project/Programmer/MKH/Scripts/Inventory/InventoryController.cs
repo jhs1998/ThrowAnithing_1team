@@ -16,7 +16,7 @@ namespace MKH
 
         [Header("슬롯 버튼")]
         [SerializeField] GameObject[] buttons;                  // 슬롯 버튼
-        int selectedButtonsIndex = 9;                           // 슬롯 시작 위치
+        int selectedButtonsIndex;                           // 슬롯 시작 위치
         int buttonCount;                                        // 슬롯 개수
         private bool axisInUse;                                 // 키 연속 조작 방지
 
@@ -43,6 +43,7 @@ namespace MKH
         private void Start()
         {
             buttonCount = buttons.Length;
+            selectedButtonsIndex = 9;
         }
 
         private void Update()
@@ -58,14 +59,14 @@ namespace MKH
         #region 키 조작
         private void ButtonsControl()
         {
-            float x = InputKey.GetAxisRaw("Horizontal");       // 좌 우 조작
-            float y = InputKey.GetAxisRaw("Vertical");         // 상 하 조작
+            float x = InputKey.GetAxis(InputKey.Horizontal);       // 좌 우 조작
+            float y = InputKey.GetAxis(InputKey.Vertical);         // 상 하 조작
 
             // 인벤토리만 켜져있을 때
             if (inventory.activeSelf && !blueChipPanel.activeSelf)
             {
                 // 왼쪽
-                if (x == -1)
+                if (x < 0)
                 {
                     if (selectedButtonsIndex > 0 && axisInUse == false)
                     {
@@ -74,7 +75,7 @@ namespace MKH
                     }
                 }
                 // 오른쪽
-                else if (x == 1)
+                else if (x > 0)
                 {
                     if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
                     {
@@ -83,7 +84,7 @@ namespace MKH
                     }
                 }
                 // 위
-                else if (y == 1)
+                else if (y > 0)
                 {
                     if (selectedButtonsIndex > 2 && axisInUse == false)
                     {
@@ -92,7 +93,7 @@ namespace MKH
                     }
                 }
                 // 아래
-                else if (y == -1)
+                else if (y < 0)
                 {
                     if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
                     {

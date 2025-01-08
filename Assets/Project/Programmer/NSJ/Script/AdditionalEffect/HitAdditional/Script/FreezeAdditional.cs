@@ -13,8 +13,9 @@ public class FreezeAdditional : HitAdditional
         if (_debuffRoutine == null)
         {
             _debuffRoutine = CoroutineHandler.StartRoutine(FreezeRoutine());
+            _decreasedMoveSpeed = Battle.Debuff.MoveSpeed;
         }
-        _decreasedMoveSpeed = Battle.Debuff.MoveSpeed;
+ 
 
     }
 
@@ -29,8 +30,8 @@ public class FreezeAdditional : HitAdditional
         {
             CoroutineHandler.StopRoutine(_debuffRoutine);
             _debuffRoutine = null;
-        }
-        Battle.Debuff.MoveSpeed += _decreasedMoveSpeed;
+            Battle.Debuff.MoveSpeed += _decreasedMoveSpeed;
+        }   
     }
 
     IEnumerator FreezeRoutine()

@@ -82,30 +82,12 @@ public class Main_Continue : MainScene
     {
         if (InputKey.GetButtonDown(InputKey.Interaction))
         {
-            //switch (slots_cur)
-            //{
-            //    case 0:
-            //        Debug.Log("1번 슬롯으로 게임 진행");
-            //        buttons[slots_cur].onClick.Invoke();
-            //        break;
-
-            //    case 1:
-            //        Debug.Log("2번 슬롯으로 게임 진행");
-            //        //Todo : 게임 화면으로 이동 만들어야함
-            //        break;
-
-            //    case 2:
-            //        Debug.Log("3번 슬롯으로 게임 진행");
-            //        //Todo : 옵션 팝업 만들어야함
-            //        break;
-            //}
             buttons[slots_cur].onClick.Invoke();
         }
 
         if (InputKey.GetButtonDown(InputKey.Cancel))
         {
             gameObject.SetActive(false);
-            Debug.Log("이어하기 화면 나가기");
         }
     }
 
@@ -125,7 +107,6 @@ public class Main_Continue : MainScene
         slots[0] = slot1 = GetUI("FirstSlot");
         slots[1] = slot2 = GetUI("SecondSlot");
         slots[2] = slot3 = GetUI("ThirdSlot");
-        Debug.Log(GetUI<Button>("FirstSlot"));
         buttons.Add(GetUI<Button>("FirstSlot"));
         buttons.Add(GetUI<Button>("SecondSlot"));
         buttons.Add(GetUI<Button>("ThirdSlot"));

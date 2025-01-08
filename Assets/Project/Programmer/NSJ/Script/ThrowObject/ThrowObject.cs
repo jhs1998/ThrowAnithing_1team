@@ -197,7 +197,7 @@ public class ThrowObject : MonoBehaviour
         {
             int finalDamage = _player.GetFinalDamage(Damage, DamageMultyPlier, out bool isCritical);
             // 디버프 주기
-            _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], finalDamage, true, isCritical);
+            int hitDamage = _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], finalDamage, isCritical,false);
 
             if (KnockBackDistance > 0)
                 _player.DoKnockBack(_player.OverLapColliders[i].transform, transform.forward, KnockBackDistance);
@@ -248,7 +248,6 @@ public class ThrowObject : MonoBehaviour
 
     protected void DestroyObject()
     {
-        ExitThrowAdditional();
         Destroy(gameObject);
     }
 }
