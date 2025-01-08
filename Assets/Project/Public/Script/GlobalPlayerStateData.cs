@@ -83,8 +83,14 @@ public class GlobalPlayerStateData
         // 변수에 ScriptableObject로 가져온 값을 투입
         maxHp = playerStateBase.maxHp;
         commonAttack = playerStateBase.commonAttack;
-        shortRangeAttack = playerStateBase.shortRangeAttack;
-        longRangeAttack = playerStateBase.longRangeAttack;
+        for (int i = 0; i < shortRangeAttack.Length; i++)
+        {
+            shortRangeAttack[i] = playerStateBase.shortRangeAttack[i];
+        }
+        for (int i = 0; i < longRangeAttack.Length; i++)
+        {
+            longRangeAttack[i] = playerStateBase.longRangeAttack[i];
+        }
         attackSpeed = playerStateBase.attackSpeed;
         movementSpeed = playerStateBase.movementSpeed;
         criticalChance = playerStateBase.criticalChance;
@@ -93,8 +99,14 @@ public class GlobalPlayerStateData
         drainLife = playerStateBase.drainLife;
         maxStamina = playerStateBase.maxStamina;
         regainStamina = playerStateBase.regainStamina;
-        regainMana = playerStateBase.regainMana;
-        manaConsumption = playerStateBase.manaConsumption;
+        for (int i = 0; i < regainMana.Length; i++)
+        {
+            regainMana[i] = playerStateBase.regainMana[i];
+        }
+        for (int i = 0; i < manaConsumption.Length; i++)
+        {
+            manaConsumption[i] = playerStateBase.manaConsumption[i];
+        }
         consumesStamina = playerStateBase.consumesStamina;
         gainMoreThrowables = playerStateBase.gainMoreThrowables;
         maxThrowables = playerStateBase.maxThrowables;
@@ -105,7 +117,13 @@ public class GlobalPlayerStateData
         doubleJumpConsumesStamina = playerStateBase.doubleJumpConsumesStamina;
         dashDistance = playerStateBase.dashDistance;
         dashConsumesStamina = playerStateBase.dashConsumesStamina;
-        shortRangeAttackStamina = playerStateBase.shortRangeAttackStamina;
-        specialAttack = playerStateBase.specialAttack;
+        for (int i = 0; i < shortRangeAttackStamina.Length; i++)
+        {
+            shortRangeAttackStamina[i] = playerStateBase.shortRangeAttackStamina[i];
+        }
+        for (int i = 0; i < specialAttack.Length; i++)
+        {
+            specialAttack[i] = playerStateBase.specialAttack[i];
+        }
     }
 }
