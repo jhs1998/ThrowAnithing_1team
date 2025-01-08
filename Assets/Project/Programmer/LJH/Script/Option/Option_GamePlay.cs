@@ -55,6 +55,7 @@ public class Option_GamePlay : Main_Option
 
     void Update()
     {
+        Debug.Log(preAct);
 
         if (gameplayOnOff.activeSelf)
         {
@@ -278,6 +279,8 @@ public class Option_GamePlay : Main_Option
     {
         option_setting.miniMapOnBool = preAct;
         option_setting.miniMapFixBool = preFix;
+
+        option_setting.MinimapOff();
 
         ButtonReset();
 
