@@ -164,8 +164,11 @@ public class PlayerModel : MonoBehaviour, IDebuff
         set { Drain.DrainDistance = value; }
     }
     public float DrainDistanceMultyPlier { get { return Drain.DrainDistanceMultyPlier; } set { Drain.DrainDistanceMultyPlier = value; } }
-    public float DrainStamina { get { return Drain.DrainStamina *(1 - StaminaReduction / 100); } set { Drain.DrainStamina = value; } }
+    public float DrainStamina { get { return Drain.DrainStamina * (1 - StaminaReduction / 100); } set { Drain.DrainStamina = value; } }
+    [Tooltip("현재 차지 단계")]
     public int ChargeStep;
+    [Tooltip("넉백 거리 증가")]
+    public float KnockBackDistanceMultiplier;
 
 
     private PlayerView _view;
@@ -633,7 +636,6 @@ public partial class PlayerData
     public float DrainLife { get { return Data.DrainLife; } set { Data.DrainLife = value; } }
     // 암유닛
     public GlobalGameData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
-
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + (100 * EquipStatus.EquipRate); } set { Data.EquipmentDropUpgrade = value; } }
 
     [HideInInspector] public bool IsDead;

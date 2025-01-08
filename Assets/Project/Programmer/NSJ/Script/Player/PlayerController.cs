@@ -878,6 +878,8 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Vector3 originPos = targetRb.position;
 
+        float knockbackDistance = distance * (1 + Model.KnockBackDistanceMultiplier/ 100f);
+
         targetRb.transform.LookAt(transform.position);
         targetRb.transform.rotation = Quaternion.Euler(0, targetRb.transform.eulerAngles.y, 0);
         // 타겟이 날 바라보도록
@@ -885,7 +887,7 @@ public class PlayerController : MonoBehaviour, IHit
         {
             targetRb.transform.Translate(knockBackDir * Time.deltaTime * 30f, Space.World);
 
-            if (Vector3.Distance(originPos, targetRb.position) > distance)
+            if (Vector3.Distance(originPos, targetRb.position) > knockbackDistance)
             {
                 break;
             }
