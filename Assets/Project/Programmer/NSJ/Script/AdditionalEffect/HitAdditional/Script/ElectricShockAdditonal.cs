@@ -1,36 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Electric Shock")]
 public class ElectricShockAdditonal : HitAdditional
 {
+    [Header("이속감소량(%)")]
     [Range(0, 100)]
     [SerializeField] private float _moveSpeedReduction;
+    [Header("공속 감소량")]
     [Range(0, 100)]
     [SerializeField] private float _attackSpeedReduction;
 
-    private float _decreasedMoveSpeed;
-    private float _decreasedAttackSpeed;
+    private float _decreaseMoveSpeedEnemyValue;
+    private float _decreaseAttackSpeedEnemyValue;
     public override void Enter()
-    {
-        Debug.Log($"{gameObject.name} 감전");
-
-       
+    { 
         if(_debuffRoutine == null)
         {
             _debuffRoutine = CoroutineHandler.StartRoutine(DurationRoutine());
 
-            // 깎인 이동속도 계산
-            float originMoveSpeed = Battle.Debuff.MoveSpeed;
-            Battle.Debuff.MoveSpeed *= 1 - _moveSpeedReduction / 100;
-            _decreasedMoveSpeed = originMoveSpeed - Battle.Debuff.MoveSpeed;
-
-            // 깎인 공격속도 계산
-            float originAttackSpeed = Battle.Debuff.AttackSpeed;
-            Battle.Debuff.AttackSpeed *= 1 - _attackSpeedReduction / 100;
-            _decreasedAttackSpeed = originAttackSpeed - Battle.Debuff.AttackSpeed;
+            ChangeValue(true);
         }
     }
     public override void Exit()
@@ -40,8 +33,7 @@ public class ElectricShockAdditonal : HitAdditional
             CoroutineHandler.StopRoutine(_debuffRoutine);
             _debuffRoutine = null;
             // 깎인 양 만큼 복구
-            Battle.Debuff.MoveSpeed += _decreasedMoveSpeed;
-            Battle.Debuff.AttackSpeed += _decreasedAttackSpeed;
+            ChangeValue(false);
         }
     }
 
@@ -54,5 +46,64 @@ public class ElectricShockAdditonal : HitAdditional
             yield return null;
         }
         Battle.EndDebuff(this);
+    }
+
+    private void ChangeValue(bool isDecrease)
+    {
+        if( _targetType ==TargetType.Player)
+            ChangePlayerValue(isDecrease);
+        else if( _targetType ==TargetType.Enemy)
+            ChangeEnemyValue(isDecrease);
+    }
+
+    private void ChangePlayerValue(bool isDecrease)
+    {
+        // 플레이어 스텟 감소 계산
+        if(isDecrease == true)
+        {
+            Player.Model.MoveSpeedMultyplier -= _moveSpeedReduction;
+            Player.Model.AttackSpeedMultiplier -= _attackSpeedReduction;
+        }
+        // 플레이어 스텟 복구
+        else
+        {
+            Player.Model.MoveSpeedMultyplier += _moveSpeedReduction;
+            Player.Model.AttackSpeedMultiplier += _attackSpeedReduction;
+        }
+    }
+
+    private void ChangeEnemyValue(bool isDecrease)
+    {
+        // 몬스터 스텟 감소 계산
+        if (isDecrease == true)
+        {
+            // 이속감소
+            float enemyMoveSpeed = GetEnemyMoveSpeed();
+            Debug.Log(enemyMoveSpeed);
+            _decreaseMoveSpeedEnemyValue = enemyMoveSpeed * _moveSpeedReduction / 100f;
+            enemyMoveSpeed -= _decreaseMoveSpeedEnemyValue;
+            SetEnemyMoveSpeed(enemyMoveSpeed);
+
+            // 공속감소
+            float enemyAttackSpeed = GetEnemyAttackSpeed();
+            _decreaseAttackSpeedEnemyValue = enemyAttackSpeed * _attackSpeedReduction / 100f;
+            enemyAttackSpeed -= _decreaseAttackSpeedEnemyValue;
+            SetEnemyAttackSpeed(enemyAttackSpeed);
+
+        }
+        // 몬스터 스텟 복구
+        else
+        {
+            // 이속 복구
+            float enemyMoveSpeed = GetEnemyMoveSpeed();
+            enemyMoveSpeed += _decreaseMoveSpeedEnemyValue;
+            SetEnemyMoveSpeed(enemyMoveSpeed);
+
+            // 공속 복구
+            float enemyAttackSpeed = GetEnemyAttackSpeed();
+            enemyAttackSpeed += _decreaseAttackSpeedEnemyValue;
+            SetEnemyAttackSpeed(enemyAttackSpeed);
+
+        }
     }
 }

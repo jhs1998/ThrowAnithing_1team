@@ -163,9 +163,9 @@ public class PowerSpecialAttack : ArmSpecialAttack
                     _index++;
                 }
                 // 현재 특수자원량보다 차지량이 더 많은 경우
-                else if (Model.SpecialChargeGage > _charges[_index].ChargeMana)
+                else if (Model.SpecialChargeGage > Model.CurMana)
                 {
-                    Model.SpecialChargeGage = _charges[_index].ChargeMana;
+                    Model.SpecialChargeGage = Model.CurMana;
                 }
             }
             else

@@ -49,8 +49,8 @@ public class ElectricWaveAddtional : PlayerAdditional
             int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _range, Player.OverLapColliders, 1 << Layer.Monster);
             for (int i = 0; i < hitCount; i++)
             {
-                int finalDamage = Player.GetDamage(_damage, out bool isCritical);
-                Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, _electricShock,isCritical, false);
+                int finalDamage = Player.GetDamage(_damage);
+                Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], finalDamage, _electricShock, false);
             }
             CreateEffect();
         }

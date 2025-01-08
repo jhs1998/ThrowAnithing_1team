@@ -11,7 +11,7 @@ public class CushionAttack : ThrowAdditional
     [Range(0, 100)]
     [Header("데미지 감소량 ( % )")]
     [SerializeField] float _ReductionDamage;
-    [SerializeField] private int _cushionCount;
+    private int _cushionCount;
 
     [System.Serializable]
     struct TargetInfo

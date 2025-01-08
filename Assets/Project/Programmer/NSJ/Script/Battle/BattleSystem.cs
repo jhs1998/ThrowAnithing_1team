@@ -8,7 +8,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     public IHit Hit { get; set; }
     public IDebuff Debuff { get; set; }
 
-    [SerializeField] private Transform _hitTextPoint;
+    public Transform HitPoint;
     public List<HitAdditional> HitAdditionalList;
     public List<HitAdditional> DebuffList;
     public event UnityAction<int, bool> OnTargetAttackEvent;
@@ -22,11 +22,11 @@ public class BattleSystem : MonoBehaviour, IBattle
         Hit = GetComponent<IHit>();
         Debuff = GetComponent<IDebuff>();
 
-        if (_hitTextPoint == null)
+        if (HitPoint == null)
         {
-            _hitTextPoint = new GameObject("HitTextPoint").transform;
-            _hitTextPoint.SetParent(transform, true);
-            _hitTextPoint.localPosition = new Vector3(0, 1f, 0);
+            HitPoint = new GameObject("HitTextPoint").transform;
+            HitPoint.SetParent(transform, true);
+            HitPoint.localPosition = new Vector3(0, 1f, 0);
         }
     }
 
@@ -441,7 +441,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
-        text.SetDamageText(damage, _hitTextPoint, isPlayer);
+        text.SetDamageText(damage, HitPoint, isPlayer);
     }
     /// <summary>
     /// 데미지 UI 띄우기
@@ -450,7 +450,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
-        text.SetDamageText(damage, _hitTextPoint, CrowdControlType.None, isCritical, isPlayer);
+        text.SetDamageText(damage, HitPoint, CrowdControlType.None, isCritical, isPlayer);
     }
     /// <summary>
     /// 데미지 UI 띄우기
@@ -459,7 +459,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
-        text.SetDamageText(damage, _hitTextPoint, type, false, isPlayer);
+        text.SetDamageText(damage, HitPoint, type, false, isPlayer);
     }
     /// <summary>
     /// 데미지 UI 띄우기
@@ -468,7 +468,7 @@ public class BattleSystem : MonoBehaviour, IBattle
     {
         DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
-        text.SetDamageText(damage, _hitTextPoint, type, isCritical, isPlayer);
+        text.SetDamageText(damage, HitPoint, type, isCritical, isPlayer);
     }
     #endregion
     #region 효과 등록
@@ -527,7 +527,6 @@ public class BattleSystem : MonoBehaviour, IBattle
             DebuffList.Add(cloneDebuff);
             cloneDebuff.Origin = debuff.Origin;
             cloneDebuff.Battle = this;
-            cloneDebuff.transform = transform;
             cloneDebuff.Init(0, false, cloneDebuff.Duration);
             cloneDebuff.Enter(); // 디버프 발동
         }
@@ -559,7 +558,6 @@ public class BattleSystem : MonoBehaviour, IBattle
             DebuffList.Add(cloneDebuff);
             cloneDebuff.Origin = debuff.Origin;
             cloneDebuff.Battle = this;
-            cloneDebuff.transform = transform;
             cloneDebuff.Init(damage, isCritical, cloneDebuff.Duration);
             cloneDebuff.Enter(); // 디버프 발동
         }
