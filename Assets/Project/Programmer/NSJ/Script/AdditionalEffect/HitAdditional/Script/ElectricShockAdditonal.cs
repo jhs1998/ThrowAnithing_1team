@@ -8,8 +8,10 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Electric Shock")]
 public class ElectricShockAdditonal : HitAdditional
 {
+    [Header("이속감소량(%)")]
     [Range(0, 100)]
     [SerializeField] private float _moveSpeedReduction;
+    [Header("공속 감소량")]
     [Range(0, 100)]
     [SerializeField] private float _attackSpeedReduction;
 

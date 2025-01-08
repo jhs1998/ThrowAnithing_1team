@@ -6,11 +6,19 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Freeze")]
 public class FreezeAdditional : HitAdditional
 {
+    [System.Serializable]
+    struct EffectStrcut
+    {
+        public GameObject EffectPrefab;
+        [HideInInspector] public GameObject Effect;
+    }
+    [SerializeField] EffectStrcut _effect;
     private float _decreasedMoveSpeed;
     public override void Enter()
     {
         if (_debuffRoutine == null)
         {
+            CreateEffect();
             ChangeValue(true);
 
             _debuffRoutine = CoroutineHandler.StartRoutine(FreezeRoutine());
@@ -23,6 +31,7 @@ public class FreezeAdditional : HitAdditional
             CoroutineHandler.StopRoutine(_debuffRoutine);
             _debuffRoutine = null;
             ChangeValue(false);
+            Destroy(_effect.Effect);
         }   
     }
 
@@ -85,5 +94,10 @@ public class FreezeAdditional : HitAdditional
         SetEnemyMoveSpeed(0);
     }
 
+    private void CreateEffect()
+    {
+        _effect.Effect = Instantiate(_effect.EffectPrefab, transform);
+        _effect.Effect.transform.position = Battle.HitPoint.position;
+    }
 
 }
