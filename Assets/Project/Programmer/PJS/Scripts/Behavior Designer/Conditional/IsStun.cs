@@ -18,6 +18,12 @@ public class IsStun : Conditional
 
     public override TaskStatus OnUpdate()
 	{
-		return enemy.breakShield ? TaskStatus.Success : TaskStatus.Failure;
+        if(enemy.breakShield == true)
+        {
+            Debug.Log(123);
+            enemy.RecoveryStopCotoutine();
+        }
+
+        return enemy.breakShield ? TaskStatus.Success : TaskStatus.Failure;
 	}
 }

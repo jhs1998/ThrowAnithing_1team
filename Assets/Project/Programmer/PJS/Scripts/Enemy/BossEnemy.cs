@@ -23,8 +23,8 @@ public class BossEnemy : BaseEnemy, IHit
     public Coroutine recovery;  // 회복 관련 코루틴
     private bool onFrezenyPassive = false;
     private bool onEntryStop;
-    [HideInInspector]public bool createShield;
-    [HideInInspector]public bool breakShield;
+    public bool createShield;
+    public bool breakShield;
 
     private void Start()
     {
@@ -99,6 +99,7 @@ public class BossEnemy : BaseEnemy, IHit
     public void RecoveryStopCotoutine()
     {
         StopCoroutine(recovery);
+        transform.GetComponent<Animator>().SetBool("Recovery", false);
     }
 
     IEnumerator RecoveryRoutin(int maxTime, float recoveryValue)
