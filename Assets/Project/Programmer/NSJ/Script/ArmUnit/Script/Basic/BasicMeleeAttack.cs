@@ -11,6 +11,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
     [Range(0,180)][SerializeField] float _angle;
     [SerializeField] float _damageMultiplier;
 
+    private float _staminaReduction => 1 - Model.StaminaReduction / 100;
     Coroutine _meleeRoutine;
     public override void Enter()
     {

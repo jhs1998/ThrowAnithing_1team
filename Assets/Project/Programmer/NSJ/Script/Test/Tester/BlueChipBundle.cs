@@ -11,6 +11,7 @@ namespace NSJ_TesterPanel
     {
         [SerializeField] TestBlueChip _blueChipItem;
         private TMP_Text _nameText => GetUI<TMP_Text>("NameText");
+        private TMP_Text _descriptionText => GetUI<TMP_Text>("DescriptionText");
 
         private AdditionalEffect _curBlueChip;
         private int m_blueChipIndex;
@@ -50,7 +51,8 @@ namespace NSJ_TesterPanel
             }
 
             _curBlueChip = DataContainer.BlueChips[index];
-            _nameText.SetText(DataContainer.BlueChips[index].Name);
+            _nameText.SetText(_curBlueChip.Name);
+            _descriptionText.SetText(_curBlueChip.Description);
         }
 
         private void Create()

@@ -21,7 +21,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
     [SerializeField] private float RushSpeed;
     [SerializeField] private float _moveSpeedMultyPlier;
     [SerializeField] private float _autoAttackDelay;
-
+    private float _staminaReduction => 1 - Model.StaminaReduction / 100;
     private float m_curChargeTime;
     float _autoAttackTime;
     bool _isAutoAttack;
@@ -54,7 +54,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
     public override void Enter()
     {
         // 사용한 스테미나만큼 다시 회복
-        Model.CurStamina += Model.MeleeAttackStamina[0];
+        Model.CurStamina += Model.MeleeAttackStamina[0] * _staminaReduction;
         // 최대 스테미나 차지량을 결정
         Model.MaxStaminaCharge = _charges[_charges.Length - 1].ChargeTime;
         // 위치 고정
@@ -160,7 +160,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
     public void AttackMelee()
     {
         // 자원소모 처리
-        Model.CurStamina -= _charges[_index].Stamina;
+        Model.CurStamina -= _charges[_index].Stamina * _staminaReduction;
 
         // 캐릭터 전방 조금 이동
         CoroutineHandler.StartRoutine(RushRoutine(transform.forward, _charges[_index].RushDistance));

@@ -244,11 +244,14 @@ public class PlayerController : MonoBehaviour, IHit
         // 스테미나 쓰는 상태
         if (_states[(int)state].UseStamina == true)
         {
+            // 스테미나 소모량
+            float staminaConsumption = _states[(int)state].StaminaAmount * (1 - Model.StaminaReduction / 100);
+
             // 사용할수 있음?(최소 스테미나)
-            if (Model.CurStamina < _states[(int)state].StaminaAmount)
+            if (Model.CurStamina < staminaConsumption)
                 return;
             // 사용가능하면 스테미나 깎음
-            Model.CurStamina -= _states[(int)state].StaminaAmount;
+            Model.CurStamina -= staminaConsumption;
         }
 
         ExiteState(CurState);
