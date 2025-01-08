@@ -16,7 +16,6 @@ namespace MKH
         [SerializeField] private Image mEffectImage;
         [SerializeField] TMP_Text nameText;
         [SerializeField] TMP_Text descriptionText;
-        [SerializeField] TMP_Text levelText;
 
         // 아이템 이미지 투명도 조절
         private void SetColor(float _alpha)
@@ -32,8 +31,7 @@ namespace MKH
             mEffect = effect;
             nameText.text = effect.Name;
             descriptionText.text = effect.Description;
-            //mEffectImage.sprite = ;
-            //levelText.text = ;
+            mEffectImage.sprite = mEffect.Image;
             SetColor(1);
         }
 
@@ -44,7 +42,6 @@ namespace MKH
             nameText.text = "-";
             descriptionText.text = "";
             mEffectImage.sprite = null;
-            levelText.text = "";
             SetColor(0);
         }
 
@@ -54,7 +51,6 @@ namespace MKH
             mEffectImage.sprite = null;
             nameText.text = "-";
             descriptionText.text = "";
-            levelText.text = "";
         }
     }
 }
