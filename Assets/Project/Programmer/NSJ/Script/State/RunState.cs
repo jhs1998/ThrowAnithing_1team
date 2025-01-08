@@ -22,9 +22,8 @@ public class RunState : PlayerState
         View.SetBool(PlayerView.Parameter.Run, false);
     }
     public override void Update()
-    {
-        Player.LookAtMoveDir();
-      
+    {  
+        CheckChangeState();
     }
 
     public override void FixedUpdate()
@@ -46,7 +45,7 @@ public class RunState : PlayerState
     { 
         if (MoveDir == Vector3.zero)
             return;
-        CheckChangeState();
+        Player.LookAtMoveDir();
         // 플레이어 이동
         // 지상에 있고 벽에 부딪히지 않은 상태에서만 이동
         if (Player.IsGround == false && Player.IsWall == true)
