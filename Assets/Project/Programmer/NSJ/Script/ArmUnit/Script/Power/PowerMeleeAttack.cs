@@ -8,11 +8,17 @@ public class PowerMeleeAttack : ArmMeleeAttack
     [System.Serializable]
     struct ChargeStruct
     {
+        [Header("차지 시간")]
         public float ChargeTime;
+        [Header("추가 데미지")]
         public int Damage;
+        [Header("공격 사거리")]
         public float AttackRange;
+        [Header("전방 공격 각도")]
         [Range(0, 180)] public float AttackAngle;
+        [Header("넉백 거리")]
         public float KnockBackRange;
+        [Header("돌진 거리")]
         public float RushDistance;
         [HideInInspector] public float Stamina;
         [HideInInspector] public GameObject ArmEffect;

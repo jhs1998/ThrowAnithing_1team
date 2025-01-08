@@ -47,8 +47,8 @@ public class OverloadAdditional : PlayerAdditional
             int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _range, Player.OverLapColliders, 1 << Layer.Monster);
             for(int i = 0;  i < hitCount; i++)
             {
-                int finalDamage = Player.GetDamage(_damage, out bool isCritical);
-                Player.Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, isCritical, true);
+                int finalDamage = Player.GetDamage(_damage);
+                Player.Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, true);
             }
             yield return _damageInterval.GetDelay();
         }

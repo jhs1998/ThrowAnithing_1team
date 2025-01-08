@@ -527,7 +527,6 @@ public class BattleSystem : MonoBehaviour, IBattle
             DebuffList.Add(cloneDebuff);
             cloneDebuff.Origin = debuff.Origin;
             cloneDebuff.Battle = this;
-            cloneDebuff.transform = transform;
             cloneDebuff.Init(0, false, cloneDebuff.Duration);
             cloneDebuff.Enter(); // 디버프 발동
         }
@@ -559,7 +558,6 @@ public class BattleSystem : MonoBehaviour, IBattle
             DebuffList.Add(cloneDebuff);
             cloneDebuff.Origin = debuff.Origin;
             cloneDebuff.Battle = this;
-            cloneDebuff.transform = transform;
             cloneDebuff.Init(damage, isCritical, cloneDebuff.Duration);
             cloneDebuff.Enter(); // 디버프 발동
         }

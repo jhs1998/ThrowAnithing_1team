@@ -46,7 +46,6 @@ public class BasicMeleeAttack : ArmMeleeAttack
             CoroutineHandler.StopRoutine(_meleeRoutine);
             _meleeRoutine = null;
         }
-
     }
     public override void OnTrigger()
     {
@@ -107,6 +106,9 @@ public class BasicMeleeAttack : ArmMeleeAttack
     {
         while (true)
         {
+            if (Player.CurState != PlayerController.State.MeleeAttack)
+                yield break;
+
             if (InputKey.GetButtonDown(InputKey.Melee))
             {
                 ChangeState(PlayerController.State.MeleeAttack);

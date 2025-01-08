@@ -67,9 +67,9 @@ public class KillingDrainAdditonal : PlayerAdditional
             {
                 // 데미지주기
                 int drainDamage = (int)(Model.AttackPower * _attackMultiplier / 100f);
-                int finalDamage = Player.GetDamage(drainDamage, out bool isCritical);
+                int finalDamage = Player.GetDamage(drainDamage);
 
-                int hitDamage = Player.Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, isCritical, false );
+                int hitDamage = Player.Battle.TargetAttack(Player.OverLapColliders[i], finalDamage,  false );
 
                 // 피흡
                 float drainAmount = (hitDamage * _lifeDrainAmount / 100f);

@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// int : 데미지, bool : 고정데미지? CrowdControlType: CC기 타입 , 반환형 int 최종데미지
     /// </summary>
-    public event Func<int, bool, CrowdControlType , int> OnPlayerHitFuncEvent;
+    public event Func<int, bool, CrowdControlType, int> OnPlayerHitFuncEvent;
     public event UnityAction OnPlayerHitActionEvent;
     public event UnityAction OnPlayerDieEvent;
     public event UnityAction<bool> OnThrowObjectResult;
@@ -278,7 +278,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 데미지 받기
     /// </summary>
-    public int TakeDamage(int damage, bool isIgnoreDefance,CrowdControlType type )
+    public int TakeDamage(int damage, bool isIgnoreDefance, CrowdControlType type)
     {
         int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, isIgnoreDefance, type);
         OnPlayerHitActionEvent?.Invoke();
@@ -882,7 +882,7 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Vector3 originPos = targetRb.position;
 
-        float knockbackDistance = distance * (1 + Model.KnockBackDistanceMultiplier/ 100f);
+        float knockbackDistance = distance * (1 + Model.KnockBackDistanceMultiplier / 100f);
 
         targetRb.transform.LookAt(transform.position);
         targetRb.transform.rotation = Quaternion.Euler(0, targetRb.transform.eulerAngles.y, 0);
@@ -906,13 +906,18 @@ public class PlayerController : MonoBehaviour, IHit
     }
     #endregion
     #region 데미지 계산
+
+
     /// <summary>
-    /// 모델의 데미지 반영 X
+    /// 모델의 데미지, 크리티컬 반영 x
     /// </summary>
-    public int GetDamage(int damage, out bool isCritical)
+    public int GetDamage(int damage)
     {
         int finalDamage = damage;
-        finalDamage = GetCommonDamage(finalDamage, false, out isCritical);
+        // 데미지 배율이 0까지 떨어진 경우 0으로 고정
+        float attackMultiplier = 1 + Model.DamageMultiplier / 100 >= 0 ? 1 + Model.DamageMultiplier / 100 : 0;
+        finalDamage = (int)(finalDamage * attackMultiplier);
+
         return finalDamage;
     }
     /// <summary>
@@ -921,7 +926,7 @@ public class PlayerController : MonoBehaviour, IHit
     public int GetFinalDamage(out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage,  out isCritical);
         return finalDamage;
     }
     /// <summary>
@@ -930,7 +935,7 @@ public class PlayerController : MonoBehaviour, IHit
     public int GetFinalDamage(int addtionalDamage, out bool isCritical)
     {
         int finalDamage = addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
         return finalDamage;
     }
     /// <summary>
@@ -939,7 +944,7 @@ public class PlayerController : MonoBehaviour, IHit
     public int GetFinalDamage(float addtionalMultiplier, out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
 
         // 데미지 배율 추가
         finalDamage = (int)(finalDamage * (1 + addtionalMultiplier / 100));
@@ -953,20 +958,19 @@ public class PlayerController : MonoBehaviour, IHit
         int finalDamage = 0;
         // 추가 데미지
         finalDamage += addtionalDamage;
-        finalDamage = GetCommonDamage(finalDamage, true, out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
 
         // 데미지 배율 추가
-        finalDamage = (int)(finalDamage *  (1 + additionalMultiplier / 100));
+        finalDamage = (int)(finalDamage * (1 + additionalMultiplier / 100));
         return finalDamage;
     }
     /// <summary>
     /// 공통계산 용
     /// </summary>
-    private int GetCommonDamage(int finalDamage, bool isModelDamage, out bool isCritical)
+    private int GetCommonDamage(int finalDamage, out bool isCritical)
     {
         // 기본 스텟 데미지 
-        if (isModelDamage == true)
-            finalDamage += Model.AttackPower;
+        finalDamage += Model.AttackPower;
         // 치명타 데미지
         if (Random.value < Model.CriticalChance / 100f)
         {
@@ -1168,7 +1172,7 @@ public class PlayerController : MonoBehaviour, IHit
     }
     private void TakeDamageCallback(int damage, bool isCritical)
     {
-        
+
     }
     #endregion
 }

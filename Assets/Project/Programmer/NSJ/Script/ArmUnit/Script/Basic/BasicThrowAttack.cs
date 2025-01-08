@@ -44,6 +44,8 @@ public class BasicThrowAttack : ArmThrowAttack
     }
     public override void OnCombo()
     {
+
+
         if (_throwRoutine == null)
         {
             _throwRoutine = CoroutineHandler.StartRoutine(OnComboRoutine());
@@ -71,6 +73,9 @@ public class BasicThrowAttack : ArmThrowAttack
     {
         while (true)
         {
+            if (Player.CurState != PlayerController.State.ThrowAttack)
+                yield break;
+
             if (InputKey.GetButtonDown(InputKey.Throw))
             {
                 ChangeState(PlayerController.State.ThrowAttack);

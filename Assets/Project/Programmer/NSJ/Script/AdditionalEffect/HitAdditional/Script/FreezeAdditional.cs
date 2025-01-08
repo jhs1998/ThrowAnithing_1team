@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,21 +9,12 @@ public class FreezeAdditional : HitAdditional
     private float _decreasedMoveSpeed;
     public override void Enter()
     {
-        Debug.Log($"{gameObject.name} ºù°á");
-
         if (_debuffRoutine == null)
         {
+            ChangeValue(true);
+
             _debuffRoutine = CoroutineHandler.StartRoutine(FreezeRoutine());
-            _decreasedMoveSpeed = Battle.Debuff.MoveSpeed;
         }
- 
-
-    }
-
-    public override void Update()
-    {
-        Debug.Log($"{transform.name} {Battle.Debuff.MoveSpeed}");
-        Battle.Debuff.MoveSpeed = 0;
     }
     public override void Exit()
     {
@@ -30,7 +22,7 @@ public class FreezeAdditional : HitAdditional
         {
             CoroutineHandler.StopRoutine(_debuffRoutine);
             _debuffRoutine = null;
-            Battle.Debuff.MoveSpeed += _decreasedMoveSpeed;
+            ChangeValue(false);
         }   
     }
 
@@ -40,9 +32,58 @@ public class FreezeAdditional : HitAdditional
         while (_remainDuration > 0)
         {
             _remainDuration -= Time.deltaTime;
+            if(_targetType == TargetType.Enemy)
+            {
+                ChangeEnemyZeroValue();
+            }
+
             yield return null;
         }
 
         Battle.EndDebuff(this);
     }
+    private void ChangeValue(bool isDecrease)
+    {
+        if (_targetType == TargetType.Player)
+            ChangePlayerValue(isDecrease);
+        else if (_targetType == TargetType.Enemy)
+            ChangeEnemyValue(isDecrease);
+    }
+
+    private void ChangePlayerValue(bool isDecrease)
+    {
+        if(isDecrease == true)
+        {
+            Player.Model.MoveSpeedMultyplier -= 10000;
+        }
+        else
+        {
+            Player.Model.MoveSpeedMultyplier += 10000;
+        }
+    }
+    private void ChangeEnemyValue(bool isDecrease)
+    {
+        if (isDecrease == true)
+        {
+            float enemyMoveSpeed = GetEnemyMoveSpeed();
+            _decreasedMoveSpeed = enemyMoveSpeed;
+            SetEnemyMoveSpeed(0);
+        }
+        else
+        {
+            float enemyMoveSpeed = GetEnemyMoveSpeed();
+           
+            enemyMoveSpeed += _decreasedMoveSpeed;
+            SetEnemyMoveSpeed(enemyMoveSpeed);
+        }
+    }
+
+    private void ChangeEnemyZeroValue()
+    {
+        float enemyMoveSpeed = GetEnemyMoveSpeed();
+        _decreasedMoveSpeed += enemyMoveSpeed;
+        SetEnemyMoveSpeed(0);
+    }
+
+
 }

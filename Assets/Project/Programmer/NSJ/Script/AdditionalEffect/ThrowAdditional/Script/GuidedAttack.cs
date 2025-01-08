@@ -7,6 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GuidedAttack", menuName = "AdditionalEffect/Throw/GuidedAttack")]
 public class GuidedAttack : ThrowAdditional
 {
+    [Header("유도 가능 범위")]
     [SerializeField] private float _guidedDistance = 5f;
 
     private bool _isDetect;
