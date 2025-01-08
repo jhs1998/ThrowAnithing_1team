@@ -39,6 +39,7 @@ public class HitState : PlayerState
 
     private int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
     {
+        Debug.Log(isIgnoreDef);
         if (Player.IsShield == true)
             return 0;
         if (Player.IsInvincible == true)
