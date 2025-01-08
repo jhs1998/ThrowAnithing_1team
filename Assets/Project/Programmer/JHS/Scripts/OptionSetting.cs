@@ -62,8 +62,7 @@ public class OptionSetting : MonoBehaviour
         PlayerPrefs.SetFloat(CameraSpeedKey, cameraSpeed);
         PlayerPrefs.SetInt(MiniMapOnKey, miniMapOn);
         PlayerPrefs.SetInt(MiniMapFixKey, miniMapFix);
-        PlayerPrefs.SetInt(LanguageKey, language);
-        Debug.Log($"After OptionSave - EffectSound: {effectSound}, BackgroundSound: {backgroundSound}, WholeSound: {wholesound}, CameraSpeed: {cameraSpeed}, MiniMapOn: {miniMapOn}, MiniMapFix: {miniMapFix}");
+        PlayerPrefs.SetInt(LanguageKey, language);     
         PlayerPrefs.Save();
         Debug.Log("可记 技泼 历厘");
     }
@@ -91,8 +90,7 @@ public class OptionSetting : MonoBehaviour
         else miniMapOnBool = false;
         if (miniMapFix == 1)
             miniMapFixBool = true;
-        else miniMapFixBool = false;
-        Debug.Log($"After OptionLode - EffectSound: {effectSound}, BackgroundSound: {backgroundSound}, WholeSound: {wholesound}, CameraSpeed: {cameraSpeed}, MiniMapOn: {miniMapOn}, MiniMapFix: {miniMapFix}");
+        else miniMapFixBool = false;        
     }
 
     public void OptionReset(int value)

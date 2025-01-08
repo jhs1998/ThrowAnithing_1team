@@ -115,8 +115,7 @@ public class LobbyUpGrade : MonoBehaviour
             for (int i = 0; i < 3; i++)
             {
                 playerState.shortRangeAttack[i] += lobbyUpGradeState.shortRangeAttackUPO;
-            }            
-            Debug.Log($"근접 공격 증가");          
+            }                    
             OnCoinChanged?.Invoke();
         }
         else
@@ -133,8 +132,7 @@ public class LobbyUpGrade : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 playerState.longRangeAttack[i] += lobbyUpGradeState.longRangeAttackUPO;
-            }
-            Debug.Log($"원거리 공격 증가");        
+            }       
             OnCoinChanged?.Invoke();
         }
         else
@@ -150,7 +148,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 이동 속도 증가
             playerState.movementSpeed += lobbyUpGradeState.movementSpeedUP;
-            Debug.Log($"이동 속도: {playerState.movementSpeed}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -166,7 +163,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 최대 체력 증가
             playerState.maxHp += lobbyUpGradeState.maxHpUP;
-            Debug.Log($"최대 체력: {playerState.maxHp}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -185,7 +181,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 스테미나 최대치 증가
             playerState.maxStamina += lobbyUpGradeState.maxStaminaUP;
-            Debug.Log($"스테미나 최대치 : {playerState.maxStamina}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -201,7 +196,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 공격 속도 5퍼 증가
             playerState.attackSpeed += (0.01f * lobbyUpGradeState.attackSpeedUP);
-            Debug.Log($"공격 속도: {playerState.attackSpeed}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -217,7 +211,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 크리티컬 확률 2 증가
             playerState.criticalChance += lobbyUpGradeState.criticalChanceUP;
-            Debug.Log($"크리티컬 확률 : {playerState.criticalChance}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -233,7 +226,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 추가 장비 획득 확률 2퍼 증가
             playerState.equipmentDropUpgrade += lobbyUpGradeState.equipmentDropUpgradeUPO;
-            Debug.Log($"추가 장비 획득 확률 : {playerState.equipmentDropUpgrade}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -251,7 +243,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 공용 공격력 2증가
             playerState.commonAttack += lobbyUpGradeState.commonAttackUP;
-            Debug.Log($"공용 공격력: {playerState.commonAttack}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -267,7 +258,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 보유 투척물 6증가
             playerState.maxThrowables += lobbyUpGradeState.maxThrowablesUP;
-            Debug.Log($"보유가능한 투척물: {playerState.maxThrowables}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -283,7 +273,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 방어력 0.4 증가
             playerState.defense += lobbyUpGradeState.defenseUPO;
-            Debug.Log($"방어력: {playerState.defense}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -301,7 +290,6 @@ public class LobbyUpGrade : MonoBehaviour
             {
                 playerState.regainMana[i] += playerState.regainMana[i]* (0.01f * lobbyUpGradeState.regainManaUP);
             }
-            Debug.Log($"마나 회복량 증가");
             OnCoinChanged?.Invoke();
         }
         else
@@ -331,8 +319,6 @@ public class LobbyUpGrade : MonoBehaviour
             {
                 playerState.shortRangeAttackStamina[i] -= playerState.shortRangeAttackStamina[i] * reduction;
             }
-
-            Debug.Log($"전체 스테미나 소모량 감소");
             OnCoinChanged?.Invoke();
         }
         else
@@ -350,7 +336,6 @@ public class LobbyUpGrade : MonoBehaviour
             {
                 playerState.longRangeAttack[i] += lobbyUpGradeState.longRangeAttackUPT;
             }
-            Debug.Log($"원거리 공격 증가");
             OnCoinChanged?.Invoke();
         }
         else
@@ -368,7 +353,6 @@ public class LobbyUpGrade : MonoBehaviour
             {
                 playerState.shortRangeAttack[i] += lobbyUpGradeState.shortRangeAttackUPT;
             }
-            Debug.Log($"근거리 공격 증가");
             OnCoinChanged?.Invoke();
         }
         else
@@ -384,7 +368,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 투척물 추가 획득 20퍼 증가
             playerState.gainMoreThrowables += lobbyUpGradeState.gainMoreThrowablesUP;
-            Debug.Log($"투척물 추가 획득 : {playerState.gainMoreThrowables}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -404,7 +387,6 @@ public class LobbyUpGrade : MonoBehaviour
             {
                 playerState.manaConsumption[i] -= playerState.manaConsumption[i] * (0.01f * lobbyUpGradeState.manaConsumptionUP);
             }
-            Debug.Log($"마나 소모량 감소");
             OnCoinChanged?.Invoke();
         }
         else
@@ -420,7 +402,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 생명력 흡수 0.6퍼 
             playerState.drainLife += lobbyUpGradeState.drainLifeUP;
-            Debug.Log($"생명력 흡수 : {playerState.drainLife}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -436,7 +417,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 방어력 0.6 증가
             playerState.defense += lobbyUpGradeState.defenseUPT;
-            Debug.Log($"방어력: {playerState.defense}");
             OnCoinChanged?.Invoke();
         }
         else
@@ -452,7 +432,6 @@ public class LobbyUpGrade : MonoBehaviour
         {
             // 강화 성공 시 추가 장비 획득 확률 3퍼 증가
             playerState.equipmentDropUpgrade += lobbyUpGradeState.equipmentDropUpgradeUPT;    
-            Debug.Log($"추가 장비 획득 확률 : {playerState.equipmentDropUpgrade}");
             OnCoinChanged?.Invoke();
         }
         else

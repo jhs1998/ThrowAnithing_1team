@@ -31,6 +31,7 @@ public class ButtonActionInstaller : MonoBehaviour
     [SerializeField] public TotalVolumeBar totalVolumeBar;
     [SerializeField] public BackGroundVolume backGroundVolume;
     [SerializeField] public EffectVolume effectVolume;
+    [SerializeField] public LanguageChoce languageChoce;
     [Inject]
     public OptionSetting setting;
 
@@ -38,17 +39,25 @@ public class ButtonActionInstaller : MonoBehaviour
     {
         saveButton.onClick.AddListener(setting.OptionSave);
         cancelButton.onClick.AddListener(() =>
-        { 
+        {
             setting.OptionLode();
             SensitivityBar.ResetCameraSpeed();
+            languageChoce.CancellLanguage();
         });
         resetButton.onClick.AddListener(() =>
         {
             setting.OptionReset(1); // OptionReset1 실행
             SensitivityBar.ResetCameraSpeed();
+            languageChoce.ReturnLanguage();
         });
         saveSoundButton.onClick.AddListener(setting.OptionSave);
-        cancelSoundButton.onClick.AddListener(setting.OptionLode);
+        cancelSoundButton.onClick.AddListener(() =>
+        {
+            setting.OptionLode();
+            totalVolumeBar.ResetTotalVolume();
+            backGroundVolume.ResetBackGroundVolume();
+            effectVolume.ResetTotalVolume();
+        });
         resetSoundButton.onClick.AddListener(() =>
         {
             setting.OptionReset(2); // OptionReset2 실행
