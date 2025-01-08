@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Zenject;
-using static Unity.VisualScripting.Icons;
 
 public class OptionSetting : MonoBehaviour
 {
