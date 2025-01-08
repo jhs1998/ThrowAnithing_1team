@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Power Melee", menuName = "Arm/AttackType/Power/Melee")]
@@ -156,7 +155,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
                 _autoAttackTime = 0;
                 ShowArmEffect();
             }
-            
+
         }
         else
         {
@@ -191,7 +190,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
 
             int attackDamage = Player.GetFinalDamage(_charges[_index].Damage, out bool isCritical);
-            Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], attackDamage, isCritical, false);
+            Player.Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], attackDamage, CrowdControlType.Stiff, isCritical, false);
 
             if (_charges[_index].KnockBackRange > 0)
             {

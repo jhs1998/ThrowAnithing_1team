@@ -10,7 +10,7 @@ public class ThrowObject : MonoBehaviour
     // 오브젝트 자체 데미지
     public int ObjectDamage;
     // 플레이어의 추가 데미지
-    [HideInInspector]public int PlayerDamage;
+    [HideInInspector] public int PlayerDamage;
     public int Damage => ObjectDamage + PlayerDamage;
     // 데미지 배수
     [HideInInspector] public float DamageMultyPlier;
@@ -72,14 +72,14 @@ public class ThrowObject : MonoBehaviour
         if (layer == Layer.Monster)
         {
             // 무시해야하는 타겟대상은 공격하지 않음
-            if (IgnoreTargets.Contains(other.gameObject) == true) 
+            if (IgnoreTargets.Contains(other.gameObject) == true)
                 return;
 
             TriggerThrowAddtional();
             HitTarget();
             _player.ThrowObjectResultCallback(true);
-        } 
-        else if (tag != Tag.Player )
+        }
+        else if (tag != Tag.Player)
         {
             CanAttack = false;
             _collider.isTrigger = false;
@@ -91,9 +91,9 @@ public class ThrowObject : MonoBehaviour
     {
         UpdateThrowAdditional();
 
-        if(CanAttack == false)
+        if (CanAttack == false)
         {
-            if(_player.Model.CurThrowables >= _player.Model.MaxThrowables)
+            if (_player.Model.CurThrowables >= _player.Model.MaxThrowables)
             {
                 gameObject.layer = Layer.CantPickTrash;
             }
@@ -113,12 +113,12 @@ public class ThrowObject : MonoBehaviour
         _player = player;
         Radius = player.Model.BoomRadius;
         // 적중시 회복 마나량
-        SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep] ;
-        SpecialRecovery += SpecialRecovery * player.Model.RegainAdditiveMana / 100; 
+        SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
+        SpecialRecovery += SpecialRecovery * player.Model.RegainAdditiveMana / 100;
 
         AddThrowAdditional(throwAdditionals, player);
     }
-    public void Init(PlayerController player, int addionalDamage,List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player, int addionalDamage, List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
         PlayerDamage = addionalDamage;
@@ -177,7 +177,7 @@ public class ThrowObject : MonoBehaviour
     {
         if (CanAttack == false)
             return;
-     
+
         foreach (ThrowAdditional throwAdditional in ThrowAdditionals)
         {
             throwAdditional.Trigger();
@@ -197,7 +197,7 @@ public class ThrowObject : MonoBehaviour
         {
             int finalDamage = _player.GetFinalDamage(Damage, DamageMultyPlier, out bool isCritical);
             // 디버프 주기
-            int hitDamage = _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], finalDamage, isCritical,false);
+            int hitDamage = _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], finalDamage, CrowdControlType.Stiff, isCritical, false);
 
             if (KnockBackDistance > 0)
                 _player.DoKnockBack(_player.OverLapColliders[i].transform, transform.forward, KnockBackDistance);
@@ -240,7 +240,7 @@ public class ThrowObject : MonoBehaviour
     }
     private void ClearThrowAddtional()
     {
-        for(int i = ThrowAdditionals.Count -1 ; i >= 0; i--)
+        for (int i = ThrowAdditionals.Count - 1; i >= 0; i--)
         {
             RemoveThrowAddtional(ThrowAdditionals[i]);
         }
