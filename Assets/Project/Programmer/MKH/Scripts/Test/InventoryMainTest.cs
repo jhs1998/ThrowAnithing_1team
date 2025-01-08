@@ -10,22 +10,11 @@ namespace MKH
 
         [SerializeField] Button button;
 
-        [SerializeField] GameObject blueChip;
-
         new private void Awake()
         {
             base.Awake();
             state.SetActive(false);
-            blueChip = GameObject.Find("InventoryUI").transform.Find("BlueChipPanel").gameObject;
         }
-
-        //private void OnEnable()
-        //{
-        //    if (gameObject.activeSelf && !blueChip.activeSelf)
-        //    {
-        //        EventSystem.current.SetSelectedGameObject(button.gameObject);
-        //    }
-        //}
 
         public void AcquireItem(Item item)
         {
