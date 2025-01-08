@@ -21,8 +21,8 @@ public class CameraSpeedSlider : MonoBehaviour
     }
     private void Start()
     {
-        cameraSpeedSlider.minValue = 0.1f;
-        cameraSpeedSlider.maxValue = 5f;
+        cameraSpeedSlider.minValue = 0.01f;
+        cameraSpeedSlider.maxValue = 3f;
         cameraSpeedSlider.value = Mathf.Clamp(setting.cameraSpeed, cameraSpeedSlider.minValue, cameraSpeedSlider.maxValue);
 
         // 슬라이더 값 변경 시 SettingCameraSpeed 메서드 호출

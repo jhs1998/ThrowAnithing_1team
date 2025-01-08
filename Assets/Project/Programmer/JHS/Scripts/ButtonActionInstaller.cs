@@ -32,6 +32,8 @@ public class ButtonActionInstaller : MonoBehaviour
     [SerializeField] public BackGroundVolume backGroundVolume;
     [SerializeField] public EffectVolume effectVolume;
     [SerializeField] public LanguageChoce languageChoce;
+
+
     [Inject]
     public OptionSetting setting;
 
@@ -43,12 +45,16 @@ public class ButtonActionInstaller : MonoBehaviour
             setting.OptionLoad();
             SensitivityBar.ResetCameraSpeed();
             languageChoce.CancellLanguage();
+            MinimapOn.gameObject.SetActive(setting.miniMapOnBool);
+            MiniMapFixOn.gameObject.SetActive(setting.miniMapFixBool);
         });
         resetButton.onClick.AddListener(() =>
         {
             setting.OptionReset(1); // OptionReset1 실행
             SensitivityBar.ResetCameraSpeed();
             languageChoce.ReturnLanguage();
+            MinimapOn.gameObject.SetActive(setting.miniMapOnBool);
+            MiniMapFixOn.gameObject.SetActive(setting.miniMapFixBool);
         });
         saveSoundButton.onClick.AddListener(setting.OptionSave);
         cancelSoundButton.onClick.AddListener(() =>
@@ -56,7 +62,7 @@ public class ButtonActionInstaller : MonoBehaviour
             setting.OptionLoad();
             totalVolumeBar.ResetTotalVolume();
             backGroundVolume.ResetBackGroundVolume();
-            effectVolume.ResetTotalVolume();
+            effectVolume.ResetTotalVolume();          
         });
         resetSoundButton.onClick.AddListener(() =>
         {
@@ -66,9 +72,9 @@ public class ButtonActionInstaller : MonoBehaviour
             effectVolume.ResetTotalVolume();
         });
 
-        MinimapOn.onClick.AddListener(setting.MinimapOn);
-        MinimapOff.onClick.AddListener(setting.MinimapOff);
-        MiniMapFixOn.onClick.AddListener(setting.MiniMapFixOn);
-        MiniMapFixOff.onClick.AddListener(setting.MiniMapFixOff);
+        MinimapOn.onClick.AddListener(setting.MinimapOff);
+        MinimapOff.onClick.AddListener(setting.MinimapOn);
+        MiniMapFixOn.onClick.AddListener(setting.MiniMapFixOff);
+        MiniMapFixOff.onClick.AddListener(setting.MiniMapFixOn);
     }
 }

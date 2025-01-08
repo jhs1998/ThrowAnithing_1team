@@ -191,9 +191,6 @@ public class Option_Sound : Main_Option
         preBgm = setting.backgroundSound;
         preEffect = setting.effectSound;
 
-        setting.OptionSave();
-
-
         //Todo : depth1À¸·Î º¹±Í
         soundOnOff.SetActive(false);
         UnActiveAllText();
@@ -212,7 +209,6 @@ public class Option_Sound : Main_Option
         setting.backgroundSound = preBgm;
         setting.effectSound = preEffect;
 
-        setting.OptionSave();
         //Todo : depth1À¸·Î º¹±Í
         soundOnOff.SetActive(false);
         UnActiveAllText();
@@ -227,7 +223,6 @@ public class Option_Sound : Main_Option
         setting.backgroundSound = defaultBgm;
         setting.effectSound = defaultEffect;
 
-        setting.OptionSave();
         //Todo : depth1À¸·Î º¹±Í
         soundOnOff.SetActive(false);
         UnActiveAllText();

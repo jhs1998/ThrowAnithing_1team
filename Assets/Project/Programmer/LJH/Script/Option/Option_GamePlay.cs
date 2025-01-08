@@ -261,8 +261,6 @@ public class Option_GamePlay : Main_Option
 
         ButtonReset();
 
-        option_setting.OptionSave();
-
         gameplayOnOff.SetActive(false);
 
         checker = 0;
@@ -283,8 +281,6 @@ public class Option_GamePlay : Main_Option
 
         ButtonReset();
 
-        option_setting.OptionSave();
-
         checker = 0;
 
         gameplayOnOff.SetActive(false);
@@ -304,8 +300,6 @@ public class Option_GamePlay : Main_Option
         preFix = option_setting.miniMapFixBool;
 
         ButtonReset();
-
-        option_setting.OptionSave();
 
         checker = 0;
 
