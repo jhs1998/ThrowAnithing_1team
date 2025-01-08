@@ -19,10 +19,8 @@ public class VampireAddtional : PlayerAdditional
 
     private void DrainLife(int damage, bool isCritical)
     {
-        Debug.Log($"크리티컬? {isCritical}");
         if (isCritical == false)
             return;
-        Debug.Log($"피흡 {damage}");
-        Player.DrainLife(damage, _lifeDrainAmount);
+        Player.DrainLife(damage, _lifeDrainAmount);  
     }
 }

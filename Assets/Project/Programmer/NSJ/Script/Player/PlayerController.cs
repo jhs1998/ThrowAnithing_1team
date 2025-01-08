@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour, IHit
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
+    [HideInInspector] public PlayerObjectPool ObjectPool;
+    public PlayerObjectPool.PoolStruct Pool => ObjectPool.Pool;
     public enum State
     {
         Idle,
@@ -308,6 +310,9 @@ public class PlayerController : MonoBehaviour, IHit
     {
         int drainAmount = (int)(damage * Model.DrainLife / 100);
         Model.CurHp += drainAmount;
+
+        if (drainAmount > 0)
+            StartCoroutine(CreateLifeDrainEffect());
     }
     /// <summary>
     /// «««ÿ »Ì«˜(∏µ® ««»Ì + √ﬂ∞° ««»Ì)
@@ -316,6 +321,23 @@ public class PlayerController : MonoBehaviour, IHit
     {
         int drainAmount = (int)(damage * (Model.DrainLife + additionalDrainLife) / 100);
         Model.CurHp += drainAmount;
+
+        if (drainAmount > 0)
+            StartCoroutine(CreateLifeDrainEffect());
+    }
+
+    IEnumerator CreateLifeDrainEffect()
+    {
+        Vector3 pos = new Vector3(
+            Battle.HitPoint.position.x + Random.Range(-0.5f, 0.5f),
+              Battle.HitPoint.position.y + Random.Range(-0.5f, 0.5f),
+                Battle.HitPoint.position.z + Random.Range(-0.5f, 0.5f)
+            );
+        GameObject effect = Pool.LifeDrainEffect.GetPool(pos, transform.rotation);
+        effect.transform.SetParent(transform, true);
+
+        yield return 1.5f.GetDelay();
+        Pool.LifeDrainEffect.ReturnPool(effect);
     }
     #endregion
     #region «√∑π¿ÃæÓ πÊ«‚ √≥∏Æ
@@ -933,7 +955,7 @@ public class PlayerController : MonoBehaviour, IHit
     public int GetFinalDamage(out bool isCritical)
     {
         int finalDamage = 0;
-        finalDamage = GetCommonDamage(finalDamage,  out isCritical);
+        finalDamage = GetCommonDamage(finalDamage, out isCritical);
         return finalDamage;
     }
     /// <summary>
@@ -1016,6 +1038,19 @@ public class PlayerController : MonoBehaviour, IHit
     private void TriggerCantOperate()
     {
         _states[(int)CurState].TriggerCantOperate();
+    }
+
+    public T CreateNewPool<T>(GameObject poolObject ,string poolName) where T : ObjectPool
+    {
+        T pool = transform.GetComponentInChildren<T>();
+        if(pool == null)
+        {
+            GameObject newPool = new GameObject(poolName);
+            newPool.transform.SetParent(ObjectPool.transform, true);
+            pool = newPool.AddComponent<T>();
+            pool.Prefab = poolObject;
+        }
+        return pool;
     }
     // √ ±‚ º≥¡§ ============================================================================================================================================ //
     /// <summary>
@@ -1117,6 +1152,7 @@ public class PlayerController : MonoBehaviour, IHit
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
         Battle = GetComponent<BattleSystem>();
+        ObjectPool = GetComponentInChildren<PlayerObjectPool>();
     }
     private void InitAdditionnal()
     {

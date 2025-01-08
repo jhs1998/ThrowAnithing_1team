@@ -11,14 +11,9 @@ public class CushionAttack : ThrowAdditional
     [Range(0, 100)]
     [Header("데미지 감소량 ( % )")]
     [SerializeField] float _ReductionDamage;
-    private int _cushionCount;
+    [Space(10)]
+    [SerializeField] private int _cushionCount;
 
-    [System.Serializable]
-    struct TargetInfo
-    {
-        public Transform transform;
-        public float Distance;
-    }
     private List<TargetInfo> _targetList = new List<TargetInfo>();
     private TargetInfo _target;
     public override void Exit()
@@ -77,14 +72,5 @@ public class CushionAttack : ThrowAdditional
         Vector3 targetPos = new(_target.transform.position.x, _target.transform.position.y + 1.5f, _target.transform.position.z);
         newObject.transform.LookAt(targetPos);
         newObject.Shoot(Player.ThrowPower);
-    }
-
-    //TargetInfo 설정
-    private TargetInfo SetTargetInfo(Transform target, float distance)
-    {
-        TargetInfo info = new TargetInfo();
-        info.transform = target;
-        info.Distance = distance;
-        return info;
     }
 }
