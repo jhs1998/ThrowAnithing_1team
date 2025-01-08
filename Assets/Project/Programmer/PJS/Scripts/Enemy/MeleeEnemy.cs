@@ -3,6 +3,15 @@ using UnityEngine;
 
 public class MeleeEnemy : BaseEnemy
 {
+    [Header("피격 모션 쿨타임")]
+    [SerializeField] float hitCoolTime;
+
+    private void Start()
+    {
+        BaseInit();
+        tree.SetVariableValue("HitCoolTime", hitCoolTime);
+    }
+
     // 공격 애니메이션 이벤트
     public void BeginAttack()
     {

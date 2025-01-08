@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrashObj : MonoBehaviour, IHit
+public class TrashObj : MonoBehaviour
 {
     [SerializeField] int atk;
 
@@ -20,7 +20,6 @@ public class TrashObj : MonoBehaviour, IHit
         }
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.transform.tag == Tag.Monster)
@@ -29,13 +28,5 @@ public class TrashObj : MonoBehaviour, IHit
             IBattle hit = other.transform.GetComponentInParent<IBattle>();
             hit.TakeDamage(atk, CrowdControlType.Stiff, false);
         }
-
-        //gameObject.SetActive(false);
-    }
-
-    public int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
-    {
-        //Debug.Log($"{gameObject} ÀÇ TakeDamage");
-        return damage;
     }
 }
