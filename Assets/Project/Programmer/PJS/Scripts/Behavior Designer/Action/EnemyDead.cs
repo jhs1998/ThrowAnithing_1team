@@ -24,6 +24,9 @@ public class EnemyDead : Action
         {
             _isFirst = true;
 
+            BattleSystem battle = GetComponent<BattleSystem>();
+            battle.Die();
+
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.useGravity = false;
             rb.isKinematic = true;
