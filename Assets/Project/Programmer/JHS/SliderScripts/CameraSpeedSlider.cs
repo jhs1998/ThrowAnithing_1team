@@ -43,7 +43,7 @@ public class CameraSpeedSlider : MonoBehaviour
         }
     }
 
-    // 리셋 버튼 누를떄 ui 갱신
+    // 리셋, 취소 버튼 누를떄 ui 갱신
     public void ResetCameraSpeed()
     {
         cameraSpeedSlider.value = Mathf.Clamp(setting.cameraSpeed, cameraSpeedSlider.minValue, cameraSpeedSlider.maxValue);

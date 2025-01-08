@@ -21,7 +21,7 @@ public class ButtonActionInstaller : MonoBehaviour
     // OptionReset()
     [SerializeField] public Button resetSoundButton;
 
-    // ¹Ì´Ï¸Ê Å¬¸¯ÀÌº¥Æ® Ãß°¡
+    // ë¯¸ë‹ˆë§µ í´ë¦­ì´ë²¤íŠ¸ ì¶”ê°€
     [SerializeField] public Button MinimapOn;
     [SerializeField] public Button MinimapOff;
     [SerializeField] public Button MiniMapFixOn;
@@ -31,23 +31,36 @@ public class ButtonActionInstaller : MonoBehaviour
     [SerializeField] public TotalVolumeBar totalVolumeBar;
     [SerializeField] public BackGroundVolume backGroundVolume;
     [SerializeField] public EffectVolume effectVolume;
+    [SerializeField] public LanguageChoce languageChoce;
     [Inject]
     public OptionSetting setting;
 
     private void Start()
     {
         saveButton.onClick.AddListener(setting.OptionSave);
-        cancelButton.onClick.AddListener(setting.OptionLoad);
+        cancelButton.onClick.AddListener(() =>
+        {
+            setting.OptionLode();
+            SensitivityBar.ResetCameraSpeed();
+            languageChoce.CancellLanguage();
+        });
         resetButton.onClick.AddListener(() =>
         {
-            setting.OptionReset(1); // OptionReset1 ½ÇÇà
+            setting.OptionReset(1); // OptionReset1 ì‹¤í–‰
             SensitivityBar.ResetCameraSpeed();
+            languageChoce.ReturnLanguage();
         });
         saveSoundButton.onClick.AddListener(setting.OptionSave);
-        cancelSoundButton.onClick.AddListener(setting.OptionLoad);
+        cancelSoundButton.onClick.AddListener(() =>
+        {
+            setting.OptionLode();
+            totalVolumeBar.ResetTotalVolume();
+            backGroundVolume.ResetBackGroundVolume();
+            effectVolume.ResetTotalVolume();
+        });
         resetSoundButton.onClick.AddListener(() =>
         {
-            setting.OptionReset(2); // OptionReset2 ½ÇÇà
+            setting.OptionReset(2); // OptionReset2 ì‹¤í–‰
             totalVolumeBar.ResetTotalVolume();
             backGroundVolume.ResetBackGroundVolume();
             effectVolume.ResetTotalVolume();

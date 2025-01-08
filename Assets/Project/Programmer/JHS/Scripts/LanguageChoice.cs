@@ -32,6 +32,7 @@ public class LanguageChoce : MonoBehaviour
     public void CancellLanguage()
     {
         langaugeDropdown.value = setting.language;
+        Debug.Log("언어에 저장 언어 붙이기");
     }
 
     private void OnDestroy()
