@@ -9,6 +9,7 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
     [HideInInspector] public BattleSystem Battle;
     [SerializeField] private bool _canDie;
     [SerializeField] private int _maxHp;
+    [SerializeField] private int _defance;
     [SerializeField] private int _hp;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private int _damage = 1;
@@ -31,7 +32,7 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
     {
         if (collision.gameObject.tag == Tag.Player)
         {
-            Battle.TargetAttackWithDebuff(collision.transform, _damage, true);
+            Battle.TargetAttackWithDebuff(collision.transform, _damage, CrowdControlType.Stiff, false);
         }
     }
 
@@ -52,7 +53,17 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
 
     public int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
     {
-        _hp -= damage;
+        int finalDamage = 0;
+        if(isIgnoreDef == true)
+        {
+            finalDamage = damage;
+        }
+        else
+        {
+            finalDamage = damage - _defance;
+        }
+        _hp -= finalDamage;
+
         //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
         if (_canDie == true && _hp <= 0 && Battle.IsDie == false)
         {
@@ -62,7 +73,7 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
         {
             StartCoroutine(HitRoutine());
         }
-        return damage;
+        return finalDamage;
     }
 
     public int TakeDamage(int damage, CrowdControlType type)

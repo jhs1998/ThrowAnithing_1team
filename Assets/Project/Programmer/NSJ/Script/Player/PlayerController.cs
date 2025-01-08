@@ -280,7 +280,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public int TakeDamage(int damage, bool isIgnoreDefance,CrowdControlType type )
     {
-        int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, false, type);
+        int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, isIgnoreDefance, type);
         OnPlayerHitActionEvent?.Invoke();
         return hitDamage;
     }
