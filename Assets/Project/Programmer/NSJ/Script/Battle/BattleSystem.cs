@@ -86,7 +86,7 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
-        int hitDamage = battle.TakeDamage(damage, isCritical, isCritical); // 상대를 공격
+        int hitDamage = battle.TakeDamage(damage, isCritical, isIgnoreDef); // 상대를 공격
         OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
     }

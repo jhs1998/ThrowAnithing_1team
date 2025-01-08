@@ -69,7 +69,7 @@ public class KillingDrainAdditonal : PlayerAdditional
                 int drainDamage = (int)(Model.AttackPower * _attackMultiplier / 100f);
                 int finalDamage = Player.GetDamage(drainDamage, out bool isCritical);
 
-                int hitDamage = Player.Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, false, isCritical);
+                int hitDamage = Player.Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, isCritical, false );
 
                 // ««»Ì
                 float drainAmount = (hitDamage * _lifeDrainAmount / 100f);

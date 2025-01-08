@@ -48,7 +48,7 @@ public class OverloadAdditional : PlayerAdditional
             for(int i = 0;  i < hitCount; i++)
             {
                 int finalDamage = Player.GetDamage(_damage, out bool isCritical);
-                Player.Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, false, isCritical);
+                Player.Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, isCritical, true);
             }
             yield return _damageInterval.GetDelay();
         }
