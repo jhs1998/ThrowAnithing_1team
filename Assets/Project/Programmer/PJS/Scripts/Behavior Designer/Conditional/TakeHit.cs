@@ -5,7 +5,7 @@ using BehaviorDesigner.Runtime.Tasks;
 public class TakeHit : Action
 {
 	public SharedBool hitAble;
-	public float coolTime;
+	public SharedFloat coolTime;
 
 	private BaseEnemy enemy;
 
@@ -16,7 +16,7 @@ public class TakeHit : Action
 
     public override TaskStatus OnUpdate()
 	{
-        StartCoroutine(enemy.CoolTimeRoutine(hitAble, coolTime));
+        StartCoroutine(enemy.CoolTimeRoutine(hitAble, coolTime.Value));
 
         return TaskStatus.Success;
 	}
