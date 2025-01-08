@@ -82,24 +82,6 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
         tree.SetVariable("Reward", (SharedFloat)reward);
     }
-    #region TakeDamage
-    /// <summary>
-    /// 몬스터가 피해받는 데미지
-    /// </summary>
-    public int TakeDamage(int damage, CrowdControlType type)
-    {
-        resultDamage = damage - (int)state.Def;
-        tree.SetVariableValue("TakeDamage", true);
-
-        if (resultDamage <= 0)
-            resultDamage = 0;
-
-        curHp -= resultDamage;
-
-        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
-        Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
-        return resultDamage;
-    }
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
@@ -117,7 +99,6 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
         return resultDamage;
     }
-    #endregion
     /// <summary>
     /// 차지 후 폭발 데미지 부여
     /// </summary>

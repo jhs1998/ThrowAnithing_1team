@@ -278,15 +278,6 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 데미지 받기
     /// </summary>
-    public int TakeDamage(int damage, CrowdControlType type)
-    {
-        int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, false, type);
-        OnPlayerHitActionEvent?.Invoke();
-        return hitDamage;
-    }
-    /// <summary>
-    /// 데미지 받기
-    /// </summary>
     public int TakeDamage(int damage, bool isIgnoreDefance,CrowdControlType type )
     {
         int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, false, type);
