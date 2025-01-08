@@ -26,7 +26,7 @@ public class TrashObj : MonoBehaviour
         {
             Debug.Log(other.transform);
             IBattle hit = other.transform.GetComponentInParent<IBattle>();
-            hit.TakeDamage(atk, CrowdControlType.Stiff, false);
+            hit.TakeDamage(atk);
         }
     }
 }

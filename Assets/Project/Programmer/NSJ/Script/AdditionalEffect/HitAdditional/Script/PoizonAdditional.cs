@@ -44,7 +44,7 @@ public class PoizonAdditional : HitAdditional
         {
             yield return 1f.GetDelay();
             CoroutineHandler.StartRoutine(EffectRoutine());
-            Battle.TakeDamage(damage, CrowdControlType.None, true);
+            Battle.TakeDamage(damage, true);
             _remainDuration--;         
         }
         Battle.EndDebuff(this);

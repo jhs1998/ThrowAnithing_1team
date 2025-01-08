@@ -5,6 +5,7 @@ public class HitState : PlayerState
     public HitState(PlayerController controller) : base(controller)
     {
         Player.OnPlayerHitFuncEvent += TakeDamage;
+        Player.OnPlayerCCHitEvent += TakeCrowdControl;
     }
 
 
@@ -37,7 +38,7 @@ public class HitState : PlayerState
         ChangeState(PlayerController.State.Idle);
     }
 
-    private int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
+    private int TakeDamage(int damage, bool isIgnoreDef)
     {
         if (Player.IsShield == true)
             return 0;
@@ -65,15 +66,7 @@ public class HitState : PlayerState
         Model.CurHp -= finalDamage;
 
 
-        if (Model.CurHp > 0)
-        {
-            // 경직 없음
-            if (type == CrowdControlType.Stiff)
-            {
-                ChangeState(PlayerController.State.Hit);
-            }
-        }
-        else
+        if (Model.CurHp <= 0)
         {
             // Die
             Player.Die();
@@ -81,4 +74,11 @@ public class HitState : PlayerState
         return finalDamage;
     }
 
+    private void TakeCrowdControl(CrowdControlType type) 
+    {
+        if (type == CrowdControlType.Stiff)
+        {
+            ChangeState(PlayerController.State.Hit);
+        }
+    }
 }

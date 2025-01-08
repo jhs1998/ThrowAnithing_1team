@@ -17,9 +17,9 @@ public class Lazer : MonoBehaviour
     {
         if (other.gameObject.tag == Tag.Player)
         {
-            IHit hit = other.GetComponent<IHit>();
+            IBattle battle = other.GetComponent<IBattle>();
             //hit.TakeDamage(spikeDamage, true);
-            damageRoutine = StartCoroutine(DamageRoutine(hit));
+            damageRoutine = StartCoroutine(DamageRoutine(battle));
         }
 
     }
@@ -38,11 +38,12 @@ public class Lazer : MonoBehaviour
     }
 
 
-    IEnumerator DamageRoutine(IHit hit)
+    IEnumerator DamageRoutine(IBattle battle)
     {
         while (true)
         {
-            hit.TakeDamage(lazerDamage, false, CrowdControlType.Stiff);
+            battle.TakeDamage(lazerDamage);
+            battle.TakeCrowdControl(CrowdControlType.Stiff);
             yield return timer.GetDelay();
         }
     }
