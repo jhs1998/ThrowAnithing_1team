@@ -37,7 +37,11 @@ public class ButtonActionInstaller : MonoBehaviour
     private void Start()
     {
         saveButton.onClick.AddListener(setting.OptionSave);
-        cancelButton.onClick.AddListener(setting.OptionLode);
+        cancelButton.onClick.AddListener(() =>
+        { 
+            setting.OptionLode();
+            SensitivityBar.ResetCameraSpeed();
+        });
         resetButton.onClick.AddListener(() =>
         {
             setting.OptionReset(1); // OptionReset1 ½ÇÇà
