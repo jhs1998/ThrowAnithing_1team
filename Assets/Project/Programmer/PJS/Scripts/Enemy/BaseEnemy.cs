@@ -61,6 +61,11 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         return state;
     }
 
+    public BehaviorTree GetBT()
+    {
+        return tree;
+    }
+
     protected void BaseInit()
     {
         SettingVariable();
@@ -140,10 +145,8 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     public IEnumerator CoolTimeRoutine(SharedBool atkAble, float coolTime)
     {
         atkAble.SetValue(false);
-        Debug.Log($"{atkAble.Name} 쿨타임 시작");
         yield return coolTime.GetDelay();
         atkAble.SetValue(true);
-        Debug.Log($"{atkAble.Name} 쿨타임 끝");
     }
 
     private void OnDrawGizmosSelected()
