@@ -153,7 +153,6 @@ public class Option_Sound : Main_Option
             }
         }
 
-        Debug.Log(1);
         // 입력없으면 프레임마다
         if (x == 0 && y == 0)
         {
@@ -262,13 +261,13 @@ public class Option_Sound : Main_Option
 
         soundOnOff = GetUI("SoundOnOff");
 
-        defaultTotal = setting.wholesound;
-        defaultBgm = setting.backgroundSound;
-        defaultEffect = setting.effectSound;
+        defaultTotal = 100f;
+        defaultBgm = 100f;
+        defaultEffect = 100f;
 
-        preTotal = defaultTotal;
-        preBgm = defaultBgm;
-        preEffect = defaultEffect;
+        preTotal = setting.wholesound;
+        preBgm = setting.backgroundSound;
+        preEffect = setting.effectSound;
 
     }
 

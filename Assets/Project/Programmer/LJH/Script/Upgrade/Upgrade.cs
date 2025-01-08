@@ -14,6 +14,8 @@ public class Upgrade : BaseUI
     [Inject]
     private GlobalGameData _gameData;
 
+    [SerializeField] GameObject pause;
+
     //플레이어 / 카메라 제어용
     PlayerController player;
     float cameraSpeed;
@@ -58,12 +60,12 @@ public class Upgrade : BaseUI
 
     private void Start()
     {
-        ShowMaxSlot();
 
     }
 
     private void OnEnable()
     {
+
         cameraSpeed = player.setting.cameraSpeed;
         player.setting.cameraSpeed = 0;
     }
@@ -78,6 +80,11 @@ public class Upgrade : BaseUI
 
     private void Update()
     {
+        
+
+        if (pause.activeSelf)
+            return;
+
         MaxSlot();
 
         Slot_Selected();
@@ -129,29 +136,6 @@ public class Upgrade : BaseUI
         float x = InputKey.GetAxis(InputKey.Horizontal);
         float y = -InputKey.GetAxis(InputKey.Vertical);
 
-        //ho += (int)x;
-        //ver += (int)y;
-
-        /*if (x != 0)
-        {
-            if (axisInUse == false)
-            {
-                ho += (int)x;
-                axisInUse = true;
-            }
-        }
-        else if (y != 0)
-        {
-            if (axisInUse == false)
-            {
-                ver += (int)y;
-                axisInUse = true;
-            }
-        }
-        else
-        {
-            axisInUse = false;
-        }*/
         if (x > 0)
         {
             if (axisInUse == false)
@@ -201,8 +185,6 @@ public class Upgrade : BaseUI
         ColorReset();
         // Comment : 선택한 슬롯 노란색으로
 
-        //요놈이 지금 문제임
-        Debug.Log((ver,ho));
         slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
 
         itemName.text = slots[ver, ho].name;
@@ -215,7 +197,7 @@ public class Upgrade : BaseUI
         slot = slotNum;
 
         //테스트용
-        MaxSlot();
+        //MaxSlot();
 
         SlotLimit();
     }
@@ -223,117 +205,51 @@ public class Upgrade : BaseUI
     void MaxSlot()
     {
         //테스트용
-        if (_gameData.upgradeLevels[slot] == 5)
+        for (int i = 0; i < slotMaxCheck.Length; i++)
         {
-            slots[ver, ho].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(true);
-            slots[ver, ho].onClick.RemoveAllListeners();
+            if (_gameData.upgradeLevels[i] == 5)
+            {
+                int ver;
+                int ho;
 
-            SaveMaxSlot();
+                ver = i / 4;
+                ho = i % 4;
+                slots[ver, ho].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(true);
+                slots[ver, ho].onClick.RemoveAllListeners();
+
+                SaveMaxSlot();
+            }
         }
     }
 
-    // 방법이 떠오르지 않아 일단 하드코딩으로 대체.. 보기 역겨우니 최대한 빠르게 로직 짤 것..
+    bool[] slotMaxCheck = new bool[20];
 
-    bool slot1;
-    bool slot2;
-    bool slot3;
-    bool slot4;
-    bool slot5;
-    bool slot6;
-    bool slot7;
-    bool slot8;
-    bool slot9;
-    bool slot10;
-    bool slot11;
-    bool slot12;
-    bool slot13;
-    bool slot14;
-    bool slot15;
-    bool slot16;
-    bool slot17;
-    bool slot18;
-    bool slot19;
-    bool slot20;
+    //5강이 찍힌 특성에 강화 완료 표시 저장
     void SaveMaxSlot()
     {
-        slot1 = slots[0, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot2 = slots[0, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot3 = slots[0, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot4 = slots[0, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot5 = slots[1, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot6 = slots[1, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot7 = slots[1, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot8 = slots[1, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot9 = slots[2, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot10 = slots[2, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot11 = slots[2, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot12 = slots[2, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot13 = slots[3, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot14 = slots[3, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot15 = slots[3, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot16 = slots[3, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot17 = slots[4, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot18 = slots[4, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot19 = slots[4, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        slot20 = slots[4, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-        
-        PlayerPrefs.SetInt("slot1", System.Convert.ToInt16(slot1));
-        PlayerPrefs.SetInt("slot2", System.Convert.ToInt16(slot2));
-        PlayerPrefs.SetInt("slot3", System.Convert.ToInt16(slot3));
-        PlayerPrefs.SetInt("slot4", System.Convert.ToInt16(slot4));
-        PlayerPrefs.SetInt("slot5", System.Convert.ToInt16(slot5));
-        PlayerPrefs.SetInt("slot6", System.Convert.ToInt16(slot6));
-        PlayerPrefs.SetInt("slot7", System.Convert.ToInt16(slot7));
-        PlayerPrefs.SetInt("slot8", System.Convert.ToInt16(slot8));
-        PlayerPrefs.SetInt("slot9", System.Convert.ToInt16(slot9));
-        PlayerPrefs.SetInt("slot10", System.Convert.ToInt16(slot10));
-        PlayerPrefs.SetInt("slot11", System.Convert.ToInt16(slot11));
-        PlayerPrefs.SetInt("slot12", System.Convert.ToInt16(slot12));
-        PlayerPrefs.SetInt("slot13", System.Convert.ToInt16(slot13));
-        PlayerPrefs.SetInt("slot14", System.Convert.ToInt16(slot14));
-        PlayerPrefs.SetInt("slot15", System.Convert.ToInt16(slot15));
-        PlayerPrefs.SetInt("slot16", System.Convert.ToInt16(slot16));
-        PlayerPrefs.SetInt("slot17", System.Convert.ToInt16(slot17));
-        PlayerPrefs.SetInt("slot18", System.Convert.ToInt16(slot18));
-        PlayerPrefs.SetInt("slot19", System.Convert.ToInt16(slot19));
-        PlayerPrefs.SetInt("slot20", System.Convert.ToInt16(slot20));
-
-
-
-
-        Debug.Log($"저장된 불값 {slot1}");
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                int index = i * 4 + j;
+                slotMaxCheck[index] = slots[i, j].transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
+            }
+        }
     }
 
+
+    //5강이 찍힌 특성에 강화 완료 표시 노출되게
     void ShowMaxSlot()
     {
-        slot1 = System.Convert.ToBoolean(PlayerPrefs.GetInt("slot1"));
-        
-        slots[0, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot1")));
-        slots[0, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot2")));
-        slots[0, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot3")));
-        slots[0, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot4")));
-        slots[1, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot5")));
-        slots[1, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot6")));
-        slots[1, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot7")));
-        slots[1, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot8")));
-        slots[2, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot9")));
-        slots[2, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot10")));
-        slots[2, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot11")));
-        slots[2, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot12")));
-        slots[3, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot13")));
-        slots[3, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot14")));
-        slots[3, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot15")));
-        slots[3, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot16")));
-        slots[4, 0].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot17")));
-        slots[4, 1].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot18")));
-        slots[4, 2].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot19")));
-        slots[4, 3].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(System.Convert.ToBoolean(PlayerPrefs.GetInt("slot20")));
-
-
-        Debug.Log($"불러온 불값 {slot1}");
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                int index = i * 4 + j;
+                slots[i, j].transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(slotMaxCheck[index]);
+            }
+        }
     }
-
-
     
     //슬롯 클릭시
     void ClickedSlots(Button button)

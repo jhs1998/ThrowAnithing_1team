@@ -37,14 +37,14 @@ public class ButtonActionInstaller : MonoBehaviour
     private void Start()
     {
         saveButton.onClick.AddListener(setting.OptionSave);
-        cancelButton.onClick.AddListener(setting.OptionLode);
+        cancelButton.onClick.AddListener(setting.OptionLoad);
         resetButton.onClick.AddListener(() =>
         {
             setting.OptionReset(1); // OptionReset1 실행
             SensitivityBar.ResetCameraSpeed();
         });
         saveSoundButton.onClick.AddListener(setting.OptionSave);
-        cancelSoundButton.onClick.AddListener(setting.OptionLode);
+        cancelSoundButton.onClick.AddListener(setting.OptionLoad);
         resetSoundButton.onClick.AddListener(() =>
         {
             setting.OptionReset(2); // OptionReset2 실행
