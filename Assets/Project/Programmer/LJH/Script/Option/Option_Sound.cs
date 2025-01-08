@@ -153,7 +153,6 @@ public class Option_Sound : Main_Option
             }
         }
 
-        Debug.Log(1);
         // 입력없으면 프레임마다
         if (x == 0 && y == 0)
         {

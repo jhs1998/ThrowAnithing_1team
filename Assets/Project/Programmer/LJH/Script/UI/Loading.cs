@@ -27,6 +27,12 @@ public class Loading : MonoBehaviour
     //Comment : round를 따와서 라운드에 해당하는 바 컨트롤
     IEnumerator LoadScene(int round)
     {
+
+        // 로비가 0 
+        // 1라 1 
+        // 2라 2
+        // 보스 3
+
         //Comment : 이전 라운드의 바 value 채워놓는 용도
         for (int i = 1; i < round; i++)
                 progressBars[i - 1].value = 100;

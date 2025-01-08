@@ -217,6 +217,7 @@ public class Option_GamePlay : Main_Option
                 break;
 
             case 2:
+                
                 Debug.Log("·©±ÍÁö");
                 break;
 

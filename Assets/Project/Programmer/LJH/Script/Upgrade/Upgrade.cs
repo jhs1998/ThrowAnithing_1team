@@ -60,12 +60,12 @@ public class Upgrade : BaseUI
 
     private void Start()
     {
-        ShowMaxSlot();
 
     }
 
     private void OnEnable()
     {
+
         cameraSpeed = player.setting.cameraSpeed;
         player.setting.cameraSpeed = 0;
     }
@@ -80,6 +80,8 @@ public class Upgrade : BaseUI
 
     private void Update()
     {
+        
+
         if (pause.activeSelf)
             return;
 
@@ -183,8 +185,6 @@ public class Upgrade : BaseUI
         ColorReset();
         // Comment : 선택한 슬롯 노란색으로
 
-        //요놈이 지금 문제임
-        Debug.Log((ver,ho));
         slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
 
         itemName.text = slots[ver, ho].name;
@@ -197,7 +197,7 @@ public class Upgrade : BaseUI
         slot = slotNum;
 
         //테스트용
-        MaxSlot();
+        //MaxSlot();
 
         SlotLimit();
     }
@@ -205,12 +205,20 @@ public class Upgrade : BaseUI
     void MaxSlot()
     {
         //테스트용
-        if (_gameData.upgradeLevels[slot] == 5)
+        for (int i = 0; i < slotMaxCheck.Length; i++)
         {
-            slots[ver, ho].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(true);
-            slots[ver, ho].onClick.RemoveAllListeners();
+            if (_gameData.upgradeLevels[i] == 5)
+            {
+                int ver;
+                int ho;
 
-            SaveMaxSlot();
+                ver = i / 4;
+                ho = i % 4;
+                slots[ver, ho].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(true);
+                slots[ver, ho].onClick.RemoveAllListeners();
+
+                SaveMaxSlot();
+            }
         }
     }
 
@@ -225,10 +233,10 @@ public class Upgrade : BaseUI
             {
                 int index = i * 4 + j;
                 slotMaxCheck[index] = slots[i, j].transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-                PlayerPrefs.SetInt($"slot{index + 1}", slotMaxCheck[index] ? 1 : 0);
             }
         }
     }
+
 
     //5강이 찍힌 특성에 강화 완료 표시 노출되게
     void ShowMaxSlot()
@@ -238,7 +246,6 @@ public class Upgrade : BaseUI
             for (int j = 0; j < 4; j++)
             {
                 int index = i * 4 + j;
-                slotMaxCheck[index] = PlayerPrefs.GetInt($"slot{index + 1}", 0) == 1;
                 slots[i, j].transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(slotMaxCheck[index]);
             }
         }

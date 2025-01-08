@@ -118,18 +118,15 @@ public class Pause : Main_Option
             switch (curMenu_p)
             {
                 case 0:
-                    Debug.Log("게임 다시 진행");
                     _ContinueButton();
                     break;
 
                 case 1:
-                    Debug.Log("옵션 선택_옵션 팝업 노출");
                     //OptionButton();
                     Panel.ChangeBundle(PausePanel.Bundle.Option);
                     break;
 
                 case 2:
-                    Debug.Log("게임 종료");
                     _ExitButton();
                     break;
             }
