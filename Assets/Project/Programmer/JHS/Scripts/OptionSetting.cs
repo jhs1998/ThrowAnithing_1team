@@ -15,7 +15,7 @@ public class OptionSetting : MonoBehaviour
     public float wholesound;
 
     // 화면 속도 감도 1~5
-    [Range(0.1f, 5f)]
+    [Range(0.01f, 3f)]
     public float cameraSpeed;
 
     // 미니맵 온오프 기능 저장 1 = on , 0 = off
@@ -97,7 +97,7 @@ public class OptionSetting : MonoBehaviour
     {
         if (value == 1)
         {
-            cameraSpeed = 5;
+            cameraSpeed = 3;
             miniMapOnBool = true;
             miniMapFixBool = true;
             language = 0;
@@ -112,7 +112,7 @@ public class OptionSetting : MonoBehaviour
     }
     public void OptionResetAll()
     {
-        cameraSpeed = 5;
+        cameraSpeed = 3;
         miniMapOnBool = true;
         miniMapFixBool = true;
         language = 0;

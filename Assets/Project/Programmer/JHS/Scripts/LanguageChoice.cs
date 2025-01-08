@@ -15,6 +15,7 @@ public class LanguageChoce : MonoBehaviour
     private void Awake()
     {
         // langaugeDropdown 값이 변경될 때 이벤트 연결
+        CancellLanguage();
         langaugeDropdown.onValueChanged.AddListener(ChangeLanguage);
     }
 
@@ -32,7 +33,6 @@ public class LanguageChoce : MonoBehaviour
     public void CancellLanguage()
     {
         langaugeDropdown.value = setting.language;
-        Debug.Log("언어에 저장 언어 붙이기");
     }
 
     private void OnDestroy()
