@@ -1,9 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class MainScene : BaseUI
 {
+
+    [Inject]
+    OptionSetting option_setting;
 
     //메인 화면
     protected GameObject main;
@@ -53,7 +57,7 @@ public class MainScene : BaseUI
     private void Start()
     {
         Init();
-
+        option_setting.OptionLoad();
     }
 
     private void Update()
@@ -113,23 +117,20 @@ public class MainScene : BaseUI
 
         curMenu += (int)y;
 
+        //curMenu가 가르키는 슬롯은 진하게
         if (curMenu == menuButtons.Length)
         {
             curMenu = 0;
-            //menuButtons[menuButtons.Length - 1].gameObject.SetActive(false);
             menuButtons[menuButtons.Length - 1].GetComponent<Image>().color = notButtonColor;
-            //menuButtons[curMenu].gameObject.SetActive(true);
             menuButtons[curMenu].GetComponent<Image>().color = curButtonColor;
 
             yield return null;
         }
-
+        //curMenu가 가르키지 않는 슬롯은 연하게
         if (curMenu == -1)
         {
             curMenu = menuButtons.Length - 1;
-            //menuButtons[0].gameObject.SetActive(false);
             menuButtons[0].GetComponent<Image>().color = notButtonColor;
-            //menuButtons[curMenu].gameObject.SetActive(true);
             menuButtons[curMenu].GetComponent<Image>().color = curButtonColor;
 
             yield return null;
@@ -137,10 +138,8 @@ public class MainScene : BaseUI
 
         for (int i = 0; i < menuButtons.Length; i++)
         {
-            //menuButtons[i].gameObject.SetActive(false);
             menuButtons[i].GetComponent<Image>().color = notButtonColor;
         }
-        //menuButtons[curMenu].gameObject.SetActive(true);
         menuButtons[curMenu].GetComponent<Image>().color = curButtonColor;
 
         if (y == 0)
