@@ -7,6 +7,7 @@ using Zenject;
 public class NSJMonster : MonoBehaviour, IHit, IDebuff
 {
     [HideInInspector] public BattleSystem Battle;
+    [SerializeField] private bool _canDie;
     [SerializeField] private int _maxHp;
     [SerializeField] private int _hp;
     [SerializeField] private float _moveSpeed;
@@ -38,9 +39,21 @@ public class NSJMonster : MonoBehaviour, IHit, IDebuff
     {
         _hp -= damage;
         //Debug.Log($"{name} 데미지를 입음. 데미지 {damage} , 남은체력 {_hp}");
-
-        StartCoroutine(HitRoutine());
+        if (_canDie == true &&_hp <= 0 && Battle.IsDie == false)
+        {
+            Die();
+        }       
+        else if(Battle.IsDie == false)
+        {
+            StartCoroutine(HitRoutine());
+        }
         return damage;
+    }
+
+    private void Die()
+    {
+        Battle.Die();
+        gameObject.SetActive(false);
     }
     IEnumerator HitRoutine()
     {

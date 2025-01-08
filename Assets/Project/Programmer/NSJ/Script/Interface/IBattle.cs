@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public interface IBattle
 {
     IHit Hit { get; set; }
     IDebuff Debuff { get; set; }
+
+    public event UnityAction<int, bool> OnTargetAttackEvent;
+    public event UnityAction<int, bool> OnTakeDamageEvent;
+    public event UnityAction OnDieEvent;
     public void TakeDebuff(HitAdditional debuff);
     public void TakeDebuff(List<HitAdditional> debuff);
     public int TakeDamage(int damage, bool isStun);

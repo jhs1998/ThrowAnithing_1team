@@ -3,9 +3,9 @@ using UnityEngine.Events;
 
 public class HitAdditional : AdditionalEffect
 {
-    public IBattle Battle;
+    [HideInInspector] public BattleSystem Battle;
+    [Header("지속 시간")]
     public float Duration;
-
 
     protected int _damage;
     protected bool _isCritical;

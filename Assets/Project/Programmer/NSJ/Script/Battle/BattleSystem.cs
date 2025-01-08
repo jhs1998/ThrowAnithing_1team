@@ -10,15 +10,14 @@ public class BattleSystem : MonoBehaviour, IBattle
     [SerializeField] private Transform _hitTextPoint;
     public List<HitAdditional> HitAdditionalList;
     public List<HitAdditional> DebuffList;
-
-    private PlayerController _player;
-
     public event UnityAction<int, bool> OnTargetAttackEvent;
     public event UnityAction<int, bool> OnTakeDamageEvent;
+    public event UnityAction OnDieEvent;
 
+
+    [HideInInspector]public bool IsDie;
     private void Awake()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         Hit = GetComponent<IHit>();
         Debuff = GetComponent<IDebuff>();
 
@@ -507,6 +506,9 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <param name="debuff"></param>
     private void AddDebuff(HitAdditional debuff)
     {
+        if (IsDie == true)
+            return;
+
         int index = DebuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
         if (index >= DebuffList.Count)
             return;
@@ -536,6 +538,9 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <param name="debuff"></param>
     private void AddDebuff(HitAdditional debuff, int damage, bool isCritical)
     {
+        if (IsDie == true)
+            return;
+
         int index = DebuffList.FindIndex(origin => origin.Origin.Equals(debuff.Origin));
         if (index >= DebuffList.Count)
             return;
@@ -579,15 +584,9 @@ public class BattleSystem : MonoBehaviour, IBattle
             debuff.Exit();
             Destroy(debuff);
         }
+        DebuffList.Clear();
     }
     #endregion
-    /// <summary>
-    /// 디버프 종료 호출
-    /// </summary>
-    public void EndDebuff(HitAdditional debuff)
-    {
-        RemoveDebuff(debuff);
-    }
     #region 콜백
     public void Enter()
     {
@@ -629,4 +628,17 @@ public class BattleSystem : MonoBehaviour, IBattle
         }
     }
     #endregion
+    /// <summary>
+    /// 디버프 종료 호출
+    /// </summary>
+    public void EndDebuff(HitAdditional debuff)
+    {
+        RemoveDebuff(debuff);
+    }
+    public void Die()
+    {
+        IsDie = true;
+        OnDieEvent?.Invoke();
+        ClearDebuff();
+    }
 }
