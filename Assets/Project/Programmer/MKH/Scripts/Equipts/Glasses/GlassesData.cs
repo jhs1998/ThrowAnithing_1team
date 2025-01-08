@@ -63,7 +63,7 @@ namespace MKH
                             createitem.Description += $"\n½ºÅ×¹Ì³ª + {createitem.mEffect.Stemina.ToString()}";
                             break;
                         case 4:
-                            createitem.mEffect.EquipRate = (float)data[rate]["ÀåºñÈ¹µæ·ü"];
+                            createitem.mEffect.EquipRate = (float)data[rate]["ÀåºñÈ¹µæ·ü Áõ°¡"];
                             createitem.Description += $"\nÀåºñ È¹µæ·ü {(createitem.mEffect.EquipRate * 100f).ToString()}%";
                             break;
                         case 5:

@@ -6,10 +6,11 @@ using UnityEngine;
 public class BlueChipChoiceTest : MonoBehaviour
 {
     [SerializeField] GameObject choice;
-
+    [SerializeField] GameObject blueChipChoice;
     private TestBlueChip blueChip;
 
     [SerializeField] BlueChipPanel blueChipPanel;
+    [SerializeField] BlueChipChoicePanelTest blueChipChoicePanel;
 
     private void Start()
     {
@@ -51,9 +52,10 @@ public class BlueChipChoiceTest : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     choice.SetActive(false);
-                    bool success = blueChipPanel.AcquireEffect(blueChip.Effect);
+                    blueChipPanel.AcquireEffect(blueChip.Effect);
+                    blueChipChoicePanel.AcquireEffect(blueChip.Effect);
+                    blueChipChoice.SetActive(true);
 
-                    //Debug.Log(blueChip.Effect);
                     _addBlueChipRoutine = null;
                     Destroy(other.gameObject);
                     yield break;
