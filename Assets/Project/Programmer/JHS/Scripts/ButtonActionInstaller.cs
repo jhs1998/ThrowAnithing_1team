@@ -40,7 +40,7 @@ public class ButtonActionInstaller : MonoBehaviour
         saveButton.onClick.AddListener(setting.OptionSave);
         cancelButton.onClick.AddListener(() =>
         {
-            setting.OptionLode();
+            setting.OptionLoad();
             SensitivityBar.ResetCameraSpeed();
             languageChoce.CancellLanguage();
         });
@@ -53,7 +53,7 @@ public class ButtonActionInstaller : MonoBehaviour
         saveSoundButton.onClick.AddListener(setting.OptionSave);
         cancelSoundButton.onClick.AddListener(() =>
         {
-            setting.OptionLode();
+            setting.OptionLoad();
             totalVolumeBar.ResetTotalVolume();
             backGroundVolume.ResetBackGroundVolume();
             effectVolume.ResetTotalVolume();
