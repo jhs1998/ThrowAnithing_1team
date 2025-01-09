@@ -201,13 +201,16 @@ public class BossEnemy : BaseEnemy, IHit
         // 라이트닝 피스트 - 1페이즈에만 존재
     }
 
+    /// <summary>
+    /// 점프 공격 애니메이션 이벤트
+    /// </summary>
     public void JumpAttackBegin()
     {
         StartCoroutine(JumpRoutine(transform.position, playerPos));
     }
     public void JumpAttackEnd()
     {
-        TakeChargeBoom(2, 30);
+        TakeChargeBoom(4, 50);
     }
     #endregion
 
@@ -264,14 +267,15 @@ public class BossEnemy : BaseEnemy, IHit
         tree.SetVariableValue("AttackAble", true);
     }
 
+    /// <summary>
+    /// 플레이어 현재 위치 가져오기
+    /// </summary>
     public void SetPlayerPos(Vector3 pos)
     {
         playerPos = pos;
     }
-
     IEnumerator JumpRoutine(Vector3 start, Vector3 end)
     {
-        Debug.Log("점프어택 시작");
         float currentAttackTime = 0f;
         while (currentAttackTime <= jumpAttackTime)
         {
@@ -284,8 +288,6 @@ public class BossEnemy : BaseEnemy, IHit
             currentAttackTime += Time.deltaTime;
             yield return null;
         }
-        //transform.position = end;
-        Debug.Log("점프어택 완료");
     }
 
     #region Gizmo

@@ -5,11 +5,10 @@ using UnityEngine;
 public class JumpAttack : Action
 {
     public SharedGameObject player; // 플레이어
-    public float dis;  // 뛸 떄 자신의 위치와 플레이어의 위치 차이
-    public string testText;
-    public Vector3 playerPos;   // 이동할 플레이어의 위치
 
     private BossEnemy enemy;
+    private Vector3 playerPos;   // 이동할 플레이어의 위치
+    private float dis;  // 뛸 떄 자신의 위치와 플레이어의 위치 차이
 
     public override void OnAwake()
     {
@@ -18,22 +17,14 @@ public class JumpAttack : Action
 
     public override void OnStart()
     {
-        enemy.SetPlayerPos(player.Value.transform.position);
+        playerPos = player.Value.transform.position;
+        enemy.SetPlayerPos(playerPos);
     }
 
     public override TaskStatus OnUpdate()
     {
         dis = (transform.position - playerPos).sqrMagnitude;
 
-        if (dis <= 0.1f)
-        {
-            testText = "적합";
-            return TaskStatus.Success;
-        }
-        else
-        {
-            testText = "부적합";
-            return TaskStatus.Running;
-        }
+        return dis <= 0.1f ? TaskStatus.Success : TaskStatus.Running;
     }
 }
