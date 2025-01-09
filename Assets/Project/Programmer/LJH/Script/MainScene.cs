@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Zenject;
 
@@ -107,13 +108,52 @@ public class MainScene : BaseUI
 
     }
 
+    //동작하는지 테스트 필요
+    public IEnumerator Slot_Move(InputAction.CallbackContext context)
+    {
+        float y = context.ReadValue<float>();
+        curMenu += (int)y;
+
+        //curMenu가 가르키는 슬롯은 진하게
+        if (curMenu == menuButtons.Length)
+        {
+            curMenu = 0;
+            menuButtons[menuButtons.Length - 1].GetComponent<Image>().color = notButtonColor;
+            menuButtons[curMenu].GetComponent<Image>().color = curButtonColor;
+
+            yield return null;
+        }
+        //curMenu가 가르키지 않는 슬롯은 연하게
+        if (curMenu == -1)
+        {
+            curMenu = menuButtons.Length - 1;
+            menuButtons[0].GetComponent<Image>().color = notButtonColor;
+            menuButtons[curMenu].GetComponent<Image>().color = curButtonColor;
+
+            yield return null;
+        }
+
+        for (int i = 0; i < menuButtons.Length; i++)
+        {
+            menuButtons[i].GetComponent<Image>().color = notButtonColor;
+        }
+        menuButtons[curMenu].GetComponent<Image>().color = curButtonColor;
+
+        if (y == 0)
+            yield return null;
+        else
+            yield return inputDelay.GetDelay();
+        menuCo = null;
+
+
+    }
+
     // Comment : W/S 또는 위/아래 화살표 키를 이용해 메뉴 변경 가능 함수
     // Comment : 함수 내 주석처리된 코드는 비활성화/활성화 방식일 때 코드, 혹시 몰라 남겨놓겠음
 
     private IEnumerator MenuSelect()
     {
         float y = -InputKey.GetAxisRaw(InputKey.Vertical);
-
 
         curMenu += (int)y;
 
