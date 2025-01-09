@@ -19,13 +19,13 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] float stunTime;
 
     [Space, SerializeField] ParticleSystem shieldParticle;
-
+    public float jumpForce;
     private Coroutine attackAble;
     public Coroutine recovery;  // 회복 관련 코루틴
     private bool onFrezenyPassive = false;
     private bool onEntryStop;
-    public bool createShield;
-    public bool breakShield;
+    [HideInInspector] public bool createShield;
+    [HideInInspector] public bool breakShield;
 
     private void Start()
     {
@@ -196,16 +196,22 @@ public class BossEnemy : BaseEnemy, IHit
         // 라이트닝 피스트 - 1페이즈에만 존재
     }
 
-    public void JumpAttack()
+    public void JumpAttackBegin()
     {
         Vector3 playerPos = new Vector3(playerObj.Value.transform.position.x, 
                                         transform.position.y, 
                                         playerObj.Value.transform.position.z);
 
+        GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
         //transform.position = Vector3.Lerp(transform.position, playerObj.Value.transform.position, 0.01f);
         /*Vector3 jumpMove = Vector3.MoveTowards(transform.position, playerObj.Value.transform.position, state.Speed * Time.deltaTime);
         Debug.Log(jumpMove);
         GetComponent<Rigidbody>().MovePosition(jumpMove);*/
+    }
+    public void JumpAttackEnd()
+    {
+        TakeChargeBoom(2, 30);
     }
     #endregion
 

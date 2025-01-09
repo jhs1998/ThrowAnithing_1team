@@ -8,31 +8,26 @@ public class JumpAttack : Action
     public float dis;  // 뛸 떄 자신의 위치와 플레이어의 위치 차이
     public string testText;
     public float speed;
-    public SharedVector3 playerPos;
+    public Vector3 playerPos;
 
-
-    private Rigidbody rigid;
     private BossEnemy enemy;
 
     public override void OnAwake()
     {
-        rigid = GetComponent<Rigidbody>();
         enemy = GetComponent<BossEnemy>();
     }
 
     public override void OnStart()
     {
         speed = enemy.GetState().Speed;
-        
-        //player.Value.transform.position;
-        //new Vector3(player.Value.transform.position.x, transform.position.y, player.Value.transform.position.z);
+        playerPos = new Vector3(player.Value.transform.position.x, transform.position.y, player.Value.transform.position.z);
     }
 
     public override TaskStatus OnUpdate()
     {
-        dis = (transform.position - playerPos.Value).sqrMagnitude;
+        dis = (transform.position - playerPos).sqrMagnitude;
 
-        if (dis <= 0.1f)
+        if (dis <= 2f)
         {
             testText = "적합";
             return TaskStatus.Success;
@@ -41,12 +36,9 @@ public class JumpAttack : Action
         {
             testText = "부적합";
         }
-        //Vector3 jumpMove = Vector3.MoveTowards(transform.position, player.Value.transform.position, enemy.GetState().Speed * Time.deltaTime);
-        //Debug.Log(jumpMove);
-        //rigid.MovePosition(jumpMove);
-        //transform.position = Vector3.MoveTowards(transform.position, playerPos, enemy.GetState().Speed * Time.deltaTime);
-        transform.position = Vector3.Lerp(transform.position, playerPos.Value, enemy.GetState().Speed * Time.deltaTime);
 
+        //transform.position = Vector3.MoveTowards(transform.position, playerPos.Value, enemy.GetState().Speed * Time.deltaTime);
+        transform.position = Vector3.Slerp(transform.position, playerPos, enemy.GetState().Speed * Time.deltaTime);
         return TaskStatus.Running;
     }
 
