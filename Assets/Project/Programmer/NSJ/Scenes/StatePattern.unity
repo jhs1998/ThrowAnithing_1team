@@ -4541,7 +4541,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311134761}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.9, y: 2.1662, z: -25.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6207,6 +6207,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1205980712391702014, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+      propertyPath: _lifeDrainPrefab
+      value: 
+      objectReference: {fileID: 4666532084207212666, guid: 1d845058111b1a9428d8372474ddc587, type: 3}
     - target: {fileID: 2164218590874802219, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -7051,8 +7055,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 3201425212204765651, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 598579244079560581, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
@@ -7745,8 +7751,8 @@ SceneRoots:
   - {fileID: 112451859}
   - {fileID: 405837103}
   - {fileID: 49696832}
-  - {fileID: 1928024030}
   - {fileID: 1311134762}
+  - {fileID: 1928024030}
   - {fileID: 1843844303}
   - {fileID: 741056692}
   - {fileID: 1283190305}

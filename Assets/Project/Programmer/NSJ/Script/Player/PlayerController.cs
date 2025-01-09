@@ -14,6 +14,7 @@ using Random = UnityEngine.Random;
 public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public Transform ArmPoint;
+    [SerializeField] public GameObject _lifeDrainPrefab;
     [Inject]
     public OptionSetting setting;
 
@@ -21,8 +22,7 @@ public class PlayerController : MonoBehaviour, IHit
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
-    [HideInInspector] public PlayerObjectPool ObjectPool;
-    public PlayerObjectPool.PoolStruct Pool => ObjectPool.Pool;
+    [HideInInspector] public ObjectPool Pool;
     public enum State
     {
         Idle,
@@ -281,8 +281,6 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 데미지 받기
     /// </summary>
-
-
     public int TakeDamage(int damage, bool isIgnoreDef)
     {
         int hitDamage = (int)OnPlayerHitFuncEvent?.Invoke(damage, isIgnoreDef);
@@ -333,11 +331,11 @@ public class PlayerController : MonoBehaviour, IHit
               Battle.HitPoint.position.y + Random.Range(-0.5f, 0.5f),
                 Battle.HitPoint.position.z + Random.Range(-0.5f, 0.5f)
             );
-        GameObject effect = Pool.LifeDrainEffect.GetPool(pos, transform.rotation);
+        GameObject effect = Pool.GetPool(_lifeDrainPrefab, pos, transform.rotation);
         effect.transform.SetParent(transform, true);
 
         yield return 1.5f.GetDelay();
-        Pool.LifeDrainEffect.ReturnPool(effect);
+        Pool.ReturnPool(_lifeDrainPrefab, effect);
     }
     #endregion
     #region 플레이어 방향 처리
@@ -1040,18 +1038,7 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)CurState].TriggerCantOperate();
     }
 
-    public T CreateNewPool<T>(GameObject poolObject ,string poolName) where T : ObjectPool
-    {
-        T pool = transform.GetComponentInChildren<T>();
-        if(pool == null)
-        {
-            GameObject newPool = new GameObject(poolName);
-            newPool.transform.SetParent(ObjectPool.transform, true);
-            pool = newPool.AddComponent<T>();
-            pool.Prefab = poolObject;
-        }
-        return pool;
-    }
+
     // 초기 설정 ============================================================================================================================================ //
     /// <summary>
     /// 초기 설정
@@ -1152,7 +1139,7 @@ public class PlayerController : MonoBehaviour, IHit
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
         Battle = GetComponent<BattleSystem>();
-        ObjectPool = GetComponentInChildren<PlayerObjectPool>();
+        Pool = ObjectPool.CreateObjectPool(transform);
     }
     private void InitAdditionnal()
     {
