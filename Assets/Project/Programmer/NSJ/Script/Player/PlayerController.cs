@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour, IHit
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
-    [HideInInspector] public PlayerInput Input;
+    [HideInInspector] public PlayerInput input;
     public enum State
     {
         Idle,
@@ -760,7 +760,7 @@ public class PlayerController : MonoBehaviour, IHit
 
         if (IsTargetHolding == false && IsTargetToggle == false)
         {
-            //if (Input.GetMouseButtonDown(2))
+            //if (input.GetMouseButtonDown(2))
             //{
             //    //TODO: 카메라 몬스터 홀딩 기능
             //    IsTargetHolding = true;
@@ -775,7 +775,7 @@ public class PlayerController : MonoBehaviour, IHit
         }
         else
         {
-            //if (Input.GetMouseButtonUp(2) && IsTargetToggle == false)
+            //if (input.GetMouseButtonUp(2) && IsTargetToggle == false)
             //{
             //    //TODO: 카메라 몬스터 홀딩 풀기
             //    IsTargetHolding = false;
@@ -794,7 +794,7 @@ public class PlayerController : MonoBehaviour, IHit
         if (IsDead == true || IsHit == true)
             return;
 
-        if (InputKey.GetButtonDown(InputKey.Dash) && CurState != State.Dash && CurState != State.JumpDown)
+        if (InputKey.GetButtonDown(InputKey.PrevDash) && CurState != State.Dash && CurState != State.JumpDown)
         {
             ChangeState(PlayerController.State.Dash);
         }
@@ -1157,7 +1157,7 @@ public class PlayerController : MonoBehaviour, IHit
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
         Battle = GetComponent<BattleSystem>();
-        Input = GetComponent<PlayerInput>();
+        input = GetComponent<PlayerInput>();
     }
     private void InitAdditionnal()
     {
@@ -1243,7 +1243,7 @@ public class PlayerController : MonoBehaviour, IHit
     {
         _mouseDir = value.Get<Vector2>();
     }
-    private void OnRanged_Attack()
+    private void OnRanged_Attack(InputValue value)
     {
         _states[(int)CurState].OnRanged_Attack();
     }

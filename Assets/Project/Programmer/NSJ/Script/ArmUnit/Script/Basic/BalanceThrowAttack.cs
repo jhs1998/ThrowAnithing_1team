@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Balance Throw", menuName = "Arm/AttackType/Balance/Throw")]
+[CreateAssetMenu(fileName = "Balance PrevThrow", menuName = "Arm/AttackType/Balance/PrevThrow")]
 public class BalanceThrowAttack : ArmThrowAttack
 {
     [System.Serializable]
@@ -93,11 +93,11 @@ public class BalanceThrowAttack : ArmThrowAttack
             if (Player.CurState != PlayerController.State.ThrowAttack)
                 yield break;
 
-            if (InputKey.GetButtonDown(InputKey.Throw))
+            if (InputKey.GetButtonDown(InputKey.PrevThrow))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
             }
-            else if (InputKey.GetButtonDown(InputKey.Melee))
+            else if (InputKey.GetButtonDown(InputKey.PrevMelee))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
             }

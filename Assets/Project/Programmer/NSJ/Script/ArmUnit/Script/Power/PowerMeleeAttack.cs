@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Power Melee", menuName = "Arm/AttackType/Power/Melee")]
+[CreateAssetMenu(fileName = "Power PrevMelee", menuName = "Arm/AttackType/Power/PrevMelee")]
 public class PowerMeleeAttack : ArmMeleeAttack
 {
     [System.Serializable]
@@ -115,7 +115,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
             Move();
             ProcessCharge();
 
-            if (InputKey.GetButtonUp(InputKey.Melee))
+            if (InputKey.GetButtonUp(InputKey.PrevMelee))
             {
                 Player.IsInvincible = true;
 

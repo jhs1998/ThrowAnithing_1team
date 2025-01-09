@@ -23,7 +23,7 @@ public class JumpState : PlayerState
 
     public override void Update()
     {
-       // Debug.Log("Jump");
+       // Debug.Log("PrevJump");
     }
 
     public override void FixedUpdate()

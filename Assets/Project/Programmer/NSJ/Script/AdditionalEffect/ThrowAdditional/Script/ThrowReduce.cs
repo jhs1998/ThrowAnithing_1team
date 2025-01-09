@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ThrowReduce", menuName = "AdditionalEffect/Throw/ThrowReduce")]
+[CreateAssetMenu(fileName = "ThrowReduce", menuName = "AdditionalEffect/PrevThrow/ThrowReduce")]
 public class ThrowReduce : ThrowAdditional
 {
     [Range(0,100)]

@@ -42,7 +42,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         while (true)
         {
-            if (InputKey.GetButtonDown(InputKey.Interaction))
+            if (InputKey.GetButtonDown(InputKey.PrevInteraction))
             {
                 Forge = other.GetComponent<Forge>();
                 if (other.gameObject.tag != Tag.UnInteractable)

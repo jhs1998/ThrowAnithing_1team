@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Power Throw", menuName = "Arm/AttackType/Power/Throw")]
+[CreateAssetMenu(fileName = "Power PrevThrow", menuName = "Arm/AttackType/Power/PrevThrow")]
 public class PowerThrowAttack : ArmThrowAttack
 {
     [System.Serializable]
@@ -80,7 +80,7 @@ public class PowerThrowAttack : ArmThrowAttack
             ProcessCharge();
 
             // 차지 해제 시 던지는 애니메이션 실행
-            if (InputKey.GetButtonUp(InputKey.Throw))
+            if (InputKey.GetButtonUp(InputKey.PrevThrow))
             {
                 ChargeEnd();
                 break;

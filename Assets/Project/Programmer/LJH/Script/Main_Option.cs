@@ -168,7 +168,7 @@ public class Main_Option : MainScene
 
     void SelectedEnter()
     {
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             switch (depth1_cur)
             {
@@ -268,7 +268,7 @@ public class Main_Option : MainScene
 
         depth1[0] = gamePlay = GetUI<Button>("GamePlay");
         depth1[1] = sound = GetUI<Button>("Sound");
-        depth1[2] = input = GetUI<Button>("Input");
+        depth1[2] = input = GetUI<Button>("input");
         depth1[3] = exit = GetUI<Button>("Exit");
 
         gameplayPannel = GetUI("GamePlayPackage");

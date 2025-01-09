@@ -19,7 +19,7 @@ public class ExitPopup : MonoBehaviour
     }
     private void Update()
     {
-        if(InputKey.GetButtonDown(InputKey.Interaction))
+        if(InputKey.GetButtonDown(InputKey.PrevInteraction))
             buttons[0].onClick.Invoke();
 
         if(InputKey.GetButtonDown(InputKey.PopUpClose))

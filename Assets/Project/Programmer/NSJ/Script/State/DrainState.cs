@@ -129,7 +129,7 @@ public class DrainState : PlayerState
     private void CheckInput()
     {
         //드레인 키를 뗐을 때
-        if (InputKey.GetButtonUp(InputKey.Drain))
+        if (InputKey.GetButtonUp(InputKey.PrevDrain))
         {
             _isEnd = true;
             EndDrain();

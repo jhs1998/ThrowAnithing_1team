@@ -59,7 +59,7 @@ public class BlueChipChoice : MonoBehaviour
         {
             if (other.gameObject.tag == Tag.BlueChip)
             {
-                if (InputKey.GetButtonDown("Interaction"))
+                if (InputKey.GetButtonDown("PrevInteraction"))
                 {
                     choice.SetActive(false);
                     bool success = blueChipPanel.AcquireEffect(blueChip.Effect);

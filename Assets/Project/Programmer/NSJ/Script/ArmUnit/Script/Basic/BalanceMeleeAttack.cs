@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Balance Melee", menuName = "Arm/AttackType/Balance/Melee")]
+[CreateAssetMenu(fileName = "Balance PrevMelee", menuName = "Arm/AttackType/Balance/PrevMelee")]
 public class BalanceMeleeAttack : ArmMeleeAttack
 {
     [Header("스테미나 소모량")]
@@ -38,7 +38,7 @@ public class BalanceMeleeAttack : ArmMeleeAttack
 
     public override void Update()
     {
-        //Debug.Log("Melee");
+        //Debug.Log("PrevMelee");
     }
 
     public override void Exit()
@@ -109,11 +109,11 @@ public class BalanceMeleeAttack : ArmMeleeAttack
             if (Player.CurState != PlayerController.State.MeleeAttack)
                 yield break;
 
-            if (InputKey.GetButtonDown(InputKey.Melee))
+            if (InputKey.GetButtonDown(InputKey.PrevMelee))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
             }
-            else if (InputKey.GetButtonDown(InputKey.Throw))
+            else if (InputKey.GetButtonDown(InputKey.PrevThrow))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
             }
