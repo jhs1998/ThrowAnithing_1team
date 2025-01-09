@@ -52,8 +52,8 @@ public class BlueChipChoiceTest : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     choice.SetActive(false);
-                    blueChipPanel.AcquireEffect(blueChip.Effect);
-                    blueChipChoicePanel.AcquireEffect(blueChip.Effect);
+                    //blueChipPanel.AcquireEffect(blueChip.Effect);
+                    //blueChipChoicePanel.AcquireEffect(blueChip.Effect);
                     blueChipChoice.SetActive(true);
 
                     _addBlueChipRoutine = null;

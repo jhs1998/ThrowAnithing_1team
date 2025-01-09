@@ -4672,7 +4672,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 455219043}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1706005596}
+        m_TargetAssemblyTypeName: BlueChipChoiceControl, Assembly-CSharp
+        m_MethodName: Choice0
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &455219043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5234,7 +5246,6 @@ GameObject:
   - component: {fileID: 517141641}
   - component: {fileID: 517141642}
   - component: {fileID: 517141639}
-  - component: {fileID: 517141645}
   - component: {fileID: 517141643}
   m_Layer: 0
   m_Name: InventorySystem
@@ -5376,22 +5387,6 @@ MonoBehaviour:
   mSlots: []
   state: {fileID: 140491795}
   button: {fileID: 242644434}
---- !u!114 &517141645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517141632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f553cd35fba909d489c3afd27230d0b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mBlueChipBase: {fileID: 1706005592}
-  mBlueChipSlotsParent: {fileID: 648075861}
-  mSlots: []
-  button: {fileID: 455219042}
 --- !u!1 &520279958
 GameObject:
   m_ObjectHideFlags: 0
@@ -6987,6 +6982,63 @@ MonoBehaviour:
   mSlotMask: 256
   mItemImage: {fileID: 1662676047}
   equipActionManager: {fileID: 517141642}
+--- !u!1001 &689212145
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.187675
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.3713946
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8286620184952543196, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_Name
+      value: BlueChipTest (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
 --- !u!1001 &699399722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9258,7 +9310,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 921010366}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1706005596}
+        m_TargetAssemblyTypeName: BlueChipChoiceControl, Assembly-CSharp
+        m_MethodName: Remove2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &921010366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12994,7 +13058,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1333338087}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1706005596}
+        m_TargetAssemblyTypeName: BlueChipChoiceControl, Assembly-CSharp
+        m_MethodName: Remove0
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1333338087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13410,7 +13486,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1378472539
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13981,6 +14057,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426308519}
   m_CullTransparentMesh: 1
+--- !u!1001 &1434935217
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.9828796
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.956441
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8286620184952543196, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_Name
+      value: BlueChipTest (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
 --- !u!1 &1452067683
 GameObject:
   m_ObjectHideFlags: 0
@@ -14320,6 +14453,63 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1001 &1477634335
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.681867
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.3161106
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8286620184952543196, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_Name
+      value: BlueChipTest (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
 --- !u!1 &1481833452
 GameObject:
   m_ObjectHideFlags: 0
@@ -14998,7 +15188,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1558637107}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1706005596}
+        m_TargetAssemblyTypeName: BlueChipChoiceControl, Assembly-CSharp
+        m_MethodName: Remove3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1558637107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16285,7 +16487,7 @@ MonoBehaviour:
   choice: {fileID: 1034229172}
   blueChipChoice: {fileID: 1706005592}
   blueChipPanel: {fileID: 517141639}
-  blueChipChoicePanel: {fileID: 517141645}
+  blueChipChoicePanel: {fileID: 0}
 --- !u!1 &1638728822
 GameObject:
   m_ObjectHideFlags: 0
@@ -16368,7 +16570,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1638728825}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1706005596}
+        m_TargetAssemblyTypeName: BlueChipChoiceControl, Assembly-CSharp
+        m_MethodName: Remove1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1638728825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16812,7 +17026,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1688742296}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1706005596}
+        m_TargetAssemblyTypeName: BlueChipChoiceControl, Assembly-CSharp
+        m_MethodName: Remove4
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1688742296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16863,6 +17089,7 @@ GameObject:
   - component: {fileID: 1706005595}
   - component: {fileID: 1706005594}
   - component: {fileID: 1706005596}
+  - component: {fileID: 1706005597}
   m_Layer: 5
   m_Name: BlueChipChoicePanel
   m_TagString: Untagged
@@ -16942,6 +17169,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 777fac55aa8af9c478a8b93e36c70775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blueChipPanel: {fileID: 517141639}
+  blueChipChoicePanel: {fileID: 1706005597}
+--- !u!114 &1706005597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706005592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f553cd35fba909d489c3afd27230d0b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 455219042}
+  blueChipSlotsParent: {fileID: 648075861}
+  blueChipSlots: []
+  choiceSlotsParnet: {fileID: 727060118}
+  choiceSlots: []
+  blueChipList: {fileID: 11400000, guid: 4a90d170323415343abd0e10470c92f5, type: 2}
 --- !u!1 &1714540248
 GameObject:
   m_ObjectHideFlags: 0
@@ -17130,7 +17377,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1720873640}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1706005596}
+        m_TargetAssemblyTypeName: BlueChipChoiceControl, Assembly-CSharp
+        m_MethodName: Choice2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1720873640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19952,7 +20211,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2004296408}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1706005596}
+        m_TargetAssemblyTypeName: BlueChipChoiceControl, Assembly-CSharp
+        m_MethodName: Choice1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2004296408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20732,6 +21003,63 @@ MonoBehaviour:
   mEffectImage: {fileID: 1572385476}
   nameText: {fileID: 649107965}
   descriptionText: {fileID: 1093212083}
+--- !u!1001 &1377833672631337710
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809112779698764914, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8286620184952543196, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
+      propertyPath: m_Name
+      value: BlueChipTest
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b2311c80712db594d8f6b4a956b0c7ff, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -20745,6 +21073,7 @@ SceneRoots:
   - {fileID: 1714540252}
   - {fileID: 1970327864}
   - {fileID: 1102609194}
+  - {fileID: 1377833672631337710}
   - {fileID: 1907496588}
   - {fileID: 628939631}
   - {fileID: 1596044107}
@@ -20765,3 +21094,6 @@ SceneRoots:
   - {fileID: 1250952834}
   - {fileID: 958261150}
   - {fileID: 310072399}
+  - {fileID: 689212145}
+  - {fileID: 1477634335}
+  - {fileID: 1434935217}
