@@ -3,15 +3,23 @@ using UnityEngine;
 public class DashState : PlayerState
 {
     float _timeBuffer;
+    bool _isDashEnd;
+    Vector3 _startPos;
     Coroutine _checkInputRoutine;
     public DashState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
+       
+    }
+    public override void InitArm()
+    {
         StaminaAmount = Model.DashStamina;
     }
-
     public override void Enter()
     {
+        _isDashEnd = false;
+
+        _startPos = transform.position;
         Player.IsInvincible = true;
         Player.LookAtMoveDir();
         View.SetTrigger(PlayerView.Parameter.Dash);
@@ -56,6 +64,15 @@ public class DashState : PlayerState
     /// </summary>
     public void Dash()
     {
-        Rb.velocity = transform.forward * Model.DashDistance;
+        if (Vector3.Distance(transform.position, _startPos) < Model.DashDistance)
+        {
+            Rb.velocity = transform.forward * Model.MoveSpeed * 2;
+        }
+        else if(_isDashEnd == false)
+        {
+            _isDashEnd = true;
+            View.SetTrigger(PlayerView.Parameter.DashEnd);
+            Rb.velocity = transform.forward * Model.MoveSpeed;
+        }
     }
 }

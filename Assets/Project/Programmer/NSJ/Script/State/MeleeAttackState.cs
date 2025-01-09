@@ -10,7 +10,10 @@ public class MeleeAttackState : PlayerState
         UseStamina = true;
         StaminaAmount = Model.MeleeAttackStamina[0];
     }
-
+    public override void InitArm()
+    {
+        StaminaAmount = Model.MeleeAttackStamina[0];
+    }
     public override void Enter() 
     {
         Arm.Enter();

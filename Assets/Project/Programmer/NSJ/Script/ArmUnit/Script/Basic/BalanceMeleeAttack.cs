@@ -73,9 +73,6 @@ public class BalanceMeleeAttack : ArmMeleeAttack
             float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
             if (targetAngle > _angle * 0.5f)
                 continue;
-
-            // 적 넉백
-            Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, 0.5f);
             
             int finalDamage = Player.GetFinalDamage(_damage,_damageMultiplier, out bool isCritical);
             // 데미지 주기

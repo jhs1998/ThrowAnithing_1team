@@ -460,11 +460,19 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
+        foreach(PlayerState state in _states)
+        {
+            state.InitArm();
+        }
     }
     public void ChangeArmUnit(GlobalGameData.AmWeapon armUnit)
     {
         Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
         Model.Arm.Init(this);
+        foreach (PlayerState state in _states)
+        {
+            state.InitArm();
+        }
     }
     #endregion
     #region 플레이어 추가효과 관련
@@ -732,6 +740,7 @@ public class PlayerController : MonoBehaviour, IHit
         Gizmos.DrawLine(footPos, headPos);
     }
     #endregion
+
     #region 키입력 관련
     /// <summary>
     /// 키입력 감지
@@ -784,6 +793,7 @@ public class PlayerController : MonoBehaviour, IHit
         }
     }
     #endregion
+
     #region  넉백
     /// <summary>
     /// 넉백 안함(위치 고정)
@@ -866,6 +876,7 @@ public class PlayerController : MonoBehaviour, IHit
         }
     }
     #endregion
+
     #region 데미지 계산
 
 
@@ -948,6 +959,7 @@ public class PlayerController : MonoBehaviour, IHit
         return finalDamage;
     }
     #endregion
+
     /// <summary>
     /// TPS 시점 카메라 회전
     /// </summary>

@@ -23,6 +23,7 @@ public class PlayerView : MonoBehaviour
         PowerJumpDown,
         JumpAttack,
         Dash,
+        DashEnd,
         Drain,
         Hit,
         Charge,
@@ -134,6 +135,7 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.Fall] = Animator.StringToHash("Fall");
         _animatorHashes[(int)Parameter.Landing] = Animator.StringToHash("Landing");
         _animatorHashes[(int)Parameter.Dash] = Animator.StringToHash("Dash");
+        _animatorHashes[(int)Parameter.DashEnd] = Animator.StringToHash("DashEnd");
         _animatorHashes[(int)Parameter.Drain] = Animator.StringToHash("Drain");
         _animatorHashes[(int)Parameter.Charge] = Animator.StringToHash("Charge");
         _animatorHashes[(int)Parameter.ChargeEnd] = Animator.StringToHash("ChargeEnd");

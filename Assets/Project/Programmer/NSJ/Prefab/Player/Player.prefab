@@ -5706,7 +5706,6 @@ Transform:
   - {fileID: 2406947119258283227}
   - {fileID: 1245125602269128272}
   - {fileID: 3757278611412066816}
-  - {fileID: 5929551822090599001}
   - {fileID: 6387847629478384557}
   - {fileID: 7900352097967561918}
   - {fileID: 5639721683236730089}
@@ -5728,11 +5727,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ArmPoint: {fileID: 7367417134865168062}
+  _lifeDrainPrefab: {fileID: 4666532084207212666, guid: 1d845058111b1a9428d8372474ddc587, type: 3}
   setting: {fileID: 0}
   Model: {fileID: 0}
   View: {fileID: 0}
   Rb: {fileID: 0}
   Battle: {fileID: 0}
+  Pool: {fileID: 0}
   CurState: 0
   PrevState: 0
   _attackStruct:
@@ -6037,9 +6038,12 @@ MonoBehaviour:
   Arm: {fileID: 11400000, guid: 6441f13e10367454c82ce59acb25674f, type: 2}
   BoomRadius: 0.5
   Drain:
-    DrainDistance: 10
+    Default:
+      DrainDistance: 10
+      DrainStamina: 10
+    DrainDistance: 0
     DrainDistanceMultyPlier: 0
-    DrainStamina: 10
+    DrainStamina: 0
   ChargeStep: 0
   KnockBackDistanceMultiplier: 0
 --- !u!114 &7667531888297289878
@@ -12579,68 +12583,6 @@ GameObject:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6108291945469026444, guid: fa30ccd2fa34da84aaac572ca46e020a, type: 3}
   m_PrefabInstance: {fileID: 2593755048373702912}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &4612611130676436227
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7904341024521288259}
-    m_Modifications:
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5210064181439752838, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-      propertyPath: m_Name
-      value: ObjectPool
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fbee9bbe628db864da937c2987953c64, type: 3}
---- !u!4 &5929551822090599001 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1318066592730425178, guid: fbee9bbe628db864da937c2987953c64, type: 3}
-  m_PrefabInstance: {fileID: 4612611130676436227}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4984358193236526521
 PrefabInstance:

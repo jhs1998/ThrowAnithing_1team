@@ -69,10 +69,10 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public List<PlayerAdditional> PlayerAdditionals { get { return Data.PlayerAdditionals; } set { Data.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
     #endregion
     #region 이동
-    public float MoveSpeed { get { return (Data.MoveSpeed) / 20; } set { Data.MoveSpeed = value * 20f; } } // 이동속도
+    public float MoveSpeed { get { return (Data.MoveSpeed) / 20; } set { Data.MoveSpeed = value; } } // 이동속도
     public float MoveSpeedMultyplier { get { return Data.MoveSpeedMultyplier; } set { Data.MoveSpeedMultyplier = value; } }
     // 대쉬
-    public float DashDistance { get { return Data.DashDistance / 20f; } set { Data.DashDistance = value * 20f; } }
+    public float DashDistance { get { return Data.DashDistance / 100f; } set { Data.DashDistance = value; } }
     public int DashStamina { get { return Data.DashStamina; } set { Data.DashStamina = value; } }
     // 점프
     public float JumpPower { get { return Data.JumpPower / 13f; } set { Data.JumpPower = value * 13f; } }

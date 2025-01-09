@@ -22,10 +22,10 @@ public class BalanceArm : ArmUnit
     public override void Init(PlayerController player)
     {
         base.Init(player);
-        Model.DashStamina = (int)(Model.GlobalStateData.dashConsumesStamina * _init.DashStamina / 100f);
-        Model.DashDistance = (int)(Model.GlobalStateData.dashDistance * _init.DashDistance / 100f);
+        Model.DashStamina = (int)(Model.GlobalStateData.dashConsumesStamina * (_init.DashStamina / 100f));
+        Model.DashDistance = (int)(Model.GlobalStateData.dashDistance * (_init.DashDistance / 100f));
 
-        Model.DrainDistance = Model.Drain.Default.DrainDistance * _init.DrainDistance /100f;
-        Model.DrainStamina = Model.Drain.Default.DrainStamina * _init.DrainStamina/100f;
+        Model.DrainDistance = Model.Drain.Default.DrainDistance * (_init.DrainDistance /100f);
+        Model.DrainStamina = Model.Drain.Default.DrainStamina * (_init.DrainStamina / 100f);
     }
 }
