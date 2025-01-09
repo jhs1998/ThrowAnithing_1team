@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class DashState : PlayerState
 {
-    float _timeBuffer;
+   //float _timeBuffer;
     bool _isDashEnd;
     Vector3 _startPos;
     Coroutine _checkInputRoutine;
@@ -32,21 +33,11 @@ public class DashState : PlayerState
     public override void Update()
     {
         Dash();
-
-        _timeBuffer += Time.deltaTime;
-        if (InputKey.GetButtonDown(InputKey.Dash))
-        {
-            _timeBuffer = 0;
-        }
     }
     public override void OnTrigger() { }
     public override void EndAnimation()
     {
-        if(_timeBuffer < 0.25f)
-        {
-            ChangeState(PlayerController.State.Dash);
-        }
-        else if (Player.IsGround != true)
+        if (Player.IsGround != true)
         {
             Rb.velocity /= 2;
             if (Player.IsDoubleJump == false)
