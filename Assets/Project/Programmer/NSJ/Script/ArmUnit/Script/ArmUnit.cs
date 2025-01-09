@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 public class ArmUnit : ScriptableObject
 {
@@ -30,7 +31,7 @@ public class ArmUnit : ScriptableObject
     protected ArmSpecialAttack _specialAttack { get { return _attackType.SpecialAttack; } set { _attackType.SpecialAttack = value; } }
     protected ArmJumpDown _jumpDown { get { return _attackType.JumpDown; } set { _attackType.JumpDown = value; } }
     protected ArmJumpAttack _jumpAttack { get { return _attackType.JumpAttack; } set { _attackType.JumpAttack = value; } }
-    public void Init(PlayerController player)
+    public virtual void Init(PlayerController player)
     {
         Player = player; 
         _types = new ArmAttackType[(int)Type.Size];

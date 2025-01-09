@@ -5,5 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PowerArm", menuName = "Arm/Power")]
 public class PowerArm : ArmUnit
 {
-
+    public override void Init(PlayerController player)
+    {
+        base.Init(player);
+        Model.DashStamina = (int)(Model.GlobalStateData.dashConsumesStamina);
+    }
 }

@@ -620,40 +620,6 @@ public class PlayerController : MonoBehaviour, IHit
             return false;
     }
     #endregion
-
-
-    /// <summary>
-    /// TPS 시점 카메라 회전
-    /// </summary>
-    private void RotateCamera()
-    {
-        float angleX = InputKey.GetAxis(InputKey.MouseX);
-        if (Mathf.Abs(angleX) < 0.1f)
-            angleX = 0;
-        // 체크시 마우스 상하도 가능
-        float angleY = IsVerticalCameraMove == true ? angleY = InputKey.GetAxis(InputKey.MouseY) : default;
-
-        _cameraRotateSpeed = setting.cameraSpeed;
-        Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
-        Vector3 camAngle = CamareArm.rotation.eulerAngles;
-
-        // 마우스 상하값 제한
-        float x = camAngle.x - mouseDelta.y;
-        x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
-
-        // 카메라 조정
-        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
-
-
-
-
-
-        if (IsVerticalCameraMove == true)
-        {
-            // 머즐포인트 각도조절
-            MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        }
-    }
     #region 지형물 체크 로직
     /// <summary>
     /// 지면 체크
@@ -766,37 +732,6 @@ public class PlayerController : MonoBehaviour, IHit
         Gizmos.DrawLine(footPos, headPos);
     }
     #endregion
-
-    /// <summary>
-    /// 스테미나 회복 코루틴
-    /// </summary>
-    IEnumerator RecoveryStamina()
-    {
-        CanStaminaRecovery = true;
-        while (true)
-        {
-            // 초당 MaxStamina / RegainStamina 만큼 회복
-            // 현재 스테미나가 꽉찼으면 더이상 회복안함
-            // 만약 스테미나 사용 후 쿨타임 상태면 쿨타임만큼 회복안함
-            if (CanStaminaRecovery == true)
-            {
-                Model.CurStamina += Model.RegainStamina * Time.deltaTime;
-            }
-            if (Model.CurStamina >= Model.MaxStamina)
-            {
-                Model.CurStamina = Model.MaxStamina;
-            }
-
-            if (IsStaminaCool == true)
-            {
-                IsStaminaCool = false;
-                //yield return 1f.GetDelay();
-                yield return Model.StaminaCoolTime.GetDelay();
-            }
-
-            yield return null;
-        }
-    }
     #region 키입력 관련
     /// <summary>
     /// 키입력 감지
@@ -849,7 +784,6 @@ public class PlayerController : MonoBehaviour, IHit
         }
     }
     #endregion
-
     #region  넉백
     /// <summary>
     /// 넉백 안함(위치 고정)
@@ -1014,6 +948,69 @@ public class PlayerController : MonoBehaviour, IHit
         return finalDamage;
     }
     #endregion
+    /// <summary>
+    /// TPS 시점 카메라 회전
+    /// </summary>
+    private void RotateCamera()
+    {
+        float angleX = InputKey.GetAxis(InputKey.MouseX);
+        if (Mathf.Abs(angleX) < 0.1f)
+            angleX = 0;
+        // 체크시 마우스 상하도 가능
+        float angleY = IsVerticalCameraMove == true ? angleY = InputKey.GetAxis(InputKey.MouseY) : default;
+
+        _cameraRotateSpeed = setting.cameraSpeed;
+        Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
+        Vector3 camAngle = CamareArm.rotation.eulerAngles;
+
+        // 마우스 상하값 제한
+        float x = camAngle.x - mouseDelta.y;
+        x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
+
+        // 카메라 조정
+        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
+
+
+
+
+
+        if (IsVerticalCameraMove == true)
+        {
+            // 머즐포인트 각도조절
+            MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
+    }
+
+    /// <summary>
+    /// 스테미나 회복 코루틴
+    /// </summary>
+    IEnumerator RecoveryStamina()
+    {
+        CanStaminaRecovery = true;
+        while (true)
+        {
+            // 초당 MaxStamina / RegainStamina 만큼 회복
+            // 현재 스테미나가 꽉찼으면 더이상 회복안함
+            // 만약 스테미나 사용 후 쿨타임 상태면 쿨타임만큼 회복안함
+            if (CanStaminaRecovery == true)
+            {
+                Model.CurStamina += Model.RegainStamina * Time.deltaTime;
+            }
+            if (Model.CurStamina >= Model.MaxStamina)
+            {
+                Model.CurStamina = Model.MaxStamina;
+            }
+
+            if (IsStaminaCool == true)
+            {
+                IsStaminaCool = false;
+                //yield return 1f.GetDelay();
+                yield return Model.StaminaCoolTime.GetDelay();
+            }
+
+            yield return null;
+        }
+    }
 
     IEnumerator ControlMousePointer()
     {
@@ -1190,7 +1187,6 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)CurState].EndCombo();
     }
     #endregion
-
     #region 콜백
     public void ThrowObjectResultCallback(bool successHit)
     {

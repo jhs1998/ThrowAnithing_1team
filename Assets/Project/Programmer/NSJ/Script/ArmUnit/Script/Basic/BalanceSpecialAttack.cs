@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Basic Special", menuName = "Arm/AttackType/Basic/Special")]
-public class BasicSpecialAttack : ArmSpecialAttack
+[CreateAssetMenu(fileName = "Balance Special", menuName = "Arm/AttackType/Balance/Special")]
+public class BalanceSpecialAttack : ArmSpecialAttack
 {
     [System.Serializable]
     struct ChargeStruct

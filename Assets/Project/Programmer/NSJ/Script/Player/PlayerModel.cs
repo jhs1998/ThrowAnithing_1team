@@ -611,6 +611,7 @@ public partial class PlayerData
     public int DashStamina
     {
         get { return (int)(Data.Dash.DashStamina * (1 - StaminaReduction / 100)); }
+
         set { Data.Dash.DashStamina = value; }
     }
     #endregion

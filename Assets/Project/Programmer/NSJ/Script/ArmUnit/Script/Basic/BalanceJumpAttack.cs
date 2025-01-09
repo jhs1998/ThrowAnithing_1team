@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Basic JumpAttack", menuName = "Arm/AttackType/Basic/JumpAttack")]
-public class BasicJumpAttack : ArmJumpAttack
+[CreateAssetMenu(fileName = "BalanceJumpAttack", menuName = "Arm/AttackType/Balance/JumpAttack")]
+public class BalanceJumpAttack : ArmJumpAttack
 {
     [Header("플레이어가 허공에서 살짝 튀어오르는 정도")]
     [SerializeField] private float _popValue;

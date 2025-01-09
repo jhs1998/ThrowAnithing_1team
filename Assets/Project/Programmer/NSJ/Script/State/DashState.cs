@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class DashState : PlayerState
 {
-
     float _timeBuffer;
     Coroutine _checkInputRoutine;
     public DashState(PlayerController controller) : base(controller)

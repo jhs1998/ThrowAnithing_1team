@@ -11,7 +11,6 @@ public class ObjectPool : MonoBehaviour
         public Transform Parent;
     }
     private Dictionary<GameObject, PoolInfo> _poolDic = new Dictionary<GameObject, PoolInfo>();
-
     public static ObjectPool CreateObjectPool(Transform transform)
     {
         ObjectPool pool = transform.GetComponentInChildren<ObjectPool>();
@@ -111,7 +110,6 @@ public class ObjectPool : MonoBehaviour
         instance.gameObject.SetActive(false);
         info.Pool.Enqueue(instance);
     }
-
     private  PoolInfo FindPool(GameObject poolPrefab)
     {
         PoolInfo pool = default;
@@ -126,7 +124,6 @@ public class ObjectPool : MonoBehaviour
         pool = _poolDic[poolPrefab];
         return pool;
     }
-
     private PoolInfo GetPoolInfo(Queue<GameObject> pool, GameObject prefab, Transform parent)
     {
         PoolInfo info = new PoolInfo();
@@ -135,5 +132,4 @@ public class ObjectPool : MonoBehaviour
         info.Prefab = prefab;
         return info;
     }
-
 }

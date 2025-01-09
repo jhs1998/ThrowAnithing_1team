@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Basic Throw", menuName = "Arm/AttackType/Basic/Throw")]
-public class BasicThrowAttack : ArmThrowAttack
+[CreateAssetMenu(fileName = "Balance Throw", menuName = "Arm/AttackType/Balance/Throw")]
+public class BalanceThrowAttack : ArmThrowAttack
 {
     Coroutine _throwRoutine;
     public override void Enter()

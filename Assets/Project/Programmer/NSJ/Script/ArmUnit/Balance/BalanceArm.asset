@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ce2a3cd7d96b0a4394355ff219c226f, type: 3}
-  m_Name: BasicArm
+  m_Name: BalanceArm
   m_EditorClassIdentifier: 
-  Name: Basic
+  Name: Balance
+  ArmType: 0
   Player: {fileID: 0}
   _attackType:
     ThrowAttack: {fileID: 11400000, guid: 0db2918b80768f34491325d94238be45, type: 2}
@@ -21,3 +22,4 @@ MonoBehaviour:
     JumpDown: {fileID: 11400000, guid: eaef1cb968cb9e74684711b8de528af5, type: 2}
     JumpAttack: {fileID: 11400000, guid: 78a06c9e6b231cd47bef52e3f2e9f060, type: 2}
   _types: []
+  _dashStamina: 75

@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Basic JumpDown", menuName = "Arm/AttackType/Basic/JumpDown")]
-public class BasicJumpDown : ArmJumpDown
+[CreateAssetMenu(fileName = "Balance JumpDown", menuName = "Arm/AttackType/Balance/JumpDown")]
+public class BalanceJumpDown : ArmJumpDown
 {
     [Range(0, 20)]
     [SerializeField] private float _attackSpeed;

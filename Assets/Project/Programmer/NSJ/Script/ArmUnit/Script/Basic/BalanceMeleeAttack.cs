@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Basic Melee", menuName = "Arm/AttackType/Basic/Melee")]
-public class BasicMeleeAttack : ArmMeleeAttack
+[CreateAssetMenu(fileName = "Balance Melee", menuName = "Arm/AttackType/Balance/Melee")]
+public class BalanceMeleeAttack : ArmMeleeAttack
 {
     [SerializeField] float _range;
     [SerializeField] int _damage;
