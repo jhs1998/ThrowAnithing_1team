@@ -36,11 +36,6 @@ public class OptionSetting : MonoBehaviour
     private const string MiniMapFixKey = "Option_MiniMapFix";
     private const string LanguageKey = "Option_LanguageKey";
 
-    public void Start()
-    {
-        OptionLoad();
-    }
-
     public void ResetPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
