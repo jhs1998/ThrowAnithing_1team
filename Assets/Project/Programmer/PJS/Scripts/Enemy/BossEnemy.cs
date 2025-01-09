@@ -2,6 +2,7 @@ using System.Collections;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Zenject.SpaceFighter;
 
 public class BossEnemy : BaseEnemy, IHit
 {
@@ -122,7 +123,7 @@ public class BossEnemy : BaseEnemy, IHit
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public new int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
+    public new int TakeDamage(int damage, bool isIgnoreDef)
     {
         if (createShield == true)
         {
@@ -144,7 +145,6 @@ public class BossEnemy : BaseEnemy, IHit
 
         CurHp -= resultDamage;
 
-        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
         return resultDamage;
     }
 
@@ -194,6 +194,18 @@ public class BossEnemy : BaseEnemy, IHit
             AttackMelee();
         // 일반 근접 공격 - 모든 페이즈에 존재
         // 라이트닝 피스트 - 1페이즈에만 존재
+    }
+
+    public void JumpAttack()
+    {
+        Vector3 playerPos = new Vector3(playerObj.Value.transform.position.x, 
+                                        transform.position.y, 
+                                        playerObj.Value.transform.position.z);
+
+        //transform.position = Vector3.Lerp(transform.position, playerObj.Value.transform.position, 0.01f);
+        /*Vector3 jumpMove = Vector3.MoveTowards(transform.position, playerObj.Value.transform.position, state.Speed * Time.deltaTime);
+        Debug.Log(jumpMove);
+        GetComponent<Rigidbody>().MovePosition(jumpMove);*/
     }
     #endregion
 

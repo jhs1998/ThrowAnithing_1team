@@ -1,36 +1,61 @@
-using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using UnityEngine;
 
 public class JumpAttack : Action
 {
-	public SharedGameObject player;
-	public float dis;
-	public string testText;
-	public float speed;
+    public SharedGameObject player;
+    public float dis;  // 뛸 떄 자신의 위치와 플레이어의 위치 차이
+    public string testText;
+    public float speed;
+    public SharedVector3 playerPos;
 
-	private Rigidbody rigid;
+
+    private Rigidbody rigid;
+    private BossEnemy enemy;
 
     public override void OnAwake()
     {
         rigid = GetComponent<Rigidbody>();
+        enemy = GetComponent<BossEnemy>();
     }
 
+    public override void OnStart()
+    {
+        speed = enemy.GetState().Speed;
+        
+        //player.Value.transform.position;
+        //new Vector3(player.Value.transform.position.x, transform.position.y, player.Value.transform.position.z);
+    }
 
-	public override TaskStatus OnUpdate()
-	{
-        dis = (transform.position - player.Value.transform.position).magnitude;
+    public override TaskStatus OnUpdate()
+    {
+        dis = (transform.position - playerPos.Value).sqrMagnitude;
 
-		if (dis >= 8 && dis <= 10)
-		{
-			testText = "적합";
-			transform.position = Vector3.Slerp(transform.position, player.Value.transform.position, speed * Time.deltaTime);
-			
-			return TaskStatus.Running;
-		}
-		else
-			testText = "부적합";
+        if (dis <= 0.1f)
+        {
+            testText = "적합";
+            return TaskStatus.Success;
+        }
+        else
+        {
+            testText = "부적합";
+        }
+        //Vector3 jumpMove = Vector3.MoveTowards(transform.position, player.Value.transform.position, enemy.GetState().Speed * Time.deltaTime);
+        //Debug.Log(jumpMove);
+        //rigid.MovePosition(jumpMove);
+        //transform.position = Vector3.MoveTowards(transform.position, playerPos, enemy.GetState().Speed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, playerPos.Value, enemy.GetState().Speed * Time.deltaTime);
 
-		return TaskStatus.Success;
-	}
+        return TaskStatus.Running;
+    }
+
+    public override void OnReset()
+    {
+        player = null;
+        dis = 0;
+        testText = null;
+        speed = 0;
+        playerPos = Vector3.zero;
+    }
 }
