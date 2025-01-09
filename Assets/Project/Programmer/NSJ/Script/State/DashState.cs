@@ -73,7 +73,8 @@ public class DashState : PlayerState
         {
             _isDashEnd = true;
             View.SetTrigger(PlayerView.Parameter.DashEnd);
-            Rb.velocity = transform.forward * Model.MoveSpeed;
+            //Rb.velocity = transform.forward * Model.MoveSpeed;
+            CoroutineHandler.StartRoutine(DashEndRoutine());
         }
     }
 
@@ -83,7 +84,7 @@ public class DashState : PlayerState
         while (true)
         {
             Rb.velocity = transform.forward * speed;
-            speed -= Time.deltaTime * 5f;
+            speed -= Time.deltaTime * 20f;
             if(speed < 0)
             {
                 yield break;
