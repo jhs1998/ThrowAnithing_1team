@@ -10,7 +10,7 @@ namespace MKH
     public class BlueChipSlot : MonoBehaviour
     {
         private AdditionalEffect mEffect;
-        public AdditionalEffect Effect { get { return mEffect; } }
+        public AdditionalEffect Effect { get { return mEffect; }  set { mEffect = value; } }
 
         [Header("슬롯에 있는 UI 오브젝트")]
         [SerializeField] private Image mEffectImage;
@@ -42,7 +42,6 @@ namespace MKH
             nameText.text = "-";
             descriptionText.text = "";
             mEffectImage.sprite = null;
-            SetColor(0);
         }
 
         // 슬롯 셋팅

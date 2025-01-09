@@ -27,7 +27,7 @@ namespace MKH
                         // 인벤토리에 아이템 추가
                         mInventory.AcquireItem(mCurrentItem.Item);
                         Destroy(other.gameObject);
-                        GameObject obj = Instantiate(particle, gameObject.transform.position, Quaternion.Euler(-90f, 0, 0));
+                        GameObject obj = Instantiate(particle, transform.position, Quaternion.Euler(-90f, 0, 0));
                         Destroy(obj,0.5f);
                         return;
                     }

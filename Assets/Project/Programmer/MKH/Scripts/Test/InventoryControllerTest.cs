@@ -62,8 +62,6 @@ namespace MKH
         {
             float x = Input.GetAxisRaw("Horizontal");    // 좌 우 조작
             float y = Input.GetAxisRaw("Vertical");      // 상 하 조작
-            Debug.Log(x);
-            Debug.Log(y);
 
             // 인벤토리 켜져 있을 때만 조작 가능
             if (inventory.activeSelf && !blueChipPanel.activeSelf)

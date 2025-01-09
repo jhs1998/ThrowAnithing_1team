@@ -48,9 +48,14 @@ namespace MKH
             {
                 if (mSlots[i].Item == null)
                 {
+                    Color color1 = mSlots[i + 1].ItemImage.color;
+                    color1.a = 0f;
+
                     mSlots[i].ItemImage.sprite = mSlots[i + 1].ItemImage.sprite;
                     mSlots[i].ItemImage.color = mSlots[i + 1].ItemImage.color;
                     mSlots[i].Item = mSlots[i + 1].Item;
+                    mSlots[i + 1].ItemImage.sprite = null;
+                    mSlots[i + 1].ItemImage.color = color1;
                     mSlots[i + 1].Item = null;
 
                     if(mSlots[i].ItemImage.sprite == null)
