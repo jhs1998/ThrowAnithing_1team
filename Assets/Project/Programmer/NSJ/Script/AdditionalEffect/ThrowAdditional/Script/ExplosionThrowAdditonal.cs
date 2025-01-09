@@ -21,13 +21,6 @@ public class ExplosionThrowAdditonal : ThrowAdditional
 
     private int damage => (int)(_throwObject.Damage * _explosionDamage/ 100);
 
-    private ExplotionThrowEffectPool _pool;
-    public override void Enter()
-    {
-        _pool = Player.CreateNewPool<ExplotionThrowEffectPool>(_effect.EffectPrefab ,nameof(ExplotionThrowEffectPool));
-    }
-
-
     public override void Exit()
     {
         if (_throwObject.CanAttack == false)
@@ -61,8 +54,8 @@ public class ExplosionThrowAdditonal : ThrowAdditional
 
     IEnumerator ShowEffectRoutine()
     {
-        _effect.Effect = _pool.GetPool(_throwObject.transform.position, _throwObject.transform.rotation);
+        _effect.Effect = Player.Pool.GetPool(_effect.EffectPrefab ,_throwObject.transform.position, _throwObject.transform.rotation);
         yield return _effect.EffectDuration.GetDelay();
-        _pool.ReturnPool(_effect.Effect);
+        Player.Pool.ReturnPool(_effect.EffectPrefab, _effect.Effect);
     }
 }
