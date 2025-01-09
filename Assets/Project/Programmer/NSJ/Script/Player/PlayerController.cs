@@ -1148,7 +1148,7 @@ public class PlayerController : MonoBehaviour, IHit
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
         Battle = GetComponent<BattleSystem>();
-        Pool = ObjectPool.CreateObjectPool(transform);
+        Pool = ObjectPool.CreateObjectPool();
     }
     private void InitAdditionnal()
     {

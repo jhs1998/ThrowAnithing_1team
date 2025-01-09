@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
@@ -11,13 +10,32 @@ public class ObjectPool : MonoBehaviour
         public Transform Parent;
     }
     private Dictionary<GameObject, PoolInfo> _poolDic = new Dictionary<GameObject, PoolInfo>();
-    public static ObjectPool CreateObjectPool(Transform transform)
+    /// <summary>
+    /// 풀 생성
+    /// </summary>
+    public static ObjectPool CreateObjectPool()
     {
-        ObjectPool pool = transform.GetComponentInChildren<ObjectPool>();
-        if (pool == null)
+        // 풀 선언
+        ObjectPool pool = null;
+        // 풀 찾기
+        GameObject poolObject = GameObject.FindGameObjectWithTag(Tag.ObjectPool);
+        // 풀이 있을 경우
+        if (poolObject != null)
         {
-            Transform newPool = new GameObject("ObjectPool").transform;
-            newPool.SetParent(transform, true);
+            // 오브젝트 풀 컴포넌트 찾기
+            pool = poolObject.GetComponent<ObjectPool>();
+            if (pool != null)
+                return pool;
+            // 없으면 컴포넌트 추가하기
+            else
+                return poolObject.AddComponent<ObjectPool>();
+        }
+        // 풀이 없을 경우
+        else
+        {
+            // 새롭게 풀 오브젝트 생성
+            GameObject newPool = new GameObject("ObjectPool");
+            newPool.tag = Tag.ObjectPool;
             pool = newPool.AddComponent<ObjectPool>();
         }
         return pool;
@@ -66,7 +84,7 @@ public class ObjectPool : MonoBehaviour
             GameObject instance = info.Pool.Dequeue();
             instance.gameObject.SetActive(true);
             instance.transform.SetParent(transform);
-            if(worldPositionStay == true)
+            if (worldPositionStay == true)
             {
                 instance.transform.position = prefab.transform.position;
                 instance.transform.rotation = prefab.transform.rotation;
@@ -103,14 +121,14 @@ public class ObjectPool : MonoBehaviour
             return instance;
         }
     }
-    public void ReturnPool(GameObject prefab,GameObject instance)
+    public void ReturnPool(GameObject prefab, GameObject instance)
     {
         PoolInfo info = FindPool(prefab);
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
         info.Pool.Enqueue(instance);
     }
-    private  PoolInfo FindPool(GameObject poolPrefab)
+    private PoolInfo FindPool(GameObject poolPrefab)
     {
         PoolInfo pool = default;
         if (_poolDic.ContainsKey(poolPrefab) == false)

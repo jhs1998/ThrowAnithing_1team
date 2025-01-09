@@ -21,6 +21,7 @@ public static partial class Tag
     public const string PortalHidden = "PortalHidden";
     public const string UnInteractable = "UnInteractable";
     public const string Canvas = "Canvas";
+    public const string ObjectPool = "ObjectPool";
 }
 public static partial class Layer
 {

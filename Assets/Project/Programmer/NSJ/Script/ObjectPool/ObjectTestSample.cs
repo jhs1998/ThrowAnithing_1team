@@ -9,7 +9,7 @@ public class ObjectTestSample : MonoBehaviour
     GameObject _instance;
     private void Awake()
     {
-        Pool = ObjectPool.CreateObjectPool(transform);
+        Pool = ObjectPool.CreateObjectPool();
     }
 
     private void Update()
