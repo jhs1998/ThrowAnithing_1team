@@ -1,13 +1,8 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Upgrade : BaseUI
 {
@@ -80,7 +75,7 @@ public class Upgrade : BaseUI
 
     private void Update()
     {
-        
+
 
         if (pause.activeSelf)
             return;
@@ -94,6 +89,8 @@ public class Upgrade : BaseUI
         {
             slots[ver, ho].onClick.Invoke();
         }
+        
+    
 
     }
 
@@ -123,6 +120,7 @@ public class Upgrade : BaseUI
             {
                 //Todo : Change Color
                 slots[i, j].GetComponent<Image>().color = new(0.1f, 0, 0.2f);
+                slots[i, j].interactable = false;
             }
         }
 
@@ -254,6 +252,17 @@ public class Upgrade : BaseUI
             itemInfo.text = button.name;
             slotImages[ver, ho] = button.transform.GetChild(0).GetComponent<Image>();
             slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
+
+            if (button.GetComponent<Image>().color != lockedColor)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        slots[i, j].interactable = true;
+                    }
+                }
+            }
         }
     }
 
@@ -289,7 +298,10 @@ public class Upgrade : BaseUI
     public void UpgradeText()
     {
         // 업그레이드 완료 문구 없을때만 동작
-        Instantiate(upText, slots[2,3].transform.position, Quaternion.identity);
+        int cost = _gameData.upgradeCosts[slot];
+
+        if (_gameData.coin >= cost)
+            Instantiate(upText, slots[2,3].transform.position, Quaternion.identity);
     }
 
     void Init()
