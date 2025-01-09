@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectTestSample : MonoBehaviour
 {
     ObjectPool Pool;
-    GameObject _prefab;
+    [SerializeField]GameObject _prefab;
     GameObject _instance;
     private void Awake()
     {
@@ -16,11 +16,11 @@ public class ObjectTestSample : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            _instance = Pool.GetPool(_prefab, transform.position, transform.rotation);
+            _instance = Pool.GetPool(_prefab, transform, true);
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            Pool.ReturnPool(_prefab, _instance);
+            _instance = Pool.GetPool(_prefab, transform, false);
         }
     }
 }

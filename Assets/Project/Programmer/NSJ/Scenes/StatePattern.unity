@@ -4512,6 +4512,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3691406048128609550, guid: 6e8b02d6136299e4ca096ffb4a225359, type: 3}
   m_PrefabInstance: {fileID: 2020509155}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1296331641 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3643670924657291589, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+  m_PrefabInstance: {fileID: 1928024030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1300185859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9060964019922164373, guid: c788d7dd3f98ab44fad39fa858f5c108, type: 3}
@@ -5586,6 +5591,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3691406048128609550, guid: 6e8b02d6136299e4ca096ffb4a225359, type: 3}
   m_PrefabInstance: {fileID: 672079743}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1664835518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1664835520}
+  - component: {fileID: 1664835519}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1664835519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664835518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c9fec44b81dbe942a3a86929a1ef6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 1296331641}
+--- !u!4 &1664835520
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664835518}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.27839154, y: 0.36040172, z: -7.436288}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1665393711 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5638854256239929216, guid: c9406e7455f6e44428045d10116160e6, type: 3}
@@ -7762,3 +7812,4 @@ SceneRoots:
   - {fileID: 1276835154}
   - {fileID: 290884087}
   - {fileID: 1119036040}
+  - {fileID: 1664835520}
