@@ -13,7 +13,7 @@ public class BalanceThrowAttack : ArmThrowAttack
         // 첫 공격 시 첫 공격 애니메이션 실행
         if (Player.PrevState != PlayerController.State.ThrowAttack)
         {
-            View.SetTrigger(PlayerView.Parameter.BasicThrow);
+            View.SetTrigger(PlayerView.Parameter.BalanceThrow);
         }
         else
         {
