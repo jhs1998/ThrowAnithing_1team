@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour, IHit
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
-    [HideInInspector] public ObjectPool Pool;
     public enum State
     {
         Idle,
@@ -331,11 +330,11 @@ public class PlayerController : MonoBehaviour, IHit
               Battle.HitPoint.position.y + Random.Range(-0.5f, 0.5f),
                 Battle.HitPoint.position.z + Random.Range(-0.5f, 0.5f)
             );
-        GameObject effect = Pool.GetPool(_lifeDrainPrefab, pos, transform.rotation);
+        GameObject effect = ObjectPool.GetPool(_lifeDrainPrefab, pos, transform.rotation);
         effect.transform.SetParent(transform, true);
 
         yield return 1.5f.GetDelay();
-        Pool.ReturnPool(_lifeDrainPrefab, effect);
+        ObjectPool.ReturnPool(effect);
     }
     #endregion
     #region 플레이어 방향 처리
@@ -1148,7 +1147,6 @@ public class PlayerController : MonoBehaviour, IHit
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
         Battle = GetComponent<BattleSystem>();
-        Pool = ObjectPool.CreateObjectPool();
     }
     private void InitAdditionnal()
     {
