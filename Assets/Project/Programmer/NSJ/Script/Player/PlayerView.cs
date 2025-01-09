@@ -19,16 +19,18 @@ public class PlayerView : MonoBehaviour
         Fall,
         DoubleJumpFall,
         Landing,
-        JumpDown,
+        BalanceJumpDown,
+        PowerJumpDown,
         JumpAttack,
         Dash,
+        DashEnd,
         Drain,
         Hit,
         Charge,
         ChargeEnd,
         ChargeCancel,
-        BasicMelee,
-        BasicThrow,
+        BalanceMelee,
+        BalanceThrow,
         PowerMelee,
         PowerThrow,
         PowerSpecial,
@@ -133,16 +135,18 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.Fall] = Animator.StringToHash("Fall");
         _animatorHashes[(int)Parameter.Landing] = Animator.StringToHash("Landing");
         _animatorHashes[(int)Parameter.Dash] = Animator.StringToHash("Dash");
+        _animatorHashes[(int)Parameter.DashEnd] = Animator.StringToHash("DashEnd");
         _animatorHashes[(int)Parameter.Drain] = Animator.StringToHash("Drain");
         _animatorHashes[(int)Parameter.Charge] = Animator.StringToHash("Charge");
         _animatorHashes[(int)Parameter.ChargeEnd] = Animator.StringToHash("ChargeEnd");
         _animatorHashes[(int)Parameter.ChargeCancel] = Animator.StringToHash("ChargeCancel");
-        _animatorHashes[(int)Parameter.BasicMelee] = Animator.StringToHash("BasicMelee");
-        _animatorHashes[(int)Parameter.BasicThrow] = Animator.StringToHash("BasicThrow");
+        _animatorHashes[(int)Parameter.BalanceMelee] = Animator.StringToHash("BalanceMelee");
+        _animatorHashes[(int)Parameter.BalanceThrow] = Animator.StringToHash("BalanceThrow");
+        _animatorHashes[(int)Parameter.BalanceJumpDown] = Animator.StringToHash("BalanceJumpDown");
         _animatorHashes[(int)Parameter.PowerMelee] = Animator.StringToHash("PowerMelee");
         _animatorHashes[(int)Parameter.PowerThrow] = Animator.StringToHash("PowerThrow");
         _animatorHashes[(int)Parameter.PowerSpecial] = Animator.StringToHash("PowerSpecial");
-        _animatorHashes[(int)Parameter.JumpDown] = Animator.StringToHash("JumpDown");
+        _animatorHashes[(int)Parameter.PowerJumpDown] = Animator.StringToHash("PowerJumpDown");
         _animatorHashes[(int)Parameter.JumpAttack] = Animator.StringToHash("JumpAttack");
         _animatorHashes[(int)Parameter.Hit] = Animator.StringToHash("Hit");
         _animatorHashes[(int)Parameter.Dead] = Animator.StringToHash("Dead");

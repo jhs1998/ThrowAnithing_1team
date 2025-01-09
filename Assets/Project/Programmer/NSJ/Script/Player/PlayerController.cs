@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour, IHit
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
-    [HideInInspector] public ObjectPool Pool;
     public enum State
     {
         Idle,
@@ -331,11 +330,11 @@ public class PlayerController : MonoBehaviour, IHit
               Battle.HitPoint.position.y + Random.Range(-0.5f, 0.5f),
                 Battle.HitPoint.position.z + Random.Range(-0.5f, 0.5f)
             );
-        GameObject effect = Pool.GetPool(_lifeDrainPrefab, pos, transform.rotation);
+        GameObject effect = ObjectPool.GetPool(_lifeDrainPrefab, pos, transform.rotation);
         effect.transform.SetParent(transform, true);
 
         yield return 1.5f.GetDelay();
-        Pool.ReturnPool(_lifeDrainPrefab, effect);
+        ObjectPool.ReturnPool(effect);
     }
     #endregion
     #region 플레이어 방향 처리
@@ -460,11 +459,19 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
+        foreach(PlayerState state in _states)
+        {
+            state.InitArm();
+        }
     }
     public void ChangeArmUnit(GlobalGameData.AmWeapon armUnit)
     {
         Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
         Model.Arm.Init(this);
+        foreach (PlayerState state in _states)
+        {
+            state.InitArm();
+        }
     }
     #endregion
     #region 플레이어 추가효과 관련
@@ -620,40 +627,6 @@ public class PlayerController : MonoBehaviour, IHit
             return false;
     }
     #endregion
-
-
-    /// <summary>
-    /// TPS 시점 카메라 회전
-    /// </summary>
-    private void RotateCamera()
-    {
-        float angleX = InputKey.GetAxis(InputKey.MouseX);
-        if (Mathf.Abs(angleX) < 0.1f)
-            angleX = 0;
-        // 체크시 마우스 상하도 가능
-        float angleY = IsVerticalCameraMove == true ? angleY = InputKey.GetAxis(InputKey.MouseY) : default;
-
-        _cameraRotateSpeed = setting.cameraSpeed;
-        Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
-        Vector3 camAngle = CamareArm.rotation.eulerAngles;
-
-        // 마우스 상하값 제한
-        float x = camAngle.x - mouseDelta.y;
-        x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
-
-        // 카메라 조정
-        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
-
-
-
-
-
-        if (IsVerticalCameraMove == true)
-        {
-            // 머즐포인트 각도조절
-            MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        }
-    }
     #region 지형물 체크 로직
     /// <summary>
     /// 지면 체크
@@ -767,36 +740,6 @@ public class PlayerController : MonoBehaviour, IHit
     }
     #endregion
 
-    /// <summary>
-    /// 스테미나 회복 코루틴
-    /// </summary>
-    IEnumerator RecoveryStamina()
-    {
-        CanStaminaRecovery = true;
-        while (true)
-        {
-            // 초당 MaxStamina / RegainStamina 만큼 회복
-            // 현재 스테미나가 꽉찼으면 더이상 회복안함
-            // 만약 스테미나 사용 후 쿨타임 상태면 쿨타임만큼 회복안함
-            if (CanStaminaRecovery == true)
-            {
-                Model.CurStamina += Model.RegainStamina * Time.deltaTime;
-            }
-            if (Model.CurStamina >= Model.MaxStamina)
-            {
-                Model.CurStamina = Model.MaxStamina;
-            }
-
-            if (IsStaminaCool == true)
-            {
-                IsStaminaCool = false;
-                //yield return 1f.GetDelay();
-                yield return Model.StaminaCoolTime.GetDelay();
-            }
-
-            yield return null;
-        }
-    }
     #region 키입력 관련
     /// <summary>
     /// 키입력 감지
@@ -932,6 +875,7 @@ public class PlayerController : MonoBehaviour, IHit
         }
     }
     #endregion
+
     #region 데미지 계산
 
 
@@ -1014,6 +958,70 @@ public class PlayerController : MonoBehaviour, IHit
         return finalDamage;
     }
     #endregion
+
+    /// <summary>
+    /// TPS 시점 카메라 회전
+    /// </summary>
+    private void RotateCamera()
+    {
+        float angleX = InputKey.GetAxis(InputKey.MouseX);
+        if (Mathf.Abs(angleX) < 0.1f)
+            angleX = 0;
+        // 체크시 마우스 상하도 가능
+        float angleY = IsVerticalCameraMove == true ? angleY = InputKey.GetAxis(InputKey.MouseY) : default;
+
+        _cameraRotateSpeed = setting.cameraSpeed;
+        Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
+        Vector3 camAngle = CamareArm.rotation.eulerAngles;
+
+        // 마우스 상하값 제한
+        float x = camAngle.x - mouseDelta.y;
+        x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
+
+        // 카메라 조정
+        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
+
+
+
+
+
+        if (IsVerticalCameraMove == true)
+        {
+            // 머즐포인트 각도조절
+            MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
+    }
+
+    /// <summary>
+    /// 스테미나 회복 코루틴
+    /// </summary>
+    IEnumerator RecoveryStamina()
+    {
+        CanStaminaRecovery = true;
+        while (true)
+        {
+            // 초당 MaxStamina / RegainStamina 만큼 회복
+            // 현재 스테미나가 꽉찼으면 더이상 회복안함
+            // 만약 스테미나 사용 후 쿨타임 상태면 쿨타임만큼 회복안함
+            if (CanStaminaRecovery == true)
+            {
+                Model.CurStamina += Model.RegainStamina * Time.deltaTime;
+            }
+            if (Model.CurStamina >= Model.MaxStamina)
+            {
+                Model.CurStamina = Model.MaxStamina;
+            }
+
+            if (IsStaminaCool == true)
+            {
+                IsStaminaCool = false;
+                //yield return 1f.GetDelay();
+                yield return Model.StaminaCoolTime.GetDelay();
+            }
+
+            yield return null;
+        }
+    }
 
     IEnumerator ControlMousePointer()
     {
@@ -1139,7 +1147,6 @@ public class PlayerController : MonoBehaviour, IHit
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
         Battle = GetComponent<BattleSystem>();
-        Pool = ObjectPool.CreateObjectPool(transform);
     }
     private void InitAdditionnal()
     {
@@ -1190,7 +1197,6 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)CurState].EndCombo();
     }
     #endregion
-
     #region 콜백
     public void ThrowObjectResultCallback(bool successHit)
     {

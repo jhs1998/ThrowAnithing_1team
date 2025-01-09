@@ -134,7 +134,6 @@ public class PowerMeleeAttack : ArmMeleeAttack
     {
         if (_autoAttackRoutine != null)
             return;
-
         if (_isAutoAttack == false)
         {
             // 차지시간 계산
@@ -161,6 +160,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         {
             ProcessAutoAttackTmer();
         }
+
     }
     public void AttackMelee()
     {
@@ -190,7 +190,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
 
             int attackDamage = Player.GetFinalDamage(_charges[_index].Damage, out bool isCritical);
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, attackDamage,  false);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, attackDamage, false);
             Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
 
             if (_charges[_index].KnockBackRange > 0)

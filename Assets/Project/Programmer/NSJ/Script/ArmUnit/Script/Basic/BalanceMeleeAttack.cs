@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Basic Melee", menuName = "Arm/AttackType/Basic/Melee")]
-public class BasicMeleeAttack : ArmMeleeAttack
+[CreateAssetMenu(fileName = "Balance Melee", menuName = "Arm/AttackType/Balance/Melee")]
+public class BalanceMeleeAttack : ArmMeleeAttack
 {
+    [Header("스테미나 소모량")]
+    public float StaminaAmount;
     [SerializeField] float _range;
     [SerializeField] int _damage;
     [Range(0,180)][SerializeField] float _angle;
@@ -20,7 +22,7 @@ public class BasicMeleeAttack : ArmMeleeAttack
         // 첫 공격 시 첫 공격 애니메이션 실행
         if (Player.PrevState != PlayerController.State.MeleeAttack)
         {
-            View.SetTrigger(PlayerView.Parameter.BasicMelee);
+            View.SetTrigger(PlayerView.Parameter.BalanceMelee);
         }
         else
         {
@@ -73,9 +75,6 @@ public class BasicMeleeAttack : ArmMeleeAttack
             float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
             if (targetAngle > _angle * 0.5f)
                 continue;
-
-            // 적 넉백
-            Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, 0.5f);
             
             int finalDamage = Player.GetFinalDamage(_damage,_damageMultiplier, out bool isCritical);
             // 데미지 주기

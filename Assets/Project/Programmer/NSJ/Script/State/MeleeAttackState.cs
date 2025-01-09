@@ -10,7 +10,18 @@ public class MeleeAttackState : PlayerState
         UseStamina = true;
         StaminaAmount = Model.MeleeAttackStamina[0];
     }
-
+    public override void InitArm()
+    {
+        if(Model.NowWeapon == GlobalGameData.AmWeapon.Balance)
+        {
+            BalanceMeleeAttack meleeAttack = Arm.MeleeAttack as BalanceMeleeAttack;
+            StaminaAmount = meleeAttack.StaminaAmount;
+        }
+        else if (Model.NowWeapon == GlobalGameData.AmWeapon.Power)
+        {
+            StaminaAmount = Model.MeleeAttackStamina[0];
+        }      
+    }
     public override void Enter() 
     {
         Arm.Enter();

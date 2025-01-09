@@ -9,9 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 666a215d74d406a45a3d6411aebec731, type: 3}
-  m_Name: Basic JumpAttack
+  m_Script: {fileID: 11500000, guid: 5023adce1a100994fb264302f0c06316, type: 3}
+  m_Name: Balance JumpDown
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  _popValue: 5
-  m_downAngle: 20
+  _attack:
+    FallSpeed: 20
+    Range: 4
+    Damage: 25
+    KnockBackDistance: 0.5
+    Effect: {fileID: 5632013062670761951, guid: 74209175a73465f40b263ff3916d2f6d, type: 3}
+    EffectDuration: 0.2

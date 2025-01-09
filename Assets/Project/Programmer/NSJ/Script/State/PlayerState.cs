@@ -29,6 +29,7 @@ public class PlayerState : BaseState
     public virtual void OnCombo() { }
     public virtual void EndCombo() { }
     public virtual void TriggerCantOperate() { }
+    public virtual void InitArm() { }
     protected void ChangeState(PlayerController.State state)
     {
         Player.ChangeState(state);

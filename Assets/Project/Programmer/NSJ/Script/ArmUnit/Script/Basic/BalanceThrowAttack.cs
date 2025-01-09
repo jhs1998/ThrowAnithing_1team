@@ -2,9 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Basic Throw", menuName = "Arm/AttackType/Basic/Throw")]
-public class BasicThrowAttack : ArmThrowAttack
+[CreateAssetMenu(fileName = "Balance Throw", menuName = "Arm/AttackType/Balance/Throw")]
+public class BalanceThrowAttack : ArmThrowAttack
 {
+    [System.Serializable]
+    struct AttackStruct
+    {
+        [Tooltip("추가 데미지")]
+        public float Damage;
+        [Tooltip("경직 걸리는 가?")]
+        public bool isStiff;
+        [Tooltip("넉백 거리")]
+        public float KnockBackDistance;
+    }
+    [SerializeField] private AttackStruct[] _attacks;
+
+    private int _comboCount; // 콤보 횟수
     Coroutine _throwRoutine;
     public override void Enter()
     {
@@ -13,10 +26,14 @@ public class BasicThrowAttack : ArmThrowAttack
         // 첫 공격 시 첫 공격 애니메이션 실행
         if (Player.PrevState != PlayerController.State.ThrowAttack)
         {
-            View.SetTrigger(PlayerView.Parameter.BasicThrow);
+            // 콤보카운트 0부터 시작
+            _comboCount = 0;
+            View.SetTrigger(PlayerView.Parameter.BalanceThrow);
         }
         else
         {
+            // 콤보카운트 1씩 상승
+            _comboCount = _comboCount < 4 ? _comboCount + 1 : 0;
             View.SetTrigger(PlayerView.Parameter.OnCombo);
         }
 
