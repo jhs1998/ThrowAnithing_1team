@@ -11,9 +11,15 @@ public class ObjectPool : MonoBehaviour
         public GameObject Prefab;
         public Transform Parent;
     }
+    /// <summary>
+    /// 프리팹용
+    /// </summary>
     private Dictionary<GameObject, PoolInfo> m_poolDic = new Dictionary<GameObject, PoolInfo>();
     private static Dictionary<GameObject, PoolInfo> _poolDic { get { return Instance.m_poolDic; } }
     private static Transform thisTransform => Instance.transform;
+    /// <summary>
+    /// 인스턴스용
+    /// </summary>
     private Dictionary<GameObject, PoolInfo> m_poolObjectDic = new Dictionary<GameObject, PoolInfo>();
     private static Dictionary<GameObject, PoolInfo> _poolObjectDic { get { return Instance.m_poolObjectDic; } }
 
@@ -147,7 +153,7 @@ public class ObjectPool : MonoBehaviour
             return instance;
         }
     }
-    public static GameObject GetPool<T>(T prefab) where T : Component
+    public static T GetPool<T>(T prefab) where T : Component
     {
         CreateObjectPool();
         PoolInfo info = FindPool(prefab.gameObject);
@@ -158,16 +164,18 @@ public class ObjectPool : MonoBehaviour
             instance.transform.position = Vector3.zero;
             instance.transform.rotation = Quaternion.identity;
             instance.transform.SetParent(null);
-            return instance.gameObject;
+            T component = instance.GetComponent<T>();
+            return component;
         }
         else
         {
             GameObject instance = Instantiate(info.Prefab);
             _poolObjectDic.Add(instance, info);
-            return instance;
+            T component = instance.GetComponent<T>();
+            return component;
         }
     }
-    public static GameObject GetPool<T>(T prefab, Transform transform) where T : Component
+    public static T GetPool<T>(T prefab, Transform transform) where T : Component
     {
         CreateObjectPool();
         PoolInfo info = FindPool(prefab.gameObject);
@@ -178,16 +186,18 @@ public class ObjectPool : MonoBehaviour
             instance.transform.SetParent(transform);
             instance.transform.position = transform.position;
             instance.transform.rotation = transform.rotation;
-            return instance.gameObject;
+            T component = instance.GetComponent<T>();
+            return component;
         }
         else
         {
             GameObject instance = Instantiate(info.Prefab,transform);
             _poolObjectDic.Add(instance, info);
-            return instance;
+            T component = instance.GetComponent<T>();
+            return component;
         }
     }
-    public static GameObject GetPool<T>(T prefab, Transform transform, bool worldPositionStay) where T : Component
+    public static T GetPool<T>(T prefab, Transform transform, bool worldPositionStay) where T : Component
     {
         CreateObjectPool();
         PoolInfo info = FindPool(prefab.gameObject);
@@ -206,17 +216,18 @@ public class ObjectPool : MonoBehaviour
                 instance.transform.position = transform.position;
                 instance.transform.rotation = transform.rotation;
             }
-
-            return instance.gameObject;
+            T component = instance.GetComponent<T>();
+            return component;
         }
         else
         {
             GameObject instance = Instantiate(info.Prefab, transform, worldPositionStay);
             _poolObjectDic.Add(instance, info);
-            return instance;
+            T component = instance.GetComponent<T>();
+            return component;
         }
     }
-    public static GameObject GetPool<T>(T prefab, Vector3 pos, Quaternion rot) where T : Component
+    public static T GetPool<T>(T prefab, Vector3 pos, Quaternion rot) where T : Component
     {
         CreateObjectPool();
         PoolInfo info = FindPool(prefab.gameObject);
@@ -227,13 +238,15 @@ public class ObjectPool : MonoBehaviour
             instance.transform.position = pos;
             instance.transform.rotation = rot;
             instance.transform.SetParent(null);
-            return instance.gameObject;
+            T component = instance.GetComponent<T>();
+            return component;
         }
         else
         {
             GameObject instance = Instantiate(info.Prefab, pos, rot);
             _poolObjectDic.Add(instance, info);
-            return instance;
+            T component = instance.GetComponent<T>();
+            return component;
         }
     }
     #endregion
@@ -255,22 +268,22 @@ public class ObjectPool : MonoBehaviour
         instance.gameObject.SetActive(false);
         info.Pool.Enqueue(instance);
     }
-    public static void ReturnPool<T>(T prefab, GameObject instance) where T : Component
+    public static void ReturnPool<T>(T instance) where T : Component
     {
         CreateObjectPool();
         PoolInfo info = default;
-        if (_poolObjectDic.ContainsKey(instance) == true)
+        if (_poolObjectDic.ContainsKey(instance.gameObject) == true)
         {
-            info = _poolObjectDic[instance];
+            info = _poolObjectDic[instance.gameObject];
         }
         else
         {
-            info = FindPool(instance);
+            info = FindPool(instance.gameObject);
         }
 
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
-        info.Pool.Enqueue(instance);
+        info.Pool.Enqueue(instance.gameObject);
     }
     #endregion
     private static PoolInfo FindPool(GameObject poolPrefab)
