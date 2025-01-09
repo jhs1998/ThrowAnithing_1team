@@ -12,6 +12,17 @@ public class ObjectPool : MonoBehaviour
     }
     private Dictionary<GameObject, PoolInfo> _poolDic = new Dictionary<GameObject, PoolInfo>();
 
+    public static ObjectPool CreateObjectPool(Transform transform)
+    {
+        ObjectPool pool = transform.GetComponentInChildren<ObjectPool>();
+        if (pool == null)
+        {
+            Transform newPool = new GameObject("ObjectPool").transform;
+            newPool.SetParent(transform, true);
+            pool = newPool.AddComponent<ObjectPool>();
+        }
+        return pool;
+    }
     public GameObject GetPool(GameObject prefab,Vector3 pos, Quaternion rot)
     {
         PoolInfo info = FindPool(prefab);
@@ -63,15 +74,4 @@ public class ObjectPool : MonoBehaviour
         return info;
     }
 
-    public static ObjectPool CreateObjectPool(Transform transform)
-    {
-        ObjectPool pool = transform.GetComponentInChildren<ObjectPool>();
-        if (pool == null) 
-        {
-            Transform newPool = new GameObject("ObjectPool").transform;
-            newPool.SetParent(transform, true);
-            pool = newPool.AddComponent<ObjectPool>();
-        }
-        return pool;
-    }
 }
