@@ -35,6 +35,8 @@ public class Main_Option : MainScene
 
     public int depth1_cur;
 
+    GameObject optionTitle;
+
     //옵션 Depth2 체크용 변수
     protected Depth2 depth2_cur = Depth2.notDepth2;
 
@@ -71,12 +73,11 @@ public class Main_Option : MainScene
 
     void OptionTitle()
     {
-        GameObject optionTitle = GetUI("optionTitle");
 
         switch (depth1_cur)
         {
             case 0:
-                optionTitle.GetComponent<TMP_Text>().text = "미니맵";
+                optionTitle.GetComponent<TMP_Text>().text = "게임플레이";
                 break;
             case 1:
                 optionTitle.GetComponent<TMP_Text>().text = "소리";
@@ -212,6 +213,7 @@ public class Main_Option : MainScene
     {
         if (optionCheck == 0)
         {
+            optionTitle.GetComponent<TMP_Text>().text = "게임플레이";
             optionCheck = 2;
             gameplayOnOff.SetActive(true);
             gameplayPannel.SetActive(true);
@@ -226,6 +228,7 @@ public class Main_Option : MainScene
     {
         if (optionCheck == 0)
         {
+            optionTitle.GetComponent<TMP_Text>().text = "소리";
             optionCheck = 2;
             soundOnOff.SetActive(true);
             gameplayPannel.SetActive(false);
@@ -238,6 +241,7 @@ public class Main_Option : MainScene
 
     public void InputButton()
     {
+        optionTitle.GetComponent<TMP_Text>().text = "조작키";
         gameplayPannel.SetActive(false);
         soundPannel.SetActive(false);
         inputPannel.SetActive(true);
@@ -245,6 +249,7 @@ public class Main_Option : MainScene
 
     public void ExitButtonOp()
     {
+        optionTitle.GetComponent<TMP_Text>().text = "";
         if (_isMain)
         {
             gameObject.SetActive(false);
@@ -255,7 +260,6 @@ public class Main_Option : MainScene
         }
    
     }
-
 
     private void Init()
     {
@@ -274,6 +278,8 @@ public class Main_Option : MainScene
         gameplayOnOff = GetUI("GameplayOnOff");
         soundOnOff = GetUI("SoundOnOff");
         depth1_cur = 0;
+
+        optionTitle = GetUI("optionTitle");
 
     }
 }

@@ -5,30 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class LoadingEnter : MonoBehaviour
 {
-
-
-    private void OnTriggerEnter(Collider other)
+    void EnterStage()
     {
-        //  //Comment : ¾À ÀÌ¸§ º¯°æÇØÁà¾ßÇÔ
-        //  if (SceneManager.GetActiveScene().name == "GameSceneSta1")
-        //  {
-        //      if (other.transform.tag == Tag.Player)
-        //          Loading.LoadScene("GameSceneSta1");
-        //  }
-        //  else if( SceneManager.GetActiveScene().name == "GameSceneSta2")
-        //  {
-        //      if (other.transform.tag == Tag.Player)
-        //          Loading.LoadScene("GameSceneSta2");
-        //  }
-        //  else if (SceneManager.GetActiveScene().name == "GameSceneSta2")
-        //  {
-        //      if (other.transform.tag == Tag.Player)
-        //          Loading.LoadScene("GameSceneBoss");
-        //  }
-
-        //Å×½ºÆ®¿ë
-        if (other.transform.tag == Tag.Player)
-                Loading.LoadScene("GameSceneSta1");
+        //¾À Ä³½ÌÇØ¾ßÇÔ
+        SceneManager.LoadScene(SceneName.ToStageLoading);
     }
-
 }
