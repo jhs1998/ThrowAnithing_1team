@@ -1,8 +1,8 @@
 using System.Collections;
+using System.Security.Cryptography;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
-using Zenject.SpaceFighter;
 
 public class BossEnemy : BaseEnemy, IHit
 {
@@ -19,13 +19,18 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] float stunTime;
 
     [Space, SerializeField] ParticleSystem shieldParticle;
-    public float jumpForce;
+
+    public AnimationCurve curve;    // 움직이는 모션
+    public float jumpAttackTime;    // 애니메이션의 재생 시간
+    public float jumpHeight;    // 점프 시 최대 높이
+
     private Coroutine attackAble;
     public Coroutine recovery;  // 회복 관련 코루틴
     private bool onFrezenyPassive = false;
     private bool onEntryStop;
     [HideInInspector] public bool createShield;
     [HideInInspector] public bool breakShield;
+    [HideInInspector] public Vector3 playerPos;
 
     private void Start()
     {
@@ -198,16 +203,7 @@ public class BossEnemy : BaseEnemy, IHit
 
     public void JumpAttackBegin()
     {
-        Vector3 playerPos = new Vector3(playerObj.Value.transform.position.x, 
-                                        transform.position.y, 
-                                        playerObj.Value.transform.position.z);
-
-        GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-        //transform.position = Vector3.Lerp(transform.position, playerObj.Value.transform.position, 0.01f);
-        /*Vector3 jumpMove = Vector3.MoveTowards(transform.position, playerObj.Value.transform.position, state.Speed * Time.deltaTime);
-        Debug.Log(jumpMove);
-        GetComponent<Rigidbody>().MovePosition(jumpMove);*/
+        StartCoroutine(JumpRoutine(transform.position, playerPos));
     }
     public void JumpAttackEnd()
     {
@@ -266,6 +262,30 @@ public class BossEnemy : BaseEnemy, IHit
         yield return state.AtkDelay.GetDelay();
         // 공격 딜레이 끝
         tree.SetVariableValue("AttackAble", true);
+    }
+
+    public void SetPlayerPos(Vector3 pos)
+    {
+        playerPos = pos;
+    }
+
+    IEnumerator JumpRoutine(Vector3 start, Vector3 end)
+    {
+        Debug.Log("점프어택 시작");
+        float currentAttackTime = 0f;
+        while (currentAttackTime <= jumpAttackTime)
+        {
+            float t = currentAttackTime / jumpAttackTime;
+            Vector3 pos = Vector3.zero;
+            pos.x = Vector3.Lerp(start, end, t).x;
+            pos.z = Vector3.Lerp(start, end, t).z;
+            pos.y = curve.Evaluate(t) * jumpHeight + Mathf.Lerp(start.y, end.y, t);
+            transform.position = pos;
+            currentAttackTime += Time.deltaTime;
+            yield return null;
+        }
+        //transform.position = end;
+        Debug.Log("점프어택 완료");
     }
 
     #region Gizmo
