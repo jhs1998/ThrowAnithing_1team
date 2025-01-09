@@ -36,32 +36,20 @@ public class ObjectPool : MonoBehaviour
     /// </summary>
     public static ObjectPool CreateObjectPool()
     {
+
         if (Instance != null)
-            return Instance;
-        // 풀 선언
-        ObjectPool pool = null;
-        // 풀 찾기
-        GameObject poolObject = GameObject.FindGameObjectWithTag(Tag.ObjectPool);
-        // 풀이 있을 경우
-        if (poolObject != null)
         {
-            // 오브젝트 풀 컴포넌트 찾기
-            pool = poolObject.GetComponent<ObjectPool>();
-            if (pool != null)
-                return pool;
-            // 없으면 컴포넌트 추가하기
-            else
-                return poolObject.AddComponent<ObjectPool>();
+            return Instance;
         }
-        // 풀이 없을 경우
         else
         {
             // 새롭게 풀 오브젝트 생성
             GameObject newPool = new GameObject("ObjectPool");
             newPool.tag = Tag.ObjectPool;
-            pool = newPool.AddComponent<ObjectPool>();
+            ObjectPool pool = newPool.AddComponent<ObjectPool>();
+            return pool;
         }
-        return pool;
+       
     }
     #region GetPool
     public static GameObject GetPool(GameObject prefab)

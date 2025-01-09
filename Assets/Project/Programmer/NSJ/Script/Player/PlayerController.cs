@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour, IHit
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
+    [HideInInspector] public PlayerInput Input;
     public enum State
     {
         Idle,
@@ -86,7 +88,8 @@ public class PlayerController : MonoBehaviour, IHit
         public Transform CamaraArm;
         public Transform CameraPos;
         [Range(0f, 50f)] public float CameraRotateAngle;
-        [Range(0f, 5f)] public float CameraRotateSpeed;
+        public float MouseRotateSpeed;
+        public float StickRotateSpeed;
         public PlayerCameraHold CameraHolder;
         public bool IsVerticalCameraMove;
     }
@@ -95,7 +98,8 @@ public class PlayerController : MonoBehaviour, IHit
     public Transform CamareArm { get { return _cameraStruct.CamaraArm; } set { _cameraStruct.CamaraArm = value; } }
     private Transform _cameraPos { get { return _cameraStruct.CameraPos; } set { _cameraStruct.CameraPos = value; } }
     private float _cameraRotateAngle { get { return _cameraStruct.CameraRotateAngle; } set { _cameraStruct.CameraRotateAngle = value; } }
-    private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
+    private float _mouseRotateSpeed { get { return _cameraStruct.MouseRotateSpeed; } set { _cameraStruct.MouseRotateSpeed = value; } }
+    private float _stickRotateSpeed { get { return _cameraStruct.StickRotateSpeed; } set { _cameraStruct.StickRotateSpeed = value; } }
     private PlayerCameraHold _cameraHolder { get { return _cameraStruct.CameraHolder; } set { _cameraStruct.CameraHolder = value; } }
     public bool IsVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
@@ -173,7 +177,10 @@ public class PlayerController : MonoBehaviour, IHit
 
     [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
 
+
     [HideInInspector] public Vector3 MoveDir;
+    Vector2 _mouseDir;
+    Vector2 _stickDir;
 
     Quaternion _defaultMuzzlePointRot;
     private void Awake()
@@ -213,7 +220,8 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)CurState].Update();
 
         CheckAnyState();
-        RotateCamera();
+        RotateCameraMouse();
+        RotateCameraStick();
         ChackInput();
         UpdatePlayerAdditional();
     }
@@ -958,40 +966,42 @@ public class PlayerController : MonoBehaviour, IHit
         return finalDamage;
     }
     #endregion
-
     /// <summary>
     /// TPS 시점 카메라 회전
     /// </summary>
-    private void RotateCamera()
+    private void RotateCameraStick()
     {
-        float angleX = InputKey.GetAxis(InputKey.MouseX);
-        if (Mathf.Abs(angleX) < 0.1f)
-            angleX = 0;
-        // 체크시 마우스 상하도 가능
-        float angleY = IsVerticalCameraMove == true ? angleY = InputKey.GetAxis(InputKey.MouseY) : default;
+        float angleX = _stickDir.x * _stickRotateSpeed;
 
-        _cameraRotateSpeed = setting.cameraSpeed;
-        Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
+        float rotateSpeed = 1;
+        if (Model.IsTest == false)
+        {
+            rotateSpeed = setting.cameraSpeed;
+        }
+        Vector2 mouseDelta = new Vector2(angleX, 0) * rotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
-
-        // 마우스 상하값 제한
-        float x = camAngle.x - mouseDelta.y;
-        x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
 
         // 카메라 조정
         CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
-
-
-
-
-
-        if (IsVerticalCameraMove == true)
-        {
-            // 머즐포인트 각도조절
-            MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        }
     }
+    /// <summary>
+    /// TPS 시점 카메라 회전
+    /// </summary>
+    private void RotateCameraMouse()
+    {
+        float angleX = _mouseDir.x * _mouseRotateSpeed;
 
+        float rotateSpeed = 1;
+        if (Model.IsTest == false)
+        {
+            rotateSpeed = setting.cameraSpeed;
+        }
+        Vector2 mouseDelta = new Vector2(angleX, 0) * rotateSpeed;
+        Vector3 camAngle = CamareArm.rotation.eulerAngles;
+
+        // 카메라 조정
+        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
+    }
     /// <summary>
     /// 스테미나 회복 코루틴
     /// </summary>
@@ -1147,6 +1157,7 @@ public class PlayerController : MonoBehaviour, IHit
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
         Battle = GetComponent<BattleSystem>();
+        Input = GetComponent<PlayerInput>();
     }
     private void InitAdditionnal()
     {
@@ -1209,6 +1220,70 @@ public class PlayerController : MonoBehaviour, IHit
     private void TakeDamageCallback(int damage, bool isCritical)
     {
 
+    }
+    #endregion
+    #region 인풋시스템 콜백
+    private void OnMove(InputValue value)
+    {
+        Vector2 valueVector2 = value.Get<Vector2>();
+        Vector3 valueVector3 = new Vector3(valueVector2.x, 0, valueVector2.y);
+        MoveDir = valueVector3;
+        _states[(int)CurState].OnMove(valueVector3);
+    }
+    private void OnJump()
+    {
+        _states[(int)CurState].OnJump();
+    }
+ 
+    private void OnCameraMove(InputValue value)
+    {
+        _stickDir = value.Get<Vector2>();
+    }
+    private void OnMouseDelta(InputValue value) 
+    {
+        _mouseDir = value.Get<Vector2>();
+    }
+    private void OnRanged_Attack()
+    {
+        _states[(int)CurState].OnRanged_Attack();
+    }
+    private void OnSpecial_Attack()
+    {
+        _states[(int)CurState].OnSpecial_Attack();
+    }
+    private void OnMelee_Attack()
+    {
+        _states[(int)CurState].OnMelee_Attack();
+    }
+
+    private void OnLoak_On()
+    {
+        _states[(int)CurState].OnLoak_On();
+    }
+    private void OnLoak_Off()
+    {
+        _states[(int)CurState].OnLoak_Off();
+    }
+    private void OnDash()
+    {
+        _states[(int)CurState].OnDash();
+    }
+    private void OnInteraction()
+    {
+        _states[(int)CurState].OnInteraction();
+    }
+    private void OnDrain()
+    {
+        _states[(int)CurState].OnDrain();
+    }
+    private void OnOpen_Settine()
+    {
+        _states[(int)CurState].OnOpen_Settine();
+    }
+
+    private void OnInvenOpen()
+    {
+        _states[(int)CurState].OnInvenOpen();
     }
     #endregion
 }
