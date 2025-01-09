@@ -126,7 +126,7 @@ public class PlayerView : MonoBehaviour
 
     private void Init()
     {
-        _animatorHashes[(int)Parameter.AttackSpeed] = Animator.StringToHash("FallSpeed");
+        _animatorHashes[(int)Parameter.AttackSpeed] = Animator.StringToHash("AttackSpeed");
         _animatorHashes[(int)Parameter.Idle] = Animator.StringToHash("Idle");
         _animatorHashes[(int)Parameter.Run] = Animator.StringToHash("Run");
         _animatorHashes[(int)Parameter.OnCombo] = Animator.StringToHash("OnCombo");

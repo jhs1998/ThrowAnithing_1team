@@ -22,6 +22,8 @@ public class BalanceArm : ArmUnit
     public override void Init(PlayerController player)
     {
         base.Init(player);
+        Model.NowWeapon = GlobalGameData.AmWeapon.Balance;
+
         Model.DashStamina = (int)(Model.GlobalStateData.dashConsumesStamina * (_init.DashStamina / 100f));
         Model.DashDistance = (int)(Model.GlobalStateData.dashDistance * (_init.DashDistance / 100f));
 

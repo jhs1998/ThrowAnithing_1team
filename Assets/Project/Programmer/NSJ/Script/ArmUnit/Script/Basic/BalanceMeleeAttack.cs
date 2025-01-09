@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Balance Melee", menuName = "Arm/AttackType/Balance/Melee")]
 public class BalanceMeleeAttack : ArmMeleeAttack
 {
+    [Header("스테미나 소모량")]
+    public float StaminaAmount;
     [SerializeField] float _range;
     [SerializeField] int _damage;
     [Range(0,180)][SerializeField] float _angle;

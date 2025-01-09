@@ -40,7 +40,8 @@ public class ObjectPool : MonoBehaviour
         }
         return pool;
     }
-    public GameObject GetPool(GameObject prefab)
+    #region GetPool
+    public GameObject GetPool(GameObject prefab) 
     {
         PoolInfo info = FindPool(prefab);
         if (info.Pool.Count > 0)
@@ -76,7 +77,7 @@ public class ObjectPool : MonoBehaviour
             return instance;
         }
     }
-    public GameObject GetPool(GameObject prefab, Transform transform, bool worldPositionStay)
+    public GameObject GetPool(GameObject prefab, Transform transform, bool worldPositionStay) 
     {
         PoolInfo info = FindPool(prefab);
         if (info.Pool.Count > 0)
@@ -121,13 +122,104 @@ public class ObjectPool : MonoBehaviour
             return instance;
         }
     }
-    public void ReturnPool(GameObject prefab, GameObject instance)
+    public GameObject GetPool<T>(T prefab) where T : Component
     {
-        PoolInfo info = FindPool(prefab);
+        PoolInfo info = FindPool(prefab.gameObject);
+        if (info.Pool.Count > 0)
+        {
+            GameObject instance = info.Pool.Dequeue();
+            instance.gameObject.SetActive(true);
+            instance.transform.position = Vector3.zero;
+            instance.transform.rotation = Quaternion.identity;
+            instance.transform.SetParent(null);
+            return instance;
+        }
+        else
+        {
+            GameObject instance = Instantiate(info.Prefab);
+            return instance;
+        }
+    }
+    public GameObject GetPool<T>(T prefab, Transform transform) where T : Component
+    {
+        PoolInfo info = FindPool(prefab.gameObject);
+        if (info.Pool.Count > 0)
+        {
+            GameObject instance = info.Pool.Dequeue();
+            instance.gameObject.SetActive(true);
+            instance.transform.SetParent(transform);
+            instance.transform.position = transform.position;
+            instance.transform.rotation = transform.rotation;
+            return instance;
+        }
+        else
+        {
+            GameObject instance = Instantiate(info.Prefab, transform);
+            return instance;
+        }
+    }
+    public GameObject GetPool<T>(T prefab, Transform transform, bool worldPositionStay) where T : Component
+    {
+        PoolInfo info = FindPool(prefab.gameObject);
+        if (info.Pool.Count > 0)
+        {
+            GameObject instance = info.Pool.Dequeue();
+            instance.gameObject.SetActive(true);
+            instance.transform.SetParent(transform);
+            if (worldPositionStay == true)
+            {
+                instance.transform.position = prefab.transform.position;
+                instance.transform.rotation = prefab.transform.rotation;
+            }
+            else
+            {
+                instance.transform.position = transform.position;
+                instance.transform.rotation = transform.rotation;
+            }
+
+            return instance;
+        }
+        else
+        {
+            GameObject instance = Instantiate(info.Prefab, transform, worldPositionStay);
+            return instance;
+        }
+    }
+    public GameObject GetPool<T>(T prefab, Vector3 pos, Quaternion rot) where T : Component
+    {
+        PoolInfo info = FindPool(prefab.gameObject);
+        if (info.Pool.Count > 0)
+        {
+            GameObject instance = info.Pool.Dequeue();
+            instance.gameObject.SetActive(true);
+            instance.transform.position = pos;
+            instance.transform.rotation = rot;
+            instance.transform.SetParent(null);
+            return instance;
+        }
+        else
+        {
+            GameObject instance = Instantiate(info.Prefab, pos, rot);
+            return instance;
+        }
+    }
+    #endregion
+    #region ReturnPool
+    public void ReturnPool(GameObject prefab, GameObject instance) 
+    {
+        PoolInfo info = FindPool(prefab.gameObject);
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
         info.Pool.Enqueue(instance);
     }
+    public void ReturnPool<T>(T prefab, GameObject instance) where T : Component
+    {
+        PoolInfo info = FindPool(prefab.gameObject);
+        instance.transform.SetParent(info.Parent);
+        instance.gameObject.SetActive(false);
+        info.Pool.Enqueue(instance);
+    }
+    #endregion
     private PoolInfo FindPool(GameObject poolPrefab)
     {
         PoolInfo pool = default;
