@@ -47,7 +47,8 @@ public class MeleeEnemy : BaseEnemy
 
             int finalDamage = state.Atk;
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage, true);
+            Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage);
+            Battle.TargetCrowdControl(overLapCollider[i], CrowdControlType.Stiff);
         }
     }
 }

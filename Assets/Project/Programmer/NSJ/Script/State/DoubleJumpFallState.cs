@@ -119,7 +119,6 @@ public class DoubleJumpFallState : PlayerState
             }
             if (InputKey.GetButtonDown(InputKey.Throw) && Player.IsJumpAttack == false)
             {
-                Debug.Log(1231);
                 Player.IsJumpAttack = true;
                 ChangeState(PlayerController.State.JumpAttack);
                 break;
