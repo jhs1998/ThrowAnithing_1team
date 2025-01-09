@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DashState : PlayerState
@@ -73,6 +74,21 @@ public class DashState : PlayerState
             _isDashEnd = true;
             View.SetTrigger(PlayerView.Parameter.DashEnd);
             Rb.velocity = transform.forward * Model.MoveSpeed;
+        }
+    }
+
+    IEnumerator DashEndRoutine()
+    {
+        float speed = Model.MoveSpeed * 2;
+        while (true)
+        {
+            Rb.velocity = transform.forward * speed;
+            speed -= Time.deltaTime * 5f;
+            if(speed < 0)
+            {
+                yield break;
+            }
+            yield return null;
         }
     }
 }

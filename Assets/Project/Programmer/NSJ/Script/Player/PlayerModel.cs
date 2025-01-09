@@ -9,7 +9,7 @@ using Zenject;
 
 public class PlayerModel : MonoBehaviour, IDebuff
 {
-    [SerializeField] private bool _isTest;
+    public bool IsTest;
     [Inject]
     public PlayerData Data;
     [Inject]
@@ -209,7 +209,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
         {
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);
         }
-        if (_isTest == true)
+        if (IsTest == true)
         {
             GlobalStateData.NewPlayerSetting();
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);

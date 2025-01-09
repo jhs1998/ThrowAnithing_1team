@@ -774,7 +774,7 @@ RectTransform:
   m_Father: {fileID: 5033439015975157952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4588,7 +4588,7 @@ MonoBehaviour:
   m_MinValue: 0.1
   m_MaxValue: 5
   m_WholeNumbers: 0
-  m_Value: 0.1
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5683,6 +5683,7 @@ GameObject:
   - component: {fileID: 7910520815345278224}
   - component: {fileID: 3199291388309994653}
   - component: {fileID: 1145048388065175752}
+  - component: {fileID: 6823506511874326912}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -5733,7 +5734,7 @@ MonoBehaviour:
   View: {fileID: 0}
   Rb: {fileID: 0}
   Battle: {fileID: 0}
-  Pool: {fileID: 0}
+  Input: {fileID: 0}
   CurState: 0
   PrevState: 0
   _attackStruct:
@@ -5747,7 +5748,7 @@ MonoBehaviour:
     CamaraArm: {fileID: 9014614328725180885}
     CameraPos: {fileID: 4475608190294418112}
     CameraRotateAngle: 50
-    CameraRotateSpeed: 5
+    CameraRotateSpeed: 10
     CameraHolder: {fileID: 8944618903180294510}
     IsVerticalCameraMove: 0
   _checkStruct:
@@ -6217,6 +6218,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 4078535065578860198}
   isSceneAdditive: 0
+--- !u!114 &6823506511874326912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078535065578860198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: e6a6245cdcff6044b88edc5f2f27f0f8, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &4137597439832962696
 GameObject:
   m_ObjectHideFlags: 0
@@ -6638,7 +6669,7 @@ RectTransform:
   m_Father: {fileID: 5753239608580151701}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10244,7 +10275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6218232794442157312
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13115,6 +13146,30 @@ PrefabInstance:
     - target: {fileID: 4075485199068734847, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
       propertyPath: m_SortingOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470238624191142904, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470238624191142904, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470238624191142904, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470238624191142904, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470238624191142904, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470238624191142904, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4472155848445627505, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
       propertyPath: m_AnchorMax.y

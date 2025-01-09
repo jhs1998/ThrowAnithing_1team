@@ -33,6 +33,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "MouseDelta",
+                    "type": "Value",
+                    "id": "f6b6d70a-d90c-4289-8860-c4c974ddddaa",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Ranged_Attack",
                     "type": "Button",
                     "id": "cbd15591-aa42-4a43-96f2-e04f9b455d6c",
@@ -279,42 +288,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Mouse",
-                    "id": "f87e5971-dc64-4bd5-b658-b321fdaed91a",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CameraMove",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "positive",
-                    "id": "b60d6d03-3950-4ba5-866f-a35ba95c0637",
-                    "path": "<Mouse>/delta/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";PC",
-                    "action": "CameraMove",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Negative",
-                    "id": "85f04cfa-2a33-4dff-8c04-44ded34f7bcf",
-                    "path": "<Mouse>/delta/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";PC",
-                    "action": "CameraMove",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
+                    "name": "Stick",
                     "id": "356e86dd-0398-4c28-bfd5-c1c9527e198c",
-                    "path": "1DAxis",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -323,9 +299,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Positive",
+                    "name": "Up",
                     "id": "23c89da1-ccda-497b-82d3-9aac4ea86726",
-                    "path": "<Gamepad>/rightStick/right",
+                    "path": "<Gamepad>/rightStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Console",
@@ -334,9 +310,31 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Negative",
+                    "name": "Down",
                     "id": "e3d33421-0a3e-493a-9e54-34fb34cc8c3e",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Console",
+                    "action": "CameraMove",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Left",
+                    "id": "b710a302-7e29-47ab-baf0-05ed448ee92b",
                     "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Console",
+                    "action": "CameraMove",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "cbbca23a-1d63-4b37-9b80-907f1f02eb21",
+                    "path": "<Gamepad>/rightStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Console",
@@ -781,6 +779,61 @@
                     "processors": "",
                     "groups": ";Console",
                     "action": "InvenOpen",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Mouse",
+                    "id": "f87e5971-dc64-4bd5-b658-b321fdaed91a",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseDelta",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Up",
+                    "id": "b60d6d03-3950-4ba5-866f-a35ba95c0637",
+                    "path": "<Mouse>/delta/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";PC",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "85f04cfa-2a33-4dff-8c04-44ded34f7bcf",
+                    "path": "<Mouse>/delta/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";PC",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Left",
+                    "id": "a9d63932-a190-40a6-a1ea-f07ec7c8e7fe",
+                    "path": "<Mouse>/delta/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";PC",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "c6ebb843-496f-49c8-bd13-673411e881be",
+                    "path": "<Mouse>/delta/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";PC",
+                    "action": "MouseDelta",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

@@ -16,7 +16,7 @@ public class OptionSetting : MonoBehaviour
 
     // 화면 속도 감도 1~5
     [Range(0.01f, 3f)]
-    public float cameraSpeed;
+    public float cameraSpeed = 3;
 
     // 미니맵 온오프 기능 저장 1 = on , 0 = off
     public bool miniMapOnBool;
