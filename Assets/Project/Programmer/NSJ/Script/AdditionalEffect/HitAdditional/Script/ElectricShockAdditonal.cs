@@ -8,6 +8,12 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Electric Shock")]
 public class ElectricShockAdditonal : HitAdditional
 {
+    [System.Serializable]
+    struct EffectStrcut
+    {
+        public GameObject EffectPrefab;
+        [HideInInspector] public GameObject Effect;
+    }
     [Header("이속감소량(%)")]
     [Range(0, 100)]
     [SerializeField] private float _moveSpeedReduction;
@@ -15,15 +21,17 @@ public class ElectricShockAdditonal : HitAdditional
     [Range(0, 100)]
     [SerializeField] private float _attackSpeedReduction;
 
+    [SerializeField] EffectStrcut _effect;
+
     private float _decreaseMoveSpeedEnemyValue;
     private float _decreaseAttackSpeedEnemyValue;
     public override void Enter()
     { 
         if(_debuffRoutine == null)
         {
-            _debuffRoutine = CoroutineHandler.StartRoutine(DurationRoutine());
-
+            CreateEffect();
             ChangeValue(true);
+            _debuffRoutine = CoroutineHandler.StartRoutine(DurationRoutine());
         }
     }
     public override void Exit()
@@ -34,6 +42,7 @@ public class ElectricShockAdditonal : HitAdditional
             _debuffRoutine = null;
             // 깎인 양 만큼 복구
             ChangeValue(false);
+            Destroy(_effect.Effect);
         }
     }
 
@@ -105,5 +114,11 @@ public class ElectricShockAdditonal : HitAdditional
             SetEnemyAttackSpeed(enemyAttackSpeed);
 
         }
+    }
+
+    private void CreateEffect()
+    {
+        _effect.Effect = Instantiate(_effect.EffectPrefab, transform);
+        _effect.Effect.transform.position = Battle.HitPoint.position;
     }
 }

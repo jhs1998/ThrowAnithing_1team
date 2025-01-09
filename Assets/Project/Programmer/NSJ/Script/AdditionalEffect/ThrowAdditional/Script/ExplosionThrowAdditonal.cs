@@ -4,8 +4,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ExplosionThrow", menuName = "AdditionalEffect/Throw/ExplosionThrow")]
 public class ExplosionThrowAdditonal : ThrowAdditional
 {
-    [SerializeField] private GameObject _expolsionEffect;
-    [SerializeField] private float _maxScaleEffectTime;
+    [System.Serializable]
+    struct EffectStrcut
+    {
+        public GameObject EffectPrefab;
+        [HideInInspector] public GameObject Effect;
+        public float EffectDuration;
+    }
+    [SerializeField] EffectStrcut _effect;
+   
 
     [Header("Æø¹ß ¹üÀ§")]
     [SerializeField] private float _explosionRange;
@@ -13,6 +20,12 @@ public class ExplosionThrowAdditonal : ThrowAdditional
     [SerializeField] private float _explosionDamage;
 
     private int damage => (int)(_throwObject.Damage * _explosionDamage/ 100);
+
+    private ExplotionThrowEffectPool _pool;
+    public override void Enter()
+    {
+        _pool = Player.CreateNewPool<ExplotionThrowEffectPool>(_effect.EffectPrefab ,nameof(ExplotionThrowEffectPool));
+    }
 
 
     public override void Exit()
@@ -48,23 +61,8 @@ public class ExplosionThrowAdditonal : ThrowAdditional
 
     IEnumerator ShowEffectRoutine()
     {
-        GameObject instance = Instantiate(_expolsionEffect, _throwObject.transform.position, _throwObject.transform.rotation);
-        while (true)
-        {
-            // ÀÌÆåÆ® Á¡Á¡ Ä¿Áü
-            instance.transform.localScale = new Vector3(
-              instance.transform.localScale.x + _explosionRange * 2 * Time.deltaTime * (1 / _maxScaleEffectTime),
-              instance.transform.localScale.y + _explosionRange * 2 * Time.deltaTime * (1 / _maxScaleEffectTime),
-              instance.transform.localScale.z + _explosionRange * 2 * Time.deltaTime * (1 / _maxScaleEffectTime));
-            if (instance.transform.localScale.x > _explosionRange * 2)
-            {
-                break;
-            }
-            yield return null;
-        }
-
-        Destroy(instance);
+        _effect.Effect = _pool.GetPool(_throwObject.transform.position, _throwObject.transform.rotation);
+        yield return _effect.EffectDuration.GetDelay();
+        _pool.ReturnPool(_effect.Effect);
     }
-
-
 }

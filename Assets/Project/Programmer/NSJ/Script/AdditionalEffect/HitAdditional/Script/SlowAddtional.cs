@@ -5,8 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Slow", menuName = "AdditionalEffect/Hit/Slow")]
 public class SlowAddtional : HitAdditional
 {
+    [System.Serializable]
+    struct EffectStrcut
+    {
+        public GameObject EffectPrefab;
+        [HideInInspector] public GameObject Effect;
+    }
     [Header("이속 감소량(%)")]
     [SerializeField] public float SlowAmount;
+    [SerializeField] EffectStrcut _effect;
 
 
     private float _decreaseMoveSpeedEnemyValue;
@@ -15,7 +22,7 @@ public class SlowAddtional : HitAdditional
         if (_debuffRoutine == null)
         {
             _debuffRoutine = CoroutineHandler.StartRoutine(DurationRoutine());
-
+            CreateEffect();
             ChangeValue(true);
         }
     }
@@ -27,6 +34,7 @@ public class SlowAddtional : HitAdditional
             _debuffRoutine = null;
             // 깎인 양 만큼 복구
             ChangeValue(false);
+            Destroy(_effect.Effect);
         }
     }
 
@@ -84,5 +92,12 @@ public class SlowAddtional : HitAdditional
             enemyMoveSpeed += _decreaseMoveSpeedEnemyValue;
             SetEnemyMoveSpeed(enemyMoveSpeed);
         }
+    }
+
+
+    private void CreateEffect()
+    {
+        _effect.Effect = Instantiate(_effect.EffectPrefab, transform);
+        _effect.Effect.transform.position = transform.position;
     }
 }
