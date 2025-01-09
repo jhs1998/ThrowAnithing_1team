@@ -9,5 +9,9 @@ public class PowerArm : ArmUnit
     {
         base.Init(player);
         Model.DashStamina = (int)(Model.GlobalStateData.dashConsumesStamina);
+        Model.DashDistance = (int)(Model.GlobalStateData.dashDistance);
+
+        Model.DrainDistance = Model.Drain.Default.DrainDistance;
+        Model.DrainStamina = Model.Drain.Default.DrainStamina;
     }
 }

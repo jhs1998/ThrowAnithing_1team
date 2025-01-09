@@ -146,10 +146,18 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade; } set { Data.EquipmentDropUpgrade = value; } }
 
     public float BoomRadius;
+
+    [System.Serializable]
+    public struct DefaultDrainStruct
+    {
+        public float DrainDistance;
+        public float DrainStamina;
+    }
     // TODO : 인스펙터 정리 필요
     [System.Serializable]
     public struct DrainStruct
     {
+        public DefaultDrainStruct Default;
         public float DrainDistance;
         public float DrainDistanceMultyPlier;
         public float DrainStamina;
@@ -204,12 +212,13 @@ public class PlayerModel : MonoBehaviour, IDebuff
         if (_isTest == true)
         {
             GlobalStateData.NewPlayerSetting();
-            Debug.Log($"원거리 데미지: {GlobalStateData.longRangeAttack[0]}");
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);
             RegainStamina = 100;
             RegainMana[0] = 100;
         }
 
+        DrainDistance = Drain.Default.DrainDistance;
+        DrainStamina = Drain.Default.DrainStamina;
         JumpDownStamina = 40;
         CriticalDamage = 200;
         StaminaCoolTime = 1;
