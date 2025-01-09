@@ -109,11 +109,11 @@ public class BalanceMeleeAttack : ArmMeleeAttack
             if (Player.CurState != PlayerController.State.MeleeAttack)
                 yield break;
 
-            if (InputKey.GetButtonDown(InputKey.PrevMelee))
+            if (InputKey.GetButtonDown(InputKey.Melee))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
             }
-            else if (InputKey.GetButtonDown(InputKey.PrevThrow))
+            else if (InputKey.GetButtonDown(InputKey.Throw))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
             }

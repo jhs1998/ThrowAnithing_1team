@@ -33,30 +33,6 @@ public class InputKey : MonoBehaviour
     /// </summary>
     public static InputManagerStruct MouseY;
     /// <summary>
-    /// Mouse 0, B
-    /// </summary>
-    public static InputManagerStruct PrevThrow;
-    /// <summary>
-    /// Mouse 1, Y
-    /// </summary>
-    public static InputManagerStruct PrevSpecial;
-    /// <summary>
-    /// Space , A
-    /// </summary>
-    public static InputManagerStruct PrevJump;
-    /// <summary>
-    /// v , X
-    /// </summary>
-    public static InputManagerStruct PrevMelee;
-    /// <summary>
-    /// Tab , LT
-    /// </summary>
-    public static InputManagerStruct RockOn;
-    /// <summary>
-    /// C , LB
-    /// </summary>
-    public static InputManagerStruct RockCancel;
-    /// <summary>
     ///  C , D-pad Up
     /// </summary>
     //public static InputManagerStruct Negative;     임시 삭제
@@ -64,14 +40,6 @@ public class InputKey : MonoBehaviour
     ///  E , RB
     /// </summary>
     public static InputManagerStruct PrevInteraction;
-    /// <summary>
-    /// Left Shift , RT
-    /// </summary>
-    public static InputManagerStruct PrevDash;
-    /// <summary>
-    ///  Q, LS
-    /// </summary>
-    public static InputManagerStruct PrevDrain;
     /// <summary>
     ///  esc, Start
     /// </summary>
@@ -112,15 +80,8 @@ public class InputKey : MonoBehaviour
         Vertical = IGetInputStruct("Vertical", AxisInputManager.Axis);
         MouseX = IGetInputStruct("Mouse X", AxisInputManager.Axis);
         MouseY = IGetInputStruct("Mouse Y", AxisInputManager.Axis);
-        PrevThrow = IGetInputStruct("Throw", AxisInputManager.None);
-        PrevSpecial = IGetInputStruct("Special", AxisInputManager.None);
-        PrevJump = IGetInputStruct("Jump", AxisInputManager.None);
-        PrevMelee = IGetInputStruct("Melee", AxisInputManager.None);
-        RockOn = IGetInputStruct("Rock On", AxisInputManager.AxisUp);
         //Negative = IGetInputStruct("Negative", AxisInputManager.AxisUp);
         PrevInteraction = IGetInputStruct("Interaction", AxisInputManager.None);
-        PrevDash = IGetInputStruct("Dash", AxisInputManager.AxisUp);
-        PrevDrain = IGetInputStruct("Drain", AxisInputManager.None);
         Cancel = IGetInputStruct("Cancel", AxisInputManager.None);
         Inventory = IGetInputStruct("Inventory", AxisInputManager.AxisDown);
         Cheat = IGetInputStruct("Cheat", AxisInputManager.None);
@@ -128,7 +89,6 @@ public class InputKey : MonoBehaviour
         Decomposition = IGetInputStruct("Decomposition", AxisInputManager.None);
         InventoryEquip = IGetInputStruct("InventoryEquip", AxisInputManager.None);
         PopUpClose = IGetInputStruct("PopUp Close", AxisInputManager.AxisUp);
-        RockCancel = IGetInputStruct("Rock Cancel", AxisInputManager.None);
     }
     /// <summary>
     /// 버튼을 누르는 도중 호출
@@ -426,8 +386,10 @@ public class InputKey : MonoBehaviour
     public static InputStruct InvenOpen;
 
 
-    private static Dictionary<Action, InputStruct> _inputStructDic = new Dictionary<Action, InputStruct>();
-    private static List<InputStruct> _inputStructs = new List<InputStruct>();
+    private Dictionary<Action, InputStruct> m_inputStructDic = new Dictionary<Action, InputStruct>();
+    private static Dictionary<Action, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
+    private  List<InputStruct> m_inputStructs = new List<InputStruct>();
+    private static List<InputStruct> _inputStructs { get { return Instance.m_inputStructs; } }
 
 
     private void Awake()

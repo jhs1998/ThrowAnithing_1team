@@ -754,19 +754,12 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void ChackInput()
     {
-        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
-        float z = InputKey.GetAxisRaw(InputKey.Vertical);
-        MoveDir = new Vector3(x, 0, z);
+        Vector2 inputDir = InputKey.GetAxis(InputKey.Move);
+        MoveDir = new Vector3(inputDir.x, 0, inputDir.y);
 
         if (IsTargetHolding == false && IsTargetToggle == false)
         {
-            //if (input.GetMouseButtonDown(2))
-            //{
-            //    //TODO: 카메라 몬스터 홀딩 기능
-            //    IsTargetHolding = true;
-            //    _cameraHolder.gameObject.SetActive(true);
-            //}
-            if (InputKey.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
+            if (InputKey.GetButtonDown(InputKey.LoakOn) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 기능
                 IsTargetToggle = true;
@@ -781,7 +774,7 @@ public class PlayerController : MonoBehaviour, IHit
             //    IsTargetHolding = false;
             //    _cameraHolder.gameObject.SetActive(false);
             //}
-            if (InputKey.GetButtonDown(InputKey.RockCancel) && IsTargetHolding == false)
+            if (InputKey.GetButtonDown(InputKey.LoakOff) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기
                 IsTargetToggle = false;
@@ -794,7 +787,7 @@ public class PlayerController : MonoBehaviour, IHit
         if (IsDead == true || IsHit == true)
             return;
 
-        if (InputKey.GetButtonDown(InputKey.PrevDash) && CurState != State.Dash && CurState != State.JumpDown)
+        if (InputKey.GetButtonDown(InputKey.Dash) && CurState != State.Dash && CurState != State.JumpDown)
         {
             ChangeState(PlayerController.State.Dash);
         }
@@ -971,6 +964,8 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCameraStick()
     {
+        Vector2 mouseDir = InputKey.GetAxis(InputKey.CameraMove);
+
         float angleX = _stickDir.x * _stickRotateSpeed;
 
         float rotateSpeed = 1;
@@ -989,7 +984,9 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCameraMouse()
     {
-        float angleX = _mouseDir.x * _mouseRotateSpeed;
+        Vector2 mouseDir= InputKey.GetAxis(InputKey.MouseDelta);
+
+        float angleX = mouseDir.x * _mouseRotateSpeed;
 
         float rotateSpeed = 1;
         if (Model.IsTest == false)
@@ -1220,70 +1217,6 @@ public class PlayerController : MonoBehaviour, IHit
     private void TakeDamageCallback(int damage, bool isCritical)
     {
 
-    }
-    #endregion
-    #region 인풋시스템 콜백
-    private void OnMove(InputValue value)
-    {
-        Vector2 valueVector2 = value.Get<Vector2>();
-        Vector3 valueVector3 = new Vector3(valueVector2.x, 0, valueVector2.y);
-        MoveDir = valueVector3;
-        _states[(int)CurState].OnMove(valueVector3);
-    }
-    private void OnJump()
-    {
-        _states[(int)CurState].OnJump();
-    }
- 
-    private void OnCameraMove(InputValue value)
-    {
-        _stickDir = value.Get<Vector2>();
-    }
-    private void OnMouseDelta(InputValue value) 
-    {
-        _mouseDir = value.Get<Vector2>();
-    }
-    private void OnRanged_Attack(InputValue value)
-    {
-        _states[(int)CurState].OnRanged_Attack();
-    }
-    private void OnSpecial_Attack()
-    {
-        _states[(int)CurState].OnSpecial_Attack();
-    }
-    private void OnMelee_Attack()
-    {
-        _states[(int)CurState].OnMelee_Attack();
-    }
-
-    private void OnLoak_On()
-    {
-        _states[(int)CurState].OnLoak_On();
-    }
-    private void OnLoak_Off()
-    {
-        _states[(int)CurState].OnLoak_Off();
-    }
-    private void OnDash()
-    {
-        _states[(int)CurState].OnDash();
-    }
-    private void OnInteraction()
-    {
-        _states[(int)CurState].OnInteraction();
-    }
-    private void OnDrain()
-    {
-        _states[(int)CurState].OnDrain();
-    }
-    private void OnOpen_Settine()
-    {
-        _states[(int)CurState].OnOpen_Settine();
-    }
-
-    private void OnInvenOpen()
-    {
-        _states[(int)CurState].OnInvenOpen();
     }
     #endregion
 }

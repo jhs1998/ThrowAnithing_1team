@@ -93,11 +93,11 @@ public class BalanceThrowAttack : ArmThrowAttack
             if (Player.CurState != PlayerController.State.ThrowAttack)
                 yield break;
 
-            if (InputKey.GetButtonDown(InputKey.PrevThrow))
+            if (InputKey.GetButtonDown(InputKey.Throw))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
             }
-            else if (InputKey.GetButtonDown(InputKey.PrevMelee))
+            else if (InputKey.GetButtonDown(InputKey.Melee))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
             }

@@ -115,7 +115,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
             Move();
             ProcessCharge();
 
-            if (InputKey.GetButtonUp(InputKey.PrevMelee))
+            if (InputKey.GetButtonUp(InputKey.Melee))
             {
                 Player.IsInvincible = true;
 

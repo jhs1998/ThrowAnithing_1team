@@ -96,7 +96,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
             Move();
             ProcessCharge();
 
-            if (InputKey.GetButtonUp(InputKey.PrevSpecial))
+            if (InputKey.GetButtonUp(InputKey.Special))
             {
                 Model.SpecialChargeGage = 0;
                 if (_instanceDropObject)

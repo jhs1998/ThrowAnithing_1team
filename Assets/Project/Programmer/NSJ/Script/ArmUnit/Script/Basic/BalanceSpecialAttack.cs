@@ -101,7 +101,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         while (true)
         {
             ProcessCharge();
-            if (InputKey.GetButtonUp(InputKey.PrevSpecial))
+            if (InputKey.GetButtonUp(InputKey.Special))
             {
                 ChangeState(PlayerController.State.SpecialAttack);   
                 yield break;

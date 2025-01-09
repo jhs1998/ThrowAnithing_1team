@@ -80,7 +80,7 @@ public class PowerThrowAttack : ArmThrowAttack
             ProcessCharge();
 
             // 차지 해제 시 던지는 애니메이션 실행
-            if (InputKey.GetButtonUp(InputKey.PrevThrow))
+            if (InputKey.GetButtonUp(InputKey.Throw))
             {
                 ChargeEnd();
                 break;

@@ -130,13 +130,13 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.Idle] = Animator.StringToHash("Idle");
         _animatorHashes[(int)Parameter.Run] = Animator.StringToHash("Run");
         _animatorHashes[(int)Parameter.OnCombo] = Animator.StringToHash("OnCombo");
-        _animatorHashes[(int)Parameter.Jump] = Animator.StringToHash("PrevJump");
+        _animatorHashes[(int)Parameter.Jump] = Animator.StringToHash("Jump");
         _animatorHashes[(int)Parameter.DoubleJump] = Animator.StringToHash("DoubleJump");
         _animatorHashes[(int)Parameter.Fall] = Animator.StringToHash("Fall");
         _animatorHashes[(int)Parameter.Landing] = Animator.StringToHash("Landing");
-        _animatorHashes[(int)Parameter.Dash] = Animator.StringToHash("PrevDash");
+        _animatorHashes[(int)Parameter.Dash] = Animator.StringToHash("Dash");
         _animatorHashes[(int)Parameter.DashEnd] = Animator.StringToHash("DashEnd");
-        _animatorHashes[(int)Parameter.Drain] = Animator.StringToHash("PrevDrain");
+        _animatorHashes[(int)Parameter.Drain] = Animator.StringToHash("Drain");
         _animatorHashes[(int)Parameter.Charge] = Animator.StringToHash("Charge");
         _animatorHashes[(int)Parameter.ChargeEnd] = Animator.StringToHash("ChargeEnd");
         _animatorHashes[(int)Parameter.ChargeCancel] = Animator.StringToHash("ChargeCancel");
