@@ -118,7 +118,7 @@ public class Pause : Main_Option
             switch (curMenu_p)
             {
                 case 0:
-                    _ContinueButton();
+                    Pause_ContinueButton();
                     break;
 
                 case 1:
@@ -127,23 +127,23 @@ public class Pause : Main_Option
                     break;
 
                 case 2:
-                    _ExitButton();
+                    Pause_ExitButton();
                     break;
             }
         }
     }
 
-    public void _ContinueButton()
+    public void Pause_ContinueButton()
     {
         Panel.ChangeBundle(PausePanel.Bundle.None);
     }
 
-    public void _OptionButton()
+    public void Pause_OptionButton()
     {
         Panel.ChangeBundle(PausePanel.Bundle.Option);
     }
 
-    public void _ExitButton()
+    public void Pause_ExitButton()
     {
         exitPopUpObj_p.SetActive(true);
     }

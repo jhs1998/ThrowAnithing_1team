@@ -14,4 +14,5 @@ public class SceneName
     public const string Hidden2 = "CombineHidden2";
     public const string Hidden3 = "CombineHidden3";
     public const string ToLobbyLoading = "CombineToLobbyLoading";
+    public const string ToStageLoading = "CombineToStageLoading";
 }

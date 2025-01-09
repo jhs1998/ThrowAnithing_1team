@@ -7,7 +7,10 @@ public class PortalSceneNumber : MonoBehaviour
     [SerializeField] public SceneField nextScene;
     [SerializeField] public SceneField[] hiddenSceneArr;
 
-
+    private void Start()
+    {
+        ToStage._ToStage();
+    }
 
 
 }

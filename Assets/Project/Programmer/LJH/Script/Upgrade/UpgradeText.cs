@@ -15,8 +15,7 @@ public class UpgradeText : MonoBehaviour
 
     private void OnEnable()
     {
-        // 임시로 EditorOnly 태그 박아넣음
-        canvas = GameObject.FindWithTag(Tag.EditorOnly).GetComponent<Canvas>();
+        canvas = GameObject.FindWithTag(Tag.Canvas).GetComponent<Canvas>();
         gameObject.transform.SetParent(canvas.transform);
         backCol = gameObject.GetComponent<Image>().color;
         textCol = gameObject.GetComponentInChildren<TMP_Text>().color;

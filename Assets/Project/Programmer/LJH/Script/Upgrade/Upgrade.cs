@@ -133,8 +133,8 @@ public class Upgrade : BaseUI
     void Slot_Selected()
     {
 
-        float x = InputKey.GetAxis(InputKey.Horizontal);
-        float y = -InputKey.GetAxis(InputKey.Vertical);
+        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
+        float y = -InputKey.GetAxisRaw(InputKey.Vertical);
 
         if (x > 0)
         {
@@ -237,19 +237,6 @@ public class Upgrade : BaseUI
         }
     }
 
-
-    //5강이 찍힌 특성에 강화 완료 표시 노출되게
-    void ShowMaxSlot()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                int index = i * 4 + j;
-                slots[i, j].transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(slotMaxCheck[index]);
-            }
-        }
-    }
     
     //슬롯 클릭시
     void ClickedSlots(Button button)
