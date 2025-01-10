@@ -433,6 +433,11 @@ public class InputKey : MonoBehaviour
 
     private void LateUpdate()
     {
+        foreach (InputManagerStruct inputStruct in inputStructs)
+        {
+            ISetPrevPress(InputStructDic[inputStruct.Name], InputStructDic[inputStruct.Name].CurPress);
+        }
+
         foreach (InputStruct inputStruct in _inputStructs)
         {
             SetPrevPress(_inputStructDic[inputStruct.Name], _inputStructDic[inputStruct.Name].CurPress);
