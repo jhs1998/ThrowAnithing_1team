@@ -6,7 +6,7 @@ namespace MKH
 {
     public class BlueChipChoicePanelTest : MonoBehaviour
     {
-        [SerializeField] Button button;
+        [SerializeField] public Button button;
         [SerializeField] GameObject blueChipSlotsParent;
         [SerializeField] public BlueChipSlot[] blueChipSlots;
 
