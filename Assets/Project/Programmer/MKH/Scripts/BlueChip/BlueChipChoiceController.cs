@@ -22,13 +22,13 @@ namespace MKH
         private void Awake()
         {
             _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-            //blueChipPanel = playerData.Inventory.BlueChipPanel;
-            //blueChipChoicePanel = playerData.Inventory.BlueChipChoicePanel;
         }
 
         public void Canecel()
         {
             gameObject.SetActive(false);
+            blueChipPanel = playerData.Inventory.BlueChipPanel;
+            blueChipChoicePanel = playerData.Inventory.BlueChipChoicePanel;
         }
 
         public void Choice(int number)
@@ -56,9 +56,9 @@ namespace MKH
 
         public void Remove()
         {
+            _player.RemoveAdditional(blueChipPanel.mSlots[popUpChoice].Effect);
             blueChipPanel.mSlots[popUpChoice].ClearSlot();
             blueChipChoicePanel.blueChipSlots[popUpChoice].ClearSlot();
-            _player.RemoveAdditional(blueChipPanel.mSlots[popUpChoice].Effect);
             popUp.SetActive(false);
             EventSystem.current.SetSelectedGameObject(blueChipChoicePanel.button.gameObject);
         }
