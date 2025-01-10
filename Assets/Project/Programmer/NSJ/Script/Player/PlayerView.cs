@@ -123,6 +123,9 @@ public class PlayerView : MonoBehaviour
 
     public void UpdateText(TMP_Text target, string text)
     {
+        if (target == null)
+            return;
+
         target.SetText(text);
     }
 
