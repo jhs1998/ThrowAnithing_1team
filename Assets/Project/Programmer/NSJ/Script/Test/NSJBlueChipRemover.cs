@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class NSJBlueChipRemover : MonoBehaviour
 {
-    [SerializeField] int index;
+    [SerializeField] AdditionalEffect effect;
     [SerializeField] TMP_Text nameText;
 
     private void Start()
     {
-        nameText.SetText($"Remove {index}");
+        nameText.SetText($"Remove {effect.Name}");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -18,9 +18,9 @@ public class NSJBlueChipRemover : MonoBehaviour
         if (other.gameObject.tag == Tag.Player)
         {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
-            if(player.Model.AdditionalEffects.Count > index)
+            if(player.Model.AdditionalEffects.Count > 0)
             {
-                player.RemoveAdditional(player.Model.AdditionalEffects[index]);
+                player.RemoveAdditional(effect);
             }
             
             // Destroy(gameObject);

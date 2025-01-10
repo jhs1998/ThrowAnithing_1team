@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
@@ -524,6 +525,12 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public void RemoveAdditional(AdditionalEffect addtionalEffect)
     {
+        int index = Model.AdditionalEffects.FindIndex(origin => origin.Origin.Equals(addtionalEffect.Origin));
+        if (index < 0)
+            return;
+
+        addtionalEffect = Model.AdditionalEffects[index];
+
         switch (addtionalEffect.AdditionalType)
         {
             case AdditionalEffect.Type.Hit:
