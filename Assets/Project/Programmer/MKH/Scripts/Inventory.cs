@@ -6,12 +6,12 @@ using Zenject;
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
-    [HideInInspector] InventoryController Controller;
-    [HideInInspector] EquipmentInventory EquipInventory;
-    [HideInInspector] InventoryMain InventoryMain;
-    [HideInInspector] BlueChipPanel BlueChipPanel;
-    [HideInInspector] BlueChipChoiceController BlueChipChoiceController;
-    [HideInInspector] BlueChipChoicePanel BlueChipChoicePanel;
+    [HideInInspector] public InventoryController Controller;
+    [HideInInspector] public EquipmentInventory EquipInventory;
+    [HideInInspector] public InventoryMain InventoryMain;
+    [HideInInspector] public BlueChipPanel BlueChipPanel;
+    [HideInInspector] public BlueChipChoiceController BlueChipChoiceController;
+    [HideInInspector] public BlueChipChoicePanel BlueChipChoicePanel;
     [SerializeField] public GameObject BlueChipChoice;
     [SerializeField] public GameObject ChoicePanel;
 
