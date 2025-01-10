@@ -467,7 +467,7 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
-        foreach(PlayerState state in _states)
+        foreach (PlayerState state in _states)
         {
             state.InitArm();
         }
@@ -984,7 +984,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCameraMouse()
     {
-        Vector2 mouseDir= InputKey.GetAxis(InputKey.MouseDelta);
+        Vector2 mouseDir = InputKey.GetAxis(InputKey.MouseDelta);
 
         float angleX = mouseDir.x * _mouseRotateSpeed;
 

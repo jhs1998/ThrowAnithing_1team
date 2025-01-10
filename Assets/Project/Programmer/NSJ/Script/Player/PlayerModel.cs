@@ -17,6 +17,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     [Inject]
     [HideInInspector] public GlobalGameData GameData;
 
+
     public ArmUnit Arm;
     #region Ã¼·Â
     public int MaxHp { get { return Data.MaxHp; } set { Data.MaxHp = value; } }

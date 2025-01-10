@@ -49,7 +49,6 @@ public class PlayerPanel : BaseUI
     }
     public void SetChargingMpHandle(int index, float value)
     {
-        Debug.Log($"{index}, {value} ");
         StepHandle[index].value = value;
     }
 }

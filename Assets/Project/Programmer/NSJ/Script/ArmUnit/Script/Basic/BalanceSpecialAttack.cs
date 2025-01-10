@@ -22,14 +22,22 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     [System.Serializable]
     struct SecondStruct
     {
+        public SpecialObject SpecialObject;
         public float Damage;
+        public float MiddleDamage;
         public float Range;
+        public float MiddleRange;
     }
     [System.Serializable]
     struct ThirdStruct
     {
+        public ElectricShockAdditonal ElectricShock;
+        public float AttackDelay;
         public float Damage;
+        public float MiddleDamage;
         public float Range;
+        public float MiddleRange;
+        public float ElectricShockDuration;
     }
 
     [SerializeField] private ChargeStruct[] _charges;
@@ -38,7 +46,6 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     [SerializeField] private ThirdStruct _third;
     private float _maxChargeTime => _charges[_charges.Length - 1].ChargeTime;
     private float _maxChargeMana => _charges[_charges.Length - 1].ChargeMana;
-    private bool _isChargeEnd;
     public override void Init(PlayerController player)
     {
         base.Init(player);
@@ -48,21 +55,25 @@ public class BalanceSpecialAttack : ArmSpecialAttack
             View.Panel.StepTexts[i].SetText(_charges[i].ObjectCount.GetText());
             View.Panel.SetChargingMpHandle(i, _charges[i].ChargeMana);
         }
+
+        // 감전 효과 클론으로 제작(수치 변경하기 위함)
+        _third.ElectricShock = Instantiate(_third.ElectricShock);
+        _third.ElectricShock.Duration = _third.ElectricShockDuration;
     }
     public override void Enter()
     {
-        if (_isChargeEnd == false 
+        if (_isSpecialCharge == false 
             && (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount || Model.CurMana < Model.ManaConsumption[0]))
         {
-            _isChargeEnd = false;
+            _isSpecialCharge = false;
             ChangeState(Player.PrevState);
             return;
         }
 
-        if (_isChargeEnd == false)
+        if (_isSpecialCharge == false)
         {
-            ChangeState(Player.PrevState);     
-            _isChargeEnd = true;
+            ChangeState(Player.PrevState);
+            _isSpecialCharge = true;
             CoroutineHandler.StartRoutine(ChargeRoutine());
         }
         else
@@ -71,7 +82,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
             if(_index < 0)
             {
                 Model.SpecialChargeGage = 0;
-                _isChargeEnd = false;
+                _isSpecialCharge = false;
                 ChangeState(Player.PrevState);
                 return;
             }
@@ -80,18 +91,25 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     }
     public override void Exit()
     {
-        if (_isChargeEnd == false)
+        if (_isSpecialCharge == false)
         {
             
         }
         else
         {
-         
-            _isChargeEnd = false;
+
+            _isSpecialCharge = false;
         }
         _index = 0;
     }
-
+    public override void OnTrigger()
+    {
+        SelectTrigger(_index);
+    }
+    public override void EndAnimation()
+    {
+        ChangeState(PlayerController.State.Idle);
+    }
     IEnumerator ChargeRoutine()
     {
         while (true)
@@ -141,6 +159,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
 
     private void SelectSpecialAttack(int index)
     {
+        Rb.velocity = Vector3.zero;
         // 차지 사용량만큼 제거
         Model.CurMana -= _charges[_index].ChargeMana;
         Model.SpecialChargeGage = 0;
@@ -149,8 +168,6 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         {
             Model.PopThrowObject();
         }
-
-
         switch (index) 
         {
             case 0:
@@ -164,6 +181,22 @@ public class BalanceSpecialAttack : ArmSpecialAttack
                 break;
         }
     }
+
+    private void SelectTrigger(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                break;
+            case 1:
+                ThrowSpecialObject();
+                break;
+            case 2:
+                Bombard();
+                break;
+        }
+    }
+
 
     /// <summary>
     /// 첫번째 특수
@@ -186,12 +219,38 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     private void ProcessSecondSpecial()
     {
         Debug.Log("두번쨰 특수기");
+        View.SetTrigger(PlayerView.Parameter.BalanceSpecial2);
     }
+    /// <summary>
+    /// 특수 투척물 던지기
+    /// </summary>
+    private void ThrowSpecialObject()
+    {
+        SpecialObject specialObject = ObjectPool.GetPool(_second.SpecialObject, _muzzlePoint.position, _muzzlePoint.rotation);
+        specialObject.Init(Player, CrowdControlType.None, Model.ThrowAdditionals);
+        specialObject.InitSpecial(_second.Damage, _second.MiddleDamage,_second.Range, _second.MiddleRange);
+        specialObject.Shoot(Player.ThrowPower);
+    }
+
     /// <summary>
     /// 세번째 특수
     /// </summary>
     private void ProcessThirdSpecial()
     {
         Debug.Log("세번쨰 특수기");
+        View.SetTrigger(PlayerView.Parameter.BalanceSpecial3);
+    }
+    /// <summary>
+    /// 포격하기
+    /// </summary>
+    private void Bombard()
+    {
+        CoroutineHandler.StartRoutine(BombardRoutine());
+    }
+
+    IEnumerator BombardRoutine()
+    {
+        
+        yield return _third.AttackDelay.GetDelay();
     }
 }
