@@ -45,9 +45,11 @@ public class DashCriticalAdditional : PlayerAdditional
     /// </summary>
     private void IncreaseCritical()
     {
+        if (_criticalCount == 0)
+        {
+            Model.CriticalChance += _increaseCritical;
+        }
         _criticalCount = _maxCriticalCount;
-
-        Model.CriticalChance += _increaseCritical;
     }
 
     /// <summary>
