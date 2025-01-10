@@ -217,6 +217,15 @@ public class PlayerController : MonoBehaviour, IHit
         if (Time.timeScale == 0)
             return;
 
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            ChangeArmUnit(GlobalGameData.AmWeapon.Power);
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            ChangeArmUnit(GlobalGameData.AmWeapon.Balance);
+        }
+
         _states[(int)CurState].Update();
 
         CheckAnyState();

@@ -80,7 +80,7 @@ public class LSH_Teleport : MonoBehaviour
 
         //플레이어 기존씬 위치 저장
         beforeTeleportPos = player.transform.position;
-        afterTeleportPos = new Vector3(100, 1, 100);
+        afterTeleportPos = new Vector3(400, 1, 400);
 
         //플레이어 기존씬에서 애디티브 씬으로 위치 이동
         transform.position = afterTeleportPos;
