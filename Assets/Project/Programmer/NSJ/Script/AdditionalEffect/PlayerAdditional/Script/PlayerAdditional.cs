@@ -8,6 +8,7 @@ public class PlayerAdditional : AdditionalEffect
     protected Transform transform => Player.transform;
     protected Rigidbody Rb => Player.Rb;
     protected PlayerModel Model => Player.Model;
+    protected BattleSystem Battle => Player.Battle;
     protected PlayerController.State CurState => Player.CurState;
 
     public void Init(PlayerController player, AdditionalEffect addtional)

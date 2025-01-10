@@ -60,7 +60,9 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     private float _maxChargeMana => _charges[_charges.Length - 1].ChargeMana;
 
     // 암유닛 캐싱
-    private BalanceArm _balance => arm as BalanceArm; 
+    private BalanceArm _balance => arm as BalanceArm;
+
+    Coroutine _firstSpecialRoutine;
     public override void Init(PlayerController player, ArmUnit arm)
     {
         base.Init(player, arm);
@@ -221,8 +223,21 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     /// </summary>
     private void ProcessFirstSpecial()
     {
+        if (_firstSpecialRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_firstSpecialRoutine);
+            _firstSpecialRoutine = null;
+
+            Model.AttackSpeedMultiplier -= _first.AttackSpeed;
+        }
         CoroutineHandler.StartRoutine(FirstSpecialBuffRoutine());
+        // 딱히 애니메이션이 없어서 추가효과 트리거를 강제로 발동해야 할듯
+        Player.TriggerPlayerAdditional();
+         
+
         ChangeState(Player.PrevState);
+
+
     }
     IEnumerator FirstSpecialBuffRoutine()
     {
@@ -231,6 +246,8 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         yield return _first.Duration.GetDelay();
         Model.AttackSpeedMultiplier -= _first.AttackSpeed;
         _balance.OnFirstSpecial = false;
+
+        _firstSpecialRoutine = null;
     }
     /// <summary>
     /// 두번째 특수

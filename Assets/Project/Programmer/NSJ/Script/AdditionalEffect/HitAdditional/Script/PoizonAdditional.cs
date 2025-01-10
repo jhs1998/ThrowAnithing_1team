@@ -39,7 +39,7 @@ public class PoizonAdditional : HitAdditional
     IEnumerator PoisonRoutine()
     {
         _remainDuration = Duration;
-        int damage = (int)(Battle.Debuff.MaxHp * 0.05f);
+        int damage = (int)(Battle.Hit.MaxHp * 0.05f);
         while (_remainDuration > 0)
         {
             yield return 1f.GetDelay();

@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-public class PlayerModel : MonoBehaviour, IDebuff
+public class PlayerModel : MonoBehaviour
 {
     public bool IsTest;
     [Inject]

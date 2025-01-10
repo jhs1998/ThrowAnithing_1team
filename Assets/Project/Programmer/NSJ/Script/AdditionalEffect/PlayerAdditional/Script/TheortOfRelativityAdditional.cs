@@ -13,7 +13,7 @@ public class TheortOfRelativityAdditional : PlayerAdditional
     }
     [SerializeField] EffectStrcut _effect;
 
-    [SerializeField] private HitAdditional _slow;
+    [SerializeField] private SlowAddtional _slow;
     [Header("확률(%)")]
     [Range(0, 100)]
     [SerializeField] private float _probability;
@@ -26,13 +26,20 @@ public class TheortOfRelativityAdditional : PlayerAdditional
     [Header("슬로우 범위")]
     [SerializeField] private float _slowRange;
     [Header("적 이속감소량")]
-    [SerializeField] private float _enemySlowAmount;
+    [SerializeField] private float _slowAmount;
     [Header("디버프 시간")]
     [SerializeField] private float _slowDuration;
 
 
     private bool _isBuff;
     Coroutine _buffRoutine;
+    public override void Enter()
+    {
+        _slow = Instantiate(_slow); 
+        _slow.Duration = _slowDuration;
+        _slow.SlowAmount = _slowAmount;
+    }
+
 
     public override void Exit()
     {
@@ -105,7 +112,7 @@ public class TheortOfRelativityAdditional : PlayerAdditional
         for (int i = 0; i < hitCount; i++)
         {
             // TODO: 슬로우 기능 추가
-            
+            Battle.TargetDebuff(Player.OverLapColliders[i], _slow);
         }
 
         CreateSlowFieldEffect();
@@ -113,11 +120,9 @@ public class TheortOfRelativityAdditional : PlayerAdditional
 
     private void CreateSlowFieldEffect()
     {
-        _effect.Effect = Instantiate(_effect.EffectPrefab, transform);
+        _effect.Effect = ObjectPool.GetPool(_effect.EffectPrefab, transform, _effect.EffectDuration);
 
         Vector3 effectScale = _effect.Effect.transform.localScale;
         _effect.Effect.transform.localScale = new Vector3(_slowRange * 2, effectScale.y, _slowRange * 2);
-
-        Destroy(_effect.Effect, _effect.EffectDuration);
     }
 }
