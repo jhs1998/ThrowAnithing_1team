@@ -19,7 +19,6 @@ public class NSJBlueChip : MonoBehaviour
         {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             player.AddAdditional(additionalEffect);
-           // Destroy(gameObject);
         }   
     }
 

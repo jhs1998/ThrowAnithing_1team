@@ -10,6 +10,7 @@ public class SlowAddtional : HitAdditional
     {
         public GameObject EffectPrefab;
         [HideInInspector] public GameObject Effect;
+        public float Interval;
     }
     [Header("이속 감소량(%)")]
     [SerializeField] public float SlowAmount;
@@ -22,7 +23,6 @@ public class SlowAddtional : HitAdditional
         if (_debuffRoutine == null)
         {
             _debuffRoutine = CoroutineHandler.StartRoutine(DurationRoutine());
-            CreateEffect();
             ChangeValue(true);
         }
     }
@@ -34,7 +34,6 @@ public class SlowAddtional : HitAdditional
             _debuffRoutine = null;
             // 깎인 양 만큼 복구
             ChangeValue(false);
-            ObjectPool.ReturnPool(_effect.Effect);
         }
     }
 
@@ -44,8 +43,11 @@ public class SlowAddtional : HitAdditional
         _remainDuration = Duration;
         while (_remainDuration > 0)
         {
-            _remainDuration -= Time.deltaTime;
-            yield return null;
+            _remainDuration -= _effect.Interval;
+
+            GameObject effect = ObjectPool.GetPool(_effect.EffectPrefab, Battle.HitPoint.position.GetRandomPos(0.5f),transform.rotation, 1f);
+            effect.transform.SetParent(transform);
+            yield return _effect.Interval.GetDelay();
         }
         Battle.EndDebuff(this);
     }
@@ -95,11 +97,5 @@ public class SlowAddtional : HitAdditional
             enemyMoveSpeed += _decreaseMoveSpeedEnemyValue;
             SetEnemyMoveSpeed(enemyMoveSpeed);
         }
-    }
-
-
-    private void CreateEffect()
-    {
-        _effect.Effect = ObjectPool.GetPool(_effect.EffectPrefab, transform);
     }
 }

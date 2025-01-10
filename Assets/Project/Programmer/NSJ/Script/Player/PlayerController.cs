@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Zenject;
+using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerModel))]
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour, IHit
 
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
+    [HideInInspector] public Collider Collider;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
     [HideInInspector] public PlayerInput input;
@@ -326,7 +328,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model.CurHp += drainAmount;
 
         if (drainAmount > 0)
-            StartCoroutine(CreateLifeDrainEffect());
+            ObjectPool.GetPool(_lifeDrainPrefab, Battle.HitPoint.position.GetRandomPos(0.5f), transform.rotation, 1f);
     }
     /// <summary>
     /// ÇÇÇØ ÈíÇ÷(¸ðµ¨ ÇÇÈí + Ãß°¡ ÇÇÈí)
@@ -337,22 +339,9 @@ public class PlayerController : MonoBehaviour, IHit
         Model.CurHp += drainAmount;
 
         if (drainAmount > 0)
-            StartCoroutine(CreateLifeDrainEffect());
+            ObjectPool.GetPool(_lifeDrainPrefab, Battle.HitPoint.position.GetRandomPos(0.5f), transform.rotation, 1f);
     }
 
-    IEnumerator CreateLifeDrainEffect()
-    {
-        Vector3 pos = new Vector3(
-            Battle.HitPoint.position.x + Random.Range(-0.5f, 0.5f),
-              Battle.HitPoint.position.y + Random.Range(-0.5f, 0.5f),
-                Battle.HitPoint.position.z + Random.Range(-0.5f, 0.5f)
-            );
-        GameObject effect = ObjectPool.GetPool(_lifeDrainPrefab, pos, transform.rotation);
-        effect.transform.SetParent(transform, true);
-
-        yield return 1.5f.GetDelay();
-        ObjectPool.ReturnPool(effect);
-    }
     #endregion
     #region ÇÃ·¹ÀÌ¾î ¹æÇâ Ã³¸®
     public void LookAtAttackDir()
@@ -1169,6 +1158,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model = GetComponent<PlayerModel>();
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
+        Collider = GetComponent<Collider>();
         Battle = GetComponent<BattleSystem>();
         input = GetComponent<PlayerInput>();
     }
