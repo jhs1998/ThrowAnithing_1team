@@ -459,8 +459,8 @@ public class InputKey : MonoBehaviour
         if (_inputStructDic[inputStruct.Name].Axis == Axis.Axis)
             return false;
 
-        if (inputStruct.Name == Action.Jump)
-            Debug.Log($"{_inputStructDic[inputStruct.Name].CurPress}, {_inputStructDic[inputStruct.Name].PrevPress}");
+        //if (inputStruct.Name == Action.Jump)
+        //    Debug.Log($"{_inputStructDic[inputStruct.Name].CurPress}, {_inputStructDic[inputStruct.Name].PrevPress}");
 
         if (_inputStructDic[inputStruct.Name].CurPress == true && _inputStructDic[inputStruct.Name].PrevPress == false)
             return true;
