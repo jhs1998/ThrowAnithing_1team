@@ -459,6 +459,9 @@ public class InputKey : MonoBehaviour
         if (_inputStructDic[inputStruct.Name].Axis == Axis.Axis)
             return false;
 
+        if (inputStruct.Name == Action.Jump)
+            Debug.Log($"{_inputStructDic[inputStruct.Name].CurPress}, {_inputStructDic[inputStruct.Name].PrevPress}");
+
         if (_inputStructDic[inputStruct.Name].CurPress == true && _inputStructDic[inputStruct.Name].PrevPress == false)
             return true;
         else
@@ -549,7 +552,7 @@ public class InputKey : MonoBehaviour
     }
     private void OnJump(InputValue value)
     {
-        ProcessInput(value, Jump);
+;        ProcessInput(value, Jump);
     }
     private void OnRanged_Attack(InputValue value)
     {

@@ -964,9 +964,9 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCameraStick()
     {
-        Vector2 mouseDir = InputKey.GetAxis(InputKey.CameraMove);
+        Vector2 stickDir = InputKey.GetAxis(InputKey.CameraMove);
 
-        float angleX = _stickDir.x * _stickRotateSpeed;
+        float angleX = stickDir.x * _stickRotateSpeed;
 
         float rotateSpeed = 1;
         if (Model.IsTest == false)
