@@ -125,7 +125,7 @@ public class ArmChange : BaseUI
 
     void Select_ArmUnit()
     {
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             armButtons[arm_cur].onClick.Invoke();
         }

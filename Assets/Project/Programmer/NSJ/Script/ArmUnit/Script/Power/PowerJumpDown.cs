@@ -2,7 +2,7 @@ using Assets.Project.Programmer.NSJ.RND.Script;
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Power JumpDown", menuName = "Arm/AttackType/Power/JumpDown")]
+[CreateAssetMenu(fileName = "Power PowerJumpDown", menuName = "Arm/AttackType/Power/PowerJumpDown")]
 public class PowerJumpDown : ArmJumpDown
 {
     [Range(0, 20)]
@@ -22,7 +22,7 @@ public class PowerJumpDown : ArmJumpDown
         // 플레이어 무적
         Player.IsInvincible = true;
 
-        View.SetTrigger(PlayerView.Parameter.JumpDown);
+        View.SetTrigger(PlayerView.Parameter.PowerJumpDown);
 
         if (_fallRoutine == null)
         {

@@ -100,12 +100,12 @@ namespace MKH
 
         public void Click()
         {
-            //if (Input.GetKeyDown(KeyCode.E))
+            //if (input.GetKeyDown(KeyCode.E))
             //{
             //    _Slot.UseItem();
             //    _Main.Sorting();
             //}
-            //if (Input.GetKeyDown(KeyCode.E))
+            //if (input.GetKeyDown(KeyCode.E))
             //{
             //for (int i = 0; i < _Slot.Length; i++)
             //{

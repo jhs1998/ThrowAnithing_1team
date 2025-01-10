@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using Zenject.SpaceFighter;
 
@@ -29,6 +30,7 @@ public class PlayerState : BaseState
     public virtual void OnCombo() { }
     public virtual void EndCombo() { }
     public virtual void TriggerCantOperate() { }
+    public virtual void InitArm() { }
     protected void ChangeState(PlayerController.State state)
     {
         Player.ChangeState(state);

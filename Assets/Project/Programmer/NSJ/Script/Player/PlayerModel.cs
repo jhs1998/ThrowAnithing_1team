@@ -9,7 +9,7 @@ using Zenject;
 
 public class PlayerModel : MonoBehaviour, IDebuff
 {
-    [SerializeField] private bool _isTest;
+    public bool IsTest;
     [Inject]
     public PlayerData Data;
     [Inject]
@@ -69,10 +69,10 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public List<PlayerAdditional> PlayerAdditionals { get { return Data.PlayerAdditionals; } set { Data.PlayerAdditionals = value; } } // 플레이어 추가효과 리스트
     #endregion
     #region 이동
-    public float MoveSpeed { get { return (Data.MoveSpeed) / 20; } set { Data.MoveSpeed = value * 20f; } } // 이동속도
+    public float MoveSpeed { get { return (Data.MoveSpeed) / 20; } set { Data.MoveSpeed = value; } } // 이동속도
     public float MoveSpeedMultyplier { get { return Data.MoveSpeedMultyplier; } set { Data.MoveSpeedMultyplier = value; } }
     // 대쉬
-    public float DashDistance { get { return Data.DashDistance / 20f; } set { Data.DashDistance = value * 20f; } }
+    public float DashDistance { get { return Data.DashDistance / 100f; } set { Data.DashDistance = value; } }
     public int DashStamina { get { return Data.DashStamina; } set { Data.DashStamina = value; } }
     // 점프
     public float JumpPower { get { return Data.JumpPower / 13f; } set { Data.JumpPower = value * 13f; } }
@@ -146,10 +146,18 @@ public class PlayerModel : MonoBehaviour, IDebuff
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade; } set { Data.EquipmentDropUpgrade = value; } }
 
     public float BoomRadius;
+
+    [System.Serializable]
+    public struct DefaultDrainStruct
+    {
+        public float DrainDistance;
+        public float DrainStamina;
+    }
     // TODO : 인스펙터 정리 필요
     [System.Serializable]
     public struct DrainStruct
     {
+        public DefaultDrainStruct Default;
         public float DrainDistance;
         public float DrainDistanceMultyPlier;
         public float DrainStamina;
@@ -201,15 +209,16 @@ public class PlayerModel : MonoBehaviour, IDebuff
         {
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);
         }
-        if (_isTest == true)
+        if (IsTest == true)
         {
             GlobalStateData.NewPlayerSetting();
-            Debug.Log($"원거리 데미지: {GlobalStateData.longRangeAttack[0]}");
             Data.CopyGlobalPlayerData(GlobalStateData, GameData);
             RegainStamina = 100;
             RegainMana[0] = 100;
         }
 
+        DrainDistance = Drain.Default.DrainDistance;
+        DrainStamina = Drain.Default.DrainStamina;
         JumpDownStamina = 40;
         CriticalDamage = 200;
         StaminaCoolTime = 1;
@@ -257,22 +266,22 @@ public class PlayerModel : MonoBehaviour, IDebuff
     //    [Range(0, 5)] public float DamageMultiplier;
     //}
     //[Header("근접공격 관련 필드")]
-    //[SerializeField] public MeleeStruct Melee;
+    //[SerializeField] public MeleeStruct PrevMelee;
     //public int MeleeComboCount
     //{
-    //    get { return Melee.ComboCount; }
+    //    get { return PrevMelee.ComboCount; }
     //    set
     //    {
-    //        Melee.ComboCount = value;
-    //        if (Melee.ComboCount >= Melee.PowerMeleeAttack.Length)
+    //        PrevMelee.ComboCount = value;
+    //        if (PrevMelee.ComboCount >= PrevMelee.PowerMeleeAttack.Length)
     //        {
-    //            Melee.ComboCount = 0;
+    //            PrevMelee.ComboCount = 0;
     //        }
     //    }
     //}
-    //public float Range => Melee.PowerMeleeAttack[Melee.ComboCount].Range;
-    //public float Angle => Melee.PowerMeleeAttack[Melee.ComboCount].Angle;
-    //public float DamageMultiplier => Melee.PowerMeleeAttack[Melee.ComboCount].DamageMultiplier;
+    //public float Range => PrevMelee.PowerMeleeAttack[PrevMelee.ComboCount].Range;
+    //public float Angle => PrevMelee.PowerMeleeAttack[PrevMelee.ComboCount].Angle;
+    //public float DamageMultiplier => PrevMelee.PowerMeleeAttack[PrevMelee.ComboCount].DamageMultiplier;
     #endregion
 }
 
@@ -611,6 +620,7 @@ public partial class PlayerData
     public int DashStamina
     {
         get { return (int)(Data.Dash.DashStamina * (1 - StaminaReduction / 100)); }
+
         set { Data.Dash.DashStamina = value; }
     }
     #endregion

@@ -11,7 +11,7 @@ public class Option_GamePlay : Main_Option
     SettingManager setManager;
 
     [Inject]
-    OptionSetting option_setting;
+    OptionSetting _option_setting;
 
     [SerializeField] GameObject miniMapAct;
     [SerializeField] GameObject miniMapFix;
@@ -64,10 +64,10 @@ public class Option_GamePlay : Main_Option
                 menuCo = StartCoroutine(GamePlay_Select());
             }
 
-            if (InputKey.GetButtonDown(InputKey.Interaction))
+            if (InputKey.GetButtonDown(InputKey.PrevInteraction))
                 ButtonSelect();
 
-            if (InputKey.GetButtonDown(InputKey.Interaction))
+            if (InputKey.GetButtonDown(InputKey.PrevInteraction))
             {
                 if (gamePlayButtons[_curIndex] == GetUI("CancelButton_sound"))
                 {
@@ -254,11 +254,11 @@ public class Option_GamePlay : Main_Option
     public void AcceptButton()
     {
         MinimapCheck();
-        option_setting.miniMapOnBool = newAct;
-        option_setting.miniMapFixBool = newFix;
+        _option_setting.miniMapOnBool = newAct;
+        _option_setting.miniMapFixBool = newFix;
 
-        preAct = option_setting.miniMapOnBool;
-        preFix = option_setting.miniMapFixBool;
+        preAct = _option_setting.miniMapOnBool;
+        preFix = _option_setting.miniMapFixBool;
 
         ButtonReset();
 
@@ -277,10 +277,10 @@ public class Option_GamePlay : Main_Option
 
     public void CancelButton()
     {
-        option_setting.miniMapOnBool = preAct;
-        option_setting.miniMapFixBool = preFix;
+        _option_setting.miniMapOnBool = preAct;
+        _option_setting.miniMapFixBool = preFix;
 
-        option_setting.MinimapOff();
+        _option_setting.MinimapOff();
 
         ButtonReset();
 
@@ -296,11 +296,11 @@ public class Option_GamePlay : Main_Option
         // Todo: 팝업 과정 거쳐야함
 
 
-        option_setting.miniMapOnBool = defaultAct;
-        option_setting.miniMapFixBool = defaultFix;
+        _option_setting.miniMapOnBool = defaultAct;
+        _option_setting.miniMapFixBool = defaultFix;
 
-        preAct = option_setting.miniMapOnBool;
-        preFix = option_setting.miniMapFixBool;
+        preAct = _option_setting.miniMapOnBool;
+        preFix = _option_setting.miniMapFixBool;
 
         ButtonReset();
 
@@ -345,8 +345,8 @@ public class Option_GamePlay : Main_Option
         defaultAct = true;
         defaultFix = true;
 
-        preAct = option_setting.miniMapOnBool;
-        preFix = option_setting.miniMapFixBool;
+        preAct = _option_setting.miniMapOnBool;
+        preFix = _option_setting.miniMapFixBool;
 
         actChecked.SetActive(preAct);
         fixChecked.SetActive(preFix);

@@ -10,7 +10,7 @@ public class UpgradePopUp : MonoBehaviour
     {
         if(gameObject.activeSelf&& _object.activeSelf == false && Time.deltaTime != 0)
         {
-            if(InputKey.GetButtonDown(InputKey.Interaction))
+            if(InputKey.GetButtonDown(InputKey.PrevInteraction))
                 _object.SetActive(true);
         }
     }

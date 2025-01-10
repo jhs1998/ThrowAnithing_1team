@@ -1,13 +1,8 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Upgrade : BaseUI
 {
@@ -80,7 +75,7 @@ public class Upgrade : BaseUI
 
     private void Update()
     {
-        
+
 
         if (pause.activeSelf)
             return;
@@ -90,10 +85,12 @@ public class Upgrade : BaseUI
         Slot_Selected();
 
         //Comment : For test
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             slots[ver, ho].onClick.Invoke();
         }
+        
+    
 
     }
 
@@ -123,6 +120,7 @@ public class Upgrade : BaseUI
             {
                 //Todo : Change Color
                 slots[i, j].GetComponent<Image>().color = new(0.1f, 0, 0.2f);
+                slots[i, j].interactable = false;
             }
         }
 
@@ -133,8 +131,8 @@ public class Upgrade : BaseUI
     void Slot_Selected()
     {
 
-        float x = InputKey.GetAxis(InputKey.Horizontal);
-        float y = -InputKey.GetAxis(InputKey.Vertical);
+        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
+        float y = -InputKey.GetAxisRaw(InputKey.Vertical);
 
         if (x > 0)
         {
@@ -237,19 +235,6 @@ public class Upgrade : BaseUI
         }
     }
 
-
-    //5강이 찍힌 특성에 강화 완료 표시 노출되게
-    void ShowMaxSlot()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                int index = i * 4 + j;
-                slots[i, j].transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(slotMaxCheck[index]);
-            }
-        }
-    }
     
     //슬롯 클릭시
     void ClickedSlots(Button button)
@@ -258,7 +243,7 @@ public class Upgrade : BaseUI
         {
             slots[ver, ho].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
 
-            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.Interaction))
+            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.PrevInteraction))
             {
                 (ver, ho) = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
             }
@@ -267,6 +252,17 @@ public class Upgrade : BaseUI
             itemInfo.text = button.name;
             slotImages[ver, ho] = button.transform.GetChild(0).GetComponent<Image>();
             slots[ver, ho].GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
+
+            if (button.GetComponent<Image>().color != lockedColor)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        slots[i, j].interactable = true;
+                    }
+                }
+            }
         }
     }
 
@@ -302,7 +298,10 @@ public class Upgrade : BaseUI
     public void UpgradeText()
     {
         // 업그레이드 완료 문구 없을때만 동작
-        Instantiate(upText, slots[2,3].transform.position, Quaternion.identity);
+        int cost = _gameData.upgradeCosts[slot];
+
+        if (_gameData.coin >= cost)
+            Instantiate(upText, slots[2,3].transform.position, Quaternion.identity);
     }
 
     void Init()

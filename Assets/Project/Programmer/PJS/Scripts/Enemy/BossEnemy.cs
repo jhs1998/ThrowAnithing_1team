@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Security.Cryptography;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -16,6 +17,13 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] int breakshieldCount = 20;
     [Header("실드 파괴 후 그로기 시간 ( 초 단위)")]
     [SerializeField] float stunTime;
+    [Header("점프 공격 관련")]
+    [Tooltip("점프 애니메이션 모션")]
+    public AnimationCurve curve;    // 움직이는 모션
+    [Tooltip("점프 애니메이션의 재생 시간")]
+    public float jumpAttackTime;    // 애니메이션의 재생 시간
+    [Tooltip("점프 시 최대 높이")]
+    public float jumpHeight;    // 점프 시 최대 높이
 
     [Space, SerializeField] ParticleSystem shieldParticle;
 
@@ -23,8 +31,9 @@ public class BossEnemy : BaseEnemy, IHit
     public Coroutine recovery;  // 회복 관련 코루틴
     private bool onFrezenyPassive = false;
     private bool onEntryStop;
-    public bool createShield;
-    public bool breakShield;
+    [HideInInspector] public bool createShield;
+    [HideInInspector] public bool breakShield;
+    [HideInInspector] public Vector3 playerPos;
 
     private void Start()
     {
@@ -59,21 +68,7 @@ public class BossEnemy : BaseEnemy, IHit
         else if (CurHp <= MaxHp * 0.5f && CurHp > MaxHp * 0.3f)
         {
             curPhase = PhaseType.Phase3;
-            //onFrezenyPassive = true;
         }
-    }
-
-    private void FrenzyPassive()
-    {
-        if (onFrezenyPassive == false)
-        {
-            return;
-        }
-
-        tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
-        tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
-
-        onFrezenyPassive = false;
     }
 
     IEnumerator PassiveOn()
@@ -122,7 +117,7 @@ public class BossEnemy : BaseEnemy, IHit
     /// <summary>
     /// 몬스터가 피해받는 데미지
     /// </summary>
-    public new int TakeDamage(int damage, bool isIgnoreDef, CrowdControlType type)
+    public new int TakeDamage(int damage, bool isIgnoreDef)
     {
         if (createShield == true)
         {
@@ -144,7 +139,6 @@ public class BossEnemy : BaseEnemy, IHit
 
         CurHp -= resultDamage;
 
-        tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
         return resultDamage;
     }
 
@@ -194,6 +188,18 @@ public class BossEnemy : BaseEnemy, IHit
             AttackMelee();
         // 일반 근접 공격 - 모든 페이즈에 존재
         // 라이트닝 피스트 - 1페이즈에만 존재
+    }
+
+    /// <summary>
+    /// 점프 공격 애니메이션 이벤트
+    /// </summary>
+    public void JumpAttackBegin()
+    {
+        StartCoroutine(JumpRoutine(transform.position, playerPos));
+    }
+    public void JumpAttackEnd()
+    {
+        TakeChargeBoom(4, 50);
     }
     #endregion
 
@@ -248,6 +254,29 @@ public class BossEnemy : BaseEnemy, IHit
         yield return state.AtkDelay.GetDelay();
         // 공격 딜레이 끝
         tree.SetVariableValue("AttackAble", true);
+    }
+
+    /// <summary>
+    /// 플레이어 현재 위치 가져오기
+    /// </summary>
+    public void SetPlayerPos(Vector3 pos)
+    {
+        playerPos = pos;
+    }
+    IEnumerator JumpRoutine(Vector3 start, Vector3 end)
+    {
+        float currentAttackTime = 0f;
+        while (currentAttackTime <= jumpAttackTime)
+        {
+            float t = currentAttackTime / jumpAttackTime;
+            Vector3 pos = Vector3.zero;
+            pos.x = Vector3.Lerp(start, end, t).x;
+            pos.z = Vector3.Lerp(start, end, t).z;
+            pos.y = curve.Evaluate(t) * jumpHeight + Mathf.Lerp(start.y, end.y, t);
+            transform.position = pos;
+            currentAttackTime += Time.deltaTime;
+            yield return null;
+        }
     }
 
     #region Gizmo

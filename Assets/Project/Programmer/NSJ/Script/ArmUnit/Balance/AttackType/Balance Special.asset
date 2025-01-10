@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f02c74e9f94b44a9f38819308fd3ad, type: 3}
+  m_Name: Balance Special
+  m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  _charges:
+  - ChargeTime: 0.75
+    ChargeMana: 30
+    ObjectCount: 3
+  - ChargeTime: 1.75
+    ChargeMana: 70
+    ObjectCount: 7
+  - ChargeTime: 2.5
+    ChargeMana: 100
+    ObjectCount: 10
+  _first:
+    AttackSpeed: 50
+    Duration: 5
+  _second:
+    Damage: 0
+    Range: 0
+  _third:
+    Damage: 0
+    Range: 0

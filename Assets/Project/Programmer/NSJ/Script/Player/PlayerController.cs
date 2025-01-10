@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour, IHit
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
-    [HideInInspector] public ObjectPool Pool;
+    [HideInInspector] public PlayerInput input;
     public enum State
     {
         Idle,
@@ -87,7 +88,8 @@ public class PlayerController : MonoBehaviour, IHit
         public Transform CamaraArm;
         public Transform CameraPos;
         [Range(0f, 50f)] public float CameraRotateAngle;
-        [Range(0f, 5f)] public float CameraRotateSpeed;
+        public float MouseRotateSpeed;
+        public float StickRotateSpeed;
         public PlayerCameraHold CameraHolder;
         public bool IsVerticalCameraMove;
     }
@@ -96,7 +98,8 @@ public class PlayerController : MonoBehaviour, IHit
     public Transform CamareArm { get { return _cameraStruct.CamaraArm; } set { _cameraStruct.CamaraArm = value; } }
     private Transform _cameraPos { get { return _cameraStruct.CameraPos; } set { _cameraStruct.CameraPos = value; } }
     private float _cameraRotateAngle { get { return _cameraStruct.CameraRotateAngle; } set { _cameraStruct.CameraRotateAngle = value; } }
-    private float _cameraRotateSpeed { get { return _cameraStruct.CameraRotateSpeed; } set { _cameraStruct.CameraRotateSpeed = value; } }
+    private float _mouseRotateSpeed { get { return _cameraStruct.MouseRotateSpeed; } set { _cameraStruct.MouseRotateSpeed = value; } }
+    private float _stickRotateSpeed { get { return _cameraStruct.StickRotateSpeed; } set { _cameraStruct.StickRotateSpeed = value; } }
     private PlayerCameraHold _cameraHolder { get { return _cameraStruct.CameraHolder; } set { _cameraStruct.CameraHolder = value; } }
     public bool IsVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
@@ -174,7 +177,10 @@ public class PlayerController : MonoBehaviour, IHit
 
     [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
 
+
     [HideInInspector] public Vector3 MoveDir;
+    Vector2 _mouseDir;
+    Vector2 _stickDir;
 
     Quaternion _defaultMuzzlePointRot;
     private void Awake()
@@ -214,7 +220,8 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)CurState].Update();
 
         CheckAnyState();
-        RotateCamera();
+        RotateCameraMouse();
+        RotateCameraStick();
         ChackInput();
         UpdatePlayerAdditional();
     }
@@ -331,11 +338,11 @@ public class PlayerController : MonoBehaviour, IHit
               Battle.HitPoint.position.y + Random.Range(-0.5f, 0.5f),
                 Battle.HitPoint.position.z + Random.Range(-0.5f, 0.5f)
             );
-        GameObject effect = Pool.GetPool(_lifeDrainPrefab, pos, transform.rotation);
+        GameObject effect = ObjectPool.GetPool(_lifeDrainPrefab, pos, transform.rotation);
         effect.transform.SetParent(transform, true);
 
         yield return 1.5f.GetDelay();
-        Pool.ReturnPool(_lifeDrainPrefab, effect);
+        ObjectPool.ReturnPool(effect);
     }
     #endregion
     #region 플레이어 방향 처리
@@ -460,11 +467,19 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
+        foreach(PlayerState state in _states)
+        {
+            state.InitArm();
+        }
     }
     public void ChangeArmUnit(GlobalGameData.AmWeapon armUnit)
     {
         Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
         Model.Arm.Init(this);
+        foreach (PlayerState state in _states)
+        {
+            state.InitArm();
+        }
     }
     #endregion
     #region 플레이어 추가효과 관련
@@ -620,40 +635,6 @@ public class PlayerController : MonoBehaviour, IHit
             return false;
     }
     #endregion
-
-
-    /// <summary>
-    /// TPS 시점 카메라 회전
-    /// </summary>
-    private void RotateCamera()
-    {
-        float angleX = InputKey.GetAxis(InputKey.MouseX);
-        if (Mathf.Abs(angleX) < 0.1f)
-            angleX = 0;
-        // 체크시 마우스 상하도 가능
-        float angleY = IsVerticalCameraMove == true ? angleY = InputKey.GetAxis(InputKey.MouseY) : default;
-
-        _cameraRotateSpeed = setting.cameraSpeed;
-        Vector2 mouseDelta = new Vector2(angleX, angleY) * _cameraRotateSpeed;
-        Vector3 camAngle = CamareArm.rotation.eulerAngles;
-
-        // 마우스 상하값 제한
-        float x = camAngle.x - mouseDelta.y;
-        x = x < 180 ? Mathf.Clamp(x, -10f, 50f) : Mathf.Clamp(x, 360f - _cameraRotateAngle, 361f);
-
-        // 카메라 조정
-        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
-
-
-
-
-
-        if (IsVerticalCameraMove == true)
-        {
-            // 머즐포인트 각도조절
-            MuzzletPoint.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        }
-    }
     #region 지형물 체크 로직
     /// <summary>
     /// 지면 체크
@@ -767,55 +748,18 @@ public class PlayerController : MonoBehaviour, IHit
     }
     #endregion
 
-    /// <summary>
-    /// 스테미나 회복 코루틴
-    /// </summary>
-    IEnumerator RecoveryStamina()
-    {
-        CanStaminaRecovery = true;
-        while (true)
-        {
-            // 초당 MaxStamina / RegainStamina 만큼 회복
-            // 현재 스테미나가 꽉찼으면 더이상 회복안함
-            // 만약 스테미나 사용 후 쿨타임 상태면 쿨타임만큼 회복안함
-            if (CanStaminaRecovery == true)
-            {
-                Model.CurStamina += Model.RegainStamina * Time.deltaTime;
-            }
-            if (Model.CurStamina >= Model.MaxStamina)
-            {
-                Model.CurStamina = Model.MaxStamina;
-            }
-
-            if (IsStaminaCool == true)
-            {
-                IsStaminaCool = false;
-                //yield return 1f.GetDelay();
-                yield return Model.StaminaCoolTime.GetDelay();
-            }
-
-            yield return null;
-        }
-    }
     #region 키입력 관련
     /// <summary>
     /// 키입력 감지
     /// </summary>
     private void ChackInput()
     {
-        float x = InputKey.GetAxisRaw(InputKey.Horizontal);
-        float z = InputKey.GetAxisRaw(InputKey.Vertical);
-        MoveDir = new Vector3(x, 0, z);
+        Vector2 inputDir = InputKey.GetAxis(InputKey.Move);
+        MoveDir = new Vector3(inputDir.x, 0, inputDir.y);
 
         if (IsTargetHolding == false && IsTargetToggle == false)
         {
-            //if (Input.GetMouseButtonDown(2))
-            //{
-            //    //TODO: 카메라 몬스터 홀딩 기능
-            //    IsTargetHolding = true;
-            //    _cameraHolder.gameObject.SetActive(true);
-            //}
-            if (InputKey.GetButtonDown(InputKey.RockOn) && IsTargetHolding == false)
+            if (InputKey.GetButtonDown(InputKey.LoakOn) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 기능
                 IsTargetToggle = true;
@@ -824,13 +768,13 @@ public class PlayerController : MonoBehaviour, IHit
         }
         else
         {
-            //if (Input.GetMouseButtonUp(2) && IsTargetToggle == false)
+            //if (input.GetMouseButtonUp(2) && IsTargetToggle == false)
             //{
             //    //TODO: 카메라 몬스터 홀딩 풀기
             //    IsTargetHolding = false;
             //    _cameraHolder.gameObject.SetActive(false);
             //}
-            if (InputKey.GetButtonDown(InputKey.RockCancel) && IsTargetHolding == false)
+            if (InputKey.GetButtonDown(InputKey.LoakOff) && IsTargetHolding == false)
             {
                 //TODO: 카메라 몬스터 홀딩 풀기
                 IsTargetToggle = false;
@@ -932,6 +876,7 @@ public class PlayerController : MonoBehaviour, IHit
         }
     }
     #endregion
+
     #region 데미지 계산
 
 
@@ -1014,6 +959,76 @@ public class PlayerController : MonoBehaviour, IHit
         return finalDamage;
     }
     #endregion
+    /// <summary>
+    /// TPS 시점 카메라 회전
+    /// </summary>
+    private void RotateCameraStick()
+    {
+        Vector2 stickDir = InputKey.GetAxis(InputKey.CameraMove);
+
+        float angleX = stickDir.x * _stickRotateSpeed;
+
+        float rotateSpeed = 1;
+        if (Model.IsTest == false)
+        {
+            rotateSpeed = setting.cameraSpeed;
+        }
+        Vector2 mouseDelta = new Vector2(angleX, 0) * rotateSpeed;
+        Vector3 camAngle = CamareArm.rotation.eulerAngles;
+
+        // 카메라 조정
+        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
+    }
+    /// <summary>
+    /// TPS 시점 카메라 회전
+    /// </summary>
+    private void RotateCameraMouse()
+    {
+        Vector2 mouseDir= InputKey.GetAxis(InputKey.MouseDelta);
+
+        float angleX = mouseDir.x * _mouseRotateSpeed;
+
+        float rotateSpeed = 1;
+        if (Model.IsTest == false)
+        {
+            rotateSpeed = setting.cameraSpeed;
+        }
+        Vector2 mouseDelta = new Vector2(angleX, 0) * rotateSpeed;
+        Vector3 camAngle = CamareArm.rotation.eulerAngles;
+
+        // 카메라 조정
+        CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
+    }
+    /// <summary>
+    /// 스테미나 회복 코루틴
+    /// </summary>
+    IEnumerator RecoveryStamina()
+    {
+        CanStaminaRecovery = true;
+        while (true)
+        {
+            // 초당 MaxStamina / RegainStamina 만큼 회복
+            // 현재 스테미나가 꽉찼으면 더이상 회복안함
+            // 만약 스테미나 사용 후 쿨타임 상태면 쿨타임만큼 회복안함
+            if (CanStaminaRecovery == true)
+            {
+                Model.CurStamina += Model.RegainStamina * Time.deltaTime;
+            }
+            if (Model.CurStamina >= Model.MaxStamina)
+            {
+                Model.CurStamina = Model.MaxStamina;
+            }
+
+            if (IsStaminaCool == true)
+            {
+                IsStaminaCool = false;
+                //yield return 1f.GetDelay();
+                yield return Model.StaminaCoolTime.GetDelay();
+            }
+
+            yield return null;
+        }
+    }
 
     IEnumerator ControlMousePointer()
     {
@@ -1139,7 +1154,7 @@ public class PlayerController : MonoBehaviour, IHit
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
         Battle = GetComponent<BattleSystem>();
-        Pool = ObjectPool.CreateObjectPool(transform);
+        input = GetComponent<PlayerInput>();
     }
     private void InitAdditionnal()
     {
@@ -1190,7 +1205,6 @@ public class PlayerController : MonoBehaviour, IHit
         _states[(int)CurState].EndCombo();
     }
     #endregion
-
     #region 콜백
     public void ThrowObjectResultCallback(bool successHit)
     {

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Power Special", menuName = "Arm/AttackType/Power/Special")]
+[CreateAssetMenu(fileName = "Power PrevSpecial", menuName = "Arm/AttackType/Power/PrevSpecial")]
 public class PowerSpecialAttack : ArmSpecialAttack
 {
     [System.Serializable]

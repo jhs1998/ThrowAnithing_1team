@@ -102,7 +102,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
     }
     /// <summary>
-    /// 차지 후 폭발 데미지 부여
+    /// 반경 내 폭발 데미지 부여
     /// </summary>
     public void TakeChargeBoom(float range, int damage)
     {
@@ -141,6 +141,4 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
-
-
 }

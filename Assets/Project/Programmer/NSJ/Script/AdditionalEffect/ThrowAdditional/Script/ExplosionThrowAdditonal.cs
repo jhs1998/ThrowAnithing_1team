@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ExplosionThrow", menuName = "AdditionalEffect/Throw/ExplosionThrow")]
+[CreateAssetMenu(fileName = "ExplosionThrow", menuName = "AdditionalEffect/PrevThrow/ExplosionThrow")]
 public class ExplosionThrowAdditonal : ThrowAdditional
 {
     [System.Serializable]
@@ -54,8 +54,8 @@ public class ExplosionThrowAdditonal : ThrowAdditional
 
     IEnumerator ShowEffectRoutine()
     {
-        _effect.Effect = Player.Pool.GetPool(_effect.EffectPrefab ,_throwObject.transform.position, _throwObject.transform.rotation);
+         _effect.Effect = ObjectPool.GetPool(_effect.EffectPrefab ,_throwObject.transform.position, _throwObject.transform.rotation);
         yield return _effect.EffectDuration.GetDelay();
-        Player.Pool.ReturnPool(_effect.EffectPrefab, _effect.Effect);
+        ObjectPool.ReturnPool( _effect.Effect);
     }
 }

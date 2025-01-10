@@ -21,12 +21,12 @@ public class Result : BaseUI
     private void Awake()
     {
         //Bind();
-        //Init();
+        //InitInputManager();
     }
 
     void Update()
     {
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
             LoadingToBase.LoadScene(SceneName.LobbyScene);
     }
 

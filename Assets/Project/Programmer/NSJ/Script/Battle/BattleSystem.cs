@@ -43,6 +43,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return ;
         battle.TakeDebuff(HitAdditionalList);
     }
     /// <summary>
@@ -53,6 +55,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return ;
         battle.TakeDebuff(debuff);
     }
     /// <summary>
@@ -63,6 +67,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return;
         battle.TakeDebuff(debuffs);
     }
     /// <summary>
@@ -71,6 +77,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     public void TargetCrowdControl<T>(T target, CrowdControlType type) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return;
         battle.TakeCrowdControl(type);
     }
     /// <summary>
@@ -81,6 +89,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return 0;
         int hitDamage = battle.TakeDamage(false, damage, false); // 상대를 공격
         OnTargetAttackEvent?.Invoke(hitDamage, false);
         return hitDamage;
@@ -93,6 +103,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return 0;
         int hitDamage = battle.TakeDamage(isCritical, damage, false); // 상대를 공격
         OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
@@ -105,6 +117,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return 0;
         int hitDamage = battle.TakeDamage(damage, isIgnoreDef); // 상대를 공격
 
         OnTargetAttackEvent?.Invoke(hitDamage, false);
@@ -118,6 +132,8 @@ public class BattleSystem : MonoBehaviour, IBattle
         // 배틀 시스템은 배틀 시스템 끼리 통신 
         // 플레이어 <-> 배틀시스템 <-> 배틀시스템 <->좀비
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return 0;
         int hitDamage = battle.TakeDamage(isCritical, damage, isIgnoreDef); // 상대를 공격
         OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
         return hitDamage;
@@ -128,6 +144,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     public int TargetAttackWithDebuff<T>(T target, int damage) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return 0;
         int hitDamage = battle.TakeDamageWithDebuff(false, damage, HitAdditionalList, false); // 상대를 공격
 
         OnTargetAttackEvent?.Invoke(hitDamage, false);
@@ -139,6 +157,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     public int TargetAttackWithDebuff<T>(T target, bool isCritical, int damage) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return 0;
         int hitDamage = battle.TakeDamageWithDebuff(isCritical, damage, HitAdditionalList, false); // 상대를 공격
 
         OnTargetAttackEvent?.Invoke(hitDamage, isCritical);
@@ -150,6 +170,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     public int TargetAttackWithDebuff<T>(T target, int damage, bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return 0;
         int hitDamage = battle.TakeDamageWithDebuff(false,damage, HitAdditionalList, isIgnoreDef); // 상대를 공격
 
         OnTargetAttackEvent?.Invoke(hitDamage, false);
@@ -161,6 +183,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     public int TargetAttackWithDebuff<T>(T target, bool isCritical, int damage,  bool isIgnoreDef) where T : Component
     {
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return 0;
         int hitDamage =  battle.TakeDamageWithDebuff(isCritical, damage, HitAdditionalList,isIgnoreDef); // 상대를 공격
 
         OnTargetAttackEvent?.Invoke(hitDamage, isCritical);

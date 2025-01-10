@@ -1,36 +1,30 @@
-using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using UnityEngine;
 
 public class JumpAttack : Action
 {
-	public SharedGameObject player;
-	public float dis;
-	public string testText;
-	public float speed;
+    public SharedGameObject player; // 플레이어
+    public float dis;  // 뛸 떄 자신의 위치와 플레이어의 위치 차이
 
-	private Rigidbody rigid;
+    private BossEnemy enemy;
+    private Vector3 playerPos;   // 이동할 플레이어의 위치
 
     public override void OnAwake()
     {
-        rigid = GetComponent<Rigidbody>();
+        enemy = GetComponent<BossEnemy>();
     }
 
+    public override void OnStart()
+    {
+        playerPos = player.Value.transform.position;
+        enemy.SetPlayerPos(playerPos);
+    }
 
-	public override TaskStatus OnUpdate()
-	{
-        dis = (transform.position - player.Value.transform.position).magnitude;
+    public override TaskStatus OnUpdate()
+    {
+        dis = (transform.position - playerPos).sqrMagnitude;
 
-		if (dis >= 8 && dis <= 10)
-		{
-			testText = "적합";
-			transform.position = Vector3.Slerp(transform.position, player.Value.transform.position, speed * Time.deltaTime);
-			
-			return TaskStatus.Running;
-		}
-		else
-			testText = "부적합";
-
-		return TaskStatus.Success;
-	}
+        return dis <= 0.1f ? TaskStatus.Success : TaskStatus.Running;
+    }
 }

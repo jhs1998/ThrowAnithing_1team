@@ -6,7 +6,7 @@ namespace MKH
     {
         [SerializeField] protected GameObject mBlueChipBase;
         [SerializeField] protected GameObject mBlueChipSlotsParent;
-        [SerializeField] protected BlueChipSlot[] mSlots;
+        [SerializeField] public BlueChipSlot[] mSlots;
 
         protected void Awake()
         {

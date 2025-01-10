@@ -8,7 +8,10 @@ public class JumpState : PlayerState
         UseStamina = true;
         StaminaAmount = Model.JumpStamina;
     }
-
+    public override void InitArm()
+    {
+        StaminaAmount = Model.JumpStamina;
+    }
     public override void Enter()
     {
         View.SetTrigger(PlayerView.Parameter.Jump);
@@ -20,7 +23,7 @@ public class JumpState : PlayerState
 
     public override void Update()
     {
-       // Debug.Log("Jump");
+       // Debug.Log("PrevJump");
     }
 
     public override void FixedUpdate()

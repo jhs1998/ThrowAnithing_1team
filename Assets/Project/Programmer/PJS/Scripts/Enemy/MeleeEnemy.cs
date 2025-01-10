@@ -5,6 +5,9 @@ public class MeleeEnemy : BaseEnemy
 {
     [Header("피격 모션 쿨타임")]
     [SerializeField] float hitCoolTime;
+    [Space]
+    [SerializeField] ParticleSystem stepMoveParticle;
+    [SerializeField] ParticleSystem dieParticle;
 
     private void Start()
     {
@@ -20,6 +23,18 @@ public class MeleeEnemy : BaseEnemy
     public void EndAttack()
     {
      
+    }
+
+    // 이동 애니메이션 이벤트
+    public void BeginStepMove()
+    {
+        stepMoveParticle.Play();
+    }
+
+    // 사망 애니메이션 이벤트
+    public void DeadMotion()
+    {
+        dieParticle.Play();
     }
 
     /// <summary>
@@ -47,7 +62,8 @@ public class MeleeEnemy : BaseEnemy
 
             int finalDamage = state.Atk;
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage, true);
+            Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage);
+            Battle.TargetCrowdControl(overLapCollider[i], CrowdControlType.Stiff);
         }
     }
 }

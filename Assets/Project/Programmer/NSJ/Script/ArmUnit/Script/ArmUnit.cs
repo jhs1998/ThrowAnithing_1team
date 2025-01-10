@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Zenject;
 
 public class ArmUnit : ScriptableObject
 {
@@ -25,20 +27,20 @@ public class ArmUnit : ScriptableObject
        public ArmJumpDown JumpDown;
        public ArmJumpAttack JumpAttack;
     }
-    protected ArmThrowAttack _throwAttack { get { return _attackType.ThrowAttack; } set { _attackType.ThrowAttack = value; } }
-    protected ArmMeleeAttack _meleeAttack { get { return _attackType.MeleeAttack; } set { _attackType.MeleeAttack = value; } }
-    protected ArmSpecialAttack _specialAttack { get { return _attackType.SpecialAttack; } set { _attackType.SpecialAttack = value; } }
-    protected ArmJumpDown _jumpDown { get { return _attackType.JumpDown; } set { _attackType.JumpDown = value; } }
-    protected ArmJumpAttack _jumpAttack { get { return _attackType.JumpAttack; } set { _attackType.JumpAttack = value; } }
-    public void Init(PlayerController player)
+    public ArmThrowAttack ThrowAttack { get { return _attackType.ThrowAttack; } set { _attackType.ThrowAttack = value; } }
+    public ArmMeleeAttack MeleeAttack { get { return _attackType.MeleeAttack; } set { _attackType.MeleeAttack = value; } }
+    public ArmSpecialAttack SpecialAttack { get { return _attackType.SpecialAttack; } set { _attackType.SpecialAttack = value; } }
+    public ArmJumpDown JumpDown { get { return _attackType.JumpDown; } set { _attackType.JumpDown = value; } }
+    public ArmJumpAttack JumpAttack { get { return _attackType.JumpAttack; } set { _attackType.JumpAttack = value; } }
+    public virtual void Init(PlayerController player)
     {
         Player = player; 
         _types = new ArmAttackType[(int)Type.Size];
-        InitType(Type.Throw, _throwAttack);
-        InitType(Type.Melee, _meleeAttack);
-        InitType(Type.Special, _specialAttack);
-        InitType(Type.JumpDown, _jumpDown);
-        InitType(Type.JumpAttack, _jumpAttack);
+        InitType(Type.Throw, ThrowAttack);
+        InitType(Type.Melee, MeleeAttack);
+        InitType(Type.Special, SpecialAttack);
+        InitType(Type.JumpDown, JumpDown);
+        InitType(Type.JumpAttack, JumpAttack);
     }
 
 
@@ -79,7 +81,6 @@ public class ArmUnit : ScriptableObject
     {
         SelectType().EndCombo();
     }
-
     private ArmAttackType SelectType()
     {
         ArmAttackType attackType = null;

@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class ObjectTestSample : MonoBehaviour
 {
-    ObjectPool Pool;
-    GameObject _prefab;
-    GameObject _instance;
-    private void Awake()
-    {
-        Pool = ObjectPool.CreateObjectPool(transform);
-    }
+    [SerializeField]Collider _prefab;
+    Collider _instance;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            _instance = Pool.GetPool(_prefab, transform.position, transform.rotation);
+             _instance = ObjectPool.GetPool(_prefab);
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            Pool.ReturnPool(_prefab, _instance);
+            ObjectPool.ReturnPool(_instance);
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ObjectPool.ReturnPool(gameObject);
+        }
+       // Debug.Log(_instance);
     }
 }

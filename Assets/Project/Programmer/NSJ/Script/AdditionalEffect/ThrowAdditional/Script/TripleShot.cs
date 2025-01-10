@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// ¼¼¹ß ¸ÖÆ¼¼¦
 /// </summary>
-[CreateAssetMenu(fileName = "TripleShot",menuName = "AdditionalEffect/Throw/TripleShot")]
+[CreateAssetMenu(fileName = "TripleShot",menuName = "AdditionalEffect/PrevThrow/TripleShot")]
 public class TripleShot : ThrowAdditional
 {
     [Range(0, 90)][SerializeField] private float _angle;

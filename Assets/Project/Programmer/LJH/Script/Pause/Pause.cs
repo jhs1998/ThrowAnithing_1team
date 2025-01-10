@@ -45,7 +45,7 @@ public class Pause : Main_Option
     {
         if (pause.activeSelf)
         {
-            if (InputKey.GetButtonDown(InputKey.Interaction))
+            if (InputKey.GetButtonDown(InputKey.PrevInteraction))
                 SelectedEnter();
 
             //Time.timeScale = 0;
@@ -113,12 +113,12 @@ public class Pause : Main_Option
     //Comment : 선택한 메뉴로 진입하는 함수
     void SelectedEnter()
     {
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             switch (curMenu_p)
             {
                 case 0:
-                    _ContinueButton();
+                    Pause_ContinueButton();
                     break;
 
                 case 1:
@@ -127,23 +127,23 @@ public class Pause : Main_Option
                     break;
 
                 case 2:
-                    _ExitButton();
+                    Pause_ExitButton();
                     break;
             }
         }
     }
 
-    public void _ContinueButton()
+    public void Pause_ContinueButton()
     {
         Panel.ChangeBundle(PausePanel.Bundle.None);
     }
 
-    public void _OptionButton()
+    public void Pause_OptionButton()
     {
         Panel.ChangeBundle(PausePanel.Bundle.Option);
     }
 
-    public void _ExitButton()
+    public void Pause_ExitButton()
     {
         exitPopUpObj_p.SetActive(true);
     }
@@ -166,7 +166,7 @@ public class Pause : Main_Option
         exitPopUpObj_p = GetUI("ExitPopUp");
 
         exitButtons_p = new Button[2];
-        exitButtons_p[0] = GetUI<Button>("Interaction");
+        exitButtons_p[0] = GetUI<Button>("PrevInteraction");
         exitButtons_p[1] = GetUI<Button>("Negative");
 
     }

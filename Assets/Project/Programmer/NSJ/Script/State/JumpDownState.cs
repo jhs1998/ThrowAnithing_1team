@@ -9,6 +9,10 @@ public class JumpDownState : PlayerState
         UseStamina = true;
         StaminaAmount = Model.JumpDownStamina;
     }
+    public override void InitArm()
+    {
+        StaminaAmount = Model.JumpDownStamina;
+    }
     public override void Enter()
     {
         Arm.Enter();

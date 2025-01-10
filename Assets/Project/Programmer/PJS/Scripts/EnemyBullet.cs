@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
@@ -22,8 +23,7 @@ public class EnemyBullet : MonoBehaviour
 
     private void Start()
     {
-        // TODO : 플레이어 바라보는거 좋은 방법 있을 시 교체
-        transform.LookAt(target.position + new Vector3(0, 1, 0));
+        StartCoroutine(DestoryRoutine());
     }
 
     private void FixedUpdate()
@@ -36,7 +36,7 @@ public class EnemyBullet : MonoBehaviour
         if (other.transform.tag == Tag.Player)
         {
             Battle.TargetAttack(other.transform, Atk, true);
-            Destroy(gameObject);
+            ObjectPool.ReturnPool(this);
         }
 
         if (curState == State.Poision)
@@ -44,7 +44,12 @@ public class EnemyBullet : MonoBehaviour
             Debug.Log("생성");
             Instantiate(poisonPlate, transform.position, transform.rotation);
         }
+        ObjectPool.ReturnPool(this);
+    }
 
-        Destroy(gameObject);
+    IEnumerator DestoryRoutine()
+    {
+        yield return 5f.GetDelay();
+        ObjectPool.ReturnPool(this);
     }
 }

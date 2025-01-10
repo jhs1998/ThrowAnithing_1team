@@ -34,8 +34,8 @@ namespace MKH
 
         private void End()
         {
-            GameObject particles = Instantiate(particle1, transform.position, Quaternion.Euler(-90f, 0, 0));
-            Destroy(particles, 1f);
+                GameObject particles = Instantiate(particle1, transform.position, Quaternion.Euler(-90f, 0, 0));
+                Destroy(particles, 1f);
         }
 
         IEnumerator Drop()
@@ -44,10 +44,8 @@ namespace MKH
             yield return new WaitForSeconds(0.2f);
             DropItem();
             yield return new WaitForSeconds(10f);
-            if (dropPrefab != null)
-            {
-                End();
-            }
+            End();
+
         }
     }
 

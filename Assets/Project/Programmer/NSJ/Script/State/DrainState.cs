@@ -14,11 +14,13 @@ public class DrainState : PlayerState
     private Coroutine _drainRoutine;
     public DrainState(PlayerController controller) : base(controller)
     {
-        UseStamina = true;
-        StaminaAmount = 10;
+        UseStamina = true;    
         _drainField.SetActive(false);
     }
-
+    public override void InitArm()
+    {
+        StaminaAmount = Model.DrainStamina;
+    }
     public override void Enter()
     {
         Model.CurStamina += 10;

@@ -5,9 +5,12 @@ public class DoubleJumpState : PlayerState
     public DoubleJumpState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
+       
+    }
+    public override void InitArm()
+    {
         StaminaAmount = Model.DoubleJumpStamina;
     }
-
     public override void Enter()
     {
         View.SetTrigger(PlayerView.Parameter.DoubleJump);
@@ -19,7 +22,7 @@ public class DoubleJumpState : PlayerState
 
     public override void Update()
     {
-        // Debug.Log("Jump");
+        // Debug.Log("PrevJump");
     }
 
     public override void OnTrigger()

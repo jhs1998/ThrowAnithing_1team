@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Power Throw", menuName = "Arm/AttackType/Power/Throw")]
+[CreateAssetMenu(fileName = "Power PrevThrow", menuName = "Arm/AttackType/Power/PrevThrow")]
 public class PowerThrowAttack : ArmThrowAttack
 {
     [System.Serializable]
