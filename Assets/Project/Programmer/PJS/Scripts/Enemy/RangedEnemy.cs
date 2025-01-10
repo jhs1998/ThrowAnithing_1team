@@ -9,6 +9,8 @@ public class RangedEnemy : BaseEnemy
     [Header("투사체 정보")]
     [SerializeField] EnemyBullet bulletPrefab;
     [SerializeField] Transform muzzle;
+    [Space]
+    [SerializeField] ParticleSystem dieParticle;
 
     public float BulletSpeed { get { return bulletSpeed; } }
 
@@ -19,7 +21,6 @@ public class RangedEnemy : BaseEnemy
         tree.SetVariableValue("HitCoolTime", hitCoolTime);
     }
 
-
     public void Attack()
     {
         EnemyBullet bulletPool = ObjectPool.GetPool(bulletPrefab, muzzle.position, muzzle.rotation);
@@ -27,5 +28,11 @@ public class RangedEnemy : BaseEnemy
         bulletPool.Speed = bulletSpeed;
         bulletPool.Atk = state.Atk;
         bulletPool.Battle = Battle;
+    }
+
+    // 사망 애니메이션 이벤트
+    public void DeadMotion()
+    {
+        dieParticle.Play();
     }
 }

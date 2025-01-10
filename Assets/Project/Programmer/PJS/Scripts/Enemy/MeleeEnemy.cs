@@ -31,6 +31,7 @@ public class MeleeEnemy : BaseEnemy
         stepMoveParticle.Play();
     }
 
+    // 사망 애니메이션 이벤트
     public void DeadMotion()
     {
         dieParticle.Play();

@@ -323,6 +323,7 @@ MonoBehaviour:
   bulletSpeed: 7
   bulletPrefab: {fileID: 1415841380596911756, guid: 67fafdf47f1461c44a52ef581e9d1048, type: 3}
   muzzle: {fileID: 3459780639356417389}
+  dieParticle: {fileID: 319367368482959458}
 --- !u!114 &417531623798941754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,6 +614,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05f7c156786bd024e8da3bb1a4b8aa09, type: 3}
+--- !u!198 &319367368482959458 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198121459679799664, guid: 05f7c156786bd024e8da3bb1a4b8aa09, type: 3}
+  m_PrefabInstance: {fileID: 491244783157614866}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &494901408350047470 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4361429739378172, guid: 05f7c156786bd024e8da3bb1a4b8aa09, type: 3}
