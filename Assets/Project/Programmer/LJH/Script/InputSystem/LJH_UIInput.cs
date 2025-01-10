@@ -8,26 +8,52 @@ using UnityEngine.UI;
 
 public class LJH_UIInput : MonoBehaviour
 {
-    PlayerInput playerInput;
-    Button button;
-    private void Start()
+    
+    public GameObject firstButton;
+
+    void Start()
     {
-        
+        // 첫 번째 버튼 포커스
+        EventSystem.current.SetSelectedGameObject(firstButton);
     }
+
     void Update()
     {
-        button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        // 키보드 입력에 따라 버튼 탐색
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            GameObject current = EventSystem.current.currentSelectedGameObject;
+            if (current != null)
+            {
+                SelectNextButton(current);
+            }
 
-        changeColor();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            GameObject current = EventSystem.current.currentSelectedGameObject;
+            if (current != null)
+            {
+                ClickButton(current);
+            }
+
+        }
     }
 
-    void changeColor()
+    void SelectNextButton(GameObject current)
     {
-        ColorBlock colorBlock = button.colors;
+        // 원하는 버튼 탐색 로직을 여기에 추가
+        var nextButton = current.GetComponent<Selectable>().FindSelectableOnDown();
+        if (nextButton != null)
+        {
+            EventSystem.current.SetSelectedGameObject(nextButton.gameObject);
+        }
+    }
 
-        //(r, g, b, a) 기준 빨간색으로 normal Color 지정
-        colorBlock.normalColor = Color.red;
-
-        button.colors = colorBlock;
+    void ClickButton(GameObject current)
+    {
+            EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
+        
     }
 }
+
