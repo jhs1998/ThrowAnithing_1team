@@ -6,12 +6,12 @@ using Zenject;
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
-    [HideInInspector] public InventoryController Controller;
-    [HideInInspector] public EquipmentInventory EquipInventory;
-    [HideInInspector] public InventoryMain InventoryMain;
-    [HideInInspector] public BlueChipPanel BlueChipPanel;
-    [HideInInspector] public BlueChipChoiceController BlueChipChoiceController;
-    [HideInInspector] public BlueChipChoicePanel BlueChipChoicePanel;
+    [HideInInspector] InventoryController Controller;
+    [HideInInspector] EquipmentInventory EquipInventory;
+    [HideInInspector] InventoryMain InventoryMain;
+    [HideInInspector] BlueChipPanel BlueChipPanel;
+    [HideInInspector] BlueChipChoiceController BlueChipChoiceController;
+    [HideInInspector] BlueChipChoicePanel BlueChipChoicePanel;
     [SerializeField] public GameObject BlueChipChoice;
     [SerializeField] public GameObject ChoicePanel;
 
@@ -60,9 +60,7 @@ public class Inventory : MonoBehaviour
         EquipInventory = GetComponentInChildren<EquipmentInventory>();
         InventoryMain = GetComponentInChildren<InventoryMain>();
         BlueChipPanel = GetComponentInChildren<BlueChipPanel>();
-        //BlueChipChoicePanel = GetComponentInChildren<Inventory>().GetComponentInChildren<BlueChipChoicePanel>();
         BlueChipChoicePanel = GetComponentInChildren<BlueChipChoicePanel>();
-        //BlueChipChoiceController = GetComponentInChildren<Inventory>().GetComponentInChildren<BlueChipChoiceController>();
         BlueChipChoiceController = GetComponentInChildren<BlueChipChoiceController>();
     }
 
