@@ -64,10 +64,10 @@ public class Option_GamePlay : Main_Option
                 menuCo = StartCoroutine(GamePlay_Select());
             }
 
-            if (InputKey.GetButtonDown(InputKey.Interaction))
+            if (InputKey.GetButtonDown(InputKey.PrevInteraction))
                 ButtonSelect();
 
-            if (InputKey.GetButtonDown(InputKey.Interaction))
+            if (InputKey.GetButtonDown(InputKey.PrevInteraction))
             {
                 if (gamePlayButtons[_curIndex] == GetUI("CancelButton_sound"))
                 {

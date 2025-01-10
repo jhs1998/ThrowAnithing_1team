@@ -3,7 +3,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Balance Special", menuName = "Arm/AttackType/Balance/Special")]
+[CreateAssetMenu(fileName = "Balance PrevSpecial", menuName = "Arm/AttackType/Balance/PrevSpecial")]
 public class BalanceSpecialAttack : ArmSpecialAttack
 {
     [System.Serializable]

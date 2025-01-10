@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ExplosionThrow", menuName = "AdditionalEffect/Throw/ExplosionThrow")]
+[CreateAssetMenu(fileName = "ExplosionThrow", menuName = "AdditionalEffect/PrevThrow/ExplosionThrow")]
 public class ExplosionThrowAdditonal : ThrowAdditional
 {
     [System.Serializable]

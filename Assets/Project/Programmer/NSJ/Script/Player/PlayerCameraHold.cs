@@ -179,7 +179,7 @@ public class PlayerCameraHold : MonoBehaviour
         while (true)
         {
             yield return null;
-            if (_player.IsTargetToggle == true && InputKey.GetButtonDown(InputKey.RockOn))
+            if (_player.IsTargetToggle == true && InputKey.GetButtonDown(InputKey.LoakOn))
             {
                 // ≈∏∞Ÿ ¿Œµ¶Ω∫ ø√∏≤
                 _targetIndex++;

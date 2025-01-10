@@ -193,7 +193,7 @@ public class MainScene : BaseUI
     //Comment : 선택한 메뉴로 진입하는 함수
     void SelectedEnter()
     {
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             switch (curMenu)
             {
@@ -257,7 +257,7 @@ public class MainScene : BaseUI
                     exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
                     exitNum = 1;
                 }
-                if (InputKey.GetButtonDown(InputKey.Interaction))
+                if (InputKey.GetButtonDown(InputKey.PrevInteraction))
                 {
                     ExitYes();
                 }
@@ -270,7 +270,7 @@ public class MainScene : BaseUI
                     exitButtons[exitNum].GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
                     exitNum = 0;
                 }
-                if (InputKey.GetButtonDown(InputKey.Interaction))
+                if (InputKey.GetButtonDown(InputKey.PrevInteraction))
                 {
                     ExitNo();
                 }

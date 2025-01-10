@@ -81,20 +81,6 @@ public class ArmUnit : ScriptableObject
     {
         SelectType().EndCombo();
     }
-    #region 인풋시스템 콜백
-    public virtual void OnMove(Vector3 value) { }
-    public virtual void OnJump() { }
-    public virtual void OnRanged_Attack() { }
-    public virtual void OnSpecial_Attack() { }
-    public virtual void OnMelee_Attack() { }
-    public virtual void OnLoak_On() { }
-    public virtual void OnLoak_Off() { }
-    public virtual void OnDash() { }
-    public virtual void OnInteraction() { }
-    public virtual void OnDrain() { }
-    public virtual void OnOpen_Settine() { }
-    public virtual void OnInvenOpen() { }
-    #endregion
     private ArmAttackType SelectType()
     {
         ArmAttackType attackType = null;

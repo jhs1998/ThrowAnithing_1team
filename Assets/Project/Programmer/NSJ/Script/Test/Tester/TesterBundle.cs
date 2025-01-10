@@ -75,7 +75,7 @@ namespace NSJ_TesterPanel
                     ChangeHighlight(-10);
                 }
 
-                if (InputKey.GetButtonDown(InputKey.Interaction))
+                if (InputKey.GetButtonDown(InputKey.PrevInteraction))
                 {
                     if (_canControl == false)
                     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CushionAttack", menuName = "AdditionalEffect/Throw/CushionAttack")]
+[CreateAssetMenu(fileName = "CushionAttack", menuName = "AdditionalEffect/PrevThrow/CushionAttack")]
 public class CushionAttack : ThrowAdditional
 {
     [Header("Æ¨±è È½¼ö")]

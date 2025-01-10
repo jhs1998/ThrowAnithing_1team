@@ -85,7 +85,7 @@ public class Upgrade : BaseUI
         Slot_Selected();
 
         //Comment : For test
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             slots[ver, ho].onClick.Invoke();
         }
@@ -243,7 +243,7 @@ public class Upgrade : BaseUI
         {
             slots[ver, ho].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
 
-            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.Interaction))
+            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.PrevInteraction))
             {
                 (ver, ho) = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
             }

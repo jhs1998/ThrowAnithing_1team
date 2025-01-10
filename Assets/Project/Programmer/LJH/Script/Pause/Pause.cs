@@ -45,7 +45,7 @@ public class Pause : Main_Option
     {
         if (pause.activeSelf)
         {
-            if (InputKey.GetButtonDown(InputKey.Interaction))
+            if (InputKey.GetButtonDown(InputKey.PrevInteraction))
                 SelectedEnter();
 
             //Time.timeScale = 0;
@@ -113,7 +113,7 @@ public class Pause : Main_Option
     //Comment : 선택한 메뉴로 진입하는 함수
     void SelectedEnter()
     {
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             switch (curMenu_p)
             {
@@ -166,7 +166,7 @@ public class Pause : Main_Option
         exitPopUpObj_p = GetUI("ExitPopUp");
 
         exitButtons_p = new Button[2];
-        exitButtons_p[0] = GetUI<Button>("Interaction");
+        exitButtons_p[0] = GetUI<Button>("PrevInteraction");
         exitButtons_p[1] = GetUI<Button>("Negative");
 
     }
