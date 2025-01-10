@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour, IHit
     [SerializeField] public Transform ArmPoint;
     [SerializeField] public GameObject _lifeDrainPrefab;
     [Inject]
-    public OptionSetting setting;
+    [HideInInspector] public OptionSetting setting;
 
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;

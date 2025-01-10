@@ -1,5 +1,7 @@
+using Cinemachine;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -66,6 +68,12 @@ public class PlayerView : MonoBehaviour
     private void Awake()
     {
         Init();
+
+        Camera.main.GetOrAddComponent<CinemachineBrain>();
+
+        Camera.main.cullingMask = Layer.GetLayerMaskEveryThing();
+        Camera.main.cullingMask &= ~(1<<Layer.IgnoreRaycast);
+        Camera.main.cullingMask &= ~(1<< Layer.HideWall);
     }
 
     private void Update()
