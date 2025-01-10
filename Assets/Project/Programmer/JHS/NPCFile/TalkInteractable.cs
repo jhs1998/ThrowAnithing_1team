@@ -14,15 +14,15 @@ public class TalkInteractable : MonoBehaviour
     [SerializeField] private string[] dialogues; // 대사 목록
     [SerializeField] private float typingSpeed = 0.05f; // 타이핑 속도
 
-    private PlayerController _player;
+    private PlayerInput playerInput; // Player Input 컴포넌트
     private bool isPlayerNearby = false; // 플레이어 근처에 있는지 확인
     private bool isTyping = false; // 현재 타이핑 중인지 확인
     private int currentDialogueIndex = 0; // 현재 대사 인덱스
 
     private void Awake()
     {
-        // PlayerController 찾기
-        _player = GameObject.FindGameObjectWithTag(Tag.Player).GetComponent<PlayerController>();
+        // PlayerInput 컴포넌트 가져오기
+        playerInput = GameObject.FindGameObjectWithTag("InputKey").GetComponent<PlayerInput>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -43,23 +43,30 @@ public class TalkInteractable : MonoBehaviour
             isPlayerNearby = false;
         }
     }
+    private void OnEnable()
+    {
+        // PlayerInput의 Action Map에 대한 이벤트 등록
+        playerInput.actions["Choice"].performed += OnChoicePerformed;
+    }
+    private void OnDisable()
+    {
+        // 이벤트 등록 해제
+        playerInput.actions["Choice"].performed -= OnChoicePerformed;
+    }
 
-    private void Update()
+    private void OnChoicePerformed(InputAction.CallbackContext context)
     {
         if (!isPlayerNearby)
             return;
 
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (dialogueUI.activeSelf)
         {
-            if (dialogueUI.activeSelf)
-            {
-                HandleDialogueProgress();
-            }
-            else
-            {
-                ShowDialogueUI();
-                StartDialogue();
-            }
+            HandleDialogueProgress();
+        }
+        else
+        {
+            ShowDialogueUI();
+            StartDialogue();
         }
     }
 
@@ -76,13 +83,13 @@ public class TalkInteractable : MonoBehaviour
     private void ShowDialogueUI()
     {
         dialogueUI.SetActive(true);
-        _player.CantOperate = true; // 플레이어 조작 비활성화
+        SwitchActionMap("UI"); // 플레이어 조작 비활성화
     }
 
     private void HideDialogueUI()
     {
         dialogueUI.SetActive(false);
-        _player.CantOperate = false; // 플레이어 조작 활성화
+        SwitchActionMap("Gameplay"); // 플레이어 조작 활성화
     }
 
     private void StartDialogue()
@@ -94,19 +101,22 @@ public class TalkInteractable : MonoBehaviour
     private IEnumerator TypeDialogue()
     {
         isTyping = true;
-        dialogueText.text = "";
-        foreach (char c in dialogues[currentDialogueIndex])
+        string currentDialogue = dialogues[currentDialogueIndex];
+        dialogueUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = ""; // 대사 초기화
+
+        foreach (char c in currentDialogue)
         {
-            dialogueText.text += c;
+            dialogueUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text += c;
             yield return new WaitForSeconds(typingSpeed);
 
-            // 타이핑 중에 e 버튼이 눌리면 즉시 전체 출력
-            if (Keyboard.current.eKey.wasPressedThisFrame)
+            // 타이핑 중에 즉시 출력 처리
+            if (playerInput.actions["Choice"].triggered)
             {
-                dialogueText.text = dialogues[currentDialogueIndex];
+                dialogueUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = currentDialogue;
                 break;
             }
         }
+
         isTyping = false;
     }
 
@@ -116,7 +126,7 @@ public class TalkInteractable : MonoBehaviour
         {
             // 타이핑 중이라면 즉시 출력 완료
             StopAllCoroutines();
-            dialogueText.text = dialogues[currentDialogueIndex];
+            dialogueUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = dialogues[currentDialogueIndex];
             isTyping = false;
         }
         else
@@ -133,5 +143,9 @@ public class TalkInteractable : MonoBehaviour
                 HideDialogueUI();
             }
         }
+    }
+    private void SwitchActionMap(string mapName)
+    {
+        playerInput.SwitchCurrentActionMap(mapName);
     }
 }
