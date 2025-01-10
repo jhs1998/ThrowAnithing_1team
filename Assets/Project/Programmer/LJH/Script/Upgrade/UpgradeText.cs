@@ -19,6 +19,8 @@ public class UpgradeText : MonoBehaviour
         gameObject.transform.SetParent(canvas.transform);
         backCol = gameObject.GetComponent<Image>().color;
         textCol = gameObject.GetComponentInChildren<TMP_Text>().color;
+
+        GetComponent<Image>().raycastTarget = false;
     }
 
     private void OnDisable()
@@ -45,7 +47,7 @@ public class UpgradeText : MonoBehaviour
 
     IEnumerator TextDelete()
     {
-        yield return 1f.GetRealTimeDelay();
+        yield return 0.7f.GetRealTimeDelay();
         
         // 테스트 코드
         //gameObject.SetActive(false);
