@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
+using Zenject.SpaceFighter;
 
 [CreateAssetMenu(fileName = "Balance PrevSpecial", menuName = "Arm/AttackType/Balance/PrevSpecial")]
 public class BalanceSpecialAttack : ArmSpecialAttack
@@ -31,8 +31,11 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     [System.Serializable]
     struct ThirdStruct
     {
+        public GameObject Effect;
+        public GameObject BeforeEffect;
         public ElectricShockAdditonal ElectricShock;
         public float AttackDelay;
+        public Vector3 AttackOffset;
         public float Damage;
         public float MiddleDamage;
         public float Range;
@@ -44,6 +47,8 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     [SerializeField] private FirstStruct _first;
     [SerializeField] private SecondStruct _second;
     [SerializeField] private ThirdStruct _third;
+
+    private List<Transform> MiddleHittargets = new List<Transform>();
     private float _maxChargeTime => _charges[_charges.Length - 1].ChargeTime;
     private float _maxChargeMana => _charges[_charges.Length - 1].ChargeMana;
     public override void Init(PlayerController player)
@@ -62,7 +67,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     }
     public override void Enter()
     {
-        if (_isSpecialCharge == false 
+        if (_isSpecialCharge == false
             && (Model.ThrowObjectStack.Count < _charges[_index].ObjectCount || Model.CurMana < Model.ManaConsumption[0]))
         {
             _isSpecialCharge = false;
@@ -79,7 +84,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         else
         {
             _index--;
-            if(_index < 0)
+            if (_index < 0)
             {
                 Model.SpecialChargeGage = 0;
                 _isSpecialCharge = false;
@@ -93,7 +98,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     {
         if (_isSpecialCharge == false)
         {
-            
+
         }
         else
         {
@@ -117,7 +122,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
             ProcessCharge();
             if (InputKey.GetButtonUp(InputKey.Special))
             {
-                ChangeState(PlayerController.State.SpecialAttack);   
+                ChangeState(PlayerController.State.SpecialAttack);
                 yield break;
             }
             yield return null;
@@ -168,7 +173,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         {
             Model.PopThrowObject();
         }
-        switch (index) 
+        switch (index)
         {
             case 0:
                 ProcessFirstSpecial();
@@ -228,7 +233,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     {
         SpecialObject specialObject = ObjectPool.GetPool(_second.SpecialObject, _muzzlePoint.position, _muzzlePoint.rotation);
         specialObject.Init(Player, CrowdControlType.None, Model.ThrowAdditionals);
-        specialObject.InitSpecial(_second.Damage, _second.MiddleDamage,_second.Range, _second.MiddleRange);
+        specialObject.InitSpecial(_second.Damage, _second.MiddleDamage, _second.Range, _second.MiddleRange);
         specialObject.Shoot(Player.ThrowPower);
     }
 
@@ -238,6 +243,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     private void ProcessThirdSpecial()
     {
         Debug.Log("세번쨰 특수기");
+        Player.LookAtAttackDir();
         View.SetTrigger(PlayerView.Parameter.BalanceSpecial3);
     }
     /// <summary>
@@ -245,12 +251,56 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     /// </summary>
     private void Bombard()
     {
+        Player.LookAtAttackDir();
         CoroutineHandler.StartRoutine(BombardRoutine());
     }
 
     IEnumerator BombardRoutine()
     {
-        
+        Vector3 attackPos = new Vector3(
+                transform.position.x + (Player.transform.forward.x * _third.AttackOffset.x),
+                transform.position.y + 0.01f,
+                transform.position.z + (Player.transform.forward.z * _third.AttackOffset.z));
+         
+        GameObject beforeEffect = ObjectPool.GetPool(_third.BeforeEffect, attackPos, Quaternion.identity);
         yield return _third.AttackDelay.GetDelay();
+        ObjectPool.ReturnPool(beforeEffect);
+        //TODO 
+        AttackBombard(attackPos);
+
+        GameObject effect = ObjectPool.GetPool(_third.Effect, attackPos, _third.Effect.transform.rotation);
+        yield return 2f.GetDelay();
+        ObjectPool.ReturnPool(effect);
+    }
+
+    private void AttackBombard(Vector3 attackPos)
+    {
+        // 중앙 맞은 몬스터 걸러내기
+        int hitCount = Physics.OverlapSphereNonAlloc(attackPos, _third.MiddleRange, Player.OverLapColliders, 1 << Layer.Monster);
+        for (int i = 0; i < hitCount; i++)
+        {
+            MiddleHittargets.Add(Player.OverLapColliders[i].transform);
+        }
+
+
+        hitCount = Physics.OverlapSphereNonAlloc(attackPos, _third.Range, Player.OverLapColliders, 1 << Layer.Monster);
+        for (int i = 0; i < hitCount; i++)
+        {
+            int finalDamage = 0;
+            bool isCritical = false;
+            // 중앙에 맞았을 경우
+            if (MiddleHittargets.Contains(Player.OverLapColliders[i].transform))
+            {
+                finalDamage = Player.GetFinalDamage((int)_third.MiddleDamage, out isCritical);
+            }
+            else
+            {
+                finalDamage = Player.GetFinalDamage((int)_third.Damage, out isCritical);
+            }
+
+            Battle.TargetAttack(Player.OverLapColliders[i], isCritical, finalDamage);
+            Battle.TargetDebuff(Player.OverLapColliders[i], _third.ElectricShock);
+        }
+        MiddleHittargets.Clear();
     }
 }
