@@ -254,7 +254,6 @@ MonoBehaviour:
   maxRecoveryHp: 10
   breakshieldCount: 5
   stunTime: 7
-  shieldParticle: {fileID: 5231030615276736965}
   curve:
     serializedVersion: 2
     m_Curve:
@@ -290,6 +289,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   jumpAttackTime: 1.75
   jumpHeight: 17
+  shieldParticle: {fileID: 5231030615276736965}
   createShield: 0
   breakShield: 0
   playerPos: {x: 0, y: 0, z: 0}
@@ -356,54 +356,57 @@ MonoBehaviour:
         Stiff","Instant":true,"Disabled":true,"SharedBoolStiff":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"Stiff","IsShared":true,"BooleanmValue":false},"SharedBoolhitAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HitAble","IsShared":true,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(209.1294,159.565247)"},"ID":15,"Name":"Parallel","Instant":true,"Disabled":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(-346.108063,209.565216)"},"ID":16,"Name":"Set
         Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Move"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-218.0342,209.565216)"},"ID":17,"Name":"Set
         Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Hit"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-108.592453,210)"},"ID":18,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.25},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"TakeHit","NodeData":{"Offset":"(1.36170292,207)"},"ID":19,"Name":"Take
-        Hit","Instant":true,"SharedBoolhitAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HitAble","IsShared":true,"BooleanmValue":true},"SharedFloatcoolTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-246.153381,190)"},"ID":20,"Name":"Selector","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-590,140)"},"ID":21,"Name":"Selector","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-1065.28174,373.8698)"},"ID":22,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"GetPhase","NodeData":{"Offset":"(-210,144.999969)"},"ID":23,"Name":"Get
-        Phase","Instant":true,"PhaseTypephase":"Phase1"},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(-40,150.000031)","Comment":"\uacf5\uc6a9
-        \ucfe8\ud0c0\uc784 \ud655\uc778"},"ID":24,"Name":"Compare Shared Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.RandomSelector","NodeData":{"Offset":"(140,137.241348)","Comment":"\n1
-        Phase Patt"},"ID":25,"Name":"Random Selector","Instant":true,"Int32seed":0,"BooleanuseSeed":false,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-668.5111,190)","Comment":"\nElectric
-        Armour"},"ID":26,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(-305.000031,135.000336)","Comment":"
-        \ud328\ud134 \ucfe8\ud0c0\uc784 \ud655\uc778"},"ID":27,"Name":"Compare Shared
-        Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"ElectricArmour","IsShared":true,"BooleanmValue":true},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(-156.369263,141.184845)"},"ID":28,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-144.156326,121.0121)","Comment":"Animation
-        Action"},"ID":29,"Name":"Set Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(-4.15633,121.0121)","Comment":"Animation
-        Action"},"ID":30,"Name":"Set Integer Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackID"},"SharedIntintValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(133.74437,133.7439)"},"ID":31,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]},{"Type":"ElectricArmour","NodeData":{"Offset":"(-17.9269257,150.496689)"},"ID":32,"Name":"Electric
-        Armour","Instant":true,"BossSkillStateskillState":{"Int32damage":0,"Singlerange":0,"SinglecoolTime":20,"SharedBoolatkAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"ElectricArmour","IsShared":true,"BooleanmValue":true}},"GlobalStateglobalState":{"SharedBoolAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},"SharedFloatcoolTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GlobalCoolTime","IsShared":true,"SinglemValue":7}}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-343.749359,210)","Comment":"\nLightning
-        Nova"},"ID":33,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(-164.9997,135.000336)","Comment":"\ud328\ud134
-        \ucfe8\ud0c0\uc784 \ud655\uc778"},"ID":34,"Name":"Compare Shared Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningNova","IsShared":true,"BooleanmValue":true},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(-3.592083,151.134247)"},"ID":35,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-144.162186,117.873718)","Comment":"Animation
-        Action"},"ID":36,"Name":"Set Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(-3.94475937,116.786743)","Comment":"Animation
-        Action"},"ID":37,"Name":"Set Integer Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackID"},"SharedIntintValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":2},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(135.714279,120)","Comment":"Charge
-        Time"},"ID":38,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":3},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]},{"Type":"LightningNova","NodeData":{"Offset":"(142.327423,147.2877)"},"ID":39,"Name":"Lightning
-        Nova","Instant":true,"BossSkillStateskillState":{"Int32damage":45,"Singlerange":10,"SinglecoolTime":15,"SharedBoolatkAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningNova","IsShared":true,"BooleanmValue":true}},"GlobalStateglobalState":{"SharedBoolAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},"SharedFloatcoolTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GlobalCoolTime","IsShared":true,"SinglemValue":7}}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(131.012878,170)","Comment":"\nLightning
-        Fist"},"ID":40,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(-105.000092,163.889191)","Comment":"\ud328\ud134
-        \ucfe8\ud0c0\uc784 \ud655\uc778"},"ID":41,"Name":"Compare Shared Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningFist","IsShared":true,"BooleanmValue":true},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(36.378,156.732162)"},"ID":42,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-135.78862,143.708176)","Comment":"Animation
-        Action"},"ID":43,"Name":"Set Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(4.211214,143.708176)","Comment":"Animation
-        Action"},"ID":44,"Name":"Set Integer Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackID"},"SharedIntintValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":1},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(137.243362,150.263153)"},"ID":45,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1.5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]},{"Type":"LightningFist","NodeData":{"Offset":"(176.280518,166.804932)"},"ID":46,"Name":"Lightning
-        Fist","Instant":true,"BossSkillStateskillState":{"Int32damage":30,"Singlerange":8,"SinglecoolTime":10,"SharedBoolatkAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningFist","IsShared":true,"BooleanmValue":true}},"GlobalStateglobalState":{"SharedBoolAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},"SharedFloatcoolTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GlobalCoolTime","IsShared":true,"SinglemValue":7}},"GameObjectelectricZone":1,"TransformcreatePos":2}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-127.294128,370)","Comment":"\n2
-        Phase"},"ID":47,"Name":"Selector","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Cooldown","NodeData":{"Offset":"(-159.999252,349.999725)"},"ID":48,"Name":"Cooldown","Instant":true,"SharedFloatduration":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.5},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(3.81469727E-05,120)","Comment":"\nStun"},"ID":49,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"IsStun","NodeData":{"Offset":"(-186.44812,147.764648)"},"ID":50,"Name":"Is
-        Stun","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-84.99997,147.5)"},"ID":51,"Name":"Set
-        Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Stun"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(45.0000534,147.5)"},"ID":52,"Name":"Set
-        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"StunDelay"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(175,150)"},"ID":53,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StunTime","IsShared":true,"SinglemValue":0},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(314.166656,147.5)"},"ID":54,"Name":"Set
-        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"StunDelay"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"BooleansetOnce":false},{"Type":"SetStun","NodeData":{"Offset":"(436.1852,145.60405)"},"ID":55,"Name":"Set
-        Stun","Instant":true,"SharedBoolable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TryRecovery","IsShared":true,"BooleanmValue":false},"BooleanonStun":false}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(117.804878,213.414658)","Comment":"\nRecovery"},"ID":56,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"GetPhase","NodeData":{"Offset":"(-144.0909,140)"},"ID":57,"Name":"Get
-        Phase","Instant":true,"PhaseTypephase":"Phase2"},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(4.51878071,141.719971)"},"ID":58,"Name":"Compare
-        Shared Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TryRecovery","IsShared":true,"BooleanmValue":false},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(143.5167,143.157837)"},"ID":59,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-110.526306,110.526321)"},"ID":60,"Name":"Set
-        Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(16.3158188,110.526321)"},"ID":61,"Name":"Set
-        Integer Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackID"},"SharedIntintValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":4},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(165.263062,112.1053)"},"ID":62,"Name":"Set
-        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Recovery"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"BooleansetOnce":false}]},{"Type":"HealthRecovery","NodeData":{"Offset":"(268.963226,140)"},"ID":63,"Name":"Health
+        Hit","Instant":true,"SharedBoolhitAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HitAble","IsShared":true,"BooleanmValue":true},"SharedFloatcoolTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-246.153381,190)"},"ID":20,"Name":"Selector","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-590,140)"},"ID":21,"Name":"Selector","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-307.7072,248.87001)"},"ID":22,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(-290,150.000031)","Comment":"\uacf5\uc6a9
+        \ucfe8\ud0c0\uc784 \ud655\uc778"},"ID":23,"Name":"Compare Shared Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(80.1135559,160.744232)"},"ID":24,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-236.666626,110)","Comment":"1
+        Phase Pattern"},"ID":25,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"GetPhase","NodeData":{"Offset":"(-211.7544,163.1579)"},"ID":26,"Name":"Get
+        Phase","Instant":true,"PhaseTypephase":"Phase1"},{"Type":"BehaviorDesigner.Runtime.Tasks.RandomSelector","NodeData":{"Offset":"(-66.49127,158.947357)"},"ID":27,"Name":"Random
+        Selector","Instant":true,"Int32seed":0,"BooleanuseSeed":false,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-668.5111,190)","Comment":"\nElectric
+        Armour"},"ID":28,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(-305.000031,135.000336)","Comment":"
+        \ud328\ud134 \ucfe8\ud0c0\uc784 \ud655\uc778"},"ID":29,"Name":"Compare Shared
+        Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"ElectricArmour","IsShared":true,"BooleanmValue":true},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(-156.369263,141.184845)"},"ID":30,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-144.156326,121.0121)","Comment":"Animation
+        Action"},"ID":31,"Name":"Set Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(-4.15633,121.0121)","Comment":"Animation
+        Action"},"ID":32,"Name":"Set Integer Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackID"},"SharedIntintValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(133.74437,133.7439)"},"ID":33,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]},{"Type":"ElectricArmour","NodeData":{"Offset":"(-17.9269257,150.496689)"},"ID":34,"Name":"Electric
+        Armour","Instant":true,"BossSkillStateskillState":{"Int32damage":0,"Singlerange":0,"SinglecoolTime":20,"SharedBoolatkAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"ElectricArmour","IsShared":true,"BooleanmValue":true}},"GlobalStateglobalState":{"SharedBoolAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},"SharedFloatcoolTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GlobalCoolTime","IsShared":true,"SinglemValue":7}}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-372.32077,210)","Comment":"\nLightning
+        Nova"},"ID":35,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(-164.9997,135.000336)","Comment":"\ud328\ud134
+        \ucfe8\ud0c0\uc784 \ud655\uc778"},"ID":36,"Name":"Compare Shared Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningNova","IsShared":true,"BooleanmValue":true},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(-3.592083,151.134247)"},"ID":37,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-144.162186,117.873718)","Comment":"Animation
+        Action"},"ID":38,"Name":"Set Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(-3.94475937,116.786743)","Comment":"Animation
+        Action"},"ID":39,"Name":"Set Integer Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackID"},"SharedIntintValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":2},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(135.714279,120)","Comment":"Charge
+        Time"},"ID":40,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":3},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]},{"Type":"LightningNova","NodeData":{"Offset":"(142.327423,147.2877)"},"ID":41,"Name":"Lightning
+        Nova","Instant":true,"BossSkillStateskillState":{"Int32damage":45,"Singlerange":10,"SinglecoolTime":15,"SharedBoolatkAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningNova","IsShared":true,"BooleanmValue":true}},"GlobalStateglobalState":{"SharedBoolAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},"SharedFloatcoolTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GlobalCoolTime","IsShared":true,"SinglemValue":7}}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(59.5843468,198.571411)","Comment":"\nLightning
+        Fist"},"ID":42,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(-105.000092,163.889191)","Comment":"\ud328\ud134
+        \ucfe8\ud0c0\uc784 \ud655\uc778"},"ID":43,"Name":"Compare Shared Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningFist","IsShared":true,"BooleanmValue":true},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(36.378,156.732162)"},"ID":44,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-135.78862,143.708176)","Comment":"Animation
+        Action"},"ID":45,"Name":"Set Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(4.211214,143.708176)","Comment":"Animation
+        Action"},"ID":46,"Name":"Set Integer Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackID"},"SharedIntintValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":1},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(137.243362,150.263153)"},"ID":47,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1.5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]},{"Type":"LightningFist","NodeData":{"Offset":"(176.280518,166.804932)"},"ID":48,"Name":"Lightning
+        Fist","Instant":true,"BossSkillStateskillState":{"Int32damage":30,"Singlerange":8,"SinglecoolTime":10,"SharedBoolatkAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningFist","IsShared":true,"BooleanmValue":true}},"GlobalStateglobalState":{"SharedBoolAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},"SharedFloatcoolTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GlobalCoolTime","IsShared":true,"SinglemValue":7}},"GameObjectelectricZone":1,"TransformcreatePos":2}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(150.000031,129.999908)","Comment":"3
+        Phase Pattern"},"ID":49,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"GetPhase","NodeData":{"Offset":"(-66.92163,160)"},"ID":50,"Name":"Get
+        Phase","Instant":true,"PhaseTypephase":"Phase3"},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(139.74382,150.512421)"},"ID":51,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(-251.4279,155.713867)","Comment":"\ud328\ud134
+        \ucfe8\ud0c0\uc784 \ud655\uc778"},"ID":52,"Name":"Compare Shared Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"JumpAttck","IsShared":true,"BooleanmValue":true},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform.LookAt","NodeData":{"Offset":"(-101.711395,163.62085)"},"ID":53,"Name":"Look
+        At","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedGameObjecttargetLookAt":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true},"SharedVector3worldPosition":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,1,0)"},"Vector3worldUp":"(0,1,0)"},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(11.22035,155.842377)"},"ID":54,"Name":"Set
+        Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"JumpAttack"}},{"Type":"JumpAttack","NodeData":{"Offset":"(129.903473,153.911987)"},"ID":55,"Name":"Jump
+        Attack","Instant":true,"SharedGameObjectplayer":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true},"Singledis":0},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(240.954712,149.387909)"},"ID":56,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":2},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"ElectricArmour","NodeData":{"Offset":"(363.675537,145.917969)"},"ID":57,"Name":"SetCoolTime","Instant":true,"BossSkillStateskillState":{"Int32damage":0,"Singlerange":0,"SinglecoolTime":7,"SharedBoolatkAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"JumpAttck","IsShared":true,"BooleanmValue":true}},"GlobalStateglobalState":{"SharedBoolAble":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},"SharedFloatcoolTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GlobalCoolTime","IsShared":true,"SinglemValue":7}}}]}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(742.834534,392.727234)","Comment":"\n2
+        Phase"},"ID":58,"Name":"Selector","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Cooldown","NodeData":{"Offset":"(-159.999252,349.999725)"},"ID":59,"Name":"Cooldown","Instant":true,"SharedFloatduration":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.25},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(3.81469727E-05,120)","Comment":"\nStun"},"ID":60,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"IsStun","NodeData":{"Offset":"(-186.44812,147.764648)"},"ID":61,"Name":"Is
+        Stun","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-84.99997,147.5)"},"ID":62,"Name":"Set
+        Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Stun"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(45.0000534,147.5)"},"ID":63,"Name":"Set
+        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"StunDelay"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(175,150)","IsBreakpoint":true},"ID":64,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StunTime","IsShared":true,"SinglemValue":0},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(314.166656,147.5)"},"ID":65,"Name":"Set
+        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"StunDelay"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"BooleansetOnce":false},{"Type":"SetStun","NodeData":{"Offset":"(436.1852,145.60405)"},"ID":66,"Name":"Set
+        Stun","Instant":true,"SharedBoolable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TryRecovery","IsShared":true,"BooleanmValue":false},"BooleanonStun":false}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(117.804878,213.414658)","Comment":"\nRecovery"},"ID":67,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"GetPhase","NodeData":{"Offset":"(-144.0909,140)"},"ID":68,"Name":"Get
+        Phase","Instant":true,"PhaseTypephase":"Phase2"},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","NodeData":{"Offset":"(4.51878071,141.719971)"},"ID":69,"Name":"Compare
+        Shared Bool","Instant":true,"SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TryRecovery","IsShared":true,"BooleanmValue":false},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(143.5167,143.157837)"},"ID":70,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-110.526306,110.526321)"},"ID":71,"Name":"Set
+        Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(16.3158188,110.526321)"},"ID":72,"Name":"Set
+        Integer Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackID"},"SharedIntintValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":4},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(165.263062,112.1053)"},"ID":73,"Name":"Set
+        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Recovery"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"BooleansetOnce":false}]},{"Type":"HealthRecovery","NodeData":{"Offset":"(268.963226,140)"},"ID":74,"Name":"Health
         Recovery","Instant":true,"SharedIntmaxTime":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"MaxTime","IsShared":true,"Tooltip":"\ud68c\ubcf5\ud560
         \ucd5c\ub300 \uc2dc\uac04( \ucd08 \ub2e8\uc704)","Int32mValue":0},"SharedIntmaxAddHp":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"MaxRecoveryHp","IsShared":true,"Tooltip":"\ud68c\ubcf5\ud560
-        \ucd5c\ub300 HP ( % \ub2e8\uc704)","Int32mValue":0},"SharedBoolable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TryRecovery","IsShared":true,"BooleanmValue":false}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(590.948242,355.834717)"},"ID":64,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityInput.IsKeyDown","NodeData":{"Offset":"(-152.528687,151.297)"},"ID":65,"Name":"Is
-        Key Down","Instant":true,"KeyCodekey":"Q"},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform.LookAt","NodeData":{"Offset":"(-91.7113953,243.62085)"},"ID":66,"Name":"Look
-        At","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedGameObjecttargetLookAt":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true},"SharedVector3worldPosition":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,1,0)"},"Vector3worldUp":"(0,1,0)"},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-28.77965,155.842377)"},"ID":67,"Name":"Set
-        Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"JumpAttack"}},{"Type":"JumpAttack","NodeData":{"Offset":"(89.90347,153.911987)"},"ID":68,"Name":"Jump
-        Attack","Instant":true,"SharedGameObjectplayer":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(200.954712,149.387909)"},"ID":69,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":4.1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"BehaviorDesigner.Runtime.Tasks.Log","NodeData":{"Offset":"(316.437347,150.8739)"},"ID":70,"Name":"Log","Instant":true,"SharedStringtext":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":""},"SharedBoollogError":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBoollogTime":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(799.9993,150)"},"ID":71,"Name":"Selector","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Cooldown","NodeData":{"Offset":"(-73.03749,140)"},"ID":72,"Name":"Cooldown","Instant":true,"SharedFloatduration":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.5},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-0.11570549,110)","Comment":"Attack"},"ID":73,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"CanAttack","NodeData":{"Offset":"(-129.776123,143.853592)","Comment":"\uacf5\uaca9\uac00\ub2a5\ud55c\uc9c0"},"ID":74,"Name":"Can
-        Attack","Instant":true,"SharedTransformplayerPos":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true},"SharedFloatattackDis":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AttackDis","IsShared":true,"SinglemValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(4.542406,141.198929)"},"ID":75,"Name":"Set
-        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Move"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(130,140)"},"ID":76,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-340,130)"},"ID":77,"Name":"Set
-        Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(-200,130)"},"ID":78,"Name":"Set
+        \ucd5c\ub300 HP ( % \ub2e8\uc704)","Int32mValue":0},"SharedBoolable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TryRecovery","IsShared":true,"BooleanmValue":false}}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(799.9993,150)"},"ID":75,"Name":"Selector","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Cooldown","NodeData":{"Offset":"(-73.03749,140)"},"ID":76,"Name":"Cooldown","Instant":true,"SharedFloatduration":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.5},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-0.11570549,110)","Comment":"Attack"},"ID":77,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"CanAttack","NodeData":{"Offset":"(-129.776123,143.853592)","Comment":"\uacf5\uaca9\uac00\ub2a5\ud55c\uc9c0"},"ID":78,"Name":"Can
+        Attack","Instant":true,"SharedTransformplayerPos":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true},"SharedFloatattackDis":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AttackDis","IsShared":true,"SinglemValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(4.542406,141.198929)"},"ID":79,"Name":"Set
+        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Move"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(130,140)"},"ID":80,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-340,130)"},"ID":81,"Name":"Set
+        Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackT"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetIntegerParameter","NodeData":{"Offset":"(-200,130)"},"ID":82,"Name":"Set
         Integer Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackID"},"SharedIntintValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-50.00002,130)","Comment":"\uacf5\uaca9
-        \ub51c\ub808\uc774"},"ID":79,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AtkDelay","IsShared":true,"SinglemValue":0},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(193.452515,160)","Comment":"Trace"},"ID":80,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"CanMove","NodeData":{"Offset":"(-56.4309654,125.4637)","Comment":"\uc774\ub3d9\uac00\ub2a5\ud55c\uc9c0"},"ID":81,"Name":"Can
-        Move","Instant":true,"SharedTransformplayerPos":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true},"SharedFloatdistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"TraceDis","IsShared":true,"SinglemValue":0},"SharedBoolonTakeHit":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TakeDamage","IsShared":true,"BooleanmValue":false}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(12.7031889,237.92099)"},"ID":82,"Name":"Set
-        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Move"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"BooleansetOnce":false},{"Type":"EnemyTrace","NodeData":{"Offset":"(76.76544,131.202148)"},"ID":83,"Name":"Enemy
-        Trace","Instant":true,"SharedFloatspeed":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Speed","IsShared":true,"SinglemValue":0},"SharedTransformplayer":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true},"SharedFloattraceDist":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"TraceDis","IsShared":true,"SinglemValue":0},"SharedFloatattackDis":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AttackDis","IsShared":true,"SinglemValue":0},"SharedBoolonTakeHit":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TakeDamage","IsShared":true,"BooleanmValue":false}}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(749.1081,177.015045)","Comment":"Idle"},"ID":84,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(-2.22335339,136.129028)"},"ID":85,"Name":"Set
-        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Move"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Idle","NodeData":{"Offset":"(152.825592,132.039124)"},"ID":86,"Name":"Idle","Instant":true}]}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Speed","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AtkDelay","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"TraceDis","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AttackDis","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Reward","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GlobalCoolTime","IsShared":true,"SinglemValue":7},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningNova","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningFist","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"ElectricArmour","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"Stiff","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TakeDamage","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"AttackAble","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HitAble","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"MaxTime","IsShared":true,"Tooltip":"\ud68c\ubcf5\ud560
+        \ub51c\ub808\uc774"},"ID":83,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AtkDelay","IsShared":true,"SinglemValue":0},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(193.452515,160)","Comment":"Trace"},"ID":84,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"CanMove","NodeData":{"Offset":"(-56.4309654,125.4637)","Comment":"\uc774\ub3d9\uac00\ub2a5\ud55c\uc9c0"},"ID":85,"Name":"Can
+        Move","Instant":true,"SharedTransformplayerPos":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true},"SharedFloatdistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"TraceDis","IsShared":true,"SinglemValue":0},"SharedBoolonTakeHit":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TakeDamage","IsShared":true,"BooleanmValue":false}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(12.7031889,237.92099)"},"ID":86,"Name":"Set
+        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Move"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"BooleansetOnce":false},{"Type":"EnemyTrace","NodeData":{"Offset":"(76.76544,131.202148)"},"ID":87,"Name":"Enemy
+        Trace","Instant":true,"SharedFloatspeed":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Speed","IsShared":true,"SinglemValue":0},"SharedTransformplayer":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true},"SharedFloattraceDist":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"TraceDis","IsShared":true,"SinglemValue":0},"SharedFloatattackDis":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AttackDis","IsShared":true,"SinglemValue":0},"SharedBoolonTakeHit":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TakeDamage","IsShared":true,"BooleanmValue":false}}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(749.1081,177.015045)","Comment":"Idle"},"ID":88,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetBoolParameter","NodeData":{"Offset":"(-2.22335339,136.129028)"},"ID":89,"Name":"Set
+        Bool Parameter","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Move"},"SharedBoolboolValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"BooleansetOnce":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Idle","NodeData":{"Offset":"(152.825592,132.039124)"},"ID":90,"Name":"Idle","Instant":true}]}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTrans","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Speed","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AtkDelay","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"TraceDis","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AttackDis","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Reward","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GlobalCoolTime","IsShared":true,"SinglemValue":7},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"GlobalAble","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningNova","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"LightningFist","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"ElectricArmour","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"JumpAttck","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"Stiff","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TakeDamage","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"AttackAble","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HitAble","IsShared":true,"BooleanmValue":true},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"MaxTime","IsShared":true,"Tooltip":"\ud68c\ubcf5\ud560
         \ucd5c\ub300 \uc2dc\uac04( \ucd08 \ub2e8\uc704)","Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"MaxRecoveryHp","IsShared":true,"Tooltip":"\ud68c\ubcf5\ud560
         \ucd5c\ub300 HP ( % \ub2e8\uc704)","Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StunTime","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"TryRecovery","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"Vector3mValue":"(0,0,0)"}]}'
       fieldSerializationData:
@@ -570,7 +573,7 @@ Transform:
   - {fileID: 3802529790178955013}
   m_Father: {fileID: 6180412400897323870}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &323297737536472637
+--- !u!1001 &906316138723785084
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -627,10 +630,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20d418ac622685d428fc06d3767fbe8d, type: 3}
---- !u!4 &10837680246338087 stripped
+--- !u!4 &633306592990498150 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 313586506994889754, guid: 20d418ac622685d428fc06d3767fbe8d, type: 3}
-  m_PrefabInstance: {fileID: 323297737536472637}
+  m_PrefabInstance: {fileID: 906316138723785084}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3738449562759499793
 PrefabInstance:
@@ -640,6 +643,1062 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7184201499938589546}
     m_Modifications:
+    - target: {fileID: 123209764605567853, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.9437942
+      objectReference: {fileID: 0}
+    - target: {fileID: 123209764605567853, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000004097819
+      objectReference: {fileID: 0}
+    - target: {fileID: 123209764605567853, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000044703498
+      objectReference: {fileID: 0}
+    - target: {fileID: 123209764605567853, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.90555346
+      objectReference: {fileID: 0}
+    - target: {fileID: 123209764605567853, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0062854826
+      objectReference: {fileID: 0}
+    - target: {fileID: 123209764605567853, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.014084097
+      objectReference: {fileID: 0}
+    - target: {fileID: 123209764605567853, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.42395192
+      objectReference: {fileID: 0}
+    - target: {fileID: 230665571354703553, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.22951892
+      objectReference: {fileID: 0}
+    - target: {fileID: 230665571354703553, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000047683668
+      objectReference: {fileID: 0}
+    - target: {fileID: 230665571354703553, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000000037276373
+      objectReference: {fileID: 0}
+    - target: {fileID: 230665571354703553, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8290095
+      objectReference: {fileID: 0}
+    - target: {fileID: 230665571354703553, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000005981801
+      objectReference: {fileID: 0}
+    - target: {fileID: 230665571354703553, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.00000003471866
+      objectReference: {fileID: 0}
+    - target: {fileID: 230665571354703553, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5592346
+      objectReference: {fileID: 0}
+    - target: {fileID: 242785675327226891, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.5679063
+      objectReference: {fileID: 0}
+    - target: {fileID: 242785675327226891, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.99886066
+      objectReference: {fileID: 0}
+    - target: {fileID: 242785675327226891, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000000018626445
+      objectReference: {fileID: 0}
+    - target: {fileID: 242785675327226891, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.70709187
+      objectReference: {fileID: 0}
+    - target: {fileID: 242785675327226891, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000004151407
+      objectReference: {fileID: 0}
+    - target: {fileID: 242785675327226891, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0000000032596283
+      objectReference: {fileID: 0}
+    - target: {fileID: 242785675327226891, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.70712173
+      objectReference: {fileID: 0}
+    - target: {fileID: 455952592224512849, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.9166956
+      objectReference: {fileID: 0}
+    - target: {fileID: 455952592224512849, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.000000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 455952592224512849, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000000026077032
+      objectReference: {fileID: 0}
+    - target: {fileID: 455952592224512849, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9838173
+      objectReference: {fileID: 0}
+    - target: {fileID: 455952592224512849, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.012921982
+      objectReference: {fileID: 0}
+    - target: {fileID: 455952592224512849, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.016931644
+      objectReference: {fileID: 0}
+    - target: {fileID: 455952592224512849, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.17790456
+      objectReference: {fileID: 0}
+    - target: {fileID: 541678564619060413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.56814796
+      objectReference: {fileID: 0}
+    - target: {fileID: 541678564619060413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00044125452
+      objectReference: {fileID: 0}
+    - target: {fileID: 541678564619060413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000000013387762
+      objectReference: {fileID: 0}
+    - target: {fileID: 541678564619060413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 541678564619060413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 541678564619060413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -2.619344e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 546382287334813846, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.9095253
+      objectReference: {fileID: 0}
+    - target: {fileID: 546382287334813846, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.000000029802322
+      objectReference: {fileID: 0}
+    - target: {fileID: 546382287334813846, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000005066395
+      objectReference: {fileID: 0}
+    - target: {fileID: 546382287334813846, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.668503
+      objectReference: {fileID: 0}
+    - target: {fileID: 546382287334813846, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.70369834
+      objectReference: {fileID: 0}
+    - target: {fileID: 546382287334813846, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.22552705
+      objectReference: {fileID: 0}
+    - target: {fileID: 546382287334813846, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.083965085
+      objectReference: {fileID: 0}
+    - target: {fileID: 713103632565359782, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.9166958
+      objectReference: {fileID: 0}
+    - target: {fileID: 713103632565359782, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.000000059604638
+      objectReference: {fileID: 0}
+    - target: {fileID: 713103632565359782, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000022351738
+      objectReference: {fileID: 0}
+    - target: {fileID: 713103632565359782, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.96319234
+      objectReference: {fileID: 0}
+    - target: {fileID: 713103632565359782, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.045880493
+      objectReference: {fileID: 0}
+    - target: {fileID: 713103632565359782, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.002024727
+      objectReference: {fileID: 0}
+    - target: {fileID: 713103632565359782, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.26486123
+      objectReference: {fileID: 0}
+    - target: {fileID: 717800457152042009, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.18926565
+      objectReference: {fileID: 0}
+    - target: {fileID: 717800457152042009, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000047683656
+      objectReference: {fileID: 0}
+    - target: {fileID: 717800457152042009, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000014440634
+      objectReference: {fileID: 0}
+    - target: {fileID: 717800457152042009, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.89676684
+      objectReference: {fileID: 0}
+    - target: {fileID: 717800457152042009, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.00000001510273
+      objectReference: {fileID: 0}
+    - target: {fileID: 717800457152042009, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.000000006868197
+      objectReference: {fileID: 0}
+    - target: {fileID: 717800457152042009, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.44250342
+      objectReference: {fileID: 0}
+    - target: {fileID: 987594762247595101, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.24624208
+      objectReference: {fileID: 0}
+    - target: {fileID: 987594762247595101, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000046175547
+      objectReference: {fileID: 0}
+    - target: {fileID: 987594762247595101, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7992062
+      objectReference: {fileID: 0}
+    - target: {fileID: 987594762247595101, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000011346976
+      objectReference: {fileID: 0}
+    - target: {fileID: 987594762247595101, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000021383743
+      objectReference: {fileID: 0}
+    - target: {fileID: 987594762247595101, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.601057
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242181532795528202, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.2798051
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242181532795528202, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000007092046
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242181532795528202, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.86323893
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242181532795528202, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000019847342
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242181532795528202, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0000000069709842
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242181532795528202, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5047957
+      objectReference: {fileID: 0}
+    - target: {fileID: 1380677703231426750, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.56790626
+      objectReference: {fileID: 0}
+    - target: {fileID: 1380677703231426750, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.9988606
+      objectReference: {fileID: 0}
+    - target: {fileID: 1380677703231426750, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000000056810656
+      objectReference: {fileID: 0}
+    - target: {fileID: 1380677703231426750, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.70720446
+      objectReference: {fileID: 0}
+    - target: {fileID: 1380677703231426750, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0000000045264263
+      objectReference: {fileID: 0}
+    - target: {fileID: 1380677703231426750, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.000000004656613
+      objectReference: {fileID: 0}
+    - target: {fileID: 1380677703231426750, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7070091
+      objectReference: {fileID: 0}
+    - target: {fileID: 1594585904391566926, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.88777393
+      objectReference: {fileID: 0}
+    - target: {fileID: 1594585904391566926, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.06649634
+      objectReference: {fileID: 0}
+    - target: {fileID: 1594585904391566926, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.37387288
+      objectReference: {fileID: 0}
+    - target: {fileID: 1594585904391566926, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.75865364
+      objectReference: {fileID: 0}
+    - target: {fileID: 1594585904391566926, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.10193989
+      objectReference: {fileID: 0}
+    - target: {fileID: 1594585904391566926, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.17464943
+      objectReference: {fileID: 0}
+    - target: {fileID: 1594585904391566926, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6193146
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598044220846837014, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.2962078
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598044220846837014, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000047683656
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598044220846837014, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000038806622
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598044220846837014, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.8620447
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598044220846837014, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.000000064579204
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598044220846837014, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000028295485
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598044220846837014, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5068323
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840535916994408590, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.22951892
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840535916994408590, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000047683673
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840535916994408590, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000000082974786
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840535916994408590, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.82902324
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840535916994408590, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000009071688
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840535916994408590, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000024796966
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840535916994408590, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.55921423
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032750616034272140, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.8877747
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032750616034272140, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.06649636
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032750616034272140, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.3738724
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032750616034272140, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7586455
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032750616034272140, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.1017969
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032750616034272140, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.17412387
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032750616034272140, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.6194959
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309482393209426730, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.31719294
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309482393209426730, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000047683668
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309482393209426730, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000000038197815
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309482393209426730, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7999322
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309482393209426730, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.000000048373597
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309482393209426730, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0000000427711
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309482393209426730, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.6000905
+      objectReference: {fileID: 0}
+    - target: {fileID: 2356143830309979870, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.96109813
+      objectReference: {fileID: 0}
+    - target: {fileID: 2356143830309979870, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.08213115
+      objectReference: {fileID: 0}
+    - target: {fileID: 2356143830309979870, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000000745058
+      objectReference: {fileID: 0}
+    - target: {fileID: 2356143830309979870, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9992253
+      objectReference: {fileID: 0}
+    - target: {fileID: 2356143830309979870, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.005420772
+      objectReference: {fileID: 0}
+    - target: {fileID: 2356143830309979870, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.006453262
+      objectReference: {fileID: 0}
+    - target: {fileID: 2356143830309979870, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.03844296
+      objectReference: {fileID: 0}
+    - target: {fileID: 2536524980061223413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.22108221
+      objectReference: {fileID: 0}
+    - target: {fileID: 2536524980061223413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000000059668244
+      objectReference: {fileID: 0}
+    - target: {fileID: 2536524980061223413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.8839383
+      objectReference: {fileID: 0}
+    - target: {fileID: 2536524980061223413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000011370946
+      objectReference: {fileID: 0}
+    - target: {fileID: 2536524980061223413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000008242754
+      objectReference: {fileID: 0}
+    - target: {fileID: 2536524980061223413, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.46760353
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586511837883546529, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.43169656
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586511837883546529, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.13249868
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586511837883546529, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.41818726
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586511837883546529, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.92277163
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586511837883546529, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.30951348
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586511837883546529, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.20875272
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586511837883546529, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.09547953
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882626546697240927, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.3171921
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882626546697240927, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.3227077e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882626546697240927, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7999327
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882626546697240927, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000005421867
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882626546697240927, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.000000033964973
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882626546697240927, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6000898
+      objectReference: {fileID: 0}
+    - target: {fileID: 3076690460777975916, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.7832136
+      objectReference: {fileID: 0}
+    - target: {fileID: 3076690460777975916, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000015646218
+      objectReference: {fileID: 0}
+    - target: {fileID: 3076690460777975916, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000002741813
+      objectReference: {fileID: 0}
+    - target: {fileID: 3076690460777975916, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8536628
+      objectReference: {fileID: 0}
+    - target: {fileID: 3076690460777975916, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.15090807
+      objectReference: {fileID: 0}
+    - target: {fileID: 3076690460777975916, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.4954904
+      objectReference: {fileID: 0}
+    - target: {fileID: 3076690460777975916, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.054551966
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178016954152782779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.43169692
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178016954152782779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.13249871
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178016954152782779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.41818705
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178016954152782779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.9246018
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178016954152782779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.30445898
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178016954152782779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.20767856
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178016954152782779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.096363395
+      objectReference: {fileID: 0}
+    - target: {fileID: 3233025912718522199, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.8100404
+      objectReference: {fileID: 0}
+    - target: {fileID: 3233025912718522199, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.4221627
+      objectReference: {fileID: 0}
+    - target: {fileID: 3233025912718522199, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00039958948
+      objectReference: {fileID: 0}
+    - target: {fileID: 3233025912718522199, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.71815807
+      objectReference: {fileID: 0}
+    - target: {fileID: 3233025912718522199, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.00039959926
+      objectReference: {fileID: 0}
+    - target: {fileID: 3233025912718522199, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.6958799
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605244928334021565, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.18926527
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605244928334021565, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0000004768365
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605244928334021565, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00000002633244
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605244928334021565, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.89662915
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605244928334021565, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000011046696
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605244928334021565, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0000000068833947
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605244928334021565, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.44278228
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635828621749961655, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.22108218
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635828621749961655, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000000047746326
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635828621749961655, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.88406616
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635828621749961655, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0000000129953275
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635828621749961655, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.000000008229448
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635828621749961655, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.46736184
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688797178507897850, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.253551
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688797178507897850, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000116229
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688797178507897850, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00000017881388
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688797178507897850, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8772677
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688797178507897850, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.023999505
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688797178507897850, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.011473894
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688797178507897850, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.47926384
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205328546245814882, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.9750201
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205328546245814882, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00014543529
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205328546245814882, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1822107
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205328546245814882, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7941224
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205328546245814882, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.028650843
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205328546245814882, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.014581873
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205328546245814882, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.60690707
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782153268439171003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.2535508
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782153268439171003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000064074976
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782153268439171003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000059604613
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782153268439171003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8410252
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782153268439171003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.017151065
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782153268439171003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.031942245
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782153268439171003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5397798
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809277143803538633, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0000007172348
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809277143803538633, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0000007385388
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809277143803538633, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.48284003
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809277143803538633, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.08419194
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809277143803538633, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.13118078
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809277143803538633, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9851116
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809277143803538633, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.07251501
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906002187100941003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.7832145
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906002187100941003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.000000010710212
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906002187100941003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0000029206271
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906002187100941003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8838768
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906002187100941003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.109639846
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906002187100941003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.45413914
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906002187100941003, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.022329817
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117667557513253285, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.9976265
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117667557513253285, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.042057034
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117667557513253285, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.057895053
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117667557513253285, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.8045379
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117667557513253285, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.030788291
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117667557513253285, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.023610001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117667557513253285, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5926327
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754872659811680857, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.8100404
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754872659811680857, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.09111017
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754872659811680857, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.05023064
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754872659811680857, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7524317
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754872659811680857, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.05023059
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754872659811680857, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6548285
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815902791522703219, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.27980635
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815902791522703219, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000000023384025
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815902791522703219, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.8632106
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815902791522703219, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000010747375
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815902791522703219, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000013945534
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815902791522703219, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.504844
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010629899594301617, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.0235966
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010629899594301617, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.013738628
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010629899594301617, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.27980524
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010629899594301617, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8347078
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010629899594301617, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.045265403
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010629899594301617, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0045356294
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010629899594301617, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5488109
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253914448197100142, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.9437945
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253914448197100142, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000004097819
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253914448197100142, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000029802315
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253914448197100142, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9159979
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253914448197100142, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.001211469
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253914448197100142, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.03866092
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253914448197100142, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.399314
+      objectReference: {fileID: 0}
+    - target: {fileID: 6285670506060584561, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.97501934
+      objectReference: {fileID: 0}
+    - target: {fileID: 6285670506060584561, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00014543526
+      objectReference: {fileID: 0}
+    - target: {fileID: 6285670506060584561, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.1822111
+      objectReference: {fileID: 0}
+    - target: {fileID: 6285670506060584561, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.79413867
+      objectReference: {fileID: 0}
+    - target: {fileID: 6285670506060584561, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.028873771
+      objectReference: {fileID: 0}
+    - target: {fileID: 6285670506060584561, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.015332041
+      objectReference: {fileID: 0}
+    - target: {fileID: 6285670506060584561, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.60685676
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786816834463461858, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.9095278
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786816834463461858, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000011920925
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786816834463461858, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000008530912
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786816834463461858, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7075757
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786816834463461858, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.653448
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786816834463461858, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.23926087
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786816834463461858, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.12286886
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912298158799573266, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.24624202
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912298158799573266, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0000004768369
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912298158799573266, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000009816188
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912298158799573266, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7992571
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912298158799573266, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000016387345
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912298158799573266, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.000000010689267
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912298158799573266, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6009893
+      objectReference: {fileID: 0}
+    - target: {fileID: 6925673721161586218, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.21047305
+      objectReference: {fileID: 0}
+    - target: {fileID: 6925673721161586218, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.7284838e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6925673721161586218, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.0745357e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6925673721161586218, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6925673721161586218, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000007864542
+      objectReference: {fileID: 0}
+    - target: {fileID: 6925673721161586218, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.00012068199
+      objectReference: {fileID: 0}
+    - target: {fileID: 6925673721161586218, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.00039491546
+      objectReference: {fileID: 0}
     - target: {fileID: 7028819170788164170, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
       propertyPath: m_Name
       value: Arnold
@@ -647,6 +1706,62 @@ PrefabInstance:
     - target: {fileID: 7032646894079799577, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
       propertyPath: m_BlendShapeWeights.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048363154045290376, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.40476513
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048363154045290376, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00052693486
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048363154045290376, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000001616776
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048363154045290376, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99617213
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048363154045290376, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.00000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048363154045290376, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.00000014901161
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048363154045290376, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.087414116
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516539001274991385, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.14969327
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516539001274991385, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000032037445
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516539001274991385, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00000046193554
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516539001274991385, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9495388
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516539001274991385, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.015452687
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516539001274991385, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.23336083
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516539001274991385, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.20899785
       objectReference: {fileID: 0}
     - target: {fileID: 7692343220360485104, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
       propertyPath: m_LocalPosition.x
@@ -688,6 +1803,298 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7838732219899096779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0004523975
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838732219899096779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000000012223181
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838732219899096779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9998248
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838732219899096779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.0061204587
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838732219899096779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0027054588
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838732219899096779, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.01748444
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110811928386208169, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.27110475
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110811928386208169, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000006332984
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110811928386208169, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00000035762758
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110811928386208169, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9422589
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110811928386208169, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.038120653
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110811928386208169, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.21880907
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110811928386208169, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.2506346
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280383259350229669, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.29620743
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280383259350229669, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0000004768368
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280383259350229669, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.00000007654122
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280383259350229669, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8620533
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280383259350229669, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.000000026949687
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280383259350229669, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.000000022468052
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280383259350229669, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.50681776
+      objectReference: {fileID: 0}
+    - target: {fileID: 8298200596926384495, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0000006868504
+      objectReference: {fileID: 0}
+    - target: {fileID: 8298200596926384495, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000053364784
+      objectReference: {fileID: 0}
+    - target: {fileID: 8298200596926384495, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.057424463
+      objectReference: {fileID: 0}
+    - target: {fileID: 8298200596926384495, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.2525721
+      objectReference: {fileID: 0}
+    - target: {fileID: 8298200596926384495, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9651967
+      objectReference: {fileID: 0}
+    - target: {fileID: 8298200596926384495, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.03612739
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343382069860850595, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.2554044
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343382069860850595, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000047683656
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343382069860850595, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000000001245395
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343382069860850595, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.8654063
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343382069860850595, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000009192616
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343382069860850595, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000018707064
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343382069860850595, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.501071
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445428611447642534, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2554873
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445428611447642534, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00058302283
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445428611447642534, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.27143383
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445428611447642534, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.49881077
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445428611447642534, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.48702127
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445428611447642534, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.50719106
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445428611447642534, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.50671035
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772245827317962206, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.27110517
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772245827317962206, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.000000085681634
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772245827317962206, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000037252843
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772245827317962206, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.9407218
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772245827317962206, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.033732828
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772245827317962206, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.21664621
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772245827317962206, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2587836
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784786249713188701, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.25540453
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784786249713188701, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.00000008357823
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784786249713188701, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.86538273
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784786249713188701, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.000000038708315
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784786249713188701, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.000000026195675
+      objectReference: {fileID: 0}
+    - target: {fileID: 8784786249713188701, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.50111157
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807499580722121456, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.0235975
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807499580722121456, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.01373863
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807499580722121456, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.83466434
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807499580722121456, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0455056
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807499580722121456, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0053265304
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807499580722121456, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.54885
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906406269426776338, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.99762523
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906406269426776338, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.042057022
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906406269426776338, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.057895266
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906406269426776338, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8045958
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906406269426776338, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.03052298
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906406269426776338, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.022729592
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906406269426776338, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.59260213
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204258124125406978, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.14969319
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204258124125406978, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.000000033527584
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204258124125406978, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00000006705511
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204258124125406978, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.94010264
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204258124125406978, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.0016806442
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204258124125406978, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.26392904
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204258124125406978, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.21574467
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -696,7 +2103,7 @@ PrefabInstance:
       addedObject: {fileID: 7633005855491844021}
     - targetCorrespondingSourceObject: {fileID: 6786816834463461858, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 10837680246338087}
+      addedObject: {fileID: 633306592990498150}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25b6ddd932cdf9c408c3a65cd5dc5290, type: 3}
 --- !u!4 &3779795359033106567 stripped

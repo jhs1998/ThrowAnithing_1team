@@ -5,10 +5,10 @@ using UnityEngine;
 public class JumpAttack : Action
 {
     public SharedGameObject player; // 플레이어
+    public float dis;  // 뛸 떄 자신의 위치와 플레이어의 위치 차이
 
     private BossEnemy enemy;
     private Vector3 playerPos;   // 이동할 플레이어의 위치
-    private float dis;  // 뛸 떄 자신의 위치와 플레이어의 위치 차이
 
     public override void OnAwake()
     {
