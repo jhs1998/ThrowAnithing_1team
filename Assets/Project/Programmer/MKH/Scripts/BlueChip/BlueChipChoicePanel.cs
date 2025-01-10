@@ -1,10 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MKH
 {
-    public class BlueChipChoicePanelTest : MonoBehaviour
+    public class BlueChipChoicePanel : MonoBehaviour
     {
         [SerializeField] public Button button;
         [SerializeField] GameObject blueChipSlotsParent;
@@ -27,7 +29,6 @@ namespace MKH
             choiceSlots = choiceSlotsParnet.GetComponentsInChildren<BlueChipSlot>();
             Setting();
         }
-        
 
         public bool AcquireEffect(AdditionalEffect effect)
         {
@@ -52,14 +53,6 @@ namespace MKH
             }
         }
 
-        private void Choice()
-        {
-            for (int i = 0; i < choiceSlots.Length; i++)
-            {
-                choiceSlots[i].SetSlot();
-            }
-        }
-
         public void RandomBlueChip()
         {
             for (int i = 0; i < choiceSlots.Length; i++)
@@ -71,3 +64,4 @@ namespace MKH
         }
     }
 }
+

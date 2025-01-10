@@ -658,6 +658,9 @@ public partial class PlayerData
         public InventoryMain InventoryMain;
         public GameObject BlueChipChoice;
         public BlueChipPanel BlueChipPanel;
+        public BlueChipChoicePanel BlueChipChoicePanel;
+        public BlueChipChoiceController BlueChipChoiceController;
+        public GameObject ChoicePanel;
     }
     public InventoryStruct Inventory;
 

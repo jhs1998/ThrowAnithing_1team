@@ -9,6 +9,7 @@ namespace MKH
         [SerializeField] GameObject _State;
         [SerializeField] GameObject _BlueChipPanel;
         [SerializeField] GameObject _BlueChipChoice;
+        [SerializeField] GameObject _BlueChipChoicePanel;
         private PlayerController _player;
         [SerializeField]
         PlayerController player
@@ -28,22 +29,22 @@ namespace MKH
         private void Awake()
         {
             Bind();
-            //_Inventory = GameObject.Find("InventoryUI").transform.Find("Inventory").gameObject;
-            //_EquipInventory = GameObject.Find("InventoryUI").transform.Find("EquipmentInventory").gameObject;
-            //_State = GameObject.Find("InventoryUI").transform.Find("State").gameObject;
-            //_BlueChipPanel = GameObject.Find("InventoryUI").transform.Find("BlueChipPanel").gameObject;
             _Inventory = GetObject("Inventory");
             _EquipInventory = GetObject("EquipmentInventory");
             _State = GetObject("State");
             _BlueChipPanel = GetObject("BlueChipPanel");
             _BlueChipChoice = GetObject("BlueChipChoice");
-            //player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            _BlueChipChoicePanel = GetObject("BlueChipChoicePanel");
+        }
 
+        private void Start()
+        {
             _Inventory.SetActive(false);
             _EquipInventory.SetActive(false);
             _State.SetActive(false);
             _BlueChipChoice.SetActive(false);
             _BlueChipPanel.SetActive(false);
+            _BlueChipChoicePanel.SetActive(false);
         }
 
         private void Update()

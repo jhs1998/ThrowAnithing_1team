@@ -10,7 +10,6 @@ public class BlueChipChoiceTest : MonoBehaviour
     private TestBlueChip blueChip;
 
     [SerializeField] BlueChipPanel blueChipPanel;
-    [SerializeField] BlueChipChoicePanelTest blueChipChoicePanel;
 
     private void Start()
     {

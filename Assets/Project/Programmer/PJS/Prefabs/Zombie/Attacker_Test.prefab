@@ -249,7 +249,7 @@ MonoBehaviour:
         Deadth","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-257.95578,263.52124)"},"ID":5,"Name":"Set
         Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Death"}},{"Type":"EnemyDead","NodeData":{"Offset":"(-202.294189,164.0195)"},"ID":6,"Name":"Enemy
         Dead","Instant":true},{"Type":"EnemyDropItem","NodeData":{"Offset":"(-119.06015,257.937653)"},"ID":7,"Name":"Enemy
-        Drop Item","Instant":true,"SharedFloatreward":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Reward","IsShared":true,"SinglemValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-37.3509674,166.201309)"},"ID":8,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject.SetActive","NodeData":{"Offset":"(53.6179543,257.3125)","Comment":"Active
+        Drop Item","Instant":true,"SharedFloatreward":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Reward","IsShared":true,"SinglemValue":0},"GameObjectparticlePrefab":0,"GameObjectparticlePrefab1":1},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-37.3509674,166.201309)"},"ID":8,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject.SetActive","NodeData":{"Offset":"(53.6179543,257.3125)","Comment":"Active
         == false \uacbd\uc6b0\n\ud574\ub2f9 \ub178\ub4dc \uc774\ud6c4\ub294 \uc791\ub3d9
         X"},"ID":9,"Name":"Set Active","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedBoolactive":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-652.367737,162.631744)","Comment":"Collision
         Check Squence"},"ID":10,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"CanStiff","NodeData":{"Offset":"(-173.420258,152.8072)"},"ID":11,"Name":"Can
@@ -274,7 +274,9 @@ MonoBehaviour:
         fieldNameHash: 
         startIndex: 
         dataPosition: 
-        unityObjects: []
+        unityObjects:
+        - {fileID: 145256, guid: 3a2071c8522268c4fa0596f3fd72d227, type: 3}
+        - {fileID: 119250, guid: 114590ee796107742a3cc1e2cc52e8c2, type: 3}
         byteData: 
         byteDataArray: 
       Version: 1.7.11

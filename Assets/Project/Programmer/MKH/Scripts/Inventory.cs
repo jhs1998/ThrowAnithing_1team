@@ -6,11 +6,14 @@ using Zenject;
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
-    [HideInInspector] public InventoryController Controller;
-    [HideInInspector] public EquipmentInventory EquipInventory;
-    [HideInInspector] public InventoryMain InventoryMain;
+    [HideInInspector] InventoryController Controller;
+    [HideInInspector] EquipmentInventory EquipInventory;
+    [HideInInspector] InventoryMain InventoryMain;
+    [HideInInspector] BlueChipPanel BlueChipPanel;
+    [HideInInspector] BlueChipChoiceController BlueChipChoiceController;
+    [HideInInspector] BlueChipChoicePanel BlueChipChoicePanel;
     [SerializeField] public GameObject BlueChipChoice;
-    [HideInInspector] public BlueChipPanel BlueChipPanel;
+    [SerializeField] public GameObject ChoicePanel;
 
     [Inject]
     PlayerData playerData;
@@ -26,7 +29,7 @@ public class Inventory : MonoBehaviour
         // 임시로 싱글톤 갈아끼우기 꼼수
         // TODO : 이후 블루칩 초기화 기능 구현후 제거 필요
         else if (SceneManager.GetActiveScene().name == SceneName.LobbyScene)
-        {        
+        {
             Destroy(Instance.gameObject);
             Instance = this;
             transform.SetParent(null);
@@ -45,6 +48,10 @@ public class Inventory : MonoBehaviour
         playerData.Inventory.InventoryMain = InventoryMain;
         playerData.Inventory.BlueChipChoice = BlueChipChoice;
         playerData.Inventory.BlueChipPanel = BlueChipPanel;
+        playerData.Inventory.BlueChipChoicePanel = BlueChipChoicePanel;
+        playerData.Inventory.ChoicePanel = ChoicePanel;
+        playerData.Inventory.BlueChipChoiceController = BlueChipChoiceController;
+
     }
 
     private void InitGetComponent()
@@ -53,6 +60,8 @@ public class Inventory : MonoBehaviour
         EquipInventory = GetComponentInChildren<EquipmentInventory>();
         InventoryMain = GetComponentInChildren<InventoryMain>();
         BlueChipPanel = GetComponentInChildren<BlueChipPanel>();
+        BlueChipChoicePanel = GetComponentInChildren<BlueChipChoicePanel>();
+        BlueChipChoiceController = GetComponentInChildren<BlueChipChoiceController>();
     }
 
     private void InitSingleTon()

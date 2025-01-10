@@ -10,6 +10,7 @@ public class BlueChipChoice : MonoBehaviour
     private PlayerData playerData;
 
     [SerializeField] GameObject choice;
+    [SerializeField] GameObject choicePanel;
 
     private TestBlueChip blueChip;
 
@@ -21,6 +22,7 @@ public class BlueChipChoice : MonoBehaviour
         _player = GetComponent<PlayerController>();
         blueChipPanel = playerData.Inventory.BlueChipPanel;
         choice = playerData.Inventory.BlueChipChoice;
+        choicePanel = playerData.Inventory.ChoicePanel;
     }
     private void Start()
     {       
@@ -62,13 +64,14 @@ public class BlueChipChoice : MonoBehaviour
                 if (InputKey.GetButtonDown("Interaction"))
                 {
                     choice.SetActive(false);
-                    bool success = blueChipPanel.AcquireEffect(blueChip.Effect);
+                    choicePanel.SetActive(true);
+                    //bool success = blueChipPanel.AcquireEffect(blueChip.Effect);
 
-                    // 블루칩 플레이어 적용
-                    if (success == true)
-                    {
-                        _player.AddAdditional(blueChip.Effect);
-                    }
+                    //// 블루칩 플레이어 적용
+                    //if (success == true)
+                    //{
+                    //    _player.AddAdditional(blueChip.Effect);
+                    //}
 
                     _addBlueChipRoutine = null;
                     Destroy(other.gameObject);
