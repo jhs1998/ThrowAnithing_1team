@@ -1,3 +1,4 @@
+using Assets.Project.Programmer.NSJ.RND.Script.Test.ZenjectTest;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -31,6 +32,8 @@ public static partial class Layer
     public static int Water => LayerEnum.Water.GetLayer();
     public static int UI => LayerEnum.UI.GetLayer();
     public static int Wall => LayerEnum.Wall.GetLayer();
+    public static int HideWall => LayerEnum.HideWall.GetLayer();
+    public static int Item => LayerEnum.Item.GetLayer();
     public static int Player => LayerEnum.Player.GetLayer();
     public static int Monster => LayerEnum.Monster.GetLayer();
     public static int ThrowObject => LayerEnum.ThrowObject.GetLayer();
@@ -45,6 +48,8 @@ public static partial class Layer
         Water,
         UI,
         Wall,
+        HideWall,
+        Item,
         Forge,
         Player,
         Monster,
@@ -64,6 +69,8 @@ public static partial class Layer
         everyThing |= 1 << Water;
         everyThing |= 1 << UI;
         everyThing |= 1 << Wall;
+        everyThing |= 1 << HideWall;
+        everyThing |= 1 << Item;
         everyThing |= 1 << Player;
         everyThing |= 1 << Monster;
         everyThing |= 1 << ThrowObject;

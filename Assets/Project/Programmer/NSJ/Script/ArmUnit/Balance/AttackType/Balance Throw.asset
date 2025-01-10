@@ -12,5 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a753b28773d63447b333487de8ddf3e, type: 3}
   m_Name: Balance Throw
   m_EditorClassIdentifier: 
-  AttackType: 0
   Player: {fileID: 0}
+  _attacks:
+  - Damage: 35
+    CCType: 0
+    KnockBackDistance: 0
+  - Damage: 50
+    CCType: 0
+    KnockBackDistance: 0
+  - Damage: 65
+    CCType: 1
+    KnockBackDistance: 0
+  - Damage: 80
+    CCType: 1
+    KnockBackDistance: 0.5

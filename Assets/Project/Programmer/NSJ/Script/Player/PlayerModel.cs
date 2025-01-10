@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-public class PlayerModel : MonoBehaviour, IDebuff
+public class PlayerModel : MonoBehaviour
 {
     public bool IsTest;
     [Inject]
@@ -16,6 +16,7 @@ public class PlayerModel : MonoBehaviour, IDebuff
     [HideInInspector] public GlobalPlayerStateData GlobalStateData;
     [Inject]
     [HideInInspector] public GlobalGameData GameData;
+
 
     public ArmUnit Arm;
     #region Ã¼·Â

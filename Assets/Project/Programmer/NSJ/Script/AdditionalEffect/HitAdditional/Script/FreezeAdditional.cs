@@ -61,7 +61,10 @@ public class FreezeAdditional : HitAdditional
 
     private void ChangePlayerValue(bool isDecrease)
     {
-        if(isDecrease == true)
+        if (transform.tag != Tag.Player)
+            return;
+
+        if (isDecrease == true)
         {
             Player.Model.MoveSpeedMultyplier -= 10000;
         }

@@ -28,14 +28,16 @@ public class PowerSpecialAttack : ArmSpecialAttack
     private Vector3 _dropPos;
     Coroutine _chargeRoutine;
 
-    public override void Init(PlayerController player)
+    public override void Init(PlayerController player, ArmUnit arm)
     {
-        base.Init(player);
+        base.Init(player,arm);
+        View.Panel.SetChargingMpVarMaxValue(Model.MaxMana);
         for (int i = 0; i < _charges.Length; i++)
         {
             _charges[i].Damage = (int)Model.PowerSpecialAttack[i];
             View.Panel.StepTexts[i].SetText(_charges[i].ObjectCount.GetText());
             _charges[i].ChargeMana = Model.ManaConsumption[i];
+            View.Panel.SetChargingMpHandle(i, _charges[i].ChargeMana);
         }
     }
     public override void Enter()

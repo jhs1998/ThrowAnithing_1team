@@ -1,0 +1,109 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SpecialObject : ThrowObject
+{
+    struct ExplosionStruct
+    {
+        public float Damage;
+        public float MiddleDamage;
+        public float Range;
+        public float MiddleRange;
+    }
+    // 폭발 데미지, 범위 필드
+    private ExplosionStruct _explosion;
+    [System.Serializable]
+    struct EffectStruct
+    {
+        public GameObject EffectPrefab;
+    }
+    // 폭발 이펙트 필드
+    [SerializeField] private EffectStruct _effect;
+
+    private List<Transform> MiddleHittargets = new List<Transform>();
+    protected override void OnCollisionEnter(Collision collision)
+    {
+        // 땅에 닿아도 폭발
+        ObjectPool.ReturnPool(gameObject);
+    }
+
+    protected override void OnDisable()
+    {
+        ProcessExplosion();
+        base.OnDisable();
+    }
+    /// <summary>
+    /// 폭발 필드 설정
+    /// </summary>
+    public void InitSpecial(float damage, float middleDamage, float range, float middleRange)
+    {
+        _explosion.Damage = damage;
+        _explosion.MiddleDamage = middleDamage;
+        _explosion.Range = range;
+        _explosion.MiddleRange = middleRange;   
+    }
+
+
+    /// <summary>
+    /// 타겟 적중
+    /// </summary>
+    protected override void HitTarget()
+    {
+        if (CanAttack == false)
+            return;
+        ObjectPool.ReturnPool(gameObject);
+    }
+
+    /// <summary>
+    /// 폭발
+    /// </summary>
+    private void ProcessExplosion() 
+    {
+        // 중앙 맞은 몬스터 걸러내기
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _explosion.MiddleRange, Player.OverLapColliders, 1 << Layer.Monster);
+        for(int i = 0; i < hitCount; i++)
+        {
+            MiddleHittargets.Add(Player.OverLapColliders[i].transform);
+        }
+
+
+        hitCount = Physics.OverlapSphereNonAlloc(transform.position, _explosion.Range, Player.OverLapColliders, 1 << Layer.Monster);
+        for (int i = 0; i < hitCount; i++) 
+        {
+            int finalDamage = 0;
+            bool isCritical = false;
+            // 중앙에 맞았을 경우
+            if (MiddleHittargets.Contains(Player.OverLapColliders[i].transform))
+            {
+                finalDamage = Player.GetFinalDamage((int)_explosion.MiddleDamage, out isCritical);
+            }
+            else
+            {
+                finalDamage = Player.GetFinalDamage((int)_explosion.Damage, out isCritical);
+            }
+         
+            Battle.TargetAttack(Player.OverLapColliders[i], isCritical, finalDamage);
+            Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
+        }
+        CoroutineHandler.StartRoutine(CreateExplosionEffect());
+    }
+    /// <summary>
+    /// 이펙트 루틴
+    /// </summary>
+    IEnumerator CreateExplosionEffect()
+    {
+        GameObject effect = ObjectPool.GetPool(_effect.EffectPrefab, transform.position, transform.rotation);
+        yield return 1f.GetDelay();
+        ObjectPool.ReturnPool(effect);
+    }
+
+    #region 특수효과
+    // 특수공격은 특수효과 터지면 안됨
+    public override void EnterThrowAdditional() { }   
+    public override void ExitThrowAdditional() { }       
+    public override void UpdateThrowAdditional() { }           
+    public override void FixedUpdateThrowAdditional() { }
+    public override void TriggerThrowAddtional() { }
+    #endregion
+}

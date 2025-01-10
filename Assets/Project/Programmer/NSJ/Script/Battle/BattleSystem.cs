@@ -6,7 +6,6 @@ public enum CrowdControlType { None, Stiff, Stun, Size}
 public class BattleSystem : MonoBehaviour, IBattle
 {
     public IHit Hit { get; set; }
-    public IDebuff Debuff { get; set; }
 
     public Transform HitPoint;
     public List<HitAdditional> HitAdditionalList;
@@ -20,7 +19,6 @@ public class BattleSystem : MonoBehaviour, IBattle
     private void Awake()
     {
         Hit = GetComponent<IHit>();
-        Debuff = GetComponent<IDebuff>();
 
         if (HitPoint == null)
         {

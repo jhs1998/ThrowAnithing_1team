@@ -56,7 +56,7 @@ public class DashState : PlayerState
     /// </summary>
     public void Dash()
     {
-        if (Vector3.Distance(transform.position, _startPos) < Model.DashDistance)
+        if (Vector3.Distance(transform.position, _startPos) < Model.DashDistance && Player.IsWall ==false)
         {
             Rb.velocity = transform.forward * Model.MoveSpeed * 2;
         }

@@ -10,6 +10,7 @@ public class PowerThrowAttack : ArmThrowAttack
         public float ChargeTime;
         public int ObjectCount;
         public int Damage;
+        public CrowdControlType CCType;
         public float KnockBackDistance;
     }
     [SerializeField] private ChargeStruct[] _charges;
@@ -29,9 +30,9 @@ public class PowerThrowAttack : ArmThrowAttack
     }
     Coroutine _chargeRoutine;
     Coroutine _autoAttackRoutine;
-    public override void Init(PlayerController player)
+    public override void Init(PlayerController player, ArmUnit arm)
     {
-        base.Init(player);
+        base.Init(player, arm);
         for (int i = 0; i < _charges.Length; i++)
         {
             _charges[i].Damage = (int)Model.PowerThrowAttack[i];
@@ -93,13 +94,9 @@ public class PowerThrowAttack : ArmThrowAttack
         int throwObjectID = Model.ThrowObjectStack.Count > 0 && _index > 0 ? Model.PopThrowObject().ID : 0;
 
         ThrowObject throwObject = Instantiate(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
-        throwObject.Init(Player, (int)Model.PowerThrowAttack[_index],Model.ThrowAdditionals);
-
-        // ³Ë¹é°¡´ÉÇÏ¸é ³Ë¹é
-        if (_charges[_index].KnockBackDistance > 0)
-        {
-            throwObject.KnockBackDistance = _charges[_index].KnockBackDistance;
-        }
+        throwObject.Init(Player, _charges[_index].CCType, (int)Model.PowerThrowAttack[_index],Model.ThrowAdditionals);
+        throwObject.KnockBackDistance = _charges[_index].KnockBackDistance;
+        
         UseThrowObject(_charges[_index].ObjectCount);
         throwObject.Shoot(Player.ThrowPower);
     }

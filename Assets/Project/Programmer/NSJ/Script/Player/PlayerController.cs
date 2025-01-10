@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour, IHit
     [SerializeField] public Transform ArmPoint;
     [SerializeField] public GameObject _lifeDrainPrefab;
     [Inject]
-    public OptionSetting setting;
+    [HideInInspector] public OptionSetting setting;
 
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
@@ -174,10 +175,9 @@ public class PlayerController : MonoBehaviour, IHit
     public bool IsNearGround { get { return _checkStruct.IsNearGround; } set { _checkStruct.IsNearGround = value; } }
     public bool IsWall { get { return _checkStruct.IsWall; } set { _checkStruct.IsWall = value; } } // 벽 접촉 여부
     public bool CanClimbSlope { get { return _checkStruct.CanClimbSlope; } set { _checkStruct.CanClimbSlope = value; } } // 오를 수 있는 경사면 각도 인지 체크
+    public int MaxHp { get { return Model.MaxHp; } set { Model.MaxHp = value; } }
 
     [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
-
-
     [HideInInspector] public Vector3 MoveDir;
     Vector2 _mouseDir;
     Vector2 _stickDir;
@@ -467,7 +467,7 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
-        foreach(PlayerState state in _states)
+        foreach (PlayerState state in _states)
         {
             state.InitArm();
         }
@@ -524,6 +524,12 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public void RemoveAdditional(AdditionalEffect addtionalEffect)
     {
+        int index = Model.AdditionalEffects.FindIndex(origin => origin.Origin.Equals(addtionalEffect.Origin));
+        if (index < 0)
+            return;
+
+        addtionalEffect = Model.AdditionalEffects[index];
+
         switch (addtionalEffect.AdditionalType)
         {
             case AdditionalEffect.Type.Hit:
@@ -718,6 +724,7 @@ public class PlayerController : MonoBehaviour, IHit
     {
         int layerMask = 0;
         layerMask |= 1 << Layer.Wall;
+        layerMask |= 1 << Layer.HideWall;
         layerMask |= 1 << Layer.Monster;
         int hitCount = Physics.OverlapCapsuleNonAlloc(
             WallCheckPos.Foot.position,
@@ -984,7 +991,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCameraMouse()
     {
-        Vector2 mouseDir= InputKey.GetAxis(InputKey.MouseDelta);
+        Vector2 mouseDir = InputKey.GetAxis(InputKey.MouseDelta);
 
         float angleX = mouseDir.x * _mouseRotateSpeed;
 
