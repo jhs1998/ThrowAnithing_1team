@@ -36,11 +36,6 @@ public class ArmUnit : ScriptableObject
     {
         Player = player; 
         _types = new ArmAttackType[(int)Type.Size];
-        InitType(Type.Throw, ThrowAttack);
-        InitType(Type.Melee, MeleeAttack);
-        InitType(Type.Special, SpecialAttack);
-        InitType(Type.JumpDown, JumpDown);
-        InitType(Type.JumpAttack, JumpAttack);
     }
 
 
@@ -104,9 +99,17 @@ public class ArmUnit : ScriptableObject
         }
         return attackType;
     }
-    private void InitType(Type type, ArmAttackType armAttackType)
+    protected void InitType(Type type, ArmAttackType armAttackType)
     {
         _types[(int)type] = Instantiate(armAttackType);
         _types[(int)type]?.Init(Player);
+    }
+    protected void InitAllType()
+    {
+        InitType(Type.Throw, ThrowAttack);
+        InitType(Type.Melee, MeleeAttack);
+        InitType(Type.Special, SpecialAttack);
+        InitType(Type.JumpDown, JumpDown);
+        InitType(Type.JumpAttack, JumpAttack);
     }
 }

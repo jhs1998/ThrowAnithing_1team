@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
@@ -467,7 +468,7 @@ public class PlayerController : MonoBehaviour, IHit
     {
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
-        foreach(PlayerState state in _states)
+        foreach (PlayerState state in _states)
         {
             state.InitArm();
         }
@@ -524,6 +525,12 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     public void RemoveAdditional(AdditionalEffect addtionalEffect)
     {
+        int index = Model.AdditionalEffects.FindIndex(origin => origin.Origin.Equals(addtionalEffect.Origin));
+        if (index < 0)
+            return;
+
+        addtionalEffect = Model.AdditionalEffects[index];
+
         switch (addtionalEffect.AdditionalType)
         {
             case AdditionalEffect.Type.Hit:
@@ -984,7 +991,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void RotateCameraMouse()
     {
-        Vector2 mouseDir= InputKey.GetAxis(InputKey.MouseDelta);
+        Vector2 mouseDir = InputKey.GetAxis(InputKey.MouseDelta);
 
         float angleX = mouseDir.x * _mouseRotateSpeed;
 

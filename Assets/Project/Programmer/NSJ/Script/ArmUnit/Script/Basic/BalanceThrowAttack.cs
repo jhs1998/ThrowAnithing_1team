@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Balance PrevThrow", menuName = "Arm/AttackType/Balance/PrevThrow")]
@@ -10,8 +9,8 @@ public class BalanceThrowAttack : ArmThrowAttack
     {
         [Tooltip("추가 데미지")]
         public float Damage;
-        [Tooltip("경직 걸리는 가?")]
-        public bool isStiff;
+        [Tooltip("CC기")]
+        public CrowdControlType CCType;
         [Tooltip("넉백 거리")]
         public float KnockBackDistance;
     }
@@ -33,7 +32,7 @@ public class BalanceThrowAttack : ArmThrowAttack
         else
         {
             // 콤보카운트 1씩 상승
-            _comboCount = _comboCount < 4 ? _comboCount + 1 : 0;
+            _comboCount = _comboCount < 3 ? _comboCount + 1 : 0;
             View.SetTrigger(PlayerView.Parameter.OnCombo);
         }
 
@@ -83,7 +82,9 @@ public class BalanceThrowAttack : ArmThrowAttack
         int throwObjectID = Model.ThrowObjectStack.Count > 0 ? Model.PopThrowObject().ID : 0;
 
         ThrowObject throwObject = Instantiate(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
-        throwObject.Init(Player, (int)Model.PowerThrowAttack[0],Model.ThrowAdditionals);
+        throwObject.Init(Player, _attacks[_comboCount].CCType, (int)_attacks[_comboCount].Damage, Model.ThrowAdditionals);
+        throwObject.KnockBackDistance = _attacks[_comboCount].KnockBackDistance;
+
         throwObject.Shoot(Player.ThrowPower);
     }
     IEnumerator OnComboRoutine()

@@ -18,6 +18,7 @@ public class ArmAttackType : ScriptableObject
 
     private int m_index;
     protected int _index { get {  return m_index; } set { m_index = value; Model.ChargeStep = m_index; } }
+    protected bool _isSpecialCharge;
     public virtual void Init(PlayerController player)
     {
         Player = player;

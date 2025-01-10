@@ -14,21 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   _charges:
-  - ChargeTime: 0.75
+  - ChargeTime: 0.5
     ChargeMana: 30
     ObjectCount: 3
-  - ChargeTime: 1.75
-    ChargeMana: 70
+  - ChargeTime: 1
+    ChargeMana: 60
     ObjectCount: 7
-  - ChargeTime: 2.5
-    ChargeMana: 100
+  - ChargeTime: 1.5
+    ChargeMana: 150
     ObjectCount: 10
   _first:
     AttackSpeed: 50
     Duration: 5
   _second:
-    Damage: 0
-    Range: 0
+    SpecialObject: {fileID: 7150701479900206840, guid: bb16ba393b019654b8fd8ad81f7447e4, type: 3}
+    Damage: 50
+    MiddleDamage: 100
+    Range: 3
+    MiddleRange: 1.5
   _third:
-    Damage: 0
-    Range: 0
+    ElectricShock: {fileID: 11400000, guid: 4091af5b30b615242a7cae894cd9a73b, type: 2}
+    AttackDelay: 2
+    Damage: 300
+    MiddleDamage: 0
+    Range: 300
+    MiddleRange: 0
+    ElectricShockDuration: 2

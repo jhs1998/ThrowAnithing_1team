@@ -395,21 +395,23 @@ public class InputKey : MonoBehaviour
 
     private void Awake()
     {
-        InitSingleTon();
+        if(InitSingleTon() ==false) return;
         Init();
         InitInputManager();
     }
-    private void InitSingleTon()
+    private bool InitSingleTon()
     {
         if (Instance == null)
         {
             Instance = this;
             transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
+            return true;
         }
         else
         {
             Destroy(gameObject);
+            return false;
         }
     }
 
