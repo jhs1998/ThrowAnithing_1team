@@ -80,7 +80,7 @@ public class Main_Continue : MainScene
 
     void SelectedEnter()
     {
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             buttons[slots_cur].onClick.Invoke();
         }

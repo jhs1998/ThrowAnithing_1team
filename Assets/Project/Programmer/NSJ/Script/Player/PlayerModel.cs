@@ -266,22 +266,22 @@ public class PlayerModel : MonoBehaviour, IDebuff
     //    [Range(0, 5)] public float DamageMultiplier;
     //}
     //[Header("근접공격 관련 필드")]
-    //[SerializeField] public MeleeStruct Melee;
+    //[SerializeField] public MeleeStruct PrevMelee;
     //public int MeleeComboCount
     //{
-    //    get { return Melee.ComboCount; }
+    //    get { return PrevMelee.ComboCount; }
     //    set
     //    {
-    //        Melee.ComboCount = value;
-    //        if (Melee.ComboCount >= Melee.PowerMeleeAttack.Length)
+    //        PrevMelee.ComboCount = value;
+    //        if (PrevMelee.ComboCount >= PrevMelee.PowerMeleeAttack.Length)
     //        {
-    //            Melee.ComboCount = 0;
+    //            PrevMelee.ComboCount = 0;
     //        }
     //    }
     //}
-    //public float Range => Melee.PowerMeleeAttack[Melee.ComboCount].Range;
-    //public float Angle => Melee.PowerMeleeAttack[Melee.ComboCount].Angle;
-    //public float DamageMultiplier => Melee.PowerMeleeAttack[Melee.ComboCount].DamageMultiplier;
+    //public float Range => PrevMelee.PowerMeleeAttack[PrevMelee.ComboCount].Range;
+    //public float Angle => PrevMelee.PowerMeleeAttack[PrevMelee.ComboCount].Angle;
+    //public float DamageMultiplier => PrevMelee.PowerMeleeAttack[PrevMelee.ComboCount].DamageMultiplier;
     #endregion
 }
 

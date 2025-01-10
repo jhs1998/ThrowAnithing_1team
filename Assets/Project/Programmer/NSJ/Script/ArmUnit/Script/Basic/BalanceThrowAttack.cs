@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Balance Throw", menuName = "Arm/AttackType/Balance/Throw")]
+[CreateAssetMenu(fileName = "Balance PrevThrow", menuName = "Arm/AttackType/Balance/PrevThrow")]
 public class BalanceThrowAttack : ArmThrowAttack
 {
     [System.Serializable]

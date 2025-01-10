@@ -8,9 +8,9 @@ public class Test : MonoBehaviour
 
     void Update()
     {
-        if (InputKey.GetButtonDown(InputKey.PopUpClose))
+        if (InputKey.GetButtonUp(InputKey.Throw))
         {
             Debug.Log("´©¸§");
-        }   
+        }
     }
 }

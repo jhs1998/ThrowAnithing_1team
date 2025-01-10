@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 유도 기능
 /// </summary>
-[CreateAssetMenu(fileName = "GuidedAttack", menuName = "AdditionalEffect/Throw/GuidedAttack")]
+[CreateAssetMenu(fileName = "GuidedAttack", menuName = "AdditionalEffect/PrevThrow/GuidedAttack")]
 public class GuidedAttack : ThrowAdditional
 {
     [Header("유도 가능 범위")]

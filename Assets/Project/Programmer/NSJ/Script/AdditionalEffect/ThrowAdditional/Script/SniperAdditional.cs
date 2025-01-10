@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Sniper", menuName = "AdditionalEffect/Throw/Sniper")]
+[CreateAssetMenu(fileName = "Sniper", menuName = "AdditionalEffect/PrevThrow/Sniper")]
 public class SniperAdditional : ThrowAdditional
 {
     [Header("최대 데미지 증가량(%)")]

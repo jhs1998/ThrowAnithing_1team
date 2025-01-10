@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SplitThrowable", menuName = "AdditionalEffect/Throw/SplitThrowable")]
+[CreateAssetMenu(fileName = "SplitThrowable", menuName = "AdditionalEffect/PrevThrow/SplitThrowable")]
 public class SplitThrowableAdditional : ThrowAdditional
 {
     [Header("감소 피해량(%)")]

@@ -20,7 +20,7 @@ public class NewDataDelete : MonoBehaviour
 
     void Update()
     {
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             Debug.Log("ªË¡¶µ∆¿Ω");
             yesButton.onClick.Invoke();

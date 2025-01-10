@@ -81,7 +81,7 @@ public class InputTest : BaseUI
         Slot_Selected();
 
         //Comment : For test
-        if (InputKey.GetButtonDown(InputKey.Interaction))
+        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
         {
             slots[index].onClick.Invoke();
         }
@@ -264,7 +264,7 @@ public class InputTest : BaseUI
         {
             slots[index].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
 
-            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.Interaction))
+            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.PrevInteraction))
             {
                 index = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
             }
