@@ -356,6 +356,7 @@ public class InputKey : MonoBehaviour
         return inputStruct;
     }
     #endregion
+    #region ¿Œ«≤Ω√Ω∫≈€
     public enum Action
     {
         Move, CameraMove, // Axis
@@ -587,4 +588,5 @@ public class InputKey : MonoBehaviour
     {
         ProcessInput(value, InvenOpen);
     }
+    #endregion
 }
