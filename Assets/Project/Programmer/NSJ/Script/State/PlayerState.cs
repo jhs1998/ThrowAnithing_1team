@@ -20,6 +20,7 @@ public class PlayerState : BaseState
     protected PlayerView View => Player.View;
     protected ArmUnit Arm => Model.Arm;
     protected Rigidbody Rb => Player.Rb;
+    protected PlayerEffectData Effect => Player.Effect;
     protected Vector3 MoveDir => Player.MoveDir;
     public PlayerState(PlayerController controller)
     {

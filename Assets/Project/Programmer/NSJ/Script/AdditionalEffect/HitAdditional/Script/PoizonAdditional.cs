@@ -10,7 +10,7 @@ public class PoizonAdditional : HitAdditional
     struct EffectStrcut
     {
         public GameObject EffectPrefab;
-        [HideInInspector] public ParticleSystem Effect;
+        [HideInInspector] public GameObject Effect;
         public float EffectDuration;
     }
     [Range(0,1)]public float DamageMultiplier;
@@ -22,7 +22,7 @@ public class PoizonAdditional : HitAdditional
 
         if (_debuffRoutine == null)
         {
-            CreateEffect();
+            _effect.Effect = ObjectPool.GetPool(_effect.EffectPrefab, Battle.HitPoint);
             _debuffRoutine = CoroutineHandler.StartRoutine(PoisonRoutine());
         }
     }
@@ -31,6 +31,7 @@ public class PoizonAdditional : HitAdditional
     {
         if (_debuffRoutine != null)
         {
+            ObjectPool.ReturnPool(_effect.Effect);
             CoroutineHandler.StopRoutine(_debuffRoutine);
             _debuffRoutine = null;
         }
@@ -43,27 +44,9 @@ public class PoizonAdditional : HitAdditional
         while (_remainDuration > 0)
         {
             yield return 1f.GetDelay();
-            CoroutineHandler.StartRoutine(EffectRoutine());
             Battle.TakeDamage(damage, true);
             _remainDuration--;         
         }
         Battle.EndDebuff(this);
-    }
-    
-    private void CreateEffect()
-    {
-        _effect.Effect = Instantiate(_effect.EffectPrefab, transform).GetComponent<ParticleSystem>();
-        _effect.Effect.transform.position = Battle.HitPoint.position;
-        _effect.Effect.Stop();
-    }
-    IEnumerator EffectRoutine()
-    {
-        _effect.Effect.Play();
-        yield return _effect.EffectDuration.GetDelay();
-        _effect.Effect.Stop();
-        if (_remainDuration <= 0)
-        {
-            Destroy(_effect.Effect, 0.2f);
-        }
     }
 }

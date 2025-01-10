@@ -16,11 +16,10 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(BattleSystem))]
 public class PlayerController : MonoBehaviour, IHit
 {
+    [SerializeField] public PlayerEffectData Effect;
     [SerializeField] public Transform ArmPoint;
-    [SerializeField] public GameObject _lifeDrainPrefab;
     [Inject]
     [HideInInspector] public OptionSetting setting;
-
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
     [HideInInspector] public Collider Collider;
@@ -328,7 +327,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model.CurHp += drainAmount;
 
         if (drainAmount > 0)
-            ObjectPool.GetPool(_lifeDrainPrefab, Battle.HitPoint.position.GetRandomPos(0.5f), transform.rotation, 1f);
+            ObjectPool.GetPool(Effect.LifeDrain, Battle.HitPoint.position.GetRandomPos(0.5f), transform.rotation, 1f);
     }
     /// <summary>
     /// ÇÇÇØ ÈíÇ÷(¸ðµ¨ ÇÇÈí + Ãß°¡ ÇÇÈí)
@@ -339,7 +338,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model.CurHp += drainAmount;
 
         if (drainAmount > 0)
-            ObjectPool.GetPool(_lifeDrainPrefab, Battle.HitPoint.position.GetRandomPos(0.5f), transform.rotation, 1f);
+            ObjectPool.GetPool(Effect.LifeDrain, Battle.HitPoint.position.GetRandomPos(0.5f), transform.rotation, 1f);
     }
 
     #endregion

@@ -64,5 +64,9 @@ public static partial class Util
             pos.z + Random.Range(-range, range));
         return randomPos;
     }
+    public static Vector3 GetPos(float range)
+    {
+        return new Vector3(range, range, range);
+    }
 
 }
