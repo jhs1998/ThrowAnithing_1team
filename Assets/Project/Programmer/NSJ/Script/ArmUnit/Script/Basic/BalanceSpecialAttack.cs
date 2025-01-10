@@ -7,6 +7,13 @@ using Zenject.SpaceFighter;
 public class BalanceSpecialAttack : ArmSpecialAttack
 {
     [System.Serializable]
+    struct ChargeEffect
+    {
+        public GameObject EffectPrefab;
+        [HideInInspector] public GameObject Effect;
+        public GameObject StepUpEffectPrefab;
+    }
+    [System.Serializable]
     struct ChargeStruct
     {
         public float ChargeTime;
@@ -42,7 +49,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         public float MiddleRange;
         public float ElectricShockDuration;
     }
-
+    [SerializeField] private ChargeEffect _chargeEffect;
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private FirstStruct _first;
     [SerializeField] private SecondStruct _second;
@@ -120,11 +127,14 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     }
     IEnumerator ChargeRoutine()
     {
+        // 차지 이펙트 생성
+        _chargeEffect.Effect = ObjectPool.GetPool(_chargeEffect.EffectPrefab, transform);
         while (true)
         {
             ProcessCharge();
             if (InputKey.GetButtonUp(InputKey.Special))
             {
+                ObjectPool.ReturnPool(_chargeEffect.Effect);
                 ChangeState(PlayerController.State.SpecialAttack);
                 yield break;
             }
@@ -133,7 +143,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     }
 
     private void ProcessCharge()
-    {
+    {        
         // 차지시간 계산
         Model.SpecialChargeGage += Time.deltaTime * 100 / _maxChargeTime;
         // 인덱스가 배열 크기보다 작을떄만
@@ -145,8 +155,8 @@ public class BalanceSpecialAttack : ArmSpecialAttack
                 // 차지 시간이 다음 단계 차징 조건시간을 넘긴 경우
                 if (Model.SpecialChargeGage >= _charges[_index].ChargeMana)
                 {
-
                     _index++;
+                    ObjectPool.GetPool(_chargeEffect.StepUpEffectPrefab, transform, 1f);
                 }
                 // 현재 특수자원량보다 차지량이 더 많은 경우
                 else if (Model.SpecialChargeGage > Model.CurMana)
@@ -267,7 +277,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         GameObject beforeEffect = ObjectPool.GetPool(_third.BeforeEffect, attackPos, Quaternion.identity);
         yield return _third.AttackDelay.GetDelay();
         ObjectPool.ReturnPool(beforeEffect);
-        //TODO 
+        // 공격
         AttackBombard(attackPos);
 
         GameObject effect = ObjectPool.GetPool(_third.Effect, attackPos, _third.Effect.transform.rotation);
