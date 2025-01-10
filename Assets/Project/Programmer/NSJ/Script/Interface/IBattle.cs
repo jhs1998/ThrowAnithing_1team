@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public interface IBattle
 {
     IHit Hit { get; set; }
-    IDebuff Debuff { get; set; }
 
     public event UnityAction<int, bool> OnTargetAttackEvent;
     public event UnityAction<int, bool> OnTakeDamageEvent;

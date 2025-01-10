@@ -32,10 +32,39 @@ public class ArmUnit : ScriptableObject
     public ArmSpecialAttack SpecialAttack { get { return _attackType.SpecialAttack; } set { _attackType.SpecialAttack = value; } }
     public ArmJumpDown JumpDown { get { return _attackType.JumpDown; } set { _attackType.JumpDown = value; } }
     public ArmJumpAttack JumpAttack { get { return _attackType.JumpAttack; } set { _attackType.JumpAttack = value; } }
+
+    [System.Serializable]
+    struct InitStruct
+    {
+        [Header("대쉬 스테미나(%)")]
+        public float DashStamina;
+        [Header("대쉬 거리(%)")]
+        public float DashDistance;
+        [Header("드레인 스테미나(%)")]
+        public float DrainStamina;
+        [Header("드레인 거리(%)")]
+        public float DrainDistance;
+        [Header("최대 마나")]
+        public float MaxMana;
+    }
+    [SerializeField] InitStruct _init;
     public virtual void Init(PlayerController player)
     {
         Player = player; 
         _types = new ArmAttackType[(int)Type.Size];
+
+        Model.DashStamina = (int)(Model.GlobalStateData.dashConsumesStamina * (_init.DashStamina / 100f));
+        Model.DashDistance = (int)(Model.GlobalStateData.dashDistance * (_init.DashDistance / 100f));
+
+        Model.DrainDistance = Model.Drain.Default.DrainDistance * (_init.DrainDistance / 100f);
+        Model.DrainStamina = Model.Drain.Default.DrainStamina * (_init.DrainStamina / 100f);
+
+        Model.MaxMana = Model.GlobalStateData.maxMana + _init.MaxMana - Model.GlobalStateData.maxMana;
+
+
+        Model.NowWeapon = GlobalGameData.AmWeapon.Power;
+
+        InitAllType();
     }
 
 
@@ -102,7 +131,7 @@ public class ArmUnit : ScriptableObject
     protected void InitType(Type type, ArmAttackType armAttackType)
     {
         _types[(int)type] = Instantiate(armAttackType);
-        _types[(int)type]?.Init(Player);
+        _types[(int)type]?.Init(Player, this);
     }
     protected void InitAllType()
     {

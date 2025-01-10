@@ -67,6 +67,9 @@ public class ElectricShockAdditonal : HitAdditional
 
     private void ChangePlayerValue(bool isDecrease)
     {
+        if (transform.tag != Tag.Player)
+            return;
+
         // 플레이어 스텟 감소 계산
         if(isDecrease == true)
         {

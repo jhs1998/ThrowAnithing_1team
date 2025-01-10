@@ -67,7 +67,7 @@ public class HitState : PlayerState
 
 
         if (Model.CurHp <= 0)
-        {
+        {          
             // Die
             Player.Die();
         }

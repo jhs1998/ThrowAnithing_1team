@@ -44,9 +44,9 @@ public class PowerMeleeAttack : ArmMeleeAttack
     private GameObject _curArmEffect;
     Coroutine _chargeRoutine;
     Coroutine _autoAttackRoutine;
-    public override void Init(PlayerController player)
+    public override void Init(PlayerController player, ArmUnit arm)
     {
-        base.Init(player);
+        base.Init(player, arm);
         for (int i = 0; i < _charges.Length; i++)
         {
             _charges[i].Damage = (int)Model.PowerMeleeAttack[i];

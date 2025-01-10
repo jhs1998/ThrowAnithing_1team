@@ -34,12 +34,13 @@ public class SlowAddtional : HitAdditional
             _debuffRoutine = null;
             // 깎인 양 만큼 복구
             ChangeValue(false);
-            Destroy(_effect.Effect);
+            ObjectPool.ReturnPool(_effect.Effect);
         }
     }
 
     IEnumerator DurationRoutine()
     {
+        Debug.Log($"{transform.name} , 슬로우 들어감");
         _remainDuration = Duration;
         while (_remainDuration > 0)
         {
@@ -59,6 +60,9 @@ public class SlowAddtional : HitAdditional
 
     private void ChangePlayerValue(bool isDecrease)
     {
+        if (transform.tag != Tag.Player)
+            return;
+
         // 플레이어 스텟 감소 계산
         if (isDecrease == true)
         {
@@ -78,7 +82,6 @@ public class SlowAddtional : HitAdditional
         {
             // 이속감소
             float enemyMoveSpeed = GetEnemyMoveSpeed();
-            Debug.Log(enemyMoveSpeed);
             _decreaseMoveSpeedEnemyValue = enemyMoveSpeed * SlowAmount / 100f;
             enemyMoveSpeed -= _decreaseMoveSpeedEnemyValue;
             SetEnemyMoveSpeed(enemyMoveSpeed);
@@ -97,7 +100,6 @@ public class SlowAddtional : HitAdditional
 
     private void CreateEffect()
     {
-        _effect.Effect = Instantiate(_effect.EffectPrefab, transform);
-        _effect.Effect.transform.position = transform.position;
+        _effect.Effect = ObjectPool.GetPool(_effect.EffectPrefab, transform);
     }
 }

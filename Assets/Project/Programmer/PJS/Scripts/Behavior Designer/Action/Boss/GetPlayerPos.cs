@@ -10,7 +10,6 @@ public class GetPlayerPos : Action
 	public override void OnStart()
 	{
         Vector3 playerPos = new Vector3(player.Value.transform.position.x, transform.position.y, player.Value.transform.position.z);
-        //player.Value.transform.position
         playerpos.SetValue(playerPos);
 	}
 
