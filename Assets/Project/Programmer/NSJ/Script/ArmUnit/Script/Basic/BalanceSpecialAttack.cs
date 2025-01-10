@@ -42,10 +42,11 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     public override void Init(PlayerController player)
     {
         base.Init(player);
+        View.Panel.SetChargingMpVarMaxValue(Model.MaxMana);
         for (int i = 0; i < _charges.Length; i++)
         {
             View.Panel.StepTexts[i].SetText(_charges[i].ObjectCount.GetText());
-            _charges[i].ChargeMana = Model.ManaConsumption[i];
+            View.Panel.SetChargingMpHandle(i, _charges[i].ChargeMana);
         }
     }
     public override void Enter()
@@ -74,11 +75,6 @@ public class BalanceSpecialAttack : ArmSpecialAttack
                 ChangeState(Player.PrevState);
                 return;
             }
-
-            // 차지 사용량만큼 제거
-            Model.CurMana -= _charges[_index].ChargeMana;
-            Model.SpecialChargeGage = 0;
-
             SelectSpecialAttack(_index);
         }
     }
@@ -145,6 +141,16 @@ public class BalanceSpecialAttack : ArmSpecialAttack
 
     private void SelectSpecialAttack(int index)
     {
+        // 차지 사용량만큼 제거
+        Model.CurMana -= _charges[_index].ChargeMana;
+        Model.SpecialChargeGage = 0;
+        // 사용한 오브젝트만큼 제거
+        for (int i = 0; i < _charges[_index].ObjectCount; i++)
+        {
+            Model.PopThrowObject();
+        }
+
+
         switch (index) 
         {
             case 0:

@@ -32,7 +32,7 @@ public class SplitThrowableAdditional : ThrowAdditional
             // 생성
             ThrowObject newObject = Instantiate(DataContainer.GetThrowObject(_throwObject.Data.ID), _throwObject.transform.position, _throwObject.transform.rotation);
             // 값 설정
-            newObject.Init(Player, _throwObject.PlayerDamage, _throwObject.ThrowAdditionals);
+            newObject.Init(Player, _throwObject.CCType,_throwObject.PlayerDamage, _throwObject.ThrowAdditionals);
 
             newObject.ObjectDamage = (int)(newObject.ObjectDamage * (_reductionDamage / 100f));
             newObject.PlayerDamage = (int)(newObject.PlayerDamage * (_reductionDamage / 100f));

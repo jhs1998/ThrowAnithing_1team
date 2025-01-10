@@ -17,6 +17,8 @@ public class ThrowObject : MonoBehaviour
     [Space(10)]
     // 공격 범위(폭발식)
     public float Radius;
+    // CC기 종류
+    public CrowdControlType CCType;
     // 넉백거리
     public float KnockBackDistance;
     // 스테미나 회복량
@@ -108,21 +110,25 @@ public class ThrowObject : MonoBehaviour
         FixedUpdateThrowAdditional();
     }
     #region Init
-    public void Init(PlayerController player, List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player,CrowdControlType CCType, List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
         Radius = player.Model.BoomRadius;
+
+        this.CCType = CCType;
         // 적중시 회복 마나량
         SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
         SpecialRecovery += SpecialRecovery * player.Model.RegainAdditiveMana / 100;
 
         AddThrowAdditional(throwAdditionals, player);
     }
-    public void Init(PlayerController player, int addionalDamage, List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player, CrowdControlType CCType, int addionalDamage, List<ThrowAdditional> throwAdditionals)
     {
         _player = player;
         PlayerDamage = addionalDamage;
         Radius = player.Model.BoomRadius;
+
+        this.CCType = CCType;
         // 적중시 회복 마나량
         SpecialRecovery = player.Model.RegainMana[player.Model.ChargeStep];
         SpecialRecovery += SpecialRecovery * player.Model.RegainAdditiveMana / 100;
@@ -134,6 +140,34 @@ public class ThrowObject : MonoBehaviour
     {
         Rb.AddForce(transform.forward * throwPower, ForceMode.Impulse);
     }
+    /// <summary>
+    /// 타겟 적중
+    /// </summary>
+    protected void HitTarget()
+    {
+        if (CanAttack == false)
+            return;
+
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _player.OverLapColliders, 1 << Layer.Monster);
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            int finalDamage = _player.GetFinalDamage(Damage, DamageMultyPlier, out bool isCritical);
+            // 디버프 주기
+            int hitDamage = _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], isCritical, finalDamage, false);
+
+            _player.Battle.TargetCrowdControl(_player.OverLapColliders[i], CCType);
+
+            if (KnockBackDistance > 0)
+                _player.DoKnockBack(_player.OverLapColliders[i].transform, transform.forward, KnockBackDistance);
+        }
+
+        // 플레이어 특수공격 자원 획득
+        _player.Model.CurMana += SpecialRecovery;
+        DestroyObject();
+    }
+
+
     /// <summary>
     /// 공격 추가 효과 발동
     /// </summary>
@@ -182,31 +216,6 @@ public class ThrowObject : MonoBehaviour
         {
             throwAdditional.Trigger();
         }
-    }
-    /// <summary>
-    /// 타겟 적중
-    /// </summary>
-    protected void HitTarget()
-    {
-        if (CanAttack == false)
-            return;
-
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _player.OverLapColliders, 1 << Layer.Monster);
-
-        for (int i = 0; i < hitCount; i++)
-        {
-            int finalDamage = _player.GetFinalDamage(Damage, DamageMultyPlier, out bool isCritical);
-            // 디버프 주기
-            int hitDamage = _player.Battle.TargetAttackWithDebuff(_player.OverLapColliders[i], isCritical, finalDamage, false);
-            _player.Battle.TargetCrowdControl(_player.OverLapColliders[i], CrowdControlType.Stiff);
-
-            if (KnockBackDistance > 0)
-                _player.DoKnockBack(_player.OverLapColliders[i].transform, transform.forward, KnockBackDistance);
-        }
-
-        // 플레이어 특수공격 자원 획득
-        _player.Model.CurMana += SpecialRecovery;
-        DestroyObject();
     }
 
     protected void OnDrawGizmos()
