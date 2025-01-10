@@ -35,7 +35,10 @@ namespace MKH
             _BlueChipPanel = GetObject("BlueChipPanel");
             _BlueChipChoice = GetObject("BlueChipChoice");
             _BlueChipChoicePanel = GetObject("BlueChipChoicePanel");
+        }
 
+        private void Start()
+        {
             _Inventory.SetActive(false);
             _EquipInventory.SetActive(false);
             _State.SetActive(false);
