@@ -17,12 +17,15 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] int breakshieldCount = 20;
     [Header("실드 파괴 후 그로기 시간 ( 초 단위)")]
     [SerializeField] float stunTime;
+    [Header("점프 공격 관련")]
+    [Tooltip("점프 애니메이션 모션")]
+    public AnimationCurve curve;    // 움직이는 모션
+    [Tooltip("점프 애니메이션의 재생 시간")]
+    public float jumpAttackTime;    // 애니메이션의 재생 시간
+    [Tooltip("점프 시 최대 높이")]
+    public float jumpHeight;    // 점프 시 최대 높이
 
     [Space, SerializeField] ParticleSystem shieldParticle;
-
-    public AnimationCurve curve;    // 움직이는 모션
-    public float jumpAttackTime;    // 애니메이션의 재생 시간
-    public float jumpHeight;    // 점프 시 최대 높이
 
     private Coroutine attackAble;
     public Coroutine recovery;  // 회복 관련 코루틴
@@ -65,21 +68,7 @@ public class BossEnemy : BaseEnemy, IHit
         else if (CurHp <= MaxHp * 0.5f && CurHp > MaxHp * 0.3f)
         {
             curPhase = PhaseType.Phase3;
-            //onFrezenyPassive = true;
         }
-    }
-
-    private void FrenzyPassive()
-    {
-        if (onFrezenyPassive == false)
-        {
-            return;
-        }
-
-        tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
-        tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
-
-        onFrezenyPassive = false;
     }
 
     IEnumerator PassiveOn()

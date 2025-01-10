@@ -141,6 +141,4 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, state.AttackDis);
     }
-
-
 }
