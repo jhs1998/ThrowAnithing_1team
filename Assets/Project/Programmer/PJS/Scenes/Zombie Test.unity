@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 106068677794112860, guid: 740de5b0a7da14f4196302da5c1ba28c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.75
       objectReference: {fileID: 0}
     - target: {fileID: 106068677794112860, guid: 740de5b0a7da14f4196302da5c1ba28c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1058,7 +1058,7 @@ GameObject:
   - component: {fileID: 669380595}
   m_Layer: 10
   m_Name: Body
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1188,10 +1188,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &684525791
 CapsuleCollider:
@@ -1225,7 +1225,7 @@ Transform:
   m_GameObject: {fileID: 684525788}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -13.5}
+  m_LocalPosition: {x: 0, y: 0, z: -21.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1850,7 +1850,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1434792484
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1931,7 +1931,7 @@ Transform:
   m_GameObject: {fileID: 1434792483}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -4}
+  m_LocalPosition: {x: 0, y: 1, z: -4}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5742,7 +5742,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3416041971000530687
 Transform:
   m_ObjectHideFlags: 0
@@ -7045,17 +7045,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802739145}
     m_Modifications:
-    - target: {fileID: 2127482124871604544, guid: 48db46a8b8346db4fbd41da45156a325, type: 3}
-      propertyPath: state.AttackDis
-      value: 1.1
-      objectReference: {fileID: 0}
     - target: {fileID: 4727247877142550848, guid: 48db46a8b8346db4fbd41da45156a325, type: 3}
       propertyPath: m_Name
       value: Zombie_Man
       objectReference: {fileID: 0}
     - target: {fileID: 4727247877142550848, guid: 48db46a8b8346db4fbd41da45156a325, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4735525628967592624, guid: 48db46a8b8346db4fbd41da45156a325, type: 3}
       propertyPath: m_LocalPosition.x

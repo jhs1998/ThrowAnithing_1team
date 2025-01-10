@@ -22,11 +22,10 @@ public class RangedEnemy : BaseEnemy
 
     public void Attack()
     {
-        EnemyBullet bullet = Instantiate(bulletPrefab, muzzle.position, muzzle.rotation).GetComponent< EnemyBullet>();
-        bullet.target = playerObj.Value.transform;
-        bullet.Speed = bulletSpeed;
-        bullet.Atk = state.Atk;
-        bullet.transform.parent = transform;
-        bullet.Battle = Battle;
+        EnemyBullet bulletPool = ObjectPool.GetPool(bulletPrefab, muzzle.position, muzzle.rotation);
+        bulletPool.target = playerObj.Value.transform;
+        bulletPool.Speed = bulletSpeed;
+        bulletPool.Atk = state.Atk;
+        bulletPool.Battle = Battle;
     }
 }
