@@ -16,7 +16,7 @@ namespace MKH
 
         [Header("슬롯 버튼")]
         [SerializeField] GameObject[] buttons;                  // 슬롯 버튼
-        int selectedButtonsIndex;                           // 슬롯 시작 위치
+        int selectedButtonsIndex;                               // 슬롯 시작 위치
         int buttonCount;                                        // 슬롯 개수
         private bool axisInUse;                                 // 키 연속 조작 방지
 
