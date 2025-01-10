@@ -725,6 +725,7 @@ public class PlayerController : MonoBehaviour, IHit
     {
         int layerMask = 0;
         layerMask |= 1 << Layer.Wall;
+        layerMask |= 1 << Layer.HideWall;
         layerMask |= 1 << Layer.Monster;
         int hitCount = Physics.OverlapCapsuleNonAlloc(
             WallCheckPos.Foot.position,

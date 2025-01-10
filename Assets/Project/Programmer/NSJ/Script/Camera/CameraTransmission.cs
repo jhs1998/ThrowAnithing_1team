@@ -15,23 +15,28 @@ public class CameraTransmission : MonoBehaviour
     {
         distance = Vector3.Distance(transform.position, Camera.main.transform.position);
 
-
+        StartCoroutine(TransmitRoutine());
     }
-    private void Update()
+
+    IEnumerator TransmitRoutine()
     {
-        Vector3 cameraDir = Camera.main.transform.position - (transform.position + _offset);
-
-        // 기존 hits 레이어 복구
-        for (int i = 0; i < hitCount; i++)
+        while (true) 
         {
-            hits[i].transform.gameObject.layer = Layer.Wall;
-        }
+            Vector3 cameraDir = Camera.main.transform.position - (transform.position + _offset);
 
-        // 새로운 hits 레이어 세팅
-        hitCount = Physics.RaycastNonAlloc(transform.position,cameraDir.normalized, hits, distance, 1 << Layer.Wall);
-        for (int i = 0; i < hitCount; i++) 
-        {
-            hits[i].transform.gameObject.layer = Layer.HideWall;
+            // 기존 hits 레이어 복구
+            for (int i = 0; i < hitCount; i++)
+            {
+                hits[i].transform.gameObject.layer = Layer.Wall;
+            }
+
+            // 새로운 hits 레이어 세팅
+            hitCount = Physics.RaycastNonAlloc(transform.position, cameraDir.normalized, hits, distance, 1 << Layer.Wall);
+            for (int i = 0; i < hitCount; i++)
+            {
+                hits[i].transform.gameObject.layer = Layer.HideWall;
+            }
+            yield return 0.1f.GetDelay();
         }
     }
 }

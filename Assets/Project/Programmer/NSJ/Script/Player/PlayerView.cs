@@ -33,11 +33,13 @@ public class PlayerView : MonoBehaviour
         ChargeCancel,
         BalanceMelee,
         BalanceThrow,
+        BalanceSpecial1,
         BalanceSpecial2,
         BalanceSpecial3,
         PowerMelee,
         PowerThrow,
         PowerSpecial,
+        OnBuff,
         Dead,
         Size
     }
@@ -160,11 +162,13 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.PowerThrow] = Animator.StringToHash("PowerThrow");
         _animatorHashes[(int)Parameter.PowerSpecial] = Animator.StringToHash("PowerSpecial");
         _animatorHashes[(int)Parameter.PowerJumpDown] = Animator.StringToHash("PowerJumpDown");
+        _animatorHashes[(int)Parameter.BalanceSpecial1] = Animator.StringToHash("BalanceSpecial1");
         _animatorHashes[(int)Parameter.BalanceSpecial2] = Animator.StringToHash("BalanceSpecial2");
         _animatorHashes[(int)Parameter.BalanceSpecial3] = Animator.StringToHash("BalanceSpecial3");
         _animatorHashes[(int)Parameter.JumpAttack] = Animator.StringToHash("JumpAttack");
         _animatorHashes[(int)Parameter.Hit] = Animator.StringToHash("Hit");
         _animatorHashes[(int)Parameter.Dead] = Animator.StringToHash("Dead");
+        _animatorHashes[(int)Parameter.OnBuff] = Animator.StringToHash("OnBuff");
         _animatorHashes[(int)Parameter.DoubleJumpFall] = Animator.StringToHash("DoubleJumpFall");
 
 

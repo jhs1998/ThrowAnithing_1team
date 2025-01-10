@@ -51,9 +51,12 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     private List<Transform> MiddleHittargets = new List<Transform>();
     private float _maxChargeTime => _charges[_charges.Length - 1].ChargeTime;
     private float _maxChargeMana => _charges[_charges.Length - 1].ChargeMana;
-    public override void Init(PlayerController player)
+
+    // 암유닛 캐싱
+    private BalanceArm _balance => arm as BalanceArm; 
+    public override void Init(PlayerController player, ArmUnit arm)
     {
-        base.Init(player);
+        base.Init(player, arm);
         View.Panel.SetChargingMpVarMaxValue(Model.MaxMana);
         for (int i = 0; i < _charges.Length; i++)
         {
@@ -208,22 +211,22 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     /// </summary>
     private void ProcessFirstSpecial()
     {
-        Debug.Log("첫번쨰 특수기");
         CoroutineHandler.StartRoutine(FirstSpecialBuffRoutine());
         ChangeState(Player.PrevState);
     }
     IEnumerator FirstSpecialBuffRoutine()
     {
         Model.AttackSpeedMultiplier += _first.AttackSpeed;
+        _balance.OnFirstSpecial = true;
         yield return _first.Duration.GetDelay();
         Model.AttackSpeedMultiplier -= _first.AttackSpeed;
+        _balance.OnFirstSpecial = false;
     }
     /// <summary>
     /// 두번째 특수
     /// </summary>
     private void ProcessSecondSpecial()
     {
-        Debug.Log("두번쨰 특수기");
         View.SetTrigger(PlayerView.Parameter.BalanceSpecial2);
     }
     /// <summary>
@@ -242,7 +245,6 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     /// </summary>
     private void ProcessThirdSpecial()
     {
-        Debug.Log("세번쨰 특수기");
         Player.LookAtAttackDir();
         View.SetTrigger(PlayerView.Parameter.BalanceSpecial3);
     }

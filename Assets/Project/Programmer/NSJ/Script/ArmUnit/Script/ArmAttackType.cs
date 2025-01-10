@@ -16,12 +16,15 @@ public class ArmAttackType : ScriptableObject
     protected BattleSystem Battle => Player.Battle;
     protected PlayerBinder Binder => View.Binder;
 
+    protected ArmUnit arm;
+
     private int m_index;
     protected int _index { get {  return m_index; } set { m_index = value; Model.ChargeStep = m_index; } }
     protected bool _isSpecialCharge;
-    public virtual void Init(PlayerController player)
+    public virtual void Init(PlayerController player, ArmUnit arm)
     {
         Player = player;
+        this.arm = arm;
     }
     public virtual void Enter() { }
     public virtual void Exit() { }
