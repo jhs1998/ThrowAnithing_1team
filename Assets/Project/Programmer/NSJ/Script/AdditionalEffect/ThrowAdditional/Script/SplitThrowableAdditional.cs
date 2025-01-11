@@ -7,20 +7,22 @@ public class SplitThrowableAdditional : ThrowAdditional
     [Header("기존 오브젝트 대비 분열 오브젝트 크기(%)")]
     [SerializeField] private float _decreaseSize;
 
-
-    [SerializeField] private bool _canSplit = true; // 최초 1회만 분열
-
-    public override void Exit()
+    public override void Trigger()
     {
+        // 공격할수없으면 예외처리
+        if (_throwObject.CanAttack == false)
+            return;
+
+        // 클론도 예외처리
+        if (_throwObject.IsClone == true)
+            return;
+
+
         SplitObject();
     }
 
     private void SplitObject()
     {
-        if (_canSplit == false)
-            return;
-
-        _canSplit = false;
 
         TargetInfo nearTarget = FindNearTarget();
 
@@ -45,6 +47,7 @@ public class SplitThrowableAdditional : ThrowAdditional
 
             // 클론 지정
             newObject.IsClone = true;
+            _throwObject.AddChainList(newObject);
 
             // 좌우 분열 
             float splitAngle = i == 0 ? 90 : -90;

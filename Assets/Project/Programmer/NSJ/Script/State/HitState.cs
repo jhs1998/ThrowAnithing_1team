@@ -42,8 +42,11 @@ public class HitState : PlayerState
     {
         if (Player.IsShield == true)
             return 0;
-        if (Player.IsInvincible == true)
-            return 0;
+        if (isIgnoreDef == false)
+        {
+            if (Player.IsInvincible == true)
+                return 0;
+        }
         int finalDamage = 0;
         // 고정데미지 아닐 때 방어력 계산
         if (isIgnoreDef == false)
@@ -76,6 +79,11 @@ public class HitState : PlayerState
 
     private void TakeCrowdControl(CrowdControlType type) 
     {
+        if (Player.IsShield == true)
+            return;
+        if (Player.IsInvincible == true)
+            return;
+
         if (type == CrowdControlType.Stiff)
         {
             if (Player.CurState == PlayerController.State.Hit)

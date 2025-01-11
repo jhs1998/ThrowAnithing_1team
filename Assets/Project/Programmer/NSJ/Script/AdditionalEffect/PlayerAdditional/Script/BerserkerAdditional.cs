@@ -20,17 +20,21 @@ public class BerserkerAdditional : PlayerAdditional
 
     public override void Trigger()
     {
-        if (CurState != PlayerController.State.ThrowAttack
-            || CurState != PlayerController.State.MeleeAttack
-            || CurState != PlayerController.State.SpecialAttack)
+        Debug.Log(CurState);
+        if (CurState == PlayerController.State.ThrowAttack
+            || CurState == PlayerController.State.MeleeAttack
+            || CurState == PlayerController.State.SpecialAttack)
         {
             TakeDamage();
         }
+            
+           
     }
 
     private void TakeDamage()
     {
         int damage = (int)(Model.MaxHp * _hitAmount / 100f);
-        Player.Battle.TargetAttack(Player.transform, damage, false);
+        Debug.Log(damage);
+        Player.Battle.TargetAttack(Player.transform, damage, true);
     }
 }

@@ -16,11 +16,10 @@ public class CushionAttack : ThrowAdditional
 
     private List<TargetInfo> _targetList = new List<TargetInfo>();
     private TargetInfo _target;
-    public override void Exit()
+    public override void Trigger()
     {
         if (_throwObject.CanAttack == false)
             return;
-
         // 최대 튕긴 횟수가 더 클때만 작동
         if (_cushionCount < _maxCushionCount - 1)
         {
@@ -65,6 +64,8 @@ public class CushionAttack : ThrowAdditional
 
         // 클론 적용
         newObject.IsClone = true;
+        _throwObject.AddChainList(newObject);
+        
 
         // 데미지 감소
         newObject.ObjectDamage = (int)(newObject.ObjectDamage * (_ReductionDamage / 100f));
