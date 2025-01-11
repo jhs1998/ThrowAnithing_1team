@@ -19,6 +19,10 @@ public class SoundManager : BaseBinder
     private AudioSource _sfx;
     private AudioSource _loopSfx;
 
+    [SerializeField]private float volumeValue;
+    [SerializeField]private float masterVolumeValue;
+    private static float VolumeValue { get { return Instance.volumeValue; } }
+    private static float MasterVolumeValue { get { return Instance.masterVolumeValue; } }
 
     private void Awake()
     {
@@ -43,39 +47,39 @@ public class SoundManager : BaseBinder
 
     public static void SetVolumeMaster(float volume)
     {
-        Mixer.SetFloat("Master", volume * 20f);
+        Mixer.SetFloat("Master",  (-MasterVolumeValue + volume * MasterVolumeValue) +20);
     }
     public static void SetVolumeBGM(float volume)
     {
-        Mixer.SetFloat("BGM", volume * 20f);
+        Mixer.SetFloat("BGM", (-VolumeValue + volume * VolumeValue));
     }
     public static void SetVolumeSFX(float volume)
     {
-        Mixer.SetFloat("SFX", volume * 20f);
+        Mixer.SetFloat("SFX", (-VolumeValue + volume * VolumeValue));
     }
     public static void SetVolumeLoopSFX(float volume)
     {
-        Mixer.SetFloat("LoopSFX", volume * 20f);
+        Mixer.SetFloat("LoopSFX", (-VolumeValue + volume * VolumeValue));
     }
     public static float GetVolumeMaster()
     {
         Mixer.GetFloat("Master", out float volume);
-        return volume;
+        return (volume+ MasterVolumeValue - 20)/ MasterVolumeValue;
     }
     public static float GetVolumeBGM()
     {
         Mixer.GetFloat("BGM", out float volume);
-        return volume;
+        return (volume + VolumeValue) / VolumeValue;
     }
     public static float GetVolumeSFX()
     {
         Mixer.GetFloat("SFX", out float volume);
-        return volume;
+        return (volume + VolumeValue) / VolumeValue;
     }
     public static float GetVolumeLoopSFX()
     {
         Mixer.GetFloat("LoopSFX", out float volume);
-        return volume;
+        return (volume + VolumeValue) / VolumeValue;
     }
 
     public static void PlayBGM(AudioClip clip)

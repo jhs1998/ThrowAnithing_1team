@@ -241,10 +241,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 487930746}
   m_HandleRect: {fileID: 1139620776}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -517,10 +517,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 533256896}
   m_HandleRect: {fileID: 1793804485}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -832,10 +832,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 58619731}
   m_HandleRect: {fileID: 298277389}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1045,15 +1045,23 @@ PrefabInstance:
     - target: {fileID: 403148377368050975, guid: 387e00529e8fce64ebe0c8c8c85ce92b, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
-      objectReference: {fileID: -6954080368560903001, guid: dfa2fdfc413939c4493e9d8ec2c5c9fd, type: 2}
+      objectReference: {fileID: -2282378843595281308, guid: 6b79c12314ff9674abec60469d2854d5, type: 2}
     - target: {fileID: 587344095926200615, guid: 387e00529e8fce64ebe0c8c8c85ce92b, type: 3}
       propertyPath: _audioMixer
       value: 
-      objectReference: {fileID: 24100000, guid: dfa2fdfc413939c4493e9d8ec2c5c9fd, type: 2}
+      objectReference: {fileID: 24100000, guid: 6b79c12314ff9674abec60469d2854d5, type: 2}
+    - target: {fileID: 587344095926200615, guid: 387e00529e8fce64ebe0c8c8c85ce92b, type: 3}
+      propertyPath: volumeValue
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 587344095926200615, guid: 387e00529e8fce64ebe0c8c8c85ce92b, type: 3}
+      propertyPath: masterVolumeValue
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 2809564222280470070, guid: 387e00529e8fce64ebe0c8c8c85ce92b, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
-      objectReference: {fileID: 2052271730717665340, guid: dfa2fdfc413939c4493e9d8ec2c5c9fd, type: 2}
+      objectReference: {fileID: 2409151093957329083, guid: 6b79c12314ff9674abec60469d2854d5, type: 2}
     - target: {fileID: 4547489449149758028, guid: 387e00529e8fce64ebe0c8c8c85ce92b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.315653
@@ -1101,7 +1109,7 @@ PrefabInstance:
     - target: {fileID: 6014352861465040935, guid: 387e00529e8fce64ebe0c8c8c85ce92b, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
-      objectReference: {fileID: 24300002, guid: dfa2fdfc413939c4493e9d8ec2c5c9fd, type: 2}
+      objectReference: {fileID: 24300002, guid: 6b79c12314ff9674abec60469d2854d5, type: 2}
     - target: {fileID: 8482439865794833700, guid: 387e00529e8fce64ebe0c8c8c85ce92b, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -1109,7 +1117,7 @@ PrefabInstance:
     - target: {fileID: 8482439865794833700, guid: 387e00529e8fce64ebe0c8c8c85ce92b, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
-      objectReference: {fileID: -3060784522344141169, guid: dfa2fdfc413939c4493e9d8ec2c5c9fd, type: 2}
+      objectReference: {fileID: -3042243528120049139, guid: 6b79c12314ff9674abec60469d2854d5, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1815,10 +1823,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 522368972}
   m_HandleRect: {fileID: 1430684332}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

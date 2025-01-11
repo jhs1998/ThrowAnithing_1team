@@ -39,7 +39,7 @@ public class TestSampleSoundManager : BaseUI
 
     private void Update()
     {
-
+        Debug.Log(SoundManager.GetVolumeBGM());
         if (Input.GetKeyDown(KeyCode.Q))
         {
             SoundManager.PlayBGM(_sampleBGM);
