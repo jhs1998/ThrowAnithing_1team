@@ -20,7 +20,6 @@ public class BerserkerAdditional : PlayerAdditional
 
     public override void Trigger()
     {
-        Debug.Log(CurState);
         if (CurState == PlayerController.State.ThrowAttack
             || CurState == PlayerController.State.MeleeAttack
             || CurState == PlayerController.State.SpecialAttack)
@@ -34,7 +33,6 @@ public class BerserkerAdditional : PlayerAdditional
     private void TakeDamage()
     {
         int damage = (int)(Model.MaxHp * _hitAmount / 100f);
-        Debug.Log(damage);
         Player.Battle.TargetAttack(Player.transform, damage, true);
     }
 }
