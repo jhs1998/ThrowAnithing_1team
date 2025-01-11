@@ -39,7 +39,6 @@ public class TestSampleSoundManager : BaseUI
 
     private void Update()
     {
-        Debug.Log(SoundManager.GetVolumeBGM());
         if (Input.GetKeyDown(KeyCode.Q))
         {
             SoundManager.PlayBGM(_sampleBGM);
@@ -51,6 +50,14 @@ public class TestSampleSoundManager : BaseUI
         if (Input.GetKeyDown(KeyCode.E))
         {
             SoundManager.PlaySFX(_sampleSFX);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.ButtonClick);
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            SoundManager.PlayBGM(SoundManager.Data.BGM.Main);
         }
     }
 }

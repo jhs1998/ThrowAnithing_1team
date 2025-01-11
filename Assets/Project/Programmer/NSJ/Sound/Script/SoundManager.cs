@@ -6,19 +6,23 @@ using UnityEngine.Audio;
 public class SoundManager : BaseBinder
 {
     public static SoundManager Instance;
+    public static SoundData Data { get { return Instance._data; } }
 
-    public static AudioMixer Mixer { get { return Instance._audioMixer; } }
+     public static AudioMixer Mixer { get { return Instance._audioMixer; } }
     public static AudioSource Master { get { return Instance._master; } }
     public static AudioSource BGM { get { return Instance._bgm; } }
     public static AudioSource SFX { get { return Instance._sfx; } }
     public static AudioSource LoopSFX { get { return Instance._loopSfx; } }
+
 
     [SerializeField] private AudioMixer _audioMixer;
     private AudioSource _master;
     private AudioSource _bgm;
     private AudioSource _sfx;
     private AudioSource _loopSfx;
+   
 
+    [SerializeField] private SoundData _data;
     [SerializeField]private float volumeValue;
     [SerializeField]private float masterVolumeValue;
     private static float VolumeValue { get { return Instance.volumeValue; } }
