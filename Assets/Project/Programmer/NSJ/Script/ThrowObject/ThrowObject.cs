@@ -50,16 +50,15 @@ public class ThrowObject : MonoBehaviour
         CanAttack = true;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
-        EnterThrowAdditional();
+    
     }
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         Rb.velocity = Vector3.zero;
         _collider.isTrigger = true;
-        
-
+        EnterThrowAdditional();
     }
     protected virtual void OnDisable()
     {

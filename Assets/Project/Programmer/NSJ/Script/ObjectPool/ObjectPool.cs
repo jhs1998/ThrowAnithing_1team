@@ -59,10 +59,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.position = Vector3.zero;
             instance.transform.rotation = Quaternion.identity;
             instance.transform.SetParent(null);
+            instance.gameObject.SetActive(true);
             return instance.gameObject;
         }
         else
@@ -79,10 +79,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.SetParent(transform);
             instance.transform.position = transform.position;
             instance.transform.rotation = transform.rotation;
+            instance.gameObject.SetActive(true);
             return instance.gameObject;
         }
         else
@@ -99,7 +99,6 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.SetParent(transform);
             if (worldPositionStay == true)
             {
@@ -111,6 +110,7 @@ public class ObjectPool : MonoBehaviour
                 instance.transform.position = transform.position;
                 instance.transform.rotation = transform.rotation;
             }
+            instance.gameObject.SetActive(true);
 
             return instance.gameObject;
         }
@@ -128,9 +128,9 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.position = pos;
             instance.transform.rotation = rot;
+            instance.gameObject.SetActive(true);
             instance.transform.SetParent(null);
             return instance.gameObject;
         }
@@ -148,10 +148,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.position = Vector3.zero;
             instance.transform.rotation = Quaternion.identity;
             instance.transform.SetParent(null);
+            instance.gameObject.SetActive(true);
             T component = instance.GetComponent<T>();
             return component;
         }
@@ -170,10 +170,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.SetParent(transform);
             instance.transform.position = transform.position;
             instance.transform.rotation = transform.rotation;
+            instance.gameObject.SetActive(true);
             T component = instance.GetComponent<T>();
             return component;
         }
@@ -192,7 +192,6 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.SetParent(transform);
             if (worldPositionStay == true)
             {
@@ -204,6 +203,7 @@ public class ObjectPool : MonoBehaviour
                 instance.transform.position = transform.position;
                 instance.transform.rotation = transform.rotation;
             }
+            instance.gameObject.SetActive(true);
             T component = instance.GetComponent<T>();
             return component;
         }
@@ -222,10 +222,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.position = pos;
             instance.transform.rotation = rot;
             instance.transform.SetParent(null);
+            instance.gameObject.SetActive(true);
             T component = instance.GetComponent<T>();
             return component;
         }
@@ -245,10 +245,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.position = Vector3.zero;
             instance.transform.rotation = Quaternion.identity;
             instance.transform.SetParent(null);
+            instance.gameObject.SetActive(true);
         }
         else
         {
@@ -266,10 +266,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.position = transform.position;
             instance.transform.rotation = transform.rotation;
             instance.transform.SetParent(null);
+            instance.gameObject.SetActive(true);
         }
         else
         {
@@ -287,7 +287,6 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.SetParent(transform);
             if (worldPositionStay == true)
             {
@@ -299,6 +298,7 @@ public class ObjectPool : MonoBehaviour
                 instance.transform.position = transform.position;
                 instance.transform.rotation = transform.rotation;
             }
+            instance.gameObject.SetActive(true);
         }
         else
         {
@@ -316,10 +316,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.position = pos;
             instance.transform.rotation = rot;
             instance.transform.SetParent(null);
+            instance.gameObject.SetActive(true);
         }
         else
         {
@@ -337,10 +337,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.position = Vector3.zero;
             instance.transform.rotation = Quaternion.identity;
             instance.transform.SetParent(null);
+            instance.gameObject.SetActive(true);
             component = instance.GetComponent<T>();    
         }
         else
@@ -360,10 +360,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.SetParent(transform);
             instance.transform.position = transform.position;
             instance.transform.rotation = transform.rotation;
+            instance.gameObject.SetActive(true);
             component = instance.GetComponent<T>();
         }
         else
@@ -384,7 +384,6 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.SetParent(transform);
             if (worldPositionStay == true)
             {
@@ -396,6 +395,7 @@ public class ObjectPool : MonoBehaviour
                 instance.transform.position = transform.position;
                 instance.transform.rotation = transform.rotation;
             }
+            instance.gameObject.SetActive(true);
             component = instance.GetComponent<T>();       
         }
         else
@@ -415,10 +415,10 @@ public class ObjectPool : MonoBehaviour
         if (info.Pool.Count > 0)
         {
             GameObject instance = info.Pool.Dequeue();
-            instance.gameObject.SetActive(true);
             instance.transform.position = pos;
             instance.transform.rotation = rot;
             instance.transform.SetParent(null);
+            instance.gameObject.SetActive(true);
             component = instance.GetComponent<T>();
         }
         else
@@ -468,10 +468,14 @@ public class ObjectPool : MonoBehaviour
     }
     public static void ReturnPool(GameObject instance, float delay)
     {
+        if (instance.gameObject.activeSelf == false)
+            return;
         Instance.StartCoroutine(ReturnRoutine(instance, delay));
     }
     public static void ReturnPool<T>(T instance, float delay) where T : Component
     {
+        if (instance.gameObject.activeSelf == false)
+            return;
         Instance.StartCoroutine(ReturnRoutine(instance, delay));
     }
     static IEnumerator ReturnRoutine(GameObject instance, float delay)
