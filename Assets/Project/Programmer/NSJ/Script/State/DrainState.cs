@@ -5,6 +5,8 @@ using UnityEngine;
 public class DrainState : PlayerState
 {
     private GameObject _drainField => Player.DrainField;
+    private GameObject _drainEffect;
+
     private float _drainDistance => Model.DrainDistance * 2;
     private float _curDrainDistance;
     private bool _isEnd;
@@ -29,8 +31,11 @@ public class DrainState : PlayerState
 
         Player.Rb.velocity = Vector3.zero;
         View.SetBool(PlayerView.Parameter.Drain, true);
+
+        // 이펙트
         _drainField.SetActive(true);
         _drainField.transform.localScale = new Vector3(0, _drainField.transform.localScale.y, 0);
+        _drainEffect = ObjectPool.GetPool(Effect.Drain_Charge, Player.Battle.HitPoint);
 
         // 플레이어 위치 고정시킬 좌표 캐싱
         _drainStartPos = transform.position;
@@ -41,6 +46,19 @@ public class DrainState : PlayerState
         {
             _drainRoutine = CoroutineHandler.StartRoutine(DrainRoutine());
         }
+    }
+    public override void Exit()
+    {
+        if (_drainRoutine != null)
+        {
+            CoroutineHandler.StopRoutine(_drainRoutine);
+            _drainRoutine = null;
+        }
+        Player.CanStaminaRecovery = true;     
+        View.SetBool(PlayerView.Parameter.Drain, false);
+
+        Player.DrainField.SetActive(false);
+        ObjectPool.ReturnPool(_drainEffect);
     }
 
     public override void Update()
@@ -62,20 +80,10 @@ public class DrainState : PlayerState
 
     }
 
-    public override void Exit()
-    {
-        if (_drainRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_drainRoutine);
-            _drainRoutine = null;
-        }
-        Player.CanStaminaRecovery = true;     
-        View.SetBool(PlayerView.Parameter.Drain, false);
-        Player.DrainField.SetActive(false);
-    }
     public override void OnTrigger()
     {
         Player.DrainField.SetActive(false);
+        ObjectPool.ReturnPool(_drainEffect);
         if (_drainRoutine != null) 
         {
             CoroutineHandler.StopRoutine(_drainRoutine);
