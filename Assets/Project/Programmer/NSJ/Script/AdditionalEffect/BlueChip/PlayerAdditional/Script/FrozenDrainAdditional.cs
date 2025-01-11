@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "FrozenDrain", menuName = "AdditionalEffect/Player/FrozenDrain")]
@@ -9,29 +10,29 @@ public class FrozenDrainAdditional : PlayerAdditional
     private float _drainDistance => Model.DrainDistance * 2;
     private float _curDrainDistance;
 
+
+    List<GameObject> _hitTargets = new List<GameObject>();
     private bool _isStop;
 
     Coroutine _additonalRoutine;
     Coroutine _drainRangeRoutine;
-    public override void Enter()
+    public override void EnterState()
     {
-        if (_additonalRoutine == null)
-            _additonalRoutine = CoroutineHandler.StartRoutine(AdditonalRoutine());
-        if( _drainRangeRoutine == null)
-            _drainRangeRoutine =CoroutineHandler.StartRoutine(DrainRangeRoutine());
+        if (CurState != PlayerController.State.Drain)
+            return;
+
+        _isStop = false;
+        _additonalRoutine = CoroutineHandler.StartRoutine(_additonalRoutine, AdditonalRoutine());
+        _drainRangeRoutine = CoroutineHandler.StartRoutine(_drainRangeRoutine, DrainRangeRoutine());
     }
-    public override void Exit()
+    public override void ExitState()
     {
-       if(_additonalRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_additonalRoutine);
-            _additonalRoutine = null;
-        }
-       if( _drainRangeRoutine != null)
-        {
-            CoroutineHandler.StopRoutine(_drainRangeRoutine);
-            _drainRangeRoutine = null;
-        }
+        if (CurState != PlayerController.State.Drain)
+            return;
+
+        _hitTargets.Clear();
+        _additonalRoutine = CoroutineHandler.StopRoutine(_additonalRoutine);
+        _drainRangeRoutine = CoroutineHandler.StopRoutine(_drainRangeRoutine);
     }
 
     public override void Trigger()
@@ -45,14 +46,9 @@ public class FrozenDrainAdditional : PlayerAdditional
 
     IEnumerator AdditonalRoutine()
     {
-        while (true) 
+        while (true)
         {
             if (_isStop == true)
-            {
-                yield return null;
-                continue;
-            }
-            if (Player.CurState != PlayerController.State.Drain)
             {
                 yield return null;
                 continue;
@@ -61,8 +57,12 @@ public class FrozenDrainAdditional : PlayerAdditional
             int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _curDrainDistance, Player.OverLapColliders, 1 << Layer.Monster);
             for (int i = 0; i < hitCount; i++)
             {
+                // 이미 맞았던 적은 안맞음
+                if (_hitTargets.Contains(Player.OverLapColliders[i].gameObject))
+                    continue;
                 // 디버프 주기
                 Player.Battle.TargetDebuff(Player.OverLapColliders[i], _freeze);
+                _hitTargets.Add(Player.OverLapColliders[i].gameObject);
             }
             yield return 0.2f.GetDelay();
         }
@@ -72,13 +72,6 @@ public class FrozenDrainAdditional : PlayerAdditional
         while (true)
         {
             if (_isStop == true)
-            {
-                if (Player.CurState != PlayerController.State.Drain)
-                    _isStop = false;
-                yield return null;
-                continue;
-            }
-            if (Player.CurState != PlayerController.State.Drain)
             {
                 yield return null;
                 continue;

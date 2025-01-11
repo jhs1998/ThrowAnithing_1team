@@ -13,7 +13,7 @@ public class ThrowObject : MonoBehaviour
     [HideInInspector] public int PlayerDamage;
     public int Damage => ObjectDamage + PlayerDamage;
     // 데미지 배수
-    [HideInInspector] public float DamageMultyPlier;
+     public float DamageMultyPlier;
     [Space(10)]
     // 공격 범위(폭발식)
     [HideInInspector] public float Radius;
@@ -95,8 +95,8 @@ public class ThrowObject : MonoBehaviour
 
             TriggerThrowAddtional();
             HitTarget();
-            SetChainHit(true);
             Player.ThrowObjectResultCallback(this,true);
+            SetChainHit(true);
 
             RemoveChainList(this);
         }

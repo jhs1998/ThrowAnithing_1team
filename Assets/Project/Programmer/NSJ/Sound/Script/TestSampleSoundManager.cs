@@ -43,9 +43,4 @@ public class TestSampleSoundManager : BaseUI
         GetUI<Button>("SFXData").onClick.AddListener(() => SoundManager.PlaySFX(SoundManager.Data.UI.ButtonClick));
 
     }
-
-    private void Update()
-    {
-        Debug.Log(SoundManager.GetVolumeBGM());
-    }
 }
