@@ -15,6 +15,8 @@ public class NewContinue : BaseUI
     Button slot2;
     Button slot3;
 
+    List<Button> buttons = new List<Button>();
+
     private void Awake()
     {
         Bind();
@@ -41,6 +43,7 @@ public class NewContinue : BaseUI
     private void Update()
     {
         binding.ButtonFirstSelect(slot1.gameObject);
+        binding.SelectedSlotHighlight(buttons);
     }
 
 
@@ -61,9 +64,9 @@ public class NewContinue : BaseUI
         binding = GetComponentInParent<MainSceneBinding>();
         input = new PlayerActions();
 
-        slot1 = GetUI<Button>("ContinueSlot1");
-        slot2 = GetUI<Button>("ContinueSlot2");
-        slot3 = GetUI<Button>("ContinueSlot3");
+        buttons.Add(slot1 = GetUI<Button>("ContinueSlot1"));
+        buttons.Add(slot2 = GetUI<Button>("ContinueSlot2"));
+        buttons.Add(slot3 = GetUI<Button>("ContinueSlot3"));
 
     }
 }
