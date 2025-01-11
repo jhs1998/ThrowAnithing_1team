@@ -43,6 +43,8 @@ public class SplitThrowableAdditional : ThrowAdditional
             // 무시 대상 선정(가장 가까운 적, 이미 맞은 적)
             newObject.IgnoreTargets.Add(nearTarget.transform.gameObject);
 
+            // 클론 지정
+            newObject.IsClone = true;
 
             // 좌우 분열 
             float splitAngle = i == 0 ? 90 : -90;

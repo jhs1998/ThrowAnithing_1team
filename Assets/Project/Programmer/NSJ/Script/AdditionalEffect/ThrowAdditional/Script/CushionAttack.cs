@@ -63,6 +63,9 @@ public class CushionAttack : ThrowAdditional
         newObject.Init(Player, _throwObject.CCType, _throwObject.PlayerDamage, _throwObject.ThrowAdditionals);
         newObject.IgnoreTargets = _throwObject.IgnoreTargets;
 
+        // 클론 적용
+        newObject.IsClone = true;
+
         // 데미지 감소
         newObject.ObjectDamage = (int)(newObject.ObjectDamage * (_ReductionDamage / 100f));
         newObject.PlayerDamage = (int)(newObject.PlayerDamage * (_ReductionDamage / 100f));

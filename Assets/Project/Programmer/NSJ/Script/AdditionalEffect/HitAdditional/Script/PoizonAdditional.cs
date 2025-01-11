@@ -18,7 +18,6 @@ public class PoizonAdditional : HitAdditional
 
     public override void Enter()
     {
-        Debug.Log($"{gameObject.name} µ¶");
 
         if (_debuffRoutine == null)
         {

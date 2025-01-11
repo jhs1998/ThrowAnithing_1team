@@ -13,12 +13,19 @@ public class NSJBlueChip : MonoBehaviour
         nameText.SetText(additionalEffect.Name.GetText());
     }
 
+    private void Update()
+    {
+        transform.LookAt(Camera.main.transform.position);
+        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y + 180, 0);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == Tag.Player)
         {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             player.AddAdditional(additionalEffect);
+            Destroy(gameObject);
         }   
     }
 

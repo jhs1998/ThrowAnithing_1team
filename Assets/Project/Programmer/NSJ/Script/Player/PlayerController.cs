@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour, IHit
     public event UnityAction<CrowdControlType> OnPlayerCCHitEvent;
     public event UnityAction OnPlayerHitActionEvent;
     public event UnityAction OnPlayerDieEvent;
-    public event UnityAction<bool> OnThrowObjectResult;
+    public event UnityAction<ThrowObject,bool> OnThrowObjectResult;
     #endregion
     #region 공격 관련 필드
     [System.Serializable]
@@ -552,6 +552,24 @@ public class PlayerController : MonoBehaviour, IHit
                     Destroy(addtionalEffect);
                 }
                 break;
+        }
+    }
+    /// <summary>
+    /// 추가효과 모두 삭제
+    /// </summary>
+    public void ClearAdditional()
+    {
+        // 잠깐 저장해둘 리스트 생성
+        List<AdditionalEffect> tempList = new List<AdditionalEffect>(Model.AdditionalEffects.Count);
+        // 값 복사
+        foreach(AdditionalEffect additionalEffect in Model.AdditionalEffects)
+        {
+            tempList.Add(additionalEffect);
+        }
+        // 전부 삭제
+        foreach(AdditionalEffect additionalEffect in tempList)
+        {
+            RemoveAdditional(additionalEffect);
         }
     }
 
@@ -1211,9 +1229,9 @@ public class PlayerController : MonoBehaviour, IHit
     }
     #endregion
     #region 콜백
-    public void ThrowObjectResultCallback(bool successHit)
+    public void ThrowObjectResultCallback(ThrowObject throwObject,bool successHit)
     {
-        OnThrowObjectResult?.Invoke(successHit);
+        OnThrowObjectResult?.Invoke(throwObject,successHit);
     }
     private void TargetAttackCallback(int damage, bool isCritical)
     {

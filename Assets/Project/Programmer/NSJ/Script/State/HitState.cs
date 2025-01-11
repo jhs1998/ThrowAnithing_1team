@@ -78,6 +78,9 @@ public class HitState : PlayerState
     {
         if (type == CrowdControlType.Stiff)
         {
+            if (Player.CurState == PlayerController.State.Hit)
+                return;
+
             ChangeState(PlayerController.State.Hit);
         }
     }

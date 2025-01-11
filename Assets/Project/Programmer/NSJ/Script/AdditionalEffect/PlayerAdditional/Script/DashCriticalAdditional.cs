@@ -73,7 +73,7 @@ public class DashCriticalAdditional : PlayerAdditional
         }
     }
 
-    private void CheckThrowObjectResult(bool success)
+    private void CheckThrowObjectResult(ThrowObject throwObject, bool success)
     {
         // 투척공격 적중시 공격카운트 감소
         if(success == true)

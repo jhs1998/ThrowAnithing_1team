@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using UnityEngine;
 
 
@@ -42,9 +43,13 @@ public class TripleShot : ThrowAdditional
                angleY,
                originObjectRot.z);
     
-            ThrowObject throwObject = GameObject.Instantiate(DataContainer.GetThrowObject(throwObjectID), _throwObject.transform.position, shotAngle);
-            throwObject.Init(Player, _throwObject.CCType ,_throwObject.PlayerDamage,_throwObject.ThrowAdditionals);
-            throwObject.Shoot(Player.ThrowPower);
+            ThrowObject newObject = GameObject.Instantiate(DataContainer.GetThrowObject(throwObjectID), _throwObject.transform.position, shotAngle);
+            newObject.Init(Player, _throwObject.CCType ,_throwObject.PlayerDamage,_throwObject.ThrowAdditionals);
+            // 클론 지정
+            newObject.IsClone = true;
+            _throwObject.AddChainList(newObject);
+
+            newObject.Shoot(Player.ThrowPower);
         }
     }
 
