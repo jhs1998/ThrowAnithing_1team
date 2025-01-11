@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UniRx;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Creation", menuName = "AdditionalEffect/Player/Creation")]
@@ -18,14 +15,13 @@ public class CreationAddtional : PlayerAdditional
     public override void Update()
     {
         // 캐싱한 숫자보다 모델의 숫자 더 클때
-        if(_prevThrowables < Model.CurThrowables)
+        if (_prevThrowables < Model.CurThrowables)
         {
             ProcessCreation();
         }
-        else
-        {
-            _prevThrowables = Model.CurThrowables;
-        }
+
+        _prevThrowables = Model.CurThrowables;
+
     }
 
 
@@ -37,12 +33,12 @@ public class CreationAddtional : PlayerAdditional
             _prevThrowables = Model.CurThrowables;
             return;
         }
-
+        int randomNum = Random.Range(0, 100);
         // 확률적으로 추가파밍
-        if (Random.Range(0,100) <= _probability)
+        if (randomNum <= _probability)
         {
             Player.AddThrowObject(Model.PeekThrowObject());
             _prevThrowables = Model.CurThrowables + 1;
         }
     }
-}   
+}
