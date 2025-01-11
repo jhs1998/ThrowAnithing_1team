@@ -57,9 +57,6 @@ public class DoubleJumpFallState : PlayerState
     }
     public override void EndAnimation()
     {
-        Player.IsDoubleJump = false;
-        Player.IsJumpAttack = false;
-
         ChangeState(PlayerController.State.Idle);
     }
 
@@ -106,6 +103,8 @@ public class DoubleJumpFallState : PlayerState
         }
         // 착지 애니메이션 실행
         Player.Collider.isTrigger = false;
+        Player.IsDoubleJump = false;
+        Player.IsJumpAttack = false;
         View.SetTrigger(PlayerView.Parameter.Landing);
     }
 

@@ -254,6 +254,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     /// </summary>
     private void ProcessSecondSpecial()
     {
+        Player.LookAtAttackDir();
         View.SetTrigger(PlayerView.Parameter.BalanceSpecial2);
     }
     /// <summary>
