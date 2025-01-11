@@ -268,7 +268,7 @@ public class ObjectPool : MonoBehaviour
             instance = info.Pool.Dequeue();
             instance.transform.position = transform.position;
             instance.transform.rotation = transform.rotation;
-            instance.transform.SetParent(null);
+            instance.transform.SetParent(transform);
             instance.gameObject.SetActive(true);
         }
         else
