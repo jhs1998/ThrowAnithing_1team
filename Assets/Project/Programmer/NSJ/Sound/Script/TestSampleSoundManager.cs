@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+
 
 public class TestSampleSoundManager : BaseUI
 {
@@ -35,29 +34,18 @@ public class TestSampleSoundManager : BaseUI
         master.onValueChanged.AddListener((value) => SoundManager.SetVolumeLoopSFX(value));
         SoundManager.SetVolumeLoopSFX(loopSfx.value);
 
+
+        // 버튼 이벤트 구독
+        GetUI<Button>("BGMStart").onClick.AddListener(() => SoundManager.PlayBGM(_sampleBGM));
+        GetUI<Button>("BGMStop").onClick.AddListener(() => SoundManager.StopBGM());
+        GetUI<Button>("BGMData").onClick.AddListener(() => SoundManager.PlayBGM(SoundManager.Data.BGM.Main));
+        GetUI<Button>("SFXStart").onClick.AddListener(() => SoundManager.PlaySFX(_sampleSFX)); 
+        GetUI<Button>("SFXData").onClick.AddListener(() => SoundManager.PlaySFX(SoundManager.Data.UI.ButtonClick));
+
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            SoundManager.PlayBGM(_sampleBGM);
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            SoundManager.StopBGM();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            SoundManager.PlaySFX(_sampleSFX);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SoundManager.PlaySFX(SoundManager.Data.UI.ButtonClick);
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            SoundManager.PlayBGM(SoundManager.Data.BGM.Main);
-        }
+        Debug.Log(SoundManager.GetVolumeBGM());
     }
 }

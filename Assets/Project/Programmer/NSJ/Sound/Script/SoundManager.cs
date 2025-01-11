@@ -23,10 +23,6 @@ public class SoundManager : BaseBinder
    
 
     [SerializeField] private SoundData _data;
-    [SerializeField]private float volumeValue;
-    [SerializeField]private float masterVolumeValue;
-    private static float VolumeValue { get { return Instance.volumeValue; } }
-    private static float MasterVolumeValue { get { return Instance.masterVolumeValue; } }
 
     private void Awake()
     {
@@ -51,39 +47,48 @@ public class SoundManager : BaseBinder
 
     public static void SetVolumeMaster(float volume)
     {
-        Mixer.SetFloat("Master",  (-MasterVolumeValue + volume * MasterVolumeValue) +20);
+        if (volume <= 0)
+            volume = 0.001f;
+
+        Mixer.SetFloat("Master",  Mathf.Log10(volume) * 20);
     }
     public static void SetVolumeBGM(float volume)
     {
-        Mixer.SetFloat("BGM", (-VolumeValue + volume * VolumeValue));
+        if (volume <= 0)
+            volume = 0.001f;
+        Mixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
     }
     public static void SetVolumeSFX(float volume)
     {
-        Mixer.SetFloat("SFX", (-VolumeValue + volume * VolumeValue));
+        if (volume <= 0)
+            volume = 0.001f;
+        Mixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
     }
     public static void SetVolumeLoopSFX(float volume)
     {
-        Mixer.SetFloat("LoopSFX", (-VolumeValue + volume * VolumeValue));
+        if (volume <= 0)
+            volume = 0.001f;
+        Mixer.SetFloat("LoopSFX", Mathf.Log10(volume) * 20);
     }
     public static float GetVolumeMaster()
     {
         Mixer.GetFloat("Master", out float volume);
-        return (volume+ MasterVolumeValue - 20)/ MasterVolumeValue;
+        return Mathf.Pow(10, volume / 20);
     }
     public static float GetVolumeBGM()
     {
         Mixer.GetFloat("BGM", out float volume);
-        return (volume + VolumeValue) / VolumeValue;
+        return Mathf.Pow(10, volume/20);
     }
     public static float GetVolumeSFX()
     {
         Mixer.GetFloat("SFX", out float volume);
-        return (volume + VolumeValue) / VolumeValue;
+        return Mathf.Pow(10, volume / 20);
     }
     public static float GetVolumeLoopSFX()
     {
         Mixer.GetFloat("LoopSFX", out float volume);
-        return (volume + VolumeValue) / VolumeValue;
+        return Mathf.Pow(10, volume / 20);
     }
 
     public static void PlayBGM(AudioClip clip)
