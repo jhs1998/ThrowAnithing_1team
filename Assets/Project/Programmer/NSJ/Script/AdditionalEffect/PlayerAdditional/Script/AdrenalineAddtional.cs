@@ -20,10 +20,13 @@ public class AdrenalineAddtional : PlayerAdditional
     public override void Exit()
     {
         Player.OnThrowObjectResult -= CheckHitEnemy;
-        ResetCount();
+
+        // 값 다시 초기화
+        Model.AttackPower = GetPlayerAttackPower(-(_increaseDamage * _curCount));
+        _curCount = 0;
     }
 
-    private void CheckHitEnemy(bool success)
+    private void CheckHitEnemy(ThrowObject throwObject,bool success)
     {
         if(success == true)
         {
@@ -31,7 +34,7 @@ public class AdrenalineAddtional : PlayerAdditional
         }
         else
         {
-            ResetCount();
+            ResetCount(throwObject);
         }
     }
 
@@ -46,8 +49,15 @@ public class AdrenalineAddtional : PlayerAdditional
         Model.AttackPower = GetPlayerAttackPower(_increaseDamage);
     }
 
-    private void ResetCount()
+    private void ResetCount(ThrowObject throwObject)
     {
+        // 체인 리스트중 하나이상(본인 말고 다른 체인된 오브젝트도 존재할 때
+        if (throwObject.ChainList.Count > 1)
+            return;
+        // 체인 리스트중 하나라도 맞추는데 성공했을 때
+        if (throwObject.IsChainHit == true)
+            return;
+
         Model.AttackPower = GetPlayerAttackPower(-(_increaseDamage * _curCount));
         _curCount = 0;
     }
