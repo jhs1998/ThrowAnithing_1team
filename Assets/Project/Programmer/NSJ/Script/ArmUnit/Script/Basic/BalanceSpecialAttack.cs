@@ -40,7 +40,8 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     {
         public GameObject Effect;
         public GameObject BeforeEffect;
-        public ElectricShockAdditonal ElectricShock;
+        public ElectricShockAdditonal ElectricShockOrigin;
+        [HideInInspector] public ElectricShockAdditonal ElectricShock;
         public float AttackDelay;
         public Vector3 AttackOffset;
         public float Damage;
@@ -74,7 +75,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         }
 
         // 감전 효과 클론으로 제작(수치 변경하기 위함)
-        _third.ElectricShock = Instantiate(_third.ElectricShock);
+        _third.ElectricShock = Instantiate(_third.ElectricShockOrigin);
         _third.ElectricShock.Duration = _third.ElectricShockDuration;
     }
     public override void Enter()

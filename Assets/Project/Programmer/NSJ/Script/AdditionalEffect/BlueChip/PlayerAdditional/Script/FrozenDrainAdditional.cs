@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FrozenDrain", menuName = "AdditionalEffect/Player/FrozenDrain")]
 public class FrozenDrainAdditional : PlayerAdditional
 {
-    [SerializeField] HitAdditional _freeze;
+    [SerializeField] private FreezeAdditional _freezeOrigin;
+    HitAdditional _freeze;
 
     private float _drainDistance => Model.DrainDistance * 2;
     private float _curDrainDistance;
@@ -16,6 +17,16 @@ public class FrozenDrainAdditional : PlayerAdditional
 
     Coroutine _additonalRoutine;
     Coroutine _drainRangeRoutine;
+
+    public override void Enter()
+    {
+        _freeze =Instantiate(_freezeOrigin);
+    }
+    public override void Exit()
+    {
+        Destroy(_freeze);
+    }
+
     public override void EnterState()
     {
         if (CurState != PlayerController.State.Drain)

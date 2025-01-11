@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ElectricDrain", menuName = "AdditionalEffect/Player/ElectricDrain")]
 public class ElectricDrainAddtional : PlayerAdditional
 {
-    [SerializeField] private HitAdditional _electricShock;
+    [SerializeField] ElectricShockAdditonal _electricShockOrigin;
+    private ElectricShockAdditonal _electricShock;
     [Header("µ¥¹ÌÁö")]
     [SerializeField] private int _damage;
 
@@ -18,6 +19,8 @@ public class ElectricDrainAddtional : PlayerAdditional
     Coroutine _drainRangeRoutine;
     public override void Enter()
     {
+        _electricShock = Instantiate(_electricShockOrigin);
+
         if (_additonalRoutine == null)
             _additonalRoutine = CoroutineHandler.StartRoutine(AdditonalRoutine());
         if (_drainRangeRoutine == null)
@@ -25,6 +28,8 @@ public class ElectricDrainAddtional : PlayerAdditional
     }
     public override void Exit()
     {
+        Destroy(_electricShock);
+
         if (_additonalRoutine != null)
         {
             CoroutineHandler.StopRoutine(_additonalRoutine);

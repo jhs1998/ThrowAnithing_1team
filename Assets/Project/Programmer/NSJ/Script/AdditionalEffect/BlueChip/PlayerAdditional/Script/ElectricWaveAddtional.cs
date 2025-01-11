@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ElectricWave", menuName = "AdditionalEffect/Player/ElectricWave")]
@@ -13,7 +14,8 @@ public class ElectricWaveAddtional : PlayerAdditional
         public float EffectDuration;
     }
     [SerializeField] EffectStrcut _effect;
-    [SerializeField] private HitAdditional _electricShock;
+    [SerializeField] private ElectricShockAdditonal _electricShockOrigin;
+    private ElectricShockAdditonal _electricShock;
     [Header("발동 시간 간격")]
     [SerializeField] private float _intervalTime;
     [Header("데미지")]
@@ -26,6 +28,8 @@ public class ElectricWaveAddtional : PlayerAdditional
 
     public override void Enter()
     {
+        _electricShock = Instantiate(_electricShockOrigin);
+
         if (_attackRoutine == null)
             _attackRoutine = CoroutineHandler.StartRoutine(AttackRoutine());
 
@@ -34,6 +38,8 @@ public class ElectricWaveAddtional : PlayerAdditional
 
     public override void Exit()
     {
+        Destroy(_electricShock);
+
         if (_attackRoutine != null)
         {
             CoroutineHandler.StopRoutine(_attackRoutine);

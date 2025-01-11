@@ -12,8 +12,8 @@ public class TheortOfRelativityAdditional : PlayerAdditional
         public float EffectDuration;
     }
     [SerializeField] EffectStrcut _effect;
-
-    [SerializeField] private SlowAddtional _slow;
+    [SerializeField] private SlowAddtional _slowOrigin;
+    private SlowAddtional _slow;
     [Header("È®·ü(%)")]
     [Range(0, 100)]
     [SerializeField] private float _probability;
@@ -35,7 +35,7 @@ public class TheortOfRelativityAdditional : PlayerAdditional
     Coroutine _buffRoutine;
     public override void Enter()
     {
-        _slow = Instantiate(_slow); 
+        _slow = Instantiate(_slowOrigin); 
         _slow.Duration = _slowDuration;
         _slow.SlowAmount = _slowAmount;
     }
@@ -54,6 +54,7 @@ public class TheortOfRelativityAdditional : PlayerAdditional
             Model.AttackSpeedMultiplier -= _increaseAttackSpeed;
             Model.MoveSpeedMultyplier -= _increaseMoveSpeed;
         }
+        Destroy(_slow);
     }
 
     public override void Trigger()
