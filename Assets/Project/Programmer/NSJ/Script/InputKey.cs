@@ -492,7 +492,6 @@ public class InputKey : MonoBehaviour
 
     public static void ChangeActionMap(string actionMap)
     {
-        Debug.Log(_playerInput);
         _playerInput.defaultActionMap = actionMap;
     }
 

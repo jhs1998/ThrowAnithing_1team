@@ -9,8 +9,10 @@ public class DoubleDamageBuff : ThrowAdditional
 
 
 
-    public override void Enter()
+    public override void Trigger()
     {
+        Debug.Log($" 데미지 들어가기 전{_throwObject.DamageMultyPlier}");
         _throwObject.DamageMultyPlier += DamageMultyplier;
+        Debug.Log($" 데미지 들어간 후{_throwObject.DamageMultyPlier}");
     }
 }

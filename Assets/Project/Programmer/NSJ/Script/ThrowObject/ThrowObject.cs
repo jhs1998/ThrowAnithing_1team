@@ -22,7 +22,7 @@ public class ThrowObject : MonoBehaviour
     [HideInInspector] public int PlayerDamage;
     public int Damage => ObjectDamage + PlayerDamage;
     // 데미지 배수
-     public float DamageMultyPlier;
+    public float DamageMultyPlier;
     [Space(10)]
     // 공격 범위(폭발식)
     [HideInInspector] public float Radius;
@@ -31,7 +31,7 @@ public class ThrowObject : MonoBehaviour
     // 넉백거리
     [HideInInspector] public float KnockBackDistance;
     // 스테미나 회복량
-    [HideInInspector]public float SpecialRecovery;
+    [HideInInspector] public float SpecialRecovery;
     [Tooltip("클론형태의 투척물 인지?")]
     public bool IsClone;
     [Tooltip("본인에게서 파생된 모든 투척물(체인)")]
@@ -44,7 +44,7 @@ public class ThrowObject : MonoBehaviour
     protected PlayerController Player;
     protected BattleSystem Battle => Player.Battle;
 
-     
+
 
     [HideInInspector] public Rigidbody Rb;
     protected Collider _collider;
@@ -61,13 +61,12 @@ public class ThrowObject : MonoBehaviour
 
     protected virtual void Start()
     {
-    
+
     }
     protected virtual void OnEnable()
     {
         Rb.velocity = Vector3.zero;
         _collider.isTrigger = true;
-        EnterThrowAdditional();
     }
     protected virtual void OnDisable()
     {
@@ -75,7 +74,7 @@ public class ThrowObject : MonoBehaviour
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
-        if(IsClone == true)
+        if (IsClone == true)
         {
             Destroy(gameObject);
         }
@@ -103,7 +102,7 @@ public class ThrowObject : MonoBehaviour
 
             TriggerThrowAddtional();
             HitTarget();
-            Player.ThrowObjectResultCallback(this,true);
+            Player.ThrowObjectResultCallback(this, true);
             SetChainHit(true);
 
             RemoveChainList(this);
@@ -112,7 +111,7 @@ public class ThrowObject : MonoBehaviour
         {
             CanAttack = false;
             _collider.isTrigger = false;
-            Player.ThrowObjectResultCallback(this,false);
+            Player.ThrowObjectResultCallback(this, false);
 
             RemoveChainList(this);
         }
@@ -139,7 +138,7 @@ public class ThrowObject : MonoBehaviour
         FixedUpdateThrowAdditional();
     }
     #region Init
-    public void Init(PlayerController player,CrowdControlType CCType, List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player, CrowdControlType CCType, List<ThrowAdditional> throwAdditionals)
     {
         Player = player;
         Radius = player.Model.BoomRadius;
@@ -274,6 +273,7 @@ public class ThrowObject : MonoBehaviour
                 ThrowAdditionals.Add(instance);
             }
         }
+        EnterThrowAdditional();
     }
     private void RemoveThrowAddtional(ThrowAdditional throwAdditional)
     {
@@ -306,7 +306,7 @@ public class ThrowObject : MonoBehaviour
             chainObject.IsChainHit = hitSuccess;
         }
     }
-    private void RemoveChainList(ThrowObject throwObject )
+    private void RemoveChainList(ThrowObject throwObject)
     {
         if (ChainList.Contains(throwObject))
             ChainList.Remove(throwObject);
