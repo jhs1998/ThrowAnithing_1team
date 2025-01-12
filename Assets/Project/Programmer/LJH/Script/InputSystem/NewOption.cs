@@ -1,12 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
+using Zenject;
 
 public class NewOption : BaseUI
 {
+    [Inject]
+    OptionSetting setting;
+
     MainSceneBinding binding;
+
     // 현재 상태
     // 0 = 옵션
     // 1 = 게임플레이
@@ -33,6 +41,19 @@ public class NewOption : BaseUI
 
     List<Button> gameplayButtons = new();
 
+    //미니맵 관리용 불변수
+    bool preAct;
+    bool newAct;
+    bool defaultAct;
+
+    bool preFix;
+    bool newFix;
+    bool defaultFix;
+
+    GameObject actChecked; //미니맵 활성화 체크 여부
+    GameObject fixChecked; //미니맵   고정 체크 여부
+
+
     //뎁스2 버튼 목록 - 소리
     Button totalVolume;
     Button bgmVolume;
@@ -44,24 +65,17 @@ public class NewOption : BaseUI
 
     List<Button> soundButtons = new();
 
-
     GameObject gameplayPannel;
     GameObject soundPannel;
     GameObject inputPannel;
+
+
 
 
     private void Awake()
     {
         Bind();
         Init();
-    }
-    private void OnEnable()
-    {
-    }
-
-    private void OnDisable()
-    {
-
     }
 
     void Start()
@@ -72,11 +86,15 @@ public class NewOption : BaseUI
 
     void Update()
     {
-        EventSystem.current.IsPointerOverGameObject(1);
-        Debug.Log(EventSystem.current.IsPointerOverGameObject());
-
         binding.ButtonFirstSelect(gamePlayButton.gameObject);
 
+        DepthCal();
+        curTabChecker(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
+    }
+
+    //현재 뎁스에 맞게 버튼 하이라이트
+    void DepthCal()
+    {
         switch (curDepth)
         {
             case 0:
@@ -91,44 +109,51 @@ public class NewOption : BaseUI
                 binding.SelectedButtonHighlight(soundButtons);
                 break;
         }
-        //현재 버튼을 입력받아서 필요한 패널 띄워줌
-        curTabChecker(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
     }
 
+    //현재 포커싱된 메뉴에 맞게 패널 체인지
     void curTabChecker(Button curButton)
     {
-        if (curButton == gamePlayButton)
+        if (curDepth == 0)
         {
-            gameplayPannel.SetActive(true);
-            soundPannel.SetActive(false);
-            inputPannel.SetActive(false);
-        }
-        else if (curButton == soundButton)
-        {
-            gameplayPannel.SetActive(false);
-            soundPannel.SetActive(true);
-            inputPannel.SetActive(false);
-        }
-        else if (curButton == inputButton)
-        {
-            gameplayPannel.SetActive(false);
-            soundPannel.SetActive(false);
-            inputPannel.SetActive(true);
+            if (curButton == gamePlayButton)
+            {
+                gameplayPannel.SetActive(true);
+                soundPannel.SetActive(false);
+                inputPannel.SetActive(false);
+            }
+            else if (curButton == soundButton)
+            {
+                gameplayPannel.SetActive(false);
+                soundPannel.SetActive(true);
+                inputPannel.SetActive(false);
+            }
+            else if (curButton == inputButton)
+            {
+                gameplayPannel.SetActive(false);
+                soundPannel.SetActive(false);
+                inputPannel.SetActive(true);
+            }
         }
     }
 
+    //코루틴을 사용해 UI 초기화할 시간 벌어줌
+    IEnumerator SetSelectRoutine(GameObject obj)
+    {
+        yield return null;
+        EventSystem.current.SetSelectedGameObject(obj);
+    }
 
     public void GamePlayButton()
     {
+        StartCoroutine(SetSelectRoutine(minimapAct.gameObject));
         curDepth = 1;
-        EventSystem.current.SetSelectedGameObject(minimapAct.gameObject);
     }
 
     public void SoundButton()
     {
+        StartCoroutine(SetSelectRoutine(totalVolume.gameObject));
         curDepth = 2;
-        EventSystem.current.SetSelectedGameObject(totalVolume.gameObject);
-        
     }
 
     public void InputButton()
@@ -139,9 +164,92 @@ public class NewOption : BaseUI
     public void ExitButton()
     {
         binding.CanvasChange(binding.mainCanvas.gameObject, gameObject);
+        curDepth = 0;
     }
 
+    public void MinimapAct()
+    {
+        actChecked.SetActive(!actChecked.activeSelf);
+    }
 
+    public void MinimapFix()
+    {
+        fixChecked.SetActive(!fixChecked.activeSelf);
+    }
+
+    //적용, 취소, 초기화 했을때 버튼 색상 초기화
+    void ButtonReset(List<Button> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            list[i].GetComponent<TMP_Text>().color = Color.white;
+        }
+    }
+
+    public void AcceptButton_Gameplay()
+    {
+        MinimapCheck();
+        setting.miniMapOnBool = newAct;
+        setting.miniMapFixBool = newFix;
+
+        preAct = setting.miniMapOnBool;
+        preFix = setting.miniMapFixBool;
+
+        ButtonReset(gameplayButtons);
+
+
+        curDepth = 0;
+    }
+
+    void MinimapCheck()
+    {
+        newAct = actChecked.activeSelf;
+        newFix = fixChecked.activeSelf;
+    }
+
+    public void CancelButton_Gameplay()
+    {
+
+
+        ButtonReset(gameplayButtons);
+
+        curDepth = 0;
+    }
+
+    public void DefaultButton_Gameplay()
+    {
+
+
+        ButtonReset(gameplayButtons);
+
+        curDepth = 0;
+    }
+
+    public void AcceptButton_Sound()
+    {
+        ButtonReset(gameplayButtons);
+
+
+        curDepth = 0;
+    }
+
+    public void CancelButton_Sound()
+    {
+
+
+        ButtonReset(soundButtons);
+
+        curDepth = 0;
+    }
+
+    public void DefaultButton_Sound()
+    {
+
+
+        ButtonReset(soundButtons);
+
+        curDepth = 0;
+    }
     void Init()
     {
         binding = GetComponentInParent<MainSceneBinding>();
@@ -164,6 +272,9 @@ public class NewOption : BaseUI
         gameplayButtons.Add(cancel_Gameplay = GetUI<Button>("GamePlay_Cancel"));
         gameplayButtons.Add(default_Gameplay = GetUI<Button>("GamePlay_Default"));
 
+        actChecked = GetUI("ActChecked");
+        fixChecked = GetUI("FixCecked");
+
         soundButtons.Add(totalVolume = GetUI<Button>("TotalSound"));
         soundButtons.Add(bgmVolume = GetUI<Button>("BGMSound"));
         soundButtons.Add(sfxVolume = GetUI<Button>("SFXSound"));
@@ -173,6 +284,22 @@ public class NewOption : BaseUI
 
         gamePlayButton.onClick.AddListener(GamePlayButton);
         soundButton.onClick.AddListener(SoundButton);
+        exitButton.onClick.AddListener(ExitButton);
+
+        minimapAct.onClick.AddListener(MinimapAct);
+        minimapFix.onClick.AddListener(MinimapFix);
+
+        accept_Gameplay.onClick.AddListener(AcceptButton_Gameplay);
+        cancel_Gameplay.onClick.AddListener(CancelButton_Gameplay);
+        default_Gameplay.onClick.AddListener(DefaultButton_Gameplay);
+
+
+
+
+
+        accept_Sound.onClick.AddListener(AcceptButton_Sound);
+        cancel_Sound.onClick.AddListener(CancelButton_Sound);
+        default_Sound.onClick.AddListener(DefaultButton_Sound);
 
     }
 }
