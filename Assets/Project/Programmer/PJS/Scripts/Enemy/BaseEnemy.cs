@@ -131,7 +131,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
                 if (overLapCollider[i].gameObject.name.CompareTo("Boss") == 0)
                     continue;
 
-                hit.TakeDamage(damage);
+                hit.TakeDamage(damage, true);
             }
         }
     }
