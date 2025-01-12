@@ -565,7 +565,6 @@ public class InputKey : MonoBehaviour
     }
     private void OnRanged_Attack(InputValue value)
     {
-        Debug.Log(11);
         ProcessInput(value, Throw);
     }
     private void OnSpecial_Attack(InputValue value)

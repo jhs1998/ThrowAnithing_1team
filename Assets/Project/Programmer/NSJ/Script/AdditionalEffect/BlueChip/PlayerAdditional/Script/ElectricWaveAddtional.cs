@@ -65,12 +65,10 @@ public class ElectricWaveAddtional : PlayerAdditional
 
     private void CreateEffect()
     {
-        _effect.Effect = Instantiate(_effect.EffectPrefab, transform);
+        _effect.Effect = ObjectPool.GetPool(_effect.EffectPrefab, transform.position, Quaternion.identity, 1.5f);
 
         Vector3 effectScale = _effect.Effect.transform.localScale;
         _effect.Effect.transform.localScale = new Vector3(_range * 2, effectScale.y, _range * 2);
-
-        Destroy(_effect.Effect, _effect.EffectDuration);
     }
 
 }
