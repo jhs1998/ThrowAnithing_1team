@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,6 @@ public class ObjectPool : MonoBehaviour
     /// </summary>
     private Dictionary<GameObject, PoolInfo> m_poolObjectDic = new Dictionary<GameObject, PoolInfo>();
     private static Dictionary<GameObject, PoolInfo> _poolObjectDic { get { return Instance.m_poolObjectDic; } }
-
     private void Awake()
     {
         if (Instance == null)
@@ -528,17 +528,13 @@ public class ObjectPool : MonoBehaviour
             coroutine = Instance.StartCoroutine(Instance.GetAutoPoolRoutine(prefab, pos, rot,intervalTime, returnDelay));
         }
     }
-    public static void GetPool(GameObject prefab, float intervalTime, float returnDelay, float duration, ref Coroutine coroutine)
+    public static void GetPool(GameObject prefab, float intervalTime, float returnDelay, float duration)
     {
         CreateObjectPool();
-        if (coroutine == null)
-        {
-            coroutine = Instance.StartCoroutine(Instance.GetAutoPoolRoutine(prefab, intervalTime, returnDelay));
-        }
-        Instance.StartCoroutine(Instance.GetAutoPoolDurationRoutine(coroutine, duration));
+        Coroutine  coroutine = Instance.StartCoroutine(Instance.GetAutoPoolRoutine(prefab, intervalTime, returnDelay));
+        Instance.StartCoroutine(Instance.GetAutoPoolDurationRoutine(coroutine,duration));
+        
     }
-
-
 
     public static void ReturnPool(ref Coroutine coroutine)
     {
@@ -575,12 +571,9 @@ public class ObjectPool : MonoBehaviour
     IEnumerator GetAutoPoolDurationRoutine(Coroutine coroutine, float duration)
     {
         yield return duration.GetDelay();
-        if(coroutine != null)
-        {
-            StopCoroutine(coroutine);
-            coroutine = null;
-        }
+        ReturnPool(ref coroutine);
     }
+
     #endregion
     private static PoolInfo FindPool(GameObject poolPrefab)
     {
