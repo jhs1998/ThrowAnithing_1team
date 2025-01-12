@@ -29,8 +29,8 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     [Header("현재 체력")]
     [SerializeField] int curHp;
     [Header("파티클's")]
-    [SerializeField] ParticleSystem stepMoveParticle;
-    [SerializeField] ParticleSystem dieParticle;
+    [SerializeField] protected ParticleSystem stepMoveParticle;
+    [SerializeField] protected ParticleSystem dieParticle;
 
     [HideInInspector] float jumpPower;  // 점프력
 

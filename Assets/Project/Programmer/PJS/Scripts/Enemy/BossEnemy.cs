@@ -1,3 +1,4 @@
+using BehaviorDesigner.Runtime;
 using System.Collections;
 using System.Security.Cryptography;
 using UniRx;
@@ -17,6 +18,8 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] int breakshieldCount = 20;
     [Header("실드 파괴 후 그로기 시간 ( 초 단위)")]
     [SerializeField] float stunTime;
+    [Header("프렌지 패시브 버프량"), Range(0,100)]
+    [SerializeField] int frenzyPersent;
     [Header("점프 공격 관련")]
     [Tooltip("점프 애니메이션 모션")]
     public AnimationCurve curve;    // 움직이는 모션
@@ -26,10 +29,11 @@ public class BossEnemy : BaseEnemy, IHit
     public float jumpHeight;    // 점프 시 최대 높이
 
     [Space, SerializeField] ParticleSystem shieldParticle;
+    [SerializeField] ParticleSystem jumpParticle;
+    [SerializeField] ParticleSystem jumpDownParticle;
 
     private Coroutine attackAble;
     public Coroutine recovery;  // 회복 관련 코루틴
-    private bool onFrezenyPassive = false;
     private bool onEntryStop;
     [HideInInspector] public bool createShield;
     [HideInInspector] public bool breakShield;
@@ -73,12 +77,15 @@ public class BossEnemy : BaseEnemy, IHit
 
     IEnumerator PassiveOn()
     {
+        float buffPersent = frenzyPersent / 100f;
+        SharedFloat globalCoolTime = tree.GetVariable("GlobalCoolTime") as SharedFloat;
         while (true)
         {
             if (curPhase == PhaseType.Phase3)
             {
-                tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * 0.2f));
-                tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * 0.2f));
+                tree.SetVariableValue("Speed", MoveSpeed + (MoveSpeed * buffPersent));
+                tree.SetVariableValue("AtkDelay", AttackSpeed - (AttackSpeed * buffPersent));
+                tree.SetVariableValue("GlobalCoolTime", globalCoolTime.Value - (globalCoolTime.Value * buffPersent));
                 yield break;
             }
 
@@ -177,6 +184,7 @@ public class BossEnemy : BaseEnemy, IHit
     }
     public void ShakingForAni()
     {
+        dieParticle.Play();
     }
 
     /// <summary>
@@ -195,10 +203,12 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void JumpAttackBegin()
     {
+        jumpParticle.Play();
         StartCoroutine(JumpRoutine(transform.position, playerPos));
     }
     public void JumpAttackEnd()
     {
+        jumpDownParticle.Play();
         TakeChargeBoom(4, 50);
     }
     #endregion
