@@ -9,7 +9,7 @@ namespace MKH
         private GameObject dropPrefab;
         public GameObject particle;
         public GameObject particle1;
-        public Drop_Item_Table_Two dropTable;
+        public DropItemTable dropTable;
         private GameObject obj;
 
         private void Start()
