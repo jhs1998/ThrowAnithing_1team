@@ -105,9 +105,6 @@ public class FrozenDrainAdditional : PlayerAdditional
 
     private void CreateSnowEffect()
     {
-        if (_curDrainDistance < Model.DrainDistance)
-            return;
-
         float y = Battle.HitPoint.position.y;
         for (int i = 0; i < 5 * (int)_curDrainDistance; i++)
         {
