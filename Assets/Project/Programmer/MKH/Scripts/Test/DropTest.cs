@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace MKH
@@ -10,6 +9,13 @@ namespace MKH
         private GameObject dropPrefab;
         public GameObject particle;
         public GameObject particle1;
+        public Drop_Item_Table_Two dropTable;
+        private GameObject obj;
+
+        private void Start()
+        {
+            dropPrefab = GetComponent<GameObject>();
+        }
 
         private void Update()
         {
@@ -21,9 +27,16 @@ namespace MKH
 
         private void DropItem()
         {
-            dropPrefab = dropList.itemList[Random.Range(0, dropList.Count)];
-            GameObject obj = Instantiate(dropPrefab, transform.position, Quaternion.identity);
-            Destroy(obj, 10f);
+            //dropPrefab = dropList.itemList[Random.Range(0, dropList.Count)];
+            //GameObject obj = Instantiate(dropPrefab, transform.position, Quaternion.identity);
+            //Destroy(obj, 10f);
+
+             dropTable.DropListTable1(dropPrefab, transform.position, Quaternion.identity);
+
+
+            //GameObject obj = dropPrefab;
+            //obj.transform.position = transform.position;
+            //obj.transform.rotation = Quaternion.identity;
         }
 
         private void Pat()
@@ -34,8 +47,8 @@ namespace MKH
 
         private void End()
         {
-                GameObject particles = Instantiate(particle1, transform.position, Quaternion.Euler(-90f, 0, 0));
-                Destroy(particles, 1f);
+            GameObject particles = Instantiate(particle1, transform.position, Quaternion.Euler(-90f, 0, 0));
+            Destroy(particles, 1f);
         }
 
         IEnumerator Drop()
