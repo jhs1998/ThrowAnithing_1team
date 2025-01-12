@@ -20,7 +20,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         [Header("µπ¡¯ ∞≈∏Æ")]
         public float RushDistance;
         [HideInInspector] public float Stamina;
-        [HideInInspector] public GameObject ArmEffect;
+        public GameObject ArmEffect;
     }
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private float RushSpeed;
@@ -51,8 +51,6 @@ public class PowerMeleeAttack : ArmMeleeAttack
         {
             _charges[i].Damage = (int)Model.PowerMeleeAttack[i];
             _charges[i].Stamina = Model.MeleeAttackStamina[i];
-            _charges[i].ArmEffect = Binder.PowerMeleeEffect[i];
-            _charges[i].ArmEffect.SetActive(false);
         }
     }
 
@@ -110,6 +108,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
     IEnumerator ChargeRoutine()
     {
         _index = 0;
+        ShowArmEffect();
         while (true)
         {
             Move();
@@ -229,11 +228,11 @@ public class PowerMeleeAttack : ArmMeleeAttack
     private void ShowArmEffect()
     {
         if (_curArmEffect != null)
-            _curArmEffect.SetActive(false);
+        {
+            ObjectPool.ReturnPool(_curArmEffect);
+        }
         // æœ¿Ø¥÷ ¿Ã∆Â∆Æ
-        _charges[_index].ArmEffect.SetActive(true);
-        _charges[_index].ArmEffect.transform.SetParent(Player.ArmPoint, false);
-        _curArmEffect = _charges[_index].ArmEffect;
+        _curArmEffect = ObjectPool.GetPool(_charges[_index].ArmEffect, Player.ArmPoint);
     }
 
     private void ChargeEnd()

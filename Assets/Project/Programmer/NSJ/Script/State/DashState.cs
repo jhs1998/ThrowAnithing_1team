@@ -6,10 +6,15 @@ public class DashState : PlayerState
     //float _timeBuffer;
     bool _isDashEnd;
     Vector3 _startPos;
-    Coroutine _checkInputRoutine;
-    Coroutine _checkCanMove;
     Vector3 _prevPos;
     bool canMove = true;
+
+    GameObject _armEffect;
+    GameObject _frontEffect;
+
+    Coroutine _checkInputRoutine;
+    Coroutine _checkCanMove;
+    Coroutine _dashEffectRoutine;
     public DashState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
@@ -31,11 +36,13 @@ public class DashState : PlayerState
         View.SetTrigger(PlayerView.Parameter.Dash);
 
         _checkCanMove = CoroutineHandler.StartRoutine(_checkCanMove, CheckCanMove());
+        _dashEffectRoutine = CoroutineHandler.StartRoutine(_dashEffectRoutine, DashEffectRoutine());
 
     }
     public override void Exit()
     {
         _checkCanMove = CoroutineHandler.StopRoutine(_checkCanMove);    
+        _dashEffectRoutine = CoroutineHandler.StopRoutine(_dashEffectRoutine);
 
         Player.IsInvincible = false;
         canMove = true;
@@ -44,7 +51,10 @@ public class DashState : PlayerState
     {
         Dash();
     }
-    public override void OnTrigger() { }
+    public override void OnTrigger() 
+    {
+
+    }
     public override void EndAnimation()
     {
         if (Player.IsGround != true)
@@ -59,6 +69,8 @@ public class DashState : PlayerState
         {
             ChangeState(PlayerController.State.Idle);
         }
+
+        _armEffect.transform.SetParent(null);
 
     }
     /// <summary>
@@ -121,4 +133,17 @@ public class DashState : PlayerState
             _prevPos = transform.position;
         }
     }
+
+    IEnumerator DashEffectRoutine()
+    {
+        yield return null;
+        yield return null;
+        yield return null;
+        yield return null;
+        _armEffect = ObjectPool.GetPool(Effect.Dash_Arm, Player.DashArmPoint, 2f);
+        yield return null;
+        yield return null;
+        _frontEffect = ObjectPool.GetPool(Effect.Dash_Front, Player.DashFrountPoint, 2f);
+    }
+
 }

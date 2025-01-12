@@ -17,7 +17,6 @@ using Random = UnityEngine.Random;
 public class PlayerController : MonoBehaviour, IHit
 {
     [SerializeField] public PlayerEffectData Effect;
-    [SerializeField] public Transform ArmPoint;
     [Inject]
     [HideInInspector] public OptionSetting setting;
     [HideInInspector] public PlayerModel Model;
@@ -59,6 +58,20 @@ public class PlayerController : MonoBehaviour, IHit
     public event UnityAction OnPlayerHitActionEvent;
     public event UnityAction OnPlayerDieEvent;
     public event UnityAction<ThrowObject,bool> OnThrowObjectResult;
+    #endregion
+    #region 플레이어 포인트 관련 필드
+    [System.Serializable]
+    public struct PlayerPointStruct
+    {
+        public Transform RightArmPoint;
+        public Transform DashArmPoint;
+        public Transform DashFrontPoint;
+
+    }
+    [SerializeField] private PlayerPointStruct _points;
+    public Transform ArmPoint { get { return _points.RightArmPoint; } }
+    public Transform DashArmPoint { get { return _points.DashArmPoint; } }
+    public Transform DashFrountPoint { get { return _points.DashFrontPoint; } }
     #endregion
     #region 공격 관련 필드
     [System.Serializable]
