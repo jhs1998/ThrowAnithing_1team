@@ -1,10 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject.SpaceFighter;
 
 [CreateAssetMenu(fileName = "ElectricDrain", menuName = "AdditionalEffect/Player/ElectricDrain")]
 public class ElectricDrainAddtional : PlayerAdditional
 {
+    [System.Serializable]
+    struct EffectStruct
+    {
+        public GameObject Effect;
+        public GameObject Particle;
+        [HideInInspector] public GameObject OriginEffect;
+    }
+    [SerializeField] EffectStruct _effect;
     [SerializeField] ElectricShockAdditonal _electricShockOrigin;
     private ElectricShockAdditonal _electricShock;
     [Header("데미지")]
@@ -19,7 +28,11 @@ public class ElectricDrainAddtional : PlayerAdditional
     Coroutine _drainRangeRoutine;
     public override void Enter()
     {
-        _electricShock = Instantiate(_electricShockOrigin);
+        // 드레인 이펙트 교체
+        _effect.OriginEffect = Player.Effect.Drain_Range;
+        Player.Effect.Drain_Range = _effect.Effect;
+       // 디버프 클론 생성
+       _electricShock = Instantiate(_electricShockOrigin);
 
         if (_additonalRoutine == null)
             _additonalRoutine = CoroutineHandler.StartRoutine(AdditonalRoutine());
@@ -28,7 +41,10 @@ public class ElectricDrainAddtional : PlayerAdditional
     }
     public override void Exit()
     {
+        // 클론 디버프 삭제
         Destroy(_electricShock);
+        // 드레인 이펙트 원상복구
+        Player.Effect.Drain_Range = _effect.OriginEffect;
 
         if (_additonalRoutine != null)
         {
@@ -73,6 +89,12 @@ public class ElectricDrainAddtional : PlayerAdditional
                 int finalDamage = Player.GetDamage(_damage);
                 Player.Battle.TargetAttack(Player.OverLapColliders[i], finalDamage, false);
                 Player.Battle.TargetDebuff(Player.OverLapColliders[i], _electricShock);
+            }
+
+            // 파티클 이펙트 생성
+            if (_curDrainDistance >= Model.DrainDistance)
+            {
+                GameObject effect = ObjectPool.GetPool(_effect.Particle, transform, 1f);
             }
             yield return 1f.GetDelay();
         }

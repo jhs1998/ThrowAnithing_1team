@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DrainState : PlayerState
 {
-    private GameObject _drainField => Player.DrainField;
+    private GameObject _drainField;
     private GameObject _drainEffect;
 
     private float _drainDistance => Model.DrainDistance * 2;
@@ -17,7 +17,6 @@ public class DrainState : PlayerState
     public DrainState(PlayerController controller) : base(controller)
     {
         UseStamina = true;    
-        _drainField.SetActive(false);
     }
     public override void InitArm()
     {
@@ -33,7 +32,7 @@ public class DrainState : PlayerState
         View.SetBool(PlayerView.Parameter.Drain, true);
 
         // ¿Ã∆Â∆Æ
-        _drainField.SetActive(true);
+        _drainField = ObjectPool.GetPool(Effect.Drain_Range, transform);
         _drainField.transform.localScale = new Vector3(0, _drainField.transform.localScale.y, 0);
         _drainEffect = ObjectPool.GetPool(Effect.Drain_Charge, Player.Battle.HitPoint);
 
@@ -57,7 +56,7 @@ public class DrainState : PlayerState
         Player.CanStaminaRecovery = true;     
         View.SetBool(PlayerView.Parameter.Drain, false);
 
-        Player.DrainField.SetActive(false);
+        ObjectPool.ReturnPool(_drainField);
         ObjectPool.ReturnPool(_drainEffect);
     }
 
@@ -82,7 +81,7 @@ public class DrainState : PlayerState
 
     public override void OnTrigger()
     {
-        Player.DrainField.SetActive(false);
+        ObjectPool.ReturnPool(_drainField);
         ObjectPool.ReturnPool(_drainEffect);
         if (_drainRoutine != null) 
         {

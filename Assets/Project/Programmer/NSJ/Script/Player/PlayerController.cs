@@ -169,9 +169,6 @@ public class PlayerController : MonoBehaviour, IHit
     public bool CantOperate { get { return _boolField.CantOperate; } set { _boolField.CantOperate = value; TriggerCantOperate(); } }
     #endregion
 
-    //TODO: 인스펙터 정리 필요
-    public GameObject DrainField;
-
     public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround = value; } }// 지면 접촉 여부
     public bool IsNearGround { get { return _checkStruct.IsNearGround; } set { _checkStruct.IsNearGround = value; } }
     public bool IsWall { get { return _checkStruct.IsWall; } set { _checkStruct.IsWall = value; } } // 벽 접촉 여부
