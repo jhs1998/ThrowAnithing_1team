@@ -38,9 +38,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Jump"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""928b2bf3-b07e-4507-a41e-750fe012fd7e"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -65,90 +65,99 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Ranged_Attack"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""cbd15591-aa42-4a43-96f2-e04f9b455d6c"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Special_Attack"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""d7c66b5a-2516-4fb4-8587-c6e054dc40b5"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Melee _Attack"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""aaf867dd-3492-45fb-931a-96e6dea73732"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Loak_On"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""9b8b8e38-5292-4350-97f6-010494d51a95"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Loak_Off"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""8db66a3b-18d1-403f-b812-243fc81c128b"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Dash"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""1d6982a7-0ed4-47fb-b6ff-092e5a76fb4a"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Interaction"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""141a8255-f045-4e8f-9cf1-b18c659d07db"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Drain"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""46f09fbf-3c78-4abd-809c-bae08bbf10a7"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Open_Settings"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""7b329410-e3de-421f-a2b9-2e94b70f360e"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""InvenOpen"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""f9d6c28c-afba-409b-805c-c555e06f2569"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cheat"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""02d13bbd-acd7-4a1a-8825-7180962fc600"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -301,7 +310,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""8eb3f4c1-e268-403e-9acb-8454d8954450"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Console"",
@@ -376,7 +385,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""positive"",
+                    ""name"": ""Positive"",
                     ""id"": ""2e8f3693-a90a-42af-ab39-b5cea7c9c9c6"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -858,6 +867,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""MouseDelta"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5eb2a4cc-35dc-44a4-a025-7ae734dec595"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""Cheat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7355870-6589-422b-a0bb-a00c9dd87a37"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Console"",
+                    ""action"": ""Cheat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1194,6 +1225,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Gameplay_Drain = m_Gameplay.FindAction("Drain", throwIfNotFound: true);
         m_Gameplay_Open_Settings = m_Gameplay.FindAction("Open_Settings", throwIfNotFound: true);
         m_Gameplay_InvenOpen = m_Gameplay.FindAction("InvenOpen", throwIfNotFound: true);
+        m_Gameplay_Cheat = m_Gameplay.FindAction("Cheat", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -1281,6 +1313,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Drain;
     private readonly InputAction m_Gameplay_Open_Settings;
     private readonly InputAction m_Gameplay_InvenOpen;
+    private readonly InputAction m_Gameplay_Cheat;
     public struct GameplayActions
     {
         private @PlayerActions m_Wrapper;
@@ -1299,6 +1332,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Drain => m_Wrapper.m_Gameplay_Drain;
         public InputAction @Open_Settings => m_Wrapper.m_Gameplay_Open_Settings;
         public InputAction @InvenOpen => m_Wrapper.m_Gameplay_InvenOpen;
+        public InputAction @Cheat => m_Wrapper.m_Gameplay_Cheat;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1350,6 +1384,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @InvenOpen.started += instance.OnInvenOpen;
             @InvenOpen.performed += instance.OnInvenOpen;
             @InvenOpen.canceled += instance.OnInvenOpen;
+            @Cheat.started += instance.OnCheat;
+            @Cheat.performed += instance.OnCheat;
+            @Cheat.canceled += instance.OnCheat;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -1396,6 +1433,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @InvenOpen.started -= instance.OnInvenOpen;
             @InvenOpen.performed -= instance.OnInvenOpen;
             @InvenOpen.canceled -= instance.OnInvenOpen;
+            @Cheat.started -= instance.OnCheat;
+            @Cheat.performed -= instance.OnCheat;
+            @Cheat.canceled -= instance.OnCheat;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1517,6 +1557,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnDrain(InputAction.CallbackContext context);
         void OnOpen_Settings(InputAction.CallbackContext context);
         void OnInvenOpen(InputAction.CallbackContext context);
+        void OnCheat(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
