@@ -13,8 +13,16 @@ public class PowerThrowAttack : ArmThrowAttack
         public CrowdControlType CCType;
         public float KnockBackDistance;
     }
+    [System.Serializable]
+    struct EffectStruct
+    {
+        public GameObject Charge;
+    }
     [SerializeField] private ChargeStruct[] _charges;
+    [SerializeField] private EffectStruct[] _effects;
     [SerializeField] private float _autoAttackDelay;
+
+    private GameObject _curChargeEffect;
     private float m_curChargeTime;
     float _autoAttackTime;
     bool _isAutoAttack;
@@ -58,6 +66,14 @@ public class PowerThrowAttack : ArmThrowAttack
         _isAutoAttack = false;
         // 캐릭터 임시 무적
         Player.IsInvincible = false;
+
+        if (_curChargeEffect != null) 
+        {
+            ObjectPool.ReturnPool(_curChargeEffect);
+            _curChargeEffect = null;
+        }
+
+
     }
     public override void Update()
     {
@@ -125,6 +141,7 @@ public class PowerThrowAttack : ArmThrowAttack
             {
                 _autoAttackTime = 0;
                 _index++;
+                ShowArmEffect();
             }
         }
         else
@@ -179,5 +196,16 @@ public class PowerThrowAttack : ArmThrowAttack
         {
             ChargeEnd();
         }
+    }
+
+    // 차지시 암 이펙트 나타내기
+    private void ShowArmEffect()
+    {
+        if (_curChargeEffect != null)
+        {
+            ObjectPool.ReturnPool(_curChargeEffect);
+        }
+        // 암유닛 이펙트
+        _curChargeEffect = ObjectPool.GetPool(_effects[_index].Charge, Player.ArmPoint);
     }
 }

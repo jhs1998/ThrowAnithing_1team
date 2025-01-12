@@ -21,7 +21,6 @@ MonoBehaviour:
     KnockBackRange: 0
     RushDistance: 0
     Stamina: 0
-    ArmEffect: {fileID: 2666987530771428612, guid: 812b96a8a7ae9c44aa6fe0ae34435130, type: 3}
   - ChargeTime: 0.25
     Damage: 40
     AttackRange: 2
@@ -29,7 +28,6 @@ MonoBehaviour:
     KnockBackRange: 3
     RushDistance: 0
     Stamina: 0
-    ArmEffect: {fileID: 3131504231603907193, guid: ee7ad29560b375d4197991dcbb63171c, type: 3}
   - ChargeTime: 0.5
     Damage: 60
     AttackRange: 2.5
@@ -37,7 +35,12 @@ MonoBehaviour:
     KnockBackRange: 5
     RushDistance: 2
     Stamina: 0
-    ArmEffect: {fileID: 6968367475162185451, guid: 95a6905492ebe224d98ab84fea6c93a4, type: 3}
+  _effects:
+    Charges:
+    - Charge: {fileID: 2666987530771428612, guid: fdbcf892c078f02419f088aa26cf0ad0, type: 3}
+    - Charge: {fileID: 3131504231603907193, guid: 458f672a4ae3722469045b45217874ee, type: 3}
+    - Charge: {fileID: 6968367475162185451, guid: 05f723dce21b48d44b79cba893682fa7, type: 3}
+    Full: {fileID: 2814029843322883771, guid: 2d15236ccce37c64e82031c10bb8721f, type: 3}
   RushSpeed: 15
   _moveSpeedMultyPlier: 0.3
   _autoAttackDelay: 1

@@ -391,13 +391,16 @@ public class InputKey : MonoBehaviour
     private static Dictionary<Action, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
     private  List<InputStruct> m_inputStructs = new List<InputStruct>();
     private static List<InputStruct> _inputStructs { get { return Instance.m_inputStructs; } }
-
+    private PlayerInput m_playerInput;
+    private static PlayerInput _playerInput { get { return Instance.m_playerInput; } }
 
     private void Awake()
     {
         if(InitSingleTon() ==false) return;
         Init();
         InitInputManager();
+
+        m_playerInput = GetComponent<PlayerInput>();
     }
     private bool InitSingleTon()
     {
@@ -487,6 +490,13 @@ public class InputKey : MonoBehaviour
             return default;
 
         return _inputStructDic[inputStruct.Name].Vector;
+    }
+
+
+    public static void ChangeActionMap(string actionMap)
+    {
+        Debug.Log(_playerInput);
+        _playerInput.defaultActionMap = actionMap;
     }
 
     private static void SetCurPress(InputStruct inputStruct, bool isPress)

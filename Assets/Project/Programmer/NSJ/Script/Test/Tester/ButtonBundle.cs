@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,7 +7,7 @@ namespace NSJ_TesterPanel
 {
     public class ButtonBundle : BaseUI
     {
-        enum Bundle { Monster, BlueChip, EquipMent,Object, Size}
+        enum Bundle { Monster, BlueChip, EquipMent, Object, Size }
         struct ButtonStruct
         {
             [HideInInspector] public GameObject Bundle;
@@ -20,11 +18,16 @@ namespace NSJ_TesterPanel
         [SerializeField] GameObject _equipment;
         [SerializeField] GameObject _object;
 
+        private Button _monsterButton => GetUI<Button>("MonsterButton");
+        private Button _blueChipButton => GetUI<Button>("BlueChipButton");
+        private Button _EquipButton => GetUI<Button>("EquipmentButton");
+        private Button _objectButton => GetUI<Button>("ObjectButton");
+
+
         private ButtonStruct[] _bundles = new ButtonStruct[(int)Bundle.Size];
         private Bundle _curBundle;
         private bool _canControl;
 
-        Coroutine _checkHorizontalInput;
         private void Awake()
         {
             Bind();
@@ -34,26 +37,29 @@ namespace NSJ_TesterPanel
         {
             SubscribesEvent();
             ChangeBundle(Bundle.Monster);
+
         }
         private void OnEnable()
         {
             EventSystem.current.SetSelectedGameObject(GetUI<Button>("MonsterButton").gameObject);
-            StartCoroutines();
         }
 
         private void OnDisable()
         {
-            StopCoroutines();
+
         }
 
-
+        private void Update()
+        {
+            CheckInput();
+        }
 
         private void ChangeBundle(Bundle bundle)
         {
             _curBundle = bundle;
-            for (int i = 0; i < _bundles.Length; i++) 
+            for (int i = 0; i < _bundles.Length; i++)
             {
-                if(i == (int)bundle)
+                if (i == (int)bundle)
                 {
                     _bundles[i].Bundle.SetActive(true);
                     _bundles[i].ButtonOn.SetActive(true);
@@ -68,17 +74,17 @@ namespace NSJ_TesterPanel
 
         private void Init()
         {
-            _bundles[(int)Bundle.Monster] = GetStruct(_monster,GetUI("MonsterButtonOn"));
-            _bundles[(int)Bundle.BlueChip] = GetStruct(_blueChip,GetUI("BlueChipButtonOn"));
+            _bundles[(int)Bundle.Monster] = GetStruct(_monster, GetUI("MonsterButtonOn"));
+            _bundles[(int)Bundle.BlueChip] = GetStruct(_blueChip, GetUI("BlueChipButtonOn"));
             _bundles[(int)Bundle.EquipMent] = GetStruct(_equipment, GetUI("EquipmentButtonOn"));
             _bundles[(int)Bundle.Object] = GetStruct(_object, GetUI("ObjectButtonOn"));
         }
         private void SubscribesEvent()
         {
-            GetUI<Button>("MonsterButton").onClick.AddListener(() => ChangeBundle(Bundle.Monster));
-            GetUI<Button>("BlueChipButton").onClick.AddListener(() => ChangeBundle(Bundle.BlueChip));
-            GetUI<Button>("EquipmentButton").onClick.AddListener(() => ChangeBundle(Bundle.EquipMent));
-            GetUI<Button>("ObjectButton").onClick.AddListener(() => ChangeBundle(Bundle.Object));
+            _monsterButton.onClick.AddListener(() => ChangeBundle(Bundle.Monster));
+            _blueChipButton.onClick.AddListener(() => ChangeBundle(Bundle.BlueChip));
+            _EquipButton.onClick.AddListener(() => ChangeBundle(Bundle.EquipMent));
+            _objectButton.onClick.AddListener(() => ChangeBundle(Bundle.Object));
         }
 
         private ButtonStruct GetStruct(GameObject buddle, GameObject buttonOn)
@@ -88,60 +94,25 @@ namespace NSJ_TesterPanel
             instance.ButtonOn = buttonOn;
             return instance;
         }
-        private void StartCoroutines()
+
+        private void CheckInput()
         {
-            if (_checkHorizontalInput == null)
+            GameObject curSelect = EventSystem.current.currentSelectedGameObject;
+            if (curSelect == _monsterButton.gameObject)
             {
-                _checkHorizontalInput = StartCoroutine(CheckHorizontalInput());
+                ChangeBundle(Bundle.Monster);
             }
-        }
-
-        private void StopCoroutines()
-        {
-            if (_checkHorizontalInput != null)
+            else if(curSelect == _blueChipButton.gameObject)
             {
-                StopCoroutine(_checkHorizontalInput);
-                _checkHorizontalInput = null;
+                ChangeBundle(Bundle.BlueChip);
             }
-        }
-        IEnumerator CheckHorizontalInput()
-        {
-            _canControl = true;
-            while (true)
+            else if (curSelect == _EquipButton.gameObject)
             {
-                if (InputKey.GetButtonDown(InputKey.PrevInteraction))
-                {
-                    _canControl = false;
-                }
-                if (InputKey.GetButtonDown(InputKey.PopUpClose))
-                {
-                    _canControl = true;
-                }
-
-                if (_canControl == false)
-                {
-                    yield return null;
-                    continue;
-                }
-
-                float x = InputKey.GetAxisRaw(InputKey.Horizontal);
-                if (x < 0)
-                {
-                    _curBundle--;
-                    if ((int)_curBundle < 0)
-                        _curBundle = 0;
-                    ChangeBundle(_curBundle);
-                    yield return 0.2f.GetRealTimeDelay();
-                }
-                else if (x > 0)
-                {
-                    _curBundle++;
-                    if (_curBundle == Bundle.Size)
-                        _curBundle = Bundle.Size - 1;
-                    ChangeBundle(_curBundle);
-                    yield return 0.2f.GetRealTimeDelay();
-                }
-                yield return null;
+                ChangeBundle(Bundle.EquipMent);
+            }
+            else if (curSelect == _objectButton.gameObject)
+            {
+                ChangeBundle(Bundle.Object);
             }
         }
     }

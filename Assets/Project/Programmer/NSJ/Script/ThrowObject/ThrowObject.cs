@@ -3,6 +3,15 @@ using UnityEngine;
 
 public class ThrowObject : MonoBehaviour
 {
+    [System.Serializable]
+    protected partial struct EffectStruct
+    {
+        public GameObject Hit;
+    }
+    // ÀÌÆåÆ®
+    [SerializeField] protected EffectStruct Effect;
+
+
     public ThrowObjectData Data;
     public bool CanAttack;
     [SerializeField] public List<ThrowAdditional> ThrowAdditionals = new List<ThrowAdditional>();
@@ -184,6 +193,10 @@ public class ThrowObject : MonoBehaviour
 
         // ÇÃ·¹ÀÌ¾î Æ¯¼ö°ø°Ý ÀÚ¿ø È¹µæ
         Player.Model.CurMana += SpecialRecovery;
+        // ÀÌÆåÆ® 
+        ObjectPool.GetPool(Effect.Hit, transform.position, transform.rotation, 1.5f);
+
+
         Destroy(gameObject);
     }
 

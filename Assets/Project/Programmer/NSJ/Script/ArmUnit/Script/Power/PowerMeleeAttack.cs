@@ -20,9 +20,21 @@ public class PowerMeleeAttack : ArmMeleeAttack
         [Header("돌진 거리")]
         public float RushDistance;
         [HideInInspector] public float Stamina;
-        public GameObject ArmEffect;
+
+    }
+    [System.Serializable]
+    struct ChargeEffectStruct
+    {
+        public GameObject Charge;
+    }
+    [System.Serializable]
+    struct EffectStruct
+    {
+        public ChargeEffectStruct[] Charges;
+        public GameObject Full;
     }
     [SerializeField] private ChargeStruct[] _charges;
+    [SerializeField] private EffectStruct _effects;
     [SerializeField] private float RushSpeed;
     [SerializeField] private float _moveSpeedMultyPlier;
     [SerializeField] private float _autoAttackDelay;
@@ -41,7 +53,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
         }
     }
 
-    private GameObject _curArmEffect;
+    private GameObject _curChargeEffect;
     Coroutine _chargeRoutine;
     Coroutine _autoAttackRoutine;
     public override void Init(PlayerController player, ArmUnit arm)
@@ -68,8 +80,6 @@ public class PowerMeleeAttack : ArmMeleeAttack
         Player.LookAtAttackDir();
         // 애니메이션 실행
         View.SetTrigger(PlayerView.Parameter.PowerMelee);
-        // 암유닛 차지 이펙트
-        ShowArmEffect();
         if (_chargeRoutine == null)
         {
             _chargeRoutine = CoroutineHandler.StartRoutine(ChargeRoutine());
@@ -82,8 +92,11 @@ public class PowerMeleeAttack : ArmMeleeAttack
         Player.CanStaminaRecovery = true;
 
         // 암유닛 차지 이펙트 제거
-        _curArmEffect.SetActive(false);
-        _curArmEffect = null;
+        if (_curChargeEffect != null)
+        {
+            _curChargeEffect.SetActive(false);
+            _curChargeEffect = null;
+        }
 
         // 초기화
         _curChargeTime = 0;
@@ -108,7 +121,6 @@ public class PowerMeleeAttack : ArmMeleeAttack
     IEnumerator ChargeRoutine()
     {
         _index = 0;
-        ShowArmEffect();
         while (true)
         {
             Move();
@@ -227,12 +239,12 @@ public class PowerMeleeAttack : ArmMeleeAttack
     // 차지시 암 이펙트 나타내기
     private void ShowArmEffect()
     {
-        if (_curArmEffect != null)
+        if (_curChargeEffect != null)
         {
-            ObjectPool.ReturnPool(_curArmEffect);
+            ObjectPool.ReturnPool(_curChargeEffect);
         }
         // 암유닛 이펙트
-        _curArmEffect = ObjectPool.GetPool(_charges[_index].ArmEffect, Player.ArmPoint);
+        _curChargeEffect = ObjectPool.GetPool(_effects.Charges[_index].Charge, Player.ArmPoint);
     }
 
     private void ChargeEnd()
@@ -250,6 +262,13 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
     IEnumerator RushRoutine(Vector3 rushDir, float rushDistance)
     {
+        // 풀차지시(돌진 가능할 때) 돌진 이펙트
+        if(rushDistance > 0)
+        {
+            ObjectPool.GetPool(_effects.Full, Player.DashFrountPoint, 2f);
+        }
+
+
         Vector3 originPos = transform.position;
 
         while (true)

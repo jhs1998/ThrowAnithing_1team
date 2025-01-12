@@ -14,7 +14,7 @@ public class SpecialObject : ThrowObject
     // 폭발 데미지, 범위 필드
     private ExplosionStruct _explosion;
     [System.Serializable]
-    struct EffectStruct
+    new struct EffectStruct
     {
         public GameObject EffectPrefab;
         public GameObject ThrowTailEffectPrefab;
