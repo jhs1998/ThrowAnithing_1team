@@ -102,6 +102,7 @@ public class NewOption : BaseUI
 
     private void OnEnable()
     {
+
         firstCo = null;
         //Todo : 자연스럽게 처리해야함
         binding.ButtonFirstSelect(gamePlayButton.gameObject);
@@ -114,8 +115,8 @@ public class NewOption : BaseUI
     {
         EventSystem.current.SetSelectedGameObject(null);
 
-        if(pausePanel != null)
-        pausePanel.RestoreButton();
+        if (pausePanel != null)
+            EventSystem.current.SetSelectedGameObject(pausePanel.continueButton.gameObject);
         
     }
 

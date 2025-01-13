@@ -16,7 +16,7 @@ public class NewPause : BaseUI
 
 
     List<Button> SlotList = new();
-    Button continueButton;
+    [HideInInspector] public Button continueButton;
     Button optionButton;
     Button lobbyButton;
 
@@ -49,6 +49,8 @@ public class NewPause : BaseUI
 
     private void Update()
     {
+        Debug.Log(playerInput.currentActionMap);
+
         //퍼즈 열기
         if (playerInput.actions["Open_Settings"].WasPressedThisFrame())
         {
@@ -138,13 +140,12 @@ public class NewPause : BaseUI
                 color.a = 0.1f;
                 SlotList[i].GetComponent<Image>().color = color;
             }
-            foreach (Button slot in SlotList)
-            {
-                color = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color;
-                color.a = 1f;
-                EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color = color;
-            }
+
+            color = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color;
+            color.a = 1f;
+            EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color = color;
         }
+
     }
 
     /// <summary>
@@ -155,7 +156,6 @@ public class NewPause : BaseUI
         //Todo : 퍼즈창 닫아야함
         playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
         Time.timeScale = 1f;
-        StopCoroutine(firstCo);
         firstCo = null;
         pause.SetActive(false);
     }
@@ -177,7 +177,7 @@ public class NewPause : BaseUI
     /// </summary>
     void ReturnLobby()
     {
-        StopCoroutine(firstCo);
+        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
         firstCo = null;
         exitPopUp.SetActive(true);
 
