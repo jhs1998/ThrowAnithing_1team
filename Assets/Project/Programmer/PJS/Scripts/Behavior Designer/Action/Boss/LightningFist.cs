@@ -31,6 +31,7 @@ public class LightningFist : Action
             //hitObj.TargetAttackWithDebuff(hits[i].collider.transform, skillState.damage, true);
 
             enemy.Battle.TargetAttack(hits[i].transform, skillState.damage);
+            //enemy.Battle.TargetAttackWithDebuff(hits[i].transform, skillState.damage);
             enemy.Battle.TargetCrowdControl(hits[i].transform, CrowdControlType.Stiff);
         }
 

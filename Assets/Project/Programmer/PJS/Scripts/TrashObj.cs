@@ -5,20 +5,11 @@ using UnityEngine;
 
 public class TrashObj : MonoBehaviour
 {
+    [SerializeField] bool onStun;
+
     [SerializeField] int atk;
 
     public int Atk { get { return atk; } }
-
-    [SerializeField] EnemyBullet bulletPref;
-    [SerializeField] Transform pos;
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            Instantiate(bulletPref, pos);
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,7 +18,14 @@ public class TrashObj : MonoBehaviour
             Debug.Log(other.transform);
             IBattle hit = other.transform.GetComponentInParent<IBattle>();
             hit.TakeDamage(atk);
-            hit.TakeCrowdControl(CrowdControlType.Stiff);
+            if(onStun == true)
+            {
+                hit.TakeCrowdControl(CrowdControlType.Stun);
+            }
+            else
+            {
+                hit.TakeCrowdControl(CrowdControlType.Stiff);
+            }
         }
     }
 }

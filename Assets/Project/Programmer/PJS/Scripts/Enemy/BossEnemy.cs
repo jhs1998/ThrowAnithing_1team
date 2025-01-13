@@ -31,6 +31,7 @@ public class BossEnemy : BaseEnemy, IHit
     [Space, SerializeField] ParticleSystem shieldParticle;
     [SerializeField] ParticleSystem jumpParticle;
     [SerializeField] ParticleSystem jumpDownParticle;
+    [SerializeField] ParticleSystem healParticle;
 
     private Coroutine attackAble;
     public Coroutine recovery;  // 회복 관련 코루틴
@@ -96,10 +97,13 @@ public class BossEnemy : BaseEnemy, IHit
     // 회복관련 루틴
     public void RecoveryStartCoroutine(int time, float value)
     {
+        healParticle.Play();
+
         recovery = StartCoroutine(RecoveryRoutin(time, value));
     }
     public void RecoveryStopCotoutine()
     {
+        healParticle.Stop();
         StopCoroutine(recovery);
         transform.GetComponent<Animator>().SetBool("Recovery", false);
     }
@@ -108,7 +112,7 @@ public class BossEnemy : BaseEnemy, IHit
     {
         int time = maxTime;
         int recoveryHp = Mathf.RoundToInt(state.MaxHp * recoveryValue);
-
+        
         while (time > 0)    // 회복 하는 시간
         {
             yield return 1f.GetDelay();

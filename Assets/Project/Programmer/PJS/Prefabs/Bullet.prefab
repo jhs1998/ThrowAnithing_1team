@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3033307172280637495}
-  - component: {fileID: 6807248331987914687}
   - component: {fileID: 8572989237764585053}
   - component: {fileID: 2398487017934609037}
   - component: {fileID: 1415841380596911756}
@@ -37,14 +36,6 @@ Transform:
   - {fileID: 3553369835420268122}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6807248331987914687
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6807854996740530840}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!135 &8572989237764585053
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -105,10 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a323e4679264be54f80a68c5207b1ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigid: {fileID: 2398487017934609037}
-  curState: 0
   Battle: {fileID: 0}
-  poisonPlate: {fileID: 0}
   target: {fileID: 0}
   Atk: 0
 --- !u!1001 &3557723576599753410

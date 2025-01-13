@@ -21,7 +21,7 @@ public class RangedEnemy : BaseEnemy
 
     public void Attack()
     {
-        EnemyBullet bulletPool = ObjectPool.GetPool(bulletPrefab, muzzle.position, muzzle.rotation);
+        EnemyBullet bulletPool = ObjectPool.GetPool(bulletPrefab, muzzle.position, muzzle.rotation, 5f);
         bulletPool.target = playerObj.Value.transform;
         bulletPool.Speed = bulletSpeed;
         bulletPool.Atk = state.Atk;
