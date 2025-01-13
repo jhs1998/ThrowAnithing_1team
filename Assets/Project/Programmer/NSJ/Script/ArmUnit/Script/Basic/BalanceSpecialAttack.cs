@@ -25,6 +25,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     {
         public GameObject SpecialEffect;
         public GameObject BuffEffectPrefab;
+        public GameObject BuffEndEffect;
         [HideInInspector]public GameObject BuffEffect;
         public float AttackSpeed;
         public float Duration;
@@ -240,7 +241,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         Player.TriggerPlayerAdditional();
 
 
-        ObjectPool.GetPool(_first.SpecialEffect, Player.ArmPoint, 2f);
+        ObjectPool.GetPool(_first.SpecialEffect, Player.RightArmPoint, 2f);
         ObjectPool.GetPool(_first.BuffEffectPrefab, transform, _first.Duration);
         ChangeState(Player.PrevState);
 
@@ -254,6 +255,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         Model.AttackSpeedMultiplier -= _first.AttackSpeed;
         _balance.OnFirstSpecial = false;
 
+        ObjectPool.GetPool(_first.BuffEndEffect, transform,3f);
         _firstSpecialRoutine = null;
     }
     /// <summary>

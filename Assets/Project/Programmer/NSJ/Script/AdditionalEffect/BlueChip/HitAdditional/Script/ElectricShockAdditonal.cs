@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Electric Shock")]
 public class ElectricShockAdditonal : HitAdditional
@@ -42,7 +39,7 @@ public class ElectricShockAdditonal : HitAdditional
             _debuffRoutine = null;
             // 깎인 양 만큼 복구
             ChangeValue(false);
-            Destroy(_effect.Effect);
+            ObjectPool.ReturnPool(_effect.Effect);
         }
     }
 
@@ -121,7 +118,7 @@ public class ElectricShockAdditonal : HitAdditional
 
     private void CreateEffect()
     {
-        _effect.Effect = Instantiate(_effect.EffectPrefab, transform);
+        _effect.Effect = ObjectPool.GetPool(_effect.EffectPrefab, transform);
         _effect.Effect.transform.position = Battle.HitPoint.position;
     }
 }

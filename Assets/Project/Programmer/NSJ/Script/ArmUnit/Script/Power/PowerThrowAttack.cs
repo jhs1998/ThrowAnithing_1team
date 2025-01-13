@@ -83,6 +83,11 @@ public class PowerThrowAttack : ArmThrowAttack
     public override void OnTrigger()
     {
         ThrowObject();
+        if (_curChargeEffect != null)
+        {
+            ObjectPool.ReturnPool(_curChargeEffect, 0.3f);
+            _curChargeEffect = null;
+        }
     }
     public override void EndCombo()
     {
@@ -206,6 +211,6 @@ public class PowerThrowAttack : ArmThrowAttack
             ObjectPool.ReturnPool(_curChargeEffect);
         }
         // æœ¿Ø¥÷ ¿Ã∆Â∆Æ
-        _curChargeEffect = ObjectPool.GetPool(_effects[_index].Charge, Player.ArmPoint);
+        _curChargeEffect = ObjectPool.GetPool(_effects[_index].Charge, Player.LeftArmPoint);
     }
 }

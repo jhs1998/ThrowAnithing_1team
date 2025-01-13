@@ -49,8 +49,7 @@ public class PainTransferAdditional : HitAdditional
 
     private void CreateEffect()
     {
-       GameObject effect = _effect.Effect = Instantiate(_effect.EffectPrefab, transform.position, Quaternion.identity);
+       GameObject effect = _effect.Effect = ObjectPool.GetPool(_effect.EffectPrefab, transform.position, Quaternion.identity,2f);
         effect.transform.localScale = new Vector3(_range * 0.5f, _range * 0.5f, _range * 0.5f);
-        Destroy(effect, 2f);
     }
 }

@@ -127,7 +127,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
                 #region  차지에 사용한 그래픽 정리
                 if (_instanceDropObject)
                 {
-                    _instanceDropObject.transform.SetParent(Player.ArmPoint);
+                    _instanceDropObject.transform.SetParent(Player.RightArmPoint);
                 }
 
                 #endregion
@@ -166,7 +166,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         // 오른손 효과 손 따라다니기
         if (_instanceDropObject != null)
         {
-            _instanceDropObject.transform.position = Player.ArmPoint.position;
+            _instanceDropObject.transform.position = Player.RightArmPoint.position;
             _instanceDropObject.transform.rotation = Quaternion.LookRotation(transform.forward);
         }
 
@@ -210,7 +210,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     {
         if (_instanceDropObject != null)
             Destroy(_instanceDropObject);
-        _instanceDropObject = Instantiate(_effect.Effects[_index].DropObject, Player.ArmPoint.position, transform.rotation);
+        _instanceDropObject = Instantiate(_effect.Effects[_index].DropObject, Player.RightArmPoint.position, transform.rotation);
         _instanceDropObject.transform.localScale = _effect.Effects[_index].DropSize;
     }
     private void CreateSpecialRange()
@@ -236,7 +236,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         {
             ObjectPool.ReturnPool(_chargeEffect);
         }
-        _chargeEffect = ObjectPool.GetPool(_effect.Effects[_index].ChargeEffect, Player.ArmPoint);
+        _chargeEffect = ObjectPool.GetPool(_effect.Effects[_index].ChargeEffect, Player.RightArmPoint);
     }
     private void AttackSpecial()
     {
