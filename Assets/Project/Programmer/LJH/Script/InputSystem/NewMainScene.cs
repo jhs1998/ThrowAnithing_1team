@@ -15,6 +15,8 @@ public class NewMainScene : BaseUI
     Button optionButton;
     Button exitButton;
 
+    List<Button> buttons = new List<Button>();
+
 
     private void Awake()
     {
@@ -32,6 +34,7 @@ public class NewMainScene : BaseUI
     void Update()
     {
         binding.ButtonFirstSelect(continueButton.gameObject);
+        binding.SelectedButtonHighlight(buttons);
     }
 
 
@@ -67,10 +70,10 @@ public class NewMainScene : BaseUI
 
 
         //버튼 바인딩 및 버튼 주입
-        continueButton = GetUI<Button>("Continue");
-        newButton = GetUI<Button>("New");
-        optionButton = GetUI<Button>("Option");
-        exitButton = GetUI<Button>("Exit");
+        buttons.Add(continueButton = GetUI<Button>("Continue"));
+        buttons.Add(newButton = GetUI<Button>("New"));
+        buttons.Add(optionButton = GetUI<Button>("Option"));
+        buttons.Add(exitButton = GetUI<Button>("Exit"));
 
         //버튼 주입
         continueButton.onClick.AddListener(EnterContinue);
