@@ -11,6 +11,7 @@ public class FallState : PlayerState
     Coroutine _checkLandingRoutine;
     public FallState(PlayerController controller) : base(controller)
     {
+        IsIgnoreMonster = true;
     }
     public override void Enter()
     {

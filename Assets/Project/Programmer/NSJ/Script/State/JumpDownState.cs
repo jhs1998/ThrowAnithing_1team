@@ -8,6 +8,7 @@ public class JumpDownState : PlayerState
     {
         UseStamina = true;
         StaminaAmount = Model.JumpDownStamina;
+        IsIgnoreMonster = true;
     }
     public override void InitArm()
     {

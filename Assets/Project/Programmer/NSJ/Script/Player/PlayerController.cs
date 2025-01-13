@@ -682,7 +682,7 @@ public class PlayerController : MonoBehaviour, IHit
             }
             IsGround = true;
 
-            if(CurState == State.Dash)
+            if (_states[(int)CurState].IsIgnoreMonster == true)
             {
                 Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, true);
             }

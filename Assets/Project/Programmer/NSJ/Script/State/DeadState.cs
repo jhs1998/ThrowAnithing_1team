@@ -8,6 +8,7 @@ public class DeadState : PlayerState
     public DeadState(PlayerController controller) : base(controller)
     {
         Player.OnPlayerDieEvent += Die;
+        IsIgnoreMonster = true;
     }
 
 

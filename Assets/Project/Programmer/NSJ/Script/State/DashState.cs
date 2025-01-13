@@ -18,7 +18,7 @@ public class DashState : PlayerState
     public DashState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
-
+        IsIgnoreMonster = true;
     }
     public override void InitArm()
     {

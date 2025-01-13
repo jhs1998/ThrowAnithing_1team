@@ -5,7 +5,7 @@ public class DoubleJumpState : PlayerState
     public DoubleJumpState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
-       
+       IsIgnoreMonster = true;
     }
     public override void InitArm()
     {
