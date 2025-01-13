@@ -14,6 +14,7 @@ namespace MKH
 
         [SerializeField] Button[] removeButtons;
         [SerializeField] GameObject popUp;
+        [SerializeField] GameObject errorPopUp;
         [SerializeField] BlueChipPanel blueChipPanel;
         [SerializeField] BlueChipChoicePanel blueChipChoicePanel;
         int popUpChoice;
@@ -45,6 +46,13 @@ namespace MKH
 
                     return;
                 }
+                else if (blueChipPanel.mSlots[0].Effect != null
+                && blueChipPanel.mSlots[1].Effect != null
+                && blueChipPanel.mSlots[2].Effect != null
+                && blueChipPanel.mSlots[3].Effect != null)
+                {
+                    ErrorPopUp();
+                }
             }
         }
 
@@ -52,6 +60,11 @@ namespace MKH
         {
             popUp.SetActive(true);
             popUpChoice = number;
+        }
+
+        public void ErrorPopUp()
+        {
+            StartCoroutine(Error());
         }
 
         public void Remove()
@@ -67,6 +80,13 @@ namespace MKH
         {
             popUp.SetActive(false);
             EventSystem.current.SetSelectedGameObject(blueChipChoicePanel.button.gameObject);
+        }
+
+        IEnumerator Error()
+        {
+            errorPopUp.SetActive(true);
+            yield return 1f.GetDelay();
+            errorPopUp.SetActive(false);
         }
     }
 }
