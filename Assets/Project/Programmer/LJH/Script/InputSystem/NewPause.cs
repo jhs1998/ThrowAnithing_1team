@@ -37,9 +37,6 @@ public class NewPause : BaseUI
     {
         Bind();
         Init();
-        Debug.Log(continueButton);
-        Debug.Log(optionButton);
-        Debug.Log(lobbyButton);
 
     }
 
@@ -52,6 +49,9 @@ public class NewPause : BaseUI
 
     private void Update()
     {
+        if (optionPanel.activeSelf)
+            return;
+
         //퍼즈 열기
         if (playerInput.actions["Open_Settings"].WasPressedThisFrame())
         {
@@ -97,7 +97,7 @@ public class NewPause : BaseUI
     /// <summary>
     /// 빈공간 눌렀을 때 버튼 복구용 함수
     /// </summary>
-    void RestoreButton()
+    public void RestoreButton()
     {
         if (playerInput.actions["LeftClick"].WasPressedThisFrame())
         {
@@ -133,14 +133,13 @@ public class NewPause : BaseUI
     {
         if (EventSystem.current.currentSelectedGameObject != null)
         {
-            Debug.Log("1차 실행됨");
             for (int i = 0; i < SlotList.Count; i++)
             {
-                Debug.Log("2차 실행됨");
                 color = SlotList[i].GetComponent<Image>().color;
                 color.a = 0.1f;
                 SlotList[i].GetComponent<Image>().color = color;
             }
+            Debug.Log(EventSystem.current.currentSelectedGameObject);
             color = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color;
             color.a = 1f;
             EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color = color;
@@ -167,8 +166,9 @@ public class NewPause : BaseUI
     {
         //Todo : 옵션 캔버스 열어줘야함
         firstCo = null;
-        optionPanel.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
+        optionPanel.SetActive(true);
+        
     }
 
     /// <summary>
