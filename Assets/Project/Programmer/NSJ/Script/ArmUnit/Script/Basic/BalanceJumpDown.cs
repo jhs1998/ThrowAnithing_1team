@@ -9,12 +9,12 @@ public class BalanceJumpDown : ArmJumpDown
     [System.Serializable]
     struct AttackStruct
     {
+        public GameObject Effect;
         [Range(0, 20)]
         public float FallSpeed;
         public float Range;
         public int Damage;
         public float KnockBackDistance;
-        public GameObject Effect;
         public float EffectDuration;
     }
     [SerializeField] AttackStruct _attack;
@@ -97,7 +97,6 @@ public class BalanceJumpDown : ArmJumpDown
 
     private void AttackJumpDown()
     {
-        CoroutineHandler.StartRoutine(CreateAttackEffectRoutien());
 
         int hitCount = Physics.OverlapSphereNonAlloc(_landingPoint, _range, Player.OverLapColliders, 1 << Layer.Monster);
         int finalDamage = Player.GetFinalDamage(_damage, out bool isCritical);
@@ -108,28 +107,9 @@ public class BalanceJumpDown : ArmJumpDown
             // ³Ë¹é
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, _attack.KnockBackDistance);
         }
-    }
 
-    IEnumerator CreateAttackEffectRoutien()
-    {
-        if (_attackEffect == null)
-            yield break;
-
-        GameObject instance = Instantiate(_attackEffect, _landingPoint, transform.rotation);
-        while (true)
-        {
-            instance.transform.localScale = new Vector3(
-              instance.transform.localScale.x + _range * 2 * Time.deltaTime * (1 / _maxScaleEffectTime),
-              instance.transform.localScale.y + _range * 2 * Time.deltaTime * (1 / _maxScaleEffectTime),
-              instance.transform.localScale.z + _range * 2 * Time.deltaTime * (1 / _maxScaleEffectTime));
-            if (instance.transform.localScale.x > _range * 2)
-            {
-                break;
-            }
-            yield return null;
-        }
-
-        Destroy(instance);
+        // ÀÌÆåÆ® »ý¼º
+        ObjectPool.GetPool(_attack.Effect, _landingPoint, Quaternion.identity, 2f);
     }
 
     public override void OnDrawGizmos()

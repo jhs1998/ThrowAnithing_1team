@@ -5,7 +5,6 @@ using Zenject;
 
 public class PlayerBinder : BaseBinder
 {
-    public GameObject[] PowerMeleeEffect;
 
     private void Awake()
     {
@@ -15,9 +14,6 @@ public class PlayerBinder : BaseBinder
 
     private void InitField()
     {
-        PowerMeleeEffect = new GameObject[3];
-        PowerMeleeEffect[0] = GetObject("PowerMelee0");
-        PowerMeleeEffect[1] = GetObject("PowerMelee1");
-        PowerMeleeEffect[2] = GetObject("PowerMelee2");
+
     }
 }

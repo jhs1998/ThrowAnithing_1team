@@ -56,4 +56,17 @@ public static partial class Util
         return color;
     }
 
+    public static Vector3 GetRandomPos(this Vector3 pos, float range)
+    {
+        Vector3 randomPos = new Vector3(
+            pos.x + Random.Range(-range, range),
+            pos.y + Random.Range(-range, range),
+            pos.z + Random.Range(-range, range));
+        return randomPos;
+    }
+    public static Vector3 GetPos(float range)
+    {
+        return new Vector3(range, range, range);
+    }
+
 }

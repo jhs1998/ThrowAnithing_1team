@@ -1,17 +1,24 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class DashState : PlayerState
 {
-   //float _timeBuffer;
+    //float _timeBuffer;
     bool _isDashEnd;
     Vector3 _startPos;
+    Vector3 _prevPos;
+    bool canMove = true;
+
+    GameObject _armEffect;
+    GameObject _frontEffect;
+
     Coroutine _checkInputRoutine;
+    Coroutine _checkCanMove;
+    Coroutine _dashEffectRoutine;
     public DashState(PlayerController controller) : base(controller)
     {
         UseStamina = true;
-       
+
     }
     public override void InitArm()
     {
@@ -19,22 +26,35 @@ public class DashState : PlayerState
     }
     public override void Enter()
     {
+        Player.Collider.isTrigger = true;
+
         _isDashEnd = false;
 
         _startPos = transform.position;
         Player.IsInvincible = true;
         Player.LookAtMoveDir();
         View.SetTrigger(PlayerView.Parameter.Dash);
+
+        _checkCanMove = CoroutineHandler.StartRoutine(_checkCanMove, CheckCanMove());
+        _dashEffectRoutine = CoroutineHandler.StartRoutine(_dashEffectRoutine, DashEffectRoutine());
+
     }
     public override void Exit()
     {
+        _checkCanMove = CoroutineHandler.StopRoutine(_checkCanMove);    
+        _dashEffectRoutine = CoroutineHandler.StopRoutine(_dashEffectRoutine);
+
         Player.IsInvincible = false;
+        canMove = true;
     }
     public override void Update()
     {
         Dash();
     }
-    public override void OnTrigger() { }
+    public override void OnTrigger() 
+    {
+
+    }
     public override void EndAnimation()
     {
         if (Player.IsGround != true)
@@ -50,23 +70,39 @@ public class DashState : PlayerState
             ChangeState(PlayerController.State.Idle);
         }
 
+        _armEffect.transform.SetParent(null);
+
     }
     /// <summary>
     /// ´ë½¬
     /// </summary>
     public void Dash()
     {
-        if (Vector3.Distance(transform.position, _startPos) < Model.DashDistance && Player.IsWall ==false)
+        if (canMove == false && _isDashEnd == false)
         {
-            Rb.velocity = transform.forward * Model.MoveSpeed * 2;
+            EndDash();
+            return;
         }
-        else if(_isDashEnd == false)
+        else
         {
-            _isDashEnd = true;
-            View.SetTrigger(PlayerView.Parameter.DashEnd);
-            //Rb.velocity = transform.forward * Model.MoveSpeed;
-            CoroutineHandler.StartRoutine(DashEndRoutine());
+            if (Vector3.Distance(transform.position, _startPos) < Model.DashDistance && Player.IsWall == false)
+            {
+                Rb.velocity = transform.forward * Model.MoveSpeed * 2;
+            }
+            else if (_isDashEnd == false)
+            {
+                EndDash();
+            }
         }
+    }
+
+    private void EndDash()
+    {
+        _isDashEnd = true;
+        Player.Collider.isTrigger = false;
+        View.SetTrigger(PlayerView.Parameter.DashEnd);
+        //Rb.velocity = transform.forward * Model.MoveSpeed;
+        CoroutineHandler.StartRoutine(DashEndRoutine());
     }
 
     IEnumerator DashEndRoutine()
@@ -76,11 +112,38 @@ public class DashState : PlayerState
         {
             Rb.velocity = transform.forward * speed;
             speed -= Time.deltaTime * 20f;
-            if(speed < 0)
+            if (speed < 0)
             {
                 yield break;
             }
             yield return null;
         }
     }
+
+    IEnumerator CheckCanMove()
+    {
+        canMove = true;
+        while (true)
+        {
+            yield return 0.1f.GetDelay();
+            if (Vector3.Distance(_prevPos, transform.position) < 0.05f)
+            {
+                canMove = false;
+            }
+            _prevPos = transform.position;
+        }
+    }
+
+    IEnumerator DashEffectRoutine()
+    {
+        yield return null;
+        yield return null;
+        yield return null;
+        yield return null;
+        _armEffect = ObjectPool.GetPool(Effect.Dash_Arm, Player.DashArmPoint, 2f);
+        yield return null;
+        yield return null;
+        _frontEffect = ObjectPool.GetPool(Effect.Dash_Front, Player.DashFrountPoint, 2f);
+    }
+
 }

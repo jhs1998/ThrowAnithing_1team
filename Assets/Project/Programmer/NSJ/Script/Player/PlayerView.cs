@@ -170,12 +170,5 @@ public class PlayerView : MonoBehaviour
         _animatorHashes[(int)Parameter.Dead] = Animator.StringToHash("Dead");
         _animatorHashes[(int)Parameter.OnBuff] = Animator.StringToHash("OnBuff");
         _animatorHashes[(int)Parameter.DoubleJumpFall] = Animator.StringToHash("DoubleJumpFall");
-
-
-
-        foreach(GameObject armEffect in Binder.PowerMeleeEffect)
-        {
-            armEffect.SetActive(false);
-        }
     }
 }

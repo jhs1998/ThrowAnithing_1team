@@ -319,6 +319,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// </summary>
     private void CreateDamageText(int damage)
     {
+        if (damage <= 0)
+            return;
         DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
         text.SetDamageText(damage, HitPoint, isPlayer);
@@ -328,6 +330,8 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// </summary>
     private void CreateDamageText(int damage, bool isCritical)
     {
+        if (damage <= 0)
+            return;
         DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
         text.SetDamageText(damage, HitPoint, CrowdControlType.None, isCritical, isPlayer);
@@ -337,6 +341,9 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// </summary>
     private void CreateDamageText(int damage, CrowdControlType type)
     {
+        if (damage <= 0)
+            return;
+
         DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
         text.SetDamageText(damage, HitPoint, type, false, isPlayer);
@@ -346,6 +353,9 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// </summary>
     private void CreateDamageText(int damage, CrowdControlType type, bool isCritical)
     {
+        if (damage <= 0)
+            return;
+
         DamageText text = Instantiate(DataContainer.GetDamageText(CrowdControlType.None), transform.position, Quaternion.identity);
         bool isPlayer = gameObject.tag == Tag.Player;
         text.SetDamageText(damage, HitPoint, type, isCritical, isPlayer);

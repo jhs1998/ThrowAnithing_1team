@@ -15,6 +15,7 @@ public class NewNew : BaseUI
     Button slot2;
     Button slot3;
 
+    List<Button> buttons = new List<Button>();
     private void Awake()
     {
         Bind();
@@ -39,6 +40,7 @@ public class NewNew : BaseUI
     private void Update()
     {
         binding.ButtonFirstSelect(slot1.gameObject);
+        binding.SelectedSlotHighlight(buttons);
     }
 
 
@@ -59,8 +61,8 @@ public class NewNew : BaseUI
         binding = GetComponentInParent<MainSceneBinding>();
         input = new PlayerActions();
 
-        slot1 = GetUI<Button>("NewSlot1");
-        slot2 = GetUI<Button>("NewSlot2");
-        slot3 = GetUI<Button>("NewSlot3");
+        buttons.Add(slot1 = GetUI<Button>("NewSlot1"));
+        buttons.Add(slot2 = GetUI<Button>("NewSlot2"));
+        buttons.Add(slot3 = GetUI<Button>("NewSlot3"));
     }
 }

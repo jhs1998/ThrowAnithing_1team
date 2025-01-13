@@ -19,6 +19,8 @@ public class FallState : PlayerState
         {
             View.SetTrigger(PlayerView.Parameter.Fall);
         }
+        
+        Player.Collider.isTrigger = true;
 
         _inertia = new Vector3(Rb.velocity.x, 0,Rb.velocity.z);
         StartCoroutine();
@@ -26,6 +28,7 @@ public class FallState : PlayerState
 
     public override void Exit()
     {
+        Player.Collider.isTrigger = false;
         StopCoroutine();
     }
     public override void Update()
@@ -74,6 +77,9 @@ public class FallState : PlayerState
             _checkInputRoutine = null;
         }
         // 착지 애니메이션 실행
+        Player.Collider.isTrigger = false;
+        Player.IsDoubleJump = false;
+        Player.IsJumpAttack = false;
         View.SetTrigger(PlayerView.Parameter.Landing);
     }
 

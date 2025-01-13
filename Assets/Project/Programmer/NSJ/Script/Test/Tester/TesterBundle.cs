@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace NSJ_TesterPanel
@@ -23,7 +24,6 @@ namespace NSJ_TesterPanel
 
         [SerializeField] protected Vector3 createOffset = new Vector3(5,0,5);
         [SerializeField] protected Vector3 randomOffset;
-        Coroutine _checkHorizontalInput;
         protected virtual void Awake()
         {
             Bind();
@@ -31,13 +31,16 @@ namespace NSJ_TesterPanel
         }
         protected virtual void OnEnable()
         {
-            StartCoroutines();
 
         }
         protected virtual void OnDisable()
         {
-            StopCoroutines();
 
+        }
+
+        private void Update()
+        {
+            CheckSelect();
         }
         protected ButtonStruct GetButtonStruct(string name)
         {
@@ -45,80 +48,6 @@ namespace NSJ_TesterPanel
             buttonStruct.Button = GetUI<Button>(name);
             buttonStruct.Image = GetUI<Image>(name);
             return buttonStruct;
-        }
-
-
-        private void StartCoroutines()
-        {
-            if (_checkHorizontalInput == null)
-            {
-                _checkHorizontalInput = StartCoroutine(CheckHorizontalInput());
-            }
-        }
-        private void StopCoroutines()
-        {
-            if (_checkHorizontalInput != null)
-            {
-                StopCoroutine(_checkHorizontalInput);
-                _checkHorizontalInput = null;
-            }
-        }
-
-        IEnumerator CheckHorizontalInput()
-        {
-            _canControl = false;
-            while (true)
-            {
-
-                if (InputKey.GetButtonDown(InputKey.Cheat))
-                {
-                    ChangeHighlight(-10);
-                }
-
-                if (InputKey.GetButtonDown(InputKey.PrevInteraction))
-                {
-                    if (_canControl == false)
-                    {
-                        _canControl = true;
-                        _buttonIndex = 0;
-                        ChangeHighlight(_buttonIndex);
-                    }
-                    else
-                    {
-                        InteractButton(_buttonIndex);
-                    }
-                }
-                if (InputKey.GetButtonDown(InputKey.PopUpClose))
-                {
-                    _canControl = false;
-                    ChangeHighlight(-10);
-                }
-
-                if (_canControl == false)
-                {
-                    yield return null;
-                    continue;
-                }
-
-                float x = InputKey.GetAxisRaw(InputKey.Horizontal);
-                if (x < 0)
-                {
-                    _buttonIndex--;
-                    if (_buttonIndex < 0)
-                        _buttonIndex = 0;
-                    ChangeHighlight(_buttonIndex);
-                    yield return 0.2f.GetRealTimeDelay();
-                }
-                else if (x > 0)
-                {
-                    _buttonIndex++;
-                    if (_buttonIndex >= _buttons.Count)
-                        _buttonIndex = _buttons.Count - 1;
-                    ChangeHighlight(_buttonIndex);
-                    yield return 0.2f.GetRealTimeDelay();
-                }
-                yield return null;
-            }
         }
 
         /// <summary>
@@ -150,6 +79,21 @@ namespace NSJ_TesterPanel
         private void InteractButton(int index)
         {
             _buttons[index].Button.onClick.Invoke();
+        }
+
+        private void CheckSelect()
+        {
+            GameObject curSelect = EventSystem.current.currentSelectedGameObject;
+
+            int index = _buttons.FindIndex(button => button.Button.gameObject.Equals(curSelect));
+            if (index == -1)
+            {
+                ChangeHighlight(-10);
+            }
+            else
+            {
+                ChangeHighlight(index);
+            }              
         }
     }
 }

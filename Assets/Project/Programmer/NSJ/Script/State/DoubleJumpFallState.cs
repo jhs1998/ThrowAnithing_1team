@@ -18,7 +18,7 @@ public class DoubleJumpFallState : PlayerState
         {
             View.SetTrigger(PlayerView.Parameter.DoubleJumpFall);
         }
-
+        Player.Collider.isTrigger = true;
         _inertia = new Vector3(Rb.velocity.x, Rb.velocity.y, Rb.velocity.z);
         if (_fallRoutine == null)
         {
@@ -39,6 +39,7 @@ public class DoubleJumpFallState : PlayerState
             CoroutineHandler.StopRoutine(_checkInputRoutine);
             _checkInputRoutine = null;
         }
+        Player.Collider.isTrigger = false;
     }
 
     public override void FixedUpdate()
@@ -56,9 +57,6 @@ public class DoubleJumpFallState : PlayerState
     }
     public override void EndAnimation()
     {
-        Player.IsDoubleJump = false;
-        Player.IsJumpAttack = false;
-
         ChangeState(PlayerController.State.Idle);
     }
 
@@ -104,6 +102,9 @@ public class DoubleJumpFallState : PlayerState
             _checkInputRoutine = null;
         }
         // 착지 애니메이션 실행
+        Player.Collider.isTrigger = false;
+        Player.IsDoubleJump = false;
+        Player.IsJumpAttack = false;
         View.SetTrigger(PlayerView.Parameter.Landing);
     }
 
