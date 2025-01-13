@@ -30,8 +30,11 @@ public class EnemyDead : Action
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.useGravity = false;
             rb.isKinematic = true;
-            Collider collider = GetComponent<Collider>();
-            collider.enabled = false;
+            Collider[] colliders = transform.GetComponentsInChildren<Collider>();
+            foreach (Collider item in colliders)
+            {
+                item.enabled = false;
+            }
         }
 
         return TaskStatus.Running;
