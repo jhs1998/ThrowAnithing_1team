@@ -28,10 +28,11 @@ public class BossEnemy : BaseEnemy, IHit
     [Tooltip("점프 시 최대 높이")]
     public float jumpHeight;    // 점프 시 최대 높이
 
-    [Space, SerializeField] ParticleSystem shieldParticle;
-    [SerializeField] ParticleSystem jumpParticle;
-    [SerializeField] ParticleSystem jumpDownParticle;
-    [SerializeField] ParticleSystem healParticle;
+    [Space, SerializeField] ParticleSystem shieldParticle;  // 실드
+    [SerializeField] ParticleSystem jumpParticle;       // 점프 공격 시작 
+    [SerializeField] ParticleSystem jumpDownParticle;   // 점프 공격 끝
+    [SerializeField] ParticleSystem healParticle;       // 회복
+    [SerializeField] ParticleSystem novaParticle;       // 라이트닝 노바
 
     private Coroutine attackAble;
     public Coroutine recovery;  // 회복 관련 코루틴
@@ -214,6 +215,11 @@ public class BossEnemy : BaseEnemy, IHit
     {
         jumpDownParticle.Play();
         TakeChargeBoom(4, 50);
+    }
+
+    public void LightningNova()
+    {
+        novaParticle.Play();
     }
     #endregion
 
