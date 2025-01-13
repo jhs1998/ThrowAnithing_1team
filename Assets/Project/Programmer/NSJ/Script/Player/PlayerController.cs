@@ -227,8 +227,6 @@ public class PlayerController : MonoBehaviour, IHit
         if (Time.timeScale == 0)
             return;
 
-        Debug.Log(InputKey.GetActionMap());
-
         _states[(int)CurState].Update();
 
         CheckAnyState();

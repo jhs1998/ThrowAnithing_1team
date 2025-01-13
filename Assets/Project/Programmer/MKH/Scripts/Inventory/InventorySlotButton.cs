@@ -7,10 +7,10 @@ public class InventorySlotButton : BaseUI, ISelectHandler
 {
     [SerializeField] bool _isFirstSelect;
 
-    [SerializeField] private InventoryController _controller;
+     private InventoryController _controller;
 
-    [SerializeField] private Button _button;
-    [SerializeField] private GameObject _outline;
+     private Button _button;
+     private GameObject _outline;
      
     private void Awake()
     {
@@ -27,8 +27,11 @@ public class InventorySlotButton : BaseUI, ISelectHandler
             EventSystem.current.SetSelectedGameObject(gameObject);
         }
     }
+    private void Update()
+    {
+    }
     public void OnSelect(BaseEventData eventData)
-    {   
+    {
         _controller.ChangeSelectButton(_button);
     }
 }
