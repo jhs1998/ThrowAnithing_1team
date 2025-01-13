@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Berserker", menuName = "AdditionalEffect/Player/Berserker")]
 public class BerserkerAdditional : PlayerAdditional
 {
+
     [Header("공격력 증가량(%)")]
     [SerializeField] private float _increaseDamage;
     [Header("공격 당 체력 감소 량(%)")]

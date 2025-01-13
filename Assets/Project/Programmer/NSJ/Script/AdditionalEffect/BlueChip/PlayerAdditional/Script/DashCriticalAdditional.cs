@@ -4,7 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DashCritical", menuName = "AdditionalEffect/Player/DashCritical")]
 public class DashCriticalAdditional : PlayerAdditional
 {
-
     [Header("치명타 증가량(%)")]
     [SerializeField] private float _increaseCritical;
     [Header("크리티걸 공격 횟수")]

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Poison")]
 public class PoizonAdditional : HitAdditional
 {
+
     [System.Serializable]
     struct EffectStrcut
     {

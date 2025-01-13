@@ -8,6 +8,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TripleShot",menuName = "AdditionalEffect/PrevThrow/TripleShot")]
 public class TripleShot : ThrowAdditional
 {
+
     [Range(0, 90)][SerializeField] private float _angle;
 
      public bool CanTripleShot = true;

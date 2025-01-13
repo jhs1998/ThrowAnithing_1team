@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TheortOfRelativity", menuName = "AdditionalEffect/Player/TheortOfRelativity")]
 public class TheortOfRelativityAdditional : PlayerAdditional
 {
+
     [System.Serializable]
     struct EffectStrcut
     {
