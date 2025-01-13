@@ -4,8 +4,6 @@ namespace MKH
 {
     public class BlueChipPanel : BlueChipBase
     {
-        [SerializeField] GameObject inventory;
-
         new private void Awake()
         {
             base.Awake();
