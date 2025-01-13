@@ -812,7 +812,6 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void ChackInput()
     {
-        Debug.Log(InputKey.GetAxis(InputKey.Move));
         Vector2 inputDir = InputKey.GetAxis(InputKey.Move);
         MoveDir = new Vector3(inputDir.x, 0, inputDir.y);
 
