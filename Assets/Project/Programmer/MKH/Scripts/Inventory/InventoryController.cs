@@ -159,7 +159,7 @@ namespace MKH
             if (inventory.activeSelf && !blueChipPanel.activeSelf)
             {
                 // 아이템 장착
-                if (InputKey.GetButtonDown("InventoryEquip"))
+                if (InputKey.GetButtonDown(InputKey.Choice))
                 {
                     // 인벤토리
                     if (index >= 9)
@@ -179,7 +179,7 @@ namespace MKH
                 }
 
                 // 아이템 분해
-                if (InputKey.GetButtonDown("Decomposition"))
+                if (InputKey.GetButtonDown(InputKey.Break))
                 {
                     // 인벤토리
                     if (index >= 9)
