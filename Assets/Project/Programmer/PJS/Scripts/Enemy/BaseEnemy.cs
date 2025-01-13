@@ -117,10 +117,10 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     {
         if(type == CrowdControlType.Stun)
         {
+            tree.SetVariableValue("Stun", type == CrowdControlType.Stun);
             tree.SetVariableValue("StunTime", 2f);  // TODO : 스턴시간 매개변수 들어오면 변경
         }
         tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
-        tree.SetVariableValue("Stun", type == CrowdControlType.Stun);
     }
     /// <summary>
     /// 반경 내 폭발 데미지 부여
