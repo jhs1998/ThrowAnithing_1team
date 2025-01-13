@@ -3279,6 +3279,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PotalInteractable
       objectReference: {fileID: 0}
+    - target: {fileID: 2167712660138130995, guid: 5b4463ea995303c42841ea4d73aa3435, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5493945795141601852, guid: 5b4463ea995303c42841ea4d73aa3435, type: 3}
       propertyPath: m_LocalPosition.x
       value: 326.07
@@ -11586,6 +11590,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 161331594}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1755322755
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5175213023658918289, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_Name
+      value: Interactable Door (Random Box)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 326.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 300.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
 --- !u!1 &1757911399
 GameObject:
   m_ObjectHideFlags: 0
@@ -12133,6 +12194,10 @@ PrefabInstance:
     - target: {fileID: 5175213023658918289, guid: 3570a71103fcda841a2efdc26edae821, type: 3}
       propertyPath: m_Name
       value: Interactable Object (Random Box)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175213023658918289, guid: 3570a71103fcda841a2efdc26edae821, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8347094986426226432, guid: 3570a71103fcda841a2efdc26edae821, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13632,5 +13697,6 @@ SceneRoots:
   - {fileID: 62636049}
   - {fileID: 102852225}
   - {fileID: 1856814344}
-  - {fileID: 397068448}
   - {fileID: 1894677680}
+  - {fileID: 397068448}
+  - {fileID: 1755322755}
