@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class NewMainScene : BaseUI
 {
+    PlayerInput playerInput;
     MainSceneBinding binding;
     
     //버튼들
@@ -26,6 +28,11 @@ public class NewMainScene : BaseUI
     private void OnEnable()
     {
     }
+
+    private void OnDisable()
+    {
+        
+    }
     void Start()
     {
         EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
@@ -35,6 +42,11 @@ public class NewMainScene : BaseUI
     {
         binding.ButtonFirstSelect(continueButton.gameObject);
         binding.SelectedButtonHighlight(buttons);
+
+        if (playerInput.actions["Choice"].WasPressedThisFrame())
+        {
+            EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
+        }
     }
 
 
@@ -67,7 +79,7 @@ public class NewMainScene : BaseUI
     {
         binding = GetComponentInParent<MainSceneBinding>();
 
-
+        playerInput = GameObject.FindWithTag("InputKey").GetComponent<PlayerInput>();
 
         //버튼 바인딩 및 버튼 주입
         buttons.Add(continueButton = GetUI<Button>("Continue"));

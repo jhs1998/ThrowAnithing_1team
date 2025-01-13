@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -91,6 +92,7 @@ public class NewOption : BaseUI
     //코루틴
     Coroutine firstCo;
 
+    [SerializeField] NewPause pausePanel;
 
     private void Awake()
     {
@@ -100,11 +102,19 @@ public class NewOption : BaseUI
 
     private void OnEnable()
     {
+        firstCo = null;
         //Todo : 자연스럽게 처리해야함
         binding.ButtonFirstSelect(gamePlayButton.gameObject);
         //현재 선택된 버튼 없을 때, 첫번째 버튼 설정
         if (firstCo == null)
             firstCo = StartCoroutine(FirstRoutine());
+    }
+
+    private void OnDisable()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        pausePanel.RestoreButton();
+        
     }
 
     void Start()
@@ -118,6 +128,7 @@ public class NewOption : BaseUI
     {
         while (true)
         {
+            Debug.Log("첫번째 버튼 선택되는중");
             binding.ButtonFirstSelect(gamePlayButton.gameObject);
             yield return 0.1f.GetDelay();
         }
@@ -215,6 +226,14 @@ public class NewOption : BaseUI
         curDepth = 0;
     }
 
+    public void ExitButton_Pause()
+    {   firstCo = null;
+        curDepth = 0;
+        
+        
+        gameObject.SetActive(false);
+    }
+
     public void MinimapAct()
     {
         actChecked.SetActive(!actChecked.activeSelf);
@@ -229,7 +248,10 @@ public class NewOption : BaseUI
         curDepth = 1;
     }
 
-    //적용, 취소, 초기화 했을때 버튼 색상 초기화
+    /// <summary>
+    /// 적용, 취소, 초기화 했을때 버튼 색상 초기화
+    /// </summary>
+    /// <param name="list"></param>
     void ButtonReset(List<Button> list)
     {
         for (int i = 0; i < list.Count; i++)
@@ -249,6 +271,8 @@ public class NewOption : BaseUI
 
         ButtonReset(gameplayButtons);
 
+        EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
+
 
         curDepth = 0;
     }
@@ -266,6 +290,8 @@ public class NewOption : BaseUI
 
         ButtonReset(gameplayButtons);
 
+        EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
+
         curDepth = 0;
     }
 
@@ -278,6 +304,8 @@ public class NewOption : BaseUI
         preFix = setting.miniMapFixBool;
 
         ButtonReset(gameplayButtons);
+
+        EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
 
         curDepth = 0;
     }
@@ -294,6 +322,7 @@ public class NewOption : BaseUI
 
         ButtonReset(gameplayButtons);
 
+        EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
         curDepth = 0;
     }
 
@@ -312,6 +341,8 @@ public class NewOption : BaseUI
 
         ButtonReset(soundButtons);
 
+        EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
+
         curDepth = 0;
     }
 
@@ -322,6 +353,8 @@ public class NewOption : BaseUI
         //setting.effectSound = defaultEffect;
 
         ButtonReset(soundButtons);
+
+        EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
 
         curDepth = 0;
     }
@@ -360,7 +393,13 @@ public class NewOption : BaseUI
         gamePlayButton.onClick.AddListener(GamePlayButton);
         soundButton.onClick.AddListener(SoundButton);
         inputButton.onClick.AddListener(InputButton);
-        exitButton.onClick.AddListener(ExitButton);
+
+
+        // 메인씬일 경우와 포즈 > 옵션인 경우 구분
+        if(SceneManager.GetActiveScene().name == SceneName.MainScene)
+            exitButton.onClick.AddListener(ExitButton);
+        else
+            exitButton.onClick.AddListener(ExitButton_Pause);
 
         minimapAct.onClick.AddListener(MinimapAct);
         minimapFix.onClick.AddListener(MinimapFix);
