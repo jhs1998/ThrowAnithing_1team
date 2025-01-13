@@ -1,7 +1,6 @@
 using BehaviorDesigner.Runtime;
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -20,6 +19,8 @@ public class State
 [RequireComponent(typeof(BattleSystem))]
 public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 {
+    public enum MonsterType { Nomal, Mutant, Elite, SubBoss, Boss}
+    public MonsterType curMonsterType;
     [SerializeField] protected BehaviorTree tree;
 
     [Header("몬스터 기본 스테이터스")]
