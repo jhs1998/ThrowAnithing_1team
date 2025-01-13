@@ -5,7 +5,7 @@ public class IsStun : Conditional
 {
     private BossEnemy enemy;
 
-    public override void OnStart()
+    public override void OnAwake()
     {
         enemy = GetComponent<BossEnemy>();
     }
