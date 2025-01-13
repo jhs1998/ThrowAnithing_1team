@@ -64,7 +64,6 @@ namespace MKH
                             break;
                         case 3:
                             createitem.mEffect.AttackSpeed = (float)data[rate]["공속"];
-                            Debug.Log(createitem.mEffect.AttackSpeed);
                             createitem.Description += $"\n공격속도 + {(createitem.mEffect.AttackSpeed * 100f).ToString()}%";
 
                             break;
