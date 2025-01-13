@@ -14,10 +14,11 @@ public class LSH_Teleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        int randomNum = Random.Range(1, 100);
-
+        
         if (other.tag == "PortalHidden")
         {
+            int randomNum = Random.Range(1, 100);
+
             //멀티 씬 로딩, LoadSceneMode.Additive
             PortalSceneNumber portalSceneNumber = other.GetComponent<PortalSceneNumber>();
             //randomHiddenRoom = portalSceneNumber.hiddenSceneArr[Random.Range(0, portalSceneNumber.hiddenSceneArr.Length)];
@@ -66,16 +67,15 @@ public class LSH_Teleport : MonoBehaviour
                 //변수 false로 바꿈
                 isSceneAdditive = false;
 
-
             }
             //스테이지 이동할때
             else
             {
 
                 //직접 씬 이동, LoadSceneMode.Single
-                nextStage = other.GetComponent<PortalSceneNumber>().nextScene;
-                SceneManager.LoadScene(nextStage);
-
+                //nextStage = other.GetComponent<PortalSceneNumber>().nextScene;
+                //SceneManager.LoadScene(nextStage);
+                ToStage._ToStage();
 
 
             }

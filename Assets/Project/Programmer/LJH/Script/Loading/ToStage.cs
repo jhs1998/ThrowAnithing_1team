@@ -7,8 +7,6 @@ public class ToStage : MonoBehaviour
 {
     public static void _ToStage()
     {
-        LoadingToBase.LoadScene(SceneName.LobbyScene);
-
         if (SceneManager.GetActiveScene().name == SceneName.LobbyScene)
         {
             Loading.LoadScene(SceneName.Stage1_1);

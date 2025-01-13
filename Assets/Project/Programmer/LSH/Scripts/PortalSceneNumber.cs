@@ -1,3 +1,4 @@
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,15 +8,17 @@ public class PortalSceneNumber : MonoBehaviour
     [SerializeField] public SceneField nextScene;
     [SerializeField] public SceneField[] hiddenSceneArr;
 
-    [SerializeField] GameObject[] inventory;
-
-    private void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        for(int i = 0; i < inventory.Length; i++)
-            inventory[i].SetActive(false);
-
-        ToStage._ToStage();
+        if(other.gameObject.tag == Tag.Player)
+        {
+            StartCoroutine(DeleteRoutine());
+        }   
     }
 
-
+    IEnumerator DeleteRoutine()
+    {
+        yield return 3f.GetDelay();
+        Destroy(gameObject);
+    }
 }
