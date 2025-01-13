@@ -95,7 +95,6 @@ namespace MKH
             if (InputKey.GetButtonDown(InputKey.Inventory))
             {
                 _BlueChipPanel.SetActive(true);
-                InputKey.SetActionMap(ActionMap.UI);
             }
         }
 
@@ -107,7 +106,6 @@ namespace MKH
             if (InputKey.GetButtonDown(InputKey.PopUpClose))
             {
                 _BlueChipPanel.SetActive(false);
-                InputKey.SetActionMap(ActionMap.GamePlay);
             }
         }
     }

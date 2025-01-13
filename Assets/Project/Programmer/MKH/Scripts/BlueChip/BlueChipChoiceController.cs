@@ -22,13 +22,13 @@ namespace MKH
         {
             get
             {
-                if (_player == null)
+                if (m_player == null)
                 {
-                    _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                    m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
                 }
-                return _player;
+                return m_player;
             }
-            set { _player = value; }
+            set { m_player = value; }
         }
 
         private void Awake()
