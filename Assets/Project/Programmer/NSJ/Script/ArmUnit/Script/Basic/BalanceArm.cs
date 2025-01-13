@@ -13,4 +13,10 @@ public class BalanceArm : ArmUnit
             View.SetBool(PlayerView.Parameter.OnBuff, value);
         }
     }
+
+    public override void Init(PlayerController player)
+    {
+        base.Init(player);
+        Model.NowWeapon = GlobalGameData.AmWeapon.Balance;
+    }
 }

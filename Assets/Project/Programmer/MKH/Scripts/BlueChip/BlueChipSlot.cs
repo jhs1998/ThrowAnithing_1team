@@ -12,6 +12,9 @@ namespace MKH
         private AdditionalEffect mEffect;
         public AdditionalEffect Effect { get { return mEffect; }  set { mEffect = value; } }
 
+        private int listIndex;
+        public int ListIndex { get { return listIndex; } set { listIndex = value; } }
+
         [Header("슬롯에 있는 UI 오브젝트")]
         [SerializeField] private Image mEffectImage;
         [SerializeField] TMP_Text nameText;

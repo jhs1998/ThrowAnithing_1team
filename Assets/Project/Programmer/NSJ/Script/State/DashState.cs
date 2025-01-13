@@ -26,8 +26,6 @@ public class DashState : PlayerState
     }
     public override void Enter()
     {
-        Player.Collider.isTrigger = true;
-
         _isDashEnd = false;
 
         _startPos = transform.position;
@@ -69,7 +67,6 @@ public class DashState : PlayerState
         {
             ChangeState(PlayerController.State.Idle);
         }
-
         _armEffect.transform.SetParent(null);
 
     }
@@ -99,7 +96,6 @@ public class DashState : PlayerState
     private void EndDash()
     {
         _isDashEnd = true;
-        Player.Collider.isTrigger = false;
         View.SetTrigger(PlayerView.Parameter.DashEnd);
         //Rb.velocity = transform.forward * Model.MoveSpeed;
         CoroutineHandler.StartRoutine(DashEndRoutine());

@@ -313,14 +313,14 @@ public class Option_GamePlay : Main_Option
 
     void Init()
     {
-        // buttons = new GameObject[4, 4];
+        // slots = new GameObject[4, 4];
         //
-        // buttons[1, 0] = miniMapAct = GetUI("Activate");
-        // buttons[2, 0] = miniMapFix = GetUI("Fixed");
-        // buttons[3, 0] = languageDrop = GetUI("Language");
-        // buttons[0, 1] = GetUI("AcceptButton_gameplay");
-        // buttons[0, 2] = GetUI("CancelButton_gameplay");
-        // buttons[0, 3] = GetUI("DefaultButton_gameplay");
+        // slots[1, 0] = miniMapAct = GetUI("Activate");
+        // slots[2, 0] = miniMapFix = GetUI("Fixed");
+        // slots[3, 0] = languageDrop = GetUI("Language");
+        // slots[0, 1] = GetUI("AcceptButton_gameplay");
+        // slots[0, 2] = GetUI("CancelButton_gameplay");
+        // slots[0, 3] = GetUI("DefaultButton_gameplay");
 
         gamePlayButtons.Add(GetUI<Button>("Activate"));
         gamePlayButtons.Add(GetUI<Button>("Fixed"));

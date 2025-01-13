@@ -21,23 +21,16 @@ namespace NSJ_TesterPanel
                     if (_canvas.activeSelf == true)
                     {
                         _canvas.SetActive(false);
-                        InputKey.ChangeActionMap(ActionMap.GamePlay);
+                        InputKey.SetActionMap(ActionMap.GamePlay);
                         Time.timeScale = 1f;
                     }
-                    else if (_canvas.activeSelf == false && Time.timeScale != 0)
+                    else if (_canvas.activeSelf == false)
                     {
+                        if (InputKey.GetActionMap() == ActionMap.UI)
+                            return;
                         _canvas.SetActive(true);
-                        InputKey.ChangeActionMap(ActionMap.UI);
+                        InputKey.SetActionMap(ActionMap.UI);
                         Time.timeScale = 0f;
-                    }
-
-                });
-            this.UpdateAsObservable()
-                .Subscribe(x =>
-                {
-                    if (_canvas.activeSelf == true && Time.timeScale != 0)
-                    {
-                        _canvas.SetActive(false);
                     }
                 });
         }
