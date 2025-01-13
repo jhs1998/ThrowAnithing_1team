@@ -387,8 +387,8 @@ public class InputKey : MonoBehaviour
     private static Dictionary<Action, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
     private  List<InputStruct> m_inputStructs = new List<InputStruct>();
     private static List<InputStruct> _inputStructs { get { return Instance.m_inputStructs; } }
-    private PlayerInput m_playerInput;
-    private static PlayerInput _playerInput { get { return Instance.m_playerInput; } }
+    private  PlayerInput m_playerInput;
+    public static PlayerInput _playerInput { get { return Instance.m_playerInput; } }
 
     private void Awake()
     {

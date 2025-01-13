@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -100,6 +101,8 @@ public class NewOption : BaseUI
 
     private void OnEnable()
     {
+        firstCo = null;
+        EventSystem.current.SetSelectedGameObject(null);
         //Todo : 자연스럽게 처리해야함
         binding.ButtonFirstSelect(gamePlayButton.gameObject);
         //현재 선택된 버튼 없을 때, 첫번째 버튼 설정
@@ -213,6 +216,12 @@ public class NewOption : BaseUI
         firstCo = null;
         binding.CanvasChange(binding.mainCanvas.gameObject, gameObject);
         curDepth = 0;
+    }
+
+    public void ExitButton_Pause()
+    {   firstCo = null;
+        curDepth = 0;
+        gameObject.SetActive(false);
     }
 
     public void MinimapAct()
@@ -360,7 +369,13 @@ public class NewOption : BaseUI
         gamePlayButton.onClick.AddListener(GamePlayButton);
         soundButton.onClick.AddListener(SoundButton);
         inputButton.onClick.AddListener(InputButton);
-        exitButton.onClick.AddListener(ExitButton);
+
+
+        // 메인씬일 경우와 포즈 > 옵션인 경우 구분
+        if(SceneManager.GetActiveScene().name == SceneName.MainScene)
+            exitButton.onClick.AddListener(ExitButton);
+        else
+            exitButton.onClick.AddListener(ExitButton_Pause);
 
         minimapAct.onClick.AddListener(MinimapAct);
         minimapFix.onClick.AddListener(MinimapFix);

@@ -9,14 +9,10 @@ using UnityEngine.UI;
 public class MainSceneBinding : BaseUI
 {
     //캔버스들
-    /*[SerializeField]*/
-    public Canvas mainCanvas;
-    /*[SerializeField]*/
-    public Canvas continueCanvas;
-    /*[SerializeField]*/
-    public Canvas newCanvas;
-    /*[SerializeField]*/
-    public Canvas optionCanvas;
+    [HideInInspector] public Canvas mainCanvas;
+    [HideInInspector] public Canvas continueCanvas;
+    [HideInInspector] public Canvas newCanvas;
+    [HideInInspector] public Canvas optionCanvas;
 
 
     private void Awake()
@@ -35,7 +31,11 @@ public class MainSceneBinding : BaseUI
 
     }
 
-    //캔버스 교체 함수
+    /// <summary>
+    /// 캔버스 교체 함수
+    /// </summary>
+    /// <param name="loadCanvas">불러올 캔버스</param>
+    /// <param name="curCanvas">꺼줄 캔버스(현재 켜져있는 캔버스)</param>
     public void CanvasChange(GameObject loadCanvas, GameObject curCanvas)
     {
 
@@ -44,7 +44,10 @@ public class MainSceneBinding : BaseUI
         curCanvas.SetActive(false);
     }
 
-    //선택된 버튼 색상 변경
+    /// <summary>
+    /// 선택된 버튼 색상 변경
+    /// </summary>
+    /// <param name="buttons">포커싱된 버튼 배열</param>
     public void SelectedButtonHighlight(List<Button> buttons)
     {
         if (EventSystem.current.currentSelectedGameObject != null)
@@ -74,19 +77,16 @@ public class MainSceneBinding : BaseUI
             }
     }
 
-    // 페이지 진입시 초기 버튼 선택
+    /// <summary>
+    /// 페이지 진입시 초기 버튼 선택
+    /// </summary>
+    /// <param name="firstButton">포커싱된 버튼 리스트의 첫번째 버튼</param>
     public void ButtonFirstSelect(GameObject firstButton)
     {
-        Debug.Log(EventSystem.current.currentSelectedGameObject);
         if (EventSystem.current.currentSelectedGameObject == null)
         {
             EventSystem.current.SetSelectedGameObject(firstButton);
         }
-
-        // if(!EventSystem.current.currentSelectedGameObject.activeSelf)
-        // {
-        //     EventSystem.current.SetSelectedGameObject(firstButton);
-        // }
     }
 
     void Init()

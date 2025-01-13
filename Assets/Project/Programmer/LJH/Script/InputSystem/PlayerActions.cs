@@ -137,9 +137,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Open_Settings"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""7b329410-e3de-421f-a2b9-2e94b70f360e"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -149,7 +149,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""f9d6c28c-afba-409b-805c-c555e06f2569"",
                     ""expectedControlType"": ""Button"",
-
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
