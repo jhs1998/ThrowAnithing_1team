@@ -11,6 +11,7 @@ namespace MKH
         public GameObject particle1;
         public DropItemTable dropTable;
         private GameObject obj;
+        public GameObject blueChip;
 
         private void Start()
         {
@@ -19,9 +20,14 @@ namespace MKH
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.F1))
             {
                 StartCoroutine(Drop());
+            }
+
+            if(Input.GetKeyDown(KeyCode.F2))
+            {
+                BlueChip();
             }
         }
 
@@ -59,6 +65,11 @@ namespace MKH
             yield return new WaitForSeconds(10f);
             End();
 
+        }
+
+        private void BlueChip()
+        {
+            Instantiate(blueChip, transform.position, Quaternion.identity);
         }
     }
 
