@@ -19,16 +19,34 @@ namespace MKH
         [SerializeField] BlueChipChoicePanel blueChipChoicePanel;
         [SerializeField] BlueChipList blueChipList;
         int popUpChoice;
-        PlayerController _player;
+        PlayerController m_player;
+        PlayerController _player
+        {
+            get
+            {
+                if (m_player == null)
+                {
+                    m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                }
+                return m_player;
+            }
+            set { m_player = value; }
+        }
 
         private void Awake()
         {
-            _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            
+        }
+
+        public void Update()
+        {
+
         }
 
         public void Canecel()
         {
-            gameObject.SetActive(false);
+            CloseUI();
+
             blueChipPanel = playerData.Inventory.BlueChipPanel;
             blueChipChoicePanel = playerData.Inventory.BlueChipChoicePanel;
         }
@@ -44,8 +62,8 @@ namespace MKH
                     _player.AddAdditional(blueChipChoicePanel.choiceSlots[number].Effect);
                     blueChipChoicePanel.blueChipList.RemoveAt(blueChipChoicePanel.choiceSlots[number].ListIndex);
 
-                    gameObject.SetActive(false);
 
+                    CloseUI();
                     return;
                 }
                 else if (blueChipPanel.mSlots[0].Effect != null
@@ -90,6 +108,12 @@ namespace MKH
             errorPopUp.SetActive(true);
             yield return 1f.GetDelay();
             errorPopUp.SetActive(false);
+        }
+        private void CloseUI()
+        {
+            InputKey.SetActionMap(ActionMap.GamePlay);
+            gameObject.SetActive(false);
+
         }
     }
 }

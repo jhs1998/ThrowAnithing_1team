@@ -146,10 +146,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""InvenOpen"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""f9d6c28c-afba-409b-805c-c555e06f2569"",
-                    ""expectedControlType"": ""Button"",
-
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -977,6 +976,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InvenOpen"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""fdd960f9-03ed-4090-bf4c-447d59013b52"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1276,6 +1284,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""ScrollWheel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76052609-c10e-4b3c-878e-e62270f40184"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""InvenOpen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""73e7e706-8406-4ca5-8851-ff44f0a1db8e"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Console"",
+                    ""action"": ""InvenOpen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1338,6 +1368,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
+        m_UI_InvenOpen = m_UI.FindAction("InvenOpen", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -1572,6 +1603,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_Point;
     private readonly InputAction m_UI_ScrollWheel;
+    private readonly InputAction m_UI_InvenOpen;
     public struct UIActions
     {
         private @PlayerActions m_Wrapper;
@@ -1585,6 +1617,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputAction @Point => m_Wrapper.m_UI_Point;
         public InputAction @ScrollWheel => m_Wrapper.m_UI_ScrollWheel;
+        public InputAction @InvenOpen => m_Wrapper.m_UI_InvenOpen;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1621,6 +1654,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @ScrollWheel.started += instance.OnScrollWheel;
             @ScrollWheel.performed += instance.OnScrollWheel;
             @ScrollWheel.canceled += instance.OnScrollWheel;
+            @InvenOpen.started += instance.OnInvenOpen;
+            @InvenOpen.performed += instance.OnInvenOpen;
+            @InvenOpen.canceled += instance.OnInvenOpen;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1652,6 +1688,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @ScrollWheel.started -= instance.OnScrollWheel;
             @ScrollWheel.performed -= instance.OnScrollWheel;
             @ScrollWheel.canceled -= instance.OnScrollWheel;
+            @InvenOpen.started -= instance.OnInvenOpen;
+            @InvenOpen.performed -= instance.OnInvenOpen;
+            @InvenOpen.canceled -= instance.OnInvenOpen;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1716,5 +1755,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnPoint(InputAction.CallbackContext context);
         void OnScrollWheel(InputAction.CallbackContext context);
+        void OnInvenOpen(InputAction.CallbackContext context);
     }
 }

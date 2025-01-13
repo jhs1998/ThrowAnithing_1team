@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -354,10 +355,11 @@ public class InputKey : MonoBehaviour
     #region ¿Œ«≤Ω√Ω∫≈€
     public enum Action
     {
-        Move, CameraMove, // Axis
-        MouseDelta, Jump, Throw, Special, Melee, LoakOn, LoakOff, Dash, Interaction, Drain, OpenSettings, InvenOpen, Cheat
+        Move, CameraMove, MouseDelta, // Axis
+        Jump, Throw, Special, Melee, LoakOn, LoakOff, Dash, Interaction, Drain, OpenSettings, InvenOpen, Cheat, //GamePlay
     } // None
     public enum Axis { None, Axis }
+ 
     public struct InputStruct
     {
         public Action Name;
@@ -366,6 +368,7 @@ public class InputKey : MonoBehaviour
         public bool CurPress;
         public Vector2 Vector;
     }
+    // GamePlay
     public static InputStruct Move;
     public static InputStruct CameraMove;
     public static InputStruct MouseDelta;
@@ -381,14 +384,18 @@ public class InputKey : MonoBehaviour
     public static InputStruct OpenSetting;
     public static InputStruct InvenOpen;
     public static InputStruct Cheat;
-
+    // UI
+    public static string InvenOpenUI;
+    public static string CancelUI;
+    public static string Choice;
+    public static string Break;
 
     private Dictionary<Action, InputStruct> m_inputStructDic = new Dictionary<Action, InputStruct>();
     private static Dictionary<Action, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
     private  List<InputStruct> m_inputStructs = new List<InputStruct>();
     private static List<InputStruct> _inputStructs { get { return Instance.m_inputStructs; } }
     private PlayerInput m_playerInput;
-    private static PlayerInput _playerInput { get { return Instance.m_playerInput; } }
+    public static PlayerInput PlayerInput { get { return Instance.m_playerInput; } }
 
     private void Awake()
     {
@@ -490,9 +497,13 @@ public class InputKey : MonoBehaviour
     }
 
 
-    public static void ChangeActionMap(string actionMap)
+    public static void SetActionMap(string actionMap)
     {
-        _playerInput.defaultActionMap = actionMap;
+        PlayerInput.defaultActionMap = actionMap;
+    }
+    public static string GetActionMap()
+    {
+        return PlayerInput.defaultActionMap;
     }
 
     private static void SetCurPress(InputStruct inputStruct, bool isPress)
