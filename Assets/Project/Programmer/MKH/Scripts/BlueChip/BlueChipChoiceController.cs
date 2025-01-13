@@ -115,5 +115,16 @@ namespace MKH
             gameObject.SetActive(false);
 
         }
+
+        public void ClearBlueChipForTester()
+        {
+            for(int i = 0; i < blueChipPanel. mSlots.Length; i++)
+            {
+                blueChipChoicePanel.blueChipList.Add(blueChipPanel.mSlots[i].Effect);
+                blueChipPanel.mSlots[i].ClearSlot();
+                blueChipChoicePanel.blueChipSlots[i].ClearSlot();
+            }
+
+        }
     }
 }

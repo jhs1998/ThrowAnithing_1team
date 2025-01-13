@@ -24,7 +24,14 @@ public class NSJBlueChip : MonoBehaviour
         if (other.gameObject.tag == Tag.Player)
         {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
-            player.AddAdditional(additionalEffect);
+            bool success = Inventory.Instance.BlueChipPanel.AcquireEffect(additionalEffect);
+
+            // 블루칩 플레이어 적용
+            if (success == true)
+            {
+                player.AddAdditional(additionalEffect);
+            }
+
             Destroy(gameObject);
         }   
     }
