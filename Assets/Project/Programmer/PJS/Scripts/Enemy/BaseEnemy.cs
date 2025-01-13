@@ -28,6 +28,9 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     [SerializeField] float reward;
     [Header("현재 체력")]
     [SerializeField] int curHp;
+    [Header("파티클's")]
+    [SerializeField] protected ParticleSystem stepMoveParticle;
+    [SerializeField] protected ParticleSystem dieParticle;
 
     [HideInInspector] float jumpPower;  // 점프력
 
@@ -56,6 +59,18 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         BaseInit();
     }
 
+    // 이동 애니메이션 이벤트
+    public void BeginStepMove()
+    {
+        stepMoveParticle.Play();
+    }
+
+    // 사망 애니메이션 이벤트
+    public void DeadMotion()
+    {
+        dieParticle.Play();
+    }
+
     public State GetState()
     {
         return state;
@@ -82,6 +97,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         tree.SetVariable("AttackDis", (SharedFloat)state.AttackDis);
         tree.SetVariable("Reward", (SharedFloat)reward);
     }
+
     public int TakeDamage(int damage, bool isIgnoreDef)
     {
         resultDamage = isIgnoreDef == true ? damage : damage - (int)state.Def;
@@ -115,7 +131,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
                 if (overLapCollider[i].gameObject.name.CompareTo("Boss") == 0)
                     continue;
 
-                hit.TakeDamage(damage);
+                hit.TakeDamage(damage, true);
             }
         }
     }
