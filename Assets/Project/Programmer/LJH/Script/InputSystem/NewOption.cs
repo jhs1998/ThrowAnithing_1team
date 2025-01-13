@@ -113,6 +113,8 @@ public class NewOption : BaseUI
     private void OnDisable()
     {
         EventSystem.current.SetSelectedGameObject(null);
+
+        if(pausePanel != null)
         pausePanel.RestoreButton();
         
     }
