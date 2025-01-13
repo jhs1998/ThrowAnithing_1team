@@ -22,9 +22,14 @@ public class TalkInteractable : MonoBehaviour
     private void Awake()
     {
         // PlayerInput 컴포넌트 가져오기
-        playerInput = GameObject.FindGameObjectWithTag("InputKey").GetComponent<PlayerInput>();
+        playerInput = GameObject.Find("InputManager").GetComponent<PlayerInput>();
+        if (playerInput == null )
+        {
+            Debug.Log("PlayerInput 못가져옴");
+        }
     }
 
+    // 충돌했을때 안내ui 출력
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Tag.Player))
@@ -33,40 +38,32 @@ public class TalkInteractable : MonoBehaviour
             isPlayerNearby = true;
         }
     }
-
+    // 나왔을때 안내 ui 비활성화
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(Tag.Player))
         {
             HidePopup();
-            HideDialogueUI();
             isPlayerNearby = false;
         }
     }
-    private void OnEnable()
+    // gameplay맵에서 Interaction액션이 실행될때
+    private void OnInteraction()
     {
-        // PlayerInput의 Action Map에 대한 이벤트 등록
-        playerInput.actions["Choice"].performed += OnChoicePerformed;
-    }
-    private void OnDisable()
-    {
-        // 이벤트 등록 해제
-        playerInput.actions["Choice"].performed -= OnChoicePerformed;
-    }
-
-    private void OnChoicePerformed(InputAction.CallbackContext context)
-    {
-        if (!isPlayerNearby)
-            return;
-
-        if (dialogueUI.activeSelf)
+        if(isPlayerNearby)
         {
-            HandleDialogueProgress();
-        }
-        else
-        {
-            ShowDialogueUI();
-            StartDialogue();
+            //map을 ui로 변경, 대화창 on
+            if (dialogueUI.activeSelf)
+            {
+                // 대화창이 열려있으면 대화 스킵
+                HandleDialogueProgress();
+            }
+            else
+            {
+                // 대화창이 닫혀있으면 대화창으로 열고 대화 시작
+                ShowDialogueUI();
+                StartDialogue();
+            }
         }
     }
 
