@@ -1106,7 +1106,6 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     {
         while (true)
         {
-            Debug.Log(InputKey.GetActionMap());
             if (InputKey.GetActionMap() == ActionMap.GamePlay)
             {
                 Cursor.lockState = CursorLockMode.Locked;
