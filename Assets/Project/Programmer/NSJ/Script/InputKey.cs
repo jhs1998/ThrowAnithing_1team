@@ -490,9 +490,13 @@ public class InputKey : MonoBehaviour
     }
 
 
-    public static void ChangeActionMap(string actionMap)
+    public static void SetActionMap(string actionMap)
     {
         _playerInput.defaultActionMap = actionMap;
+    }
+    public static string GetActionMap()
+    {
+        return _playerInput.defaultActionMap;
     }
 
     private static void SetCurPress(InputStruct inputStruct, bool isPress)

@@ -524,7 +524,6 @@ GameObject:
   - component: {fileID: 6720973357987853771}
   - component: {fileID: 6517004000285884623}
   - component: {fileID: 7910520815345278224}
-  - component: {fileID: 3199291388309994653}
   - component: {fileID: 1145048388065175752}
   - component: {fileID: 652033146449458977}
   m_Layer: 10
@@ -602,7 +601,7 @@ MonoBehaviour:
     CameraPos: {fileID: 4475608190294418112}
     CameraRotateAngle: 50
     MouseRotateSpeed: 0.1
-    StickRotateSpeed: 3
+    StickRotateSpeed: 1
     CameraHolder: {fileID: 8944618903180294510}
     IsVerticalCameraMove: 0
   _checkStruct:
@@ -627,7 +626,7 @@ MonoBehaviour:
     IsDead: 0
     IsStaminaCool: 0
     CanStaminaRecovery: 0
-    CantOperate: 0
+    CanOperate: 0
   OverLapColliders:
   - {fileID: 0}
   - {fileID: 0}
@@ -731,6 +730,7 @@ MonoBehaviour:
   - {fileID: 0}
   MoveDir: {x: 0, y: 0, z: 0}
   IsMouseVisible: 0
+  _allLayer: 0
 --- !u!114 &7144022000353682797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7d064cec16dca47b9d07860a6f1d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTest: 0
+  IsTest: 1
   Data:
     Data:
       Hp:
@@ -1045,21 +1045,6 @@ MonoBehaviour:
   choice: {fileID: 0}
   choicePanel: {fileID: 0}
   blueChipPanel: {fileID: 0}
---- !u!114 &3199291388309994653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4078535065578860198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a739510e17cf88743a7d1800ce2f0100, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Forge: {fileID: 0}
-  IsInteractableActive: 0
-  IsInteractive: 0
 --- !u!114 &1145048388065175752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4696,6 +4681,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7503216972077726637, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159128553362180131, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8802657354673361086, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}

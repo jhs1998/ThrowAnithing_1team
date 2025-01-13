@@ -15,15 +15,21 @@ namespace MKH
         [SerializeField] InventorySlot[] eqSlots;               // 장비 슬롯들
         [SerializeField] GameObject blueChipPanel;              // 블루칩 패널
 
+        [System.Serializable]
+        public struct SlotStruct
+        {
+            public Button Button;
+            public GameObject Outline;
+        }
         [Header("슬롯 버튼")]
-        [SerializeField] GameObject[] buttons;                  // 슬롯 버튼
+        [SerializeField] SlotStruct[] slots;                  // 슬롯 버튼
         int selectedButtonsIndex;                               // 슬롯 시작 위치
         int buttonCount;                                        // 슬롯 개수
         private bool axisInUse;                                 // 키 연속 조작 방지
 
-        [Header("슬롯 색")]
-        [SerializeField] Color HighlightedColor;                // 선택 슬롯 색
-        [SerializeField] Color color;                           // 미선택 슬롯 색
+        //[Header("슬롯 색")]
+        //[SerializeField] Color HighlightedColor;                // 선택 슬롯 색
+        //[SerializeField] Color color;                           // 미선택 슬롯 색
 
         [Header("아이템 설명")]
         [SerializeField] TMP_Text ivName;                       // 인벤토리 아이템 이름
@@ -43,7 +49,7 @@ namespace MKH
 
         private void Start()
         {
-            buttonCount = buttons.Length;
+            buttonCount = slots.Length;
             selectedButtonsIndex = 9;
         }
 
@@ -84,7 +90,7 @@ namespace MKH
                 // 오른쪽
                 else if (x > 0)
                 {
-                    if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
+                    if (selectedButtonsIndex < slots.Length - 1 && axisInUse == false)
                     {
                         axisInUse = true;
                         selectedButtonsIndex += 1;
@@ -102,7 +108,7 @@ namespace MKH
                 // 아래
                 else if (y < 0)
                 {
-                    if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
+                    if (selectedButtonsIndex < slots.Length - 3 && axisInUse == false)
                     {
                         axisInUse = true;
                         selectedButtonsIndex += 3;
@@ -116,18 +122,34 @@ namespace MKH
             }
 
             // 선택 슬롯 색 입히기
-            for (int i = 0; i < buttons.Length; i++)
+            //for (int i = 0; i < slots.Length; i++)
+            //{
+            //    if (i == selectedButtonsIndex)
+            //    {
+            //        slots[i].GetComponent<Image>().color = HighlightedColor;
+            //    }
+            //    else
+            //    {
+            //        slots[i].GetComponent<Image>().color = color;
+            //    }
+            //}
+        }
+        public void ChangeSelectButton(Button slot)
+        {
+            // 선택 슬롯 색 입히기
+            for (int i = 0; i < slots.Length; i++)
             {
-                if (i == selectedButtonsIndex)
+                if(slots[i].Button == slot)
                 {
-                    buttons[i].GetComponent<Image>().color = HighlightedColor;
+                    slots[i].Outline.SetActive(true);
                 }
                 else
                 {
-                    buttons[i].GetComponent<Image>().color = color;
+                    slots[i].Outline.SetActive(false);
                 }
             }
         }
+
         #endregion
 
         #region 아이템 버튼 조작
@@ -182,7 +204,7 @@ namespace MKH
         #region 아이템 정보
         private void Info()
         {
-            for (int i = 0; i < buttons.Length; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
                 if (i == selectedButtonsIndex)
                 {

@@ -33,7 +33,7 @@ public class RunState : PlayerState
 
     public override void TriggerCantOperate()
     {
-        if (Player.CantOperate == true)
+        if (Player.CanOperate == false)
         {
             ChangeState(PlayerController.State.Idle);
         }
