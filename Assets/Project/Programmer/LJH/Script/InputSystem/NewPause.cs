@@ -49,9 +49,6 @@ public class NewPause : BaseUI
 
     private void Update()
     {
-        if (optionPanel.activeSelf)
-            return;
-
         //퍼즈 열기
         if (playerInput.actions["Open_Settings"].WasPressedThisFrame())
         {
@@ -62,10 +59,12 @@ public class NewPause : BaseUI
             if (firstCo == null)
                 firstCo = StartCoroutine(FirstRoutine());
         }
-
-        SelectedSlotColorChange();
-
         ButtonMissClick();
+
+        if (!optionPanel.activeSelf)
+        {
+            SelectedSlotColorChange();
+        }
     }
 
     /// <summary>
@@ -139,10 +138,12 @@ public class NewPause : BaseUI
                 color.a = 0.1f;
                 SlotList[i].GetComponent<Image>().color = color;
             }
-            Debug.Log(EventSystem.current.currentSelectedGameObject);
-            color = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color;
-            color.a = 1f;
-            EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color = color;
+            foreach (Button slot in SlotList)
+            {
+                color = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color;
+                color.a = 1f;
+                EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color = color;
+            }
         }
     }
 
