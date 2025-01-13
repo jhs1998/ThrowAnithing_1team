@@ -185,7 +185,7 @@ public class NewPause : BaseUI
 
     void Init()
     {
-        playerInput = InputKey._playerInput;
+        playerInput = InputKey.PlayerInput;
         binding = GetComponent<MainSceneBinding>();
 
         pause = GetUI("pause");

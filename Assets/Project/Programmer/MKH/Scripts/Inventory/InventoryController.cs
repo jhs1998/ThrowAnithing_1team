@@ -6,6 +6,7 @@ using Zenject;
 
 namespace MKH
 {
+    [RequireComponent(typeof(SaveSystem))]
     public class InventoryController : MonoBehaviour
     {
         [Header("인벤토리 및 장비")]
@@ -179,7 +180,7 @@ namespace MKH
                 }
 
                 // 아이템 분해
-                if (InputKey.GetButtonDown(InputKey.Break))
+                if (InputKey.GetButtonDown("Decomposition"))
                 {
                     // 인벤토리
                     if (index >= 9)
@@ -216,7 +217,7 @@ namespace MKH
                             Debug.Log("분해 할 장비가 없습니다.");
                             return;
                         }
-                    }                  
+                    }
                 }
             }
         }

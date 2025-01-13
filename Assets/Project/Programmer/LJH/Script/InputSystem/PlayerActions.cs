@@ -148,7 +148,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""name"": ""InvenOpen"",
                     ""type"": ""Button"",
                     ""id"": ""f9d6c28c-afba-409b-805c-c555e06f2569"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
