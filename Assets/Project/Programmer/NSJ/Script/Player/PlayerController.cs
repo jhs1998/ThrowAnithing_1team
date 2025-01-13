@@ -13,7 +13,7 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
 [RequireComponent(typeof(BattleSystem))]
-public class PlayerController : MonoBehaviour, IHit
+public class PlayerController : MonoBehaviour, IHit, IHeal
 {
     [SerializeField] public PlayerEffectData Effect;
     [Inject]
@@ -298,6 +298,20 @@ public class PlayerController : MonoBehaviour, IHit
     {
         _states[(int)state].Exit();
         ExitStatePlayerAdditional();
+    }
+    /// <summary>
+    /// Èú ¹Þ±â
+    /// </summary>
+    /// <param name="healAmount"></param>
+    /// <returns></returns>
+    public int TakeHeal(int healAmount)
+    {
+        Model.CurHp += healAmount;
+
+        // TODO : Èú ÀÌÆåÆ®
+
+
+        return Model.CurHp;
     }
 
     /// <summary>
