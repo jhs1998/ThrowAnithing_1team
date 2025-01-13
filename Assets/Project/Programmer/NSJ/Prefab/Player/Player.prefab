@@ -614,7 +614,6 @@ MonoBehaviour:
   - {fileID: 0}
   MoveDir: {x: 0, y: 0, z: 0}
   IsMouseVisible: 0
-  _allLayer: 0
 --- !u!114 &1591834431303632029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1831,8 +1830,8 @@ MonoBehaviour:
   - {fileID: 3515141388202804622}
   - {fileID: 7988290026241215296}
   mainScene:
-    _sceneAsset: {fileID: 102900000, guid: 6927defe3930baf4f993898720ce4775, type: 3}
-    _sceneName: OldCombineJsonScene
+    _sceneAsset: {fileID: 102900000, guid: c8f366549c641ec4ca6727d5b585b49d, type: 3}
+    _sceneName: CombineJsonScene
   lobbyScene:
     _sceneAsset: {fileID: 102900000, guid: 52b94334dc86c6b42bc9d5084680bde2, type: 3}
     _sceneName: CombineLobbyScene
@@ -2447,6 +2446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2bb227863e894498899f9b07c192b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  continueButton: {fileID: 0}
 --- !u!114 &5892835917657191368
 MonoBehaviour:
   m_ObjectHideFlags: 0

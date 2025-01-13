@@ -10,15 +10,6 @@ public class PortalSceneNumber : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == Tag.Player)
-        {
-            StartCoroutine(DeleteRoutine());
-        }   
     }
 
-    IEnumerator DeleteRoutine()
-    {
-        yield return 3f.GetDelay();
-        Destroy(gameObject);
-    }
 }
