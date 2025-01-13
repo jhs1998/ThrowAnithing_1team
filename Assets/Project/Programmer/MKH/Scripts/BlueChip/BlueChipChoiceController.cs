@@ -17,6 +17,7 @@ namespace MKH
         [SerializeField] GameObject errorPopUp;
         [SerializeField] BlueChipPanel blueChipPanel;
         [SerializeField] BlueChipChoicePanel blueChipChoicePanel;
+        [SerializeField] BlueChipList blueChipList;
         int popUpChoice;
         PlayerController _player;
 
@@ -41,6 +42,7 @@ namespace MKH
                     blueChipPanel.mSlots[i].AddEffect(blueChipChoicePanel.choiceSlots[number].Effect);
                     blueChipChoicePanel.blueChipSlots[i].AddEffect(blueChipChoicePanel.choiceSlots[number].Effect);
                     _player.AddAdditional(blueChipChoicePanel.choiceSlots[number].Effect);
+                    blueChipChoicePanel.blueChipList.RemoveAt(blueChipChoicePanel.choiceSlots[number].ListIndex);
 
                     gameObject.SetActive(false);
 
@@ -69,6 +71,7 @@ namespace MKH
 
         public void Remove()
         {
+            blueChipChoicePanel.blueChipList.Add(blueChipPanel.mSlots[popUpChoice].Effect);
             _player.RemoveAdditional(blueChipPanel.mSlots[popUpChoice].Effect);
             blueChipPanel.mSlots[popUpChoice].ClearSlot();
             blueChipChoicePanel.blueChipSlots[popUpChoice].ClearSlot();

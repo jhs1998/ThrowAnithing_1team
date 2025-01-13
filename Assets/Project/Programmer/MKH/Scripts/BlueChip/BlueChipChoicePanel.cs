@@ -15,7 +15,9 @@ namespace MKH
         [SerializeField] GameObject choiceSlotsParnet;
         [SerializeField] public BlueChipSlot[] choiceSlots;
 
-        [SerializeField] BlueChipList blueChipList;
+        [SerializeField] BlueChipList blueChip;
+
+        [SerializeField] public List<AdditionalEffect> blueChipList;
 
         private void OnEnable()
         {
@@ -27,6 +29,7 @@ namespace MKH
         {
             blueChipSlots = blueChipSlotsParent.GetComponentsInChildren<BlueChipSlot>();
             choiceSlots = choiceSlotsParnet.GetComponentsInChildren<BlueChipSlot>();
+            blueChipList = new List<AdditionalEffect>(blueChip.blueChipList);
             Setting();
         }
 
@@ -55,11 +58,33 @@ namespace MKH
 
         public void RandomBlueChip()
         {
+            List<AdditionalEffect> list = new List<AdditionalEffect>(blueChipList);
+            int[] prevIndex = new int[3];
+            int count = 0;
             for (int i = 0; i < choiceSlots.Length; i++)
             {
-                AdditionalEffect effect = blueChipList[Random.Range(0, blueChipList.Count)];
+                int index = Random.Range(0, list.Count);
+                AdditionalEffect effect = list[index];
                 choiceSlots[i].AddEffect(effect);
-                Debug.Log(effect.Name);
+                prevIndex[i] = index;
+                list.RemoveAt(index);
+                if (i != 0)
+                {
+                    if (prevIndex[i - 1] <= index)
+                    {
+                        count++;
+                        choiceSlots[i].ListIndex = index + count;
+                        prevIndex[i] = prevIndex[i - 1];
+                    }
+                    else
+                    {
+                        choiceSlots[i].ListIndex = index;
+                    }
+                }
+                else
+                {
+                    choiceSlots[i].ListIndex = index;
+                }
             }
         }
     }
