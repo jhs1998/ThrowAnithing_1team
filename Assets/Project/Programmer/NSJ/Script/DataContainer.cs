@@ -163,9 +163,9 @@ public class DataContainer : MonoBehaviour
         ObjectPool.ReturnPool(startEffect);
         GameObject dropPrefab = dropList.itemList[Random.Range(0, dropList.Count)];
         GameObject obj = Instantiate(dropPrefab, pos + new Vector3(0, 1, 0), Quaternion.identity);
-        if (dropPrefab != null)
+        yield return Instance._destroyItemTime.GetDelay();
+        if (obj != null)
         {
-            yield return Instance._destroyItemTime.GetDelay();
             Destroy(obj);
             GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
             yield return 0.5f.GetDelay();

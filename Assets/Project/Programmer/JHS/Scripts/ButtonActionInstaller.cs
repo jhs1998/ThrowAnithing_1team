@@ -44,7 +44,7 @@ public class ButtonActionInstaller : MonoBehaviour
         {
             setting.OptionLoad();
             SensitivityBar.ResetCameraSpeed();
-            languageChoce.CancellLanguage();
+            //languageChoce.CancellLanguage();
             MinimapOn.gameObject.SetActive(setting.miniMapOnBool);
             MiniMapFixOn.gameObject.SetActive(setting.miniMapFixBool);
         });
@@ -52,7 +52,7 @@ public class ButtonActionInstaller : MonoBehaviour
         {
             setting.OptionReset(1); // OptionReset1 실행
             SensitivityBar.ResetCameraSpeed();
-            languageChoce.ReturnLanguage();
+            //languageChoce.ReturnLanguage();
             MinimapOn.gameObject.SetActive(setting.miniMapOnBool);
             MiniMapFixOn.gameObject.SetActive(setting.miniMapFixBool);
         });
