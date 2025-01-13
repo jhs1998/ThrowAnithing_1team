@@ -208,6 +208,11 @@ public class PlayerController : MonoBehaviour, IHit
         ChangeArmUnit(Model.NowWeapon);
         StartCoroutine(ControlMousePointer());
         //Camera.main.transform.SetParent(_cameraPos, true);
+
+        InputKey.SetActionMap(ActionMap.GamePlay);
+
+
+
         EnterState(CurState);
     }
 

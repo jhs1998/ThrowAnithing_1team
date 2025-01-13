@@ -13,6 +13,8 @@ public class InventorySlotButton : BaseUI, ISelectHandler
     private InventorySlot _slot;
     private Button _button;
 
+
+    private bool _isfirstIgnore;
     private void Awake()
     {
         Bind();
@@ -23,6 +25,13 @@ public class InventorySlotButton : BaseUI, ISelectHandler
     }
     private void OnEnable()
     {
+        if(_isFirstSelect == false)
+        {
+            _isFirstSelect = true;
+            return;
+        }
+            
+
         if (_isFirstSelect == true)
         {
             EventSystem.current.SetSelectedGameObject(gameObject);
