@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MKH
@@ -46,13 +47,19 @@ namespace MKH
             selectedButtonsIndex = 9;
         }
 
+        private void OnEnable()
+        {
+
+        }
+
+
         private void Update()
         {
             if (inventory.activeSelf == false)
                 return;
 
             //ButtonsControl();               // 키 조작
-            //Use(selectedButtonsIndex);      // 키 버튼 조작
+            Use(selectedButtonsIndex);      // 키 버튼 조작
             Info();                         // 아이템 정보
         }
 
