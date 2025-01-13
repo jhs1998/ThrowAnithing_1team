@@ -14,27 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   _charges:
-  - DropObject: {fileID: 1887274978761638612, guid: b039c65b9deec084e9a7df6990a42ca8, type: 3}
-    DropSize: {x: 0.5, y: 0.5, z: 0.5}
-    ChargeTime: 0.75
+  - ChargeTime: 0.75
     ChargeMana: 30
     ObjectCount: 3
     AttackOffset: {x: 2.5, y: 0, z: 2.5}
     Radius: 2
     Damage: 75
     KnockBackDistance: 0
-  - DropObject: {fileID: 3542836536086573354, guid: 3d282a29ec5223b4b8dba552c7047c21, type: 3}
-    DropSize: {x: 0.75, y: 0.75, z: 0.75}
-    ChargeTime: 1.75
+  - ChargeTime: 1.75
     ChargeMana: 70
     ObjectCount: 7
     AttackOffset: {x: 3.5, y: 0, z: 3.5}
     Radius: 3
     Damage: 150
     KnockBackDistance: 0
-  - DropObject: {fileID: 3234903913943514994, guid: bc1d41eeffe7e6c43ae2c4a76fcf020a, type: 3}
-    DropSize: {x: 1, y: 1, z: 1}
-    ChargeTime: 2.5
+  - ChargeTime: 2.5
     ChargeMana: 100
     ObjectCount: 10
     AttackOffset: {x: 4.5, y: 0, z: 4.5}
@@ -43,3 +37,16 @@ MonoBehaviour:
     KnockBackDistance: 4
   _specialRange: {fileID: 3800436430851435593, guid: de000bd3b6192cc4d9a97f4f952cbe26, type: 3}
   _moveSpeedMultyPlier: 0.3
+  _effect:
+    Effects:
+    - DropObject: {fileID: 1887274978761638612, guid: b039c65b9deec084e9a7df6990a42ca8, type: 3}
+      DropSize: {x: 0.3, y: 0.3, z: 0.3}
+      ChargeEffect: {fileID: 2666987530771428612, guid: 812b96a8a7ae9c44aa6fe0ae34435130, type: 3}
+    - DropObject: {fileID: 3542836536086573354, guid: 3d282a29ec5223b4b8dba552c7047c21, type: 3}
+      DropSize: {x: 0.6, y: 0.6, z: 0.6}
+      ChargeEffect: {fileID: 3131504231603907193, guid: ee7ad29560b375d4197991dcbb63171c, type: 3}
+    - DropObject: {fileID: 3234903913943514994, guid: bc1d41eeffe7e6c43ae2c4a76fcf020a, type: 3}
+      DropSize: {x: 0.9, y: 0.9, z: 0.9}
+      ChargeEffect: {fileID: 6968367475162185451, guid: 95a6905492ebe224d98ab84fea6c93a4, type: 3}
+    Attack: {fileID: 351015941532955685, guid: b277ad10ee33c8b469848ac8629433c6, type: 3}
+    FullCharge: {fileID: 4209552378194245133, guid: 19df109d5c482b84db8e06523142e9f9, type: 3}

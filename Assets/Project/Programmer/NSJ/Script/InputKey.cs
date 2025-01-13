@@ -49,10 +49,6 @@ public class InputKey : MonoBehaviour
     /// </summary>
     public static InputManagerStruct Inventory;
     /// <summary>
-    /// F1 , ?
-    /// </summary>
-    public static InputManagerStruct Cheat;
-    /// <summary>
     ///  MouseWheel , ?
     /// </summary>
     public static InputManagerStruct Mouse_ScrollWheel;
@@ -84,7 +80,6 @@ public class InputKey : MonoBehaviour
         PrevInteraction = IGetInputStruct("Interaction", AxisInputManager.None);
         Cancel = IGetInputStruct("Cancel", AxisInputManager.None);
         Inventory = IGetInputStruct("Inventory", AxisInputManager.AxisDown);
-        Cheat = IGetInputStruct("Cheat", AxisInputManager.None);
         Mouse_ScrollWheel = IGetInputStruct("Mouse ScrollWheel", AxisInputManager.None);
         Decomposition = IGetInputStruct("Decomposition", AxisInputManager.None);
         InventoryEquip = IGetInputStruct("InventoryEquip", AxisInputManager.None);
@@ -360,7 +355,7 @@ public class InputKey : MonoBehaviour
     public enum Action
     {
         Move, CameraMove, // Axis
-        MouseDelta, Jump, Throw, Special, Melee, LoakOn, LoakOff, Dash, Interaction, Drain, OpenSettings, InvenOpen
+        MouseDelta, Jump, Throw, Special, Melee, LoakOn, LoakOff, Dash, Interaction, Drain, OpenSettings, InvenOpen, Cheat
     } // None
     public enum Axis { None, Axis }
     public struct InputStruct
@@ -385,19 +380,23 @@ public class InputKey : MonoBehaviour
     public static InputStruct Drain;
     public static InputStruct OpenSetting;
     public static InputStruct InvenOpen;
+    public static InputStruct Cheat;
 
 
     private Dictionary<Action, InputStruct> m_inputStructDic = new Dictionary<Action, InputStruct>();
     private static Dictionary<Action, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
     private  List<InputStruct> m_inputStructs = new List<InputStruct>();
     private static List<InputStruct> _inputStructs { get { return Instance.m_inputStructs; } }
-
+    private PlayerInput m_playerInput;
+    private static PlayerInput _playerInput { get { return Instance.m_playerInput; } }
 
     private void Awake()
     {
         if(InitSingleTon() ==false) return;
         Init();
         InitInputManager();
+
+        m_playerInput = GetComponent<PlayerInput>();
     }
     private bool InitSingleTon()
     {
@@ -431,6 +430,7 @@ public class InputKey : MonoBehaviour
         Drain = GetInputStruct(Action.Drain, Axis.None);
         OpenSetting = GetInputStruct(Action.OpenSettings, Axis.None);
         InvenOpen = GetInputStruct(Action.InvenOpen, Axis.None);
+        Cheat = GetInputStruct(Action.Cheat, Axis.None);
     }
 
     private void LateUpdate()
@@ -487,6 +487,12 @@ public class InputKey : MonoBehaviour
             return default;
 
         return _inputStructDic[inputStruct.Name].Vector;
+    }
+
+
+    public static void ChangeActionMap(string actionMap)
+    {
+        _playerInput.defaultActionMap = actionMap;
     }
 
     private static void SetCurPress(InputStruct inputStruct, bool isPress)
@@ -597,6 +603,10 @@ public class InputKey : MonoBehaviour
     private void OnInvenOpen(InputValue value)
     {
         ProcessInput(value, InvenOpen);
+    }
+    private void OnCheat(InputValue value)
+    {
+        ProcessInput(value, Cheat);
     }
     #endregion
 }

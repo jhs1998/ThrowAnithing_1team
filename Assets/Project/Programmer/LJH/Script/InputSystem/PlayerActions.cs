@@ -152,6 +152,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cheat"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""02d13bbd-acd7-4a1a-8825-7180962fc600"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -858,6 +867,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""MouseDelta"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5eb2a4cc-35dc-44a4-a025-7ae734dec595"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""Cheat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7355870-6589-422b-a0bb-a00c9dd87a37"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Console"",
+                    ""action"": ""Cheat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -897,6 +928,51 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""edfc42ac-59fc-4854-a821-01e4e8096670"",
                     ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""26ad9544-c70a-491b-9586-8930043e92ae"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MiddleClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""442d43a1-6c2d-4d04-a4e4-0c8a10c9a78f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f2a9c96-9e3c-4938-857e-d6fa793d0d89"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Point"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""6b6bf95d-30da-4f32-8512-1430c458a49e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ScrollWheel"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""386d2d58-ff35-4e91-a274-ee23e6e2372b"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -1144,6 +1220,61 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe92202d-9fb7-439a-9697-99f2ed4f9144"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""LeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4810632-d5bc-43b0-9720-120c1a99a284"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""MiddleClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0092155-7340-4f05-94db-9c8c3f5acd43"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5fbcd8c-5f43-4d13-bb46-449ab7afbc41"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76cbdbcb-3da4-4ddc-9a64-b38e42ff173c"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollWheel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1194,12 +1325,18 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Gameplay_Drain = m_Gameplay.FindAction("Drain", throwIfNotFound: true);
         m_Gameplay_Open_Settings = m_Gameplay.FindAction("Open_Settings", throwIfNotFound: true);
         m_Gameplay_InvenOpen = m_Gameplay.FindAction("InvenOpen", throwIfNotFound: true);
+        m_Gameplay_Cheat = m_Gameplay.FindAction("Cheat", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
         m_UI_Choice = m_UI.FindAction("Choice", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         m_UI_Break = m_UI.FindAction("Break", throwIfNotFound: true);
+        m_UI_LeftClick = m_UI.FindAction("LeftClick", throwIfNotFound: true);
+        m_UI_MiddleClick = m_UI.FindAction("MiddleClick", throwIfNotFound: true);
+        m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
+        m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
+        m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -1281,6 +1418,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Drain;
     private readonly InputAction m_Gameplay_Open_Settings;
     private readonly InputAction m_Gameplay_InvenOpen;
+    private readonly InputAction m_Gameplay_Cheat;
     public struct GameplayActions
     {
         private @PlayerActions m_Wrapper;
@@ -1299,6 +1437,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Drain => m_Wrapper.m_Gameplay_Drain;
         public InputAction @Open_Settings => m_Wrapper.m_Gameplay_Open_Settings;
         public InputAction @InvenOpen => m_Wrapper.m_Gameplay_InvenOpen;
+        public InputAction @Cheat => m_Wrapper.m_Gameplay_Cheat;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1350,6 +1489,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @InvenOpen.started += instance.OnInvenOpen;
             @InvenOpen.performed += instance.OnInvenOpen;
             @InvenOpen.canceled += instance.OnInvenOpen;
+            @Cheat.started += instance.OnCheat;
+            @Cheat.performed += instance.OnCheat;
+            @Cheat.canceled += instance.OnCheat;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -1396,6 +1538,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @InvenOpen.started -= instance.OnInvenOpen;
             @InvenOpen.performed -= instance.OnInvenOpen;
             @InvenOpen.canceled -= instance.OnInvenOpen;
+            @Cheat.started -= instance.OnCheat;
+            @Cheat.performed -= instance.OnCheat;
+            @Cheat.canceled -= instance.OnCheat;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1421,6 +1566,11 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Choice;
     private readonly InputAction m_UI_Cancel;
     private readonly InputAction m_UI_Break;
+    private readonly InputAction m_UI_LeftClick;
+    private readonly InputAction m_UI_MiddleClick;
+    private readonly InputAction m_UI_RightClick;
+    private readonly InputAction m_UI_Point;
+    private readonly InputAction m_UI_ScrollWheel;
     public struct UIActions
     {
         private @PlayerActions m_Wrapper;
@@ -1429,6 +1579,11 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Choice => m_Wrapper.m_UI_Choice;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
         public InputAction @Break => m_Wrapper.m_UI_Break;
+        public InputAction @LeftClick => m_Wrapper.m_UI_LeftClick;
+        public InputAction @MiddleClick => m_Wrapper.m_UI_MiddleClick;
+        public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
+        public InputAction @Point => m_Wrapper.m_UI_Point;
+        public InputAction @ScrollWheel => m_Wrapper.m_UI_ScrollWheel;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1450,6 +1605,21 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Break.started += instance.OnBreak;
             @Break.performed += instance.OnBreak;
             @Break.canceled += instance.OnBreak;
+            @LeftClick.started += instance.OnLeftClick;
+            @LeftClick.performed += instance.OnLeftClick;
+            @LeftClick.canceled += instance.OnLeftClick;
+            @MiddleClick.started += instance.OnMiddleClick;
+            @MiddleClick.performed += instance.OnMiddleClick;
+            @MiddleClick.canceled += instance.OnMiddleClick;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
+            @Point.started += instance.OnPoint;
+            @Point.performed += instance.OnPoint;
+            @Point.canceled += instance.OnPoint;
+            @ScrollWheel.started += instance.OnScrollWheel;
+            @ScrollWheel.performed += instance.OnScrollWheel;
+            @ScrollWheel.canceled += instance.OnScrollWheel;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1466,6 +1636,21 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Break.started -= instance.OnBreak;
             @Break.performed -= instance.OnBreak;
             @Break.canceled -= instance.OnBreak;
+            @LeftClick.started -= instance.OnLeftClick;
+            @LeftClick.performed -= instance.OnLeftClick;
+            @LeftClick.canceled -= instance.OnLeftClick;
+            @MiddleClick.started -= instance.OnMiddleClick;
+            @MiddleClick.performed -= instance.OnMiddleClick;
+            @MiddleClick.canceled -= instance.OnMiddleClick;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
+            @Point.started -= instance.OnPoint;
+            @Point.performed -= instance.OnPoint;
+            @Point.canceled -= instance.OnPoint;
+            @ScrollWheel.started -= instance.OnScrollWheel;
+            @ScrollWheel.performed -= instance.OnScrollWheel;
+            @ScrollWheel.canceled -= instance.OnScrollWheel;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1517,6 +1702,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnDrain(InputAction.CallbackContext context);
         void OnOpen_Settings(InputAction.CallbackContext context);
         void OnInvenOpen(InputAction.CallbackContext context);
+        void OnCheat(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1524,5 +1710,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnChoice(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnBreak(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
+        void OnMiddleClick(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
+        void OnPoint(InputAction.CallbackContext context);
+        void OnScrollWheel(InputAction.CallbackContext context);
     }
 }

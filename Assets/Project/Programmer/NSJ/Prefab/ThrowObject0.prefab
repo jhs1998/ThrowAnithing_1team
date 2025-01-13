@@ -49,15 +49,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c5715a614ebe74491cd63f3c26ec63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Effect:
+    Hit: {fileID: 5397974634871304801, guid: 78e92bfd708f80048ae3df2eb9790443, type: 3}
   Data:
     ID: 1
     Name: "\uCEA1\uC290"
   CanAttack: 0
   ThrowAdditionals: []
   ObjectDamage: 30
+  PlayerDamage: 0
+  DamageMultyPlier: 0
   Radius: 0
+  CCType: 0
   KnockBackDistance: 0
   SpecialRecovery: 0
+  IsClone: 0
+  ChainList: []
+  IsChainHit: 0
+  IgnoreTargets: []
   Rb: {fileID: 0}
 --- !u!33 &5049256860418601447
 MeshFilter:

@@ -14,14 +14,24 @@ public class SpecialObject : ThrowObject
     // Æø¹ß µ¥¹ÌÁö, ¹üÀ§ ÇÊµå
     private ExplosionStruct _explosion;
     [System.Serializable]
-    struct EffectStruct
+    new struct EffectStruct
     {
         public GameObject EffectPrefab;
+        public GameObject ThrowTailEffectPrefab;
+        [HideInInspector]public GameObject ThrowTailEffect;
     }
-    // Æø¹ß ÀÌÆåÆ® ÇÊµå
+    // ÀÌÆåÆ® ÇÊµå
     [SerializeField] private EffectStruct _effect;
 
     private List<Transform> MiddleHittargets = new List<Transform>();
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        // ÀÌÆåÆ® »ý¼º
+        _effect.ThrowTailEffect = ObjectPool.GetPool(_effect.ThrowTailEffectPrefab,transform);
+    }
+
     protected override void OnCollisionEnter(Collision collision)
     {
         // ¶¥¿¡ ´ê¾Æµµ Æø¹ß
@@ -30,6 +40,7 @@ public class SpecialObject : ThrowObject
 
     protected override void OnDisable()
     {
+
         ProcessExplosion();
         base.OnDisable();
     }
@@ -52,6 +63,9 @@ public class SpecialObject : ThrowObject
     {
         if (CanAttack == false)
             return;
+        // ²¿¸® ÀÌÆåÆ® Á¦°Å
+        _effect.ThrowTailEffect.transform.SetParent(null);
+        ObjectPool.ReturnPool(_effect.ThrowTailEffect, 0.5f);
         ObjectPool.ReturnPool(gameObject);
     }
 
@@ -86,16 +100,8 @@ public class SpecialObject : ThrowObject
             Battle.TargetAttack(Player.OverLapColliders[i], isCritical, finalDamage);
             Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
         }
-        CoroutineHandler.StartRoutine(CreateExplosionEffect());
-    }
-    /// <summary>
-    /// ÀÌÆåÆ® ·çÆ¾
-    /// </summary>
-    IEnumerator CreateExplosionEffect()
-    {
-        GameObject effect = ObjectPool.GetPool(_effect.EffectPrefab, transform.position, transform.rotation);
-        yield return 1f.GetDelay();
-        ObjectPool.ReturnPool(effect);
+
+        ObjectPool.GetPool(_effect.EffectPrefab, transform.position, transform.rotation, 1f);
     }
 
     #region Æ¯¼öÈ¿°ú

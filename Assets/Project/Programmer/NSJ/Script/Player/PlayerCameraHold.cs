@@ -96,7 +96,7 @@ public class PlayerCameraHold : MonoBehaviour
     /// <summary>
     /// 적 타겟팅
     /// </summary>
-    private void SetTargetList()
+    private bool SetTargetList()
     {
         // 플레이어가 앞을 바라봄
         //Player.LookAtCameraFoward();
@@ -126,7 +126,7 @@ public class PlayerCameraHold : MonoBehaviour
         if (_targetList.Count <= 0)
         {
             gameObject.SetActive(false);
-            return;
+            return false;
         }
         // 타겟을 거리순으로 정렬
         _targetList.Sort((a, b) => a.Distance.CompareTo(b.Distance));
@@ -138,6 +138,7 @@ public class PlayerCameraHold : MonoBehaviour
         {
             _checkDistanceToTarget = StartCoroutine(CheckDistanceToTarget());
         }
+        return true;
     }
 
     //TargetInfo 설정
@@ -176,8 +177,17 @@ public class PlayerCameraHold : MonoBehaviour
             yield return null;
             if (_player.IsTargetToggle == true && InputKey.GetButtonDown(InputKey.LoakOn))
             {
+                // 현재 인덱스 임시 저장
+                int tempIndex = _targetIndex;
+
+                // 리스트를 비운 후, 다시 전방의 적을 재탐색한다
+                _targetList.Clear();
+                bool success = SetTargetList();
+                if (success == false)
+                    continue;
+
                 // 타겟 인덱스 올림
-                _targetIndex++;
+                _targetIndex = tempIndex + 1;
                 // 타겟 인덱스가 리스트 카운트값을 넘었다면 다시 처음부터
                 if (_targetIndex >= _targetList.Count)
                 {

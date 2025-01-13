@@ -3,6 +3,15 @@ using UnityEngine;
 
 public class ThrowObject : MonoBehaviour
 {
+    [System.Serializable]
+    protected partial struct EffectStruct
+    {
+        public GameObject Hit;
+    }
+    // 이펙트
+    [SerializeField] protected EffectStruct Effect;
+
+
     public ThrowObjectData Data;
     public bool CanAttack;
     [SerializeField] public List<ThrowAdditional> ThrowAdditionals = new List<ThrowAdditional>();
@@ -13,21 +22,29 @@ public class ThrowObject : MonoBehaviour
     [HideInInspector] public int PlayerDamage;
     public int Damage => ObjectDamage + PlayerDamage;
     // 데미지 배수
-    [HideInInspector] public float DamageMultyPlier;
+    public float DamageMultyPlier;
     [Space(10)]
     // 공격 범위(폭발식)
-    public float Radius;
+    [HideInInspector] public float Radius;
     // CC기 종류
-    public CrowdControlType CCType;
+    [HideInInspector] public CrowdControlType CCType;
     // 넉백거리
-    public float KnockBackDistance;
+    [HideInInspector] public float KnockBackDistance;
     // 스테미나 회복량
-    public float SpecialRecovery;
+    [HideInInspector] public float SpecialRecovery;
+    [Tooltip("클론형태의 투척물 인지?")]
+    public bool IsClone;
+    [Tooltip("본인에게서 파생된 모든 투척물(체인)")]
+    public List<ThrowObject> ChainList;
+    // 체인된것중에 하나라도 맞았는지?
+    public bool IsChainHit;
 
     public List<GameObject> IgnoreTargets = new List<GameObject>();
     protected Collider[] _overlapCollider = new Collider[20];
     protected PlayerController Player;
     protected BattleSystem Battle => Player.Battle;
+
+
 
     [HideInInspector] public Rigidbody Rb;
     protected Collider _collider;
@@ -42,11 +59,11 @@ public class ThrowObject : MonoBehaviour
         CanAttack = true;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
-        EnterThrowAdditional();
+
     }
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         Rb.velocity = Vector3.zero;
         _collider.isTrigger = true;
@@ -57,6 +74,11 @@ public class ThrowObject : MonoBehaviour
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
+        if (IsClone == true)
+        {
+            Destroy(gameObject);
+        }
+
         if (collision.gameObject.layer == Layer.Player)
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
@@ -80,13 +102,18 @@ public class ThrowObject : MonoBehaviour
 
             TriggerThrowAddtional();
             HitTarget();
-            Player.ThrowObjectResultCallback(true);
+            Player.ThrowObjectResultCallback(this, true);
+            SetChainHit(true);
+
+            RemoveChainList(this);
         }
         else if (tag != Tag.Player)
         {
             CanAttack = false;
             _collider.isTrigger = false;
-            Player.ThrowObjectResultCallback(false);
+            Player.ThrowObjectResultCallback(this, false);
+
+            RemoveChainList(this);
         }
     }
 
@@ -111,7 +138,7 @@ public class ThrowObject : MonoBehaviour
         FixedUpdateThrowAdditional();
     }
     #region Init
-    public void Init(PlayerController player,CrowdControlType CCType, List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player, CrowdControlType CCType, List<ThrowAdditional> throwAdditionals)
     {
         Player = player;
         Radius = player.Model.BoomRadius;
@@ -165,6 +192,10 @@ public class ThrowObject : MonoBehaviour
 
         // 플레이어 특수공격 자원 획득
         Player.Model.CurMana += SpecialRecovery;
+        // 이펙트 
+        ObjectPool.GetPool(Effect.Hit, transform.position, transform.rotation, 1.5f);
+
+
         Destroy(gameObject);
     }
 
@@ -242,6 +273,7 @@ public class ThrowObject : MonoBehaviour
                 ThrowAdditionals.Add(instance);
             }
         }
+        EnterThrowAdditional();
     }
     private void RemoveThrowAddtional(ThrowAdditional throwAdditional)
     {
@@ -255,6 +287,29 @@ public class ThrowObject : MonoBehaviour
         {
             RemoveThrowAddtional(ThrowAdditionals[i]);
         }
+    }
+
+    public void AddChainList(ThrowObject other)
+    {
+        if (ChainList.Count == 0)
+        {
+            ChainList.Add(this);
+        }
+        // 체인 리스트에 투척물 추가
+        ChainList.Add(other);
+        other.ChainList = ChainList;
+    }
+    private void SetChainHit(bool hitSuccess)
+    {
+        foreach (ThrowObject chainObject in ChainList)
+        {
+            chainObject.IsChainHit = hitSuccess;
+        }
+    }
+    private void RemoveChainList(ThrowObject throwObject)
+    {
+        if (ChainList.Contains(throwObject))
+            ChainList.Remove(throwObject);
     }
 }
 

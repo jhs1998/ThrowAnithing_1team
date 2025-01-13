@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -22,19 +21,33 @@ public class CoroutineHandler : MonoBehaviour
         return Instance.StartCoroutine(enumerator);
     }
 
+    public static Coroutine StartRoutine(Coroutine coroutine, IEnumerator enumerator)
+    {
+        if (coroutine == null)
+        {
+            return Instance.StartCoroutine(enumerator);
+        }
+        return null;
+    }
+
     /// <summary>
     /// 코루틴 중지
     /// </summary>
-    public static void StopRoutine(Coroutine enumerator)
+    public static Coroutine StopRoutine(Coroutine coroutine)
     {
-        Instance.StopCoroutine(enumerator);
+        if (coroutine != null)
+        {
+            Instance.StopCoroutine(coroutine);
+            coroutine = null;
+        }
+        return coroutine;
     }
 
 
 
     private void InitSingleTon()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             transform.SetParent(null);

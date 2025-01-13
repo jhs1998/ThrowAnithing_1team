@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Zenject;
+using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerModel))]
@@ -15,13 +16,12 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(BattleSystem))]
 public class PlayerController : MonoBehaviour, IHit
 {
-    [SerializeField] public Transform ArmPoint;
-    [SerializeField] public GameObject _lifeDrainPrefab;
+    [SerializeField] public PlayerEffectData Effect;
     [Inject]
     [HideInInspector] public OptionSetting setting;
-
     [HideInInspector] public PlayerModel Model;
     [HideInInspector] public PlayerView View;
+    [HideInInspector] public Collider Collider;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
     [HideInInspector] public PlayerInput input;
@@ -57,7 +57,21 @@ public class PlayerController : MonoBehaviour, IHit
     public event UnityAction<CrowdControlType> OnPlayerCCHitEvent;
     public event UnityAction OnPlayerHitActionEvent;
     public event UnityAction OnPlayerDieEvent;
-    public event UnityAction<bool> OnThrowObjectResult;
+    public event UnityAction<ThrowObject,bool> OnThrowObjectResult;
+    #endregion
+    #region 플레이어 포인트 관련 필드
+    [System.Serializable]
+    public struct PlayerPointStruct
+    {
+        public Transform RightArmPoint;
+        public Transform DashArmPoint;
+        public Transform DashFrontPoint;
+
+    }
+    [SerializeField] private PlayerPointStruct _points;
+    public Transform ArmPoint { get { return _points.RightArmPoint; } }
+    public Transform DashArmPoint { get { return _points.DashArmPoint; } }
+    public Transform DashFrountPoint { get { return _points.DashFrontPoint; } }
     #endregion
     #region 공격 관련 필드
     [System.Serializable]
@@ -167,9 +181,6 @@ public class PlayerController : MonoBehaviour, IHit
     public bool CanStaminaRecovery { get { return _boolField.CanStaminaRecovery; } set { _boolField.CanStaminaRecovery = value; } }
     public bool CantOperate { get { return _boolField.CantOperate; } set { _boolField.CantOperate = value; TriggerCantOperate(); } }
     #endregion
-
-    //TODO: 인스펙터 정리 필요
-    public GameObject DrainField;
 
     public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround = value; } }// 지면 접촉 여부
     public bool IsNearGround { get { return _checkStruct.IsNearGround; } set { _checkStruct.IsNearGround = value; } }
@@ -326,7 +337,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model.CurHp += drainAmount;
 
         if (drainAmount > 0)
-            StartCoroutine(CreateLifeDrainEffect());
+            ObjectPool.GetPool(Effect.LifeDrain, Battle.HitPoint.position.GetRandomPos(0.5f), transform.rotation, 1f);
     }
     /// <summary>
     /// 피해 흡혈(모델 피흡 + 추가 피흡)
@@ -337,22 +348,9 @@ public class PlayerController : MonoBehaviour, IHit
         Model.CurHp += drainAmount;
 
         if (drainAmount > 0)
-            StartCoroutine(CreateLifeDrainEffect());
+            ObjectPool.GetPool(Effect.LifeDrain, Battle.HitPoint.position.GetRandomPos(0.5f), transform.rotation, 1f);
     }
 
-    IEnumerator CreateLifeDrainEffect()
-    {
-        Vector3 pos = new Vector3(
-            Battle.HitPoint.position.x + Random.Range(-0.5f, 0.5f),
-              Battle.HitPoint.position.y + Random.Range(-0.5f, 0.5f),
-                Battle.HitPoint.position.z + Random.Range(-0.5f, 0.5f)
-            );
-        GameObject effect = ObjectPool.GetPool(_lifeDrainPrefab, pos, transform.rotation);
-        effect.transform.SetParent(transform, true);
-
-        yield return 1.5f.GetDelay();
-        ObjectPool.ReturnPool(effect);
-    }
     #endregion
     #region 플레이어 방향 처리
     public void LookAtAttackDir()
@@ -566,6 +564,24 @@ public class PlayerController : MonoBehaviour, IHit
                 break;
         }
     }
+    /// <summary>
+    /// 추가효과 모두 삭제
+    /// </summary>
+    public void ClearAdditional()
+    {
+        // 잠깐 저장해둘 리스트 생성
+        List<AdditionalEffect> tempList = new List<AdditionalEffect>(Model.AdditionalEffects.Count);
+        // 값 복사
+        foreach(AdditionalEffect additionalEffect in Model.AdditionalEffects)
+        {
+            tempList.Add(additionalEffect);
+        }
+        // 전부 삭제
+        foreach(AdditionalEffect additionalEffect in tempList)
+        {
+            RemoveAdditional(additionalEffect);
+        }
+    }
 
     public void EnterPlayerAdditional()
     {
@@ -734,7 +750,7 @@ public class PlayerController : MonoBehaviour, IHit
         int layerMask = 0;
         layerMask |= 1 << Layer.Wall;
         layerMask |= 1 << Layer.HideWall;
-        layerMask |= 1 << Layer.Monster;
+        //layerMask |= 1 << Layer.Monster;
         int hitCount = Physics.OverlapCapsuleNonAlloc(
             WallCheckPos.Foot.position,
             WallCheckPos.Head.position,
@@ -1169,6 +1185,7 @@ public class PlayerController : MonoBehaviour, IHit
         Model = GetComponent<PlayerModel>();
         View = GetComponent<PlayerView>();
         Rb = GetComponent<Rigidbody>();
+        Collider = GetComponent<Collider>();
         Battle = GetComponent<BattleSystem>();
         input = GetComponent<PlayerInput>();
     }
@@ -1222,9 +1239,9 @@ public class PlayerController : MonoBehaviour, IHit
     }
     #endregion
     #region 콜백
-    public void ThrowObjectResultCallback(bool successHit)
+    public void ThrowObjectResultCallback(ThrowObject throwObject,bool successHit)
     {
-        OnThrowObjectResult?.Invoke(successHit);
+        OnThrowObjectResult?.Invoke(throwObject,successHit);
     }
     private void TargetAttackCallback(int damage, bool isCritical)
     {

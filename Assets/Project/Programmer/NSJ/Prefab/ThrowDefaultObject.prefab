@@ -98,15 +98,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eae2e57723d30d40bd6af51472f00a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Effect:
+    Hit: {fileID: 7726990311458844011, guid: d0f64f5c51d02da4ba261f975f90e7a5, type: 3}
   Data:
     ID: 0
     Name: "\uAE30\uBCF8"
   CanAttack: 0
   ThrowAdditionals: []
   ObjectDamage: 10
+  PlayerDamage: 0
+  DamageMultyPlier: 0
   Radius: 0
+  CCType: 0
   KnockBackDistance: 0
   SpecialRecovery: 0
+  IsClone: 0
+  ChainList: []
+  IsChainHit: 0
+  IgnoreTargets: []
   Rb: {fileID: 0}
 --- !u!135 &7281686969587396630
 SphereCollider:

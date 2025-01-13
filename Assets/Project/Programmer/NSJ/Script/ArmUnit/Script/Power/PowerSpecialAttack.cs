@@ -5,10 +5,22 @@ using UnityEngine;
 public class PowerSpecialAttack : ArmSpecialAttack
 {
     [System.Serializable]
-    struct ChargeStruct
+    struct ChargeEffectStruct
     {
         public GameObject DropObject;
         public Vector3 DropSize;
+        public GameObject ChargeEffect;
+    }
+    [System.Serializable]
+    struct EffectStruct
+    {
+        public ChargeEffectStruct[] Effects;
+        public GameObject Attack;
+        public GameObject FullCharge;
+    }
+    [System.Serializable]
+    struct ChargeStruct
+    {
         public float ChargeTime;
         public float ChargeMana;
         public int ObjectCount;
@@ -20,11 +32,13 @@ public class PowerSpecialAttack : ArmSpecialAttack
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private GameObject _specialRange;
     [SerializeField] private float _moveSpeedMultyPlier;
-
+    [SerializeField] private EffectStruct _effect;
     private float _maxChargeTime => _charges[_charges.Length - 1].ChargeTime;
     private float _maxChargeMana => _charges[_charges.Length - 1].ChargeMana;
     private GameObject _instanceDropObject;
     private GameObject _instanceSpecialRange;
+
+    private GameObject _chargeEffect;
     private Vector3 _dropPos;
     Coroutine _chargeRoutine;
 
@@ -64,6 +78,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
             _chargeRoutine = null;
         }
 
+
         #region 공격에 소환했던 그래픽 오브젝트 삭제
         if (_instanceDropObject != null)
         {
@@ -72,6 +87,10 @@ public class PowerSpecialAttack : ArmSpecialAttack
         if (_instanceSpecialRange != null)
         {
             Destroy(_instanceSpecialRange);
+        }
+        if (_chargeEffect != null)
+        {
+            ObjectPool.ReturnPool(_chargeEffect);
         }
         #endregion
 
@@ -85,6 +104,10 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     public override void OnTrigger()
     {
+        if (_chargeEffect != null)
+        {
+            ObjectPool.ReturnPool(_chargeEffect);
+        }
         AttackSpecial();
     }
     public override void EndAnimation()
@@ -101,12 +124,13 @@ public class PowerSpecialAttack : ArmSpecialAttack
             if (InputKey.GetButtonUp(InputKey.Special))
             {
                 Model.SpecialChargeGage = 0;
+                #region  차지에 사용한 그래픽 정리
                 if (_instanceDropObject)
                 {
                     _instanceDropObject.transform.SetParent(Player.ArmPoint);
                 }
 
-
+                #endregion
                 if (_index != 0)
                 {
                     _index--;
@@ -162,6 +186,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
 
                     CreateSpecialRange();
 
+                    CreateChargeEffect();
                     _index++;
                 }
                 // 현재 특수자원량보다 차지량이 더 많은 경우
@@ -185,8 +210,8 @@ public class PowerSpecialAttack : ArmSpecialAttack
     {
         if (_instanceDropObject != null)
             Destroy(_instanceDropObject);
-        _instanceDropObject = Instantiate(_charges[_index].DropObject, Player.ArmPoint.position, transform.rotation);
-        _instanceDropObject.transform.localScale = _charges[_index].DropSize;
+        _instanceDropObject = Instantiate(_effect.Effects[_index].DropObject, Player.ArmPoint.position, transform.rotation);
+        _instanceDropObject.transform.localScale = _effect.Effects[_index].DropSize;
     }
     private void CreateSpecialRange()
     {
@@ -203,6 +228,15 @@ public class PowerSpecialAttack : ArmSpecialAttack
             _charges[_index].Radius * 2,
             _instanceSpecialRange.transform.localScale.y,
             _charges[_index].Radius * 2);
+    }
+
+    private void CreateChargeEffect()
+    {
+        if (_chargeEffect != null)
+        {
+            ObjectPool.ReturnPool(_chargeEffect);
+        }
+        _chargeEffect = ObjectPool.GetPool(_effect.Effects[_index].ChargeEffect, Player.ArmPoint);
     }
     private void AttackSpecial()
     {
@@ -225,6 +259,16 @@ public class PowerSpecialAttack : ArmSpecialAttack
         for (int i = 0; i < _charges[_index].ObjectCount; i++)
         {
             Model.PopThrowObject();
+        }
+
+        
+        // 타격지점 이펙트 생성
+        GameObject attackEffect = ObjectPool.GetPool(_effect.Attack, _dropPos, Quaternion.identity, 2f);
+        attackEffect.transform.localScale = Util.GetPos(_charges[_index].Radius/2);
+        // 풀차지는 추가 이펙트 생성
+        if (_index == _charges.Length - 1) 
+        {
+            ObjectPool.GetPool(_effect.FullCharge, _dropPos, Quaternion.identity, 2f);
         }
 
         Destroy(_instanceSpecialRange);

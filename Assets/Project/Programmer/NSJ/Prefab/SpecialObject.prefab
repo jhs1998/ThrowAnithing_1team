@@ -61,10 +61,15 @@ MonoBehaviour:
   CCType: 0
   KnockBackDistance: 0
   SpecialRecovery: 0
+  IsClone: 0
+  ChainList: []
+  IsChainHit: 0
   IgnoreTargets: []
   Rb: {fileID: 0}
   _effect:
-    EffectPrefab: {fileID: 3218498051256113208, guid: c2e46db609c8a2a479fc6722476d1fc6, type: 3}
+    EffectPrefab: {fileID: 4665112972394448487, guid: 3e576f522901ded4fb99c7e20f8f205d, type: 3}
+    ThrowTailEffectPrefab: {fileID: 1524933893864737398, guid: 6ec629254ce7b074f8b05bd7647e565b, type: 3}
+    ThrowTailEffect: {fileID: 0}
 --- !u!54 &-6673523925865548371
 Rigidbody:
   m_ObjectHideFlags: 0

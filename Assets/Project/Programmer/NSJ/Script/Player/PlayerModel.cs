@@ -586,7 +586,8 @@ public partial class PlayerData
     {
         get
         {
-            return Data.Move.MoveSpeed * (1 + EquipStatus.Speed) * (1 + MoveSpeedMultyplier / 100); // 기본 이동속도 * 장비 이동속도 * 이동속도 배율
+            float moveSpeedMultyplier = 1 + MoveSpeedMultyplier / 100 < 0 ? 0 : 1 + MoveSpeedMultyplier / 100;
+            return Data.Move.MoveSpeed * (1 + EquipStatus.Speed) * moveSpeedMultyplier; // 기본 이동속도 * 장비 이동속도 * 이동속도 배율
         }
         set
         {

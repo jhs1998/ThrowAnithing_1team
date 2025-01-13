@@ -21,11 +21,13 @@ namespace NSJ_TesterPanel
                     if (_canvas.activeSelf == true)
                     {
                         _canvas.SetActive(false);
+                        InputKey.ChangeActionMap(ActionMap.GamePlay);
                         Time.timeScale = 1f;
                     }
                     else if (_canvas.activeSelf == false && Time.timeScale != 0)
                     {
                         _canvas.SetActive(true);
+                        InputKey.ChangeActionMap(ActionMap.UI);
                         Time.timeScale = 0f;
                     }
 

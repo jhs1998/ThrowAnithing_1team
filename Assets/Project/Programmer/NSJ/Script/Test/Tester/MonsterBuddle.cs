@@ -4,6 +4,7 @@ using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace NSJ_TesterPanel
@@ -106,4 +107,5 @@ namespace NSJ_TesterPanel
             _buttons.Add(GetButtonStruct("DeleteButton"));
         }
     }
+
 }
