@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class NSJBlueChip : MonoBehaviour
 {
+
     [SerializeField] AdditionalEffect additionalEffect;
     [SerializeField] TMP_Text nameText;
 
@@ -29,7 +31,11 @@ public class NSJBlueChip : MonoBehaviour
             // 블루칩 플레이어 적용
             if (success == true)
             {
-                player.AddAdditional(additionalEffect);
+                Debug.Log(Inventory.Instance);
+                if( Inventory.Instance.BlueChipChoiceController.AddBlueChipForTester(additionalEffect, player.Model.AdditionalEffects.Count))
+                {
+                    player.AddAdditional(additionalEffect);
+                }              
             }
 
             Destroy(gameObject);

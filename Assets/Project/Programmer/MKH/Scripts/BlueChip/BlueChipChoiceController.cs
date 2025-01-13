@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -35,7 +34,7 @@ namespace MKH
 
         private void Awake()
         {
-            
+
         }
 
         public void Update()
@@ -118,13 +117,22 @@ namespace MKH
 
         public void ClearBlueChipForTester()
         {
-            for(int i = 0; i < blueChipPanel. mSlots.Length; i++)
+            for (int i = 0; i < blueChipPanel.mSlots.Length; i++)
             {
                 blueChipChoicePanel.blueChipList.Add(blueChipPanel.mSlots[i].Effect);
                 blueChipPanel.mSlots[i].ClearSlot();
                 blueChipChoicePanel.blueChipSlots[i].ClearSlot();
             }
+        }
+        public bool AddBlueChipForTester(AdditionalEffect effect, int index)
+        {
+            if (index >= blueChipPanel.mSlots.Length)
+                return false;
 
+
+            blueChipPanel.mSlots[index].AddEffect(effect);
+            blueChipChoicePanel.blueChipSlots[index].AddEffect(effect);
+            return true;
         }
     }
 }
