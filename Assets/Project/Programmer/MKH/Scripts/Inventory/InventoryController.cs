@@ -148,6 +148,7 @@ namespace MKH
                     slots[i].Outline.SetActive(false);
                 }
             }
+            Info();
         }
 
         #endregion
