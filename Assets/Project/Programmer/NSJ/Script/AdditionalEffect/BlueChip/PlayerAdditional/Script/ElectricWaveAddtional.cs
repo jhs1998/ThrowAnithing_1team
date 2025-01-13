@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ElectricWave", menuName = "AdditionalEffect/Player/ElectricWave")]
 public class ElectricWaveAddtional : PlayerAdditional
 {
+
     [System.Serializable]
     struct EffectStrcut
     {

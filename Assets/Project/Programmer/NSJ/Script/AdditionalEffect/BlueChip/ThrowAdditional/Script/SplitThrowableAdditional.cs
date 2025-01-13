@@ -2,6 +2,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SplitThrowable", menuName = "AdditionalEffect/PrevThrow/SplitThrowable")]
 public class SplitThrowableAdditional : ThrowAdditional
 {
+
     [Header("감소 피해량(%)")]
     [SerializeField] private float _reductionDamage;
     [Header("기존 오브젝트 대비 분열 오브젝트 크기(%)")]

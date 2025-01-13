@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ContinuousAttack", menuName = "AdditionalEffect/Player/ContinuousAttack")]
 public class ContinuousAttackAdditional : PlayerAdditional
 {
+
     [Header("공격력 증가량")]
     [SerializeField] private int _attackPower;
     [Header("지속시간")]

@@ -7,6 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Adrenaline", menuName = "AdditionalEffect/Player/Adrenaline")]
 public class AdrenalineAddtional : PlayerAdditional
 {
+
     [Header("공격력 증가량")]
     [SerializeField] private int _increaseDamage;
     [Header("최대 스택")]

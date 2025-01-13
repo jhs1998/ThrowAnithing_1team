@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CushionAttack", menuName = "AdditionalEffect/PrevThrow/CushionAttack")]
 public class CushionAttack : ThrowAdditional
 {
+
     [Header("Æ¨±è È½¼ö")]
     [SerializeField] int _maxCushionCount;
     [Header("Æ¨±è °Å¸®")]

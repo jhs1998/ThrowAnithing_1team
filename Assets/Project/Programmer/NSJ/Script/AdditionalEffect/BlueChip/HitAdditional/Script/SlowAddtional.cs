@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Slow", menuName = "AdditionalEffect/Hit/Slow")]
 public class SlowAddtional : HitAdditional
 {
+
     [System.Serializable]
     struct EffectStrcut
     {

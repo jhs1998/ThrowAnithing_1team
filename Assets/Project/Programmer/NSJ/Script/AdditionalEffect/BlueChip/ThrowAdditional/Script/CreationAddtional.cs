@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Creation", menuName = "AdditionalEffect/Player/Creation")]
 public class CreationAddtional : PlayerAdditional
 {
+
     [Header("È®·ü(%)")]
     [Range(0, 100)]
     [SerializeField] private float _probability;
