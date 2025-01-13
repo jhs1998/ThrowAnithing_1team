@@ -149,6 +149,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""f9d6c28c-afba-409b-805c-c555e06f2569"",
                     ""expectedControlType"": ""Button"",
+
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
