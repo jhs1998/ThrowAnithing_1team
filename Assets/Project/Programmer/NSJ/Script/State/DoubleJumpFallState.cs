@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DoubleJumpFallState : PlayerState
@@ -18,7 +17,6 @@ public class DoubleJumpFallState : PlayerState
         {
             View.SetTrigger(PlayerView.Parameter.DoubleJumpFall);
         }
-        Player.Collider.isTrigger = true;
         _inertia = new Vector3(Rb.velocity.x, Rb.velocity.y, Rb.velocity.z);
         if (_fallRoutine == null)
         {
@@ -39,7 +37,6 @@ public class DoubleJumpFallState : PlayerState
             CoroutineHandler.StopRoutine(_checkInputRoutine);
             _checkInputRoutine = null;
         }
-        Player.Collider.isTrigger = false;
     }
 
     public override void FixedUpdate()
@@ -49,7 +46,7 @@ public class DoubleJumpFallState : PlayerState
     public override void OnDrawGizmos()
     {
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1, Layer.EveryThing, QueryTriggerInteraction.Ignore))
         {
             Gizmos.DrawLine(CheckPos, hit.point);
             Gizmos.DrawWireSphere(CheckPos + Vector3.down * hit.distance, 0.3f);
@@ -90,7 +87,7 @@ public class DoubleJumpFallState : PlayerState
             if (Rb.velocity.y < 0)
             {
                 Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-                if (CheckIsNearGround() && Rb.velocity.y < 0)
+                if (Player.IsNearGround && Rb.velocity.y < 0)
                     break;
             }
             yield return 0.02f.GetDelay();
@@ -102,7 +99,6 @@ public class DoubleJumpFallState : PlayerState
             _checkInputRoutine = null;
         }
         // 착지 애니메이션 실행
-        Player.Collider.isTrigger = false;
         Player.IsDoubleJump = false;
         Player.IsJumpAttack = false;
         View.SetTrigger(PlayerView.Parameter.Landing);
@@ -141,13 +137,12 @@ public class DoubleJumpFallState : PlayerState
     private bool CheckIsNearGround()
     {
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
+        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f, Layer.EveryThing, QueryTriggerInteraction.Ignore))
         {
-            return true;
+            if (hit.transform.gameObject.layer != Layer.Monster)
+
+                return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 }

@@ -669,6 +669,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 지면 체크
     /// </summary>
+    [SerializeField] Layer.LayerEnum _allLayer;
     private void CheckGround()
     {
         // 살짝위에서 쏨
@@ -679,10 +680,27 @@ public class PlayerController : MonoBehaviour, IHit
             Vector3.down,
             out RaycastHit hit,
             0.4f,
-            Layer.GetLayerMaskEveryThing(),
+             Layer.EveryThing,
             QueryTriggerInteraction.Ignore))
         {
+            if(hit.transform.gameObject.layer == Layer.Monster)
+            {
+                IsGround = false;
+                Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, true);
+                return;
+            }
             IsGround = true;
+
+            if(CurState == State.Dash)
+            {
+                Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, true);
+            }
+            else
+            {
+                Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, false);
+            }
+
+          
             // 오를 수 있는 경사면 체크
             Vector3 normal = hit.normal;
             if (normal.y > 1 - _slopeAngle)
@@ -697,7 +715,7 @@ public class PlayerController : MonoBehaviour, IHit
         else
         {
             IsGround = false;
-            CanClimbSlope = false;
+            Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, true);
         }
     }
 
@@ -720,8 +738,21 @@ public class PlayerController : MonoBehaviour, IHit
     private void CheckIsNearGround()
     {
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
+        if (Physics.SphereCast(
+            CheckPos , 
+            0.3f, 
+            Vector3.down, 
+            out RaycastHit hit,
+            1f,
+            Layer.EveryThing,
+            QueryTriggerInteraction.Ignore))
         {
+            if (hit.transform.gameObject.layer == Layer.Monster)
+            {
+                IsNearGround = false;
+                return;
+            }
+
             IsNearGround = true;
         }
         else

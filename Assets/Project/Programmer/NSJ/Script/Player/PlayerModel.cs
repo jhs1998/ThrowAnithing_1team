@@ -648,7 +648,7 @@ public partial class PlayerData
     #endregion
     public float DrainLife { get { return Data.DrainLife; } set { Data.DrainLife = value; } }
     // ¾ÏÀ¯´Ö
-    public GlobalGameData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; Debug.Log($"{Data.NowWeapon}"); } }
+    public GlobalGameData.AmWeapon NowWeapon { get { return Data.NowWeapon; } set { Data.NowWeapon = value; } }
     public float EquipmentDropUpgrade { get { return Data.EquipmentDropUpgrade + (100 * EquipStatus.EquipRate); } set { Data.EquipmentDropUpgrade = value; } }
 
     [HideInInspector] public bool IsDead;
