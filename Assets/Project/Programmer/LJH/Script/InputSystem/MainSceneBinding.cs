@@ -58,8 +58,10 @@ public class MainSceneBinding : BaseUI
                 }
             }
     }
-
-    //선택된 슬롯 색상 변경
+    /// <summary>
+    /// 선택된 슬롯 색상 변경
+    /// </summary>
+    /// <param name ="slots">지금 쓰는 버튼 리스트</param>
     public void SelectedSlotHighlight(List<Button> slots)
     {
         if (EventSystem.current.currentSelectedGameObject != null)
@@ -75,6 +77,7 @@ public class MainSceneBinding : BaseUI
     // 페이지 진입시 초기 버튼 선택
     public void ButtonFirstSelect(GameObject firstButton)
     {
+        Debug.Log(EventSystem.current.currentSelectedGameObject);
         if (EventSystem.current.currentSelectedGameObject == null)
         {
             EventSystem.current.SetSelectedGameObject(firstButton);

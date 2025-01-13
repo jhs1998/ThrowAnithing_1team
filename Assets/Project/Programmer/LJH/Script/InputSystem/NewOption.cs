@@ -50,6 +50,10 @@ public class NewOption : BaseUI
     bool newFix;
     bool defaultFix;
 
+    float preSens;
+    float newSens;
+    float defaultSens;
+
     GameObject actChecked; //미니맵 활성화 체크 여부
     GameObject fixChecked; //미니맵   고정 체크 여부
 
@@ -65,11 +69,27 @@ public class NewOption : BaseUI
 
     List<Button> soundButtons = new();
 
+    //사운드 관리용
+
+    float preTotal;
+    float newTotal;
+    float defaultTotal;
+
+    float preBgm;
+    float newBgm;
+    float defaultBgm;
+
+    float preEffect;
+    float newEffect;
+    float defaultEffect;
+
+    //패널
     GameObject gameplayPannel;
     GameObject soundPannel;
     GameObject inputPannel;
 
-
+    //코루틴
+    Coroutine firstCo;
 
 
     private void Awake()
@@ -78,15 +98,36 @@ public class NewOption : BaseUI
         Init();
     }
 
+    private void OnEnable()
+    {
+        //Todo : 자연스럽게 처리해야함
+        binding.ButtonFirstSelect(gamePlayButton.gameObject);
+        //현재 선택된 버튼 없을 때, 첫번째 버튼 설정
+        if (firstCo == null)
+            firstCo = StartCoroutine(FirstRoutine());
+    }
+
     void Start()
     {
         //옵션창 열었을때 현재 버튼 목록 0으로 설정
         curDepth = 0;
+
+    }
+
+    IEnumerator FirstRoutine()
+    {
+        while (true)
+        {
+            binding.ButtonFirstSelect(gamePlayButton.gameObject);
+            yield return 0.1f.GetDelay();
+        }
     }
 
     void Update()
     {
-        binding.ButtonFirstSelect(gamePlayButton.gameObject);
+        if (EventSystem.current.currentSelectedGameObject == null)
+            return;
+
 
         DepthCal();
         curTabChecker(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
@@ -110,10 +151,13 @@ public class NewOption : BaseUI
                 break;
         }
     }
-
-    //현재 포커싱된 메뉴에 맞게 패널 체인지
+    /// <summary>
+    /// 현재 포커싱된 메뉴에 맞게 패널 체인지
+    /// </summary>
+    /// <param name="curButton">현재 선택된 버튼</param>
     void curTabChecker(Button curButton)
     {
+
         if (curDepth == 0)
         {
             if (curButton == gamePlayButton)
@@ -148,21 +192,25 @@ public class NewOption : BaseUI
     {
         StartCoroutine(SetSelectRoutine(minimapAct.gameObject));
         curDepth = 1;
+        firstCo = null;
     }
 
     public void SoundButton()
     {
         StartCoroutine(SetSelectRoutine(totalVolume.gameObject));
         curDepth = 2;
+        firstCo = null;
     }
 
     public void InputButton()
     {
-
+        StartCoroutine(SetSelectRoutine(inputButton.gameObject));
+        firstCo = null;
     }
 
     public void ExitButton()
     {
+        firstCo = null;
         binding.CanvasChange(binding.mainCanvas.gameObject, gameObject);
         curDepth = 0;
     }
@@ -170,11 +218,15 @@ public class NewOption : BaseUI
     public void MinimapAct()
     {
         actChecked.SetActive(!actChecked.activeSelf);
+        StartCoroutine(SetSelectRoutine(minimapAct.gameObject));
+        curDepth = 1;
     }
 
     public void MinimapFix()
     {
         fixChecked.SetActive(!fixChecked.activeSelf);
+        StartCoroutine(SetSelectRoutine(minimapFix.gameObject));
+        curDepth = 1;
     }
 
     //적용, 취소, 초기화 했을때 버튼 색상 초기화
@@ -209,7 +261,8 @@ public class NewOption : BaseUI
 
     public void CancelButton_Gameplay()
     {
-
+        setting.miniMapOnBool = preAct;
+        setting.miniMapFixBool = preFix;
 
         ButtonReset(gameplayButtons);
 
@@ -218,7 +271,11 @@ public class NewOption : BaseUI
 
     public void DefaultButton_Gameplay()
     {
+        setting.miniMapOnBool = defaultAct;
+        setting.miniMapFixBool = defaultFix;
 
+        preAct = setting.miniMapOnBool;
+        preFix = setting.miniMapFixBool;
 
         ButtonReset(gameplayButtons);
 
@@ -227,15 +284,31 @@ public class NewOption : BaseUI
 
     public void AcceptButton_Sound()
     {
-        ButtonReset(gameplayButtons);
+        //setting.wholesound = newTotal;
+        //setting.backgroundSound = newBgm;
+        //setting.effectSound = newEffect;
 
+        //preTotal = setting.wholesound;
+        //preBgm = setting.backgroundSound;
+        //preEffect = setting.effectSound;
+
+        ButtonReset(gameplayButtons);
 
         curDepth = 0;
     }
 
+    void VolumeCheck()
+    {
+        //newTotal = setting.wholesound;
+        //newBgm = setting.backgroundSound;
+        //newEffect = setting.effectSound;
+    }
+
     public void CancelButton_Sound()
     {
-
+        //setting.wholesound = preTotal;
+        //setting.backgroundSound = preBgm;
+        //setting.effectSound = preEffect;
 
         ButtonReset(soundButtons);
 
@@ -244,7 +317,9 @@ public class NewOption : BaseUI
 
     public void DefaultButton_Sound()
     {
-
+        //setting.wholesound = defaultTotal;
+        //setting.backgroundSound = defaultBgm;
+        //setting.effectSound = defaultEffect;
 
         ButtonReset(soundButtons);
 
@@ -273,7 +348,7 @@ public class NewOption : BaseUI
         gameplayButtons.Add(default_Gameplay = GetUI<Button>("GamePlay_Default"));
 
         actChecked = GetUI("ActChecked");
-        fixChecked = GetUI("FixCecked");
+        fixChecked = GetUI("FixChecked");
 
         soundButtons.Add(totalVolume = GetUI<Button>("TotalSound"));
         soundButtons.Add(bgmVolume = GetUI<Button>("BGMSound"));
@@ -284,10 +359,14 @@ public class NewOption : BaseUI
 
         gamePlayButton.onClick.AddListener(GamePlayButton);
         soundButton.onClick.AddListener(SoundButton);
+        inputButton.onClick.AddListener(InputButton);
         exitButton.onClick.AddListener(ExitButton);
 
         minimapAct.onClick.AddListener(MinimapAct);
         minimapFix.onClick.AddListener(MinimapFix);
+
+        preAct = setting.miniMapOnBool;
+        preFix = setting.miniMapFixBool;
 
         accept_Gameplay.onClick.AddListener(AcceptButton_Gameplay);
         cancel_Gameplay.onClick.AddListener(CancelButton_Gameplay);
