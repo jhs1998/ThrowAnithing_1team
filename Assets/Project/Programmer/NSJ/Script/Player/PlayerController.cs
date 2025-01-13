@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Zenject;
-using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerModel))]
@@ -168,7 +167,7 @@ public class PlayerController : MonoBehaviour, IHit
         public bool IsDead; // 죽음?
         public bool IsStaminaCool; // 스테미나 사용 후 쿨타임인지?
         public bool CanStaminaRecovery; // 스테미나 회복 할 수 있는지?
-        public bool CantOperate; // 조작할 수 있는지?
+        public bool CanOperate; // 조작할 수 있는지?
     }
     [SerializeField] private BoolField _boolField;
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
@@ -179,7 +178,7 @@ public class PlayerController : MonoBehaviour, IHit
     public bool IsDead { get { return _boolField.IsDead; } set { _boolField.IsDead = value; } }
     public bool IsStaminaCool { get { return _boolField.IsStaminaCool; } set { _boolField.IsStaminaCool = value; } }
     public bool CanStaminaRecovery { get { return _boolField.CanStaminaRecovery; } set { _boolField.CanStaminaRecovery = value; } }
-    public bool CantOperate { get { return _boolField.CantOperate; } set { _boolField.CantOperate = value; TriggerCantOperate(); } }
+    public bool CanOperate { get { return _boolField.CanOperate; } set { _boolField.CanOperate = value; TriggerCantOperate(); } }
     #endregion
 
     public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround = value; } }// 지면 접촉 여부
@@ -196,11 +195,11 @@ public class PlayerController : MonoBehaviour, IHit
     Quaternion _defaultMuzzlePointRot;
     private void Awake()
     {
-
+       
     }
 
     private void Start()
-    {
+    { 
         Init();
         InitUIEvent();
         SubscribeEvents();
@@ -222,20 +221,11 @@ public class PlayerController : MonoBehaviour, IHit
 
     private void Update()
     {
-        if (CantOperate == true)
+        if (CanOperate == false)
             return;
 
         if (Time.timeScale == 0)
             return;
-
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            ChangeArmUnit(GlobalGameData.AmWeapon.Power);
-        }
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            ChangeArmUnit(GlobalGameData.AmWeapon.Balance);
-        }
 
         _states[(int)CurState].Update();
 
@@ -670,6 +660,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// <summary>
     /// 지면 체크
     /// </summary>
+    [SerializeField] Layer.LayerEnum _allLayer;
     private void CheckGround()
     {
         // 살짝위에서 쏨
@@ -680,10 +671,27 @@ public class PlayerController : MonoBehaviour, IHit
             Vector3.down,
             out RaycastHit hit,
             0.4f,
-            Layer.GetLayerMaskEveryThing(),
+             Layer.EveryThing,
             QueryTriggerInteraction.Ignore))
         {
+            if(hit.transform.gameObject.layer == Layer.Monster)
+            {
+                IsGround = false;
+                Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, true);
+                return;
+            }
             IsGround = true;
+
+            if(CurState == State.Dash)
+            {
+                Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, true);
+            }
+            else
+            {
+                Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, false);
+            }
+
+          
             // 오를 수 있는 경사면 체크
             Vector3 normal = hit.normal;
             if (normal.y > 1 - _slopeAngle)
@@ -698,7 +706,7 @@ public class PlayerController : MonoBehaviour, IHit
         else
         {
             IsGround = false;
-            CanClimbSlope = false;
+            Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, true);
         }
     }
 
@@ -721,8 +729,21 @@ public class PlayerController : MonoBehaviour, IHit
     private void CheckIsNearGround()
     {
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-        if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, 1f, Layer.GetLayerMaskEveryThing(), QueryTriggerInteraction.Ignore))
+        if (Physics.SphereCast(
+            CheckPos , 
+            0.3f, 
+            Vector3.down, 
+            out RaycastHit hit,
+            1f,
+            Layer.EveryThing,
+            QueryTriggerInteraction.Ignore))
         {
+            if (hit.transform.gameObject.layer == Layer.Monster)
+            {
+                IsNearGround = false;
+                return;
+            }
+
             IsNearGround = true;
         }
         else
@@ -1066,15 +1087,17 @@ public class PlayerController : MonoBehaviour, IHit
     {
         while (true)
         {
-            if (Time.timeScale == 1 && CantOperate == false)
+            if (InputKey.GetActionMap() == ActionMap.GamePlay)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                CanOperate = true;
             }
-            else if (Time.timeScale == 0 || CantOperate == true)
+            else if (InputKey.GetActionMap() == ActionMap.UI)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                CanOperate = false;
             }
             yield return null;
         }

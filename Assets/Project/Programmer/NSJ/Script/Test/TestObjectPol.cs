@@ -10,7 +10,11 @@ public class TestObjectPol : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            ObjectPool.GetPool(prefab, 1f, 0.5f,1f);
+            ObjectPool.GetPool(prefab, 1f, 0.5f,100f);
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            //ObjectPool.ReturnPool(key);
         }
     }
 }

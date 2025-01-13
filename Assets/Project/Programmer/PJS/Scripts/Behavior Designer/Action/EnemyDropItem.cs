@@ -7,13 +7,17 @@ public class EnemyDropItem : Action
 {
     const int maxPersent = 100;
     [SerializeField] SharedFloat reward;    // 드랍 확률
+    private int randNum;
+
+    public override void OnStart()
+    {
+        //몬스터가 죽었을 시 아이템 드랍
+        randNum = Random.Range(0, maxPersent + 1);
+        Debug.Log(randNum);
+    }
 
     public override TaskStatus OnUpdate()
     {
-        //몬스터가 죽었을 시 아이템 드랍
-        int randNum = Random.Range(0, maxPersent + 1);
-        Debug.Log(randNum);
-
         // 확률 인스펙터에서 정해서 값 가져오기
         if (randNum <= reward.Value)
         {

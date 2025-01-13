@@ -74,10 +74,14 @@ public class BalanceJumpDown : ArmJumpDown
             if (Rb.velocity.y < 0)
             {
                 Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-                if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, _fallSpeed / (_fallSpeed / 2)))
+                if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, _fallSpeed / (_fallSpeed / 2),Layer.Monster,QueryTriggerInteraction.Ignore))
                 {
-                    _landingPoint = hit.point;
-                    break;
+                    if (hit.transform.gameObject.layer != Layer.Monster)
+                    {
+                        _landingPoint = hit.point;
+                        break;
+                    }
+                
                 }
 
             }

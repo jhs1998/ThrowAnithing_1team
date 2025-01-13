@@ -14,12 +14,26 @@ public class LSH_Teleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        int randomNum = Random.Range(1, 100);
 
         if (other.tag == "PortalHidden")
         {
             //멀티 씬 로딩, LoadSceneMode.Additive
             PortalSceneNumber portalSceneNumber = other.GetComponent<PortalSceneNumber>();
-            randomHiddenRoom = portalSceneNumber.hiddenSceneArr[Random.Range(0, portalSceneNumber.hiddenSceneArr.Length)];
+            //randomHiddenRoom = portalSceneNumber.hiddenSceneArr[Random.Range(0, portalSceneNumber.hiddenSceneArr.Length)];
+            //ChangeScene(randomHiddenRoom); //0함정 1몬스터 2블루칩
+            if (randomNum <= 40)
+            {
+                randomHiddenRoom = portalSceneNumber.hiddenSceneArr[0];
+            }
+            else if (randomNum > 40 && randomNum <= 80)
+            {
+                randomHiddenRoom = portalSceneNumber.hiddenSceneArr[1];
+            }
+            else if(randomNum > 80)
+            {
+                randomHiddenRoom = portalSceneNumber.hiddenSceneArr[2];
+            }
             ChangeScene(randomHiddenRoom); //0함정 1몬스터 2블루칩
             other.gameObject.SetActive(false);
         }

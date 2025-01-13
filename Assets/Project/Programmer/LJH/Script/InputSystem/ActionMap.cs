@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static partial class ActionMap
 {
-    public const string GamePlay = "GamePlay";
+    public const string GamePlay = "Gameplay";
     public const string UI = "UI";
 }

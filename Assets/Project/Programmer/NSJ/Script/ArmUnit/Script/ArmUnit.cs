@@ -59,10 +59,7 @@ public class ArmUnit : ScriptableObject
         Model.DrainDistance = Model.Drain.Default.DrainDistance * (_init.DrainDistance / 100f);
         Model.DrainStamina = Model.Drain.Default.DrainStamina * (_init.DrainStamina / 100f);
 
-        Model.MaxMana = Model.GlobalStateData.maxMana + _init.MaxMana - Model.GlobalStateData.maxMana;
-
-
-        Model.NowWeapon = GlobalGameData.AmWeapon.Power;
+        Model.MaxMana = Model.GlobalStateData.maxMana + _init.MaxMana - Model.GlobalStateData.maxMana; 
 
         InitAllType();
     }

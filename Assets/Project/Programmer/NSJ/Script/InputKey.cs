@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +7,7 @@ using UnityEngine.InputSystem;
 public class InputKey : MonoBehaviour
 {
     public static InputKey Instance;
-    #region ÀÎÇ²¸Å´ÏÀú
+    #region ì¸í’‹ë§¤ë‹ˆì €
     public enum AxisInputManager { None, Axis, AxisUp, AxisDown }
     public struct InputManagerStruct
     {
@@ -15,7 +16,7 @@ public class InputKey : MonoBehaviour
         public bool PrevPress;
         public bool CurPress;
     }
-    #region ÇÊµå
+    #region í•„ë“œ
     /// <summary>
     /// a/d , LeftStick
     /// </summary>
@@ -35,7 +36,7 @@ public class InputKey : MonoBehaviour
     /// <summary>
     ///  C , D-pad Up
     /// </summary>
-    //public static InputManagerStruct Negative;     ÀÓ½Ã »èÁ¦
+    //public static InputManagerStruct Negative;     ì„ì‹œ ì‚­ì œ
     /// <summary>
     ///  E , RB
     /// </summary>
@@ -86,7 +87,7 @@ public class InputKey : MonoBehaviour
         PopUpClose = IGetInputStruct("PopUp Close", AxisInputManager.AxisUp);
     }
     /// <summary>
-    /// ¹öÆ°À» ´©¸£´Â µµÁß È£Ãâ
+    /// ë²„íŠ¼ì„ ëˆ„ë¥´ëŠ” ë„ì¤‘ í˜¸ì¶œ
     /// </summary>
     public static bool GetButton(InputManagerStruct inputStruct)
     {
@@ -138,14 +139,14 @@ public class InputKey : MonoBehaviour
         }
     }
     /// <summary>
-    /// ¹öÆ°À» ´­·¶À» ¶§ È£Ãâ
+    /// ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ í˜¸ì¶œ
     /// </summary>
     public static bool GetButtonDown(InputManagerStruct inputStruct)
     {
         if (InputStructDic[inputStruct.Name].Axis == AxisInputManager.AxisUp)
         {
             float x = Input.GetAxisRaw(InputStructDic[inputStruct.Name].Name);
-            // ¹öÆ° ´©¸£°í ¶ÂÀ»¶§
+            // ë²„íŠ¼ ëˆ„ë¥´ê³  ë—ì„ë•Œ
             if (x == 0 && InputStructDic[InputStructDic[inputStruct.Name].Name].PrevPress == true)
             {
                 ISetCurPress(InputStructDic[inputStruct.Name], false);
@@ -217,7 +218,7 @@ public class InputKey : MonoBehaviour
 
     //IEnumerator
     /// <summary>
-    /// ¹öÆ° ´©¸£±â¸¦ ±×¸¸µÑ‹š È£Ãâ
+    /// ë²„íŠ¼ ëˆ„ë¥´ê¸°ë¥¼ ê·¸ë§Œë‘˜Â‹Âš í˜¸ì¶œ
     /// </summary>
     public static bool GetButtonUp(InputManagerStruct inputStruct)
     {
@@ -292,7 +293,7 @@ public class InputKey : MonoBehaviour
         }
     }
     /// <summary>
-    /// AxisInputManager °ª 1, 0 , -1 ¹İÈ¯
+    /// AxisInputManager ê°’ 1, 0 , -1 ë°˜í™˜
     /// </summary>
     public static float GetAxisRaw(InputManagerStruct inputStruct)
     {
@@ -309,7 +310,7 @@ public class InputKey : MonoBehaviour
         return Input.GetAxisRaw(name);
     }
     /// <summary>
-    /// AxisInputManager °ª -1 ~ 1 ¹İÈ¯
+    /// AxisInputManager ê°’ -1 ~ 1 ë°˜í™˜
     /// </summary>
     public static float GetAxis(InputManagerStruct inputStruct)
     {
@@ -351,13 +352,14 @@ public class InputKey : MonoBehaviour
         return inputStruct;
     }
     #endregion
-    #region ÀÎÇ²½Ã½ºÅÛ
+    #region ì¸í’‹ì‹œìŠ¤í…œ
     public enum Action
     {
-        Move, CameraMove, // Axis
-        MouseDelta, Jump, Throw, Special, Melee, LoakOn, LoakOff, Dash, Interaction, Drain, OpenSettings, InvenOpen, Cheat
+        Move, CameraMove, MouseDelta, // Axis
+        Jump, Throw, Special, Melee, LoakOn, LoakOff, Dash, Interaction, Drain, OpenSettings, InvenOpen, Cheat, //GamePlay
     } // None
     public enum Axis { None, Axis }
+ 
     public struct InputStruct
     {
         public Action Name;
@@ -366,6 +368,7 @@ public class InputKey : MonoBehaviour
         public bool CurPress;
         public Vector2 Vector;
     }
+    // GamePlay
     public static InputStruct Move;
     public static InputStruct CameraMove;
     public static InputStruct MouseDelta;
@@ -381,14 +384,18 @@ public class InputKey : MonoBehaviour
     public static InputStruct OpenSetting;
     public static InputStruct InvenOpen;
     public static InputStruct Cheat;
-
+    // UI
+    public static string InvenOpenUI;
+    public static string CancelUI;
+    public static string Choice;
+    public static string Break;
 
     private Dictionary<Action, InputStruct> m_inputStructDic = new Dictionary<Action, InputStruct>();
     private static Dictionary<Action, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
     private  List<InputStruct> m_inputStructs = new List<InputStruct>();
     private static List<InputStruct> _inputStructs { get { return Instance.m_inputStructs; } }
-    private  PlayerInput m_playerInput;
-    public static PlayerInput _playerInput { get { return Instance.m_playerInput; } }
+    private PlayerInput m_playerInput;
+    public static PlayerInput PlayerInput { get { return Instance.m_playerInput; } }
 
     private void Awake()
     {
@@ -490,9 +497,13 @@ public class InputKey : MonoBehaviour
     }
 
 
-    public static void ChangeActionMap(string actionMap)
+    public static void SetActionMap(string actionMap)
     {
-        _playerInput.defaultActionMap = actionMap;
+        PlayerInput.defaultActionMap = actionMap;
+    }
+    public static string GetActionMap()
+    {
+        return PlayerInput.defaultActionMap;
     }
 
     private static void SetCurPress(InputStruct inputStruct, bool isPress)
@@ -533,7 +544,7 @@ public class InputKey : MonoBehaviour
         }
         else if (input.Axis == Axis.None)
         {
-            // ¹öÆ°½ÄÀÌ¸é 0ÀÌ ¾Æ´Ï¸é ´©¸£°íÀÖÀ½, 0ÀÌ¸é ¶ÃÀ½
+            // ë²„íŠ¼ì‹ì´ë©´ 0ì´ ì•„ë‹ˆë©´ ëˆ„ë¥´ê³ ìˆìŒ, 0ì´ë©´ ë—ìŒ
             float floatValue = value.Get<float>();
             if (floatValue != 0)
             {

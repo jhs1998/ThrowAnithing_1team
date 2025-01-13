@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zenject;
 
 namespace MKH
 {
@@ -14,15 +16,21 @@ namespace MKH
         [SerializeField] InventorySlot[] eqSlots;               // 장비 슬롯들
         [SerializeField] GameObject blueChipPanel;              // 블루칩 패널
 
+        [System.Serializable]
+        public struct SlotStruct
+        {
+            public Button Button;
+            public GameObject Outline;
+        }
         [Header("슬롯 버튼")]
-        [SerializeField] GameObject[] buttons;                  // 슬롯 버튼
+        [SerializeField] SlotStruct[] slots;                  // 슬롯 버튼
         int selectedButtonsIndex;                               // 슬롯 시작 위치
         int buttonCount;                                        // 슬롯 개수
         private bool axisInUse;                                 // 키 연속 조작 방지
 
-        [Header("슬롯 색")]
-        [SerializeField] Color HighlightedColor;                // 선택 슬롯 색
-        [SerializeField] Color color;                           // 미선택 슬롯 색
+        //[Header("슬롯 색")]
+        //[SerializeField] Color HighlightedColor;                // 선택 슬롯 색
+        //[SerializeField] Color color;                           // 미선택 슬롯 색
 
         [Header("아이템 설명")]
         [SerializeField] TMP_Text ivName;                       // 인벤토리 아이템 이름
@@ -31,6 +39,7 @@ namespace MKH
         [SerializeField] TMP_Text eqDescription;                // 장비 아이템 설명
 
         InventoryMain mInventory;
+        [SerializeField] SaveSystem saveSystem;
 
         private void Awake()
         {
@@ -42,16 +51,22 @@ namespace MKH
 
         private void Start()
         {
-            buttonCount = buttons.Length;
+            buttonCount = slots.Length;
             selectedButtonsIndex = 9;
         }
+
+        private void OnEnable()
+        {
+
+        }
+
 
         private void Update()
         {
             if (inventory.activeSelf == false)
                 return;
 
-            ButtonsControl();               // 키 조작
+            //ButtonsControl();               // 키 조작
             Use(selectedButtonsIndex);      // 키 버튼 조작
             Info();                         // 아이템 정보
         }
@@ -77,7 +92,7 @@ namespace MKH
                 // 오른쪽
                 else if (x > 0)
                 {
-                    if (selectedButtonsIndex < buttons.Length - 1 && axisInUse == false)
+                    if (selectedButtonsIndex < slots.Length - 1 && axisInUse == false)
                     {
                         axisInUse = true;
                         selectedButtonsIndex += 1;
@@ -95,7 +110,7 @@ namespace MKH
                 // 아래
                 else if (y < 0)
                 {
-                    if (selectedButtonsIndex < buttons.Length - 3 && axisInUse == false)
+                    if (selectedButtonsIndex < slots.Length - 3 && axisInUse == false)
                     {
                         axisInUse = true;
                         selectedButtonsIndex += 3;
@@ -109,18 +124,34 @@ namespace MKH
             }
 
             // 선택 슬롯 색 입히기
-            for (int i = 0; i < buttons.Length; i++)
+            //for (int i = 0; i < slots.Length; i++)
+            //{
+            //    if (i == selectedButtonsIndex)
+            //    {
+            //        slots[i].GetComponent<Image>().color = HighlightedColor;
+            //    }
+            //    else
+            //    {
+            //        slots[i].GetComponent<Image>().color = color;
+            //    }
+            //}
+        }
+        public void ChangeSelectButton(Button slot)
+        {
+            // 선택 슬롯 색 입히기
+            for (int i = 0; i < slots.Length; i++)
             {
-                if (i == selectedButtonsIndex)
+                if(slots[i].Button == slot)
                 {
-                    buttons[i].GetComponent<Image>().color = HighlightedColor;
+                    slots[i].Outline.SetActive(true);
                 }
                 else
                 {
-                    buttons[i].GetComponent<Image>().color = color;
+                    slots[i].Outline.SetActive(false);
                 }
             }
         }
+
         #endregion
 
         #region 아이템 버튼 조작
@@ -130,7 +161,7 @@ namespace MKH
             if (inventory.activeSelf && !blueChipPanel.activeSelf)
             {
                 // 아이템 장착
-                if (InputKey.GetButtonDown("InventoryEquip"))
+                if (InputKey.GetButtonDown(InputKey.Choice))
                 {
                     // 인벤토리
                     if (index >= 9)
@@ -150,23 +181,44 @@ namespace MKH
                 }
 
                 // 아이템 분해
-                if (InputKey.GetButtonDown("Decomposition"))
+                if (InputKey.GetButtonDown(InputKey.Break))
                 {
                     // 인벤토리
                     if (index >= 9)
                     {
                         if (ivSlots[index - 9].Item != null)
                         {
+                            // 습득 코인 변수
+                            int coinsEarned = 0;
+                            // 등급에 따라 습득 코인 수 변경
+                            switch (ivSlots[index - 9].Item.Rate)
+                            {
+                                case RateType.Nomal:
+                                    coinsEarned = 10; // 일반 등급
+                                    break;
+                                case RateType.Magic:
+                                    coinsEarned = 50; // 마법 등급
+                                    break;
+                                case RateType.Rare:
+                                    coinsEarned = 200; // 희귀 등급
+                                    break;
+                                default:
+                                    coinsEarned = 0;
+                                    break;
+                            }
+                            saveSystem.GetCoin(coinsEarned);
+
                             ivSlots[index - 9].ClearSlot();
                             mInventory.Sorting();
                             Debug.Log($"인벤토리 {index - 9}번 장비 분해");
+
                         }
                         else if (ivSlots[index - 9].Item == null)
                         {
                             Debug.Log("분해 할 장비가 없습니다.");
                             return;
                         }
-                    }
+                    }                  
                 }
             }
         }
@@ -175,7 +227,7 @@ namespace MKH
         #region 아이템 정보
         private void Info()
         {
-            for (int i = 0; i < buttons.Length; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
                 if (i == selectedButtonsIndex)
                 {
