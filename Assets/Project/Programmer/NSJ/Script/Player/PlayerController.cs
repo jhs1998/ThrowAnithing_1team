@@ -679,7 +679,6 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     /// <summary>
     /// Áö¸é Ã¼Å©
     /// </summary>
-    [SerializeField] Layer.LayerEnum _allLayer;
     private void CheckGround()
     {
         // »ìÂ¦À§¿¡¼­ ½ô
@@ -1107,6 +1106,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     {
         while (true)
         {
+            Debug.Log(InputKey.GetActionMap());
             if (InputKey.GetActionMap() == ActionMap.GamePlay)
             {
                 Cursor.lockState = CursorLockMode.Locked;

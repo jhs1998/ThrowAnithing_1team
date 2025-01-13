@@ -499,11 +499,11 @@ public class InputKey : MonoBehaviour
 
     public static void SetActionMap(string actionMap)
     {
-        PlayerInput.defaultActionMap = actionMap;
+        PlayerInput.SwitchCurrentActionMap(actionMap);
     }
     public static string GetActionMap()
     {
-        return PlayerInput.defaultActionMap;
+        return PlayerInput.currentActionMap.name;
     }
 
     private static void SetCurPress(InputStruct inputStruct, bool isPress)

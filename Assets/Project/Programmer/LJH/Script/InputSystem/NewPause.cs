@@ -54,6 +54,7 @@ public class NewPause : BaseUI
         {
             Time.timeScale = 0f;
             playerInput.SwitchCurrentActionMap(ActionMap.UI);
+            
             pause.SetActive(true);
             EventSystem.current.SetSelectedGameObject(null);
             if (firstCo == null)
