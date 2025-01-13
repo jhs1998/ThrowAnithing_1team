@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zenject;
 
 namespace MKH
 {
@@ -38,6 +39,7 @@ namespace MKH
         [SerializeField] TMP_Text eqDescription;                // 장비 아이템 설명
 
         InventoryMain mInventory;
+        [SerializeField] SaveSystem saveSystem;
 
         private void Awake()
         {
@@ -186,16 +188,37 @@ namespace MKH
                     {
                         if (ivSlots[index - 9].Item != null)
                         {
+                            // 습득 코인 변수
+                            int coinsEarned = 0;
+                            // 등급에 따라 습득 코인 수 변경
+                            switch (ivSlots[index - 9].Item.Rate)
+                            {
+                                case RateType.Nomal:
+                                    coinsEarned = 10; // 일반 등급
+                                    break;
+                                case RateType.Magic:
+                                    coinsEarned = 50; // 마법 등급
+                                    break;
+                                case RateType.Rare:
+                                    coinsEarned = 200; // 희귀 등급
+                                    break;
+                                default:
+                                    coinsEarned = 0;
+                                    break;
+                            }
+                            saveSystem.GetCoin(coinsEarned);
+
                             ivSlots[index - 9].ClearSlot();
                             mInventory.Sorting();
                             Debug.Log($"인벤토리 {index - 9}번 장비 분해");
+
                         }
                         else if (ivSlots[index - 9].Item == null)
                         {
                             Debug.Log("분해 할 장비가 없습니다.");
                             return;
                         }
-                    }
+                    }                  
                 }
             }
         }
