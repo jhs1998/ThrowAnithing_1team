@@ -135,7 +135,6 @@ namespace MKH
         }
         public void ChangeSelectButton(InventorySlot slot)
         {
-            // 선택 슬롯 색 입히기
             for (int i = 0; i < slots.Length; i++)
             {
                 if (slots[i] == slot)
