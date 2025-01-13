@@ -9,6 +9,7 @@ public class DoubleJumpFallState : PlayerState
     Coroutine _checkInputRoutine;
     public DoubleJumpFallState(PlayerController controller) : base(controller)
     {
+        IsIgnoreMonster = true;
     }
     public override void Enter()
     {

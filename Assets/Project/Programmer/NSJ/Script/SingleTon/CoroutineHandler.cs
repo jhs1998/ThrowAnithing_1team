@@ -18,11 +18,13 @@ public class CoroutineHandler : MonoBehaviour
     /// </summary>
     public static Coroutine StartRoutine(IEnumerator enumerator)
     {
+        CreateCoroutineHandler();
         return Instance.StartCoroutine(enumerator);
     }
 
     public static Coroutine StartRoutine(Coroutine coroutine, IEnumerator enumerator)
     {
+        CreateCoroutineHandler();
         if (coroutine == null)
         {
             return Instance.StartCoroutine(enumerator);
@@ -44,7 +46,20 @@ public class CoroutineHandler : MonoBehaviour
     }
 
 
-
+    private static CoroutineHandler CreateCoroutineHandler()
+    {
+        if (Instance != null)
+        {
+            return Instance;
+        }
+        else
+        {
+            // 새롭게 풀 오브젝트 생성
+            GameObject newPool = new GameObject("CoroutineHandler");
+            CoroutineHandler pool = newPool.AddComponent<CoroutineHandler>();
+            return pool;
+        }
+    }
     private void InitSingleTon()
     {
         if (Instance == null)

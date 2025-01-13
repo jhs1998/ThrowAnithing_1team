@@ -16,14 +16,9 @@ namespace MKH
         [SerializeField] InventorySlot[] eqSlots;               // 장비 슬롯들
         [SerializeField] GameObject blueChipPanel;              // 블루칩 패널
 
-        [System.Serializable]
-        public struct SlotStruct
-        {
-            public Button Button;
-            public GameObject Outline;
-        }
+
         [Header("슬롯 버튼")]
-        [SerializeField] SlotStruct[] slots;                  // 슬롯 버튼
+        [SerializeField] InventorySlot[] slots;                  // 슬롯 버튼
         int selectedButtonsIndex;                               // 슬롯 시작 위치
         int buttonCount;                                        // 슬롯 개수
         private bool axisInUse;                                 // 키 연속 조작 방지
@@ -74,6 +69,7 @@ namespace MKH
         #region 키 조작
         private void ButtonsControl()
         {
+           // Vector2 value = InputKey
             float x = InputKey.GetAxis(InputKey.Horizontal);       // 좌 우 조작
             float y = InputKey.GetAxis(InputKey.Vertical);         // 상 하 조작
 
@@ -136,20 +132,22 @@ namespace MKH
             //    }
             //}
         }
-        public void ChangeSelectButton(Button slot)
+        public void ChangeSelectButton(InventorySlot slot)
         {
             // 선택 슬롯 색 입히기
             for (int i = 0; i < slots.Length; i++)
             {
-                if(slots[i].Button == slot)
+                if (slots[i] == slot)
                 {
-                    slots[i].Outline.SetActive(true);
+                    selectedButtonsIndex = i;
+                    slots[i].SlotButton.Outline.SetActive(true);
                 }
                 else
                 {
-                    slots[i].Outline.SetActive(false);
+                    slots[i].SlotButton.Outline.SetActive(false);
                 }
             }
+            Info();
         }
 
         #endregion

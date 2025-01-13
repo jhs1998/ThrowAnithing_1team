@@ -45,7 +45,6 @@ public class ObjectPool : MonoBehaviour
         {
             // 새롭게 풀 오브젝트 생성
             GameObject newPool = new GameObject("ObjectPool");
-            newPool.tag = Tag.ObjectPool;
             ObjectPool pool = newPool.AddComponent<ObjectPool>();
             return pool;
         }

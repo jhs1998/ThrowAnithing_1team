@@ -66,6 +66,14 @@ namespace NSJ_TesterPanel
             blueChipItem.SetBlueChip(_curBlueChip);
         }
 
+        private void ClearBlueChip()
+        {
+            // 플레이어 싹다 삭제
+            _player.GetComponent<PlayerController>().ClearAdditional();
+            // 블루칩 선택 UI 싺다 삭제
+            Inventory.Instance.BlueChipChoiceController.ClearBlueChipForTester();
+        }
+
         private void SubscribeEvent()
         {
             _blueChipIndexSubject
@@ -75,6 +83,7 @@ namespace NSJ_TesterPanel
             GetUI<Button>("LeftButton").onClick.AddListener(() => _blueChipIndex--);
             GetUI<Button>("RightButton").onClick.AddListener(() => _blueChipIndex++);
             GetUI<Button>("CreateButton").onClick.AddListener(Create);
+            GetUI<Button>("RemoveButton").onClick.AddListener(ClearBlueChip);
         }
 
         private void InitButtons()
@@ -82,6 +91,7 @@ namespace NSJ_TesterPanel
             _buttons.Add(GetButtonStruct("LeftButton"));
             _buttons.Add(GetButtonStruct("RightButton"));
             _buttons.Add(GetButtonStruct("CreateButton"));
+            _buttons.Add(GetButtonStruct("RemoveButton"));
         }
     }
 }
