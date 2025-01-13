@@ -61,10 +61,11 @@ public class BlueChipChoice : MonoBehaviour
         {
             if (other.gameObject.tag == Tag.BlueChip)
             {
-                if (InputKey.GetButtonDown("Interaction"))
+                if (InputKey.GetButtonDown(InputKey.Interaction))
                 {
                     choice.SetActive(false);
                     choicePanel.SetActive(true);
+                    InputKey.SetActionMap(ActionMap.UI);
                     //bool success = blueChipPanel.AcquireEffect(blueChip.Effect);
 
                     //// 블루칩 플레이어 적용

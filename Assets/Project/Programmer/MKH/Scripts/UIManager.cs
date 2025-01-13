@@ -60,11 +60,15 @@ namespace MKH
             {
                 if (_Inventory.activeSelf)
                     return;
+                if (InputKey.GetActionMap() == ActionMap.UI)
+                    return;
+
                 _isOpenInventory = true;
-                player.CantOperate = true;
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
+
+                InputKey.SetActionMap(ActionMap.UI);
             }
 
             if (InputKey.GetButtonDown(InputKey.PopUpClose))
@@ -74,11 +78,12 @@ namespace MKH
                 if (_isOpenInventory == false)
                     return;
 
+
                 _isOpenInventory = false;
-                player.CantOperate = false;
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
                 _State.SetActive(false);
+                InputKey.SetActionMap(ActionMap.GamePlay);
             }
         }
 

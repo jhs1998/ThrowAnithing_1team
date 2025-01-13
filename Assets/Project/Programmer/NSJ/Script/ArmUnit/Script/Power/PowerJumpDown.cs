@@ -1,4 +1,3 @@
-using Assets.Project.Programmer.NSJ.RND.Script;
 using System.Collections;
 using UnityEngine;
 
@@ -69,10 +68,13 @@ public class PowerJumpDown : ArmJumpDown
             if (Rb.velocity.y < 0)
             {
                 Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
-                if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, _attackSpeed / (_attackSpeed / 2)))
+                if (Physics.SphereCast(CheckPos, 0.3f, Vector3.down, out RaycastHit hit, _attackSpeed / (_attackSpeed / 2), Layer.EveryThing, QueryTriggerInteraction.Ignore))
                 {
-                    _landingPoint = hit.point;
-                    break;
+                    if (hit.transform.gameObject.layer != Layer.Monster)
+                    {
+                        _landingPoint = hit.point;
+                        break;
+                    }              
                 }
 
             }
@@ -91,13 +93,13 @@ public class PowerJumpDown : ArmJumpDown
     }
 
     private void AttackJumpDown()
-    {       
+    {
         int hitCount = Physics.OverlapSphereNonAlloc(_landingPoint, _range, Player.OverLapColliders, 1 << Layer.Monster);
         int finalDamage = Player.GetFinalDamage(_damage, out bool isCritical);
         for (int i = 0; i < hitCount; i++)
         {
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, finalDamage,  false);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, finalDamage, false);
             Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
             // 넉백
             Player.DoKnockBack(Player.OverLapColliders[i].transform, transform, 1f);

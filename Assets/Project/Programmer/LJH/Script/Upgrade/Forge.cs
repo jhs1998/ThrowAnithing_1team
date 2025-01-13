@@ -61,7 +61,6 @@ public class Forge : MonoBehaviour
       
         if (_ui.activeSelf == true && IsUIActive == true)
         {
-            _player.CantOperate = false;
             _ui.SetActive(false);
         }
     }
