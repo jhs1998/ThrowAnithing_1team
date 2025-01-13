@@ -6,18 +6,19 @@ using UnityEngine.UI;
 public class InventorySlotButton : BaseUI, ISelectHandler
 {
     [SerializeField] bool _isFirstSelect;
+    [SerializeField] int _index;
 
-     private InventoryController _controller;
+    public GameObject Outline;
+    private InventoryController _controller;
+    private InventorySlot _slot;
+    private Button _button;
 
-     private Button _button;
-     private GameObject _outline;
-     
     private void Awake()
     {
         Bind();
         _controller = GetComponentInParent<InventoryController>();
-
-        _outline = GetUI("Outline");
+        _slot = GetComponentInParent<InventorySlot>();
+        Outline = GetUI("Outline");
         _button = GetComponent<Button>();
     }
     private void OnEnable()
@@ -32,6 +33,6 @@ public class InventorySlotButton : BaseUI, ISelectHandler
     }
     public void OnSelect(BaseEventData eventData)
     {
-        _controller.ChangeSelectButton(_button);
+        _controller.ChangeSelectButton(_slot);
     }
 }

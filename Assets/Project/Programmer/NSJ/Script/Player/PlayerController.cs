@@ -807,6 +807,7 @@ public class PlayerController : MonoBehaviour, IHit
     /// </summary>
     private void ChackInput()
     {
+        Debug.Log(InputKey.GetAxis(InputKey.Move));
         Vector2 inputDir = InputKey.GetAxis(InputKey.Move);
         MoveDir = new Vector3(inputDir.x, 0, inputDir.y);
 
@@ -1012,6 +1013,7 @@ public class PlayerController : MonoBehaviour, IHit
         return finalDamage;
     }
     #endregion
+
     /// <summary>
     /// TPS 시점 카메라 회전
     /// </summary>

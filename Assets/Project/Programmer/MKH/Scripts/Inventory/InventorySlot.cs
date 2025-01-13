@@ -22,6 +22,13 @@ namespace MKH
         [Header("장비 교체 매니저")]
         [SerializeField] private EquipActionManager equipActionManager;
 
+
+        public InventorySlotButton SlotButton;
+
+        private void Awake()
+        {
+            SlotButton = GetComponentInChildren<InventorySlotButton>();
+        }
         // 아이템 이미지 투명도 조절
         private void SetColor(float _alpha)
         {
