@@ -63,7 +63,7 @@ public class InteractableDoor : MonoBehaviour
 
             if (isInSphere)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (InputKey.GetButtonDown(InputKey.Interaction))
                 {
                     portal.SetActive(true);
                 }
