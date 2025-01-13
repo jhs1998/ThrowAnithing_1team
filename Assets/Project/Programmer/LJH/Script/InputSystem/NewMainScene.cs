@@ -5,9 +5,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Zenject;
 
 public class NewMainScene : BaseUI
 {
+    [Inject]
+    OptionSetting setting;
+
     PlayerInput playerInput;
     MainSceneBinding binding;
     
@@ -35,6 +39,7 @@ public class NewMainScene : BaseUI
     }
     void Start()
     {
+        setting.OptionLoad();
         EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
     }
 
