@@ -51,8 +51,8 @@ namespace MKH
             if (inventory.activeSelf == false)
                 return;
 
-            ButtonsControl();               // 키 조작
-            Use(selectedButtonsIndex);      // 키 버튼 조작
+            //ButtonsControl();               // 키 조작
+            //Use(selectedButtonsIndex);      // 키 버튼 조작
             Info();                         // 아이템 정보
         }
 

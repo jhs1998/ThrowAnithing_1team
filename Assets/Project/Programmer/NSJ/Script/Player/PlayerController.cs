@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Zenject;
-using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerModel))]
