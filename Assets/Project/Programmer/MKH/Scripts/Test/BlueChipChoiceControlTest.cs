@@ -1,5 +1,7 @@
 using MKH;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,6 +14,8 @@ public class BlueChipChoiceControlTest : MonoBehaviour
     [SerializeField] BlueChipPanel blueChipPanel;
     [SerializeField] BlueChipChoicePanelTest blueChipChoicePanel;
     [SerializeField] int popUpChoice;
+
+    [SerializeField] BlueChipList blueChipList;
 
 
     public void Canecel()
@@ -27,7 +31,8 @@ public class BlueChipChoiceControlTest : MonoBehaviour
             {
                 blueChipPanel.mSlots[i].AddEffect(blueChipChoicePanel.choiceSlots[number].Effect);
                 blueChipChoicePanel.blueChipSlots[i].AddEffect(blueChipChoicePanel.choiceSlots[number].Effect);
-
+                blueChipChoicePanel.blueChipList.RemoveAt(blueChipChoicePanel.choiceSlots[number].ListIndex);
+                Debug.Log(blueChipChoicePanel.choiceSlots[number].ListIndex);
                 gameObject.SetActive(false);
 
                 return;
@@ -55,6 +60,7 @@ public class BlueChipChoiceControlTest : MonoBehaviour
 
     public void Remove()
     {
+        blueChipChoicePanel.blueChipList.Add(blueChipPanel.mSlots[popUpChoice].Effect);
         blueChipPanel.mSlots[popUpChoice].ClearSlot();
         blueChipChoicePanel.blueChipSlots[popUpChoice].ClearSlot();
         popUp.SetActive(false);
