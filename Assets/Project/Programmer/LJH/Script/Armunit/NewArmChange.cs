@@ -2,12 +2,14 @@ using System.Collections;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Zenject;
 using Zenject.SpaceFighter;
 
 public class NewArmChange : BaseUI
 {
+    PlayerInput playerInput;
     [Inject]
     GlobalGameData playerStateData;
     [Inject]
@@ -39,15 +41,11 @@ public class NewArmChange : BaseUI
 
     private void OnEnable()
     {
-        cameraSpeed = player.setting.cameraSpeed;
-        player.setting.cameraSpeed = 0;
-
+        playerInput.SwitchCurrentActionMap(ActionMap.UI);
     }
     private void OnDisable()
     {
-
-        player.setting.cameraSpeed = cameraSpeed;
-
+        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
     }
     private void Update()
     {
@@ -104,6 +102,7 @@ public class NewArmChange : BaseUI
     }
     void Init()
     {
+        playerInput = InputKey.PlayerInput;
         armUnits = new GameObject[3];
 
         armUnits[0] = GetUI("PowerButton");

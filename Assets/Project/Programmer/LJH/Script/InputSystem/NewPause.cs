@@ -33,6 +33,11 @@ public class NewPause : BaseUI
     GameObject defaultButton;
     GameObject currentSelected;
 
+    Navigation conOriginalNavi;
+    Navigation opOriginalNavi;
+    Navigation lobbyOriginalNavi;
+
+
     private void Awake()
     {
         Bind();
@@ -46,10 +51,18 @@ public class NewPause : BaseUI
         playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
     }
 
-
     private void Update()
     {
-        Debug.Log(playerInput.currentActionMap);
+        if (exitPopUp.activeSelf)
+            NaviBlock();
+
+        else if(!exitPopUp.activeSelf)
+        {
+            continueButton.navigation = conOriginalNavi;
+            optionButton.navigation = opOriginalNavi;
+            lobbyButton.navigation = lobbyOriginalNavi;
+        }
+            
 
         //퍼즈 열기
         if (playerInput.actions["Open_Settings"].WasPressedThisFrame())
@@ -62,12 +75,31 @@ public class NewPause : BaseUI
             if (firstCo == null)
                 firstCo = StartCoroutine(FirstRoutine());
         }
+
         ButtonMissClick();
 
-        if (!optionPanel.activeSelf)
+        if (!optionPanel.activeSelf && pause.activeSelf)
         {
             SelectedSlotColorChange();
         }
+    }
+
+    void NaviBlock()
+    {
+        Navigation navi = continueButton.navigation;
+        navi.selectOnUp = null;
+        navi.selectOnDown = null;
+        continueButton.navigation = navi;
+
+        navi = optionButton.navigation;
+        navi.selectOnUp = null;
+        navi.selectOnDown = null;
+        continueButton.navigation = navi;
+
+        navi = lobbyButton.navigation;
+        navi.selectOnUp = null;
+        navi.selectOnDown = null;
+        continueButton.navigation = navi;
     }
 
     /// <summary>
@@ -187,6 +219,10 @@ public class NewPause : BaseUI
 
     void Init()
     {
+        conOriginalNavi = continueButton.navigation;
+        opOriginalNavi = optionButton.navigation;
+        lobbyOriginalNavi = lobbyButton.navigation;
+
         playerInput = InputKey.PlayerInput;
         binding = GetComponent<MainSceneBinding>();
 
