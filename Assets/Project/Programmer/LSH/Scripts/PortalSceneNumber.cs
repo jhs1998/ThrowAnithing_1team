@@ -20,7 +20,10 @@ public class PortalSceneNumber : MonoBehaviour
     {
         if(other.tag == Tag.Player)
         {
-            Destroy(_forge.gameObject);
+            if (gameObject.tag == Tag.PortalHidden)
+            {
+                Destroy(_forge.gameObject);
+            }
         }
     }
 }
