@@ -147,6 +147,8 @@ public class NewOption : BaseUI
 
         DepthCal();
         curTabChecker(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
+
+        
     }
 
     //현재 뎁스에 맞게 버튼 하이라이트
