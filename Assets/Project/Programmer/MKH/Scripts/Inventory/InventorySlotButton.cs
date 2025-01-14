@@ -3,18 +3,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventorySlotButton : BaseUI, ISelectHandler
+public class InventorySlotButton : BaseUI
 {
     [SerializeField] bool _isFirstSelect;
     [SerializeField] int _index;
 
     public GameObject Outline;
-    private InventoryController _controller;
-    private InventorySlot _slot;
-    private Button _button;
+    public InventoryController _controller;
+    public InventorySlot _slot;
+    public Button _button;
 
-
-    private bool _isfirstIgnore;
     private void Awake()
     {
         Bind();
@@ -23,25 +21,18 @@ public class InventorySlotButton : BaseUI, ISelectHandler
         Outline = GetUI("Outline");
         _button = GetComponent<Button>();
     }
-    private void OnEnable()
-    {
-        if(_isFirstSelect == false)
-        {
-            _isFirstSelect = true;
-            return;
-        }
-            
-
-        if (_isFirstSelect == true)
-        {
-            EventSystem.current.SetSelectedGameObject(gameObject);
-        }
-    }
+    //private void OnEnable()
+    //{
+    //    if (_isFirstSelect == true)
+    //    {
+    //        EventSystem.current.SetSelectedGameObject(gameObject);
+    //    }
+    //}
     private void Update()
     {
     }
-    public void OnSelect(BaseEventData eventData)
-    {
-        _controller.ChangeSelectButton(_slot);
-    }
+    //public void OnSelect(BaseEventData eventData)
+    //{
+    //    _controller.ChangeSelectButton(_slot);
+    //}
 }

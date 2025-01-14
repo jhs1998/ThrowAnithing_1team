@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,12 +23,13 @@ namespace MKH
         [Header("장비 교체 매니저")]
         [SerializeField] private EquipActionManager equipActionManager;
 
+        public bool isEquip;
 
         public InventorySlotButton SlotButton;
 
         private void Awake()
         {
-            SlotButton = GetComponentInChildren<InventorySlotButton>();
+            //SlotButton = GetComponentInChildren<InventorySlotButton>();
         }
         // 아이템 이미지 투명도 조절
         private void SetColor(float _alpha)
@@ -84,5 +86,7 @@ namespace MKH
         {
             equipActionManager.RemoveEquip(mItem);
         }
+
+        
     }
 }
