@@ -362,11 +362,10 @@ public class InputKey : MonoBehaviour
  
     public struct InputStruct
     {
-        public Action Name;
+        public Action action;
         public Axis Axis;
-        public bool PrevPress;
-        public bool CurPress;
         public Vector2 Vector;
+        public string Name;
     }
     // GamePlay
     public static InputStruct Move;
@@ -390,8 +389,8 @@ public class InputKey : MonoBehaviour
     public static string Choice;
     public static string Break;
 
-    private Dictionary<Action, InputStruct> m_inputStructDic = new Dictionary<Action, InputStruct>();
-    private static Dictionary<Action, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
+    private Dictionary<string, InputStruct> m_inputStructDic = new Dictionary<string, InputStruct>();
+    private static Dictionary<string, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
     private  List<InputStruct> m_inputStructs = new List<InputStruct>();
     private static List<InputStruct> _inputStructs { get { return Instance.m_inputStructs; } }
     private PlayerInput m_playerInput;
@@ -423,21 +422,21 @@ public class InputKey : MonoBehaviour
 
     private void Init()
     {
-        Move = GetInputStruct(Action.Move, Axis.Axis);
-        CameraMove = GetInputStruct(Action.CameraMove, Axis.Axis);
-        MouseDelta = GetInputStruct(Action.MouseDelta, Axis.Axis);
-        Jump = GetInputStruct(Action.Jump, Axis.None);
-        Throw = GetInputStruct(Action.Throw, Axis.None);
-        Special = GetInputStruct(Action.Special, Axis.None);
-        Melee = GetInputStruct(Action.Melee, Axis.None);
-        LoakOn = GetInputStruct(Action.LoakOn, Axis.None);
-        LoakOff = GetInputStruct(Action.LoakOff, Axis.None);
-        Dash = GetInputStruct(Action.Dash, Axis.None);
-        Interaction = GetInputStruct(Action.Interaction, Axis.None);
-        Drain = GetInputStruct(Action.Drain, Axis.None);
-        OpenSetting = GetInputStruct(Action.OpenSettings, Axis.None);
-        InvenOpen = GetInputStruct(Action.InvenOpen, Axis.None);
-        Cheat = GetInputStruct(Action.Cheat, Axis.None);
+        Move = GetInputStruct(Action.Move, Axis.Axis,"Move");
+        CameraMove = GetInputStruct(Action.CameraMove, Axis.Axis, "CameraMove");
+        MouseDelta = GetInputStruct(Action.MouseDelta, Axis.Axis, "MouseDelta");
+        Jump = GetInputStruct(Action.Jump, Axis.None, "Jump");
+        Throw = GetInputStruct(Action.Throw, Axis.None, "Ranged_Attack");
+        Special = GetInputStruct(Action.Special, Axis.None, "Special_Attack");
+        Melee = GetInputStruct(Action.Melee, Axis.None, "Melee_Attack");
+        LoakOn = GetInputStruct(Action.LoakOn, Axis.None, "Loak_On");
+        LoakOff = GetInputStruct(Action.LoakOff, Axis.None,"Loak_Off");
+        Dash = GetInputStruct(Action.Dash, Axis.None, "Dash");
+        Interaction = GetInputStruct(Action.Interaction, Axis.None, "Interaction");
+        Drain = GetInputStruct(Action.Drain, Axis.None, "Drain");
+        OpenSetting = GetInputStruct(Action.OpenSettings, Axis.None, "Open_Setting");
+        InvenOpen = GetInputStruct(Action.InvenOpen, Axis.None, "InvenOpen");
+        Cheat = GetInputStruct(Action.Cheat, Axis.None,"Cheat");
     }
 
     private void LateUpdate()
@@ -446,46 +445,46 @@ public class InputKey : MonoBehaviour
         {
             ISetPrevPress(InputStructDic[inputStruct.Name], InputStructDic[inputStruct.Name].CurPress);
         }
-
-        foreach (InputStruct inputStruct in _inputStructs)
-        {
-            SetPrevPress(_inputStructDic[inputStruct.Name], _inputStructDic[inputStruct.Name].CurPress);
-        }
     }
 
-    public static bool GetButton(InputStruct inputStruct)
-    {
-        if (_inputStructDic[inputStruct.Name].Axis == Axis.Axis)
-            return false;
+    //public static bool GetButton(InputStruct inputStruct)
+    //{
+    //    if (_inputStructDic[inputStruct.Name].Axis == Axis.Axis)
+    //        return false;
 
-        if (_inputStructDic[inputStruct.Name].CurPress == true)
-            return true;
-        else
-            return false;
-    }
+    //    if (_inputStructDic[inputStruct.Name].CurPress == true)
+    //        return true;
+    //    else
+    //        return false;
+    //}
     public static bool GetButtonDown(InputStruct inputStruct)
     {
         if (_inputStructDic[inputStruct.Name].Axis == Axis.Axis)
             return false;
 
-        //if (inputStruct.Name == Action.Jump)
-        //    Debug.Log($"{_inputStructDic[inputStruct.Name].CurPress}, {_inputStructDic[inputStruct.Name].PrevPress}");
-
-        if (_inputStructDic[inputStruct.Name].CurPress == true && _inputStructDic[inputStruct.Name].PrevPress == false)
+        if (PlayerInput.actions[inputStruct.Name].WasPerformedThisFrame())
+        {
             return true;
+        }
         else
+        {
             return false;
+        }
     }
-    
+
     public static bool GetButtonUp(InputStruct inputStruct)
     {
         if (_inputStructDic[inputStruct.Name].Axis == Axis.Axis)
             return false;
 
-        if (_inputStructDic[inputStruct.Name].CurPress == false && _inputStructDic[inputStruct.Name].PrevPress == true)
+        if (PlayerInput.actions[inputStruct.Name].WasReleasedThisFrame())
+        {
             return true;
+        }
         else
+        {
             return false;
+        }
     }
 
     public static Vector2 GetAxis(InputStruct inputStruct)
@@ -505,32 +504,18 @@ public class InputKey : MonoBehaviour
     {
         return PlayerInput.currentActionMap.name;
     }
-
-    private static void SetCurPress(InputStruct inputStruct, bool isPress)
-    {
-        InputStruct newInputStruct = _inputStructDic[inputStruct.Name];
-        newInputStruct.CurPress = isPress;
-        _inputStructDic[inputStruct.Name] = newInputStruct;
-    }
-
-    private static void SetPrevPress(InputStruct inputStruct, bool isPress)
-    {
-        InputStruct newInputStruct = _inputStructDic[inputStruct.Name];
-        newInputStruct.PrevPress = isPress;
-        _inputStructDic[inputStruct.Name] = newInputStruct;
-    }
     private static void SetVector(InputStruct inputStruct, Vector2 value)
     {
         InputStruct newInputStruct = _inputStructDic[inputStruct.Name];
         newInputStruct.Vector = value;
         _inputStructDic[inputStruct.Name] = newInputStruct;
     }
-    private static InputStruct GetInputStruct(Action name, Axis axis)
+    private static InputStruct GetInputStruct(Action action, Axis axis, string name)
     {
         InputStruct inputStruct = new InputStruct();
         inputStruct.Name = name;
         inputStruct.Axis = axis;
-        inputStruct.CurPress = false;
+        inputStruct.action = action;
         _inputStructDic.Add(name, inputStruct);
         _inputStructs.Add(inputStruct);
         return inputStruct;
@@ -541,19 +526,6 @@ public class InputKey : MonoBehaviour
         {
             Vector2 vector = value.Get<Vector2>();
             SetVector(input, vector);
-        }
-        else if (input.Axis == Axis.None)
-        {
-            // 버튼식이면 0이 아니면 누르고있음, 0이면 뗐음
-            float floatValue = value.Get<float>();
-            if (floatValue != 0)
-            {
-                SetCurPress(input, true);
-            }
-            else
-            {
-                SetCurPress(input, false);
-            }
         }
     }
 
@@ -569,56 +541,56 @@ public class InputKey : MonoBehaviour
     {
         ProcessInput(value, MouseDelta);
     }
-    private void OnJump(InputValue value)
-    {
-;        ProcessInput(value, Jump);
-    }
-    private void OnRanged_Attack(InputValue value)
-    {
-        ProcessInput(value, Throw);
-    }
-    private void OnSpecial_Attack(InputValue value)
-    {
-        ProcessInput(value, Special);
-    }
-    private void OnMelee_Attack(InputValue value)
-    {
-        ProcessInput(value, Melee);
-    }
+//    private void OnJump(InputValue value)
+//    {
+//;        ProcessInput(value, Jump);
+//    }
+//    private void OnRanged_Attack(InputValue value)
+//    {
+//        ProcessInput(value, Throw);
+//    }
+//    private void OnSpecial_Attack(InputValue value)
+//    {
+//        ProcessInput(value, Special);
+//    }
+//    private void OnMelee_Attack(InputValue value)
+//    {
+//        ProcessInput(value, Melee);
+//    }
 
-    private void OnLoak_On(InputValue value)
-    {
-        ProcessInput(value, LoakOn);
-    }
-    private void OnLoak_Off(InputValue value)
-    {
-        ProcessInput(value, LoakOff);
-    }
-    private void OnDash(InputValue value)
-    {
-        ProcessInput(value, Dash);
-    }
-    private void OnInteraction(InputValue value)
-    {
-        ProcessInput(value, Interaction);
-    }
-    private void OnDrain(InputValue value)
-    {
-        ProcessInput(value, Drain);
-    }
-    private void OnOpen_Settine(InputValue value)
-    {
-        ProcessInput(value, OpenSetting);
-    }
+//    private void OnLoak_On(InputValue value)
+//    {
+//        ProcessInput(value, LoakOn);
+//    }
+//    private void OnLoak_Off(InputValue value)
+//    {
+//        ProcessInput(value, LoakOff);
+//    }
+//    private void OnDash(InputValue value)
+//    {
+//        ProcessInput(value, Dash);
+//    }
+//    private void OnInteraction(InputValue value)
+//    {
+//        ProcessInput(value, Interaction);
+//    }
+//    private void OnDrain(InputValue value)
+//    {
+//        ProcessInput(value, Drain);
+//    }
+//    private void OnOpen_Settine(InputValue value)
+//    {
+//        ProcessInput(value, OpenSetting);
+//    }
 
-    private void OnInvenOpen(InputValue value)
-    {
-        ProcessInput(value, InvenOpen);
-    }
-    private void OnCheat(InputValue value)
-    {
+//    private void OnInvenOpen(InputValue value)
+//    {
+//        ProcessInput(value, InvenOpen);
+//    }
+//    private void OnCheat(InputValue value)
+//    {
       
-        ProcessInput(value, Cheat);
-    }
+//        ProcessInput(value, Cheat);
+//    }
     #endregion
 }

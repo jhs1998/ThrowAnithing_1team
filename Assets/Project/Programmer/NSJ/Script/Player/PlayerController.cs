@@ -63,12 +63,16 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     public struct PlayerPointStruct
     {
         public Transform RightArmPoint;
+        public Transform LeftArmPoint;
+        public Transform MeleeAttackPoint;
         public Transform DashArmPoint;
         public Transform DashFrontPoint;
 
     }
     [SerializeField] private PlayerPointStruct _points;
-    public Transform ArmPoint { get { return _points.RightArmPoint; } }
+    public Transform RightArmPoint { get { return _points.RightArmPoint; } }
+    public Transform LeftArmPoint { get { return _points.LeftArmPoint; } }
+    public Transform MeleeAttackPoint { get { return _points.MeleeAttackPoint; } }
     public Transform DashArmPoint { get { return _points.DashArmPoint; } }
     public Transform DashFrountPoint { get { return _points.DashFrontPoint; } }
     #endregion
@@ -922,6 +926,12 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
 
     IEnumerator KnockBackRoutine(Rigidbody targetRb, Vector3 knockBackDir, float distance)
     {
+        BossEnemy bossEnemy = targetRb.GetComponent<BossEnemy>();
+        if (bossEnemy != null)
+            yield break;
+
+
+
         Vector3 originPos = targetRb.position;
 
         float knockbackDistance = distance * (1 + Model.KnockBackDistanceMultiplier / 100f);

@@ -6,13 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Balance PrevMelee", menuName = "Arm/AttackType/Balance/PrevMelee")]
 public class BalanceMeleeAttack : ArmMeleeAttack
 {
+    [SerializeField] GameObject _attackEffect;
     [Header("스테미나 소모량")]
     public float StaminaAmount;
     [SerializeField] float _range;
     [SerializeField] int _damage;
     [Range(0,180)][SerializeField] float _angle;
     [SerializeField] float _damageMultiplier;
-
     private float _staminaReduction => 1 - Model.StaminaReduction / 100;
     Coroutine _meleeRoutine;
     public override void Enter()
@@ -81,6 +81,8 @@ public class BalanceMeleeAttack : ArmMeleeAttack
             Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, finalDamage,  false);
             Battle.TargetCrowdControl(Player.OverLapColliders[i],CrowdControlType.Stiff);
         }
+
+        ObjectPool.GetPool(_attackEffect, Player.MeleeAttackPoint.transform.position, transform.rotation, 2f);
     }
 
     public override void OnCombo()

@@ -78,7 +78,6 @@ public class BalanceJumpDown : ArmJumpDown
                 {
                     if (hit.transform.gameObject.layer != Layer.Monster)
                     {
-                        Debug.Log(hit.point);
                         _landingPoint = hit.point;
                         break;
                     }
