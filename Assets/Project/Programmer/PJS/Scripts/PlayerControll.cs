@@ -49,7 +49,7 @@ public class PlayerControll : MonoBehaviour, IHit, IDebuff
         return damage;
     }
 
-    public void TakeCrowdControl(CrowdControlType type)
+    public void TakeCrowdControl(CrowdControlType type, float time)
     {
         
     }
