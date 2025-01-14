@@ -33,7 +33,7 @@ public class TalkInteractable : MonoBehaviour
     // 충돌했을때 안내ui 출력
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Tag.Player))
+        if (other.CompareTag(Tag.Player) && !isItemSpon)
         {
             ShowPopup();
             isPlayerNearby = true;
