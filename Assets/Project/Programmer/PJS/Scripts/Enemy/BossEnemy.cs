@@ -31,10 +31,10 @@ public class BossEnemy : BaseEnemy, IHit
     [Space, SerializeField] ParticleSystem shieldParticle;  // 실드
     [SerializeField] ParticleSystem novaParticle;       // 라이트닝 노바
     [SerializeField] ParticleSystem fistParticle;       // 라이트닝 피스트
-    [SerializeField] ParticleSystem fistGroundParticle; // 라이트닝 피스트 바닥효과
     [SerializeField] ParticleSystem healParticle;       // 회복
     [SerializeField] ParticleSystem jumpParticle;       // 점프 공격 시작 
     [SerializeField] ParticleSystem jumpDownParticle;   // 점프 공격 끝
+    [SerializeField] GameObject fistGroundParticle; // 라이트닝 피스트 바닥효과
     [SerializeField] Transform pos;
     private Coroutine attackAble;
     private Coroutine globalCoolTime;
@@ -222,7 +222,8 @@ public class BossEnemy : BaseEnemy, IHit
         else if(curPhase == PhaseType.Phase1)
         {
             fistParticle.Play();
-            ObjectPool.GetPool(fistGroundParticle.gameObject, pos.position, pos.rotation, 3f);
+            CreateElectricZone electricZone = ObjectPool.GetPool(fistGroundParticle.gameObject, pos.position, pos.rotation, 4.5f).GetComponent<CreateElectricZone>();
+            electricZone.battle = Battle;
         }
         // 라이트닝 피스트 - 1페이즈에만 존재
     }
