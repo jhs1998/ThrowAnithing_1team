@@ -8,7 +8,7 @@ namespace MKH
     public class DropItemTable : ScriptableObject
     {
         [Header("DropList 스크립터블오브젝트")]
-        [SerializeField] protected DropList[] dropLists;
+        [SerializeField] public DropList[] dropLists;
 
         [Header("아이템 삭제 대기 시간")]
         [SerializeField] public float _destroyItemTime;
