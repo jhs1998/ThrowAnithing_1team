@@ -533,6 +533,12 @@ public class ObjectPool : MonoBehaviour
         Coroutine  coroutine = Instance.StartCoroutine(Instance.GetAutoPoolRoutine(prefab, intervalTime, returnDelay));
         Instance.StartCoroutine(Instance.GetAutoPoolDurationRoutine(coroutine,duration));
     }
+    public static void GetPool(GameObject prefab, Vector3 pos, Quaternion rot, float intervalTime, float returnDelay, float duration)
+    {
+        CreateObjectPool();
+        Coroutine coroutine = Instance.StartCoroutine(Instance.GetAutoPoolRoutine(prefab, pos, rot,intervalTime, returnDelay));
+        Instance.StartCoroutine(Instance.GetAutoPoolDurationRoutine(coroutine, duration));
+    }
     public static void ReturnPool(ref Coroutine coroutine)
     {
         if(coroutine != null)

@@ -1,6 +1,4 @@
-using Assets.Project.Programmer.NSJ.RND.Script;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Balance PrevMelee", menuName = "Arm/AttackType/Balance/PrevMelee")]
@@ -11,23 +9,28 @@ public class BalanceMeleeAttack : ArmMeleeAttack
     public float StaminaAmount;
     [SerializeField] float _range;
     [SerializeField] int _damage;
-    [Range(0,180)][SerializeField] float _angle;
+    [Range(0, 180)][SerializeField] float _angle;
     [SerializeField] float _damageMultiplier;
+    [SerializeField] private float _coolTime;
     private float _staminaReduction => 1 - Model.StaminaReduction / 100;
+
+    private bool _isCooltime;
     Coroutine _meleeRoutine;
     public override void Enter()
     {
         Player.Rb.velocity = Vector3.zero;
 
-        // 첫 공격 시 첫 공격 애니메이션 실행
-        if (Player.PrevState != PlayerController.State.MeleeAttack)
+        if(_isCooltime == true)
         {
-            View.SetTrigger(PlayerView.Parameter.BalanceMelee);
+            Model.CurStamina += StaminaAmount;
+            ChangeState(Player.PrevState);
+            return;
         }
-        else
-        {
-            View.SetTrigger(PlayerView.Parameter.OnCombo);
-        }
+
+
+        View.SetTrigger(PlayerView.Parameter.BalanceMelee);
+
+
 
         if (Player.IsAttackFoward == true)
         {
@@ -75,12 +78,15 @@ public class BalanceMeleeAttack : ArmMeleeAttack
             float targetAngle = Vector3.Angle(transform.forward, targetDir); // 아크코사인 필요 (느리다)
             if (targetAngle > _angle * 0.5f)
                 continue;
-            
-            int finalDamage = Player.GetFinalDamage(_damage,_damageMultiplier, out bool isCritical);
+
+            int finalDamage = Player.GetFinalDamage(_damage, _damageMultiplier, out bool isCritical);
             // 데미지 주기
-            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, finalDamage,  false);
-            Battle.TargetCrowdControl(Player.OverLapColliders[i],CrowdControlType.Stiff);
+            Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, finalDamage, false);
+            Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
         }
+
+
+        CoroutineHandler.StartRoutine(CooltimeRoutine(_coolTime));
 
         ObjectPool.GetPool(_attackEffect, Player.MeleeAttackPoint.transform.position, transform.rotation, 2f);
     }
@@ -111,13 +117,8 @@ public class BalanceMeleeAttack : ArmMeleeAttack
             if (Player.CurState != PlayerController.State.MeleeAttack)
                 yield break;
 
-            if (InputKey.GetButtonDown(InputKey.Melee))
-            {
-                ChangeState(PlayerController.State.MeleeAttack);
-                _meleeRoutine = null;
-                yield break;
-            }
-            else if (InputKey.GetButtonDown(InputKey.Throw))
+
+            if (InputKey.GetButtonDown(InputKey.Throw))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
                 _meleeRoutine = null;
@@ -125,6 +126,13 @@ public class BalanceMeleeAttack : ArmMeleeAttack
             }
             yield return null;
         }
+    }
+
+    IEnumerator CooltimeRoutine(float coolTime)
+    {
+        _isCooltime = true;
+        yield return coolTime.GetDelay();
+        _isCooltime = false;
     }
 
     public override void OnDrawGizmos()
