@@ -24,6 +24,7 @@ public class ThrowObject : MonoBehaviour
     // 데미지 배수
     public float DamageMultyPlier;
     [Space(10)]
+    [HideInInspector] public bool IsBoom;
     // 공격 범위(폭발식)
     [HideInInspector] public float Radius;
     // CC기 종류
@@ -32,6 +33,7 @@ public class ThrowObject : MonoBehaviour
     [HideInInspector] public float KnockBackDistance;
     // 스테미나 회복량
     [HideInInspector] public float SpecialRecovery;
+
     [Tooltip("클론형태의 투척물 인지?")]
     public bool IsClone;
     [Tooltip("본인에게서 파생된 모든 투척물(체인)")]
@@ -102,7 +104,7 @@ public class ThrowObject : MonoBehaviour
                 return;
 
             TriggerThrowAddtional();
-            HitTarget();
+            HitTarget(other);
             Player.ThrowObjectResultCallback(this, true);
             SetChainHit(true);
 
@@ -164,6 +166,18 @@ public class ThrowObject : MonoBehaviour
 
         AddThrowAdditional(throwAdditionals, player);
     }
+    public void Init(ThrowObject throwObject, CrowdControlType CCType, int addionalDamage, List<ThrowAdditional> throwAdditionals)
+    {
+        Player = throwObject.Player;
+        PlayerDamage = addionalDamage;
+        Radius = throwObject.Radius;
+
+        this.CCType = CCType;
+        // 적중시 회복 마나량
+        SpecialRecovery = throwObject.SpecialRecovery;
+
+        AddThrowAdditional(throwAdditionals, Player);
+    }
     #endregion
     public void Shoot(float throwPower)
     {
@@ -172,10 +186,24 @@ public class ThrowObject : MonoBehaviour
     /// <summary>
     /// 타겟 적중
     /// </summary>
-    protected virtual void HitTarget()
+    protected virtual void HitTarget(Collider other)
     {
         if (CanAttack == false)
             return;
+
+        if(IsBoom== true)
+        {
+            PowerHitTarget(other);
+        }
+        else
+        {
+            BasicHitTarget(other);
+        }
+    }
+
+
+    private void PowerHitTarget(Collider other)
+    {
 
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, Player.OverLapColliders, 1 << Layer.Monster);
 
@@ -199,6 +227,27 @@ public class ThrowObject : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    private void BasicHitTarget(Collider other)
+    {
+        int finalDamage = Player.GetFinalDamage(Damage, DamageMultyPlier, out bool isCritical);
+        // 디버프 주기
+        int hitDamage = Player.Battle.TargetAttackWithDebuff(other, isCritical, finalDamage, false);
+
+        Player.Battle.TargetCrowdControl(other, CCType);
+
+        if (KnockBackDistance > 0)
+            Player.DoKnockBack(other.transform, transform.forward, KnockBackDistance);
+
+        // 플레이어 특수공격 자원 획득
+        Player.Model.CurMana += SpecialRecovery;
+        // 이펙트 
+        ObjectPool.GetPool(Effect.Hit, transform.position, transform.rotation, 1.5f);
+
+
+        Destroy(gameObject);
+    }
+
 
 
     /// <summary>
