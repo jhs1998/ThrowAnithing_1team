@@ -16,8 +16,8 @@ public class DataContainer : MonoBehaviour
     /// 블루칩 데이터
     /// </summary>
     public static AdditionalEffect[] BlueChips { get { return Instance._blueChips; } }
-    [SerializeField] private TestBlueChip _blueChipItem;
-    public static TestBlueChip BlueChipItem { get { return Instance._blueChipItem; } }
+    [SerializeField] private BlueChip _blueChipItem;
+    public static BlueChip BlueChipItem { get { return Instance._blueChipItem; } }
     [System.Serializable]
     public struct ItemStruct
     {
@@ -161,20 +161,16 @@ public class DataContainer : MonoBehaviour
         return null;
     }
 
-    public static TestBlueChip CreateRandomBlueChip(Vector3 pos, Quaternion rot)
+    public static BlueChip CreateRandomBlueChip(Vector3 pos, Quaternion rot)
     {
-        TestBlueChip testBlueChip = Instantiate(BlueChipItem, pos, rot);
-        testBlueChip.Effect = BlueChips[Random.Range(0, BlueChips.Length)];
-        testBlueChip.SetBlueChip(testBlueChip.Effect);
-        return testBlueChip;
+        BlueChip blueChip = Instantiate(BlueChipItem, pos, rot);
+        return blueChip;
     }
-    public static TestBlueChip CreateRandomBlueChip(Transform transform)
+    public static BlueChip CreateRandomBlueChip(Transform transform)
     {
-        TestBlueChip testBlueChip = Instantiate(BlueChipItem, transform.position, transform.rotation);
-        testBlueChip.transform.SetParent(transform, true);
-        testBlueChip.Effect = BlueChips[Random.Range(0, BlueChips.Length)];
-        testBlueChip.SetBlueChip(testBlueChip.Effect);
-        return testBlueChip;
+        BlueChip blueChip = Instantiate(BlueChipItem, transform.position, transform.rotation);
+        blueChip.transform.SetParent(transform, true);
+        return blueChip;
     }
     private void InitSingleTon()
     {
