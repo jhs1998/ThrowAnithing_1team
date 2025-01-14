@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7343286330744827298}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.488396, y: 5.9457903, z: -4.4920106}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effect:
     Hit: {fileID: 7726990311458844011, guid: d0f64f5c51d02da4ba261f975f90e7a5, type: 3}
+    BoomHit: {fileID: 849721849708685229, guid: 0ab26597ea852f7448e574a04634539f, type: 3}
   Data:
     ID: 0
     Name: "\uAE30\uBCF8"
@@ -108,6 +109,7 @@ MonoBehaviour:
   ObjectDamage: 10
   PlayerDamage: 0
   DamageMultyPlier: 0
+  IsBoom: 0
   Radius: 0
   CCType: 0
   KnockBackDistance: 0

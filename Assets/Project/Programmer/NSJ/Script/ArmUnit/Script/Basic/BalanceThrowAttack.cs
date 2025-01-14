@@ -108,7 +108,11 @@ public class BalanceThrowAttack : ArmThrowAttack
     
 
         ThrowObject throwObject = Instantiate(DataContainer.GetThrowObject(throwObjectID), _muzzlePoint.position, _muzzlePoint.rotation);
-        throwObject.Init(Player, _attacks[_comboCount].CCType, (int)_attacks[_comboCount].Damage, Model.ThrowAdditionals);
+
+        bool isBoom = _comboCount == 3 ? true : false;
+
+
+        throwObject.Init(Player, _attacks[_comboCount].CCType, isBoom, (int)_attacks[_comboCount].Damage, Model.ThrowAdditionals);
         throwObject.KnockBackDistance = _attacks[_comboCount].KnockBackDistance;
 
         throwObject.Shoot(Player.ThrowPower);
