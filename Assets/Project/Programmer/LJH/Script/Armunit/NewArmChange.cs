@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -15,21 +17,14 @@ public class NewArmChange : BaseUI
     [Inject]
     PlayerData playerData;
     int arm_cur;
-    GameObject[] armUnits;
-    Button[] armButtons;
+    List<GameObject> armUnits = new();
+    List<Button> armButtons = new();
+
     [SerializeField] SaveSystem saveSystem;
 
     Forge _forge;
 
-    float inputDelay = 0.25f;
-
-    Coroutine armCo;
-
     Color color;
-
-    //카메라 제어용
-    PlayerController player;
-    float cameraSpeed;
 
     private void Awake()
     {
@@ -55,7 +50,7 @@ public class NewArmChange : BaseUI
     //Todo : 함수 이름 바꿔야함
     void ArmUnit_changeColor()
     {
-        for (int i = 0; i < armUnits.Length; i++)
+        for (int i = 0; i < armUnits.Count; i++)
         {
             color = armUnits[i].GetComponent<Image>().color;
             color.a = 0.1f;
@@ -88,11 +83,6 @@ public class NewArmChange : BaseUI
         // 데이터 세이브
         saveSystem.SavePlayerData();
     }
-
-    public void Speed()
-    {
-        Debug.Log("스피드 타입 선택");
-    }
     #endregion
 
     public void ArmUnitClose()
@@ -103,22 +93,15 @@ public class NewArmChange : BaseUI
     void Init()
     {
         playerInput = InputKey.PlayerInput;
-        armUnits = new GameObject[3];
 
-        armUnits[0] = GetUI("PowerButton");
-        armUnits[1] = GetUI("BalanceButton");
-        armUnits[2] = GetUI("SpeedButton");
+        armUnits.Add(GetUI("PowerButton"));
+        armUnits.Add(GetUI("BalanceButton"));
 
-        armButtons = new Button[3];
-
-        armButtons[0] = GetUI<Button>("PowerButton");
-        armButtons[1] = GetUI<Button>("BalanceButton");
-        armButtons[2] = GetUI<Button>("SpeedButton");
+        armButtons.Add(GetUI<Button>("PowerButton"));
+        armButtons.Add(GetUI<Button>("BalanceButton"));
 
         armButtons[0].onClick.AddListener(Power);
         armButtons[1].onClick.AddListener(Balance);
-        armButtons[2].onClick.AddListener(Speed);
 
-        player = GameObject.FindWithTag(Tag.Player).GetComponent<PlayerController>();
     }
 }

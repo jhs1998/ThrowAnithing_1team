@@ -20,6 +20,7 @@ public class UpgradePopUp : MonoBehaviour
         {
             if (InputKey.GetButtonDown(InputKey.Interaction))
             {
+                
                 Debug.Log($"{name} ´©¸§");
                 _object.SetActive(true);
             }

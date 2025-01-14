@@ -1,8 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Forge : MonoBehaviour
 {
     [SerializeField] GameObject upPopup;
+    [SerializeField] GameObject pcPopup;
+    [SerializeField] GameObject padPopup;
+
     [SerializeField] GameObject _ui;
 
     public bool IsUIActive;
@@ -15,10 +19,27 @@ public class Forge : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag(Tag.Player))
+        foreach (var device in InputSystem.devices)
         {
-            upPopup.SetActive(true);
-            IsActive = true;
+            if (device is Gamepad)
+            {
+                if (other.gameObject.CompareTag(Tag.Player))
+                {
+                    upPopup.SetActive(true);
+                    padPopup.SetActive(true);
+                    IsActive = true;
+                }
+            }
+            else if(device is Keyboard)
+            {
+
+                if (other.gameObject.CompareTag(Tag.Player))
+                {
+                    upPopup.SetActive(true);
+                    pcPopup.SetActive(true);
+                    IsActive = true;
+                }
+            }
         }
     }
 
@@ -26,7 +47,8 @@ public class Forge : MonoBehaviour
     {
         if (other.gameObject.CompareTag(Tag.Player))
         {
-            
+            pcPopup.SetActive(false);
+            padPopup.SetActive(false);
             upPopup.SetActive(false);
             _ui.SetActive(false);
             IsActive = false;
