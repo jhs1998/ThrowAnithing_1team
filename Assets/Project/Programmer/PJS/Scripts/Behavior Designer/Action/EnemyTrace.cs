@@ -27,7 +27,7 @@ public class EnemyTrace : Action
         // 좀비가 캐릭터에 너무 딱 붙으려는 문제 해결용?
         if ((movePos - transform.position).magnitude > attackDis.Value - 0.1f)
         {
-            if (player.Value.position.y > 3f)   // 플레이어가 지정한 높이 위에 있을 시 멈춤
+            if (player.Value.position.y > 2f)   // 플레이어가 지정한 높이 위에 있을 시 멈춤
             {
                 GetComponent<Animator>().SetBool("Move", false);
                 transform.position = this.transform.position;

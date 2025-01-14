@@ -47,7 +47,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     public float AttackSpeed { get { return state.AtkDelay; } set { state.AtkDelay = value; } }
 
     protected SharedGameObject playerObj;
-
+    
     private void Awake()
     {
         playerObj = GameObject.FindGameObjectWithTag("Player");
