@@ -15829,6 +15829,7 @@ GameObject:
   m_Component:
   - component: {fileID: 952777452}
   - component: {fileID: 952777453}
+  - component: {fileID: 952777454}
   m_Layer: 9
   m_Name: UpgradeSlot
   m_TagString: Untagged
@@ -15882,7 +15883,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 952777451}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f07d6eaef10932e4bad276b124c02bb6, type: 3}
   m_Name: 
@@ -15894,6 +15895,47 @@ MonoBehaviour:
   infotext: {fileID: 776773416}
   usedCost: 0
   upText: {fileID: 866110152213138119, guid: ddd64420f7a9e9f479ed8c5aaac607f1, type: 3}
+--- !u!114 &952777454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952777451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3c0853f7c105a4c8a38eca2614512f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pause: {fileID: 2059241691}
+  itemName: {fileID: 1940880861}
+  itemImage: {fileID: 2062190578}
+  itemInfo: {fileID: 1897813978}
+  infotext: {fileID: 776773416}
+  usedCost: 0
+  upText: {fileID: 866110152213138119, guid: ddd64420f7a9e9f479ed8c5aaac607f1, type: 3}
+  buttonIndex:
+  - {fileID: 238555634}
+  - {fileID: 1732847019}
+  - {fileID: 977135344}
+  - {fileID: 1421203061}
+  - {fileID: 2031197438}
+  - {fileID: 939724700}
+  - {fileID: 571606393}
+  - {fileID: 1033396144}
+  - {fileID: 1102419876}
+  - {fileID: 1852803991}
+  - {fileID: 965681804}
+  - {fileID: 1477953628}
+  - {fileID: 1580089924}
+  - {fileID: 928702858}
+  - {fileID: 1259313747}
+  - {fileID: 989013131}
+  - {fileID: 988460711}
+  - {fileID: 257723054}
+  - {fileID: 871687570}
+  - {fileID: 1776716307}
+  slotImage: []
 --- !u!1001 &953467254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36028,6 +36070,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+--- !u!1 &2059241691 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5859769683112539892, guid: d945302bed780d942b85b7ca78bd9dd9, type: 3}
+  m_PrefabInstance: {fileID: 2059241690}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2059921262
 PrefabInstance:
   m_ObjectHideFlags: 0
