@@ -57,6 +57,8 @@ public class NewOption : BaseUI
 
     GameObject actChecked; //미니맵 활성화 체크 여부
     GameObject fixChecked; //미니맵   고정 체크 여부
+    GameObject actUnChecked;
+    GameObject fixUnChecked;
 
 
     //뎁스2 버튼 목록 - 소리
@@ -385,6 +387,8 @@ public class NewOption : BaseUI
 
         actChecked = GetUI("ActChecked");
         fixChecked = GetUI("FixChecked");
+        actUnChecked = GetUI("ActUnChecked");
+        fixUnChecked = GetUI("FixUnChecked");
 
         soundButtons.Add(totalVolume = GetUI<Button>("TotalSound"));
         soundButtons.Add(bgmVolume = GetUI<Button>("BGMSound"));
@@ -406,6 +410,10 @@ public class NewOption : BaseUI
 
         minimapAct.onClick.AddListener(MinimapAct);
         minimapFix.onClick.AddListener(MinimapFix);
+        actChecked.GetComponent<Button>().onClick.AddListener(MinimapAct);
+        fixChecked.GetComponent<Button>().onClick.AddListener(MinimapFix);
+        actUnChecked.GetComponent<Button>().onClick.AddListener(MinimapAct);
+        fixUnChecked.GetComponent<Button>().onClick.AddListener(MinimapFix);
 
         preAct = setting.miniMapOnBool;
         preFix = setting.miniMapFixBool;

@@ -33,7 +33,6 @@ public class UserDataManager : MonoBehaviour
     private void Start()
     {
         // 파일 경로 초기화 (세이브 경로는 Zenject에서 주입됨)
-        Debug.Log($"Save path: {path}");
         playerstate.NewPlayerSetting();
     }
     // 저장 기능
@@ -45,9 +44,7 @@ public class UserDataManager : MonoBehaviour
         string data = JsonUtility.ToJson(nowPlayer);
         // 각 슬롯에 대해 파일 경로 다르게 설정 (슬롯 번호에 맞는 파일로 저장)
         string slotPath = path + $"slot_{nowSlot}.json";
-        Debug.Log($"{data}");
         File.WriteAllText(slotPath, data);
-        Debug.Log($"슬롯 {nowSlot + 1}에 게임 저장 완료! 저장 시간: {nowPlayer.saveDateTime}");
     }
     // 로드 기능 
     public void LoadData()
@@ -67,8 +64,6 @@ public class UserDataManager : MonoBehaviour
             nowPlayer.nowWeapon = loadedData.nowWeapon;
             // 강화 플레이어 스탯 새팅을 위한 값
             nowPlayer.bringData = true;
-            Debug.Log($"슬롯 {nowSlot + 1}에서 게임 로드 완료!");
-            Debug.Log($"Checking file path: {slotPath}, Exists: {File.Exists(slotPath)}");
         }
         else
         {
