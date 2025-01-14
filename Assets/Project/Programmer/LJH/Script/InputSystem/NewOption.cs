@@ -118,7 +118,7 @@ public class NewOption : BaseUI
         actChecked.SetActive(setting.miniMapOnBool);
         fixChecked.SetActive(setting.miniMapFixBool);
         sensSlider.value = setting.cameraSpeed;
-
+        
         totalVolumeBar.value = setting.wholesound;
         bgmVolumeBar.value = setting.backgroundSound;
         sfxVolumeBar.value = setting.effectSound;
@@ -364,6 +364,7 @@ public class NewOption : BaseUI
     public void MinimapAct()
     {
         actChecked.SetActive(!actChecked.activeSelf);
+        setting.miniMapOnBool = actChecked.activeSelf;
         StartCoroutine(SetSelectRoutine(minimapAct.gameObject));
         curDepth = 1;
     }
@@ -371,6 +372,7 @@ public class NewOption : BaseUI
     public void MinimapFix()
     {
         fixChecked.SetActive(!fixChecked.activeSelf);
+        setting.miniMapFixBool = fixChecked.activeSelf;
         StartCoroutine(SetSelectRoutine(minimapFix.gameObject));
         curDepth = 1;
     }
@@ -390,8 +392,8 @@ public class NewOption : BaseUI
     public void AcceptButton_Gameplay()
     {
         MinimapCheck();
-        setting.miniMapOnBool = newAct;
-        setting.miniMapFixBool = newFix;
+        //setting.miniMapOnBool = newAct;
+        //setting.miniMapFixBool = newFix;
 
         preAct = setting.miniMapOnBool;
         preFix = setting.miniMapFixBool;
@@ -412,8 +414,8 @@ public class NewOption : BaseUI
 
     public void CancelButton_Gameplay()
     {
-        setting.miniMapOnBool = preAct;
-        setting.miniMapFixBool = preFix;
+        //setting.miniMapOnBool = preAct;
+        //setting.miniMapFixBool = preFix;
 
         ButtonReset(gameplayButtons);
 
@@ -424,8 +426,8 @@ public class NewOption : BaseUI
 
     public void DefaultButton_Gameplay()
     {
-        setting.miniMapOnBool = defaultAct;
-        setting.miniMapFixBool = defaultFix;
+        //setting.miniMapOnBool = defaultAct;
+        //setting.miniMapFixBool = defaultFix;
 
         preAct = setting.miniMapOnBool;
         preFix = setting.miniMapFixBool;

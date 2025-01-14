@@ -39,7 +39,6 @@ public class NewMainScene : BaseUI
     }
     void Start()
     {
-        setting.OptionResetAll();
         setting.OptionLoad();
         EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
     }
