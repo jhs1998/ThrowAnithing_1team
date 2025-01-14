@@ -471,6 +471,7 @@ MonoBehaviour:
   _points:
     RightArmPoint: {fileID: 5481188353624626678}
     LeftArmPoint: {fileID: 2041844226527107651}
+    MeleeAttackPoint: {fileID: 137203626900361918}
     DashArmPoint: {fileID: 6946050281561219658}
     DashFrontPoint: {fileID: 3034152144211330462}
   _attackStruct:
@@ -7122,7 +7123,7 @@ Transform:
   m_GameObject: {fileID: 4723834702680675656}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0.8}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12225,6 +12226,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2033072817092193576, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -3.1594238
+      objectReference: {fileID: 0}
+    - target: {fileID: 2033072817092193576, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.579834
+      objectReference: {fileID: 0}
     - target: {fileID: 2158865765145457728, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -12439,6 +12448,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4066034619625944213, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4249906537398509490, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4263915768170920245, guid: 866beb74dda3d314887aef435ed1bbe0, type: 3}

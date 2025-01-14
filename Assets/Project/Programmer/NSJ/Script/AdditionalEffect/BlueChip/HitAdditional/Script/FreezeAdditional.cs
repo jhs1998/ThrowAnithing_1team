@@ -1,11 +1,14 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Freeze")]
 public class FreezeAdditional : HitAdditional
 {
+    [Header("È®·ü")]
+    [SerializeField] public float Probability;
+
+
+
     [System.Serializable]
     struct EffectStrcut
     {
@@ -13,9 +16,14 @@ public class FreezeAdditional : HitAdditional
         [HideInInspector] public GameObject Effect;
     }
     [SerializeField] EffectStrcut _effect;
+
     private float _decreasedMoveSpeed;
     public override void Enter()
     {
+        if (Random.Range(0, 100) > Probability)
+            return;
+
+
         if (_debuffRoutine == null)
         {
             CreateEffect();

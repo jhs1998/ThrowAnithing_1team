@@ -12,6 +12,8 @@ public class LSH_Teleport : MonoBehaviour
 
     [SerializeField] bool isSceneAdditive; //T애디티브 씬이 열려있음, F아님
 
+
+
     private void OnTriggerEnter(Collider other)
     {
         
