@@ -20,11 +20,11 @@ public class TrashObj : MonoBehaviour
             hit.TakeDamage(atk);
             if(onStun == true)
             {
-                hit.TakeCrowdControl(CrowdControlType.Stun);
+                hit.TakeCrowdControl(CrowdControlType.Stun, 1f);
             }
             else
             {
-                hit.TakeCrowdControl(CrowdControlType.Stiff);
+                hit.TakeCrowdControl(CrowdControlType.Stiff, 1f);
             }
         }
     }

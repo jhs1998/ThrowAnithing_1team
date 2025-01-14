@@ -39,7 +39,7 @@ public class Spike : MonoBehaviour
         while (true)
         {
             battle.TakeDamage(spikeDamage);
-            battle.TakeCrowdControl(CrowdControlType.Stiff);
+            battle.TakeCrowdControl(CrowdControlType.Stiff, 1f);
             yield return count.GetDelay();
         }
     }

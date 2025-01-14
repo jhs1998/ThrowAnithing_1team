@@ -14,7 +14,7 @@ public class Stalactite : MonoBehaviour
         { 
             IBattle battle = other.GetComponent<IBattle>();
             battle.TakeDamage(stalactiteDamage);
-            battle.TakeCrowdControl(CrowdControlType.Stiff);
+            battle.TakeCrowdControl(CrowdControlType.Stiff, 1f);
         }
     }
 
