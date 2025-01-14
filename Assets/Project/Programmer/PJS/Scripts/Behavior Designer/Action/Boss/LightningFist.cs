@@ -19,14 +19,14 @@ public class LightningFist : Action
     {
         hits = Physics.BoxCastAll(createPos.position, transform.lossyScale / 2f, transform.forward, transform.rotation, skillState.range);
 
-        for (int i = 0; i < hits.Length; i++)
+        foreach (RaycastHit hit in hits)
         {
-            if (hits[i].collider.gameObject.name.CompareTo("Boss") == 0)
+            if (hit.collider.gameObject.name.CompareTo("Boss") == 0 || hit.collider.tag != Tag.Player)
                 continue;
 
             //enemy.Battle.TargetAttack(hits[i].transform, skillState.damage);
-            enemy.Battle.TargetAttackWithDebuff(hits[i].transform, skillState.damage);
-            enemy.Battle.TargetCrowdControl(hits[i].transform, CrowdControlType.Stiff);
+            enemy.Battle.TargetAttackWithDebuff(hit.transform, skillState.damage);
+            enemy.Battle.TargetCrowdControl(hit.transform, CrowdControlType.Stiff);
         }
 
         StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
