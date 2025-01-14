@@ -16,6 +16,7 @@ public class NewOption : BaseUI
 
     MainSceneBinding binding;
 
+    PlayerInput playerInput;
     // 현재 상태
     // 0 = 옵션
     // 1 = 게임플레이
@@ -35,6 +36,7 @@ public class NewOption : BaseUI
     Button minimapFix;
     Button LanguageChange;
     Button sens;
+    Slider sensSlider;
 
     Button accept_Gameplay;
     Button cancel_Gameplay;
@@ -65,6 +67,10 @@ public class NewOption : BaseUI
     Button totalVolume;
     Button bgmVolume;
     Button sfxVolume;
+
+    Slider totalVolumeBar;
+    Slider bgmVolumeBar;
+    Slider sfxVolumeBar;
 
     Button accept_Sound;
     Button cancel_Sound;
@@ -119,7 +125,7 @@ public class NewOption : BaseUI
 
         if (pausePanel != null)
             EventSystem.current.SetSelectedGameObject(pausePanel.continueButton.gameObject);
-        
+
     }
 
     void Start()
@@ -148,7 +154,39 @@ public class NewOption : BaseUI
         DepthCal();
         curTabChecker(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
 
-        
+        SliderControl(sens.gameObject, sensSlider);
+        SliderControl(totalVolume.gameObject, totalVolumeBar);
+        SliderControl(bgmVolume.gameObject, bgmVolumeBar);
+        SliderControl(sfxVolume.gameObject, sfxVolumeBar);
+    }
+
+    void SliderControl(GameObject button, Slider slider)
+    {
+        if (EventSystem.current.currentSelectedGameObject == button)
+        {
+            if (playerInput.actions["UIMove"].WasPressedThisFrame())
+            {
+                // 입력 방향 확인
+                Vector2 input = playerInput.actions["UIMove"].ReadValue<Vector2>();
+
+                // 오른쪽 입력
+                if (input.x > 0)
+                {
+                    if (button == sens.gameObject)
+                        slider.value += 0.3f;
+                    else
+                        slider.value += 5f;
+                }
+                // 왼쪽 입력
+                else if (input.x < 0)
+                {
+                    if (button == sens.gameObject)
+                        slider.value -= 0.3f;
+                    else
+                        slider.value -= 5f;
+                }
+            }
+        }
     }
 
     //현재 뎁스에 맞게 버튼 하이라이트
@@ -234,10 +272,11 @@ public class NewOption : BaseUI
     }
 
     public void ExitButton_Pause()
-    {   firstCo = null;
+    {
+        firstCo = null;
         curDepth = 0;
-        
-        
+
+
         gameObject.SetActive(false);
     }
 
@@ -369,6 +408,8 @@ public class NewOption : BaseUI
     {
         binding = GetComponentInParent<MainSceneBinding>();
 
+        playerInput = InputKey.PlayerInput;
+
         optionButtons.Add(gamePlayButton = GetUI<Button>("GamePlay"));
         optionButtons.Add(soundButton = GetUI<Button>("Sound"));
         optionButtons.Add(inputButton = GetUI<Button>("Input"));
@@ -399,13 +440,18 @@ public class NewOption : BaseUI
         soundButtons.Add(cancel_Sound = GetUI<Button>("Sound_Cancel"));
         soundButtons.Add(default_Sound = GetUI<Button>("Sound_Default"));
 
+        sensSlider = GetUI<Slider>("SensSlider");
+        totalVolumeBar = GetUI<Slider>("TotalSoundBar");
+        bgmVolumeBar = GetUI<Slider>("BGMSoundBar");
+        sfxVolumeBar = GetUI<Slider>("SFXSoundBar");
+
         gamePlayButton.onClick.AddListener(GamePlayButton);
         soundButton.onClick.AddListener(SoundButton);
         inputButton.onClick.AddListener(InputButton);
 
 
         // 메인씬일 경우와 포즈 > 옵션인 경우 구분
-        if(SceneManager.GetActiveScene().name == SceneName.MainScene)
+        if (SceneManager.GetActiveScene().name == SceneName.MainScene)
             exitButton.onClick.AddListener(ExitButton);
         else
             exitButton.onClick.AddListener(ExitButton_Pause);

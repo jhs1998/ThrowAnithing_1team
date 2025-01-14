@@ -210,7 +210,6 @@ public class NewPause : BaseUI
     /// </summary>
     void ReturnLobby()
     {
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
         firstCo = null;
         exitPopUp.SetActive(true);
 
