@@ -222,7 +222,7 @@ public class BossEnemy : BaseEnemy, IHit
         else if(curPhase == PhaseType.Phase1)
         {
             fistParticle.Play();
-            CreateElectricZone electricZone = ObjectPool.GetPool(fistGroundParticle.gameObject, pos.position, pos.rotation, 3f).GetComponent<CreateElectricZone>();
+            CreateElectricZone electricZone = ObjectPool.GetPool(fistGroundParticle.gameObject, pos.position, pos.rotation, 4.5f).GetComponent<CreateElectricZone>();
             electricZone.battle = Battle;
         }
         // 라이트닝 피스트 - 1페이즈에만 존재
