@@ -28,6 +28,12 @@ public class SlotManager : MonoBehaviour
 
     private int selectedSlotIndex; // 선택된 슬롯 인덱스
     [SerializeField] private SceneField _lobbyScene; // 로비 씬
+    
+    //이재호가 추가한 변수
+    // 네비게이션 끄기/켜기 용 변수
+    [SerializeField] Button slot1;
+    [SerializeField] Button slot2;
+    [SerializeField] Button slot3;
     private void Start()
     {
         // 슬롯 UI 초기화
@@ -96,12 +102,49 @@ public class SlotManager : MonoBehaviour
         {
             // 데이터가 있는 경우 확인 UI 활성화
             confirmDeleteUI.SetActive(true);
+            // 이재호 추가한 코드
+            //confirmDeleteUI 활성화 시 슬롯 버튼에서 네비게이션 제거
+            NaviBlock();
         }
         else
         {
             // 데이터가 없는 경우 바로 새 게임 시작
             StartNewGame(slotIndex);
         }
+    }
+
+    /// <summary>
+    /// 이재호 코드 : 네비게이션 막아줘서 뒷배경 버튼 이동막아줌
+    /// </summary>
+    void NaviBlock()
+    {
+        Navigation navi = slot1.navigation;
+        navi.selectOnUp = null;
+        navi.selectOnDown = null;
+        slot1.navigation = navi;
+        slot2.navigation = navi;
+        slot3.navigation = navi;
+    }
+
+    /// <summary>
+    /// 이재호 코드 : 네비 다시 연결
+    /// </summary>
+    void NaviUnBlock()
+    {
+        Navigation navi = slot1.navigation;
+        navi.selectOnUp = slot3;
+        navi.selectOnDown = slot2;
+        slot1.navigation = navi;
+
+        Navigation navi2 = slot2.navigation;
+        navi2.selectOnUp = slot1;
+        navi2.selectOnDown = slot3;
+        slot1.navigation = navi2;
+
+        Navigation navi3 = slot3.navigation;
+        navi3.selectOnUp = slot2;
+        navi3.selectOnDown = slot1;
+        slot1.navigation = navi3;
     }
     private void StartNewGame(int slotIndex)
     {
@@ -127,12 +170,14 @@ public class SlotManager : MonoBehaviour
 
         // 확인 UI 비활성화
         confirmDeleteUI.SetActive(false);
+        NaviUnBlock();
     }
     // 확인 UI 취소 버튼 
     public void OnCancelDelete()
     {
         // 확인 UI 비활성화
         confirmDeleteUI.SetActive(false);
+        NaviUnBlock();
     }
     // 전부 삭제 함수
     public void DeleteButtonClicked()

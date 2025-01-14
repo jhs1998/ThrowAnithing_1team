@@ -33,6 +33,26 @@ public class DataContainer : MonoBehaviour
         /// 레어 아이템 (3단계)
         /// </summary>
         public DropList RareItems;
+        /// <summary>
+        /// 노멀 몬스터용 아이템
+        /// </summary>
+        public DropItemTable Normal;
+        /// <summary>
+        /// 뮤턴트 몬스터용 아이템
+        /// </summary>
+        public DropItemTable Mutant;
+        /// <summary>
+        /// 엘리트 몬스터용 아이템
+        /// </summary>
+        public DropItemTable Elite;
+        /// <summary>
+        /// 중간보스 몬스터용 아이템
+        /// </summary>
+        public DropItemTable SubBoss;
+        /// <summary>
+        /// 스테이지보스 몬스터용 아이템
+        /// </summary>
+        public DropItemTable StageBoss;
     }
     [SerializeField] private ItemStruct _items;
     /// <summary>
@@ -40,6 +60,7 @@ public class DataContainer : MonoBehaviour
     /// </summary>
     public static ItemStruct Items { get { return Instance._items; } }
     public static List<DropList> ItemList = new List<DropList>();
+    public static List<DropItemTable> ItemTableList = new List<DropItemTable>();
 
     [SerializeField] GameObject[] _itemPaticle;
     /// <summary>
@@ -91,6 +112,12 @@ public class DataContainer : MonoBehaviour
         ItemList.Add(Items.NormalItems);
         ItemList.Add(Items.MagicItems);
         ItemList.Add(Items.RareItems);
+        ItemTableList.Add(Items.Normal);
+        ItemTableList.Add(Items.Mutant);
+        ItemTableList.Add(Items.Elite);
+        ItemTableList.Add(Items.SubBoss);
+        ItemTableList.Add(Items.StageBoss);
+
     }
 
     /// <summary>
@@ -128,6 +155,12 @@ public class DataContainer : MonoBehaviour
         return dropList.itemList[Random.Range(0, dropList.Count)];
     }
 
+    public static GameObject GetItemTablePrefab(Vector3 pos)
+    {
+        CoroutineHandler.StartRoutine(CreateItemTable(pos));
+        return null;
+    }
+
     public static TestBlueChip CreateRandomBlueChip(Vector3 pos, Quaternion rot)
     {
         TestBlueChip testBlueChip = Instantiate(BlueChipItem, pos, rot);
@@ -160,17 +193,114 @@ public class DataContainer : MonoBehaviour
     static IEnumerator CreateItem(Vector3 pos, DropList dropList)
     {
         GameObject startEffect = ObjectPool.GetPool(ItemPaticle[0], pos, Quaternion.Euler(-90f, 0, 0));
+
         yield return 0.3f.GetDelay();
+
         ObjectPool.ReturnPool(startEffect);
+
         GameObject dropPrefab = dropList.itemList[Random.Range(0, dropList.Count)];
         GameObject obj = Instantiate(dropPrefab, pos + new Vector3(0, 1, 0), Quaternion.identity);
+
         yield return Instance._destroyItemTime.GetDelay();
         if (obj != null)
         {
             Destroy(obj);
+
             GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+            
             yield return 0.5f.GetDelay();
+            
             ObjectPool.ReturnPool(endEffect);
+        }
+    }
+
+    static IEnumerator CreateItemTable(Vector3 pos)
+    {
+        BaseEnemy monster = new BaseEnemy();
+        GameObject obj = new GameObject();
+
+        GameObject startEffect = ObjectPool.GetPool(ItemPaticle[0], pos, Quaternion.Euler(-90f, 0, 0));
+
+        yield return 0.3f.GetDelay();
+
+        ObjectPool.ReturnPool(startEffect);
+
+        if (monster.curMonsterType == BaseEnemy.MonsterType.Nomal)
+        {
+            ItemTableList[0] = Items.Normal;
+            Debug.Log(ItemTableList[0].name);
+            Debug.Log(ItemTableList[0]);
+            ItemTableList[0].DropListTable1(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
+            Debug.Log("1");
+            yield return Instance._destroyItemTime.GetDelay();
+            if (obj != null)
+            {
+                Destroy(obj);
+                Debug.Log($"{obj}사라짐");
+                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                yield return 0.5f.GetDelay();
+                ObjectPool.ReturnPool(endEffect);
+            }
+        }
+        else if (monster.curMonsterType == BaseEnemy.MonsterType.Mutant)
+        {
+            ItemTableList[1] = Items.Mutant;
+            ItemTableList[1].DropListTable2(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
+            Debug.Log("2");
+            yield return Instance._destroyItemTime.GetDelay();
+            if (obj != null)
+            {
+                Destroy(obj);
+                Debug.Log($"{obj}사라짐");
+                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                yield return 0.5f.GetDelay();
+                ObjectPool.ReturnPool(endEffect);
+            }
+        }
+        else if (monster.curMonsterType == BaseEnemy.MonsterType.Elite)
+        {
+            ItemTableList[2] = Items.Elite;
+            ItemTableList[2].DropListTable2(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
+            Debug.Log("3");
+            yield return Instance._destroyItemTime.GetDelay();
+            if (obj != null)
+            {
+                Destroy(obj);
+                Debug.Log($"{obj}사라짐");
+                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                yield return 0.5f.GetDelay();
+                ObjectPool.ReturnPool(endEffect);
+            }
+        }
+        else if (monster.curMonsterType == BaseEnemy.MonsterType.SubBoss)
+        {
+            ItemTableList[3] = Items.SubBoss;
+            ItemTableList[3].DropListTable2(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
+            Debug.Log("4");
+            yield return Instance._destroyItemTime.GetDelay();
+            if (obj != null)
+            {
+                Destroy(obj);
+                Debug.Log($"{obj}사라짐");
+                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                yield return 0.5f.GetDelay();
+                ObjectPool.ReturnPool(endEffect);
+            }
+        }
+        else if (monster.curMonsterType == BaseEnemy.MonsterType.Boss)
+        {
+            ItemTableList[4] = Items.StageBoss;
+            ItemTableList[4].DropListTable1(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
+            Debug.Log($"{obj}사라짐");
+            yield return Instance._destroyItemTime.GetDelay();
+            if (obj != null)
+            {
+                Destroy(obj);
+                Debug.Log("사라짐");
+                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                yield return 0.5f.GetDelay();
+                ObjectPool.ReturnPool(endEffect);
+            }
         }
     }
 }

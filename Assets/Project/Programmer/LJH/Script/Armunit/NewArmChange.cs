@@ -37,14 +37,21 @@ public class NewArmChange : BaseUI
     private void OnEnable()
     {
         playerInput.SwitchCurrentActionMap(ActionMap.UI);
+        EventSystem.current.SetSelectedGameObject(armButtons[0].gameObject);
     }
     private void OnDisable()
     {
+        if(playerInput.currentActionMap.name == ActionMap.UI)
         playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
     }
     private void Update()
     {
         ArmUnit_changeColor();
+
+        //if (playerInput.actions["Choice"].WasPressedThisFrame())
+        //{
+        //    SelectArm();
+        //}
     }
     
     //Todo : 함수 이름 바꿔야함
@@ -65,12 +72,25 @@ public class NewArmChange : BaseUI
 
     }
 
+    void SelectArm()
+    {
+        if (EventSystem.current.currentSelectedGameObject == armUnits[0].gameObject)
+        {
+            armButtons[0].onClick.Invoke();
+        }
+        else if(EventSystem.current.currentSelectedGameObject == armUnits[1].gameObject)
+        {
+            armButtons[1].onClick.Invoke();
+        }
+    }
+
     #region 테스트용 함수
     public void Power()
     {
         Debug.Log("파워 타입 선택");
         playerStateData.nowWeapon = GlobalGameData.AmWeapon.Power;
         playerData.NowWeapon = playerStateData.nowWeapon;
+        gameObject.SetActive(false);
         // 데이터 세이브
         saveSystem.SavePlayerData();
     }
@@ -80,6 +100,7 @@ public class NewArmChange : BaseUI
         Debug.Log("밸런스 타입 선택");
         playerStateData.nowWeapon = GlobalGameData.AmWeapon.Balance;
         playerData.NowWeapon = playerStateData.nowWeapon;
+        gameObject.SetActive(false);
         // 데이터 세이브
         saveSystem.SavePlayerData();
     }

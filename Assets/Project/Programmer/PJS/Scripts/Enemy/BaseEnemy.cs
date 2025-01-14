@@ -19,7 +19,7 @@ public class State
 [RequireComponent(typeof(BattleSystem))]
 public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 {
-    public enum MonsterType { Nomal, Mutant, Elite, SubBoss, Boss}
+    public enum MonsterType { Nomal, Mutant, Elite, SubBoss, Boss }
     public MonsterType curMonsterType;
     [SerializeField] protected BehaviorTree tree;
 
@@ -29,10 +29,12 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     [SerializeField] float reward;
     [Header("현재 체력")]
     [SerializeField] int curHp;
+    [Header("라운드별 적용 체력"), Range(0, 100)]
+    [SerializeField] int roundHp;
     [Header("파티클's")]
     [SerializeField] protected ParticleSystem stepMoveParticle;
     [SerializeField] protected ParticleSystem dieParticle;
-
+    
     [HideInInspector] float jumpPower;  // 점프력
 
     [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
@@ -47,7 +49,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     public float AttackSpeed { get { return state.AtkDelay; } set { state.AtkDelay = value; } }
 
     protected SharedGameObject playerObj;
-    
+
     private void Awake()
     {
         playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -85,7 +87,19 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     protected void BaseInit()
     {
         SettingVariable();
-        curHp = state.MaxHp;
+        int getRoundHp = Mathf.RoundToInt(state.MaxHp * (roundHp / 100f));
+        switch (Round.instance.curRound)
+        {
+            case 1:
+                curHp = state.MaxHp;
+                break;
+            case 2:
+                curHp = state.MaxHp + getRoundHp;
+                break;
+            default:
+                curHp = state.MaxHp;
+                break;
+        }
     }
 
     private void SettingVariable()
@@ -109,17 +123,15 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 
         curHp -= resultDamage;
 
-        
-        Debug.Log($"{resultDamage} 피해를 입음. curHP : {curHp}");
         return resultDamage;
     }
 
     public void TakeCrowdControl(CrowdControlType type, float time)
     {
-        if(type == CrowdControlType.Stun)
+        if (type == CrowdControlType.Stun)
         {
             tree.SetVariableValue("Stun", type == CrowdControlType.Stun);
-            tree.SetVariableValue("StunTime", time);  // TODO : 스턴시간 매개변수 들어오면 변경
+            tree.SetVariableValue("StunTime", time);
         }
         tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
     }

@@ -276,14 +276,15 @@ MonoBehaviour:
   state:
     Name: "\uC790\uD3ED\uC880\uBE44"
     MaxHp: 50
-    Atk: 50
+    Atk: 45
     Def: 0
     Speed: 3
     AtkDelay: 2
     AttackDis: 3
     TraceDis: 5
-  reward: 50
+  reward: 35
   curHp: 0
+  roundHp: 5
   stepMoveParticle: {fileID: 3062339102050340407}
   dieParticle: {fileID: 0}
   resultDamage: 0
@@ -458,8 +459,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.11
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!95 &6334861820693645044
 Animator:
   serializedVersion: 5

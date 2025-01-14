@@ -13,7 +13,6 @@ public class EnemyDropItem : Action
     {
         //몬스터가 죽었을 시 아이템 드랍
         randNum = Random.Range(0, maxPersent + 1);
-        Debug.Log(randNum);
     }
 
     public override TaskStatus OnUpdate()
@@ -21,7 +20,7 @@ public class EnemyDropItem : Action
         // 확률 인스펙터에서 정해서 값 가져오기
         if (randNum <= reward.Value)
         {
-            DataContainer.GetItemPrefab(transform.position);
+            DataContainer.GetItemTablePrefab(transform.position);
         }
 
         return TaskStatus.Success;
