@@ -18,7 +18,7 @@ public class TalkInteractable : MonoBehaviour
     private bool isPlayerNearby = false; // 플레이어 근처에 있는지 확인
     private bool isTyping = false; // 현재 타이핑 중인지 확인
     private int currentDialogueIndex = 0; // 현재 대사 인덱스
-    private bool isItemSpon = false; // 현재 타이핑 중인지 확인
+    private bool isItemSpon = false; // 아이템 한번만 소환
     [SerializeField] public GameObject itemPrefab;
     [SerializeField] public GameObject sponPoint;
 
@@ -55,17 +55,34 @@ public class TalkInteractable : MonoBehaviour
         {
             if (isPlayerNearby)
             {
-                if (dialogueUI.activeSelf)
+                if (itemPrefab != null && sponPoint != null && !isItemSpon)
                 {
-                    // 대화창이 열려있으면 대화 스킵
-                    HandleDialogueProgress();
+                    if (dialogueUI.activeSelf)
+                    {
+                        // 대화창이 열려있으면 대화 스킵
+                        HandleDialogueProgress();
+                    }
+                    else
+                    {
+                        // 대화창이 닫혀있으면 대화창으로 열고 대화 시작
+                        ShowDialogueUI();
+                        StartDialogue();
+                    }
                 }
-                else
+                else if (itemPrefab == null && sponPoint == null)
                 {
-                    // 대화창이 닫혀있으면 대화창으로 열고 대화 시작
-                    ShowDialogueUI();
-                    StartDialogue();
-                }
+                    if (dialogueUI.activeSelf)
+                    {
+                        // 대화창이 열려있으면 대화 스킵
+                        HandleDialogueProgress();
+                    }
+                    else
+                    {
+                        // 대화창이 닫혀있으면 대화창으로 열고 대화 시작
+                        ShowDialogueUI();
+                        StartDialogue();
+                    }
+                }               
             }
         }        
     }
@@ -95,6 +112,7 @@ public class TalkInteractable : MonoBehaviour
         if (itemPrefab != null && sponPoint != null)
         {
             Instantiate(itemPrefab, sponPoint.transform.position, Quaternion.identity);
+            isItemSpon = true;
         }
     }
 
