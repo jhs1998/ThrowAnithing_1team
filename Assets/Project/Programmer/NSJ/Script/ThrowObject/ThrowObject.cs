@@ -68,6 +68,8 @@ public class ThrowObject : MonoBehaviour
     {
         Rb.velocity = Vector3.zero;
         Rb.angularVelocity = Vector3.zero;
+        IgnoreTargets.Clear();
+        ChainList.Clear();
         CanAttack = true;
         _collider.isTrigger = true;
     }

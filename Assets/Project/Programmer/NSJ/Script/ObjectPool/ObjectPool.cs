@@ -434,6 +434,10 @@ public class ObjectPool : MonoBehaviour
     public static void ReturnPool(GameObject instance)
     {
         CreateObjectPool();
+        if (instance.activeSelf == false)
+            return;
+
+
         PoolInfo info = default;
         if (_poolObjectDic.ContainsKey(instance) == true)
         {
@@ -453,6 +457,11 @@ public class ObjectPool : MonoBehaviour
     public static void ReturnPool<T>(T instance) where T : Component
     {
         CreateObjectPool();
+
+        if (instance.gameObject.activeSelf == false)
+            return;
+
+
         PoolInfo info = default;
         if (_poolObjectDic.ContainsKey(instance.gameObject) == true)
         {

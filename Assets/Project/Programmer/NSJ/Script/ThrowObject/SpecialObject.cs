@@ -40,13 +40,14 @@ public class SpecialObject : ThrowObject
     protected override void OnCollisionEnter(Collision collision)
     {
         // ¶¥¿¡ ´ê¾Æµµ Æø¹ß
+        ProcessExplosion();
         ObjectPool.ReturnPool(gameObject);
     }
 
     protected override void OnDisable()
     {
 
-        ProcessExplosion();
+
         base.OnDisable();
     }
     /// <summary>
@@ -70,7 +71,7 @@ public class SpecialObject : ThrowObject
             return;
         // ²¿¸® ÀÌÆåÆ® Á¦°Å
 
-
+        ProcessExplosion();
         _effect.ThrowTailEffect.transform.SetParent(null);
         ObjectPool.ReturnPool(_effect.ThrowTailEffect, 0.5f);
         ObjectPool.ReturnPool(gameObject);

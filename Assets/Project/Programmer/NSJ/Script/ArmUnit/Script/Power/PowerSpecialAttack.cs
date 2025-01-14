@@ -88,7 +88,8 @@ public class PowerSpecialAttack : ArmSpecialAttack
         }
         if (_instanceSpecialRange != null)
         {
-            Destroy(_instanceSpecialRange);
+            ObjectPool.ReturnPool(_instanceSpecialRange);
+            _instanceSpecialRange = null;
         }
         if (_chargeEffect != null)
         {
@@ -118,6 +119,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     IEnumerator ChargeRoutine()
     {
+        CreateSpecialObject();
         while (true)
         {
             Move();
@@ -222,14 +224,19 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     private void CreateSpecialRange()
     {
-        if (_effectObject != null)
-            Destroy(_instanceSpecialRange);
+        //if (_effectObject != null)
+        //    Destroy(_instanceSpecialRange);
         // 공격범위 그래픽
         _dropPos = new Vector3(
               transform.position.x + (Player.CamareArm.forward.x * _charges[_index].AttackOffset.x),
               transform.position.y + 0.01f,
               transform.position.z + (Player.CamareArm.forward.z * _charges[_index].AttackOffset.z));
-        _instanceSpecialRange = Instantiate(_specialRange, _dropPos, Quaternion.identity);
+
+
+        if (_instanceSpecialRange == null)
+        {
+            _instanceSpecialRange = ObjectPool.GetPool(_specialRange, _dropPos, Quaternion.identity);
+        }
         // 크기 조정
         _instanceSpecialRange.transform.localScale = new Vector3(
             _charges[_index].Radius * 2,
@@ -247,11 +254,12 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     private void AttackSpecial()
     {
-        int finalDamage = Player.GetFinalDamage(_charges[_index].Damage, out bool isCritical);
-        // 범위 내 적에게 데미지
         int hitCount = Physics.OverlapSphereNonAlloc(_dropPos, _charges[_index].Radius, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
+            int finalDamage = Player.GetFinalDamage(_charges[_index].Damage, out bool isCritical);
+            // 범위 내 적에게 데미지
+
             // 데미지 주기
             Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, finalDamage,   false);
             // 풀차지 시
@@ -287,7 +295,10 @@ public class PowerSpecialAttack : ArmSpecialAttack
             ObjectPool.GetPool(_effect.FullCharge, _dropPos, Quaternion.identity, 2f);
         }
 
-        Destroy(_instanceSpecialRange);
+        ObjectPool.ReturnPool(_instanceSpecialRange);
+        ObjectPool.ReturnPool(_effectObject,0.5f);
+
+        _instanceSpecialRange = null;
     }
 
     private void Move()
