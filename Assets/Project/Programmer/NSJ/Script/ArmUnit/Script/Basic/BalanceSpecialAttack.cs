@@ -300,16 +300,30 @@ public class BalanceSpecialAttack : ArmSpecialAttack
                 transform.position.x + (Player.transform.forward.x * _third.AttackOffset.x),
                 transform.position.y + 0.01f,
                 transform.position.z + (Player.transform.forward.z * _third.AttackOffset.z));
-         
+
+        int layer = Layer.EveryThing;
+        layer &= ~(Layer.Monster);
+
+        if(Physics.Raycast(attackPos, Vector3.down, out RaycastHit hit,100f, Layer.EveryThing, QueryTriggerInteraction.Ignore))
+        {
+            attackPos = new Vector3(hit.point.x, hit.point.y + 0.01f, hit.point.z);
+        }
+
         GameObject beforeEffect = ObjectPool.GetPool(_third.BeforeEffect, attackPos, Quaternion.identity);
+        beforeEffect.transform.localScale *= _third.MiddleRange;
+
         yield return _third.AttackDelay.GetDelay();
         ObjectPool.ReturnPool(beforeEffect);
         // АјАн
-        AttackBombard(attackPos);
 
-        GameObject effect = ObjectPool.GetPool(_third.Effect, attackPos, _third.Effect.transform.rotation);
-        yield return 2f.GetDelay();
-        ObjectPool.ReturnPool(effect);
+        for (int i = 0; i < 8; i++) 
+        {
+            AttackBombard(attackPos);
+            GameObject effect = ObjectPool.GetPool(_third.Effect, attackPos, _third.Effect.transform.rotation, 1f);       
+            effect.transform.localScale *= _third.MiddleRange;
+            yield return 0.25f.GetDelay();
+        }
+
     }
 
     private void AttackBombard(Vector3 attackPos)

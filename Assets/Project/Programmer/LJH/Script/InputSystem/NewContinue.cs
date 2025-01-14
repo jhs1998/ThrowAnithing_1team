@@ -43,7 +43,23 @@ public class NewContinue : BaseUI
     private void Update()
     {
         binding.ButtonFirstSelect(slot1.gameObject);
-        binding.SelectedSlotHighlight(buttons);
+        SelectedSlotHighlight(buttons);
+    }
+
+    /// <summary>
+    /// 선택된 슬롯 색상 변경
+    /// </summary>
+    /// <param name ="slots">지금 쓰는 버튼 리스트</param>
+    public void SelectedSlotHighlight(List<Button> slots)
+    {
+        if (EventSystem.current.currentSelectedGameObject != null)
+            for (int i = 0; i < slots.Count; i++)
+            {
+                slots[i].GetComponent<Image>().color = Color.white;
+
+                if (slots[i] == EventSystem.current.currentSelectedGameObject.GetComponent<Image>())
+                    slots[i].GetComponent<Image>().color = new Color(1, 0.5f, 0, 1);
+            }
     }
 
 

@@ -27,6 +27,9 @@ public class CameraTransmission : MonoBehaviour
             // 기존 hits 레이어 복구
             for (int i = 0; i < hitCount; i++)
             {
+                if (hits[i].transform.gameObject == null)
+                    continue;
+
                 hits[i].transform.gameObject.layer = Layer.Wall;
             }
 

@@ -328,7 +328,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         return hitDamage;
     }
 
-    public void TakeCrowdControl(CrowdControlType type)
+    public void TakeCrowdControl(CrowdControlType type, float time)
     {
         OnPlayerCCHitEvent?.Invoke(type);
     }

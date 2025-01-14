@@ -1,4 +1,5 @@
 using Cinemachine;
+using EPOOutline;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -72,7 +73,7 @@ public class PlayerView : MonoBehaviour
         Init();
 
         Camera.main.GetOrAddComponent<CinemachineBrain>();
-
+        Camera.main.GetOrAddComponent<Outliner>();
         Camera.main.cullingMask = Layer.GetLayerMaskEveryThing();
         Camera.main.cullingMask &= ~(1<<Layer.IgnoreRaycast);
         Camera.main.cullingMask &= ~(1<< Layer.HideWall);

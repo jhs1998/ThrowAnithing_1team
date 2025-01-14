@@ -41,22 +41,24 @@ public static partial class Layer
     public static int Forge => LayerEnum.Forge.GetLayer();
     public static int CanPickTrash => LayerEnum.CanPickTrash.GetLayer();
     public static int CantPickTrash => LayerEnum.CantPickTrash.GetLayer();
+    public static int Bullet => LayerEnum.Bullet.GetLayer();
     public enum LayerEnum
     {
-        Default = 1<<0,
-        TransparentFX = 1<<1 ,
-        IgnoreRaycast =1<<2 ,
-        Water =1 <<3, 
-        UI = 1 <<4,
-        Wall = 1<<5,
-        HideWall = 1<<6,
-        Item =  1<<7,
-        Forge = 1<<8,
-        Player = 1<<9,
-        Monster =  1<<10,
-        CanPickTrash = 1<<11,
-        CantPickTrash = 1<<12,
-        ThrowObject = 1<<13
+        Default,
+        TransparentFX ,
+        IgnoreRaycast ,
+        Water, 
+        UI,
+        Wall,
+        HideWall,
+        Item,
+        Forge,
+        Player,
+        Monster,
+        CanPickTrash,
+        CantPickTrash,
+        ThrowObject,
+        Bullet
     }
 
     private static Dictionary<LayerEnum, int> _layerDic = new Dictionary<LayerEnum, int>();
@@ -78,6 +80,7 @@ public static partial class Layer
         everyThing |= 1 << CantPickTrash;
         everyThing |= 1 << CanPickTrash;
         everyThing |= 1 << Forge;
+        everyThing |= 1 << Bullet;
 
         return everyThing;
     }

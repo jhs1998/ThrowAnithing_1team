@@ -12,7 +12,7 @@ public interface IBattle
     public event UnityAction OnDieEvent;
     public void TakeDebuff(HitAdditional debuff);
     public void TakeDebuff(List<HitAdditional> debuff);
-    public void TakeCrowdControl(CrowdControlType type);
+    public void TakeCrowdControl(CrowdControlType type, float time);
     public int TakeDamage(int damage);
     public int TakeDamage(bool isCritical, int damage);
     public int TakeDamage(int damage, bool IsIgnoreDef);

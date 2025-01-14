@@ -112,10 +112,11 @@ MonoBehaviour:
     Def: 15
     Speed: 2
     AtkDelay: 0
-    AttackDis: 1.3
+    AttackDis: 1.5
     TraceDis: 7
   reward: 50
   curHp: 0
+  roundHp: 5
   stepMoveParticle: {fileID: 2969085431181055082}
   dieParticle: {fileID: 1503831413466269389}
   resultDamage: 0
@@ -467,7 +468,7 @@ GameObject:
   - component: {fileID: 2053830256264311657}
   - component: {fileID: 3402451740403003541}
   - component: {fileID: 1344644062645129857}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}

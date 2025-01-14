@@ -33,6 +33,11 @@ public class NewPause : BaseUI
     GameObject defaultButton;
     GameObject currentSelected;
 
+    Navigation conOriginalNavi;
+    Navigation opOriginalNavi;
+    Navigation lobbyOriginalNavi;
+
+
     private void Awake()
     {
         Bind();
@@ -46,10 +51,13 @@ public class NewPause : BaseUI
         playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
     }
 
-
     private void Update()
     {
-        Debug.Log(playerInput.currentActionMap);
+        if(!exitPopUp.activeSelf)
+        {
+            lobbyButton.navigation = lobbyOriginalNavi;
+        }
+            
 
         //퍼즈 열기
         if (playerInput.actions["Open_Settings"].WasPressedThisFrame())
@@ -62,12 +70,24 @@ public class NewPause : BaseUI
             if (firstCo == null)
                 firstCo = StartCoroutine(FirstRoutine());
         }
+
         ButtonMissClick();
 
-        if (!optionPanel.activeSelf)
+        if (!optionPanel.activeSelf && pause.activeSelf)
         {
             SelectedSlotColorChange();
         }
+    }
+
+    /// <summary>
+    /// 네비게이션 막아줘서 뒷배경 버튼 이동막아줌
+    /// </summary>
+    void NaviBlock()
+    {
+        Navigation navi = lobbyButton.navigation;
+        navi.selectOnUp = null;
+        navi.selectOnDown = null;
+        lobbyButton.navigation = navi;
     }
 
     /// <summary>
@@ -178,15 +198,16 @@ public class NewPause : BaseUI
     /// </summary>
     void ReturnLobby()
     {
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
         firstCo = null;
         exitPopUp.SetActive(true);
+        NaviBlock();
 
     }
 
 
     void Init()
     {
+
         playerInput = InputKey.PlayerInput;
         binding = GetComponent<MainSceneBinding>();
 
@@ -194,6 +215,10 @@ public class NewPause : BaseUI
         SlotList.Add(continueButton = GetUI<Button>("ContinueImage"));
         SlotList.Add(optionButton = GetUI<Button>("OptionImage"));
         SlotList.Add(lobbyButton = GetUI<Button>("ExitImage"));
+
+        conOriginalNavi = continueButton.navigation;
+        opOriginalNavi = optionButton.navigation;
+        lobbyOriginalNavi = lobbyButton.navigation;
 
         optionPanel = GetUI("OptionCanvas");
         exitPopUp = GetUI("ExitPopUp");

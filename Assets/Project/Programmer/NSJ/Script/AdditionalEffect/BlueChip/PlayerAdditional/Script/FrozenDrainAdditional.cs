@@ -12,7 +12,7 @@ public class FrozenDrainAdditional : PlayerAdditional
     }
     [SerializeField] EffectStruct _effect;
     [SerializeField] private FreezeAdditional _freezeOrigin;
-    HitAdditional _freeze;
+    FreezeAdditional _freeze;
 
     private float _drainDistance => Model.DrainDistance * 2;
     private float _curDrainDistance;
@@ -26,6 +26,8 @@ public class FrozenDrainAdditional : PlayerAdditional
     public override void Enter()
     {
         _freeze = Instantiate(_freezeOrigin);
+        _freeze.Probability = 100;
+
     }
     public override void Exit()
     {

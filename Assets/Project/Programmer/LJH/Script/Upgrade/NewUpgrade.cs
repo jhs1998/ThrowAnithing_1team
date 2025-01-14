@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Zenject;
 
@@ -10,14 +11,13 @@ public class NewUpgrade : BaseUI
     [Inject]
     private GlobalGameData _gameData;
 
+    PlayerInput playerInput;
+
     [SerializeField] GameObject pause;
 
     //플레이어 / 카메라 제어용
     PlayerController player;
     float cameraSpeed;
-
-    int ho;
-    int ver;
 
     //Comment : Infomation > name
     [SerializeField] TMP_Text itemName;
@@ -38,8 +38,6 @@ public class NewUpgrade : BaseUI
     int tier;
     Color lockedColor = new(0.1f, 0, 0.2f);
 
-    bool axisInUse; // 연속 조작 방지용
-
     //텍스트 처리용
     [SerializeField] GameObject upText;
 
@@ -54,8 +52,14 @@ public class NewUpgrade : BaseUI
 
     [SerializeField] List<Button> buttonIndex = new();
     [SerializeField] List<Image> slotImage = new();
+    List<Navigation> buttonNavigation = new();
 
     Button curButton;
+    [SerializeField] GameObject textPos;
+
+    [SerializeField] GameObject maxCoin;
+    [SerializeField] GameObject zeroCoin;
+    [SerializeField] GameObject save;
 
     private void Awake()
     {
@@ -70,22 +74,26 @@ public class NewUpgrade : BaseUI
 
     private void OnEnable()
     {
-
-        cameraSpeed = player.setting.cameraSpeed;
-        player.setting.cameraSpeed = 0;
+        EventSystem.current.SetSelectedGameObject(buttonIndex[0].gameObject);
+        playerInput.SwitchCurrentActionMap(ActionMap.UI);
     }
 
     private void OnDisable()
     {
-        ver = 0;
-        ho = 0;
-
-        player.setting.cameraSpeed = cameraSpeed;
+        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
     }
 
     private void Update()
     {
         curButton = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+
+        //맥스코인, 제로코인, 세이브 눌렀을때 1번째 버튼으로 강제 이동
+        if (EventSystem.current.currentSelectedGameObject == maxCoin ||
+            EventSystem.current.currentSelectedGameObject == zeroCoin || 
+            EventSystem.current.currentSelectedGameObject == save)
+        {
+            EventSystem.current.SetSelectedGameObject (buttonIndex[0].gameObject);
+        }
 
 
         if (pause.activeSelf)
@@ -95,13 +103,8 @@ public class NewUpgrade : BaseUI
 
         Slot_Selected();
 
-        //Comment : For test
-        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
-        {
-            curButton.onClick.Invoke();
-        }
-        
-    
+
+
 
     }
 
@@ -114,13 +117,114 @@ public class NewUpgrade : BaseUI
     {
         tier = 1;
         if (_gameData.usingCoin >= costLimit1)
+        {
             tier = 2;
+        }
         if (_gameData.usingCoin >= costLimit2)
+        { 
             tier = 3;
+        }
         if (_gameData.usingCoin >= costLimit3)
-            tier = 4;
+        { 
+            tier = 4; 
+        }
         if (_gameData.usingCoin >= costLimit4)
-            tier = 5;
+        { 
+            tier = 5; 
+        }
+
+        int i = (tier - 1) * 4;
+        switch (tier)
+        {
+            // 티어 별로 해당하는 열의 버튼 잠금
+            // 티어 별로 위아래로 잠금 해제
+            case 1:
+                for (int j = 0; j < 4; j++)
+                {
+                    NavigationLock(buttonIndex[(i + j)]);
+                }
+                break;
+
+            case 2:
+                for (int j = 0; j < 4; j++)
+                {
+                    NavigationLock(buttonIndex[(i + j)]);
+                    NavigationUnLock(buttonIndex[j], buttonIndex[j + 4], buttonIndex[j + 4]);
+                    NavigationUnLock(buttonIndex[j + 4], buttonIndex[j], buttonIndex[j]);
+                    for (int index = 0; index < 8; index++)
+                    {
+                        buttonIndex[index].interactable = true;
+                    }
+                }
+                break;
+
+            case 3:
+                for (int j = 0; j < 4; j++)
+                {
+                    NavigationLock(buttonIndex[(i + j)]);
+                    NavigationUnLock(buttonIndex[j], buttonIndex[j + 8], buttonIndex[j + 4]);
+                    NavigationUnLock(buttonIndex[j + 4], buttonIndex[j], buttonIndex[j + 8]);
+                    NavigationUnLock(buttonIndex[j + 8], buttonIndex[j + 4], buttonIndex[j]);
+                    for (int index = 0; index < 12; index++)
+                    {
+                        buttonIndex[index].interactable = true;
+                    }
+                }
+                break;
+
+            case 4:
+                for (int j = 0; j < 4; j++)
+                {
+                    NavigationLock(buttonIndex[(i + j)]);
+                    NavigationUnLock(buttonIndex[j], buttonIndex[j + 12], buttonIndex[j + 4]);
+                    NavigationUnLock(buttonIndex[j + 8], buttonIndex[j + 4], buttonIndex[j + 12]);
+                    NavigationUnLock(buttonIndex[j + 12], buttonIndex[j + 8], buttonIndex[j]);
+                    for (int index = 0; index < 16; index++)
+                    {
+                        buttonIndex[index].interactable = true;
+                    }
+                }
+                break;
+
+            case 5:
+                for (int j = 0; j < 4; j++)
+                {
+                    NavigationUnLock(buttonIndex[j + 12], buttonIndex[j + 8], buttonIndex[j + 16]);
+                    NavigationUnLock(buttonIndex[j], buttonIndex[j + 16], buttonIndex[j + 4]);
+                    for (int index = 0; index < 20; index++)
+                    {
+                        buttonIndex[index].interactable = true;
+                    }
+                }
+                break;
+
+        }
+    }
+
+    /// <summary>
+    /// 티어에 맞게 네비게이션 이동 제한
+    /// </summary>
+    /// <param name="buttonIndex">버튼 인덱스</param>
+    void NavigationLock(Button buttonIndex)
+    {
+        Navigation navi = buttonIndex.navigation;
+        navi.selectOnUp = null;
+        navi.selectOnDown = null;
+        buttonIndex.navigation = navi;
+    }
+
+    /// <summary>
+    /// 티어에 맞게 네비게이션 이동 제한 해제
+    /// </summary>
+    /// <param name="buttonIndex">버튼 인덱스</param>
+    /// <param name="upbutton">selectOnUp 에 넣어줄 버튼</param>
+    /// <param name="downButton">selectOnDown 에 넣어줄 버튼</param>
+    void NavigationUnLock(Button buttonIndex, Button upbutton, Button downButton)
+    {
+        Navigation navi = buttonIndex.navigation;
+        navi.selectOnUp = upbutton;
+        navi.selectOnDown = downButton;
+        buttonIndex.navigation = navi;
     }
 
     /// <summary>
@@ -132,12 +236,12 @@ public class NewUpgrade : BaseUI
 
         for (int i = tier; i < 5; i++)
         {
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 4; j++)
             {
                 //Todo : Change Color
                 buttons[i][j].GetComponent<Image>().color = new(0.1f, 0, 0.2f);
                 buttons[i][j].interactable = false;
-            } 
+            }
         }
 
     }
@@ -148,11 +252,10 @@ public class NewUpgrade : BaseUI
     /// </summary>
     void Slot_Selected()
     {
-
+        Debug.Log("슬롯 셀렉티드 실행중");
         // Comment : 다른 슬롯 색 리셋
         ColorReset();
         // Comment : 선택한 슬롯 노란색으로
-
         curButton.GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
 
         itemName.text = curButton.name;
@@ -160,9 +263,11 @@ public class NewUpgrade : BaseUI
 
         for (int i = 0; i < buttonIndex.Count; i++)
         {
-            if(curButton == buttonIndex[i])
+            if (curButton == buttonIndex[i])
+            {
                 itemImage.sprite = slotImage[i].sprite;
-            infotext.text = $"{_gameData.upgradeLevels[i]} / 5";
+                infotext.text = $"{_gameData.upgradeLevels[i]} / 5";
+            }
         }
 
         //테스트용
@@ -174,17 +279,12 @@ public class NewUpgrade : BaseUI
     void MaxSlot()
     {
         //테스트용
-        for (int i = 0; i < slotMaxCheck.Length; i++)
+        for (int i = 0; i < buttonIndex.Count; i++)
         {
             if (_gameData.upgradeLevels[i] == 5)
             {
-                int ver;
-                int ho;
-
-                ver = i / 4;
-                ho = i % 4;
-                curButton.transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(true);
-                curButton.onClick.RemoveAllListeners();
+                buttonIndex[i].transform.transform.GetChild(1).GetComponent<TMP_Text>().gameObject.SetActive(true);
+                buttonIndex[i].onClick.RemoveAllListeners();
 
                 SaveMaxSlot();
             }
@@ -193,67 +293,26 @@ public class NewUpgrade : BaseUI
 
     bool[] slotMaxCheck = new bool[20];
 
-    //5강이 찍힌 특성에 강화 완료 표시 저장
+    /// <summary>
+    /// 5강이 찍힌 특성에 강화 완료 표시 저장
+    /// </summary>
     void SaveMaxSlot()
     {
         for (int i = 0; i < buttonIndex.Count; i++)
         {
-                slotMaxCheck[i] = buttonIndex[i].transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
-            
+            slotMaxCheck[i] = buttonIndex[i].transform.GetChild(1).GetComponent<TMP_Text>().gameObject.activeSelf;
+
         }
     }
 
-    
-    //슬롯 클릭시
-    void ClickedSlots(Button button)
-    {
-        if (button.GetComponent<Image>().color != lockedColor)
-        {
-            curButton.GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
-
-            itemName.text = button.name;
-            itemInfo.text = button.name;
-            for (int i = 0; i < buttonIndex.Count; i++)
-            {
-                if (curButton == buttonIndex[i])
-                    slotImage[i] = button.transform.GetChild(0).GetComponent<Image>();
-            }
-            curButton.GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
-
-            if (button.GetComponent<Image>().color != lockedColor)
-            {
-                for (int i = 0; i < tier; i++)
-                {
-                    for (int j = 0; j < 5; j++)
-                    {
-                        buttons[i][j].interactable = true;
-                    }
-                }
-            }
-        }
-    }
-
-    // 선택한 버튼의 인덱스로 slots 인덱스 교체
-   //(int, int) FindButton(Button button)
-   //{
-   //    for (int i = 0; i < 5; i++)
-   //    {
-   //        for (int j = 0; j < 4; j++)
-   //        {
-   //            if (slots[i, j].name == button.name)
-   //            {
-   //                return (i, j);
-   //            }
-   //        }
-   //    }
-   //    //인식 못했을 때 0,0 으로 초기화
-   //    return (0, 0);
-   //
-   //}
-
+    /// <summary>
+    /// 모든 버튼 색상 초기화
+    /// </summary>
     void ColorReset()
     {
-        curButton.GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
+        Debug.Log("컬러리셋 실행됨");
+        for (int i = 0; i < buttonIndex.Count; i++)
+            buttonIndex[i].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
     }
 
     public void UpgradeText()
@@ -262,11 +321,14 @@ public class NewUpgrade : BaseUI
         int cost = _gameData.upgradeCosts[slot];
 
         if (_gameData.coin >= cost)
-            Instantiate(upText, buttonIndex[10].transform.position, Quaternion.identity);
+            Instantiate(upText, textPos.transform.position, Quaternion.identity);
     }
 
     void Init()
     {
+        playerInput = InputKey.PlayerInput;
+
+
         // 0 1 2 3  tier 1
         tier1.Add(GetUI<Button>("근접 공격력 증가"));
         tier1.Add(GetUI<Button>("원거리 공격력 증가"));
@@ -299,20 +361,19 @@ public class NewUpgrade : BaseUI
         buttons.Add(tier4);
         buttons.Add(tier5);
 
-
-        for (int i = 0; i < slotImage.Count; i++)
+        for (int i = 0; i < buttonIndex.Count; i++)
         {
-                slotImage[i] = buttonIndex[i].transform.GetChild(0).GetComponent<Image>();
+            slotImage.Add(buttonIndex[i].transform.GetChild(0).GetComponent<Image>());
+            buttonNavigation.Add(buttonIndex[i].navigation);
 
-                int row = i;
+            int row = i;
 
-                buttonIndex[i].onClick.AddListener(() => ClickedSlots(buttonIndex[row]));
-                buttonIndex[i].onClick.AddListener(() => UpgradeText());
-                
+            buttonIndex[i].onClick.AddListener(() => UpgradeText());
+
         }
 
         player = GameObject.FindWithTag(Tag.Player).GetComponent<PlayerController>();
 
-        
+
     }
 }

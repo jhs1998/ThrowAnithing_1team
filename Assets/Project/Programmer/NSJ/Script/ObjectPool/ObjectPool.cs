@@ -443,7 +443,7 @@ public class ObjectPool : MonoBehaviour
         {
             info = FindPool(instance);
         }
-
+        instance.transform.localScale = info.Prefab.transform.localScale;
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
         info.Pool.Enqueue(instance);
@@ -460,7 +460,7 @@ public class ObjectPool : MonoBehaviour
         {
             info = FindPool(instance.gameObject);
         }
-
+        instance.transform.localScale = info.Prefab.transform.localScale;
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
         info.Pool.Enqueue(instance.gameObject);
@@ -532,6 +532,12 @@ public class ObjectPool : MonoBehaviour
         CreateObjectPool();
         Coroutine  coroutine = Instance.StartCoroutine(Instance.GetAutoPoolRoutine(prefab, intervalTime, returnDelay));
         Instance.StartCoroutine(Instance.GetAutoPoolDurationRoutine(coroutine,duration));
+    }
+    public static void GetPool(GameObject prefab, Vector3 pos, Quaternion rot, float intervalTime, float returnDelay, float duration)
+    {
+        CreateObjectPool();
+        Coroutine coroutine = Instance.StartCoroutine(Instance.GetAutoPoolRoutine(prefab, pos, rot,intervalTime, returnDelay));
+        Instance.StartCoroutine(Instance.GetAutoPoolDurationRoutine(coroutine, duration));
     }
     public static void ReturnPool(ref Coroutine coroutine)
     {

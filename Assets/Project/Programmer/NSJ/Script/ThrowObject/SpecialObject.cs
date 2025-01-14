@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpecialObject : ThrowObject
@@ -24,6 +25,10 @@ public class SpecialObject : ThrowObject
     [SerializeField] private EffectStruct _effect;
 
     private List<Transform> MiddleHittargets = new List<Transform>();
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -64,6 +69,8 @@ public class SpecialObject : ThrowObject
         if (CanAttack == false)
             return;
         // ≤ø∏Æ ¿Ã∆Â∆Æ ¡¶∞≈
+
+
         _effect.ThrowTailEffect.transform.SetParent(null);
         ObjectPool.ReturnPool(_effect.ThrowTailEffect, 0.5f);
         ObjectPool.ReturnPool(gameObject);
@@ -100,6 +107,7 @@ public class SpecialObject : ThrowObject
             Battle.TargetAttack(Player.OverLapColliders[i], isCritical, finalDamage);
             Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
         }
+
 
         ObjectPool.GetPool(_effect.EffectPrefab, transform.position, transform.rotation, 1f);
     }

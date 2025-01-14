@@ -75,9 +75,10 @@ public class DataContainer : MonoBehaviour
         Instance = this;
         InitSingleTon();
 
-        foreach (ThrowObject throwObject in _throwObjects)
+        for(int i = 0; i < _throwObjects.Length; i++)
         {
-            _throwObjectDic.Add(throwObject.Data.ID, throwObject);
+            _throwObjects[i].Data.ID = i;
+            _throwObjectDic.Add(_throwObjects[i].Data.ID, _throwObjects[i]);
         }
         foreach (ArmUnit armUnit in _armUnits)
         {

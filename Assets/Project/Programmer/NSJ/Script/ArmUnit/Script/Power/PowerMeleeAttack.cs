@@ -36,6 +36,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
     }
     [SerializeField] private ChargeStruct[] _charges;
     [SerializeField] private EffectStruct _effects;
+ 
     [SerializeField] private float RushSpeed;
     [SerializeField] private float _moveSpeedMultyPlier;
     [SerializeField] private float _autoAttackDelay;

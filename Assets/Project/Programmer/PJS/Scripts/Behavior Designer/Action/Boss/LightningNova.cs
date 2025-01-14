@@ -21,6 +21,7 @@ public class LightningNova : Action
 
 		StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
         StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
+        
         return TaskStatus.Success;
 	}
 }

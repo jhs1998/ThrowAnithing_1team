@@ -1,33 +1,30 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Zenject;
 using Zenject.SpaceFighter;
 
 public class NewArmChange : BaseUI
 {
+    PlayerInput playerInput;
     [Inject]
     GlobalGameData playerStateData;
     [Inject]
     PlayerData playerData;
     int arm_cur;
-    GameObject[] armUnits;
-    Button[] armButtons;
+    List<GameObject> armUnits = new();
+    List<Button> armButtons = new();
+
     [SerializeField] SaveSystem saveSystem;
 
     Forge _forge;
 
-    float inputDelay = 0.25f;
-
-    Coroutine armCo;
-
     Color color;
-
-    //카메라 제어용
-    PlayerController player;
-    float cameraSpeed;
 
     private void Awake()
     {
@@ -39,25 +36,28 @@ public class NewArmChange : BaseUI
 
     private void OnEnable()
     {
-        cameraSpeed = player.setting.cameraSpeed;
-        player.setting.cameraSpeed = 0;
-
+        playerInput.SwitchCurrentActionMap(ActionMap.UI);
+        EventSystem.current.SetSelectedGameObject(armButtons[0].gameObject);
     }
     private void OnDisable()
     {
-
-        player.setting.cameraSpeed = cameraSpeed;
-
+        if(playerInput.currentActionMap.name == ActionMap.UI)
+        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
     }
     private void Update()
     {
         ArmUnit_changeColor();
+
+        //if (playerInput.actions["Choice"].WasPressedThisFrame())
+        //{
+        //    SelectArm();
+        //}
     }
     
     //Todo : 함수 이름 바꿔야함
     void ArmUnit_changeColor()
     {
-        for (int i = 0; i < armUnits.Length; i++)
+        for (int i = 0; i < armUnits.Count; i++)
         {
             color = armUnits[i].GetComponent<Image>().color;
             color.a = 0.1f;
@@ -72,12 +72,25 @@ public class NewArmChange : BaseUI
 
     }
 
+    void SelectArm()
+    {
+        if (EventSystem.current.currentSelectedGameObject == armUnits[0].gameObject)
+        {
+            armButtons[0].onClick.Invoke();
+        }
+        else if(EventSystem.current.currentSelectedGameObject == armUnits[1].gameObject)
+        {
+            armButtons[1].onClick.Invoke();
+        }
+    }
+
     #region 테스트용 함수
     public void Power()
     {
         Debug.Log("파워 타입 선택");
         playerStateData.nowWeapon = GlobalGameData.AmWeapon.Power;
         playerData.NowWeapon = playerStateData.nowWeapon;
+        gameObject.SetActive(false);
         // 데이터 세이브
         saveSystem.SavePlayerData();
     }
@@ -87,13 +100,9 @@ public class NewArmChange : BaseUI
         Debug.Log("밸런스 타입 선택");
         playerStateData.nowWeapon = GlobalGameData.AmWeapon.Balance;
         playerData.NowWeapon = playerStateData.nowWeapon;
+        gameObject.SetActive(false);
         // 데이터 세이브
         saveSystem.SavePlayerData();
-    }
-
-    public void Speed()
-    {
-        Debug.Log("스피드 타입 선택");
     }
     #endregion
 
@@ -104,22 +113,16 @@ public class NewArmChange : BaseUI
     }
     void Init()
     {
-        armUnits = new GameObject[3];
+        playerInput = InputKey.PlayerInput;
 
-        armUnits[0] = GetUI("PowerButton");
-        armUnits[1] = GetUI("BalanceButton");
-        armUnits[2] = GetUI("SpeedButton");
+        armUnits.Add(GetUI("PowerButton"));
+        armUnits.Add(GetUI("BalanceButton"));
 
-        armButtons = new Button[3];
-
-        armButtons[0] = GetUI<Button>("PowerButton");
-        armButtons[1] = GetUI<Button>("BalanceButton");
-        armButtons[2] = GetUI<Button>("SpeedButton");
+        armButtons.Add(GetUI<Button>("PowerButton"));
+        armButtons.Add(GetUI<Button>("BalanceButton"));
 
         armButtons[0].onClick.AddListener(Power);
         armButtons[1].onClick.AddListener(Balance);
-        armButtons[2].onClick.AddListener(Speed);
 
-        player = GameObject.FindWithTag(Tag.Player).GetComponent<PlayerController>();
     }
 }

@@ -77,7 +77,17 @@ public class BattleSystem : MonoBehaviour, IBattle
         IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
         if (battle == null)
             return;
-        battle.TakeCrowdControl(type);
+        battle.TakeCrowdControl(type ,1f);
+    }
+    /// <summary>
+    /// 적에게 CC기 
+    /// </summary>
+    public void TargetCrowdControl<T>(T target, CrowdControlType type, float time) where T : Component
+    {
+        IBattle battle = target.gameObject.GetComponent<IBattle>(); // 상대 배틀시스템 추적
+        if (battle == null)
+            return;
+        battle.TakeCrowdControl(type, time);
     }
     /// <summary>
     /// 디버프 안주는 공격
@@ -214,7 +224,15 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <param name="type"></param>
     public void TakeCrowdControl(CrowdControlType type)
     {
-        Hit.TakeCrowdControl(type);
+        Hit.TakeCrowdControl(type, 1f);
+    }
+    /// <summary>
+    /// CC기 맞기
+    /// </summary>
+    /// <param name="type"></param>
+    public void TakeCrowdControl(CrowdControlType type,float time)
+    {
+        Hit.TakeCrowdControl(type, time);
     }
     /// <summary>
     /// 디버프 안주는 공격 맞기 (타입, 치명타 체크)

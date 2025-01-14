@@ -16,6 +16,7 @@ public class NewOption : BaseUI
 
     MainSceneBinding binding;
 
+    PlayerInput playerInput;
     // 현재 상태
     // 0 = 옵션
     // 1 = 게임플레이
@@ -35,6 +36,7 @@ public class NewOption : BaseUI
     Button minimapFix;
     Button LanguageChange;
     Button sens;
+    Slider sensSlider;
 
     Button accept_Gameplay;
     Button cancel_Gameplay;
@@ -57,12 +59,18 @@ public class NewOption : BaseUI
 
     GameObject actChecked; //미니맵 활성화 체크 여부
     GameObject fixChecked; //미니맵   고정 체크 여부
+    GameObject actUnChecked;
+    GameObject fixUnChecked;
 
 
     //뎁스2 버튼 목록 - 소리
     Button totalVolume;
     Button bgmVolume;
     Button sfxVolume;
+
+    Slider totalVolumeBar;
+    Slider bgmVolumeBar;
+    Slider sfxVolumeBar;
 
     Button accept_Sound;
     Button cancel_Sound;
@@ -94,6 +102,11 @@ public class NewOption : BaseUI
 
     [SerializeField] NewPause pausePanel;
 
+    //클릭 허공에 했을때
+    GameObject preButton;
+    GameObject defaultButton;
+    GameObject currentSelected;
+
     private void Awake()
     {
         Bind();
@@ -108,7 +121,9 @@ public class NewOption : BaseUI
         binding.ButtonFirstSelect(gamePlayButton.gameObject);
         //현재 선택된 버튼 없을 때, 첫번째 버튼 설정
         if (firstCo == null)
+        {
             firstCo = StartCoroutine(FirstRoutine());
+        }
     }
 
     private void OnDisable()
@@ -117,7 +132,7 @@ public class NewOption : BaseUI
 
         if (pausePanel != null)
             EventSystem.current.SetSelectedGameObject(pausePanel.continueButton.gameObject);
-        
+
     }
 
     void Start()
@@ -139,12 +154,110 @@ public class NewOption : BaseUI
 
     void Update()
     {
-        if (EventSystem.current.currentSelectedGameObject == null)
-            return;
-
-
+        Debug.Log(curDepth);
+       // if (EventSystem.current.currentSelectedGameObject == null)
+       //     return;
+        ButtonMissClick();
+        CurDepthReset();
         DepthCal();
+
+        if((EventSystem.current.currentSelectedGameObject != null))
         curTabChecker(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
+
+        SliderControl(sens.gameObject, sensSlider);
+        SliderControl(totalVolume.gameObject, totalVolumeBar);
+        SliderControl(bgmVolume.gameObject, bgmVolumeBar);
+        SliderControl(sfxVolume.gameObject, sfxVolumeBar);
+    }
+
+    /// <summary>
+    /// 허공에 클릭시 커뎁스 리셋
+    /// </summary>
+    void CurDepthReset()
+    {
+        if (curDepth > 0)
+            Invoke("Term", 0.5f);
+    }
+
+    void Term()
+    {
+        if (EventSystem.current.currentSelectedGameObject == gamePlayButton.gameObject)
+            curDepth = 0;
+
+        if (EventSystem.current.currentSelectedGameObject == soundButton.gameObject)
+            curDepth = 0;
+    }
+
+    /// <summary>
+    /// 버튼 허공에 클릭했을 때, 기본 버튼 복구용 메서드
+    /// </summary>
+    void ButtonMissClick()
+    {
+        //선택된 버튼이 없을때 기본 버튼으로 복구하기 위한 변수 할당
+        if (defaultButton == null)
+            defaultButton = gamePlayButton.gameObject;
+        //현재 버튼 저장
+        currentSelected = EventSystem.current.currentSelectedGameObject;
+
+        if (playerInput.actions["LeftClick"].WasPressedThisFrame() || playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            // 빈 공간을 클릭했을 때
+            if (currentSelected == null)
+            {
+                RestoreButton();
+            }
+            else
+            {
+                // 현재 선택된 버튼을 저장
+                preButton = currentSelected;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 빈공간 눌렀을 때 버튼 복구용 함수
+    /// </summary>
+    public void RestoreButton()
+    {
+        if (playerInput.actions["LeftClick"].WasPressedThisFrame())
+        {
+            if (preButton != null)
+            {
+                if (EventSystem.current.currentSelectedGameObject == null)
+                    EventSystem.current.SetSelectedGameObject(preButton);
+            }
+            else if (preButton == null)
+                EventSystem.current.SetSelectedGameObject(defaultButton);
+        }
+    }
+
+    void SliderControl(GameObject button, Slider slider)
+    {
+        if (EventSystem.current.currentSelectedGameObject == button)
+        {
+            if (playerInput.actions["UIMove"].WasPressedThisFrame())
+            {
+                // 입력 방향 확인
+                Vector2 input = playerInput.actions["UIMove"].ReadValue<Vector2>();
+
+                // 오른쪽 입력
+                if (input.x > 0)
+                {
+                    if (button == sens.gameObject)
+                        slider.value += 0.3f;
+                    else
+                        slider.value += 5f;
+                }
+                // 왼쪽 입력
+                else if (input.x < 0)
+                {
+                    if (button == sens.gameObject)
+                        slider.value -= 0.3f;
+                    else
+                        slider.value -= 5f;
+                }
+            }
+        }
     }
 
     //현재 뎁스에 맞게 버튼 하이라이트
@@ -230,10 +343,11 @@ public class NewOption : BaseUI
     }
 
     public void ExitButton_Pause()
-    {   firstCo = null;
+    {
+        firstCo = null;
         curDepth = 0;
-        
-        
+
+
         gameObject.SetActive(false);
     }
 
@@ -365,6 +479,8 @@ public class NewOption : BaseUI
     {
         binding = GetComponentInParent<MainSceneBinding>();
 
+        playerInput = InputKey.PlayerInput;
+
         optionButtons.Add(gamePlayButton = GetUI<Button>("GamePlay"));
         optionButtons.Add(soundButton = GetUI<Button>("Sound"));
         optionButtons.Add(inputButton = GetUI<Button>("Input"));
@@ -385,6 +501,8 @@ public class NewOption : BaseUI
 
         actChecked = GetUI("ActChecked");
         fixChecked = GetUI("FixChecked");
+        actUnChecked = GetUI("ActUnChecked");
+        fixUnChecked = GetUI("FixUnChecked");
 
         soundButtons.Add(totalVolume = GetUI<Button>("TotalSound"));
         soundButtons.Add(bgmVolume = GetUI<Button>("BGMSound"));
@@ -393,19 +511,28 @@ public class NewOption : BaseUI
         soundButtons.Add(cancel_Sound = GetUI<Button>("Sound_Cancel"));
         soundButtons.Add(default_Sound = GetUI<Button>("Sound_Default"));
 
+        sensSlider = GetUI<Slider>("SensSlider");
+        totalVolumeBar = GetUI<Slider>("TotalSoundBar");
+        bgmVolumeBar = GetUI<Slider>("BGMSoundBar");
+        sfxVolumeBar = GetUI<Slider>("SFXSoundBar");
+
         gamePlayButton.onClick.AddListener(GamePlayButton);
         soundButton.onClick.AddListener(SoundButton);
         inputButton.onClick.AddListener(InputButton);
 
 
         // 메인씬일 경우와 포즈 > 옵션인 경우 구분
-        if(SceneManager.GetActiveScene().name == SceneName.MainScene)
+        if (SceneManager.GetActiveScene().name == SceneName.MainScene)
             exitButton.onClick.AddListener(ExitButton);
         else
             exitButton.onClick.AddListener(ExitButton_Pause);
 
         minimapAct.onClick.AddListener(MinimapAct);
         minimapFix.onClick.AddListener(MinimapFix);
+        actChecked.GetComponent<Button>().onClick.AddListener(MinimapAct);
+        fixChecked.GetComponent<Button>().onClick.AddListener(MinimapFix);
+        actUnChecked.GetComponent<Button>().onClick.AddListener(MinimapAct);
+        fixUnChecked.GetComponent<Button>().onClick.AddListener(MinimapFix);
 
         preAct = setting.miniMapOnBool;
         preFix = setting.miniMapFixBool;

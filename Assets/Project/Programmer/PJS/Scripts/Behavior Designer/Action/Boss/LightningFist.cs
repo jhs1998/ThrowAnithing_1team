@@ -5,10 +5,10 @@ public class LightningFist : Action
 {
     [SerializeField] BossSkillState skillState;
     [SerializeField] GlobalState globalState;
-    [SerializeField] GameObject electricZone;
     [SerializeField] Transform createPos;
 
     private BossEnemy enemy;
+    private RaycastHit[] hits;
 
     public override void OnStart()
     {
@@ -17,28 +17,21 @@ public class LightningFist : Action
 
     public override TaskStatus OnUpdate()
     {
-        RaycastHit[] hits = Physics.BoxCastAll(createPos.position, transform.lossyScale / 2f, transform.forward, transform.rotation, skillState.range);
+        hits = Physics.BoxCastAll(createPos.position, transform.lossyScale / 2f, transform.forward, transform.rotation, skillState.range);
 
-        for (int i = 0; i < hits.Length; i++)
+        foreach (RaycastHit hit in hits)
         {
-            //BattleSystem hitObj = hits[i].collider.GetComponent<BattleSystem>();
-            //IBattle hitObj = hits[i].collider.GetComponent<IBattle>();
-            // if (hitObj != null)
-            // {
-            if (hits[i].collider.gameObject.name.CompareTo("Boss") == 0)
+            if (hit.collider.gameObject.name.CompareTo("Boss") == 0 || hit.collider.tag != Tag.Player)
                 continue;
 
-            //hitObj.TargetAttackWithDebuff(hits[i].collider.transform, skillState.damage, true);
-
-            enemy.Battle.TargetAttack(hits[i].transform, skillState.damage);
-            //enemy.Battle.TargetAttackWithDebuff(hits[i].transform, skillState.damage);
-            enemy.Battle.TargetCrowdControl(hits[i].transform, CrowdControlType.Stiff);
+            //enemy.Battle.TargetAttack(hits[i].transform, skillState.damage);
+            enemy.Battle.TargetAttackWithDebuff(hit.transform, skillState.damage);
+            enemy.Battle.TargetCrowdControl(hit.transform, CrowdControlType.Stiff);
         }
 
         StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
         StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
 
-        //GameObject.Instantiate(electricZone, createPos.position, createPos.rotation);
         return TaskStatus.Success;
     }
 }

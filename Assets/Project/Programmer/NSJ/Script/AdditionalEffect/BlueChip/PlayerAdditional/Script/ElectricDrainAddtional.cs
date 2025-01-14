@@ -33,6 +33,8 @@ public class ElectricDrainAddtional : PlayerAdditional
         Player.Effect.Drain_Range = _effect.Effect;
        // 디버프 클론 생성
        _electricShock = Instantiate(_electricShockOrigin);
+        _electricShock.Probability = 100;
+
 
         if (_additonalRoutine == null)
             _additonalRoutine = CoroutineHandler.StartRoutine(AdditonalRoutine());

@@ -49,14 +49,13 @@ public class ThrowObject : MonoBehaviour
     [HideInInspector] public Rigidbody Rb;
     protected Collider _collider;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         Rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
         Player = GameObject.FindGameObjectWithTag(Tag.Player).GetComponent<PlayerController>();
         gameObject.layer = Layer.ThrowObject;
 
-        CanAttack = true;
     }
 
     protected virtual void Start()
@@ -66,6 +65,8 @@ public class ThrowObject : MonoBehaviour
     protected virtual void OnEnable()
     {
         Rb.velocity = Vector3.zero;
+        Rb.angularVelocity = Vector3.zero;
+        CanAttack = true;
         _collider.isTrigger = true;
     }
     protected virtual void OnDisable()

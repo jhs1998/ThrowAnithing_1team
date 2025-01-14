@@ -1,24 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BattleSystem))]
 public class CreateElectricZone : MonoBehaviour
 {
-    [SerializeField] int range;
-    [SerializeField] GameObject electricZone;
+    [HideInInspector] public BattleSystem battle;
 
-    private void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        /*for (int i = 0; i < range; i++)
+        if(other.transform.tag == Tag.Player)
         {
-            Vector3 dic = new Vector3(transform.position.x, transform.position.y, transform.position.z + i);
-            GameObject obj = Instantiate(electricZone, dic, transform.rotation);
-            obj.transform.parent = transform;
-        }*/
-
-        GameObject obj = Instantiate(electricZone, transform.position, transform.rotation);
-        obj.transform.parent = transform;
-
-        Destroy(gameObject, 3f);
+            Debug.Log(123);
+            battle.TargetDebuff(other.transform);
+        }
     }
 }

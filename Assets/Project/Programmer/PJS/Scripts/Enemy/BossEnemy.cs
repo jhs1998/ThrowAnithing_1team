@@ -29,13 +29,17 @@ public class BossEnemy : BaseEnemy, IHit
     public float jumpHeight;    // 점프 시 최대 높이
 
     [Space, SerializeField] ParticleSystem shieldParticle;  // 실드
+    [SerializeField] ParticleSystem novaParticle;       // 라이트닝 노바
+    [SerializeField] ParticleSystem fistParticle;       // 라이트닝 피스트
+    [SerializeField] ParticleSystem healParticle;       // 회복
     [SerializeField] ParticleSystem jumpParticle;       // 점프 공격 시작 
     [SerializeField] ParticleSystem jumpDownParticle;   // 점프 공격 끝
-    [SerializeField] ParticleSystem healParticle;       // 회복
-    [SerializeField] ParticleSystem novaParticle;       // 라이트닝 노바
-
+    [SerializeField] GameObject fistGroundParticle; // 라이트닝 피스트 바닥효과
+    [SerializeField] Transform pos;
     private Coroutine attackAble;
+    private Coroutine globalCoolTime;
     public Coroutine recovery;  // 회복 관련 코루틴
+
     private bool onEntryStop;
     [HideInInspector] public bool createShield;
     [HideInInspector] public bool breakShield;
@@ -154,6 +158,19 @@ public class BossEnemy : BaseEnemy, IHit
         return resultDamage;
     }
 
+    /// <summary>
+    /// 글로벌 쿨타임 가동 함수
+    /// </summary>
+    public void StartGlobalCoolTime(SharedBool atkAble, float coolTime)
+    {
+        if (globalCoolTime != null)
+        {
+            Debug.Log(123);
+            return;
+        }
+
+        globalCoolTime = StartCoroutine(CoolTimeRoutine(atkAble, coolTime));
+    }
 
     #region 애니메이션 이벤트
     /// <summary>
@@ -197,9 +214,17 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void Shooting()
     {
-        if (transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack"))
-            AttackMelee();
         // 일반 근접 공격 - 모든 페이즈에 존재
+        if (transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack"))
+        {
+            AttackMelee();
+        }
+        else if(curPhase == PhaseType.Phase1)
+        {
+            fistParticle.Play();
+            CreateElectricZone electricZone = ObjectPool.GetPool(fistGroundParticle.gameObject, pos.position, pos.rotation, 4.5f).GetComponent<CreateElectricZone>();
+            electricZone.battle = Battle;
+        }
         // 라이트닝 피스트 - 1페이즈에만 존재
     }
 
@@ -249,7 +274,7 @@ public class BossEnemy : BaseEnemy, IHit
             int finalDamage = state.Atk;
             // 데미지 주기
             //Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage, true);
-            Battle.TargetAttack(overLapCollider[i], finalDamage, true);
+            Battle.TargetAttack(overLapCollider[i], finalDamage, false);
         }
     }
 

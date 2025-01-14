@@ -1,10 +1,13 @@
-using System;
+
 using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "AdditionalEffect/Hit/Electric Shock")]
 public class ElectricShockAdditonal : HitAdditional
 {
+    [Header("È®·ü")]
+    [SerializeField] public float Probability;
+
     [System.Serializable]
     struct EffectStrcut
     {
@@ -23,8 +26,11 @@ public class ElectricShockAdditonal : HitAdditional
     private float _decreaseMoveSpeedEnemyValue;
     private float _decreaseAttackSpeedEnemyValue;
     public override void Enter()
-    { 
-        if(_debuffRoutine == null)
+    {
+        if (Random.Range(0, 100) > Probability)
+            return;
+
+        if (_debuffRoutine == null)
         {
             CreateEffect();
             ChangeValue(true);

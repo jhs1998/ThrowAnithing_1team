@@ -17,7 +17,8 @@ public class ElectricArmour : Action
     public override TaskStatus OnUpdate()
 	{
         StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
-		StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
-		return TaskStatus.Success;
+        StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
+        
+        return TaskStatus.Success;
 	}
 }

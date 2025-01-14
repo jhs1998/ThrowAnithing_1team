@@ -1,7 +1,3 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class InteractableDoor : MonoBehaviour
@@ -11,68 +7,81 @@ public class InteractableDoor : MonoBehaviour
     GameObject[] monsterCount;
 
     [Range(20f, 50f)][SerializeField] float overlapSphereRadius; //보물상자 근처 범위
-    Collider[] hitColliders; //해당 물체에 닿는 모든 콜라이더를 넣어둘 배열
-    [SerializeField] bool isInSphere; //T오버랩스피어에닿아있음 F아님
+    Collider[] hitColliders = new Collider[10]; //해당 물체에 닿는 모든 콜라이더를 넣어둘 배열
+    [SerializeField] bool isInPlayer; //T오버랩스피어에닿아있음 F아님
     [SerializeField] bool isMonsterAllDead; //T범위내의몬스터가다죽었음 F아님
-
 
     private void Start()
     {
         monsterCount = GameObject.FindGameObjectsWithTag(Tag.Monster);
         randomBox.SetActive(false);
         portal.SetActive(false);
-        isInSphere = false;
+        isInPlayer = false;
         isMonsterAllDead = false;
     }
-
-
     private void Update()
     {
-            
-        hitColliders = Physics.OverlapSphere(transform.position, overlapSphereRadius);
+        if (isMonsterAllDead)
+        {
+            if (randomBox != null)
+            {
+                randomBox.SetActive(true);
+            }
+            if (isInPlayer)
+            {
+               // if (InputKey.GetButtonDown(InputKey.Interaction))
+               // {
+                    portal.SetActive(true);
+               //}
+            }
 
-        for (int i = 0; i < hitColliders.Length; i++)
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        int detectedLayer = 0;
+        detectedLayer |= 1 << Layer.Monster;
+        detectedLayer |= 1 << Layer.Player;
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, overlapSphereRadius, hitColliders, detectedLayer);
+
+        isMonsterAllDead = true;
+        for (int i = 0; i < hitCount; i++)
         {
             if (hitColliders[i].gameObject.tag == Tag.Player)
             {
-                isInSphere = true;
-            }            
-            else
-            {
-                isInSphere = false;
-            }
-
-        }
-
-        foreach (Collider col in hitColliders)
-        {
-            if (col.gameObject.tag != Tag.Monster)
-            {
-                isMonsterAllDead = true;
+                isInPlayer = true;
             }
             else
             {
-                return;
+                isInPlayer = false;
             }
-                
-        }
 
-        if (isMonsterAllDead)
-        {
-            randomBox.SetActive(true);
 
-            if (isInSphere)
+            if (hitColliders[i].gameObject.tag == Tag.Monster)
             {
-                if (InputKey.GetButtonDown(InputKey.Interaction))
-                {
-                    portal.SetActive(true);
-                }
+                isMonsterAllDead = false;
             }
-
         }
+        //foreach (Collider col in hitColliders)
+        //{
+        //    if (col.gameObject.tag != Tag.Monster)
+        //    {
+        //        isMonsterAllDead = true;
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    }
 
-
+        //}
 
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, overlapSphereRadius);
     }
+
+}
