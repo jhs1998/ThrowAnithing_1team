@@ -53,13 +53,8 @@ public class NewPause : BaseUI
 
     private void Update()
     {
-        if (exitPopUp.activeSelf)
-            NaviBlock();
-
-        else if(!exitPopUp.activeSelf)
+        if(!exitPopUp.activeSelf)
         {
-            continueButton.navigation = conOriginalNavi;
-            optionButton.navigation = opOriginalNavi;
             lobbyButton.navigation = lobbyOriginalNavi;
         }
             
@@ -84,22 +79,15 @@ public class NewPause : BaseUI
         }
     }
 
+    /// <summary>
+    /// 네비게이션 막아줘서 뒷배경 버튼 이동막아줌
+    /// </summary>
     void NaviBlock()
     {
-        Navigation navi = continueButton.navigation;
+        Navigation navi = lobbyButton.navigation;
         navi.selectOnUp = null;
         navi.selectOnDown = null;
-        continueButton.navigation = navi;
-
-        navi = optionButton.navigation;
-        navi.selectOnUp = null;
-        navi.selectOnDown = null;
-        continueButton.navigation = navi;
-
-        navi = lobbyButton.navigation;
-        navi.selectOnUp = null;
-        navi.selectOnDown = null;
-        continueButton.navigation = navi;
+        lobbyButton.navigation = navi;
     }
 
     /// <summary>
@@ -212,6 +200,7 @@ public class NewPause : BaseUI
     {
         firstCo = null;
         exitPopUp.SetActive(true);
+        NaviBlock();
 
     }
 
