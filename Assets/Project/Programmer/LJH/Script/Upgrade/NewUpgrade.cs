@@ -55,6 +55,11 @@ public class NewUpgrade : BaseUI
     List<Navigation> buttonNavigation = new();
 
     Button curButton;
+    [SerializeField] GameObject textPos;
+
+    [SerializeField] GameObject maxCoin;
+    [SerializeField] GameObject zeroCoin;
+    [SerializeField] GameObject save;
 
     private void Awake()
     {
@@ -81,6 +86,14 @@ public class NewUpgrade : BaseUI
     private void Update()
     {
         curButton = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+
+        //맥스코인, 제로코인, 세이브 눌렀을때 1번째 버튼으로 강제 이동
+        if (EventSystem.current.currentSelectedGameObject == maxCoin ||
+            EventSystem.current.currentSelectedGameObject == zeroCoin || 
+            EventSystem.current.currentSelectedGameObject == save)
+        {
+            EventSystem.current.SetSelectedGameObject (buttonIndex[0].gameObject);
+        }
 
 
         if (pause.activeSelf)
@@ -138,6 +151,10 @@ public class NewUpgrade : BaseUI
                     NavigationLock(buttonIndex[(i + j)]);
                     NavigationUnLock(buttonIndex[j], buttonIndex[j + 4], buttonIndex[j + 4]);
                     NavigationUnLock(buttonIndex[j + 4], buttonIndex[j], buttonIndex[j]);
+                    for (int index = 0; index < 8; index++)
+                    {
+                        buttonIndex[index].interactable = true;
+                    }
                 }
                 break;
 
@@ -148,6 +165,10 @@ public class NewUpgrade : BaseUI
                     NavigationUnLock(buttonIndex[j], buttonIndex[j + 8], buttonIndex[j + 4]);
                     NavigationUnLock(buttonIndex[j + 4], buttonIndex[j], buttonIndex[j + 8]);
                     NavigationUnLock(buttonIndex[j + 8], buttonIndex[j + 4], buttonIndex[j]);
+                    for (int index = 0; index < 12; index++)
+                    {
+                        buttonIndex[index].interactable = true;
+                    }
                 }
                 break;
 
@@ -158,6 +179,10 @@ public class NewUpgrade : BaseUI
                     NavigationUnLock(buttonIndex[j], buttonIndex[j + 12], buttonIndex[j + 4]);
                     NavigationUnLock(buttonIndex[j + 8], buttonIndex[j + 4], buttonIndex[j + 12]);
                     NavigationUnLock(buttonIndex[j + 12], buttonIndex[j + 8], buttonIndex[j]);
+                    for (int index = 0; index < 16; index++)
+                    {
+                        buttonIndex[index].interactable = true;
+                    }
                 }
                 break;
 
@@ -166,6 +191,10 @@ public class NewUpgrade : BaseUI
                 {
                     NavigationUnLock(buttonIndex[j + 12], buttonIndex[j + 8], buttonIndex[j + 16]);
                     NavigationUnLock(buttonIndex[j], buttonIndex[j + 16], buttonIndex[j + 4]);
+                    for (int index = 0; index < 20; index++)
+                    {
+                        buttonIndex[index].interactable = true;
+                    }
                 }
                 break;
 
@@ -292,7 +321,7 @@ public class NewUpgrade : BaseUI
         int cost = _gameData.upgradeCosts[slot];
 
         if (_gameData.coin >= cost)
-            Instantiate(upText, buttonIndex[10].transform.position, Quaternion.identity);
+            Instantiate(upText, textPos.transform.position, Quaternion.identity);
     }
 
     void Init()
