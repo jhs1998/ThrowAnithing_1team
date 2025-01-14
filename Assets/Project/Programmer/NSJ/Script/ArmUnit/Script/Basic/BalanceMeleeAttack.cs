@@ -20,10 +20,12 @@ public class BalanceMeleeAttack : ArmMeleeAttack
     {
         Player.Rb.velocity = Vector3.zero;
 
-        if(_isCooltime == true)
+        if (_isCooltime == true)
         {
             Model.CurStamina += StaminaAmount;
+
             ChangeState(Player.PrevState);
+
             return;
         }
 
