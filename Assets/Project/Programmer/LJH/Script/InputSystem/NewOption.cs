@@ -115,6 +115,14 @@ public class NewOption : BaseUI
 
     private void OnEnable()
     {
+        actChecked.SetActive(setting.miniMapOnBool);
+        fixChecked.SetActive(setting.miniMapFixBool);
+        sensSlider.value = setting.cameraSpeed;
+
+        totalVolumeBar.value = setting.wholesound;
+        bgmVolumeBar.value = setting.backgroundSound;
+        sfxVolumeBar.value = setting.effectSound;
+
 
         firstCo = null;
         //Todo : 자연스럽게 처리해야함
@@ -204,10 +212,12 @@ public class NewOption : BaseUI
             // 빈 공간을 클릭했을 때
             if (currentSelected == null)
             {
+                Debug.Log("빈공간 클릭함");
                 RestoreButton();
             }
             else
             {
+                Debug.Log("클릭잘했음");
                 // 현재 선택된 버튼을 저장
                 preButton = currentSelected;
             }
