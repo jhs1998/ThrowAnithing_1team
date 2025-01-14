@@ -44,7 +44,6 @@ public class Interactable : MonoBehaviour
     private void FixedUpdate()
     {
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, overlapSphereRadius, hitColliders);
-        Debug.Log($"{hitCount}");
         for (int i = 0; i < hitCount; i++)
         {
             if (hitColliders[i].gameObject.tag == Tag.Player)

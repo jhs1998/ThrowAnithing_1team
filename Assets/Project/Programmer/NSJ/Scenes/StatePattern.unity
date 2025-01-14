@@ -4053,6 +4053,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4904542510110091095, guid: a061fb313f043af4fba388560ceca453, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5115315985224634622, guid: a061fb313f043af4fba388560ceca453, type: 3}
+      propertyPath: _forge
+      value: 
+      objectReference: {fileID: 2040992221}
     - target: {fileID: 5115315985224634622, guid: a061fb313f043af4fba388560ceca453, type: 3}
       propertyPath: hiddenSceneArr.Array.size
       value: 3
@@ -6829,14 +6837,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -4.04
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: pressKeyUI
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8347094986426226432, guid: 1a8ca680e0b97984dbb65d5ce083983f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.28
@@ -6950,6 +6950,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3691406048128609550, guid: 6e8b02d6136299e4ca096ffb4a225359, type: 3}
   m_PrefabInstance: {fileID: 1734506139}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2040992221 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4315676296955883336, guid: a061fb313f043af4fba388560ceca453, type: 3}
+  m_PrefabInstance: {fileID: 1119036040}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86924d5207e122e46b1b120c0ebe8cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2048549634 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3691406048128609550, guid: 6e8b02d6136299e4ca096ffb4a225359, type: 3}

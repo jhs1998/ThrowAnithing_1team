@@ -10,26 +10,17 @@ public class PortalSceneNumber : MonoBehaviour
     [SerializeField] public SceneField[] hiddenSceneArr;
 
 
-    private Forge _forge;
+     private Forge _forge;
 
     private void Awake()
     {
         _forge = GetComponentInParent<Forge>();
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == Tag.Player)
         {
-            StartCoroutine(DeleteRoutine());
+            Destroy(_forge.gameObject);
         }
-    }
-
-
-    IEnumerator DeleteRoutine()
-    {
-        yield return 2f.GetDelay();
-
-        Destroy(_forge.gameObject);
     }
 }
