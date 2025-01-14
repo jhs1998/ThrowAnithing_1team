@@ -18,8 +18,12 @@ public class UpgradePopUp : MonoBehaviour
     {
         if(gameObject.activeSelf&& _object.activeSelf == false && Time.deltaTime != 0)
         {
-            if (playerInput.actions["Choice"].WasPressedThisFrame())
+            if (InputKey.GetButtonDown(InputKey.Interaction))
+            {
+                Debug.Log($"{name} ´©¸§");
                 _object.SetActive(true);
+            }
+              
         }
     }
 

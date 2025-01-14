@@ -21,7 +21,13 @@ public class TalkInteractable : MonoBehaviour
 
     private void Awake()
     {
-        playerInput = GameObject.Find("InputManager").GetComponent<PlayerInput>();
+        
+
+    }
+
+    private void Start()
+    {
+        playerInput = InputKey.PlayerInput;
         if (playerInput == null)
         {
             Debug.Log("PlayerInput 안들어감");

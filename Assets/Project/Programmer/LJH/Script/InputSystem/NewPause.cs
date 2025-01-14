@@ -219,9 +219,6 @@ public class NewPause : BaseUI
 
     void Init()
     {
-        conOriginalNavi = continueButton.navigation;
-        opOriginalNavi = optionButton.navigation;
-        lobbyOriginalNavi = lobbyButton.navigation;
 
         playerInput = InputKey.PlayerInput;
         binding = GetComponent<MainSceneBinding>();
@@ -230,6 +227,10 @@ public class NewPause : BaseUI
         SlotList.Add(continueButton = GetUI<Button>("ContinueImage"));
         SlotList.Add(optionButton = GetUI<Button>("OptionImage"));
         SlotList.Add(lobbyButton = GetUI<Button>("ExitImage"));
+
+        conOriginalNavi = continueButton.navigation;
+        opOriginalNavi = optionButton.navigation;
+        lobbyOriginalNavi = lobbyButton.navigation;
 
         optionPanel = GetUI("OptionCanvas");
         exitPopUp = GetUI("ExitPopUp");

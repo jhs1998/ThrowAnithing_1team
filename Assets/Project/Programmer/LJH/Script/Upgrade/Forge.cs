@@ -40,7 +40,7 @@ public class Forge : MonoBehaviour
             return;
         }
 
-        if (InputKey.GetButtonDown(InputKey.PopUpClose))
+        if (InputKey.GetButtonDown(InputKey.CancelUI))
         {
             SetUnActiveUI();
         }
