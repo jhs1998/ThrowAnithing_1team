@@ -21,7 +21,7 @@ public class EnemyDropItem : Action
         // 확률 인스펙터에서 정해서 값 가져오기
         if (randNum <= reward.Value)
         {
-            DataContainer.GetItemPrefab(transform.position);
+            DataContainer.GetItemTablePrefab(transform.position);
         }
 
         return TaskStatus.Success;
