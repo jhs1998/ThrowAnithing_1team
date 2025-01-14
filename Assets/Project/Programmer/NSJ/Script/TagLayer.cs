@@ -41,6 +41,7 @@ public static partial class Layer
     public static int Forge => LayerEnum.Forge.GetLayer();
     public static int CanPickTrash => LayerEnum.CanPickTrash.GetLayer();
     public static int CantPickTrash => LayerEnum.CantPickTrash.GetLayer();
+    public static int Bullet => LayerEnum.Bullet.GetLayer();
     public enum LayerEnum
     {
         Default,
@@ -56,7 +57,8 @@ public static partial class Layer
         Monster,
         CanPickTrash,
         CantPickTrash,
-        ThrowObject
+        ThrowObject,
+        Bullet
     }
 
     private static Dictionary<LayerEnum, int> _layerDic = new Dictionary<LayerEnum, int>();
@@ -78,6 +80,7 @@ public static partial class Layer
         everyThing |= 1 << CantPickTrash;
         everyThing |= 1 << CanPickTrash;
         everyThing |= 1 << Forge;
+        everyThing |= 1 << Bullet;
 
         return everyThing;
     }

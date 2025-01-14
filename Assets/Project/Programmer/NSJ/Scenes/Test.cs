@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-
     void Update()
     {
         if (InputKey.GetButtonUp(InputKey.Throw))
