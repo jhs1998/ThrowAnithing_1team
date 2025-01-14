@@ -357,6 +357,7 @@ public class InputKey : MonoBehaviour
     {
         Move, CameraMove, MouseDelta, // Axis
         Jump, Throw, Special, Melee, LoakOn, LoakOff, Dash, Interaction, Drain, OpenSettings, InvenOpen, Cheat, //GamePlay
+        Choice, Cancel, Break
     } // None
     public enum Axis { None, Axis }
  
@@ -384,10 +385,10 @@ public class InputKey : MonoBehaviour
     public static InputStruct InvenOpen;
     public static InputStruct Cheat;
     // UI
-    public static string InvenOpenUI;
-    public static string CancelUI;
-    public static string Choice;
-    public static string Break;
+    public static InputStruct InvenOpenUI;
+    public static InputStruct CancelUI;
+    public static InputStruct Choice;
+    public static InputStruct Break;
 
     private Dictionary<string, InputStruct> m_inputStructDic = new Dictionary<string, InputStruct>();
     private static Dictionary<string, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
@@ -437,6 +438,8 @@ public class InputKey : MonoBehaviour
         OpenSetting = GetInputStruct(Action.OpenSettings, Axis.None, "Open_Setting");
         InvenOpen = GetInputStruct(Action.InvenOpen, Axis.None, "InvenOpen");
         Cheat = GetInputStruct(Action.Cheat, Axis.None,"Cheat");
+        CancelUI = GetInputStruct(Action.Cancel, Axis.None, "Cancel");
+        Break = GetInputStruct(Action.Break, Axis.None, "Break");
     }
 
     private void LateUpdate()

@@ -82,7 +82,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Melee _Attack"",
+                    ""name"": ""Melee_Attack"",
                     ""type"": ""Button"",
                     ""id"": ""aaf867dd-3492-45fb-931a-96e6dea73732"",
                     ""expectedControlType"": """",
@@ -468,7 +468,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Melee _Attack"",
+                    ""action"": ""Melee_Attack"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -479,7 +479,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";PC"",
-                    ""action"": ""Melee _Attack"",
+                    ""action"": ""Melee_Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -490,7 +490,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Melee _Attack"",
+                    ""action"": ""Melee_Attack"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -501,7 +501,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Console"",
-                    ""action"": ""Melee _Attack"",
+                    ""action"": ""Melee_Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -979,9 +979,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""InvenOpen"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""fdd960f9-03ed-4090-bf4c-447d59013b52"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -1348,7 +1348,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Gameplay_MouseDelta = m_Gameplay.FindAction("MouseDelta", throwIfNotFound: true);
         m_Gameplay_Ranged_Attack = m_Gameplay.FindAction("Ranged_Attack", throwIfNotFound: true);
         m_Gameplay_Special_Attack = m_Gameplay.FindAction("Special_Attack", throwIfNotFound: true);
-        m_Gameplay_Melee_Attack = m_Gameplay.FindAction("Melee _Attack", throwIfNotFound: true);
+        m_Gameplay_Melee_Attack = m_Gameplay.FindAction("Melee_Attack", throwIfNotFound: true);
         m_Gameplay_Loak_On = m_Gameplay.FindAction("Loak_On", throwIfNotFound: true);
         m_Gameplay_Loak_Off = m_Gameplay.FindAction("Loak_Off", throwIfNotFound: true);
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
