@@ -352,6 +352,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
             }
 
             Battle.TargetAttack(Player.OverLapColliders[i], isCritical, finalDamage);
+            Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stun, 1f);
             Battle.TargetDebuff(Player.OverLapColliders[i], _third.ElectricShock);
         }
         MiddleHittargets.Clear();

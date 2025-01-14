@@ -443,6 +443,8 @@ public class ObjectPool : MonoBehaviour
         {
             info = FindPool(instance);
         }
+        instance.transform.position = info.Prefab.transform.position;
+        instance.transform.rotation = info.Prefab.transform.rotation;
         instance.transform.localScale = info.Prefab.transform.localScale;
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
@@ -460,6 +462,8 @@ public class ObjectPool : MonoBehaviour
         {
             info = FindPool(instance.gameObject);
         }
+        instance.transform.position = info.Prefab.transform.position;
+        instance.transform.rotation = info.Prefab.transform.rotation;
         instance.transform.localScale = info.Prefab.transform.localScale;
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
