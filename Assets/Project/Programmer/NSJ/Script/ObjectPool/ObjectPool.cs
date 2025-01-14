@@ -443,7 +443,7 @@ public class ObjectPool : MonoBehaviour
         {
             info = FindPool(instance);
         }
-
+        instance.transform.localScale = info.Prefab.transform.localScale;
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
         info.Pool.Enqueue(instance);
@@ -460,7 +460,7 @@ public class ObjectPool : MonoBehaviour
         {
             info = FindPool(instance.gameObject);
         }
-
+        instance.transform.localScale = info.Prefab.transform.localScale;
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
         info.Pool.Enqueue(instance.gameObject);

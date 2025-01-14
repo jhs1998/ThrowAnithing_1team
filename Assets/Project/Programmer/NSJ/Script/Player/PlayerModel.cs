@@ -729,6 +729,11 @@ public partial class PlayerData
         OnChangePlayerDataEvent?.Invoke();
     }
 
+    public void InitialzePlayerData()
+    {
+        CurMana = 0;
+    }
+
     public void ClearAdditional()
     {
         AdditionalEffects.Clear();

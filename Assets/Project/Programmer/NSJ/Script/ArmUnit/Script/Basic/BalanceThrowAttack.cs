@@ -123,10 +123,14 @@ public class BalanceThrowAttack : ArmThrowAttack
             if (InputKey.GetButtonDown(InputKey.Throw))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
+                _throwRoutine = null;
+                yield break;
             }
             else if (InputKey.GetButtonDown(InputKey.Melee))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
+                _throwRoutine = null;
+                yield break;
             }
             yield return null;
         }

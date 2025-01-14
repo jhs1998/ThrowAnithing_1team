@@ -302,12 +302,15 @@ public class BalanceSpecialAttack : ArmSpecialAttack
                 transform.position.z + (Player.transform.forward.z * _third.AttackOffset.z));
          
         GameObject beforeEffect = ObjectPool.GetPool(_third.BeforeEffect, attackPos, Quaternion.identity);
+        beforeEffect.transform.localScale *= _third.MiddleRange;
+
         yield return _third.AttackDelay.GetDelay();
         ObjectPool.ReturnPool(beforeEffect);
         // АјАн
         AttackBombard(attackPos);
 
         GameObject effect = ObjectPool.GetPool(_third.Effect, attackPos, _third.Effect.transform.rotation);
+        effect.transform.localScale *= _third.MiddleRange;
         yield return 2f.GetDelay();
         ObjectPool.ReturnPool(effect);
     }

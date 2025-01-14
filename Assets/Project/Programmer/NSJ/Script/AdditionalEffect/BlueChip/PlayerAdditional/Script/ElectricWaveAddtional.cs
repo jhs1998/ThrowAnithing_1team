@@ -30,6 +30,7 @@ public class ElectricWaveAddtional : PlayerAdditional
     public override void Enter()
     {
         _electricShock = Instantiate(_electricShockOrigin);
+        _electricShock.Probability = 100;
 
         if (_attackRoutine == null)
             _attackRoutine = CoroutineHandler.StartRoutine(AttackRoutine());
