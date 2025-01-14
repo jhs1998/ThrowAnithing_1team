@@ -64,7 +64,7 @@ public class SpecialObject : ThrowObject
     /// <summary>
     /// Å¸°Ù ÀûÁß
     /// </summary>
-    protected override void HitTarget()
+    protected override void HitTarget(Collider other)
     {
         if (CanAttack == false)
             return;

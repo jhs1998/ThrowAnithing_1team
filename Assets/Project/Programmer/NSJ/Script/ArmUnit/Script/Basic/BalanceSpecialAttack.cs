@@ -272,7 +272,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     private void ThrowSpecialObject()
     {
         SpecialObject specialObject = ObjectPool.GetPool(_second.SpecialObject, _muzzlePoint.position, _muzzlePoint.rotation);
-        specialObject.Init(Player, CrowdControlType.None, Model.ThrowAdditionals);
+        specialObject.Init(Player, CrowdControlType.None, 0,Model.ThrowAdditionals);
         specialObject.InitSpecial(_second.Damage, _second.MiddleDamage, _second.Range, _second.MiddleRange);
         specialObject.Shoot(Player.ThrowPower);
     }
