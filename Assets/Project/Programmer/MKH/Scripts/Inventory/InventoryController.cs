@@ -450,7 +450,8 @@ namespace MKH
             if (slot == null)
                 return;
 
-            //if (obj)
+
+            //if (slot)
             //{
             //    slot.GetComponent<Image>().color = HighlightedColor;
             //}
