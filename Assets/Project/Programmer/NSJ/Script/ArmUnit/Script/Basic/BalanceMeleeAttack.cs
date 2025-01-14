@@ -114,10 +114,14 @@ public class BalanceMeleeAttack : ArmMeleeAttack
             if (InputKey.GetButtonDown(InputKey.Melee))
             {
                 ChangeState(PlayerController.State.MeleeAttack);
+                _meleeRoutine = null;
+                yield break;
             }
             else if (InputKey.GetButtonDown(InputKey.Throw))
             {
                 ChangeState(PlayerController.State.ThrowAttack);
+                _meleeRoutine = null;
+                yield break;
             }
             yield return null;
         }

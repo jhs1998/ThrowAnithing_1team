@@ -6,7 +6,7 @@ public class Interactable : MonoBehaviour
 
     [Range(2f, 5f)][SerializeField] float overlapSphereRadius; //보물상자 근처 범위
     [Range(2f, 5f)][SerializeField] float playerAreaRadius; //플레이어 근처 랜덤생성될때 근처 범위
-    Collider[] hitColliders = new Collider[20]; //해당 물체에 닿는 모든 콜라이더를 넣어둘 배열
+    Collider[] hitColliders = new Collider[1]; //해당 물체에 닿는 모든 콜라이더를 넣어둘 배열
     Collider playerCollider; //그중에서 플레이어 콜라이더만 저장할 변수
 
     [SerializeField] bool isInSphere; //T오버랩스피어에닿아있음 F아님
@@ -43,7 +43,7 @@ public class Interactable : MonoBehaviour
 
     private void FixedUpdate()
     {
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, overlapSphereRadius, hitColliders);
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, overlapSphereRadius, hitColliders,1<<Layer.Player);
         for (int i = 0; i < hitCount; i++)
         {
             if (hitColliders[i].gameObject.tag == Tag.Player)
