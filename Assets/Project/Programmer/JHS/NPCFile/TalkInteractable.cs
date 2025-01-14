@@ -14,21 +14,19 @@ public class TalkInteractable : MonoBehaviour
     [SerializeField] private string[] dialogues; // 대사 목록
     [SerializeField] private float typingSpeed = 0.05f; // 타이핑 속도
 
-    private PlayerInput playerInput; // Player Input 컴포넌트
+    [SerializeField] PlayerInput playerInput; // Player Input 컴포넌트
     private bool isPlayerNearby = false; // 플레이어 근처에 있는지 확인
     private bool isTyping = false; // 현재 타이핑 중인지 확인
     private int currentDialogueIndex = 0; // 현재 대사 인덱스
 
     private void Awake()
     {
-        // PlayerInput 컴포넌트 가져오기
         playerInput = GameObject.Find("InputManager").GetComponent<PlayerInput>();
-        if (playerInput == null )
+        if (playerInput == null)
         {
-            Debug.Log("PlayerInput 못가져옴");
+            Debug.Log("PlayerInput 안들어감");
         }
     }
-
     // 충돌했을때 안내ui 출력
     private void OnTriggerEnter(Collider other)
     {
@@ -48,23 +46,28 @@ public class TalkInteractable : MonoBehaviour
         }
     }
     // gameplay맵에서 Interaction액션이 실행될때
-    private void OnInteraction()
+    private void Update()
     {
-        if(isPlayerNearby)
+        if(playerInput.actions["Interaction"].WasPressedThisFrame() || playerInput.actions["Choice"].WasPressedThisFrame())
         {
-            //map을 ui로 변경, 대화창 on
-            if (dialogueUI.activeSelf)
+            Debug.Log("1차시도");
+            if (isPlayerNearby)
             {
-                // 대화창이 열려있으면 대화 스킵
-                HandleDialogueProgress();
+                Debug.Log("2차시도");
+                if (dialogueUI.activeSelf)
+                {
+                    // 대화창이 열려있으면 대화 스킵
+                    HandleDialogueProgress();
+                }
+                else
+                {
+                    // 대화창이 닫혀있으면 대화창으로 열고 대화 시작
+                    Debug.Log("3차시도");
+                    ShowDialogueUI();
+                    StartDialogue();
+                }
             }
-            else
-            {
-                // 대화창이 닫혀있으면 대화창으로 열고 대화 시작
-                ShowDialogueUI();
-                StartDialogue();
-            }
-        }
+        }        
     }
 
     private void ShowPopup()
@@ -80,13 +83,15 @@ public class TalkInteractable : MonoBehaviour
     private void ShowDialogueUI()
     {
         dialogueUI.SetActive(true);
-        SwitchActionMap("UI"); // 플레이어 조작 비활성화
+        playerInput.SwitchCurrentActionMap(ActionMap.UI); // 플레이어 조작 비활성화
+        Debug.Log(playerInput.currentActionMap);
     }
 
     private void HideDialogueUI()
     {
         dialogueUI.SetActive(false);
-        SwitchActionMap("Gameplay"); // 플레이어 조작 활성화
+        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay); // 플레이어 조작 활성화
+        Debug.Log(playerInput.currentActionMap);
     }
 
     private void StartDialogue()
@@ -99,17 +104,17 @@ public class TalkInteractable : MonoBehaviour
     {
         isTyping = true;
         string currentDialogue = dialogues[currentDialogueIndex];
-        dialogueUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = ""; // 대사 초기화
+        dialogueText.text = ""; // 대사 초기화
 
         foreach (char c in currentDialogue)
         {
-            dialogueUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text += c;
+            dialogueText.text += c; // 하나씩 출력
             yield return new WaitForSeconds(typingSpeed);
 
-            // 타이핑 중에 즉시 출력 처리
+            // 타이핑 중에 'Choice' 액션이 트리거되면 즉시 출력
             if (playerInput.actions["Choice"].triggered)
             {
-                dialogueUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = currentDialogue;
+                dialogueText.text = currentDialogue; // 전체 대사 출력
                 break;
             }
         }
@@ -121,14 +126,12 @@ public class TalkInteractable : MonoBehaviour
     {
         if (isTyping)
         {
-            // 타이핑 중이라면 즉시 출력 완료
             StopAllCoroutines();
-            dialogueUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = dialogues[currentDialogueIndex];
+            dialogueText.text = dialogues[currentDialogueIndex];
             isTyping = false;
         }
         else
         {
-            // 다음 대사로 이동
             currentDialogueIndex++;
             if (currentDialogueIndex < dialogues.Length)
             {
@@ -136,13 +139,8 @@ public class TalkInteractable : MonoBehaviour
             }
             else
             {
-                // 모든 대사가 끝나면 대화창 닫기
                 HideDialogueUI();
             }
         }
-    }
-    private void SwitchActionMap(string mapName)
-    {
-        playerInput.SwitchCurrentActionMap(mapName);
     }
 }
