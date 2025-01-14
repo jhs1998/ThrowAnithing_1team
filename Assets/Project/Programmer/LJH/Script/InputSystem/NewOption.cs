@@ -102,6 +102,11 @@ public class NewOption : BaseUI
 
     [SerializeField] NewPause pausePanel;
 
+    //클릭 허공에 했을때
+    GameObject preButton;
+    GameObject defaultButton;
+    GameObject currentSelected;
+
     private void Awake()
     {
         Bind();
@@ -116,7 +121,9 @@ public class NewOption : BaseUI
         binding.ButtonFirstSelect(gamePlayButton.gameObject);
         //현재 선택된 버튼 없을 때, 첫번째 버튼 설정
         if (firstCo == null)
+        {
             firstCo = StartCoroutine(FirstRoutine());
+        }
     }
 
     private void OnDisable()
@@ -147,17 +154,81 @@ public class NewOption : BaseUI
 
     void Update()
     {
-        if (EventSystem.current.currentSelectedGameObject == null)
-            return;
-
-
+        Debug.Log(curDepth);
+       // if (EventSystem.current.currentSelectedGameObject == null)
+       //     return;
+        ButtonMissClick();
+        CurDepthReset();
         DepthCal();
+
+        if((EventSystem.current.currentSelectedGameObject != null))
         curTabChecker(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
 
         SliderControl(sens.gameObject, sensSlider);
         SliderControl(totalVolume.gameObject, totalVolumeBar);
         SliderControl(bgmVolume.gameObject, bgmVolumeBar);
         SliderControl(sfxVolume.gameObject, sfxVolumeBar);
+    }
+
+    /// <summary>
+    /// 허공에 클릭시 커뎁스 리셋
+    /// </summary>
+    void CurDepthReset()
+    {
+        if (curDepth > 0)
+            Invoke("Term", 0.5f);
+    }
+
+    void Term()
+    {
+        if (EventSystem.current.currentSelectedGameObject == gamePlayButton.gameObject)
+            curDepth = 0;
+
+        if (EventSystem.current.currentSelectedGameObject == soundButton.gameObject)
+            curDepth = 0;
+    }
+
+    /// <summary>
+    /// 버튼 허공에 클릭했을 때, 기본 버튼 복구용 메서드
+    /// </summary>
+    void ButtonMissClick()
+    {
+        //선택된 버튼이 없을때 기본 버튼으로 복구하기 위한 변수 할당
+        if (defaultButton == null)
+            defaultButton = gamePlayButton.gameObject;
+        //현재 버튼 저장
+        currentSelected = EventSystem.current.currentSelectedGameObject;
+
+        if (playerInput.actions["LeftClick"].WasPressedThisFrame() || playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            // 빈 공간을 클릭했을 때
+            if (currentSelected == null)
+            {
+                RestoreButton();
+            }
+            else
+            {
+                // 현재 선택된 버튼을 저장
+                preButton = currentSelected;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 빈공간 눌렀을 때 버튼 복구용 함수
+    /// </summary>
+    public void RestoreButton()
+    {
+        if (playerInput.actions["LeftClick"].WasPressedThisFrame())
+        {
+            if (preButton != null)
+            {
+                if (EventSystem.current.currentSelectedGameObject == null)
+                    EventSystem.current.SetSelectedGameObject(preButton);
+            }
+            else if (preButton == null)
+                EventSystem.current.SetSelectedGameObject(defaultButton);
+        }
     }
 
     void SliderControl(GameObject button, Slider slider)
