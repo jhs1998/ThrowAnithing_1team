@@ -197,6 +197,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     Vector2 _mouseDir;
     Vector2 _stickDir;
 
+    bool _isAudioPlay = true;
     Quaternion _defaultMuzzlePointRot;
     private void Awake()
     {
@@ -211,7 +212,6 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         StartRoutine();
         InitAdditionnal();
         ChangeArmUnit(Model.NowWeapon);
-        StartCoroutine(ControlMousePointer());
         //Camera.main.transform.SetParent(_cameraPos, true);
 
         InputKey.SetActionMap(InputType.GAMEPLAY);
@@ -229,6 +229,8 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
 
     private void Update()
     {
+        ControlMousePointer();
+
         if (CanOperate == false)
             return;
 
@@ -1110,41 +1112,41 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
             yield return null;
         }
     }
-
-    IEnumerator ControlMousePointer()
+    void ControlMousePointer()
     {
-        bool isAudioPlay = true;
-        while (true)
-        {
+        
+
+            Debug.Log("돌아가는중");
             if (InputKey.GetActionMap() == InputType.GAMEPLAY)
             {
+                Debug.Log("고정");
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 CanOperate = true;
 
-                if (isAudioPlay == false)
+                if (_isAudioPlay == false)
                 {
-                    isAudioPlay = true;
+                    _isAudioPlay = true;
                     Audio.UnPause();
                 }
 
             }
             else if (InputKey.GetActionMap() == InputType.UI)
             {
+                Debug.Log("풀림");
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 CanOperate = false;
 
-                if (isAudioPlay == true)
+                if (_isAudioPlay == true)
                 {
 
-                    isAudioPlay = false;
+                    _isAudioPlay = false;
                     Audio.Pause();
                 }
 
             }
-            yield return 0.02f.GetRealTimeDelay();
-        }
+        
     }
 
     private void TriggerCantOperate()
