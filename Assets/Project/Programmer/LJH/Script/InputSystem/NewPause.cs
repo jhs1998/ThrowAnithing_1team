@@ -48,7 +48,7 @@ public class NewPause : BaseUI
     private void OnEnable()
     {
         // ∑Œ∫Òæ¿ √π ¡¯¿‘∂ß æ◊º«∏  πŸ≤„¡‹
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
     }
 
     private void Update()
@@ -63,7 +63,7 @@ public class NewPause : BaseUI
         if (playerInput.actions["Open_Settings"].WasPressedThisFrame())
         {
             Time.timeScale = 0f;
-            playerInput.SwitchCurrentActionMap(ActionMap.UI);
+            playerInput.SwitchCurrentActionMap(InputType.UI);
             
             pause.SetActive(true);
             EventSystem.current.SetSelectedGameObject(null);
@@ -175,7 +175,7 @@ public class NewPause : BaseUI
     void ContinueGame()
     {
         //Todo : ∆€¡Ó√¢ ¥›æ∆æﬂ«‘
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
         Time.timeScale = 1f;
         firstCo = null;
         pause.SetActive(false);

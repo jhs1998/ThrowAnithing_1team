@@ -39,13 +39,13 @@ public class NewArmChange : BaseUI
 
     private void OnEnable()
     {
-        playerInput.SwitchCurrentActionMap(ActionMap.UI);
+        playerInput.SwitchCurrentActionMap(InputType.UI);
         EventSystem.current.SetSelectedGameObject(armButtons[0].gameObject);
     }
     private void OnDisable()
     {
-        if(playerInput.currentActionMap.name == ActionMap.UI)
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
+        if(playerInput.currentActionMap.name == InputType.UI)
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
     }
     private void Update()
     {

@@ -75,12 +75,12 @@ public class NewUpgrade : BaseUI
     private void OnEnable()
     {
         EventSystem.current.SetSelectedGameObject(buttonIndex[0].gameObject);
-        playerInput.SwitchCurrentActionMap(ActionMap.UI);
+        playerInput.SwitchCurrentActionMap(InputType.UI);
     }
 
     private void OnDisable()
     {
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
     }
 
     private void Update()

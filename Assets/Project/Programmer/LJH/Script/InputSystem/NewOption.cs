@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -93,10 +94,14 @@ public class NewOption : BaseUI
     float newEffect;
     float defaultEffect;
 
+    //조작키 관리용
+    GameObject inputPC;
+    GameObject inputConsole;
+
     //패널
-    GameObject gameplayPannel;
-    GameObject soundPannel;
-    GameObject inputPannel;
+    GameObject gameplayPanel;
+    GameObject soundPanel;
+    GameObject inputPanel;
 
     //코루틴
     Coroutine firstCo;
@@ -301,23 +306,32 @@ public class NewOption : BaseUI
         {
             if (curButton == gamePlayButton)
             {
-                gameplayPannel.SetActive(true);
-                soundPannel.SetActive(false);
-                inputPannel.SetActive(false);
+                gameplayPanel.SetActive(true);
+                soundPanel.SetActive(false);
+                InputPanel(false);
             }
             else if (curButton == soundButton)
             {
-                gameplayPannel.SetActive(false);
-                soundPannel.SetActive(true);
-                inputPannel.SetActive(false);
+                gameplayPanel.SetActive(false);
+                soundPanel.SetActive(true);
+                InputPanel(false);
             }
             else if (curButton == inputButton)
             {
-                gameplayPannel.SetActive(false);
-                soundPannel.SetActive(false);
-                inputPannel.SetActive(true);
+                gameplayPanel.SetActive(false);
+                soundPanel.SetActive(false);
+                InputPanel(true);
             }
         }
+    }
+
+    void InputPanel(bool onOff)
+    {
+        inputPanel.SetActive(onOff);
+
+
+        inputPC.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
+        inputConsole.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
     }
 
     //코루틴을 사용해 UI 초기화할 시간 벌어줌
@@ -505,9 +519,9 @@ public class NewOption : BaseUI
         optionButtons.Add(exitButton = GetUI<Button>("Exit"));
 
 
-        gameplayPannel = GetUI("GamePlayPackage");
-        soundPannel = GetUI("SoundPackage");
-        inputPannel = GetUI("InputGuide");
+        gameplayPanel = GetUI("GamePlayPackage");
+        soundPanel = GetUI("SoundPackage");
+        inputPanel = GetUI("InputGuide");
 
         gameplayButtons.Add(minimapAct = GetUI<Button>("MinimapAct"));
         gameplayButtons.Add(minimapFix = GetUI<Button>("MinimapFix"));
@@ -559,7 +573,8 @@ public class NewOption : BaseUI
         cancel_Gameplay.onClick.AddListener(CancelButton_Gameplay);
         default_Gameplay.onClick.AddListener(DefaultButton_Gameplay);
 
-
+        inputPC = GetUI("inputPC");
+        inputConsole = GetUI("inputConsole");
 
 
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class Forge : MonoBehaviour
 {
@@ -19,28 +20,11 @@ public class Forge : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        foreach (var device in InputSystem.devices)
-        {
-            if (device is Gamepad)
-            {
-                if (other.gameObject.CompareTag(Tag.Player))
-                {
-                    upPopup.SetActive(true);
-                    padPopup.SetActive(true);
-                    IsActive = true;
-                }
-            }
-            else if(device is Keyboard)
-            {
-
-                if (other.gameObject.CompareTag(Tag.Player))
-                {
-                    upPopup.SetActive(true);
-                    pcPopup.SetActive(true);
-                    IsActive = true;
-                }
-            }
-        }
+        upPopup.SetActive(true);
+        pcPopup.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
+        padPopup.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
+        IsActive = true;
+        
     }
 
     private void OnTriggerExit(Collider other)
