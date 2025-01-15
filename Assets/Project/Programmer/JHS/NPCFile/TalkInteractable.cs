@@ -94,8 +94,8 @@ public class TalkInteractable : MonoBehaviour
         GameObject _pc = pcText;
         GameObject _console = consoleText;
         // 각 디바이스에 맞는 텍스트 활성화
-        //_pc.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
-        //_console.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
+        _pc.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
+        _console.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
 
         // 팝업 UI 활성화
         upPopup.SetActive(true);
