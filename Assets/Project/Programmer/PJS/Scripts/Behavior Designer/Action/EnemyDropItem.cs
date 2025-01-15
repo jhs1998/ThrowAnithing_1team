@@ -2,6 +2,7 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using System.Collections;
 using UnityEngine;
+using static BaseEnemy;
 
 public class EnemyDropItem : Action
 {
