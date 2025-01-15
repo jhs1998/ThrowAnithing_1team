@@ -69,8 +69,8 @@ namespace MKH
         #region 키 조작
         public void Move()
         {
-            float x = InputKey.GetAxis(InputKey.Horizontal);       // 좌 우 조작
-            float y = InputKey.GetAxis(InputKey.Vertical);         // 상 하 조작
+            float x = 0;//InputKey.GetAxis(InputKey.Horizontal);       // 좌 우 조작
+            float y = 0;//InputKey.GetAxis(InputKey.Vertical);         // 상 하 조작
 
             // 인벤토리만 켜져있을 때
             if (inventory.activeSelf && !blueChipPanel.activeSelf)
