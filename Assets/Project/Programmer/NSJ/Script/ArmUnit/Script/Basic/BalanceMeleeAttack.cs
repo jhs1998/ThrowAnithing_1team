@@ -82,6 +82,10 @@ public class BalanceMeleeAttack : ArmMeleeAttack
                 continue;
 
             int finalDamage = Player.GetFinalDamage(_damage, _damageMultiplier, out bool isCritical);
+
+            // 사운드
+            SoundManager.PlaySFX(isCritical == true ? Player.Sound.Hit.Critical : Player.Sound.Hit.Hit);
+
             // 데미지 주기
             Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, finalDamage, false);
             Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);

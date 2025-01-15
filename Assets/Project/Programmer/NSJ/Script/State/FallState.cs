@@ -79,6 +79,10 @@ public class FallState : PlayerState
         Player.IsDoubleJump = false;
         Player.IsJumpAttack = false;
         View.SetTrigger(PlayerView.Parameter.Landing);
+
+        SoundManager.PlaySFX(Player.Sound.Move.Landing);
+
+
     }
 
     IEnumerator CheckInputRoutine()

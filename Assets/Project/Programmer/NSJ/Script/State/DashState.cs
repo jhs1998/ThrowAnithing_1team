@@ -36,6 +36,9 @@ public class DashState : PlayerState
         _checkCanMove = CoroutineHandler.StartRoutine(_checkCanMove, CheckCanMove());
         _dashEffectRoutine = CoroutineHandler.StartRoutine(_dashEffectRoutine, DashEffectRoutine());
 
+        // »ç¿îµå
+        SoundManager.PlaySFX(Player.Sound.Move.Dash);
+
     }
     public override void Exit()
     {

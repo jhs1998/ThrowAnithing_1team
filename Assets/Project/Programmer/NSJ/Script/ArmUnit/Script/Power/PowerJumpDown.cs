@@ -83,6 +83,9 @@ public class PowerJumpDown : ArmJumpDown
 
         View.SetTrigger(PlayerView.Parameter.Landing);
 
+        // 사운드 
+        SoundManager.PlaySFX(Player.Sound.Move.JumpAttack);
+
         // 플레이어가 실제로 땅에 닿았을때까지 대기
         while (Player.IsGround == false)
         {
@@ -108,6 +111,7 @@ public class PowerJumpDown : ArmJumpDown
 
         // 이펙트 생성
         ObjectPool.GetPool(_attackEffect, _landingPoint, Quaternion.identity, 5f);
+
     }
 
     public override void OnDrawGizmos()

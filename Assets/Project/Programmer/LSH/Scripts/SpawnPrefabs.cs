@@ -86,7 +86,6 @@ public class SpawnPrefabs : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log($"{childCube[randomNum].gameObject.name} Åë°ú ");
                     childCube[randomNum].gameObject.SetActive (true);
                     break;
                 }
