@@ -1,7 +1,7 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace MKH
 {
@@ -9,23 +9,16 @@ namespace MKH
     public class InventoryController : MonoBehaviour
     {
         [Header("인벤토리 및 장비")]
-        [SerializeField] GameObject inventory;                  // 인벤토리
         [SerializeField] GameObject mInventorySlotsParent;      // 인벤토리 슬롯 모음집
         [SerializeField] InventorySlot[] ivSlots;               // 인벤토리 슬롯들
         [SerializeField] GameObject mEquipmentSlotsParent;      // 장비 슬롯 모음집
         [SerializeField] InventorySlot[] eqSlots;               // 장비 슬롯들
         [SerializeField] GameObject blueChipPanel;              // 블루칩 패널
+        InventoryMain mInventory;                               // 메인 인벤토리
 
-
-        [Header("슬롯 버튼")]
-        [SerializeField] InventorySlot[] slots;                  // 슬롯 버튼
-        int selectedButtonsIndex;                               // 슬롯 시작 위치
+        [Header("슬롯")]
+        [SerializeField] InventorySlot[] slots;                 // 슬롯 버튼
         int buttonCount;                                        // 슬롯 개수
-        private bool axisInUse;                                 // 키 연속 조작 방지
-
-        [Header("슬롯 색")]
-        [SerializeField] Color HighlightedColor;                // 선택 슬롯 색
-        [SerializeField] Color color;                           // 미선택 슬롯 색
 
         [Header("아이템 설명")]
         [SerializeField] TMP_Text ivName;                       // 인벤토리 아이템 이름
@@ -33,8 +26,12 @@ namespace MKH
         [SerializeField] TMP_Text eqName;                       // 장비 아이템 이름
         [SerializeField] TMP_Text eqDescription;                // 장비 아이템 설명
 
-        InventoryMain mInventory;
-        [SerializeField] SaveSystem saveSystem;
+        [Header("효과음")]
+        [SerializeField] public AudioClip ivChoice;             // 장착 효과음
+        [SerializeField] public AudioClip ivBreak;              // 분해 효과음
+
+        [Header("코인 저장")]
+        [SerializeField] SaveSystem saveSystem;                 // 분해한 코인 저장 역활
 
         private void Awake()
         {
@@ -47,12 +44,11 @@ namespace MKH
         private void Start()
         {
             buttonCount = slots.Length;
-            selectedButtonsIndex = 9;
         }
 
         private void Update()
         {
-            if (!inventory.activeSelf)
+            if (blueChipPanel.activeSelf)
                 return;
 
             if (InputKey.PlayerInput.actions["Choice"].WasPressedThisFrame())
@@ -63,98 +59,83 @@ namespace MKH
             {
                 Break();
             }
+
             Info();
         }
 
-        #region 키 조작
-        public void Move()
-        {
-            float x = 0;//InputKey.GetAxis(InputKey.Horizontal);       // 좌 우 조작
-            float y = 0;//InputKey.GetAxis(InputKey.Vertical);         // 상 하 조작
+        #region 키 조작(초기 버전) 사용 X
+        /* public void Move()
+         {
+             float x = 0;//InputKey.GetAxis(InputKey.Horizontal);       // 좌 우 조작
+             float y = 0;//InputKey.GetAxis(InputKey.Vertical);         // 상 하 조작
 
-            // 인벤토리만 켜져있을 때
-            if (inventory.activeSelf && !blueChipPanel.activeSelf)
-            {
-                // 왼쪽
-                if (x < 0)
-                {
-                    if (selectedButtonsIndex > 0 && axisInUse == false)
-                    {
-                        axisInUse = true;
-                        selectedButtonsIndex -= 1;
-                    }
-                }
-                // 오른쪽
-                else if (x > 0)
-                {
-                    if (selectedButtonsIndex < slots.Length - 1 && axisInUse == false)
-                    {
-                        axisInUse = true;
-                        selectedButtonsIndex += 1;
-                    }
-                }
-                // 위
-                else if (y > 0)
-                {
-                    if (selectedButtonsIndex > 2 && axisInUse == false)
-                    {
-                        axisInUse = true;
-                        selectedButtonsIndex -= 3;
-                    }
-                }
-                // 아래
-                else if (y < 0)
-                {
-                    if (selectedButtonsIndex < slots.Length - 3 && axisInUse == false)
-                    {
-                        axisInUse = true;
-                        selectedButtonsIndex += 3;
-                    }
-                }
-                // 키 멈춤 방지
-                else
-                {
-                    axisInUse = false;
-                }
-            }
+             // 인벤토리만 켜져있을 때
+             if (inventory.activeSelf && !blueChipPanel.activeSelf)
+             {
+                 // 왼쪽
+                 if (x < 0)
+                 {
+                     if (selectedButtonsIndex > 0 && axisInUse == false)
+                     {
+                         axisInUse = true;
+                         selectedButtonsIndex -= 1;
+                     }
+                 }
+                 // 오른쪽
+                 else if (x > 0)
+                 {
+                     if (selectedButtonsIndex < slots.Length - 1 && axisInUse == false)
+                     {
+                         axisInUse = true;
+                         selectedButtonsIndex += 1;
+                     }
+                 }
+                 // 위
+                 else if (y > 0)
+                 {
+                     if (selectedButtonsIndex > 2 && axisInUse == false)
+                     {
+                         axisInUse = true;
+                         selectedButtonsIndex -= 3;
+                     }
+                 }
+                 // 아래
+                 else if (y < 0)
+                 {
+                     if (selectedButtonsIndex < slots.Length - 3 && axisInUse == false)
+                     {
+                         axisInUse = true;
+                         selectedButtonsIndex += 3;
+                     }
+                 }
+                 // 키 멈춤 방지
+                 else
+                 {
+                     axisInUse = false;
+                 }
+             }
 
 
-            // 선택 슬롯 색 입히기
-            //for (int i = 0; i < slots.Length; i++)
-            //{
-            //    if (i == selectedButtonsIndex)
-            //    {
-            //        slots[i].GetComponent<Image>().color = HighlightedColor;
-            //    }
-            //    else
-            //    {
-            //        slots[i].GetComponent<Image>().color = color;
-            //    }
-            //}
-        }
-        public void ChangeSelectButton(InventorySlot slot)
-        {
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i] == slot)
-                {
-                    selectedButtonsIndex = i;
-                    slots[i].SlotButton.Outline.SetActive(true);
-                }
-                else
-                {
-                    slots[i].SlotButton.Outline.SetActive(false);
-                }
-            }
-            Info();
-        }
-
+             // 선택 슬롯 색 입히기
+             //for (int i = 0; i < slots.Length; i++)
+             //{
+             //    if (i == selectedButtonsIndex)
+             //    {
+             //        slots[i].GetComponent<Image>().color = HighlightedColor;
+             //    }
+             //    else
+             //    {
+             //        slots[i].GetComponent<Image>().color = color;
+             //    }
+             //}
+         }*/
         #endregion
 
         #region 아이템 버튼 조작
+        // 장비 장착, 교체
         public void Choice()
         {
-
+            #region 초기 버전 사용 X
             /* // 인벤토리만 켜져있을 때
              if (inventory.activeSelf && !blueChipPanel.activeSelf)
              {
@@ -176,8 +157,8 @@ namespace MKH
                      }
                  }
              }*/
+            #endregion
 
-            Debug.Log("초이스 키 입력");
             GameObject obj = EventSystem.current.currentSelectedGameObject;
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
             if (slot == null)
@@ -185,6 +166,7 @@ namespace MKH
 
             if (slot.Item != null)
             {
+                SoundManager.PlaySFX(ivChoice);
                 slot.UseItem();
                 mInventory.Sorting();
                 Debug.Log("장비 장착");
@@ -195,8 +177,10 @@ namespace MKH
             }
         }
 
+        // 장비 분해
         public void Break()
         {
+            #region 초기 버전 사용 X
             /*if (inventory.activeSelf && !blueChipPanel.activeSelf)
             {
                 int index = selectedButtonsIndex;
@@ -239,6 +223,7 @@ namespace MKH
                     }
                 }
             }*/
+            #endregion
 
             GameObject obj = EventSystem.current.currentSelectedGameObject;
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
@@ -247,6 +232,7 @@ namespace MKH
 
             if (slot.Item != null)
             {
+                SoundManager.PlaySFX(ivBreak);
                 // 습득 코인 변수
                 int coinsEarned = 0;
                 // 등급에 따라 습득 코인 수 변경
@@ -270,7 +256,6 @@ namespace MKH
                 slot.ClearSlot();
                 mInventory.Sorting();
                 Debug.Log($"장비 분해");
-                Debug.Log(coinsEarned);
 
             }
             else if (slot.Item == null)
@@ -283,6 +268,7 @@ namespace MKH
         #region 아이템 정보
         private void Info()
         {
+            #region 초기 버전 사용 X
             /* for (int i = 0; i < slots.Length; i++)
              {
                  if (i == selectedButtonsIndex)
@@ -440,25 +426,16 @@ namespace MKH
                      }
                  }
              }*/
-
-
+            #endregion
+            
             GameObject obj = EventSystem.current.currentSelectedGameObject;
+            if (obj == null)
+                return;
+
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
-
-
             if (slot == null)
                 return;
 
-
-            //if (slot)
-            //{
-            //    slot.GetComponent<Image>().color = HighlightedColor;
-            //}
-            //else
-            //{
-            //    slot.GetComponent<Image>().color = color;
-            //}
-            
             if (slot.isEquip == true)
             {
                 // 장비창 설명
@@ -478,7 +455,6 @@ namespace MKH
                     ivName.text = "-";
                     ivDescription.text = "";
                 }
-
             }
             else
             {

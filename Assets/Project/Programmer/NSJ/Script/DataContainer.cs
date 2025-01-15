@@ -2,7 +2,6 @@ using MKH;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static BaseEnemy;
 
 public class DataContainer : MonoBehaviour
 {
@@ -62,7 +61,6 @@ public class DataContainer : MonoBehaviour
     public static ItemStruct Items { get { return Instance._items; } }
     public static List<DropList> ItemList = new List<DropList>();
     public static List<DropItemTable> ItemTableList = new List<DropItemTable>();
-    private static GameObject _gameObject;
 
     [SerializeField] GameObject[] _itemPaticle;
     /// <summary>
@@ -157,9 +155,9 @@ public class DataContainer : MonoBehaviour
         return dropList.itemList[Random.Range(0, dropList.Count)];
     }
 
-    public static GameObject GetItemTablePrefab(Vector3 pos)
+    public static GameObject GetItemTablePrefab(Vector3 pos, BaseEnemy.MonsterType type)
     {
-        CoroutineHandler.StartRoutine(CreateItemTable(pos));
+        CoroutineHandler.StartRoutine(CreateItemTable(pos, type));
         return null;
     }
 
@@ -212,201 +210,96 @@ public class DataContainer : MonoBehaviour
         }
     }
 
-    public static BaseEnemy GetMonsterType(MonsterType type)
+    
+    static IEnumerator CreateItemTable(Vector3 pos, BaseEnemy.MonsterType type)
     {
-        switch(type)
-        {
-            case MonsterType.Nomal:
-
-                break;
-            case MonsterType.Mutant:
-
-                break;
-            case MonsterType.Elite:
-
-                break;
-            case MonsterType.SubBoss:
-
-                break;
-            case MonsterType.Boss:
-
-                break;
-        }
-        return null;
-    }
-
-    static IEnumerator CreateItemTable(Vector3 pos)
-    {
-        BaseEnemy enemy = new BaseEnemy();
-        GameObject obj = _gameObject;
-
         GameObject startEffect = ObjectPool.GetPool(ItemPaticle[0], pos, Quaternion.Euler(-90f, 0, 0));
-
         yield return 0.3f.GetDelay();
-
         ObjectPool.ReturnPool(startEffect);
 
-        switch (enemy.curMonsterType)
+        switch (type)
         {
-
-            case MonsterType.Nomal:
-                ItemTableList[0] = Items.Normal;
+            case BaseEnemy.MonsterType.Nomal:
                 Debug.Log(ItemTableList[0]);
-                ItemTableList[0].DropListTable1(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-                Debug.Log("1");
-                yield return Instance._destroyItemTime.GetDelay();
-                if (obj != null)
-                {
-                    Destroy(obj);
-                    Debug.Log($"{obj}»ç¶óÁü");
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
-                }
-                break;
-            case MonsterType.Mutant:
-                ItemTableList[1] = Items.Mutant;
-                Debug.Log(ItemTableList[1]);
-                ItemTableList[1].DropListTable2(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-                Debug.Log("1");
-                yield return Instance._destroyItemTime.GetDelay();
-                if (obj != null)
-                {
-                    Destroy(obj);
-                    Debug.Log($"{obj}»ç¶óÁü");
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
-                }
-                break;
-            case MonsterType.Elite:
-                ItemTableList[2] = Items.Elite;
-                Debug.Log(ItemTableList[2]);
-                ItemTableList[2].DropListTable2(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-                Debug.Log("3");
-                yield return Instance._destroyItemTime.GetDelay();
-                if (obj != null)
-                {
-                    Destroy(obj);
-                    Debug.Log($"{obj}»ç¶óÁü");
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
-                }
-                break;
-            case MonsterType.SubBoss:
-                ItemTableList[3] = Items.SubBoss;
-                Debug.Log(ItemTableList[3]);
-                ItemTableList[3].DropListTable2(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-                Debug.Log("4");
-                yield return Instance._destroyItemTime.GetDelay();
-                if (obj != null)
-                {
-                    Destroy(obj);
-                    Debug.Log($"{obj}»ç¶óÁü");
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
-                }
-                break;
-            case MonsterType.Boss:
-                ItemTableList[4] = Items.StageBoss;
-                Debug.Log(ItemTableList[4]);
-                ItemTableList[4].DropListTable1(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-                Debug.Log($"{obj}»ç¶óÁü");
-                yield return Instance._destroyItemTime.GetDelay();
-                if (obj != null)
-                {
-                    Destroy(obj);
-                    Debug.Log("»ç¶óÁü");
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
-                }
-                break;
-        }
+                GameObject obj = ItemTableList[0].DropListTable1(pos + new Vector3(0, 1, 0), Quaternion.identity);
 
-       /* if (Monsters[Monsters.Length - 1].curMonsterType == MonsterType.Nomal)
-        {
-            GameObject obj = _gameObject;
-            ItemTableList[0] = Items.Normal;
-            Debug.Log(ItemTableList[0].name);
-            Debug.Log(ItemTableList[0]);
-            ItemTableList[0].DropListTable1(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-            Debug.Log("1");
-            yield return Instance._destroyItemTime.GetDelay();
-            if (obj != null)
-            {
-                Destroy(obj);
-                Debug.Log($"{obj}»ç¶óÁü");
-                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                yield return 0.5f.GetDelay();
-                ObjectPool.ReturnPool(endEffect);
-            }
+                yield return Instance._destroyItemTime.GetDelay();
+
+                if (obj != null)
+                {
+                    Destroy(obj);
+
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                    yield return 0.5f.GetDelay();
+                    ObjectPool.ReturnPool(endEffect);
+                }
+                break;
+
+            case BaseEnemy.MonsterType.Mutant:
+                Debug.Log(ItemTableList[1]);
+                GameObject obj1 = ItemTableList[1].DropListTable2(pos + new Vector3(0, 1, 0), Quaternion.identity);
+
+                yield return Instance._destroyItemTime.GetDelay();
+
+                if (obj1 != null)
+                {
+                    Destroy(obj1);
+
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                    yield return 0.5f.GetDelay();
+                    ObjectPool.ReturnPool(endEffect);
+                }
+                break;
+
+            case BaseEnemy.MonsterType.Elite:
+                Debug.Log(ItemTableList[2]);
+                GameObject obj2 = ItemTableList[2].DropListTable2(pos + new Vector3(0, 1, 0), Quaternion.identity);
+
+                yield return Instance._destroyItemTime.GetDelay();
+
+                if (obj2 != null)
+                {
+                    Destroy(obj2);
+
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                    yield return 0.5f.GetDelay();
+                    ObjectPool.ReturnPool(endEffect);
+                }
+                break;
+
+            case BaseEnemy.MonsterType.SubBoss:
+                Debug.Log(ItemTableList[3]);
+                GameObject obj3 = ItemTableList[3].DropListTable2(pos + new Vector3(0, 1, 0), Quaternion.identity);
+
+                yield return Instance._destroyItemTime.GetDelay();
+
+                if (obj3 != null)
+                {
+                    Destroy(obj3);
+
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                    yield return 0.5f.GetDelay();
+                    ObjectPool.ReturnPool(endEffect);
+                }
+
+                break;
+
+            case BaseEnemy.MonsterType.Boss:
+                Debug.Log(ItemTableList[4]);
+                GameObject obj4 = ItemTableList[4].DropListTable1(pos + new Vector3(0, 1, 0), Quaternion.identity);
+
+                yield return Instance._destroyItemTime.GetDelay();
+
+                if (obj4 != null)
+                {
+                    Destroy(obj4);
+
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
+                    yield return 0.5f.GetDelay();
+                    ObjectPool.ReturnPool(endEffect);
+                }
+
+                break;
         }
-        if (Monsters[Monsters.Length - 1].curMonsterType == MonsterType.Mutant)
-        {
-            GameObject obj = _gameObject;
-            ItemTableList[1] = Items.Mutant;
-            ItemTableList[1].DropListTable2(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-            Debug.Log("2");
-            yield return Instance._destroyItemTime.GetDelay();
-            if (obj != null)
-            {
-                Destroy(obj);
-                Debug.Log($"{obj}»ç¶óÁü");
-                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                yield return 0.5f.GetDelay();
-                ObjectPool.ReturnPool(endEffect);
-            }
-        }
-        if (Monsters[Monsters.Length - 1].curMonsterType == MonsterType.Elite)
-        {
-            GameObject obj = _gameObject;
-            ItemTableList[2] = Items.Elite;
-            ItemTableList[2].DropListTable2(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-            Debug.Log("3");
-            yield return Instance._destroyItemTime.GetDelay();
-            if (obj != null)
-            {
-                Destroy(obj);
-                Debug.Log($"{obj}»ç¶óÁü");
-                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                yield return 0.5f.GetDelay();
-                ObjectPool.ReturnPool(endEffect);
-            }
-        }
-        if (Monsters[Monsters.Length - 1].curMonsterType == MonsterType.SubBoss)
-        {
-            GameObject obj = _gameObject;
-            ItemTableList[3] = Items.SubBoss;
-            ItemTableList[3].DropListTable2(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-            Debug.Log("4");
-            yield return Instance._destroyItemTime.GetDelay();
-            if (obj != null)
-            {
-                Destroy(obj);
-                Debug.Log($"{obj}»ç¶óÁü");
-                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                yield return 0.5f.GetDelay();
-                ObjectPool.ReturnPool(endEffect);
-            }
-        }
-        if (Monsters[Monsters.Length - 1].curMonsterType == MonsterType.Boss)
-        {
-            GameObject obj = _gameObject;
-            ItemTableList[4] = Items.StageBoss;
-            ItemTableList[4].DropListTable1(obj, pos + new Vector3(0, 1, 0), Quaternion.identity);
-            Debug.Log($"{obj}»ç¶óÁü");
-            yield return Instance._destroyItemTime.GetDelay();
-            if (obj != null)
-            {
-                Destroy(obj);
-                Debug.Log("»ç¶óÁü");
-                GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                yield return 0.5f.GetDelay();
-                ObjectPool.ReturnPool(endEffect);
-            }
-        }*/
     }
 }

@@ -37,7 +37,7 @@ namespace MKH
             //GameObject obj = Instantiate(dropPrefab, transform.position, Quaternion.identity);
             //Destroy(obj, 10f);
 
-             dropTable.DropListTable1(dropPrefab, transform.position, Quaternion.identity);
+             dropTable.DropListTable1(transform.position, Quaternion.identity);
 
 
             //GameObject obj = dropPrefab;

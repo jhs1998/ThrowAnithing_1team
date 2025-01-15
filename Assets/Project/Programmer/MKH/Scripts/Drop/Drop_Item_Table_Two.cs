@@ -12,7 +12,7 @@ namespace MKH
         [SerializeField] int firstPercent;
         [SerializeField] int secondPercent;
 
-        public override DropItemTable DropListTable1(GameObject obj, Vector3 pos, Quaternion rot)
+        public override GameObject DropListTable1(Vector3 pos, Quaternion rot)
         {
             max = firstPercent + secondPercent;
 
@@ -22,15 +22,13 @@ namespace MKH
             {
                 GameObject dropPrefab = dropLists[0].itemList[Random.Range(0, dropLists[0].itemList.Count)];
                 GameObject _item = Instantiate(dropPrefab, pos, rot);
-                Destroy(_item, _destroyItemTime);
-                return null;
+                return _item;
             }
             else if (firstPercent < randNum && randNum <= max)
             {
                 GameObject dropPrefab = dropLists[1].itemList[Random.Range(0, dropLists[1].itemList.Count)];
                 GameObject _item = Instantiate(dropPrefab, pos, rot);
-                Destroy(_item, _destroyItemTime);
-                return null;
+                return _item;
             }
             return null;
         }

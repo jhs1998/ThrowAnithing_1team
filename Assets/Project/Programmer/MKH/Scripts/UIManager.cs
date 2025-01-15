@@ -1,17 +1,23 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace MKH
 {
     public class UIManager : BaseBinder
     {
-        [SerializeField] GameObject _Inventory;
-        [SerializeField] GameObject _EquipInventory;
-        [SerializeField] GameObject _State;
-        [SerializeField] GameObject _BlueChipPanel;
-        [SerializeField] GameObject _BlueChipChoice;
-        [SerializeField] GameObject _BlueChipChoicePanel;
+        [Header("���� ������Ʈ")]
+        [SerializeField] GameObject _Inventory;                 // �κ��丮
+        [SerializeField] GameObject _EquipInventory;            // ���
+        [SerializeField] GameObject _State;                     // �ɷ�ġ
+        [SerializeField] GameObject _BlueChipPanel;             // ����Ĩ �г�
+        [SerializeField] GameObject _BlueChipChoice;            // ����Ĩ �Ա� �� �ȳ�
+        [SerializeField] GameObject _BlueChipChoicePanel;       // ����Ĩ ���� �г�
+
+        [Header("ȿ����")]
+        [SerializeField] AudioClip open;                        // �� �� ȿ����
+        [SerializeField] AudioClip close;                       // ���� �� ȿ����
+
         private PlayerController _player;
-        [SerializeField]
         PlayerController player
         {
             get
@@ -25,7 +31,6 @@ namespace MKH
             set { _player = value; }
         }
 
-        private bool _isOpenInventory;
         private void Awake()
         {
             Bind();
@@ -54,16 +59,16 @@ namespace MKH
             CloseBlueChip();
         }
 
+        #region �κ��丮
         private void Inventory()
         {
+            // ����
             if (InputKey.GetButtonDown(InputKey.InvenOpen))
             {
-                if (_Inventory.activeSelf)
-                    return;
-                if (InputKey.GetActionMap() == InputType.UI)
+                if (InputKey.GetActionMap() == ActionMap.UI)
                     return;
 
-                _isOpenInventory = true;
+                SoundManager.PlaySFX(open);
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
@@ -71,22 +76,23 @@ namespace MKH
                 InputKey.SetActionMap(InputType.UI);
             }
 
+            // �ݱ�
             if (InputKey.GetButtonDown(InputKey.InvenClose))
             {
                 if (_BlueChipPanel.activeSelf)
                     return;
-                if (_isOpenInventory == false)
-                    return;
 
-
-                _isOpenInventory = false;
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
                 _State.SetActive(false);
-                InputKey.SetActionMap(InputType.GAMEPLAY);
+                InputKey.SetActionMap(ActionMap.GamePlay);
+                SoundManager.PlaySFX(close);
             }
         }
+        #endregion
 
+        #region ����Ĩ
+        // ����
         private void OpenBlueChip()
         {
             if (!_Inventory.activeSelf)
@@ -94,10 +100,13 @@ namespace MKH
 
             if (InputKey.GetButtonDown(InputKey.InvenOpen))
             {
+                SoundManager.PlaySFX(open);
                 _BlueChipPanel.SetActive(true);
+                EventSystem.current.currentSelectedGameObject.SetActive(false);
             }
         }
 
+        // �ݱ�
         private void CloseBlueChip()
         {
             if (!_Inventory.activeSelf)
@@ -106,7 +115,10 @@ namespace MKH
             if (InputKey.GetButtonDown(InputKey.InvenClose))
             {
                 _BlueChipPanel.SetActive(false);
+                SoundManager.PlaySFX(close);
+                EventSystem.current.currentSelectedGameObject.SetActive(true);
             }
         }
+        #endregion
     }
 }
