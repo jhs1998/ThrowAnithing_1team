@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class NewPause : BaseUI
@@ -51,6 +52,17 @@ public class NewPause : BaseUI
         playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
     }
 
+    private void Start()
+    {
+        SoundManager.StopBGM();
+        if (SceneManager.GetActiveScene().name == SceneName.MainScene)
+            return;
+        if (SceneManager.GetActiveScene().name == SceneName.LobbyScene)
+            SoundManager.PlayBGM(SoundManager.Data.BGM.Lobby);
+        else
+            SoundManager.PlayBGM(SoundManager.Data.BGM.InGame);
+    }
+
     private void Update()
     {
         if(!exitPopUp.activeSelf)
@@ -77,6 +89,15 @@ public class NewPause : BaseUI
         {
             SelectedSlotColorChange();
         }
+
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            if(pause.activeSelf)
+            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
+
+        
+
     }
 
     /// <summary>

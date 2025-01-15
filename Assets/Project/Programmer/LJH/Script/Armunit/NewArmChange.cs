@@ -51,12 +51,18 @@ public class NewArmChange : BaseUI
     {
         ArmUnit_changeColor();
 
-        //if (playerInput.actions["Choice"].WasPressedThisFrame())
-        //{
-        //    SelectArm();
-        //}
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            SoundPlay();
+            
+        }
     }
     
+
+    void SoundPlay()
+    {
+        SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+    }
     //Todo : 함수 이름 바꿔야함
     void ArmUnit_changeColor()
     {

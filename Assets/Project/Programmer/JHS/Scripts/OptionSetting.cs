@@ -7,11 +7,11 @@ public class OptionSetting : MonoBehaviour
 {
     // 설정값 저장
     // 효과음 배경음 전체사운드
-    [Range(0, 100)]
+    [Range(0, 1f)]
     public float effectSound;
-    [Range(0, 100)]
+    [Range(0, 1f)]
     public float backgroundSound;
-    [Range(0, 100)]
+    [Range(0, 1f)]
     public float wholesound;
 
     // 화면 속도 감도 1~5
@@ -99,9 +99,9 @@ public class OptionSetting : MonoBehaviour
         }
         else if (value == 2)
         {
-            effectSound = 100;
-            backgroundSound = 100;
-            wholesound = 100;
+            effectSound = 1f;
+            backgroundSound = 1f;
+            wholesound = 1f;
         }         
         OptionSave();
     }
@@ -111,9 +111,9 @@ public class OptionSetting : MonoBehaviour
         miniMapOnBool = true;
         miniMapFixBool = true;
         language = 0;
-        effectSound = 100;
-        backgroundSound = 100;
-        wholesound = 100;
+        effectSound = 1f;
+        backgroundSound = 1f;
+        wholesound = 1f;
         OptionSave();
     }
     public void MinimapOn()

@@ -10,6 +10,7 @@ public class NewContinue : BaseUI
 {
     MainSceneBinding binding;
     PlayerActions input;
+    PlayerInput playerInput;
 
     Button slot1;
     Button slot2;
@@ -44,6 +45,11 @@ public class NewContinue : BaseUI
     {
         binding.ButtonFirstSelect(slot1.gameObject);
         SelectedSlotHighlight(buttons);
+
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
     }
 
     /// <summary>
@@ -77,6 +83,7 @@ public class NewContinue : BaseUI
 
     void Init()
     {
+        playerInput = InputKey.PlayerInput;
         binding = GetComponentInParent<MainSceneBinding>();
         input = new PlayerActions();
 

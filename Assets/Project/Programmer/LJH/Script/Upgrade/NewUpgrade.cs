@@ -103,10 +103,12 @@ public class NewUpgrade : BaseUI
 
         Slot_Selected();
 
-
-
-
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
     }
+
 
 
 

@@ -35,12 +35,22 @@ public class NewMainScene : BaseUI
 
     private void OnDisable()
     {
-        
+        //에러떴길래 혹시해서 미리 막으려고 넣어놓은 코드
+        if(GameObject.FindObjectOfType<AudioSource>() != null)
+        SoundManager.StopBGM();
     }
     void Start()
     {
         setting.OptionLoad();
+        SoundManager.SetVolumeMaster(setting.wholesound);
+        SoundManager.SetVolumeBGM(setting.backgroundSound);
+        SoundManager.SetVolumeSFX(setting.effectSound);
+
         EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
+
+        SoundManager.StopBGM();
+        SoundManager.PlayBGM(SoundManager.Data.BGM.Main);
+        
     }
 
     void Update()
@@ -52,7 +62,13 @@ public class NewMainScene : BaseUI
         {
             EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
         }
+
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
     }
+
 
 
     public void EnterContinue()

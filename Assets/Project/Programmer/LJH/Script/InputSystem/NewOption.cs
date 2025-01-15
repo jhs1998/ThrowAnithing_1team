@@ -124,10 +124,16 @@ public class NewOption : BaseUI
         actChecked.SetActive(setting.miniMapOnBool);
         fixChecked.SetActive(setting.miniMapFixBool);
         sensSlider.value = setting.cameraSpeed;
-        
+
+        totalVolumeBar.maxValue = 1f;
+        bgmVolumeBar.maxValue = 1f;
+        sfxVolumeBar.maxValue = 1f;
+
+        //볼륨바를 세팅된 값을 넣어줌
         totalVolumeBar.value = setting.wholesound;
         bgmVolumeBar.value = setting.backgroundSound;
         sfxVolumeBar.value = setting.effectSound;
+
 
 
         firstCo = null;
@@ -180,9 +186,14 @@ public class NewOption : BaseUI
         SliderControl(bgmVolume.gameObject, bgmVolumeBar);
         SliderControl(sfxVolume.gameObject, sfxVolumeBar);
 
-        setting.wholesound = SoundManager.GetVolumeMaster();
-        setting.backgroundSound = SoundManager.GetVolumeBGM();
-        setting.effectSound = SoundManager.GetVolumeSFX();
+        SoundManager.SetVolumeMaster(setting.wholesound);
+        SoundManager.SetVolumeBGM(setting.backgroundSound);
+        SoundManager.SetVolumeSFX(setting.effectSound);
+
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
     }
 
     /// <summary>
@@ -263,7 +274,7 @@ public class NewOption : BaseUI
                     if (button == sens.gameObject)
                         slider.value += 0.3f;
                     else
-                        slider.value += 5f;
+                        slider.value += 0.1f;
                 }
                 // 왼쪽 입력
                 else if (input.x < 0)
@@ -271,7 +282,7 @@ public class NewOption : BaseUI
                     if (button == sens.gameObject)
                         slider.value -= 0.3f;
                     else
-                        slider.value -= 5f;
+                        slider.value -= 0.1f;
                 }
             }
         }
@@ -364,6 +375,11 @@ public class NewOption : BaseUI
     public void ExitButton()
     {
         firstCo = null;
+
+        gameplayPanel.SetActive(true);
+        soundPanel.SetActive(false);
+        InputPanel(false);
+
         binding.CanvasChange(binding.mainCanvas.gameObject, gameObject);
         curDepth = 0;
     }
@@ -373,6 +389,9 @@ public class NewOption : BaseUI
         firstCo = null;
         curDepth = 0;
 
+        gameplayPanel.SetActive(true);
+        soundPanel.SetActive(false);
+        InputPanel(false);
 
         gameObject.SetActive(false);
     }
@@ -430,9 +449,6 @@ public class NewOption : BaseUI
 
     public void CancelButton_Gameplay()
     {
-        //setting.miniMapOnBool = preAct;
-        //setting.miniMapFixBool = preFix;
-
         ButtonReset(gameplayButtons);
 
         EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
@@ -442,9 +458,6 @@ public class NewOption : BaseUI
 
     public void DefaultButton_Gameplay()
     {
-        //setting.miniMapOnBool = defaultAct;
-        //setting.miniMapFixBool = defaultFix;
-
         preAct = setting.miniMapOnBool;
         preFix = setting.miniMapFixBool;
 
@@ -457,15 +470,7 @@ public class NewOption : BaseUI
 
     public void AcceptButton_Sound()
     {
-        //setting.wholesound = newTotal;
-        //setting.backgroundSound = newBgm;
-        //setting.effectSound = newEffect;
-
-        //preTotal = setting.wholesound;
-        //preBgm = setting.backgroundSound;
-        //preEffect = setting.effectSound;
-
-        ButtonReset(gameplayButtons);
+        ButtonReset(soundButtons);
 
         SoundManager.SetVolumeMaster(setting.wholesound);
         SoundManager.SetVolumeMaster(setting.backgroundSound);
@@ -475,19 +480,9 @@ public class NewOption : BaseUI
         curDepth = 0;
     }
 
-    void VolumeCheck()
-    {
-        //newTotal = setting.wholesound;
-        //newBgm = setting.backgroundSound;
-        //newEffect = setting.effectSound;
-    }
 
     public void CancelButton_Sound()
     {
-        //setting.wholesound = preTotal;
-        //setting.backgroundSound = preBgm;
-        //setting.effectSound = preEffect;
-
         ButtonReset(soundButtons);
 
         EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
@@ -497,10 +492,6 @@ public class NewOption : BaseUI
 
     public void DefaultButton_Sound()
     {
-        //setting.wholesound = defaultTotal;
-        //setting.backgroundSound = defaultBgm;
-        //setting.effectSound = defaultEffect;
-
         ButtonReset(soundButtons);
 
         EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
