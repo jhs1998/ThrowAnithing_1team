@@ -29,6 +29,9 @@ public class NewArmChange : BaseUI
     [SerializeField] public AudioClip powerSelect;
     [SerializeField] public AudioClip balanceSelect;
 
+    [SerializeField] AudioClip armOpen;
+    [SerializeField] AudioClip armClose;
+
     private void Awake()
     {
         Bind();
@@ -39,24 +42,32 @@ public class NewArmChange : BaseUI
 
     private void OnEnable()
     {
-        playerInput.SwitchCurrentActionMap(ActionMap.UI);
+        playerInput.SwitchCurrentActionMap(InputType.UI);
         EventSystem.current.SetSelectedGameObject(armButtons[0].gameObject);
+        SoundManager.PlaySFX(armOpen);
     }
     private void OnDisable()
     {
-        if(playerInput.currentActionMap.name == ActionMap.UI)
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
+        if(playerInput.currentActionMap.name == InputType.UI)
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
+        SoundManager.PlaySFX(armClose);
     }
     private void Update()
     {
         ArmUnit_changeColor();
 
-        //if (playerInput.actions["Choice"].WasPressedThisFrame())
-        //{
-        //    SelectArm();
-        //}
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            SoundPlay();
+            
+        }
     }
     
+
+    void SoundPlay()
+    {
+        SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+    }
     //Todo : 함수 이름 바꿔야함
     void ArmUnit_changeColor()
     {

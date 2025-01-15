@@ -9,6 +9,8 @@ public class TalkInteractable : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] private GameObject upPopup; // 가까이 가면 나오는 설명창 UI
+    [SerializeField] private GameObject pcText; // pc 텍스트
+    [SerializeField] private GameObject consoleText; // console 텍스트
     [SerializeField] private GameObject dialogueUI; // 대화창 UI
     [SerializeField] private TextMeshProUGUI dialogueText; // 대사 출력 텍스트
     [SerializeField] private string[] dialogues; // 대사 목록
@@ -89,25 +91,35 @@ public class TalkInteractable : MonoBehaviour
 
     private void ShowPopup()
     {
+        GameObject _pc = pcText;
+        GameObject _console = consoleText;
+        // 각 디바이스에 맞는 텍스트 활성화
+        //_pc.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
+        //_console.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
+
+        // 팝업 UI 활성화
         upPopup.SetActive(true);
     }
 
     private void HidePopup()
     {
+        // 모든 텍스트와 팝업 UI 비활성화
+        pcText.SetActive(false);
+        consoleText.SetActive(false);
         upPopup.SetActive(false);
     }
 
     private void ShowDialogueUI()
     {
         dialogueUI.SetActive(true);
-        playerInput.SwitchCurrentActionMap(ActionMap.UI); // 플레이어 조작 비활성화
+        playerInput.SwitchCurrentActionMap(InputType.UI); // 플레이어 조작 비활성화
         Debug.Log(playerInput.currentActionMap);
     }
 
     private void HideDialogueUI()
     {
         dialogueUI.SetActive(false);
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay); // 플레이어 조작 활성화
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY); // 플레이어 조작 활성화
         Debug.Log(playerInput.currentActionMap);
         if (itemPrefab != null && sponPoint != null)
         {

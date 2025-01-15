@@ -22,7 +22,7 @@ public class BackGroundVolume : MonoBehaviour
     private void Start()
     {
         backgroundVolume.minValue = 0f;
-        backgroundVolume.maxValue = 100f;
+        backgroundVolume.maxValue = 1f;
         backgroundVolume.value = Mathf.Clamp(setting.backgroundSound, backgroundVolume.minValue, backgroundVolume.maxValue);
 
         backgroundVolume.onValueChanged.AddListener(SettingBackGroundVolume);
@@ -30,6 +30,7 @@ public class BackGroundVolume : MonoBehaviour
     public void SettingBackGroundVolume(float value)
     {
         setting.backgroundSound = value;
+        SoundManager.SetVolumeBGM(value);
     }
 
     private void OnDestroy()

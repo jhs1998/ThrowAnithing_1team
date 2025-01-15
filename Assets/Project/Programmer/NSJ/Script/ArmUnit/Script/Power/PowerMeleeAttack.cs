@@ -105,6 +105,10 @@ public class PowerMeleeAttack : ArmMeleeAttack
         _index = 0;
         _isAutoAttack = false;
         Player.IsInvincible = false;
+
+        // 차지 사운드 종료
+        Player.StopSFX();
+
     }
     public override void Update()
     {
@@ -129,6 +133,9 @@ public class PowerMeleeAttack : ArmMeleeAttack
     IEnumerator ChargeRoutine()
     {
         _index = 0;
+
+        // 차지 사운드
+        Player.PlaySFX(Player.Sound.Power.Charge);
         while (true)
         {
             Move();
@@ -136,13 +143,7 @@ public class PowerMeleeAttack : ArmMeleeAttack
 
             if (InputKey.GetButtonUp(InputKey.Melee))
             {
-                Player.IsInvincible = true;
-
-                _chargeRoutine = null;
-                // 공격방향 바라보기
-                Player.LookAtAttackDir();
-                // 애니메이션 실행
-                View.SetTrigger(PlayerView.Parameter.ChargeEnd);
+                ChargeEnd();
                 break;
             }
             yield return null;
@@ -212,6 +213,9 @@ public class PowerMeleeAttack : ArmMeleeAttack
             Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, attackDamage, false);
             Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
 
+            // 사운드
+            SoundManager.PlaySFX(isCritical == true? Player.Sound.Hit.Critical: Player.Sound.Hit.Hit);
+
             if (_charges[_index].KnockBackRange > 0)
             {
                 // 전방으로 밀기
@@ -263,11 +267,15 @@ public class PowerMeleeAttack : ArmMeleeAttack
         Player.IsInvincible = true;
         _autoAttackTime = 0;
 
+
         _chargeRoutine = null;
         // 공격방향 바라보기
         Player.LookAtAttackDir();
         // 애니메이션 실행
         View.SetTrigger(PlayerView.Parameter.ChargeEnd);
+
+        // 차지 사운드 종료
+        Player.StopSFX();
     }
 
     IEnumerator RushRoutine(Vector3 rushDir, float rushDistance)

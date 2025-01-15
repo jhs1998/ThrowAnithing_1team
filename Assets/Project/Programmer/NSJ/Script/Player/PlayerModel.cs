@@ -226,6 +226,7 @@ public class PlayerModel : MonoBehaviour
 
     }
 
+
     private float prevAttackSpeed;
     private GlobalGameData.AmWeapon prevWeapon;
     private float prevMaxMana;
@@ -251,6 +252,14 @@ public class PlayerModel : MonoBehaviour
                 _view.Panel.SetChargingMpVarMaxValue(MaxMana);
                 prevMaxMana = MaxMana;
             });
+
+
+
+        if (IsTest == true)
+        {
+            SoundManager.SetVolumeMaster(1);
+            SoundManager.SetVolumeSFX(1);
+        }
     }
     #region 霓焊 包访 企扁等 内靛
     //[System.Serializable]

@@ -22,7 +22,7 @@ public class TotalVolumeBar : MonoBehaviour
     private void Start()
     {
         totalVolumeSlider.minValue = 0f;
-        totalVolumeSlider.maxValue = 100f;
+        totalVolumeSlider.maxValue = 1f;
         totalVolumeSlider.value = Mathf.Clamp(setting.wholesound, totalVolumeSlider.minValue, totalVolumeSlider.maxValue);
 
         
@@ -31,6 +31,7 @@ public class TotalVolumeBar : MonoBehaviour
     public void SettingTotalVolume(float value)
     {
         setting.wholesound = value;
+        SoundManager.SetVolumeMaster(value * 100);
     }
 
     private void OnDestroy()

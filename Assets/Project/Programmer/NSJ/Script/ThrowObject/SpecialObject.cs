@@ -109,8 +109,11 @@ public class SpecialObject : ThrowObject
             Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
         }
 
-
+        // 이펙트
         ObjectPool.GetPool(_effect.EffectPrefab, transform.position, transform.rotation, 1f);
+
+        // 사운드
+        SoundManager.PlaySFX(Player.Sound.Balance.Special2Hit);
     }
 
     #region 특수효과

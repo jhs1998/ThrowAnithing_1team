@@ -33,14 +33,18 @@ public class NewMainScene : BaseUI
     {
     }
 
-    private void OnDisable()
-    {
-        
-    }
     void Start()
     {
         setting.OptionLoad();
+        SoundManager.SetVolumeMaster(setting.wholesound);
+        SoundManager.SetVolumeBGM(setting.backgroundSound);
+        SoundManager.SetVolumeSFX(setting.effectSound);
+
         EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
+
+        SoundManager.StopBGM();
+        SoundManager.PlayBGM(SoundManager.Data.BGM.Main);
+        
     }
 
     void Update()
@@ -52,7 +56,14 @@ public class NewMainScene : BaseUI
         {
             EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
         }
+
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            if (playerInput.actions["UIMove"].ReadValue<Vector2>().y != 0)
+            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
     }
+
 
 
     public void EnterContinue()

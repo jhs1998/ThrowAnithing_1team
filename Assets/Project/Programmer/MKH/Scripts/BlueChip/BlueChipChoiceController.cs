@@ -113,7 +113,7 @@ namespace MKH
         }
         private void CloseUI()
         {
-            InputKey.SetActionMap(ActionMap.GamePlay);
+            InputKey.SetActionMap(InputType.GAMEPLAY);
             gameObject.SetActive(false);
 
         }

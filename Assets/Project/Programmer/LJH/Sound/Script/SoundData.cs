@@ -23,6 +23,9 @@ public partial class SoundData : ScriptableObject
         public AudioClip PopUpOn;
         public AudioClip PopUpOff;
         public AudioClip NaviMove;
+        public AudioClip SettingButton;
+        public AudioClip Win;
+        public AudioClip Lose;
 
     }
     [SerializeField] private UISFXStruct _ui;

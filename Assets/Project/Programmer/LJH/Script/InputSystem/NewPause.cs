@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class NewPause : BaseUI
@@ -48,7 +49,18 @@ public class NewPause : BaseUI
     private void OnEnable()
     {
         // ∑Œ∫Òæ¿ √π ¡¯¿‘∂ß æ◊º«∏  πŸ≤„¡‹
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
+    }
+
+    private void Start()
+    {
+        SoundManager.StopBGM();
+        if (SceneManager.GetActiveScene().name == SceneName.MainScene)
+            return;
+        if (SceneManager.GetActiveScene().name == SceneName.LobbyScene)
+            SoundManager.PlayBGM(SoundManager.Data.BGM.Lobby);
+        else
+            SoundManager.PlayBGM(SoundManager.Data.BGM.InGame);
     }
 
     private void Update()
@@ -63,7 +75,7 @@ public class NewPause : BaseUI
         if (playerInput.actions["Open_Settings"].WasPressedThisFrame())
         {
             Time.timeScale = 0f;
-            playerInput.SwitchCurrentActionMap(ActionMap.UI);
+            playerInput.SwitchCurrentActionMap(InputType.UI);
             
             pause.SetActive(true);
             EventSystem.current.SetSelectedGameObject(null);
@@ -77,6 +89,16 @@ public class NewPause : BaseUI
         {
             SelectedSlotColorChange();
         }
+
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            if(pause.activeSelf)
+                if (playerInput.actions["UIMove"].ReadValue<Vector2>().y != 0)
+                    SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
+
+        
+
     }
 
     /// <summary>
@@ -175,7 +197,7 @@ public class NewPause : BaseUI
     void ContinueGame()
     {
         //Todo : ∆€¡Ó√¢ ¥›æ∆æﬂ«‘
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
         Time.timeScale = 1f;
         firstCo = null;
         pause.SetActive(false);

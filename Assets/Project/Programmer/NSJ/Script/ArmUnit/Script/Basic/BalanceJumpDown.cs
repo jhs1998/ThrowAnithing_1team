@@ -90,6 +90,9 @@ public class BalanceJumpDown : ArmJumpDown
 
         View.SetTrigger(PlayerView.Parameter.Landing);
 
+        // 사운드
+        SoundManager.PlaySFX(Player.Sound.Move.JumpAttack);
+
         // 플레이어가 실제로 땅에 닿았을때까지 대기
         while (Player.IsGround == false)
         {

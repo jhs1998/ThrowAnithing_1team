@@ -5,17 +5,17 @@ namespace MKH
 {
     public class UIManager : BaseBinder
     {
-        [Header("°ÔÀÓ ¿ÀºêÁ§Æ®")]
-        [SerializeField] GameObject _Inventory;                 // ÀÎº¥Åä¸®
-        [SerializeField] GameObject _EquipInventory;            // Àåºñ
-        [SerializeField] GameObject _State;                     // ´É·ÂÄ¡
-        [SerializeField] GameObject _BlueChipPanel;             // ºí·çÄ¨ ÆÐ³Î
-        [SerializeField] GameObject _BlueChipChoice;            // ºí·çÄ¨ ¸Ô±â Àü ¾È³»
-        [SerializeField] GameObject _BlueChipChoicePanel;       // ºí·çÄ¨ ¼±ÅÃ ÆÐ³Î
+        [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®")]
+        [SerializeField] GameObject _Inventory;                 // ï¿½Îºï¿½ï¿½ä¸®
+        [SerializeField] GameObject _EquipInventory;            // ï¿½ï¿½ï¿½
+        [SerializeField] GameObject _State;                     // ï¿½É·ï¿½Ä¡
+        [SerializeField] GameObject _BlueChipPanel;             // ï¿½ï¿½ï¿½ï¿½Ä¨ ï¿½Ð³ï¿½
+        [SerializeField] GameObject _BlueChipChoice;            // ï¿½ï¿½ï¿½ï¿½Ä¨ ï¿½Ô±ï¿½ ï¿½ï¿½ ï¿½È³ï¿½
+        [SerializeField] GameObject _BlueChipChoicePanel;       // ï¿½ï¿½ï¿½ï¿½Ä¨ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½
 
-        [Header("È¿°úÀ½")]
-        [SerializeField] AudioClip open;                        // ¿­ ¶§ È¿°úÀ½
-        [SerializeField] AudioClip close;                       // ´ÝÀ» ¶§ È¿°úÀ½
+        [Header("È¿ï¿½ï¿½ï¿½ï¿½")]
+        [SerializeField] AudioClip open;                        // ï¿½ï¿½ ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½
+        [SerializeField] AudioClip close;                       // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½
 
         private PlayerController _player;
         PlayerController player
@@ -59,10 +59,10 @@ namespace MKH
             CloseBlueChip();
         }
 
-        #region ÀÎº¥Åä¸®
+        #region ï¿½Îºï¿½ï¿½ä¸®
         private void Inventory()
         {
-            // ¿­±â
+            // ï¿½ï¿½ï¿½ï¿½
             if (InputKey.GetButtonDown(InputKey.InvenOpen))
             {
                 if (InputKey.GetActionMap() == ActionMap.UI)
@@ -73,10 +73,10 @@ namespace MKH
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
 
-                InputKey.SetActionMap(ActionMap.UI);
+                InputKey.SetActionMap(InputType.UI);
             }
 
-            // ´Ý±â
+            // ï¿½Ý±ï¿½
             if (InputKey.GetButtonDown(InputKey.InvenClose))
             {
                 if (_BlueChipPanel.activeSelf)
@@ -91,8 +91,8 @@ namespace MKH
         }
         #endregion
 
-        #region ºí·çÄ¨
-        // ¿­±â
+        #region ï¿½ï¿½ï¿½ï¿½Ä¨
+        // ï¿½ï¿½ï¿½ï¿½
         private void OpenBlueChip()
         {
             if (!_Inventory.activeSelf)
@@ -106,7 +106,7 @@ namespace MKH
             }
         }
 
-        // ´Ý±â
+        // ï¿½Ý±ï¿½
         private void CloseBlueChip()
         {
             if (!_Inventory.activeSelf)

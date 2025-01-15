@@ -67,13 +67,14 @@ public class PowerThrowAttack : ArmThrowAttack
         // 캐릭터 임시 무적
         Player.IsInvincible = false;
 
+      
         if (_curChargeEffect != null) 
         {
             ObjectPool.ReturnPool(_curChargeEffect);
             _curChargeEffect = null;
         }
-
-
+        // 차지 사운드 종료
+        Player.StopSFX(); 
     }
     public override void Update()
     {
@@ -97,6 +98,9 @@ public class PowerThrowAttack : ArmThrowAttack
     IEnumerator ChargeRoutine()
     {
         _index = 0;
+
+        // 차지 사운드 
+        Player.PlaySFX(Player.Sound.Power.Charge);
         while (true)
         {
             ProcessCharge();
@@ -105,6 +109,7 @@ public class PowerThrowAttack : ArmThrowAttack
             if (InputKey.GetButtonUp(InputKey.Throw))
             {
                 ChargeEnd();
+                Player.StopSFX();
                 break;
             }
             yield return null;
@@ -170,6 +175,9 @@ public class PowerThrowAttack : ArmThrowAttack
     private void ChargeEnd()
     {
         StopCoroutine();
+        // 차지 사운드 종료
+        Player.StopSFX();
+
         _autoAttackTime = 0;
 
         Player.LookAtAttackDir();

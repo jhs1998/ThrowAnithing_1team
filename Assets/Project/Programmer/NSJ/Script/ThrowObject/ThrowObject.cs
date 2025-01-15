@@ -213,6 +213,9 @@ public class ThrowObject : MonoBehaviour
 
             if (KnockBackDistance > 0)
                 Player.DoKnockBack(Player.OverLapColliders[i].transform, transform.forward, KnockBackDistance);
+
+            // 사운드
+            SoundManager.PlaySFX(isCritical == true ? Player.Sound.Hit.Critical : Player.Sound.Hit.Hit);
         }
 
         // 플레이어 특수공격 자원 획득
@@ -240,6 +243,8 @@ public class ThrowObject : MonoBehaviour
         // 이펙트 
         ObjectPool.GetPool(Effect.Hit, transform.position, transform.rotation, 1.5f);
 
+        // 사운드
+        SoundManager.PlaySFX(isCritical == true ? Player.Sound.Hit.Critical : Player.Sound.Hit.Hit);
 
         Destroy(gameObject);
     }
