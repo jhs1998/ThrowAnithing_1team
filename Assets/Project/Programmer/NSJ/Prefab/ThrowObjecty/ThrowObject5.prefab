@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2390922377535243301}
   - component: {fileID: 7816030915388993429}
   - component: {fileID: 783591344974539071}
+  - component: {fileID: 8814798384465327461}
   - component: {fileID: 6050815929940860200}
   - component: {fileID: 4119110690807107537}
   - component: {fileID: 819672696354474528}
@@ -143,6 +144,19 @@ MonoBehaviour:
   IsChainHit: 0
   IgnoreTargets: []
   Rb: {fileID: 0}
+--- !u!114 &8814798384465327461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5408380135663926819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4be76cfefbf4db4995aa0becd4e54b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxDistance: 15
 --- !u!54 &6050815929940860200
 Rigidbody:
   m_ObjectHideFlags: 0
