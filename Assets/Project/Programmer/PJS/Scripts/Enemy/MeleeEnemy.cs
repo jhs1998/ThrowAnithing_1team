@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MeleeEnemy : BaseEnemy
 {
-    [Header("피격 모션 쿨타임")]
-    [SerializeField] float hitCoolTime;
     [Header("공격 효과음")]
     [SerializeField] List<AudioClip> attackClips;
+    [Header("피격 모션 쿨타임")]
+    [SerializeField] float hitCoolTime;
 
     private void Start()
     {

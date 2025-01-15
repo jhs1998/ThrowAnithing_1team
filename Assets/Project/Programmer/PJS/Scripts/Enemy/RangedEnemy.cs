@@ -1,7 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RangedEnemy : BaseEnemy
 {
+    [Header("공격 효과음")]
+    [Tooltip("좀비 효과음")]
+    [SerializeField] AudioClip attackClip;
+    [Tooltip("투사체 효과음")]
+    [SerializeField] List<AudioClip> bulletClips;
     [Header("피격 모션 쿨타임")]
     [SerializeField] float hitCoolTime;
     [Header("투사체 속도")]
@@ -21,10 +27,12 @@ public class RangedEnemy : BaseEnemy
 
     public void Attack()
     {
+        SoundManager.PlaySFX(attackClip);
         EnemyBullet bulletPool = ObjectPool.GetPool(bulletPrefab, muzzle.position, muzzle.rotation);
         bulletPool.transform.LookAt(playerObj.Value.transform.position + Vector3.up);
         bulletPool.Speed = bulletSpeed;
         bulletPool.Atk = state.Atk;
         bulletPool.Battle = Battle;
+        SoundManager.PlaySFX(bulletClips[Random.Range(0, bulletClips.Count)]);
     }
 }
