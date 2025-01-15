@@ -1,15 +1,33 @@
 using BehaviorDesigner.Runtime;
 using System.Collections;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class BossEnemy : BaseEnemy, IHit
 {
     public enum PhaseType { Phase1, Phase2, Phase3 }
-    public PhaseType curPhase = PhaseType.Phase1;
 
+    [Header("공격 효과음")]
+    [SerializeField] List<AudioClip> attackClips;
+    [Header("2페이즈 패턴 효과음")]
+    [Tooltip("진입 효과음")]
+    [SerializeField] AudioClip joinClip;
+    [Tooltip("회복 효과음")]
+    [SerializeField] AudioClip healClip;
+    [Tooltip("실드 타격 시 효과음")]
+    [SerializeField] List<AudioClip> shieldHitClips;
+    [Tooltip("실드 파괴 시 효과음")]
+    [SerializeField] AudioClip shieldBrokenClip;
+    [Tooltip("그로기 효과음")]
+    [SerializeField] List<AudioClip> groggyClips;
+
+    [Header("현재 페이즈")]
+    public PhaseType curPhase = PhaseType.Phase1;
     [Header("회복할 최대 시간 ( 초 단위)")]
     [SerializeField] int maxTime;
     [Header("회복할 최대 HP ( % 단위)"), Range(0, 100)]
@@ -37,7 +55,9 @@ public class BossEnemy : BaseEnemy, IHit
 
     [Space, SerializeField] GameObject fistGroundParticle; // 라이트닝 피스트 바닥효과
     [SerializeField] Transform pos;
-
+    [Header("체력 UI")]
+    public Slider hpSlider;
+    
     private Coroutine attackAble;
     private Coroutine globalCoolTime;
     public Coroutine recovery;  // 회복 관련 코루틴
@@ -52,10 +72,13 @@ public class BossEnemy : BaseEnemy, IHit
         BaseInit();
         StateInit();
         StartCoroutine(PassiveOn());
-
+        hpSlider.maxValue = state.MaxHp;
         this.UpdateAsObservable()
             .Select(x => CurHp)
             .Subscribe(x => ChangePhase());
+        this.UpdateAsObservable()
+            .Select(x => CurHp)
+            .Subscribe(x => ChangeHp());
     }
 
     private void StateInit()
@@ -83,6 +106,11 @@ public class BossEnemy : BaseEnemy, IHit
         }
     }
 
+    private void ChangeHp()
+    {
+        hpSlider.value = CurHp;
+    }
+
     IEnumerator PassiveOn()
     {
         float buffPersent = frenzyPersent / 100f;
@@ -104,6 +132,7 @@ public class BossEnemy : BaseEnemy, IHit
     // 회복관련 루틴
     public void RecoveryStartCoroutine(int time, float value)
     {
+        SoundManager.PlaySFX(joinClip);
         healParticle.Play();
         recovery = StartCoroutine(RecoveryRoutin(time, value));
     }
@@ -112,6 +141,7 @@ public class BossEnemy : BaseEnemy, IHit
         healParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         StopCoroutine(recovery);
         transform.GetComponent<Animator>().SetBool("Recovery", false);
+        SoundManager.PlaySFX(ChoiceAudioClip(groggyClips));
     }
 
     IEnumerator RecoveryRoutin(int maxTime, float recoveryValue)
@@ -122,6 +152,7 @@ public class BossEnemy : BaseEnemy, IHit
         while (time > 0)    // 회복 하는 시간
         {
             yield return 1f.GetDelay();
+            SoundManager.PlaySFX(healClip);
             CurHp += recoveryHp;
             time--;
         }
@@ -129,7 +160,7 @@ public class BossEnemy : BaseEnemy, IHit
         // 회복 끝
         createShield = false;
         transform.GetComponent<Animator>().SetBool("Recovery", false);
-        healParticle.Stop();
+        healParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     /// <summary>
@@ -139,9 +170,11 @@ public class BossEnemy : BaseEnemy, IHit
     {
         if (createShield == true)
         {
+            SoundManager.PlaySFX(ChoiceAudioClip(shieldHitClips));
             breakshieldCount--;
             if (breakshieldCount <= 0) // 실드 깨짐
             {
+                SoundManager.PlaySFX(shieldBrokenClip);
                 breakShield = true;
                 createShield = false;
             }
@@ -154,6 +187,8 @@ public class BossEnemy : BaseEnemy, IHit
 
         if (resultDamage <= 0)
             resultDamage = 0;
+        if (resultDamage < CurHp)
+            SoundManager.PlaySFX(ChoiceAudioClip(hitCilps));
 
         CurHp -= resultDamage;
 
@@ -180,6 +215,15 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void FootStep()
     {
+        if (stepCount >= 2)
+        {
+            SoundManager.PlaySFX(ChoiceAudioClip(voiceClips));
+            stepCount = 0;
+        }
+
+        SoundManager.PlaySFX(moveClips[randomMoveClip]);
+        stepMoveParticle.Play();
+        stepCount++;
     }
 
     /// <summary>
@@ -220,6 +264,7 @@ public class BossEnemy : BaseEnemy, IHit
         if (transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack"))
         {
             AttackMelee();
+            SoundManager.PlaySFX(ChoiceAudioClip(attackClips));
         }
         else if(curPhase == PhaseType.Phase1)
         {
@@ -275,8 +320,8 @@ public class BossEnemy : BaseEnemy, IHit
 
             int finalDamage = state.Atk;
             // 데미지 주기
-            //Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage, true);
-            Battle.TargetAttack(overLapCollider[i], finalDamage, false);
+            Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage);
+            //Battle.TargetAttack(overLapCollider[i], finalDamage, false);
         }
     }
 
