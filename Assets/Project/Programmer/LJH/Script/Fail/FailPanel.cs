@@ -17,6 +17,6 @@ public class FailPanel : MonoBehaviour
     {
         this.UpdateAsObservable()
             .Where(x => playerData.IsDead == true)
-            .Subscribe(x => failure.gameObject.SetActive(true));
+            .Subscribe(x => { failure.gameObject.SetActive(true); SoundManager.PlaySFX(SoundManager.Data.UI.Lose); });
     }
 }

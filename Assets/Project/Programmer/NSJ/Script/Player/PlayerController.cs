@@ -47,9 +47,9 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     public State CurState;
     public State PrevState;
 
-    #region ÀÌº¥Æ®
+    #region ì´ë²¤íŠ¸
     /// <summary>
-    /// int : µ¥¹ÌÁö, bool : °íÁ¤µ¥¹ÌÁö? CrowdControlType: CC±â Å¸ÀÔ , ¹İÈ¯Çü int ÃÖÁ¾µ¥¹ÌÁö
+    /// int : ë°ë¯¸ì§€, bool : ê³ ì •ë°ë¯¸ì§€? CrowdControlType: CCê¸° íƒ€ì… , ë°˜í™˜í˜• int ìµœì¢…ë°ë¯¸ì§€
     /// </summary>
     public event Func<int, bool, int> OnPlayerHitFuncEvent;
     public event UnityAction<CrowdControlType> OnPlayerCCHitEvent;
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     public event UnityAction OnPlayerDieEvent;
     public event UnityAction<ThrowObject, bool> OnThrowObjectResult;
     #endregion
-    #region ÇÃ·¹ÀÌ¾î Æ÷ÀÎÆ® °ü·Ã ÇÊµå
+    #region í”Œë ˆì´ì–´ í¬ì¸íŠ¸ ê´€ë ¨ í•„ë“œ
     [System.Serializable]
     public struct PlayerPointStruct
     {
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     public Transform DashArmPoint { get { return _points.DashArmPoint; } }
     public Transform DashFrountPoint { get { return _points.DashFrontPoint; } }
     #endregion
-    #region °ø°İ °ü·Ã ÇÊµå
+    #region ê³µê²© ê´€ë ¨ í•„ë“œ
     [System.Serializable]
     struct AttackStruct
     {
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         [HideInInspector] public bool IsTargetToggle;
         [HideInInspector] public Vector3 TargetPos;
     }
-    [Header("°ø°İ °ü·Ã ÇÊµå")]
+    [Header("ê³µê²© ê´€ë ¨ í•„ë“œ")]
     [SerializeField] private AttackStruct _attackStruct;
     public Transform MuzzletPoint { get { return _attackStruct.MuzzlePoint; } set { _attackStruct.MuzzlePoint = value; } }
     public float AttackHeight { get { return _attackStruct.AttackHeight; } set { _attackStruct.AttackHeight = value; } }
@@ -95,9 +95,9 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     public bool IsTargetToggle { get { return _attackStruct.IsTargetToggle; } set { _attackStruct.IsTargetToggle = value; } }
     public Vector3 TargetPos { get { return _attackStruct.TargetPos; } set { _attackStruct.TargetPos = value; } }
     #endregion
-    #region Camera °ü·Ã ÇÊµå
+    #region Camera ê´€ë ¨ í•„ë“œ
     /// <summary>
-    /// Ä«¸Ş¶ó °ü·Ã
+    /// ì¹´ë©”ë¼ ê´€ë ¨
     /// </summary>
     [System.Serializable]
     struct CameraStruct
@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         public PlayerCameraHold CameraHolder;
         public bool IsVerticalCameraMove;
     }
-    [Header("Ä«¸Ş¶ó °ü·Ã ÇÊµå")]
+    [Header("ì¹´ë©”ë¼ ê´€ë ¨ í•„ë“œ")]
     [SerializeField] private CameraStruct _cameraStruct;
     public Transform CamareArm { get { return _cameraStruct.CamaraArm; } set { _cameraStruct.CamaraArm = value; } }
     private Transform _cameraPos { get { return _cameraStruct.CameraPos; } set { _cameraStruct.CameraPos = value; } }
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     private PlayerCameraHold _cameraHolder { get { return _cameraStruct.CameraHolder; } set { _cameraStruct.CameraHolder = value; } }
     public bool IsVerticalCameraMove { get { return _cameraStruct.IsVerticalCameraMove; } set { _cameraStruct.IsVerticalCameraMove = value; } }
     #endregion
-    #region °¨Áö °ü·Ã ÇÊµå
+    #region ê°ì§€ ê´€ë ¨ í•„ë“œ
     [System.Serializable]
     struct CheckStruct
     {
@@ -129,10 +129,10 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         public WallCheckStruct WallCheckPos;
         public float WallCheckDistance;
         [Space(10)]
-        public bool IsGround; // Áö¸é Á¢ÃË ¿©ºÎ
+        public bool IsGround; // ì§€ë©´ ì ‘ì´‰ ì—¬ë¶€
         public bool IsNearGround;
-        public bool IsWall; // º® Á¢ÃË ¿©ºÎ
-        public bool CanClimbSlope; // ¿À¸¦ ¼ö ÀÖ´Â °æ»ç¸é °¢µµ ÀÎÁö Ã¼Å©
+        public bool IsWall; // ë²½ ì ‘ì´‰ ì—¬ë¶€
+        public bool CanClimbSlope; // ì˜¤ë¥¼ ìˆ˜ ìˆëŠ” ê²½ì‚¬ë©´ ê°ë„ ì¸ì§€ ì²´í¬
     }
     [System.Serializable]
     public struct WallCheckStruct
@@ -148,29 +148,29 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     private float _slopeAngle { get { return _checkStruct.SlopeAngle; } set { _checkStruct.SlopeAngle = value; } }
 
     #endregion
-    #region Å×½ºÆ® °ü·Ã ÇÊµå
+    #region í…ŒìŠ¤íŠ¸ ê´€ë ¨ í•„ë“œ
     [System.Serializable]
     public struct TestStruct
     {
         public bool IsAttackForward;
     }
-    [Header("Å×½ºÆ® °ü·Ã ÇÊµå")]
+    [Header("í…ŒìŠ¤íŠ¸ ê´€ë ¨ í•„ë“œ")]
     [SerializeField] private TestStruct _testStruct;
     public bool IsAttackFoward { get { return _testStruct.IsAttackForward; } }
     #endregion
-    #region Á¶°ÇÃ¼Å© Bool ÇÊµå
+    #region ì¡°ê±´ì²´í¬ Bool í•„ë“œ
     [System.Serializable]
     public struct BoolField
     {
-        public bool IsDoubleJump; // ´õºíÁ¡ÇÁ ÇßÀ½?
-        public bool IsJumpAttack; // Á¡ÇÁ°ø°İ ÇßÀ½?
-        public bool IsInvincible; // ¹«Àû»óÅÂÀÓ?
-        public bool IsShield; // ½¯µå°¡ Á¸ÀçÇÏ´ÂÁö?
-        public bool IsHit; // ¸ÂÀ½?
-        public bool IsDead; // Á×À½?
-        public bool IsStaminaCool; // ½ºÅ×¹Ì³ª »ç¿ë ÈÄ ÄğÅ¸ÀÓÀÎÁö?
-        public bool CanStaminaRecovery; // ½ºÅ×¹Ì³ª È¸º¹ ÇÒ ¼ö ÀÖ´ÂÁö?
-        public bool CanOperate; // Á¶ÀÛÇÒ ¼ö ÀÖ´ÂÁö?
+        public bool IsDoubleJump; // ë”ë¸”ì í”„ í–ˆìŒ?
+        public bool IsJumpAttack; // ì í”„ê³µê²© í–ˆìŒ?
+        public bool IsInvincible; // ë¬´ì ìƒíƒœì„?
+        public bool IsShield; // ì‰´ë“œê°€ ì¡´ì¬í•˜ëŠ”ì§€?
+        public bool IsHit; // ë§ìŒ?
+        public bool IsDead; // ì£½ìŒ?
+        public bool IsStaminaCool; // ìŠ¤í…Œë¯¸ë‚˜ ì‚¬ìš© í›„ ì¿¨íƒ€ì„ì¸ì§€?
+        public bool CanStaminaRecovery; // ìŠ¤í…Œë¯¸ë‚˜ íšŒë³µ í•  ìˆ˜ ìˆëŠ”ì§€?
+        public bool CanOperate; // ì¡°ì‘í•  ìˆ˜ ìˆëŠ”ì§€?
     }
     [SerializeField] private BoolField _boolField;
     public bool IsDoubleJump { get { return _boolField.IsDoubleJump; } set { _boolField.IsDoubleJump = value; } }
@@ -184,10 +184,10 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     public bool CanOperate { get { return _boolField.CanOperate; } set { _boolField.CanOperate = value; TriggerCantOperate(); } }
     #endregion
 
-    public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround = value; } }// Áö¸é Á¢ÃË ¿©ºÎ
+    public bool IsGround { get { return _checkStruct.IsGround; } set { _checkStruct.IsGround = value; } }// ì§€ë©´ ì ‘ì´‰ ì—¬ë¶€
     public bool IsNearGround { get { return _checkStruct.IsNearGround; } set { _checkStruct.IsNearGround = value; } }
-    public bool IsWall { get { return _checkStruct.IsWall; } set { _checkStruct.IsWall = value; } } // º® Á¢ÃË ¿©ºÎ
-    public bool CanClimbSlope { get { return _checkStruct.CanClimbSlope; } set { _checkStruct.CanClimbSlope = value; } } // ¿À¸¦ ¼ö ÀÖ´Â °æ»ç¸é °¢µµ ÀÎÁö Ã¼Å©
+    public bool IsWall { get { return _checkStruct.IsWall; } set { _checkStruct.IsWall = value; } } // ë²½ ì ‘ì´‰ ì—¬ë¶€
+    public bool CanClimbSlope { get { return _checkStruct.CanClimbSlope; } set { _checkStruct.CanClimbSlope = value; } } // ì˜¤ë¥¼ ìˆ˜ ìˆëŠ” ê²½ì‚¬ë©´ ê°ë„ ì¸ì§€ ì²´í¬
     public int MaxHp { get { return Model.MaxHp; } set { Model.MaxHp = value; } }
 
     [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
@@ -212,7 +212,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         StartCoroutine(ControlMousePointer());
         //Camera.main.transform.SetParent(_cameraPos, true);
 
-        InputKey.SetActionMap(ActionMap.GamePlay);
+        InputKey.SetActionMap(InputType.GAMEPLAY);
 
 
 
@@ -268,20 +268,20 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// »óÅÂ º¯°æ
+    /// ìƒíƒœ ë³€ê²½
     /// </summary>
     public void ChangeState(State state)
     {
-        // ½ºÅ×¹Ì³ª ¾²´Â »óÅÂ
+        // ìŠ¤í…Œë¯¸ë‚˜ ì“°ëŠ” ìƒíƒœ
         if (_states[(int)state].UseStamina == true)
         {
-            // ½ºÅ×¹Ì³ª ¼Ò¸ğ·®
+            // ìŠ¤í…Œë¯¸ë‚˜ ì†Œëª¨ëŸ‰
             float staminaConsumption = _states[(int)state].StaminaAmount * (1 - Model.StaminaReduction / 100);
 
-            // »ç¿ëÇÒ¼ö ÀÖÀ½?(ÃÖ¼Ò ½ºÅ×¹Ì³ª)
+            // ì‚¬ìš©í• ìˆ˜ ìˆìŒ?(ìµœì†Œ ìŠ¤í…Œë¯¸ë‚˜)
             if (Model.CurStamina < staminaConsumption)
                 return;
-            // »ç¿ë°¡´ÉÇÏ¸é ½ºÅ×¹Ì³ª ±ğÀ½
+            // ì‚¬ìš©ê°€ëŠ¥í•˜ë©´ ìŠ¤í…Œë¯¸ë‚˜ ê¹ìŒ
             Model.CurStamina -= staminaConsumption;
         }
 
@@ -303,7 +303,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         ExitStatePlayerAdditional();
     }
     /// <summary>
-    /// Èú ¹Ş±â
+    /// í ë°›ê¸°
     /// </summary>
     /// <param name="healAmount"></param>
     /// <returns></returns>
@@ -311,14 +311,14 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     {
         Model.CurHp += healAmount;
 
-        // TODO : Èú ÀÌÆåÆ®
+        // TODO : í ì´í™íŠ¸
 
 
         return Model.CurHp;
     }
 
     /// <summary>
-    /// µ¥¹ÌÁö ¹Ş±â
+    /// ë°ë¯¸ì§€ ë°›ê¸°
     /// </summary>
     public int TakeDamage(int damage, bool isIgnoreDef)
     {
@@ -332,16 +332,16 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         OnPlayerCCHitEvent?.Invoke(type);
     }
     /// <summary>
-    /// »ç¸Á
+    /// ì‚¬ë§
     /// </summary>
     public void Die()
     {
         OnPlayerDieEvent?.Invoke();
     }
-    #region ÇÇÇØ ÈíÇ÷
+    #region í”¼í•´ í¡í˜ˆ
 
     /// <summary>
-    /// ÇÇÇØ ÈíÇ÷(¸ğµ¨ ÇÇÈí ¸¸Å­)
+    /// í”¼í•´ í¡í˜ˆ(ëª¨ë¸ í”¼í¡ ë§Œí¼)
     /// </summary>
     public void DrainLife(int damage)
     {
@@ -352,7 +352,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
             ObjectPool.GetPool(Effect.LifeDrain, Battle.HitPoint.position.GetRandomPos(0.5f), transform.rotation, 1f);
     }
     /// <summary>
-    /// ÇÇÇØ ÈíÇ÷(¸ğµ¨ ÇÇÈí + Ãß°¡ ÇÇÈí)
+    /// í”¼í•´ í¡í˜ˆ(ëª¨ë¸ í”¼í¡ + ì¶”ê°€ í”¼í¡)
     /// </summary>
     public void DrainLife(int damage, float additionalDrainLife)
     {
@@ -364,7 +364,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     #endregion
-    #region ÇÃ·¹ÀÌ¾î ¹æÇâ Ã³¸®
+    #region í”Œë ˆì´ì–´ ë°©í–¥ ì²˜ë¦¬
     public void LookAtAttackDir()
     {
         if (IsTargetHolding == false && IsTargetToggle == false)
@@ -374,14 +374,14 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// Ä«¸Ş¶ó ¹æÇâÀ¸·Î ÇÃ·¹ÀÌ¾î ¹æÇâ ÀüÈ¯
+    /// ì¹´ë©”ë¼ ë°©í–¥ìœ¼ë¡œ í”Œë ˆì´ì–´ ë°©í–¥ ì „í™˜
     /// </summary>
     public void LookAtCameraFoward()
     {
-        // Ä«¸Ş¶ó ¹æÇâÀ¸·Î ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸°Ô
+        // ì¹´ë©”ë¼ ë°©í–¥ìœ¼ë¡œ í”Œë ˆì´ì–´ê°€ ë°”ë¼ë³´ê²Œ
         Quaternion cameraRot = Quaternion.Euler(0, CamareArm.eulerAngles.y, 0);
         transform.rotation = cameraRot;
-        // Ä«¸Ş¶ó´Â ´Ù½Ã ·ÎÄÃ ±âÁØ Àü¹æ ¹æÇâ
+        // ì¹´ë©”ë¼ëŠ” ë‹¤ì‹œ ë¡œì»¬ ê¸°ì¤€ ì „ë°© ë°©í–¥
         if (CamareArm.parent != null)
         {
             CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
@@ -390,25 +390,25 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// ÀÔ·ÂÇÑ ¹æÇâÀ» ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº½
+    /// ì…ë ¥í•œ ë°©í–¥ì„ í”Œë ˆì´ì–´ê°€ ë°”ë¼ë´„
     /// </summary>
     /// <param name="moveDir"></param>
     public void LookAtMoveDir()
     {
-        // Ä«¸Ş¶ó ¹æÇâÀ¸·Î ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸°Ô
+        // ì¹´ë©”ë¼ ë°©í–¥ìœ¼ë¡œ í”Œë ˆì´ì–´ê°€ ë°”ë¼ë³´ê²Œ
         Quaternion cameraRot = Quaternion.Euler(0, CamareArm.eulerAngles.y, 0);
         transform.rotation = cameraRot;
-        // Ä«¸Ş¶ó´Â ´Ù½Ã ·ÎÄÃ ±âÁØ Àü¹æ ¹æÇâ
+        // ì¹´ë©”ë¼ëŠ” ë‹¤ì‹œ ë¡œì»¬ ê¸°ì¤€ ì „ë°© ë°©í–¥
         if (CamareArm.parent != null)
         {
-            // Ä«¸Ş¶ó Èçµé¸² ¹ö±× Àâ¾ÆÁÖ´Â ÄÚµå
+            // ì¹´ë©”ë¼ í”ë“¤ë¦¼ ë²„ê·¸ ì¡ì•„ì£¼ëŠ” ì½”ë“œ
             CamareArm.localPosition = new Vector3(0, CamareArm.localPosition.y, 0);
             CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
 
         Quaternion cameraTempRot = CamareArm.rotation;
 
-        // ÀÔ·ÂÇÑ ¹æÇâÂÊÀ» ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº½
+        // ì…ë ¥í•œ ë°©í–¥ìª½ì„ í”Œë ˆì´ì–´ê°€ ë°”ë¼ë´„
         Vector3 dir = transform.forward * MoveDir.z + transform.right * MoveDir.x;
         if (dir == Vector3.zero)
         {
@@ -424,24 +424,24 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// Å¸°Ù ¹æÇâÀ» ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº½
+    /// íƒ€ê²Ÿ ë°©í–¥ì„ í”Œë ˆì´ì–´ê°€ ë°”ë¼ë´„
     /// </summary>
     public void LookAtTargetDir(Vector3 targetPos)
     {
-        // Ä«¸Ş¶ó ¹æÇâÀ¸·Î ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸°Ô
+        // ì¹´ë©”ë¼ ë°©í–¥ìœ¼ë¡œ í”Œë ˆì´ì–´ê°€ ë°”ë¼ë³´ê²Œ
         Quaternion cameraRot = Quaternion.Euler(0, CamareArm.eulerAngles.y, 0);
         transform.rotation = cameraRot;
-        // Ä«¸Ş¶ó´Â ´Ù½Ã ·ÎÄÃ ±âÁØ Àü¹æ ¹æÇâ
+        // ì¹´ë©”ë¼ëŠ” ë‹¤ì‹œ ë¡œì»¬ ê¸°ì¤€ ì „ë°© ë°©í–¥
         if (CamareArm.parent != null)
         {
-            // Ä«¸Ş¶ó Èçµé¸² ¹ö±× Àâ¾ÆÁÖ´Â ÄÚµå
+            // ì¹´ë©”ë¼ í”ë“¤ë¦¼ ë²„ê·¸ ì¡ì•„ì£¼ëŠ” ì½”ë“œ
             CamareArm.localPosition = new Vector3(0, CamareArm.localPosition.y, 0);
             CamareArm.localRotation = Quaternion.Euler(CamareArm.localRotation.eulerAngles.x, 0, 0);
         }
 
         Quaternion cameraTempRot = CamareArm.rotation;
         targetPos = new Vector3(targetPos.x, targetPos.y + 2f, targetPos.z);
-        // ÀÔ·ÂÇÑ ¹æÇâÂÊÀ» ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº½
+        // ì…ë ¥í•œ ë°©í–¥ìª½ì„ í”Œë ˆì´ì–´ê°€ ë°”ë¼ë´„
         transform.LookAt(targetPos);
         transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         CamareArm.rotation = cameraTempRot;
@@ -449,17 +449,17 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    ///  ÇÃ·¹ÀÌ¾î°¡ º¸°íÀÖ´Â ¹æÇâÀ¸·Î ¹°¸®·® ¹Ù²Ù±â
+    ///  í”Œë ˆì´ì–´ê°€ ë³´ê³ ìˆëŠ” ë°©í–¥ìœ¼ë¡œ ë¬¼ë¦¬ëŸ‰ ë°”ê¾¸ê¸°
     /// </summary>
     public void ChangeVelocityPlayerFoward()
     {
-        Vector3 tempVelocity = transform.forward * Rb.velocity.magnitude; // x,z °ªÀÇ ¹°¸®·®¸¸ °è»ê
-        Rb.velocity = tempVelocity; // ´ëÀÔ
+        Vector3 tempVelocity = transform.forward * Rb.velocity.magnitude; // x,z ê°’ì˜ ë¬¼ë¦¬ëŸ‰ë§Œ ê³„ì‚°
+        Rb.velocity = tempVelocity; // ëŒ€ì…
     }
     #endregion
-    #region ÅõÃ´¿ÀºêÁ§Æ® Ãß°¡
+    #region íˆ¬ì²™ì˜¤ë¸Œì íŠ¸ ì¶”ê°€
     /// <summary>
-    /// ¿ÀºêÁ§Æ® Áİ±â
+    /// ì˜¤ë¸Œì íŠ¸ ì¤ê¸°
     /// </summary>
     public void AddThrowObject(ThrowObject throwObject)
     {
@@ -470,7 +470,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         }
     }
     /// <summary>
-    /// ¿ÀºêÁ§Æ® Áİ±â
+    /// ì˜¤ë¸Œì íŠ¸ ì¤ê¸°
     /// </summary>
     public void AddThrowObject(ThrowObjectData throwObjectData)
     {
@@ -481,7 +481,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         }
     }
     #endregion
-    #region ¾ÏÀ¯´Ö º¯°æ
+    #region ì•”ìœ ë‹› ë³€ê²½
     public void ChangeArmUnit(ArmUnit armUnit)
     {
         Model.Arm = Instantiate(armUnit);
@@ -501,9 +501,9 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         }
     }
     #endregion
-    #region ÇÃ·¹ÀÌ¾î Ãß°¡È¿°ú °ü·Ã
+    #region í”Œë ˆì´ì–´ ì¶”ê°€íš¨ê³¼ ê´€ë ¨
     /// <summary>
-    /// Ãß°¡È¿°ú Ãß°¡
+    /// ì¶”ê°€íš¨ê³¼ ì¶”ê°€
     /// </summary>
     public void AddAdditional(AdditionalEffect addtionalEffect)
     {
@@ -514,7 +514,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
                 {
                     Model.HitAdditionals.Add(addtionalEffect as HitAdditional);
                     Model.AdditionalEffects.Add(addtionalEffect);
-                    // ÀûÁßÈ¿°ú´Â ¹èÆ²½Ã½ºÅÛ¿¡µµ Ãß°¡ µî·Ï
+                    // ì ì¤‘íš¨ê³¼ëŠ” ë°°í‹€ì‹œìŠ¤í…œì—ë„ ì¶”ê°€ ë“±ë¡
                     Battle.AddHitAdditionalList(addtionalEffect as HitAdditional);
                 }
                 break;
@@ -525,7 +525,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
                     Model.AdditionalEffects.Add(addtionalEffect);
                 }
                 break;
-            // ÇÃ·¹ÀÌ¾î Ãß°¡È¿°ú´Â ÇÃ·¹ÀÌ¾î¿¡ Á¾¼ÓµÇ±â ¶§¹®¿¡ CloneÀ» ´õÇØÁÜ
+            // í”Œë ˆì´ì–´ ì¶”ê°€íš¨ê³¼ëŠ” í”Œë ˆì´ì–´ì— ì¢…ì†ë˜ê¸° ë•Œë¬¸ì— Cloneì„ ë”í•´ì¤Œ
             case AdditionalEffect.Type.Player:
                 if (CheckForAddAdditionalDuplication(Model.PlayerAdditionals, addtionalEffect as PlayerAdditional))
                 {
@@ -539,7 +539,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         }
     }
     /// <summary>
-    /// Ãß°¡È¿°ú »èÁ¦
+    /// ì¶”ê°€íš¨ê³¼ ì‚­ì œ
     /// </summary>
     public void RemoveAdditional(AdditionalEffect addtionalEffect)
     {
@@ -555,7 +555,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
                 if (CheckForRemoveAdditionalDuplication(Model.HitAdditionals, addtionalEffect as HitAdditional))
                 {
                     Model.HitAdditionals.Remove(addtionalEffect as HitAdditional);
-                    // ¹èÆ²½Ã½ºÅÛ¿¡µµ ÀûÁß È¿°ú »èÁ¦
+                    // ë°°í‹€ì‹œìŠ¤í…œì—ë„ ì ì¤‘ íš¨ê³¼ ì‚­ì œ
                     Battle.RemoveHitAdditionalList(addtionalEffect as HitAdditional);
                 }
                 break;
@@ -577,18 +577,18 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         }
     }
     /// <summary>
-    /// Ãß°¡È¿°ú ¸ğµÎ »èÁ¦
+    /// ì¶”ê°€íš¨ê³¼ ëª¨ë‘ ì‚­ì œ
     /// </summary>
     public void ClearAdditional()
     {
-        // Àá±ñ ÀúÀåÇØµÑ ¸®½ºÆ® »ı¼º
+        // ì ê¹ ì €ì¥í•´ë‘˜ ë¦¬ìŠ¤íŠ¸ ìƒì„±
         List<AdditionalEffect> tempList = new List<AdditionalEffect>(Model.AdditionalEffects.Count);
-        // °ª º¹»ç
+        // ê°’ ë³µì‚¬
         foreach (AdditionalEffect additionalEffect in Model.AdditionalEffects)
         {
             tempList.Add(additionalEffect);
         }
-        // ÀüºÎ »èÁ¦
+        // ì „ë¶€ ì‚­ì œ
         foreach (AdditionalEffect additionalEffect in tempList)
         {
             RemoveAdditional(additionalEffect);
@@ -646,14 +646,14 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         }
     }
     /// <summary>
-    /// Ãß°¡È¿°ú Ãß°¡ ½Ã Áßº¹ Ã¼Å©
+    /// ì¶”ê°€íš¨ê³¼ ì¶”ê°€ ì‹œ ì¤‘ë³µ ì²´í¬
     /// </summary>
     private bool CheckForAddAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AdditionalEffect
     {
         int index = additinalList.FindIndex(origin => origin.Origin.Equals(additinal.Origin));
         if (index >= additinalList.Count)
             return false;
-        // Áßº¹ ½Ã
+        // ì¤‘ë³µ ì‹œ
         if (index != -1)
             return false;
         else
@@ -661,14 +661,14 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
 
     }
     /// <summary>
-    /// Ãß°¡È¿°ú »èÁ¦ ½Ã Áßº¹ Ã¼Å©
+    /// ì¶”ê°€íš¨ê³¼ ì‚­ì œ ì‹œ ì¤‘ë³µ ì²´í¬
     /// </summary>
     private bool CheckForRemoveAdditionalDuplication<T>(List<T> additinalList, T additinal) where T : AdditionalEffect
     {
         int index = additinalList.FindIndex(origin => origin.Origin.Equals(additinal.Origin));
         if (index >= additinalList.Count)
             return false;
-        // Áßº¹ ½Ã (Áö¿ï ¼ö ÀÖÀ» ¶§)
+        // ì¤‘ë³µ ì‹œ (ì§€ìš¸ ìˆ˜ ìˆì„ ë•Œ)
         if (index != -1)
         {
             Model.AdditionalEffects.Remove(additinal);
@@ -678,13 +678,13 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
             return false;
     }
     #endregion
-    #region ÁöÇü¹° Ã¼Å© ·ÎÁ÷
+    #region ì§€í˜•ë¬¼ ì²´í¬ ë¡œì§
     /// <summary>
-    /// Áö¸é Ã¼Å©
+    /// ì§€ë©´ ì²´í¬
     /// </summary>
     private void CheckGround()
     {
-        // »ìÂ¦À§¿¡¼­ ½ô
+        // ì‚´ì§ìœ„ì—ì„œ ì¨
         Vector3 CheckPos = _groundCheckPos.position;
         if (Physics.SphereCast(
             CheckPos,
@@ -713,7 +713,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
             }
 
 
-            // ¿À¸¦ ¼ö ÀÖ´Â °æ»ç¸é Ã¼Å©
+            // ì˜¤ë¥¼ ìˆ˜ ìˆëŠ” ê²½ì‚¬ë©´ ì²´í¬
             Vector3 normal = hit.normal;
             if (normal.y > 1 - _slopeAngle)
             {
@@ -745,7 +745,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// Áö¸é¿¡ °¡±î¿îÁö Ã¼Å©
+    /// ì§€ë©´ì— ê°€ê¹Œìš´ì§€ ì²´í¬
     /// </summary>
     private void CheckIsNearGround()
     {
@@ -785,7 +785,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// º®Ã¼Å©
+    /// ë²½ì²´í¬
     /// </summary>
     private void CheckWall()
     {
@@ -822,9 +822,9 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
     #endregion
 
-    #region Å°ÀÔ·Â °ü·Ã
+    #region í‚¤ì…ë ¥ ê´€ë ¨
     /// <summary>
-    /// Å°ÀÔ·Â °¨Áö
+    /// í‚¤ì…ë ¥ ê°ì§€
     /// </summary>
     private void ChackInput()
     {
@@ -835,7 +835,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         {
             if (InputKey.GetButtonDown(InputKey.LoakOn) && IsTargetHolding == false)
             {
-                //TODO: Ä«¸Ş¶ó ¸ó½ºÅÍ È¦µù ±â´É
+                //TODO: ì¹´ë©”ë¼ ëª¬ìŠ¤í„° í™€ë”© ê¸°ëŠ¥
                 IsTargetToggle = true;
                 _cameraHolder.gameObject.SetActive(true);
             }
@@ -844,13 +844,13 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         {
             //if (input.GetMouseButtonUp(2) && IsTargetToggle == false)
             //{
-            //    //TODO: Ä«¸Ş¶ó ¸ó½ºÅÍ È¦µù Ç®±â
+            //    //TODO: ì¹´ë©”ë¼ ëª¬ìŠ¤í„° í™€ë”© í’€ê¸°
             //    IsTargetHolding = false;
             //    _cameraHolder.gameObject.SetActive(false);
             //}
             if (InputKey.GetButtonDown(InputKey.LoakOff) && IsTargetHolding == false)
             {
-                //TODO: Ä«¸Ş¶ó ¸ó½ºÅÍ È¦µù Ç®±â
+                //TODO: ì¹´ë©”ë¼ ëª¬ìŠ¤í„° í™€ë”© í’€ê¸°
                 IsTargetToggle = false;
                 _cameraHolder.gameObject.SetActive(false);
             }
@@ -868,9 +868,9 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
     #endregion
 
-    #region  ³Ë¹é
+    #region  ë„‰ë°±
     /// <summary>
-    /// ³Ë¹é ¾ÈÇÔ(À§Ä¡ °íÁ¤)
+    /// ë„‰ë°± ì•ˆí•¨(ìœ„ì¹˜ ê³ ì •)
     /// </summary>
     public void DontKnockBack(Transform target)
     {
@@ -879,7 +879,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// ÇØ´ç ¹æÇâÀ¸·Î ÀÔ·Â °Å¸®¸¸Å­ ³Ë¹é
+    /// í•´ë‹¹ ë°©í–¥ìœ¼ë¡œ ì…ë ¥ ê±°ë¦¬ë§Œí¼ ë„‰ë°±
     /// </summary>
     public void DoKnockBack(Transform target, Vector3 dir, float distance)
     {
@@ -890,7 +890,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         CoroutineHandler.StartRoutine(KnockBackRoutine(targetRb, dir, distance));
     }
     /// <summary>
-    /// °ø°İÀÚ Áß½ÉÀ¸·Î ÀÔ·Â°Å¸®¸¸Å­ ³Ë¹é
+    /// ê³µê²©ì ì¤‘ì‹¬ìœ¼ë¡œ ì…ë ¥ê±°ë¦¬ë§Œí¼ ë„‰ë°±
     /// </summary>
     public void DoKnockBack(Transform target, Transform attacker, float distance)
     {
@@ -906,7 +906,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// Æ¯Á¤ ÁöÁ¡À» Áß½ÉÀ¸·Î ³Ë¹é
+    /// íŠ¹ì • ì§€ì ì„ ì¤‘ì‹¬ìœ¼ë¡œ ë„‰ë°±
     /// </summary>
     /// <param name="target"></param>
     /// <param name="pos"></param>
@@ -937,7 +937,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
 
         targetRb.transform.LookAt(transform.position);
         targetRb.transform.rotation = Quaternion.Euler(0, targetRb.transform.eulerAngles.y, 0);
-        // Å¸°ÙÀÌ ³¯ ¹Ù¶óº¸µµ·Ï
+        // íƒ€ê²Ÿì´ ë‚  ë°”ë¼ë³´ë„ë¡
         while (true)
         {
             targetRb.transform.Translate(knockBackDir * Time.deltaTime * 30f, Space.World);
@@ -957,23 +957,23 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
     #endregion
 
-    #region µ¥¹ÌÁö °è»ê
+    #region ë°ë¯¸ì§€ ê³„ì‚°
 
 
     /// <summary>
-    /// ¸ğµ¨ÀÇ µ¥¹ÌÁö, Å©¸®Æ¼ÄÃ ¹İ¿µ x
+    /// ëª¨ë¸ì˜ ë°ë¯¸ì§€, í¬ë¦¬í‹°ì»¬ ë°˜ì˜ x
     /// </summary>
     public int GetDamage(int damage)
     {
         int finalDamage = damage;
-        // µ¥¹ÌÁö ¹èÀ²ÀÌ 0±îÁö ¶³¾îÁø °æ¿ì 0À¸·Î °íÁ¤
+        // ë°ë¯¸ì§€ ë°°ìœ¨ì´ 0ê¹Œì§€ ë–¨ì–´ì§„ ê²½ìš° 0ìœ¼ë¡œ ê³ ì •
         float attackMultiplier = 1 + Model.DamageMultiplier / 100 >= 0 ? 1 + Model.DamageMultiplier / 100 : 0;
         finalDamage = (int)(finalDamage * attackMultiplier);
 
         return finalDamage;
     }
     /// <summary>
-    /// ±âº» ½ºÅİ µ¥¹ÌÁö
+    /// ê¸°ë³¸ ìŠ¤í…Ÿ ë°ë¯¸ì§€
     /// </summary>
     public int GetFinalDamage(out bool isCritical)
     {
@@ -982,7 +982,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         return finalDamage;
     }
     /// <summary>
-    /// µ¥¹ÌÁö Ãß°¡
+    /// ë°ë¯¸ì§€ ì¶”ê°€
     /// </summary>
     public int GetFinalDamage(int addtionalDamage, out bool isCritical)
     {
@@ -991,39 +991,39 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         return finalDamage;
     }
     /// <summary>
-    /// µ¥¹ÌÁö ¹èÀ²
+    /// ë°ë¯¸ì§€ ë°°ìœ¨
     /// </summary>
     public int GetFinalDamage(float addtionalMultiplier, out bool isCritical)
     {
         int finalDamage = 0;
         finalDamage = GetCommonDamage(finalDamage, out isCritical);
 
-        // µ¥¹ÌÁö ¹èÀ² Ãß°¡
+        // ë°ë¯¸ì§€ ë°°ìœ¨ ì¶”ê°€
         finalDamage = (int)(finalDamage * (1 + addtionalMultiplier / 100));
         return finalDamage;
     }
     /// <summary>
-    /// Ãß°¡ µ¥¹ÌÁö + µ¥¹ÌÁö ¹èÀ²
+    /// ì¶”ê°€ ë°ë¯¸ì§€ + ë°ë¯¸ì§€ ë°°ìœ¨
     /// </summary>
     public int GetFinalDamage(int addtionalDamage, float additionalMultiplier, out bool isCritical)
     {
         int finalDamage = 0;
-        // Ãß°¡ µ¥¹ÌÁö
+        // ì¶”ê°€ ë°ë¯¸ì§€
         finalDamage += addtionalDamage;
         finalDamage = GetCommonDamage(finalDamage, out isCritical);
 
-        // µ¥¹ÌÁö ¹èÀ² Ãß°¡
+        // ë°ë¯¸ì§€ ë°°ìœ¨ ì¶”ê°€
         finalDamage = (int)(finalDamage * (1 + additionalMultiplier / 100));
         return finalDamage;
     }
     /// <summary>
-    /// °øÅë°è»ê ¿ë
+    /// ê³µí†µê³„ì‚° ìš©
     /// </summary>
     private int GetCommonDamage(int finalDamage, out bool isCritical)
     {
-        // ±âº» ½ºÅİ µ¥¹ÌÁö 
+        // ê¸°ë³¸ ìŠ¤í…Ÿ ë°ë¯¸ì§€ 
         finalDamage += Model.AttackPower;
-        // Ä¡¸íÅ¸ µ¥¹ÌÁö
+        // ì¹˜ëª…íƒ€ ë°ë¯¸ì§€
         if (Random.value < Model.CriticalChance / 100f)
         {
             finalDamage = (int)(finalDamage * (Model.CriticalDamage / 100f));
@@ -1032,7 +1032,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         else
             isCritical = false;
 
-        // µ¥¹ÌÁö ¹èÀ²ÀÌ 0±îÁö ¶³¾îÁø °æ¿ì 0À¸·Î °íÁ¤
+        // ë°ë¯¸ì§€ ë°°ìœ¨ì´ 0ê¹Œì§€ ë–¨ì–´ì§„ ê²½ìš° 0ìœ¼ë¡œ ê³ ì •
         float attackMultiplier = 1 + Model.DamageMultiplier / 100 >= 0 ? 1 + Model.DamageMultiplier / 100 : 0;
         finalDamage = (int)(finalDamage * attackMultiplier);
 
@@ -1041,7 +1041,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     #endregion
 
     /// <summary>
-    /// TPS ½ÃÁ¡ Ä«¸Ş¶ó È¸Àü
+    /// TPS ì‹œì  ì¹´ë©”ë¼ íšŒì „
     /// </summary>
     private void RotateCameraStick()
     {
@@ -1057,11 +1057,11 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         Vector2 mouseDelta = new Vector2(angleX, 0) * rotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
 
-        // Ä«¸Ş¶ó Á¶Á¤
+        // ì¹´ë©”ë¼ ì¡°ì •
         CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
     }
     /// <summary>
-    /// TPS ½ÃÁ¡ Ä«¸Ş¶ó È¸Àü
+    /// TPS ì‹œì  ì¹´ë©”ë¼ íšŒì „
     /// </summary>
     private void RotateCameraMouse()
     {
@@ -1077,20 +1077,20 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         Vector2 mouseDelta = new Vector2(angleX, 0) * rotateSpeed;
         Vector3 camAngle = CamareArm.rotation.eulerAngles;
 
-        // Ä«¸Ş¶ó Á¶Á¤
+        // ì¹´ë©”ë¼ ì¡°ì •
         CamareArm.rotation = Quaternion.Euler(camAngle.x, camAngle.y + mouseDelta.x, camAngle.z);
     }
     /// <summary>
-    /// ½ºÅ×¹Ì³ª È¸º¹ ÄÚ·çÆ¾
+    /// ìŠ¤í…Œë¯¸ë‚˜ íšŒë³µ ì½”ë£¨í‹´
     /// </summary>
     IEnumerator RecoveryStamina()
     {
         CanStaminaRecovery = true;
         while (true)
         {
-            // ÃÊ´ç MaxStamina / RegainStamina ¸¸Å­ È¸º¹
-            // ÇöÀç ½ºÅ×¹Ì³ª°¡ ²ËÃ¡À¸¸é ´õÀÌ»ó È¸º¹¾ÈÇÔ
-            // ¸¸¾à ½ºÅ×¹Ì³ª »ç¿ë ÈÄ ÄğÅ¸ÀÓ »óÅÂ¸é ÄğÅ¸ÀÓ¸¸Å­ È¸º¹¾ÈÇÔ
+            // ì´ˆë‹¹ MaxStamina / RegainStamina ë§Œí¼ íšŒë³µ
+            // í˜„ì¬ ìŠ¤í…Œë¯¸ë‚˜ê°€ ê½‰ì°¼ìœ¼ë©´ ë”ì´ìƒ íšŒë³µì•ˆí•¨
+            // ë§Œì•½ ìŠ¤í…Œë¯¸ë‚˜ ì‚¬ìš© í›„ ì¿¨íƒ€ì„ ìƒíƒœë©´ ì¿¨íƒ€ì„ë§Œí¼ íšŒë³µì•ˆí•¨
             if (CanStaminaRecovery == true)
             {
                 Model.CurStamina += Model.RegainStamina * Time.deltaTime;
@@ -1116,8 +1116,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         bool isAudioPlay = true;
         while (true)
         {
-            Debug.Log(InputKey.GetActionMap());
-            if (InputKey.GetActionMap() == ActionMap.GamePlay)
+            if (InputKey.GetActionMap() == InputType.GAMEPLAY)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
@@ -1130,7 +1129,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
                 }
 
             }
-            else if (InputKey.GetActionMap() == ActionMap.UI)
+            else if (InputKey.GetActionMap() == InputType.UI)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -1154,9 +1153,9 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
 
-    // ÃÊ±â ¼³Á¤ ============================================================================================================================================ //
+    // ì´ˆê¸° ì„¤ì • ============================================================================================================================================ //
     /// <summary>
-    /// ÃÊ±â ¼³Á¤
+    /// ì´ˆê¸° ì„¤ì •
     /// </summary>
     private void Init()
     {
@@ -1170,66 +1169,66 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î »óÅÂ ¹è¿­ ¼³Á¤
+    /// í”Œë ˆì´ì–´ ìƒíƒœ ë°°ì—´ ì„¤ì •
     /// </summary>
     private void InitPlayerStates()
     {
         _states[(int)State.Idle] = new IdleState(this);                 // Idle
-        _states[(int)State.Run] = new RunState(this);                   // ÀÌµ¿(´Ş¸®±â)
-        _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // ±ÙÁ¢°ø°İ
-        _states[(int)State.ThrowAttack] = new ThrowState(this);         // ÅõÃ´°ø°İ
-        _states[(int)State.SpecialAttack] = new SpecialAttackState(this); // Æ¯¼ö°ø°İ
-        _states[(int)State.Jump] = new JumpState(this);                 // Á¡ÇÁ
-        _states[(int)State.DoubleJump] = new DoubleJumpState(this);     // ´õºíÁ¡ÇÁ
-        _states[(int)State.JumpAttack] = new JumpAttackState(this);     // Á¡ÇÁ°ø°İ
-        _states[(int)State.JumpDown] = new JumpDownState(this);         // ÇÏ°­ °ø°İ 
-        _states[(int)State.Fall] = new FallState(this);                 // Ãß¶ô
-        _states[(int)State.DoubleJumpFall] = new DoubleJumpFallState(this); // ´õºíÁ¡ÇÁ Ãß¶ô
-        _states[(int)State.Dash] = new DashState(this);                 // ´ë½¬
-        _states[(int)State.Drain] = new DrainState(this);               // µå·¹ÀÎ
-        _states[(int)State.Hit] = new HitState(this);                   // ÇÇ°İ
-        _states[(int)State.Dead] = new DeadState(this);                 // »ç¸Á
+        _states[(int)State.Run] = new RunState(this);                   // ì´ë™(ë‹¬ë¦¬ê¸°)
+        _states[(int)State.MeleeAttack] = new MeleeAttackState(this);   // ê·¼ì ‘ê³µê²©
+        _states[(int)State.ThrowAttack] = new ThrowState(this);         // íˆ¬ì²™ê³µê²©
+        _states[(int)State.SpecialAttack] = new SpecialAttackState(this); // íŠ¹ìˆ˜ê³µê²©
+        _states[(int)State.Jump] = new JumpState(this);                 // ì í”„
+        _states[(int)State.DoubleJump] = new DoubleJumpState(this);     // ë”ë¸”ì í”„
+        _states[(int)State.JumpAttack] = new JumpAttackState(this);     // ì í”„ê³µê²©
+        _states[(int)State.JumpDown] = new JumpDownState(this);         // í•˜ê°• ê³µê²© 
+        _states[(int)State.Fall] = new FallState(this);                 // ì¶”ë½
+        _states[(int)State.DoubleJumpFall] = new DoubleJumpFallState(this); // ë”ë¸”ì í”„ ì¶”ë½
+        _states[(int)State.Dash] = new DashState(this);                 // ëŒ€ì‰¬
+        _states[(int)State.Drain] = new DrainState(this);               // ë“œë ˆì¸
+        _states[(int)State.Hit] = new HitState(this);                   // í”¼ê²©
+        _states[(int)State.Dead] = new DeadState(this);                 // ì‚¬ë§
     }
 
     /// <summary>
-    /// UIÀÌº¥Æ® ¼³Á¤
+    /// UIì´ë²¤íŠ¸ ì„¤ì •
     /// </summary>
     private void InitUIEvent()
     {
         PlayerPanel panel = View.Panel;
 
-        // ÅõÃ´¿ÀºêÁ§Æ®
+        // íˆ¬ì²™ì˜¤ë¸Œì íŠ¸
         Model.CurThrowCountSubject = new Subject<int>();
         Model.CurThrowCountSubject
             .DistinctUntilChanged()
             .Subscribe(x => View.UpdateText(panel.ObjectCount, $"{x} / {Model.MaxThrowables}"));
         View.UpdateText(panel.ObjectCount, $"{Model.CurThrowables} / {Model.MaxThrowables}");
 
-        // Ã¼·Â
+        // ì²´ë ¥
         Model.CurHpSubject
             .DistinctUntilChanged()
             .Subscribe(x => panel.BarValueController(panel.HpBar, Model.CurHp, Model.MaxHp));
         panel.BarValueController(panel.HpBar, Model.CurHp, Model.MaxHp);
 
-        // ½ºÅ×¹Ì³ª
+        // ìŠ¤í…Œë¯¸ë‚˜
         Model.CurStaminaSubject
             .DistinctUntilChanged()
             .Subscribe(x => panel.BarValueController(panel.StaminaBar, Model.CurStamina, Model.MaxStamina));
         panel.BarValueController(panel.StaminaBar, Model.CurStamina, Model.MaxStamina);
 
-        // Æ¯¼öÀÚ¿ø
+        // íŠ¹ìˆ˜ìì›
         Model.CurManaSubject
             .DistinctUntilChanged()
             .Subscribe(x => panel.MpBar.value = x);
         panel.MpBar.value = Model.CurHp;
 
-        // Æ¯¼ö°ø°İ Â÷Áö
+        // íŠ¹ìˆ˜ê³µê²© ì°¨ì§€
         Model.SpecialChargeGageSubject
             .DistinctUntilChanged()
             .Subscribe(x => panel.ChargingMpBar.value = x);
         panel.ChargingMpBar.value = Model.SpecialChargeGage;
 
-        // ½ºÅ×¹Ì³ª Â÷Áö
+        // ìŠ¤í…Œë¯¸ë‚˜ ì°¨ì§€
         Model.MaxStaminaCharge = 1;
         Model.CurStaminaChargeSubject
             .DistinctUntilChanged()
@@ -1237,7 +1236,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         panel.BarValueController(panel.ChanrgeStaminaBar, Model.CurStaminaCharge, Model.MaxStaminaCharge);
     }
     /// <summary>
-    /// ÀÌº¥Æ® ±¸µ¶
+    /// ì´ë²¤íŠ¸ êµ¬ë…
     /// </summary>
     private void SubscribeEvents()
     {
@@ -1246,7 +1245,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
     /// <summary>
-    /// ÃÊ±â °ÙÄÄÆ÷³ÍÆ® ¼³Á¤
+    /// ì´ˆê¸° ê²Ÿì»´í¬ë„ŒíŠ¸ ì„¤ì •
     /// </summary>
     private void InitGetComponent()
     {
@@ -1286,7 +1285,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
 
 
-    #region ¾Ö´Ï¸ŞÀÌ¼Ç Äİ¹é
+    #region ì• ë‹ˆë©”ì´ì…˜ ì½œë°±
 
     public void OnTrigger()
     {
@@ -1306,7 +1305,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         _states[(int)CurState].EndCombo();
     }
     #endregion
-    #region Äİ¹é
+    #region ì½œë°±
     public void ThrowObjectResultCallback(ThrowObject throwObject, bool successHit)
     {
         OnThrowObjectResult?.Invoke(throwObject, successHit);
@@ -1320,7 +1319,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
 
     }
     #endregion
-    #region ¿Àµğ¿À ÄÁÆ®·Ñ
+    #region ì˜¤ë””ì˜¤ ì»¨íŠ¸ë¡¤
     public void PlaySFX(AudioClip clip)
     {
         if (clip == null)

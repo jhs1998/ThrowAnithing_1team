@@ -1,6 +1,6 @@
 using BehaviorDesigner.Runtime;
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -31,15 +31,26 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     [SerializeField] int curHp;
     [Header("라운드별 적용 체력"), Range(0, 100)]
     [SerializeField] int roundHp;
-    [Header("파티클's")]
+    [Header("이동 및 사망 파티클")]
     [SerializeField] protected ParticleSystem stepMoveParticle;
     [SerializeField] protected ParticleSystem dieParticle;
-    
+    [Header("효과음")]
+    [Tooltip("이동 관련")]
+    [SerializeField] protected List<AudioClip> moveClips;
+    [SerializeField] protected List<AudioClip> voiceClips;
+    [Tooltip("사망 관련")]
+    [SerializeField] protected List<AudioClip> deathCilps;
+    [Tooltip("피격 관련")]
+    [SerializeField] protected List<AudioClip> hitCilps;
+
     [HideInInspector] float jumpPower;  // 점프력
 
     [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
     [HideInInspector] public Collider[] overLapCollider = new Collider[100];
     [HideInInspector] public BattleSystem Battle;
+
+    protected int randomMoveClip;
+    protected int stepCount = 0;
 
     public int Damage { get { return state.Atk; } }
     public int MaxHp { get { return state.MaxHp; } set { state.MaxHp = value; } }
@@ -62,18 +73,6 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         BaseInit();
     }
 
-    // 이동 애니메이션 이벤트
-    public void BeginStepMove()
-    {
-        stepMoveParticle.Play();
-    }
-
-    // 사망 애니메이션 이벤트
-    public void DeadMotion()
-    {
-        dieParticle.Play();
-    }
-
     public State GetState()
     {
         return state;
@@ -82,6 +81,16 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     public BehaviorTree GetBT()
     {
         return tree;
+    }
+
+    public List<AudioClip> GetDaethClips()
+    {
+        return deathCilps;
+    }
+
+    public AudioClip ChoiceAudioClip(List<AudioClip> audioClips)
+    {
+        return audioClips[Random.Range(0, audioClips.Count)];
     }
 
     protected void BaseInit()
@@ -100,6 +109,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
                 curHp = state.MaxHp;
                 break;
         }
+        randomMoveClip = Random.Range(0, moveClips.Count);
     }
 
     private void SettingVariable()
@@ -113,6 +123,26 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         tree.SetVariable("Reward", (SharedFloat)reward);
     }
 
+    // 이동 애니메이션 이벤트
+    public void BeginStepMove()
+    {
+        if (stepCount >= 2)
+        {
+            SoundManager.PlaySFX(ChoiceAudioClip(voiceClips));
+            stepCount = 0;
+        }
+
+        SoundManager.PlaySFX(moveClips[randomMoveClip]);
+        stepMoveParticle.Play();
+        stepCount++;
+    }
+
+    // 사망 애니메이션 이벤트
+    public void DeadMotion()
+    {
+        dieParticle.Play();
+    }
+
     public int TakeDamage(int damage, bool isIgnoreDef)
     {
         resultDamage = isIgnoreDef == true ? damage : damage - (int)state.Def;
@@ -120,7 +150,9 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 
         if (resultDamage <= 0)
             resultDamage = 0;
-
+        if (resultDamage < curHp)
+            SoundManager.PlaySFX(ChoiceAudioClip(hitCilps));
+        
         curHp -= resultDamage;
 
         return resultDamage;
@@ -135,6 +167,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
         }
         tree.SetVariableValue("Stiff", type == CrowdControlType.Stiff);
     }
+
     /// <summary>
     /// 반경 내 폭발 데미지 부여
     /// </summary>

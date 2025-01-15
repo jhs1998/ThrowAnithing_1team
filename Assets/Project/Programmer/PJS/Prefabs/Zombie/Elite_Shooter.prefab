@@ -227,9 +227,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.3
-  m_Height: 1.814601
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: -0.0061709285, y: 0.9073005, z: -0.0104677975}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &4668766983708947314
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -285,6 +285,25 @@ MonoBehaviour:
   roundHp: 5
   stepMoveParticle: {fileID: 0}
   dieParticle: {fileID: 5361939377226654163}
+  moveClips: []
+  voiceClips: []
+  deathCilps:
+  - {fileID: 8300000, guid: 64a2322a47c4f324cbedab9a031a2da5, type: 3}
+  - {fileID: 8300000, guid: 6d2eef4a410ae11409a2ccab0396b92a, type: 3}
+  - {fileID: 8300000, guid: e7b38734394dc754fb8f517265f1c022, type: 3}
+  - {fileID: 8300000, guid: 5e7f3d06bb9db324889de45d1616a0c1, type: 3}
+  - {fileID: 8300000, guid: 11ea27825f2c93943ab22e9750585660, type: 3}
+  - {fileID: 8300000, guid: 9891c992cb8bd384db2211f3b178e732, type: 3}
+  - {fileID: 8300000, guid: 67a6f515bfb2862449d499028bbb1a7c, type: 3}
+  hitCilps:
+  - {fileID: 8300000, guid: 50052f1867c9497428f46c88179ee46b, type: 3}
+  - {fileID: 8300000, guid: 01c61a01142425d4fbc6df5cc305b7da, type: 3}
+  - {fileID: 8300000, guid: 735d4cbefed31b645bfb4333792906d9, type: 3}
+  - {fileID: 8300000, guid: 4902801ecab3aa64b9227e98a36441df, type: 3}
+  - {fileID: 8300000, guid: bcc2d3a6c641be441b15752e12a64cad, type: 3}
+  - {fileID: 8300000, guid: d35166be0fa27eb4abcfc113eeba11c1, type: 3}
+  - {fileID: 8300000, guid: cfaefb774c82dcb4e80cdd0093562f52, type: 3}
+  - {fileID: 8300000, guid: 723e29c389a5d5044b46c2b86b0b5fd0, type: 3}
   resultDamage: 0
   overLapCollider:
   - {fileID: 0}
@@ -388,6 +407,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Battle: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: 226f34011accaed4bbbde4731e921fa7, type: 3}
+  bulletClips:
+  - {fileID: 8300000, guid: dbecd391fae45b1408f834cddc988e37, type: 3}
+  - {fileID: 8300000, guid: 99e48be84e6d08f4fb28d699f2b9d142, type: 3}
+  - {fileID: 8300000, guid: bf21e2aac16d82c47b56984e39c58ca1, type: 3}
   hitCoolTime: 2.5
   bulletSpeed: 7
   bulletPrefab: {fileID: 1415841380596911756, guid: 67fafdf47f1461c44a52ef581e9d1048, type: 3}

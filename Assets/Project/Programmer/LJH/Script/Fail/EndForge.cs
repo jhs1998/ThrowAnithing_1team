@@ -19,6 +19,7 @@ public class EndForge : MonoBehaviour
     {
         if (other.gameObject.CompareTag(Tag.Player))
         {
+            SoundManager.PlaySFX(SoundManager.Data.UI.Win);
             upPopup.SetActive(true);
             IsActive = true;
         }

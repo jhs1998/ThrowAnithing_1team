@@ -106,7 +106,7 @@ MonoBehaviour:
   curMonsterType: 2
   tree: {fileID: 0}
   state:
-    Name: "\uC5D8\uB9AC\uD2B8\uB514\uD39C\uB354"
+    Name: "\uC5D8\uB9AC\uD2B8\uB514\uD39C\uB354W"
     MaxHp: 400
     Atk: 0
     Def: 15
@@ -119,6 +119,37 @@ MonoBehaviour:
   roundHp: 5
   stepMoveParticle: {fileID: 2969085431181055082}
   dieParticle: {fileID: 1503831413466269389}
+  moveClips:
+  - {fileID: 8300000, guid: 5c7d61188089a8c419e22310ba8d56f0, type: 3}
+  - {fileID: 8300000, guid: 8a6f4392ff50c1e46b24290f455791c4, type: 3}
+  - {fileID: 8300000, guid: 5c2e15e8a5171af4ea55717436221097, type: 3}
+  - {fileID: 8300000, guid: b0430528d8e9c1e4e9a56982422443e9, type: 3}
+  - {fileID: 8300000, guid: 5dc6af5ce39877245836fb028a758d0d, type: 3}
+  - {fileID: 8300000, guid: 71ba92e389aba8347bebaad88bef4cc8, type: 3}
+  - {fileID: 8300000, guid: 9705808097d31fe43a104d9e9e69b4d9, type: 3}
+  - {fileID: 8300000, guid: baa1556076a969e4b8d9b2dcbf760675, type: 3}
+  - {fileID: 8300000, guid: 8abdc624f81b5eb46a6b011595063ce2, type: 3}
+  - {fileID: 8300000, guid: 2b78dd0136928d04bb41361d118dd0d1, type: 3}
+  voiceClips:
+  - {fileID: 8300000, guid: 32caf10c166afe74a8eb963500de57bc, type: 3}
+  - {fileID: 8300000, guid: e5110cc5a7bcb4748b5194a2fcf2d4b2, type: 3}
+  - {fileID: 8300000, guid: 6c18ae91357b8e446bec17b99d9b6753, type: 3}
+  - {fileID: 8300000, guid: 158f21ba0df902149a3d25b5d346ad90, type: 3}
+  - {fileID: 8300000, guid: 350ba3be68cd13c4bbd2c568ca5c10a9, type: 3}
+  - {fileID: 8300000, guid: eb516631cb980d0458709c27f7b26c5a, type: 3}
+  - {fileID: 8300000, guid: 5006eb7e8cb3556448520ea32d227a7a, type: 3}
+  - {fileID: 8300000, guid: be8744290e789a14d94603796957136f, type: 3}
+  deathCilps:
+  - {fileID: 8300000, guid: 89c5a29bd82222146a26f0f61c492cb6, type: 3}
+  - {fileID: 8300000, guid: 87521f88e40586b44b050b3553093c22, type: 3}
+  - {fileID: 8300000, guid: 0e98207c4921f6e4185ea70aead68c2b, type: 3}
+  - {fileID: 8300000, guid: ba4e6844e1598184398daf0f5696c61c, type: 3}
+  - {fileID: 8300000, guid: 7ff89ac387d63de45977183f7d30b292, type: 3}
+  - {fileID: 8300000, guid: 6ab1d0063c5adb244a3471bc0c124cbf, type: 3}
+  - {fileID: 8300000, guid: a25c0b04a6eacbd4da612f1a7df7e2af, type: 3}
+  hitCilps:
+  - {fileID: 8300000, guid: 75e653727e323df4787c6e2745bab132, type: 3}
+  - {fileID: 8300000, guid: 9fe3a831ae1461b48bb4ea4a48c5ce88, type: 3}
   resultDamage: 0
   overLapCollider:
   - {fileID: 0}
@@ -222,6 +253,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Battle: {fileID: 0}
+  attackClips: []
   hitCoolTime: 2.5
 --- !u!114 &8413596436354583901
 MonoBehaviour:
@@ -282,8 +314,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.11
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!95 &2410724135831989810
 Animator:
   serializedVersion: 5
@@ -467,8 +499,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2053830256264311657}
   - component: {fileID: 3402451740403003541}
-  - component: {fileID: 1344644062645129857}
-  m_Layer: 6
+  - component: {fileID: 1825596898703424398}
+  m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,8 +516,8 @@ Transform:
   m_GameObject: {fileID: 6956246712616697950}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0.375}
-  m_LocalScale: {x: 1, y: 1, z: 0.1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2093505598303503270}
@@ -505,39 +537,27 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 4}
-  m_Center: {x: 0, y: 0, z: 1.5}
---- !u!54 &1344644062645129857
-Rigidbody:
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1825596898703424398
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6956246712616697950}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be4c0b574312444abfe2c62b9b6e895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trashHitClips:
+  - {fileID: 8300000, guid: bb2a11b6874393b4699e9698f6575c05, type: 3}
+  - {fileID: 8300000, guid: e7c4a004b81760645a7989e40ceae88e, type: 3}
 --- !u!1001 &794806228648248650
 PrefabInstance:
   m_ObjectHideFlags: 0

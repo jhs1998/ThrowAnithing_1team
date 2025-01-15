@@ -1,20 +1,25 @@
 using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
-using Assets.Project.Programmer.NSJ.RND.Script;
+using System.Collections.Generic;
 
 public class EnemyBoom : Action
 {
 	[SerializeField] SharedBool isBoom;
     [SerializeField] SharedFloat attackDist;    // Æø¹ß ¹üÀ§
     [SerializeField] ParticleSystem paticle;
-
+    public List<AudioClip> deathClips = new List<AudioClip>();
     private BaseEnemy enemy;
 
-	public override void OnStart()
-	{
+    public override void OnAwake()
+    {
 		enemy = GetComponent<BaseEnemy>();
-	}
+
+        foreach (AudioClip clip in enemy.GetDaethClips())
+        {
+            deathClips.Add(clip);
+        }
+    }
 
 	public override TaskStatus OnUpdate()
 	{
@@ -28,6 +33,7 @@ public class EnemyBoom : Action
         if(enemy.CurHp > 0)
             enemy.CurHp = -1;
 
+        SoundManager.PlaySFX(enemy.ChoiceAudioClip(deathClips));
         paticle.Play();
         isBoom.SetValue(true);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -93,10 +94,14 @@ public class NewOption : BaseUI
     float newEffect;
     float defaultEffect;
 
+    //조작키 관리용
+    GameObject inputPC;
+    GameObject inputConsole;
+
     //패널
-    GameObject gameplayPannel;
-    GameObject soundPannel;
-    GameObject inputPannel;
+    GameObject gameplayPanel;
+    GameObject soundPanel;
+    GameObject inputPanel;
 
     //코루틴
     Coroutine firstCo;
@@ -119,10 +124,16 @@ public class NewOption : BaseUI
         actChecked.SetActive(setting.miniMapOnBool);
         fixChecked.SetActive(setting.miniMapFixBool);
         sensSlider.value = setting.cameraSpeed;
-        
+
+        totalVolumeBar.maxValue = 1f;
+        bgmVolumeBar.maxValue = 1f;
+        sfxVolumeBar.maxValue = 1f;
+
+        //볼륨바를 세팅된 값을 넣어줌
         totalVolumeBar.value = setting.wholesound;
         bgmVolumeBar.value = setting.backgroundSound;
         sfxVolumeBar.value = setting.effectSound;
+
 
 
         firstCo = null;
@@ -175,9 +186,14 @@ public class NewOption : BaseUI
         SliderControl(bgmVolume.gameObject, bgmVolumeBar);
         SliderControl(sfxVolume.gameObject, sfxVolumeBar);
 
-        setting.wholesound = SoundManager.GetVolumeMaster();
-        setting.backgroundSound = SoundManager.GetVolumeBGM();
-        setting.effectSound = SoundManager.GetVolumeSFX();
+        SoundManager.SetVolumeMaster(setting.wholesound);
+        SoundManager.SetVolumeBGM(setting.backgroundSound);
+        SoundManager.SetVolumeSFX(setting.effectSound);
+
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
     }
 
     /// <summary>
@@ -258,7 +274,7 @@ public class NewOption : BaseUI
                     if (button == sens.gameObject)
                         slider.value += 0.3f;
                     else
-                        slider.value += 5f;
+                        slider.value += 0.1f;
                 }
                 // 왼쪽 입력
                 else if (input.x < 0)
@@ -266,7 +282,7 @@ public class NewOption : BaseUI
                     if (button == sens.gameObject)
                         slider.value -= 0.3f;
                     else
-                        slider.value -= 5f;
+                        slider.value -= 0.1f;
                 }
             }
         }
@@ -301,23 +317,32 @@ public class NewOption : BaseUI
         {
             if (curButton == gamePlayButton)
             {
-                gameplayPannel.SetActive(true);
-                soundPannel.SetActive(false);
-                inputPannel.SetActive(false);
+                gameplayPanel.SetActive(true);
+                soundPanel.SetActive(false);
+                InputPanel(false);
             }
             else if (curButton == soundButton)
             {
-                gameplayPannel.SetActive(false);
-                soundPannel.SetActive(true);
-                inputPannel.SetActive(false);
+                gameplayPanel.SetActive(false);
+                soundPanel.SetActive(true);
+                InputPanel(false);
             }
             else if (curButton == inputButton)
             {
-                gameplayPannel.SetActive(false);
-                soundPannel.SetActive(false);
-                inputPannel.SetActive(true);
+                gameplayPanel.SetActive(false);
+                soundPanel.SetActive(false);
+                InputPanel(true);
             }
         }
+    }
+
+    void InputPanel(bool onOff)
+    {
+        inputPanel.SetActive(onOff);
+
+
+        inputPC.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
+        inputConsole.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
     }
 
     //코루틴을 사용해 UI 초기화할 시간 벌어줌
@@ -350,6 +375,11 @@ public class NewOption : BaseUI
     public void ExitButton()
     {
         firstCo = null;
+
+        gameplayPanel.SetActive(true);
+        soundPanel.SetActive(false);
+        InputPanel(false);
+
         binding.CanvasChange(binding.mainCanvas.gameObject, gameObject);
         curDepth = 0;
     }
@@ -359,6 +389,9 @@ public class NewOption : BaseUI
         firstCo = null;
         curDepth = 0;
 
+        gameplayPanel.SetActive(true);
+        soundPanel.SetActive(false);
+        InputPanel(false);
 
         gameObject.SetActive(false);
     }
@@ -393,34 +426,17 @@ public class NewOption : BaseUI
 
     public void AcceptButton_Gameplay()
     {
-        MinimapCheck();
-        //setting.miniMapOnBool = newAct;
-        //setting.miniMapFixBool = newFix;
-
-        preAct = setting.miniMapOnBool;
-        preFix = setting.miniMapFixBool;
-
         ButtonReset(gameplayButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
-
 
         curDepth = 0;
     }
 
-    void MinimapCheck()
-    {
-        newAct = actChecked.activeSelf;
-        newFix = fixChecked.activeSelf;
-    }
-
     public void CancelButton_Gameplay()
     {
-        //setting.miniMapOnBool = preAct;
-        //setting.miniMapFixBool = preFix;
-
         ButtonReset(gameplayButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
 
         curDepth = 0;
@@ -428,14 +444,8 @@ public class NewOption : BaseUI
 
     public void DefaultButton_Gameplay()
     {
-        //setting.miniMapOnBool = defaultAct;
-        //setting.miniMapFixBool = defaultFix;
-
-        preAct = setting.miniMapOnBool;
-        preFix = setting.miniMapFixBool;
-
         ButtonReset(gameplayButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
 
         curDepth = 0;
@@ -443,39 +453,17 @@ public class NewOption : BaseUI
 
     public void AcceptButton_Sound()
     {
-        //setting.wholesound = newTotal;
-        //setting.backgroundSound = newBgm;
-        //setting.effectSound = newEffect;
-
-        //preTotal = setting.wholesound;
-        //preBgm = setting.backgroundSound;
-        //preEffect = setting.effectSound;
-
-        ButtonReset(gameplayButtons);
-
-        SoundManager.SetVolumeMaster(setting.wholesound);
-        SoundManager.SetVolumeMaster(setting.backgroundSound);
-        SoundManager.SetVolumeMaster(setting.effectSound);
-
+        ButtonReset(soundButtons);
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
         curDepth = 0;
     }
 
-    void VolumeCheck()
-    {
-        //newTotal = setting.wholesound;
-        //newBgm = setting.backgroundSound;
-        //newEffect = setting.effectSound;
-    }
 
     public void CancelButton_Sound()
     {
-        //setting.wholesound = preTotal;
-        //setting.backgroundSound = preBgm;
-        //setting.effectSound = preEffect;
-
         ButtonReset(soundButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
 
         curDepth = 0;
@@ -483,12 +471,8 @@ public class NewOption : BaseUI
 
     public void DefaultButton_Sound()
     {
-        //setting.wholesound = defaultTotal;
-        //setting.backgroundSound = defaultBgm;
-        //setting.effectSound = defaultEffect;
-
         ButtonReset(soundButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
 
         curDepth = 0;
@@ -505,9 +489,9 @@ public class NewOption : BaseUI
         optionButtons.Add(exitButton = GetUI<Button>("Exit"));
 
 
-        gameplayPannel = GetUI("GamePlayPackage");
-        soundPannel = GetUI("SoundPackage");
-        inputPannel = GetUI("InputGuide");
+        gameplayPanel = GetUI("GamePlayPackage");
+        soundPanel = GetUI("SoundPackage");
+        inputPanel = GetUI("InputGuide");
 
         gameplayButtons.Add(minimapAct = GetUI<Button>("MinimapAct"));
         gameplayButtons.Add(minimapFix = GetUI<Button>("MinimapFix"));
@@ -559,7 +543,8 @@ public class NewOption : BaseUI
         cancel_Gameplay.onClick.AddListener(CancelButton_Gameplay);
         default_Gameplay.onClick.AddListener(DefaultButton_Gameplay);
 
-
+        inputPC = GetUI("inputPC");
+        inputConsole = GetUI("inputConsole");
 
 
 

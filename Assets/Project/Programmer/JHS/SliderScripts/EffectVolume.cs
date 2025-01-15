@@ -22,7 +22,7 @@ public class EffectVolume : MonoBehaviour
     private void Start()
     {
         effectVolume.minValue = 0f;
-        effectVolume.maxValue = 100f;
+        effectVolume.maxValue = 1f;
         effectVolume.value = Mathf.Clamp(setting.effectSound, effectVolume.minValue, effectVolume.maxValue);
 
         effectVolume.onValueChanged.AddListener(SettingEffectVolume);
@@ -30,6 +30,7 @@ public class EffectVolume : MonoBehaviour
     public void SettingEffectVolume(float value)
     {
         setting.effectSound = value;
+        SoundManager.SetVolumeSFX(value);
     }
 
     private void OnDestroy()

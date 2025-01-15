@@ -21,10 +21,10 @@ namespace NSJ_TesterPanel
 
                     if (_canvas.activeSelf == false)
                     {
-                        if (InputKey.GetActionMap() == ActionMap.UI)
+                        if (InputKey.GetActionMap() == InputType.UI)
                             return;
                         _canvas.SetActive(true);
-                        InputKey.SetActionMap(ActionMap.UI);
+                        InputKey.SetActionMap(InputType.UI);
                         Time.timeScale = 0f;
                     }
                 });
@@ -35,7 +35,7 @@ namespace NSJ_TesterPanel
                    if (_canvas.activeSelf == true)
                    {
                        _canvas.SetActive(false);
-                       InputKey.SetActionMap(ActionMap.GamePlay);
+                       InputKey.SetActionMap(InputType.GAMEPLAY);
                        Time.timeScale = 1f;
                    }
                });

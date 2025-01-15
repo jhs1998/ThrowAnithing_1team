@@ -61,6 +61,10 @@ public class NewUpgrade : BaseUI
     [SerializeField] GameObject zeroCoin;
     [SerializeField] GameObject save;
 
+    [SerializeField] AudioClip upgradeSound;
+    [SerializeField] AudioClip upgradeOpen;
+    [SerializeField] AudioClip upgradeClose;
+
     private void Awake()
     {
         Bind();
@@ -75,12 +79,14 @@ public class NewUpgrade : BaseUI
     private void OnEnable()
     {
         EventSystem.current.SetSelectedGameObject(buttonIndex[0].gameObject);
-        playerInput.SwitchCurrentActionMap(ActionMap.UI);
+        playerInput.SwitchCurrentActionMap(InputType.UI);
+        SoundManager.PlaySFX(upgradeOpen);
     }
 
     private void OnDisable()
     {
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay);
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
+        SoundManager.PlaySFX(upgradeClose);
     }
 
     private void Update()
@@ -103,10 +109,12 @@ public class NewUpgrade : BaseUI
 
         Slot_Selected();
 
-
-
-
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
     }
+
 
 
 
@@ -368,7 +376,7 @@ public class NewUpgrade : BaseUI
 
             int row = i;
 
-            buttonIndex[i].onClick.AddListener(() => UpgradeText());
+            buttonIndex[i].onClick.AddListener(() => { UpgradeText(); SoundManager.PlaySFX(upgradeSound); });
 
         }
 
