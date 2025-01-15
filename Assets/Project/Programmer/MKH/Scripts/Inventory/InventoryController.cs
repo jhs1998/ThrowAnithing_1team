@@ -226,6 +226,10 @@ namespace MKH
             #endregion
 
             GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+            // 예외처리
+            if(obj == null) return;
+
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
             if (slot == null)
                 return;
