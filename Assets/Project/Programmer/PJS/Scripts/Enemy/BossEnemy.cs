@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossEnemy : BaseEnemy, IHit
 {
@@ -37,7 +38,7 @@ public class BossEnemy : BaseEnemy, IHit
 
     [Space, SerializeField] GameObject fistGroundParticle; // 라이트닝 피스트 바닥효과
     [SerializeField] Transform pos;
-
+    public Slider hpSlider;
     private Coroutine attackAble;
     private Coroutine globalCoolTime;
     public Coroutine recovery;  // 회복 관련 코루틴
@@ -52,10 +53,13 @@ public class BossEnemy : BaseEnemy, IHit
         BaseInit();
         StateInit();
         StartCoroutine(PassiveOn());
-
+        hpSlider.maxValue = state.MaxHp;
         this.UpdateAsObservable()
             .Select(x => CurHp)
             .Subscribe(x => ChangePhase());
+        this.UpdateAsObservable()
+            .Select(x => CurHp)
+            .Subscribe(x => ChangeHp());
     }
 
     private void StateInit()
@@ -81,6 +85,11 @@ public class BossEnemy : BaseEnemy, IHit
         {
             curPhase = PhaseType.Phase3;
         }
+    }
+
+    private void ChangeHp()
+    {
+        hpSlider.value = CurHp;
     }
 
     IEnumerator PassiveOn()
@@ -129,7 +138,7 @@ public class BossEnemy : BaseEnemy, IHit
         // 회복 끝
         createShield = false;
         transform.GetComponent<Animator>().SetBool("Recovery", false);
-        healParticle.Stop();
+        healParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     /// <summary>
