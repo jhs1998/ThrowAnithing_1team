@@ -131,7 +131,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4727247877142550848}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -219,6 +219,44 @@ MonoBehaviour:
   roundHp: 5
   stepMoveParticle: {fileID: 7572959124474140662}
   dieParticle: {fileID: 4066994244212939668}
+  moveClips:
+  - {fileID: 8300000, guid: bd6e24fe14affba499d7d1a04e32fb61, type: 3}
+  - {fileID: 8300000, guid: 7071cbdc7cd2404468e966b8b0687cb4, type: 3}
+  - {fileID: 8300000, guid: 8425e86b773eb6e4eb8c96845f2cdf0c, type: 3}
+  - {fileID: 8300000, guid: 61873531322b2f04399d511cf14d473d, type: 3}
+  - {fileID: 8300000, guid: 7033b78d3518c8341965915ad13dbe31, type: 3}
+  - {fileID: 8300000, guid: cf3cb458adb27ca428e5441495250a46, type: 3}
+  - {fileID: 8300000, guid: 5b97b673b2f060b4286c9a7e4e5163a6, type: 3}
+  - {fileID: 8300000, guid: 51526c0a3fcd4fc4da38bf760a47d398, type: 3}
+  - {fileID: 8300000, guid: 127e6ebe8cb09b948bb1e8c977bab7cf, type: 3}
+  - {fileID: 8300000, guid: a2f287e9c74c2cb4cafc236f8117cb83, type: 3}
+  - {fileID: 8300000, guid: 2d08954f679589d46aa5473d31b4c3f5, type: 3}
+  - {fileID: 8300000, guid: 2a980937dc1519c43a346ed388111706, type: 3}
+  - {fileID: 8300000, guid: 26a114041347a8c468b7486b9c1bb45d, type: 3}
+  - {fileID: 8300000, guid: 882c683d510f0ee4da4a2cb590b42713, type: 3}
+  - {fileID: 8300000, guid: b03cfc9e2d9c818478fcc0e21fad8365, type: 3}
+  - {fileID: 8300000, guid: 101bf4c891246ba43a9ecdebb1fc16e2, type: 3}
+  - {fileID: 8300000, guid: 56416bde0dfe7d14984c4994eea6ee7c, type: 3}
+  - {fileID: 8300000, guid: dbb4725406b725346a1fc0aefdf2f2e1, type: 3}
+  - {fileID: 8300000, guid: bc50a779b1a0bea4d90038551db0cafe, type: 3}
+  - {fileID: 8300000, guid: 9530ddd35e506fd44bfa765f40a48ef0, type: 3}
+  deathCilps:
+  - {fileID: 8300000, guid: 2e4e6d230133e1d419c0b0f28eb18a09, type: 3}
+  - {fileID: 8300000, guid: 44c9abaf776571d4f84e6b9aa6cdf316, type: 3}
+  - {fileID: 8300000, guid: 707828e1aa11f8744a8ea40c8f9ccb55, type: 3}
+  - {fileID: 8300000, guid: adfb76b4a2f6d394a8de72e3e9592a84, type: 3}
+  - {fileID: 8300000, guid: 9ecb68e722c10fc47aef635f66311634, type: 3}
+  - {fileID: 8300000, guid: bf0a8d2c7ad10bc409d9d58b52f186cd, type: 3}
+  - {fileID: 8300000, guid: dbc164ae4826a4745a17eb5f8514d868, type: 3}
+  hitCilps:
+  - {fileID: 8300000, guid: 822822faace1bb245ae0f5c240c02442, type: 3}
+  - {fileID: 8300000, guid: 758fa4e86f76f5f4cbd937d0616cbc3d, type: 3}
+  - {fileID: 8300000, guid: 103874ba2bb2c1f45a4f893f4d3bd4ba, type: 3}
+  - {fileID: 8300000, guid: 52d9d47275316924aa41ed94cdbca103, type: 3}
+  - {fileID: 8300000, guid: 9d7242b316192b34887c986fb93f49a2, type: 3}
+  - {fileID: 8300000, guid: 861ff7fccafc3f141af78cfa644f3d25, type: 3}
+  - {fileID: 8300000, guid: 6e7cec969487c554681d0fd1d84d18e7, type: 3}
+  - {fileID: 8300000, guid: f5c31aac87ae5ad448b77e3284deb98a, type: 3}
   resultDamage: 0
   overLapCollider:
   - {fileID: 0}
@@ -323,6 +361,11 @@ MonoBehaviour:
   - {fileID: 0}
   Battle: {fileID: 0}
   hitCoolTime: 2.5
+  attackClips:
+  - {fileID: 8300000, guid: b3d126e450e7295469da92623ccbe90d, type: 3}
+  - {fileID: 8300000, guid: 791685495f228f14997e592d7cb3967a, type: 3}
+  - {fileID: 8300000, guid: 8db5f38d8db7fe340889ff198f2d7fd4, type: 3}
+  - {fileID: 8300000, guid: 6e9e9508d14589d44b30f238fea7a02e, type: 3}
 --- !u!114 &8247683989728437042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,7 +398,7 @@ MonoBehaviour:
         Check Squence"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"CanDeadth","NodeData":{"Offset":"(-327.1174,147.224976)"},"ID":4,"Name":"Can
         Deadth","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.SetTrigger","NodeData":{"Offset":"(-256.930328,273.264771)"},"ID":5,"Name":"Set
         Trigger","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedStringparamaterName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Death"}},{"Type":"EnemyDead","NodeData":{"Offset":"(-180.6459,164.0195)"},"ID":6,"Name":"Enemy
-        Dead","Instant":true},{"Type":"EnemyDropItem","NodeData":{"Offset":"(-122.393448,266.142853)"},"ID":7,"Name":"Enemy
+        Dead","Instant":true,"List`1deathClips":[]},{"Type":"EnemyDropItem","NodeData":{"Offset":"(-122.393448,266.142853)"},"ID":7,"Name":"Enemy
         Drop Item","Instant":true,"SharedFloatreward":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Reward","IsShared":true,"SinglemValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-40.17153,156.2012)"},"ID":8,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":2.5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject.SetActive","NodeData":{"Offset":"(53.6179543,258.228241)","Comment":"Active
         == false \uacbd\uc6b0\n\ud574\ub2f9 \ub178\ub4dc \uc774\ud6c4\ub294 \uc791\ub3d9
         X"},"ID":9,"Name":"Set Active","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedBoolactive":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-700.1709,194.582733)"},"ID":10,"Name":"Selector","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Cooldown","NodeData":{"Offset":"(-238.709412,141.290237)"},"ID":11,"Name":"Cooldown","Instant":true,"SharedFloatduration":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.125},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-70.64511,120.000008)","Comment":"\nStun"},"ID":12,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"CanStun","NodeData":{"Offset":"(-190,150)"},"ID":13,"Name":"Can

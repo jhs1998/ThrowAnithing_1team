@@ -1,6 +1,6 @@
 using BehaviorDesigner.Runtime;
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -31,15 +31,24 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     [SerializeField] int curHp;
     [Header("라운드별 적용 체력"), Range(0, 100)]
     [SerializeField] int roundHp;
-    [Header("파티클's")]
+    [Header("이동 및 사망 파티클")]
     [SerializeField] protected ParticleSystem stepMoveParticle;
     [SerializeField] protected ParticleSystem dieParticle;
-    
+    [Header("효과음")]
+    [Tooltip("이동 관련")]
+    [SerializeField] List<AudioClip> moveClips;
+    [Tooltip("사망 관련")]
+    [SerializeField] List<AudioClip> deathCilps;
+    [Tooltip("피격 관련")]
+    [SerializeField] List<AudioClip> hitCilps;
+
     [HideInInspector] float jumpPower;  // 점프력
 
     [HideInInspector] public int resultDamage;  // 최종적으로 피해 입는 데미지
     [HideInInspector] public Collider[] overLapCollider = new Collider[100];
     [HideInInspector] public BattleSystem Battle;
+
+    private int randomMoveClip;
 
     public int Damage { get { return state.Atk; } }
     public int MaxHp { get { return state.MaxHp; } set { state.MaxHp = value; } }
@@ -60,11 +69,13 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     private void Start()
     {
         BaseInit();
+        randomMoveClip = Random.Range(0, moveClips.Count);
     }
 
     // 이동 애니메이션 이벤트
     public void BeginStepMove()
     {
+        SoundManager.PlaySFX(moveClips[randomMoveClip]);
         stepMoveParticle.Play();
     }
 
@@ -82,6 +93,11 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     public BehaviorTree GetBT()
     {
         return tree;
+    }
+
+    public List<AudioClip> GetDaethClips()
+    {
+        return deathCilps;
     }
 
     protected void BaseInit()
@@ -122,6 +138,9 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
             resultDamage = 0;
 
         curHp -= resultDamage;
+
+        if (curHp > 0)
+            SoundManager.PlaySFX(hitCilps[Random.Range(0, hitCilps.Count)]);
 
         return resultDamage;
     }

@@ -1,10 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MeleeEnemy : BaseEnemy
 {
     [Header("피격 모션 쿨타임")]
     [SerializeField] float hitCoolTime;
+    [Header("공격 효과음")]
+    [SerializeField] List<AudioClip> attackClips;
 
     private void Start()
     {
@@ -16,10 +19,10 @@ public class MeleeEnemy : BaseEnemy
     public void BeginAttack()
     {
         AttackMelee();
+        SoundManager.PlaySFX(attackClips[Random.Range(0, attackClips.Count)]);
     }
     public void EndAttack()
     {
-     
     }
 
     /// <summary>
