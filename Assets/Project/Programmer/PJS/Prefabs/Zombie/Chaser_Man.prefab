@@ -250,8 +250,46 @@ MonoBehaviour:
   reward: 35
   curHp: 0
   roundHp: 5
-  stepMoveParticle: {fileID: 0}
-  dieParticle: {fileID: 0}
+  stepMoveParticle: {fileID: 8526399848976270877}
+  dieParticle: {fileID: 1852905908134218467}
+  moveClips:
+  - {fileID: 8300000, guid: bd6e24fe14affba499d7d1a04e32fb61, type: 3}
+  - {fileID: 8300000, guid: 7071cbdc7cd2404468e966b8b0687cb4, type: 3}
+  - {fileID: 8300000, guid: 8425e86b773eb6e4eb8c96845f2cdf0c, type: 3}
+  - {fileID: 8300000, guid: 61873531322b2f04399d511cf14d473d, type: 3}
+  - {fileID: 8300000, guid: 7033b78d3518c8341965915ad13dbe31, type: 3}
+  - {fileID: 8300000, guid: cf3cb458adb27ca428e5441495250a46, type: 3}
+  - {fileID: 8300000, guid: 5b97b673b2f060b4286c9a7e4e5163a6, type: 3}
+  - {fileID: 8300000, guid: 51526c0a3fcd4fc4da38bf760a47d398, type: 3}
+  - {fileID: 8300000, guid: 127e6ebe8cb09b948bb1e8c977bab7cf, type: 3}
+  - {fileID: 8300000, guid: a2f287e9c74c2cb4cafc236f8117cb83, type: 3}
+  - {fileID: 8300000, guid: 2d08954f679589d46aa5473d31b4c3f5, type: 3}
+  - {fileID: 8300000, guid: 2a980937dc1519c43a346ed388111706, type: 3}
+  - {fileID: 8300000, guid: 26a114041347a8c468b7486b9c1bb45d, type: 3}
+  - {fileID: 8300000, guid: 882c683d510f0ee4da4a2cb590b42713, type: 3}
+  - {fileID: 8300000, guid: b03cfc9e2d9c818478fcc0e21fad8365, type: 3}
+  - {fileID: 8300000, guid: 101bf4c891246ba43a9ecdebb1fc16e2, type: 3}
+  - {fileID: 8300000, guid: 56416bde0dfe7d14984c4994eea6ee7c, type: 3}
+  - {fileID: 8300000, guid: dbb4725406b725346a1fc0aefdf2f2e1, type: 3}
+  - {fileID: 8300000, guid: bc50a779b1a0bea4d90038551db0cafe, type: 3}
+  - {fileID: 8300000, guid: 9530ddd35e506fd44bfa765f40a48ef0, type: 3}
+  deathCilps:
+  - {fileID: 8300000, guid: 2e4e6d230133e1d419c0b0f28eb18a09, type: 3}
+  - {fileID: 8300000, guid: 44c9abaf776571d4f84e6b9aa6cdf316, type: 3}
+  - {fileID: 8300000, guid: 707828e1aa11f8744a8ea40c8f9ccb55, type: 3}
+  - {fileID: 8300000, guid: adfb76b4a2f6d394a8de72e3e9592a84, type: 3}
+  - {fileID: 8300000, guid: 9ecb68e722c10fc47aef635f66311634, type: 3}
+  - {fileID: 8300000, guid: bf0a8d2c7ad10bc409d9d58b52f186cd, type: 3}
+  - {fileID: 8300000, guid: dbc164ae4826a4745a17eb5f8514d868, type: 3}
+  hitCilps:
+  - {fileID: 8300000, guid: 822822faace1bb245ae0f5c240c02442, type: 3}
+  - {fileID: 8300000, guid: 758fa4e86f76f5f4cbd937d0616cbc3d, type: 3}
+  - {fileID: 8300000, guid: 103874ba2bb2c1f45a4f893f4d3bd4ba, type: 3}
+  - {fileID: 8300000, guid: 52d9d47275316924aa41ed94cdbca103, type: 3}
+  - {fileID: 8300000, guid: 9d7242b316192b34887c986fb93f49a2, type: 3}
+  - {fileID: 8300000, guid: 861ff7fccafc3f141af78cfa644f3d25, type: 3}
+  - {fileID: 8300000, guid: 6e7cec969487c554681d0fd1d84d18e7, type: 3}
+  - {fileID: 8300000, guid: f5c31aac87ae5ad448b77e3284deb98a, type: 3}
   resultDamage: 0
   overLapCollider:
   - {fileID: 0}
@@ -356,6 +394,11 @@ MonoBehaviour:
   - {fileID: 0}
   Battle: {fileID: 0}
   hitCoolTime: 2.5
+  attackClips:
+  - {fileID: 8300000, guid: b3d126e450e7295469da92623ccbe90d, type: 3}
+  - {fileID: 8300000, guid: 791685495f228f14997e592d7cb3967a, type: 3}
+  - {fileID: 8300000, guid: 8db5f38d8db7fe340889ff198f2d7fd4, type: 3}
+  - {fileID: 8300000, guid: 6e9e9508d14589d44b30f238fea7a02e, type: 3}
 --- !u!114 &2729899280507494190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,8 +465,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.11
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!95 &8206031869340945856
 Animator:
   serializedVersion: 5
@@ -559,6 +602,11 @@ PrefabInstance:
 --- !u!4 &8429710786041940407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4967100718375277229, guid: 32675176ef0009d45aed73c424770ecc, type: 3}
+  m_PrefabInstance: {fileID: 3464102116557560602}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8526399848976270877 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5062378006165282055, guid: 32675176ef0009d45aed73c424770ecc, type: 3}
   m_PrefabInstance: {fileID: 3464102116557560602}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5996730928023648339
@@ -790,6 +838,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60d4576d3d7ea484a8d7ed9cba9d4b37, type: 3}
+--- !u!198 &1852905908134218467 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4876606934580924868, guid: 60d4576d3d7ea484a8d7ed9cba9d4b37, type: 3}
+  m_PrefabInstance: {fileID: 6493038582057868071}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1947376670958466671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4692065764036554056, guid: 60d4576d3d7ea484a8d7ed9cba9d4b37, type: 3}
