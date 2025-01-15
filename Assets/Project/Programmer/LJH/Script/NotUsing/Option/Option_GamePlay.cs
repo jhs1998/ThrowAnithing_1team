@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -354,3 +354,4 @@ public class Option_GamePlay : Main_Option
         checker = 0;
     }
 }
+*/

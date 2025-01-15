@@ -81,7 +81,7 @@ public class InputTest : BaseUI
         Slot_Selected();
 
         //Comment : For test
-        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
+        if (InputKey.GetButtonDown(InputKey.Choice))
         {
             slots[index].onClick.Invoke();
         }
@@ -114,8 +114,8 @@ public class InputTest : BaseUI
     {
         TierCal();
 
-                slots[tier * 4].GetComponent<Image>().color = new(0.1f, 0, 0.2f);
-        
+        slots[tier * 4].GetComponent<Image>().color = new(0.1f, 0, 0.2f);
+
 
     }
 
@@ -127,7 +127,7 @@ public class InputTest : BaseUI
         {
             EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color = new(0.7f, 0.7f, 0.1f);
 
-        
+
             itemName.text = EventSystem.current.currentSelectedGameObject.name;
             itemImage.sprite = EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<Image>().sprite;
             itemInfo.text = EventSystem.current.currentSelectedGameObject.name;
@@ -264,7 +264,7 @@ public class InputTest : BaseUI
         {
             slots[index].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
 
-            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.PrevInteraction))
+            if (EventSystem.current.currentInputModule != InputKey.GetButtonDown(InputKey.Choice))
             {
                 index = FindButton(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
             }
@@ -281,10 +281,10 @@ public class InputTest : BaseUI
     {
         for (int i = 0; i < slots.Count; i++)
         {
-                if (slots[i].name == button.name)
-                {
-                    return i;
-                }
+            if (slots[i].name == button.name)
+            {
+                return i;
+            }
         }
         //인식 못했을 때 0,0 으로 초기화
         return 0;
@@ -295,7 +295,7 @@ public class InputTest : BaseUI
     {
         for (int i = 0; i < slots.Count; i++)
         {
-                slots[i].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
+            slots[i].GetComponent<Image>().color = new(0.2f, 0.25f, 0.6f);
         }
     }
 
@@ -330,12 +330,12 @@ public class InputTest : BaseUI
 
         for (int i = 0; i < slots.Count; i++)
         {
-                slotImages.Add(slots[i].transform.GetChild(0).GetComponent<Image>());
+            slotImages.Add(slots[i].transform.GetChild(0).GetComponent<Image>());
 
-                int row = i;
+            int row = i;
 
-                slots[i].onClick.AddListener(() => ClickedSlots(slots[row]));
-                slots[i].onClick.AddListener(() => UpgradeText());
+            slots[i].onClick.AddListener(() => ClickedSlots(slots[row]));
+            slots[i].onClick.AddListener(() => UpgradeText());
 
         }
 

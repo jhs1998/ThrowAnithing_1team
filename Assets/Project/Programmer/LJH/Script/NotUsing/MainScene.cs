@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -309,3 +309,4 @@ public class MainScene : BaseUI
     }
 
 }
+*/

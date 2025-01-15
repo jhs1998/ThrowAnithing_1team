@@ -139,12 +139,12 @@ public class SlotManager : MonoBehaviour
         Navigation navi2 = slot2.navigation;
         navi2.selectOnUp = slot1;
         navi2.selectOnDown = slot3;
-        slot1.navigation = navi2;
+        slot2.navigation = navi2;
 
         Navigation navi3 = slot3.navigation;
         navi3.selectOnUp = slot2;
         navi3.selectOnDown = slot1;
-        slot1.navigation = navi3;
+        slot3.navigation = navi3;
     }
     private void StartNewGame(int slotIndex)
     {

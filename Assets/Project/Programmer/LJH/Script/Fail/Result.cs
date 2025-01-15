@@ -26,7 +26,7 @@ public class Result : BaseUI
 
     void Update()
     {
-        if (InputKey.GetButtonDown(InputKey.PrevInteraction))
+        if (InputKey.GetButtonDown(InputKey.Interaction))
             LoadingToBase.LoadScene(SceneName.LobbyScene);
     }
 
