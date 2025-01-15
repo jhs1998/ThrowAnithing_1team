@@ -10,12 +10,15 @@ public class NewNew : BaseUI
 {
     MainSceneBinding binding;
     PlayerActions input;
+    PlayerInput playerInput;
 
     Button slot1;
     Button slot2;
     Button slot3;
 
     List<Button> buttons = new List<Button>();
+
+    [SerializeField] GameObject deleteTab;
     private void Awake()
     {
         Bind();
@@ -41,6 +44,13 @@ public class NewNew : BaseUI
     {
         binding.ButtonFirstSelect(slot1.gameObject);
         SelectedSlotHighlight(buttons);
+
+        if (playerInput.actions["UIMove"].WasPressedThisFrame())
+        {
+            if (playerInput.actions["UIMove"].ReadValue<Vector2>().y != 0)
+                if(!deleteTab.activeSelf)
+                SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+        }
     }
 
     /// <summary>
@@ -74,6 +84,7 @@ public class NewNew : BaseUI
 
     void Init()
     {
+        playerInput = InputKey.PlayerInput;
         binding = GetComponentInParent<MainSceneBinding>();
         input = new PlayerActions();
 

@@ -65,7 +65,7 @@ public class BlueChipChoice : MonoBehaviour
                 {
                     choice.SetActive(false);
                     choicePanel.SetActive(true);
-                    InputKey.SetActionMap(ActionMap.UI);
+                    InputKey.SetActionMap(InputType.UI);
                     //bool success = blueChipPanel.AcquireEffect(blueChip.Effect);
 
                     //// 블루칩 플레이어 적용

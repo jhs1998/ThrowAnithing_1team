@@ -20,7 +20,7 @@ public class LJH_InputSystem : MonoBehaviour
         Move();
 
         if(Input.GetKeyDown(KeyCode.M))
-        playerInput.SwitchCurrentActionMap(ActionMap.UI);
+        playerInput.SwitchCurrentActionMap(InputType.UI);
     }
 
     public void Move()

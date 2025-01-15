@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         StartCoroutine(ControlMousePointer());
         //Camera.main.transform.SetParent(_cameraPos, true);
 
-        InputKey.SetActionMap(ActionMap.GamePlay);
+        InputKey.SetActionMap(InputType.GAMEPLAY);
 
 
 
@@ -1116,13 +1116,13 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     {
         while (true)
         {
-            if (InputKey.GetActionMap() == ActionMap.GamePlay)
+            if (InputKey.GetActionMap() == InputType.GAMEPLAY)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 CanOperate = true;
             }
-            else if (InputKey.GetActionMap() == ActionMap.UI)
+            else if (InputKey.GetActionMap() == InputType.UI)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;

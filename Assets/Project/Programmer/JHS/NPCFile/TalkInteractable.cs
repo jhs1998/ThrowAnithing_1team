@@ -100,14 +100,14 @@ public class TalkInteractable : MonoBehaviour
     private void ShowDialogueUI()
     {
         dialogueUI.SetActive(true);
-        playerInput.SwitchCurrentActionMap(ActionMap.UI); // 플레이어 조작 비활성화
+        playerInput.SwitchCurrentActionMap(InputType.UI); // 플레이어 조작 비활성화
         Debug.Log(playerInput.currentActionMap);
     }
 
     private void HideDialogueUI()
     {
         dialogueUI.SetActive(false);
-        playerInput.SwitchCurrentActionMap(ActionMap.GamePlay); // 플레이어 조작 활성화
+        playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY); // 플레이어 조작 활성화
         Debug.Log(playerInput.currentActionMap);
         if (itemPrefab != null && sponPoint != null)
         {
