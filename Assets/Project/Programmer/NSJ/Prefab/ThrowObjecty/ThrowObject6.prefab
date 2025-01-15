@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3414558972883643030}
   - component: {fileID: 7853716823513458989}
   - component: {fileID: 2361920084398287321}
+  - component: {fileID: 1421041250344921192}
   - component: {fileID: 3345388843995303040}
   - component: {fileID: 8746247873869596414}
   - component: {fileID: 1312972416275985554}
@@ -143,6 +144,19 @@ MonoBehaviour:
   IsChainHit: 0
   IgnoreTargets: []
   Rb: {fileID: 0}
+--- !u!114 &1421041250344921192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7542304654831891154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4be76cfefbf4db4995aa0becd4e54b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxDistance: 15
 --- !u!54 &3345388843995303040
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -213,7 +227,7 @@ MonoBehaviour:
       serializedProperties: []
   backParameters:
     enabled: 0
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 0}
+    color: {r: 1, g: 1, b: 1, a: 0}
     dilateShift: 1
     blurShift: 1
     fillPass:

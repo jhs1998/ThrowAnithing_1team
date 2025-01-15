@@ -44,11 +44,6 @@ public class PlayerCameraHold : MonoBehaviour
             return;
         _targetEffect.SetActive(true);
         SetTargetList();
-
-        if(_changeTargetRoutine == null)
-        {
-            _changeTargetRoutine = StartCoroutine(ChangeTargetRoutine());
-        }
     }
 
     private void OnDisable()
@@ -137,6 +132,10 @@ public class PlayerCameraHold : MonoBehaviour
         if (_checkDistanceToTarget == null)
         {
             _checkDistanceToTarget = StartCoroutine(CheckDistanceToTarget());
+        }
+        if (_changeTargetRoutine == null)
+        {
+            _changeTargetRoutine = StartCoroutine(ChangeTargetRoutine());
         }
         return true;
     }

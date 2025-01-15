@@ -1,6 +1,9 @@
+using EPOOutline;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Outlinable))]
+[RequireComponent(typeof(ThrowObjectOutline))]
 public class ThrowObject : MonoBehaviour
 {
     [System.Serializable]

@@ -589,8 +589,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upPopup: {fileID: 8286579028775400013}
+  pcPopup: {fileID: 0}
+  padPopup: {fileID: 0}
   _ui: {fileID: 0}
   IsUIActive: 0
+  IsActive: 0
 --- !u!1 &8286579028775400013
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,8 +685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588dbc8fa45beb0439e524023d360aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgrade: {fileID: 0}
-  player: {fileID: 0}
+  _object: {fileID: 0}
 --- !u!114 &7078891696205973831
 MonoBehaviour:
   m_ObjectHideFlags: 0
