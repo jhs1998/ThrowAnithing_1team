@@ -48,7 +48,8 @@ public class NewContinue : BaseUI
 
         if (playerInput.actions["UIMove"].WasPressedThisFrame())
         {
-            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+            if (playerInput.actions["UIMove"].ReadValue<Vector2>().y != 0)
+                SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
         }
     }
 

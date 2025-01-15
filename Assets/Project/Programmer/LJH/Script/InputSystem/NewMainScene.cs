@@ -33,12 +33,6 @@ public class NewMainScene : BaseUI
     {
     }
 
-    private void OnDisable()
-    {
-        //에러떴길래 혹시해서 미리 막으려고 넣어놓은 코드
-        if(GameObject.FindObjectOfType<AudioSource>() != null)
-        SoundManager.StopBGM();
-    }
     void Start()
     {
         setting.OptionLoad();
@@ -65,6 +59,7 @@ public class NewMainScene : BaseUI
 
         if (playerInput.actions["UIMove"].WasPressedThisFrame())
         {
+            if (playerInput.actions["UIMove"].ReadValue<Vector2>().y != 0)
             SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
         }
     }

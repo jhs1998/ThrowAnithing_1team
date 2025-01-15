@@ -17,6 +17,8 @@ public class NewNew : BaseUI
     Button slot3;
 
     List<Button> buttons = new List<Button>();
+
+    [SerializeField] GameObject deleteTab;
     private void Awake()
     {
         Bind();
@@ -45,7 +47,9 @@ public class NewNew : BaseUI
 
         if (playerInput.actions["UIMove"].WasPressedThisFrame())
         {
-            SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
+            if (playerInput.actions["UIMove"].ReadValue<Vector2>().y != 0)
+                if(!deleteTab.activeSelf)
+                SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
         }
     }
 
