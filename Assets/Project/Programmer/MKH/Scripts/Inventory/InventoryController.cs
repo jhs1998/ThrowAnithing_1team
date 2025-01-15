@@ -33,8 +33,6 @@ namespace MKH
         [Header("코인 저장")]
         [SerializeField] SaveSystem saveSystem;                 // 분해한 코인 저장 역활
 
-        private InventorySlot slot;
-
         private void Awake()
         {
             // 인벤토리, 장비 슬롯들 불러오기
@@ -61,6 +59,7 @@ namespace MKH
             {
                 Break();
             }
+
             Info();
         }
 
@@ -269,7 +268,7 @@ namespace MKH
         #region 아이템 정보
         private void Info()
         {
-            #region 초기 버전
+            #region 초기 버전 사용 X
             /* for (int i = 0; i < slots.Length; i++)
              {
                  if (i == selectedButtonsIndex)
@@ -430,6 +429,9 @@ namespace MKH
             #endregion
             
             GameObject obj = EventSystem.current.currentSelectedGameObject;
+            if (obj == null)
+                return;
+
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
             if (slot == null)
                 return;
