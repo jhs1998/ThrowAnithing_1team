@@ -17,7 +17,7 @@ namespace MKH
             max = firstPercent + secondPercent;
 
             int randNum = Random.Range(0, max + 1);
-            Debug.Log(randNum);
+            //Debug.Log(randNum);
             if (randNum <= firstPercent)
             {
                 GameObject dropPrefab = dropLists[0].itemList[Random.Range(0, dropLists[0].itemList.Count)];
