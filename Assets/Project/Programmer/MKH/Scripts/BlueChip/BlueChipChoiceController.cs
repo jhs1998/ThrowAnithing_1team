@@ -77,8 +77,11 @@ namespace MKH
 
         public void PopUp(int number)
         {
-            popUp.SetActive(true);
-            popUpChoice = number;
+            if (blueChipChoicePanel.blueChipSlots[number].Effect != null)
+            {
+                popUp.SetActive(true);
+                popUpChoice = number;
+            }
         }
 
         public void ErrorPopUp()
