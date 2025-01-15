@@ -192,6 +192,8 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
 
     [HideInInspector] public Collider[] OverLapColliders = new Collider[100];
     [HideInInspector] public Vector3 MoveDir;
+
+    [HideInInspector] public bool IsMouseVisible;
     Vector2 _mouseDir;
     Vector2 _stickDir;
 
@@ -218,8 +220,6 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
 
         EnterState(CurState);
     }
-
-    public bool IsMouseVisible;
 
     private void OnDisable()
     {
