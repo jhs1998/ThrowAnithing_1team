@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5a9591a119956e40bf8ac09c4d75f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curMonsterType: 0
+  curMonsterType: 4
   tree: {fileID: 0}
   state:
     Name: "\uC544\uB180\uB4DC(\uBCF4\uC2A4)"
@@ -298,7 +298,6 @@ MonoBehaviour:
   novaParticle: {fileID: 635277758882109853}
   fistParticle: {fileID: 4741264310659454321}
   healParticle: {fileID: 3678573244223149791}
-  shieldParticle: {fileID: 3759964552208969518}
   jumpParticle: {fileID: 5221474597649948495}
   jumpDownParticle: {fileID: 1631029307318124199}
   fistGroundParticle: {fileID: 1538225508496528732, guid: 68c3a062e08e3d5418e03b15d5900c37, type: 3}
@@ -3151,11 +3150,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3340c89becdb2db4aabd3f54cfd5a1ac, type: 3}
---- !u!198 &3759964552208969518 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5179410880638480022, guid: 3340c89becdb2db4aabd3f54cfd5a1ac, type: 3}
-  m_PrefabInstance: {fileID: 8344859050139582904}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5728185759696572177 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4373135489233604265, guid: 3340c89becdb2db4aabd3f54cfd5a1ac, type: 3}
