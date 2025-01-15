@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
@@ -162,9 +163,6 @@ public class NewOption : BaseUI
 
     void Update()
     {
-        Debug.Log(curDepth);
-       // if (EventSystem.current.currentSelectedGameObject == null)
-       //     return;
         ButtonMissClick();
         CurDepthReset();
         DepthCal();
@@ -176,6 +174,10 @@ public class NewOption : BaseUI
         SliderControl(totalVolume.gameObject, totalVolumeBar);
         SliderControl(bgmVolume.gameObject, bgmVolumeBar);
         SliderControl(sfxVolume.gameObject, sfxVolumeBar);
+
+        setting.wholesound = SoundManager.GetVolumeMaster();
+        setting.backgroundSound = SoundManager.GetVolumeBGM();
+        setting.effectSound = SoundManager.GetVolumeSFX();
     }
 
     /// <summary>
@@ -450,6 +452,10 @@ public class NewOption : BaseUI
         //preEffect = setting.effectSound;
 
         ButtonReset(gameplayButtons);
+
+        SoundManager.SetVolumeMaster(setting.wholesound);
+        SoundManager.SetVolumeMaster(setting.backgroundSound);
+        SoundManager.SetVolumeMaster(setting.effectSound);
 
         EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
         curDepth = 0;
