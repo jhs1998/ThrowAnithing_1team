@@ -985,6 +985,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InvenClose"",
+                    ""type"": ""Button"",
+                    ""id"": ""fa002224-af42-4844-aa30-730e7bd7e537"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1306,6 +1315,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""InvenOpen"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c7b5379-fc6b-4e60-a3cc-61d8a9a8d336"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""InvenClose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3045643b-8d4c-469b-972a-05a7ff6c678b"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Console"",
+                    ""action"": ""InvenClose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1369,6 +1400,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_InvenOpen = m_UI.FindAction("InvenOpen", throwIfNotFound: true);
+        m_UI_InvenClose = m_UI.FindAction("InvenClose", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -1604,6 +1636,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Point;
     private readonly InputAction m_UI_ScrollWheel;
     private readonly InputAction m_UI_InvenOpen;
+    private readonly InputAction m_UI_InvenClose;
     public struct UIActions
     {
         private @PlayerActions m_Wrapper;
@@ -1618,6 +1651,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Point => m_Wrapper.m_UI_Point;
         public InputAction @ScrollWheel => m_Wrapper.m_UI_ScrollWheel;
         public InputAction @InvenOpen => m_Wrapper.m_UI_InvenOpen;
+        public InputAction @InvenClose => m_Wrapper.m_UI_InvenClose;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1657,6 +1691,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @InvenOpen.started += instance.OnInvenOpen;
             @InvenOpen.performed += instance.OnInvenOpen;
             @InvenOpen.canceled += instance.OnInvenOpen;
+            @InvenClose.started += instance.OnInvenClose;
+            @InvenClose.performed += instance.OnInvenClose;
+            @InvenClose.canceled += instance.OnInvenClose;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1691,6 +1728,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @InvenOpen.started -= instance.OnInvenOpen;
             @InvenOpen.performed -= instance.OnInvenOpen;
             @InvenOpen.canceled -= instance.OnInvenOpen;
+            @InvenClose.started -= instance.OnInvenClose;
+            @InvenClose.performed -= instance.OnInvenClose;
+            @InvenClose.canceled -= instance.OnInvenClose;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1756,5 +1796,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnPoint(InputAction.CallbackContext context);
         void OnScrollWheel(InputAction.CallbackContext context);
         void OnInvenOpen(InputAction.CallbackContext context);
+        void OnInvenClose(InputAction.CallbackContext context);
     }
 }

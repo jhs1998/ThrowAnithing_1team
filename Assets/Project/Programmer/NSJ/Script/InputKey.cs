@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +13,7 @@ public class InputKey : MonoBehaviour
     {
         Move, CameraMove, MouseDelta, // Axis
         Jump, Throw, Special, Melee, LoakOn, LoakOff, Dash, Interaction, Drain, OpenSettings, InvenOpen, Cheat, //GamePlay
-        Choice, Cancel, Break
+        Choice, Cancel, Break, InvenClose
     } // None
     public enum Axis { None, Axis }
  
@@ -44,6 +45,7 @@ public class InputKey : MonoBehaviour
     public static InputStruct CancelUI;
     public static InputStruct Choice;
     public static InputStruct Break;
+    public static InputStruct InvenClose;
 
     private Dictionary<string, InputStruct> m_inputStructDic = new Dictionary<string, InputStruct>();
     private static Dictionary<string, InputStruct> _inputStructDic { get { return Instance.m_inputStructDic; } }
@@ -94,6 +96,7 @@ public class InputKey : MonoBehaviour
         Cheat = GetInputStruct(Action.Cheat, Axis.None,"Cheat");
         CancelUI = GetInputStruct(Action.Cancel, Axis.None, "Cancel");
         Break = GetInputStruct(Action.Break, Axis.None, "Break");
+        InvenClose = GetInputStruct(Action.InvenClose, Axis.None, "InvenClose");
     }
 
 

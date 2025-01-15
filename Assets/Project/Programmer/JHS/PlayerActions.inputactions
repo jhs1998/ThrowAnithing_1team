@@ -963,6 +963,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "InvenClose",
+                    "type": "Button",
+                    "id": "fa002224-af42-4844-aa30-730e7bd7e537",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1282,6 +1291,28 @@
                     "processors": "",
                     "groups": ";Console",
                     "action": "InvenOpen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2c7b5379-fc6b-4e60-a3cc-61d8a9a8d336",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";PC",
+                    "action": "InvenClose",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3045643b-8d4c-469b-972a-05a7ff6c678b",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Console",
+                    "action": "InvenClose",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

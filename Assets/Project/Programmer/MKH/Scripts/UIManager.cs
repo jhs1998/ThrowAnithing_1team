@@ -71,7 +71,7 @@ namespace MKH
                 InputKey.SetActionMap(ActionMap.UI);
             }
 
-            if (InputKey.GetButtonDown(InputKey.CancelUI))
+            if (InputKey.GetButtonDown(InputKey.InvenClose))
             {
                 if (_BlueChipPanel.activeSelf)
                     return;
@@ -103,7 +103,7 @@ namespace MKH
             if (!_Inventory.activeSelf)
                 return;
 
-            if (InputKey.GetButtonDown(InputKey.CancelUI))
+            if (InputKey.GetButtonDown(InputKey.InvenClose))
             {
                 _BlueChipPanel.SetActive(false);
             }
