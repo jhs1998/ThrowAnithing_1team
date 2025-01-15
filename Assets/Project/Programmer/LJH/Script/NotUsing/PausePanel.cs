@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
 public class PausePanel : MonoBehaviour
@@ -77,3 +77,4 @@ public class PausePanel : MonoBehaviour
         }
     }
 }
+*/

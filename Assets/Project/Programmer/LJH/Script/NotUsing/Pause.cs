@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -172,3 +172,4 @@ public class Pause : Main_Option
     }
 
 }
+*/
