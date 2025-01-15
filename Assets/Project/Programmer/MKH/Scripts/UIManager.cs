@@ -81,6 +81,8 @@ namespace MKH
             {
                 if (_BlueChipPanel.activeSelf)
                     return;
+                if (_Inventory.activeSelf == false)
+                    return;
 
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);

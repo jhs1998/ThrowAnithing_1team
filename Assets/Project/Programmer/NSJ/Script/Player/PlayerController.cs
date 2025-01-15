@@ -1114,39 +1114,40 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
     void ControlMousePointer()
     {
-        
+        if (InputKey.GetActionMap() == InputType.GAMEPLAY)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            CanOperate = true;
 
-            Debug.Log("돌아가는중");
-            if (InputKey.GetActionMap() == InputType.GAMEPLAY)
+            if (_isAudioPlay == false)
             {
-                Debug.Log("고정");
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                CanOperate = true;
-
-                if (_isAudioPlay == false)
-                {
-                    _isAudioPlay = true;
-                    Audio.UnPause();
-                }
-
+                _isAudioPlay = true;
+                Audio.UnPause();
             }
-            else if (InputKey.GetActionMap() == InputType.UI)
+
+        }
+        else if (InputKey.GetActionMap() == InputType.UI)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            CanOperate = false;
+
+            if (_isAudioPlay == true)
             {
-                Debug.Log("풀림");
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                CanOperate = false;
 
-                if (_isAudioPlay == true)
-                {
-
-                    _isAudioPlay = false;
-                    Audio.Pause();
-                }
-
+                _isAudioPlay = false;
+                Audio.Pause();
             }
-        
+
+        }
+
+        if (InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
     }
 
     private void TriggerCantOperate()
