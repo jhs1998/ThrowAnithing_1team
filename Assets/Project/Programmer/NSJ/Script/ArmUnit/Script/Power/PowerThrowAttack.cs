@@ -195,6 +195,13 @@ public class PowerThrowAttack : ArmThrowAttack
 
     private void ProcessAutoAttackTmer()
     {
+        if(_index == 0)
+        {
+            ChargeEnd();
+            return;
+        }
+          
+
         _isAutoAttack = true;
         _autoAttackTime += Time.deltaTime;
         if (_autoAttackTime > _autoAttackDelay)
