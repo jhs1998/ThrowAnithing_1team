@@ -145,11 +145,10 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
 
         if (resultDamage <= 0)
             resultDamage = 0;
+        if (resultDamage < curHp)
+            SoundManager.PlaySFX(hitCilps[Random.Range(0, hitCilps.Count)]);
 
         curHp -= resultDamage;
-
-        if (curHp > 0)
-            SoundManager.PlaySFX(hitCilps[Random.Range(0, hitCilps.Count)]);
 
         return resultDamage;
     }
