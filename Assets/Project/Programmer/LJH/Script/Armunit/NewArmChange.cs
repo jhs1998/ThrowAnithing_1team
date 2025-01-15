@@ -26,6 +26,9 @@ public class NewArmChange : BaseUI
 
     Color color;
 
+    [SerializeField] public AudioClip powerSelect;
+    [SerializeField] public AudioClip balanceSelect;
+
     private void Awake()
     {
         Bind();
@@ -121,8 +124,8 @@ public class NewArmChange : BaseUI
         armButtons.Add(GetUI<Button>("PowerButton"));
         armButtons.Add(GetUI<Button>("BalanceButton"));
 
-        armButtons[0].onClick.AddListener(Power);
-        armButtons[1].onClick.AddListener(Balance);
+        armButtons[0].onClick.AddListener(() => { Power(); SoundManager.PlaySFX(powerSelect); });
+        armButtons[1].onClick.AddListener(() => { Balance(); SoundManager.PlaySFX(balanceSelect);  });
 
     }
 }

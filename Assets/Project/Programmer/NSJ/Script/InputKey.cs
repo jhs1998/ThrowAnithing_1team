@@ -96,6 +96,7 @@ public class InputKey : MonoBehaviour
         Break = GetInputStruct(Action.Break, Axis.None, "Break");
     }
 
+
     private void LateUpdate()
     {
     }
