@@ -426,31 +426,17 @@ public class NewOption : BaseUI
 
     public void AcceptButton_Gameplay()
     {
-        MinimapCheck();
-        //setting.miniMapOnBool = newAct;
-        //setting.miniMapFixBool = newFix;
-
-        preAct = setting.miniMapOnBool;
-        preFix = setting.miniMapFixBool;
-
         ButtonReset(gameplayButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
 
-
         curDepth = 0;
-    }
-
-    void MinimapCheck()
-    {
-        newAct = actChecked.activeSelf;
-        newFix = fixChecked.activeSelf;
     }
 
     public void CancelButton_Gameplay()
     {
         ButtonReset(gameplayButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
 
         curDepth = 0;
@@ -458,11 +444,8 @@ public class NewOption : BaseUI
 
     public void DefaultButton_Gameplay()
     {
-        preAct = setting.miniMapOnBool;
-        preFix = setting.miniMapFixBool;
-
         ButtonReset(gameplayButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(gamePlayButton.gameObject);
 
         curDepth = 0;
@@ -471,11 +454,7 @@ public class NewOption : BaseUI
     public void AcceptButton_Sound()
     {
         ButtonReset(soundButtons);
-
-        SoundManager.SetVolumeMaster(setting.wholesound);
-        SoundManager.SetVolumeMaster(setting.backgroundSound);
-        SoundManager.SetVolumeMaster(setting.effectSound);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
         curDepth = 0;
     }
@@ -484,7 +463,7 @@ public class NewOption : BaseUI
     public void CancelButton_Sound()
     {
         ButtonReset(soundButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
 
         curDepth = 0;
@@ -493,7 +472,7 @@ public class NewOption : BaseUI
     public void DefaultButton_Sound()
     {
         ButtonReset(soundButtons);
-
+        SoundManager.PlaySFX(SoundManager.Data.UI.SettingButton);
         EventSystem.current.SetSelectedGameObject(soundButton.gameObject);
 
         curDepth = 0;

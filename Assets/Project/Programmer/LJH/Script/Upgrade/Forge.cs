@@ -20,17 +20,22 @@ public class Forge : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        upPopup.SetActive(true);
-        pcPopup.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
-        padPopup.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
-        IsActive = true;
-        
+        if (other.gameObject.CompareTag(Tag.Player))
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.PopUpOn);
+            upPopup.SetActive(true);
+            pcPopup.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
+            padPopup.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
+            IsActive = true;
+        }
+
     }
 
-    private void OnTriggerExit(Collider other)
+        private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag(Tag.Player))
         {
+            SoundManager.PlaySFX(SoundManager.Data.UI.PopUpOff);
             pcPopup.SetActive(false);
             padPopup.SetActive(false);
             upPopup.SetActive(false);

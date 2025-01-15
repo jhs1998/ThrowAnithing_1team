@@ -29,6 +29,9 @@ public class NewArmChange : BaseUI
     [SerializeField] public AudioClip powerSelect;
     [SerializeField] public AudioClip balanceSelect;
 
+    [SerializeField] AudioClip armOpen;
+    [SerializeField] AudioClip armClose;
+
     private void Awake()
     {
         Bind();
@@ -41,11 +44,13 @@ public class NewArmChange : BaseUI
     {
         playerInput.SwitchCurrentActionMap(InputType.UI);
         EventSystem.current.SetSelectedGameObject(armButtons[0].gameObject);
+        SoundManager.PlaySFX(armOpen);
     }
     private void OnDisable()
     {
         if(playerInput.currentActionMap.name == InputType.UI)
         playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY);
+        SoundManager.PlaySFX(armClose);
     }
     private void Update()
     {
