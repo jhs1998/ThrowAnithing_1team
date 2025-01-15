@@ -27,15 +27,17 @@ public class BossEnemy : BaseEnemy, IHit
     public float jumpAttackTime;    // 애니메이션의 재생 시간
     [Tooltip("점프 시 최대 높이")]
     public float jumpHeight;    // 점프 시 최대 높이
-
-    [Space, SerializeField] ParticleSystem shieldParticle;  // 실드
+    [Header("패턴's 이펙트")]
+    [SerializeField] ParticleSystem armorShieldParticle;  // 일레트릭 아머
     [SerializeField] ParticleSystem novaParticle;       // 라이트닝 노바
     [SerializeField] ParticleSystem fistParticle;       // 라이트닝 피스트
     [SerializeField] ParticleSystem healParticle;       // 회복
     [SerializeField] ParticleSystem jumpParticle;       // 점프 공격 시작 
     [SerializeField] ParticleSystem jumpDownParticle;   // 점프 공격 끝
-    [SerializeField] GameObject fistGroundParticle; // 라이트닝 피스트 바닥효과
+
+    [Space, SerializeField] GameObject fistGroundParticle; // 라이트닝 피스트 바닥효과
     [SerializeField] Transform pos;
+
     private Coroutine attackAble;
     private Coroutine globalCoolTime;
     public Coroutine recovery;  // 회복 관련 코루틴
@@ -103,12 +105,11 @@ public class BossEnemy : BaseEnemy, IHit
     public void RecoveryStartCoroutine(int time, float value)
     {
         healParticle.Play();
-
         recovery = StartCoroutine(RecoveryRoutin(time, value));
     }
     public void RecoveryStopCotoutine()
     {
-        healParticle.Stop();
+        healParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         StopCoroutine(recovery);
         transform.GetComponent<Animator>().SetBool("Recovery", false);
     }
@@ -128,6 +129,7 @@ public class BossEnemy : BaseEnemy, IHit
         // 회복 끝
         createShield = false;
         transform.GetComponent<Animator>().SetBool("Recovery", false);
+        healParticle.Stop();
     }
 
     /// <summary>
@@ -195,7 +197,7 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void ThunderStomp()
     {
-        shieldParticle.Play();
+        armorShieldParticle.Play();
     }
 
     /// <summary>
