@@ -2,18 +2,20 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using System.Collections;
 using UnityEngine;
-using static BaseEnemy;
+
 
 public class EnemyDropItem : Action
 {
     const int maxPersent = 100;
     [SerializeField] SharedFloat reward;    // 드랍 확률
     private int randNum;
+    private BaseEnemy enemy;
 
     public override void OnStart()
     {
         //몬스터가 죽었을 시 아이템 드랍
         randNum = Random.Range(0, maxPersent + 1);
+        enemy = GetComponent<BaseEnemy>();
     }
 
     public override TaskStatus OnUpdate()
@@ -21,7 +23,7 @@ public class EnemyDropItem : Action
         // 확률 인스펙터에서 정해서 값 가져오기
         if (randNum <= reward.Value)
         {
-            DataContainer.GetItemTablePrefab(transform.position);
+            DataContainer.GetItemTablePrefab(transform.position, enemy.curMonsterType);
         }
 
         return TaskStatus.Success;
