@@ -65,7 +65,7 @@ namespace MKH
             // ����
             if (InputKey.GetButtonDown(InputKey.InvenOpen))
             {
-                if (InputKey.GetActionMap() == ActionMap.UI)
+                if (InputKey.GetActionMap() == InputType.UI)
                     return;
 
                 SoundManager.PlaySFX(open);
@@ -85,7 +85,7 @@ namespace MKH
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
                 _State.SetActive(false);
-                InputKey.SetActionMap(ActionMap.GamePlay);
+                InputKey.SetActionMap(InputType.GAMEPLAY);
                 SoundManager.PlaySFX(close);
             }
         }
