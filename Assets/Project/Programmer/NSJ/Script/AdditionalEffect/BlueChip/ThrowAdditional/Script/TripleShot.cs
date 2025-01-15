@@ -45,7 +45,7 @@ public class TripleShot : ThrowAdditional
                originObjectRot.z);
     
             ThrowObject newObject = GameObject.Instantiate(DataContainer.GetThrowObject(throwObjectID), _throwObject.transform.position, shotAngle);
-            newObject.Init(Player, _throwObject.CCType, _throwObject.PlayerDamage, _throwObject.ThrowAdditionals);
+            newObject.Init(Player, _throwObject.CCType, _throwObject.IsBoom, _throwObject.PlayerDamage, _throwObject.ThrowAdditionals);
             _throwObject.AddChainList(newObject);
 
             newObject.Shoot(Player.ThrowPower);

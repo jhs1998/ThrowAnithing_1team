@@ -60,7 +60,7 @@ public class CushionAttack : ThrowAdditional
         //_throwObject = newObject;
 
         ThrowObject newObject = Instantiate(DataContainer.GetThrowObject(_throwObject.Data.ID), _throwObject.transform.position, _throwObject.transform.rotation);
-        newObject.Init(Player, _throwObject.CCType, _throwObject.PlayerDamage, _throwObject.ThrowAdditionals);
+        newObject.Init(Player, _throwObject.CCType, _throwObject.IsBoom,_throwObject.PlayerDamage, _throwObject.ThrowAdditionals);
         newObject.IgnoreTargets = _throwObject.IgnoreTargets;
 
         // 클론 적용

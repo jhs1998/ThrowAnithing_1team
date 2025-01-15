@@ -434,6 +434,10 @@ public class ObjectPool : MonoBehaviour
     public static void ReturnPool(GameObject instance)
     {
         CreateObjectPool();
+        if (instance.activeSelf == false)
+            return;
+
+
         PoolInfo info = default;
         if (_poolObjectDic.ContainsKey(instance) == true)
         {
@@ -443,6 +447,8 @@ public class ObjectPool : MonoBehaviour
         {
             info = FindPool(instance);
         }
+        instance.transform.position = info.Prefab.transform.position;
+        instance.transform.rotation = info.Prefab.transform.rotation;
         instance.transform.localScale = info.Prefab.transform.localScale;
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);
@@ -451,6 +457,11 @@ public class ObjectPool : MonoBehaviour
     public static void ReturnPool<T>(T instance) where T : Component
     {
         CreateObjectPool();
+
+        if (instance.gameObject.activeSelf == false)
+            return;
+
+
         PoolInfo info = default;
         if (_poolObjectDic.ContainsKey(instance.gameObject) == true)
         {
@@ -460,6 +471,8 @@ public class ObjectPool : MonoBehaviour
         {
             info = FindPool(instance.gameObject);
         }
+        instance.transform.position = info.Prefab.transform.position;
+        instance.transform.rotation = info.Prefab.transform.rotation;
         instance.transform.localScale = info.Prefab.transform.localScale;
         instance.transform.SetParent(info.Parent);
         instance.gameObject.SetActive(false);

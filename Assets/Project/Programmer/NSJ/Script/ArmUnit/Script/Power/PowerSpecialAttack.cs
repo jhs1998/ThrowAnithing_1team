@@ -7,8 +7,6 @@ public class PowerSpecialAttack : ArmSpecialAttack
     [System.Serializable]
     struct ChargeEffectStruct
     {
-        public GameObject DropObject;
-        public Vector3 DropSize;
         public GameObject ChargeEffect;
     }
     [System.Serializable]
@@ -17,6 +15,8 @@ public class PowerSpecialAttack : ArmSpecialAttack
         public ChargeEffectStruct[] Effects;
         public GameObject Attack;
         public GameObject FullCharge;
+        public PowerObjectEffect EffectObject;
+   
     }
     [System.Serializable]
     struct ChargeStruct
@@ -35,7 +35,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     [SerializeField] private EffectStruct _effect;
     private float _maxChargeTime => _charges[_charges.Length - 1].ChargeTime;
     private float _maxChargeMana => _charges[_charges.Length - 1].ChargeMana;
-    private GameObject _instanceDropObject;
+    private PowerObjectEffect _effectObject;
     private GameObject _instanceSpecialRange;
 
     private GameObject _chargeEffect;
@@ -80,13 +80,16 @@ public class PowerSpecialAttack : ArmSpecialAttack
 
 
         #region 공격에 소환했던 그래픽 오브젝트 삭제
-        if (_instanceDropObject != null)
+        if (_effectObject != null)
         {
-            Destroy(_instanceDropObject);
+            _effectObject.End();
+            ObjectPool.ReturnPool(_effectObject);
+            _effectObject = null;
         }
         if (_instanceSpecialRange != null)
         {
-            Destroy(_instanceSpecialRange);
+            ObjectPool.ReturnPool(_instanceSpecialRange);
+            _instanceSpecialRange = null;
         }
         if (_chargeEffect != null)
         {
@@ -116,6 +119,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     IEnumerator ChargeRoutine()
     {
+        CreateSpecialObject();
         while (true)
         {
             Move();
@@ -125,10 +129,10 @@ public class PowerSpecialAttack : ArmSpecialAttack
             {
                 Model.SpecialChargeGage = 0;
                 #region  차지에 사용한 그래픽 정리
-                if (_instanceDropObject)
-                {
-                    _instanceDropObject.transform.SetParent(Player.RightArmPoint);
-                }
+                //if (_effectObject)
+                //{
+                //    _effectObject.transform.SetParent(Player.RightArmPoint);
+                //}
 
                 #endregion
                 if (_index != 0)
@@ -155,7 +159,7 @@ public class PowerSpecialAttack : ArmSpecialAttack
         // 플레이어 공격방향 계속 바라보기
         Player.LookAtAttackDir();
         // 공격범위 위치 잡기
-        if (_instanceDropObject != null)
+        if (_index > 0)
         {
             _dropPos = new Vector3(
                 transform.position.x + (Player.transform.forward.x * _charges[_index - 1].AttackOffset.x),
@@ -164,10 +168,10 @@ public class PowerSpecialAttack : ArmSpecialAttack
             _instanceSpecialRange.transform.position = _dropPos;
         }
         // 오른손 효과 손 따라다니기
-        if (_instanceDropObject != null)
+        if (_effectObject != null)
         {
-            _instanceDropObject.transform.position = Player.RightArmPoint.position;
-            _instanceDropObject.transform.rotation = Quaternion.LookRotation(transform.forward);
+            _effectObject.transform.position = Player.RightArmPoint.position;
+            _effectObject.transform.rotation = Quaternion.LookRotation(transform.forward);
         }
 
         // 차지시간 계산
@@ -208,21 +212,31 @@ public class PowerSpecialAttack : ArmSpecialAttack
 
     private void CreateSpecialObject()
     {
-        if (_instanceDropObject != null)
-            Destroy(_instanceDropObject);
-        _instanceDropObject = Instantiate(_effect.Effects[_index].DropObject, Player.RightArmPoint.position, transform.rotation);
-        _instanceDropObject.transform.localScale = _effect.Effects[_index].DropSize;
+        if(_effectObject == null)
+        {
+            _effectObject = ObjectPool.GetPool(_effect.EffectObject, Player.RightArmPoint.position, _effect.EffectObject.transform.rotation);
+            _effectObject.transform.SetParent(Player.RightArmPoint);
+        }
+        else
+        {
+            _effectObject.Next();
+        }
     }
     private void CreateSpecialRange()
     {
-        if (_instanceDropObject != null)
-            Destroy(_instanceSpecialRange);
+        //if (_effectObject != null)
+        //    Destroy(_instanceSpecialRange);
         // 공격범위 그래픽
         _dropPos = new Vector3(
               transform.position.x + (Player.CamareArm.forward.x * _charges[_index].AttackOffset.x),
               transform.position.y + 0.01f,
               transform.position.z + (Player.CamareArm.forward.z * _charges[_index].AttackOffset.z));
-        _instanceSpecialRange = Instantiate(_specialRange, _dropPos, Quaternion.identity);
+
+
+        if (_instanceSpecialRange == null)
+        {
+            _instanceSpecialRange = ObjectPool.GetPool(_specialRange, _dropPos, Quaternion.identity);
+        }
         // 크기 조정
         _instanceSpecialRange.transform.localScale = new Vector3(
             _charges[_index].Radius * 2,
@@ -240,14 +254,24 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     private void AttackSpecial()
     {
-        int finalDamage = Player.GetFinalDamage(_charges[_index].Damage, out bool isCritical);
-        // 범위 내 적에게 데미지
         int hitCount = Physics.OverlapSphereNonAlloc(_dropPos, _charges[_index].Radius, Player.OverLapColliders, 1 << Layer.Monster);
         for (int i = 0; i < hitCount; i++)
         {
+            int finalDamage = Player.GetFinalDamage(_charges[_index].Damage, out bool isCritical);
+            // 범위 내 적에게 데미지
+
             // 데미지 주기
             Battle.TargetAttackWithDebuff(Player.OverLapColliders[i], isCritical, finalDamage,   false);
-            Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
+            // 풀차지 시
+            if(_index == _charges.Length - 1)
+            {
+                Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stun, 1);
+            }
+            else
+            {
+                Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stiff);
+            }
+
 
             // 넉백 가능하면 넉백
             if (_charges[_index].KnockBackDistance > 0)
@@ -271,7 +295,10 @@ public class PowerSpecialAttack : ArmSpecialAttack
             ObjectPool.GetPool(_effect.FullCharge, _dropPos, Quaternion.identity, 2f);
         }
 
-        Destroy(_instanceSpecialRange);
+        ObjectPool.ReturnPool(_instanceSpecialRange);
+        ObjectPool.ReturnPool(_effectObject,0.5f);
+
+        _instanceSpecialRange = null;
     }
 
     private void Move()

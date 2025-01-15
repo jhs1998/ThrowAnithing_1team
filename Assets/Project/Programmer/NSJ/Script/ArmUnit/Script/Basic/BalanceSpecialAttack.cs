@@ -272,7 +272,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     private void ThrowSpecialObject()
     {
         SpecialObject specialObject = ObjectPool.GetPool(_second.SpecialObject, _muzzlePoint.position, _muzzlePoint.rotation);
-        specialObject.Init(Player, CrowdControlType.None, 0,Model.ThrowAdditionals);
+        specialObject.Init(Player, CrowdControlType.None, true, 0,Model.ThrowAdditionals);
         specialObject.InitSpecial(_second.Damage, _second.MiddleDamage, _second.Range, _second.MiddleRange);
         specialObject.Shoot(Player.ThrowPower);
     }
@@ -352,6 +352,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
             }
 
             Battle.TargetAttack(Player.OverLapColliders[i], isCritical, finalDamage);
+            Battle.TargetCrowdControl(Player.OverLapColliders[i], CrowdControlType.Stun, 1f);
             Battle.TargetDebuff(Player.OverLapColliders[i], _third.ElectricShock);
         }
         MiddleHittargets.Clear();

@@ -7,6 +7,7 @@ public class ThrowObject : MonoBehaviour
     protected partial struct EffectStruct
     {
         public GameObject Hit;
+        public GameObject BoomHit;
     }
     // 이펙트
     [SerializeField] protected EffectStruct Effect;
@@ -68,6 +69,8 @@ public class ThrowObject : MonoBehaviour
     {
         Rb.velocity = Vector3.zero;
         Rb.angularVelocity = Vector3.zero;
+        IgnoreTargets.Clear();
+        ChainList.Clear();
         CanAttack = true;
         _collider.isTrigger = true;
     }
@@ -141,10 +144,11 @@ public class ThrowObject : MonoBehaviour
         FixedUpdateThrowAdditional();
     }
     #region Init
-    public void Init(PlayerController player, CrowdControlType CCType, List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player, CrowdControlType CCType, bool isBoom,List<ThrowAdditional> throwAdditionals)
     {
         Player = player;
         Radius = player.Model.BoomRadius;
+        IsBoom = isBoom;
 
         this.CCType = CCType;
         // 적중시 회복 마나량
@@ -153,11 +157,12 @@ public class ThrowObject : MonoBehaviour
 
         AddThrowAdditional(throwAdditionals, player);
     }
-    public void Init(PlayerController player, CrowdControlType CCType, int addionalDamage, List<ThrowAdditional> throwAdditionals)
+    public void Init(PlayerController player, CrowdControlType CCType,  bool isBoom,int addionalDamage,List<ThrowAdditional> throwAdditionals)
     {
         Player = player;
         PlayerDamage = addionalDamage;
         Radius = player.Model.BoomRadius;
+        IsBoom = isBoom;
 
         this.CCType = CCType;
         // 적중시 회복 마나량
@@ -165,18 +170,6 @@ public class ThrowObject : MonoBehaviour
         SpecialRecovery += SpecialRecovery * player.Model.RegainAdditiveMana / 100;
 
         AddThrowAdditional(throwAdditionals, player);
-    }
-    public void Init(ThrowObject throwObject, CrowdControlType CCType, int addionalDamage, List<ThrowAdditional> throwAdditionals)
-    {
-        Player = throwObject.Player;
-        PlayerDamage = addionalDamage;
-        Radius = throwObject.Radius;
-
-        this.CCType = CCType;
-        // 적중시 회복 마나량
-        SpecialRecovery = throwObject.SpecialRecovery;
-
-        AddThrowAdditional(throwAdditionals, Player);
     }
     #endregion
     public void Shoot(float throwPower)
@@ -222,8 +215,8 @@ public class ThrowObject : MonoBehaviour
         // 플레이어 특수공격 자원 획득
         Player.Model.CurMana += SpecialRecovery;
         // 이펙트 
-        ObjectPool.GetPool(Effect.Hit, transform.position, transform.rotation, 1.5f);
 
+        ObjectPool.GetPool(Effect.BoomHit, transform.position, transform.rotation, 1.5f);
 
         Destroy(gameObject);
     }
