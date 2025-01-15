@@ -2,11 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -24,7 +22,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     [HideInInspector] public Collider Collider;
     [HideInInspector] public Rigidbody Rb;
     [HideInInspector] public BattleSystem Battle;
-    [HideInInspector] public PlayerInput input;
+    [HideInInspector] public AudioSource Audio;
     public enum State
     {
         Idle,
@@ -57,7 +55,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     public event UnityAction<CrowdControlType> OnPlayerCCHitEvent;
     public event UnityAction OnPlayerHitActionEvent;
     public event UnityAction OnPlayerDieEvent;
-    public event UnityAction<ThrowObject,bool> OnThrowObjectResult;
+    public event UnityAction<ThrowObject, bool> OnThrowObjectResult;
     #endregion
     #region 플레이어 포인트 관련 필드
     [System.Serializable]
@@ -200,11 +198,11 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     Quaternion _defaultMuzzlePointRot;
     private void Awake()
     {
-       
+
     }
 
     private void Start()
-    { 
+    {
         Init();
         InitUIEvent();
         SubscribeEvents();
@@ -586,12 +584,12 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         // 잠깐 저장해둘 리스트 생성
         List<AdditionalEffect> tempList = new List<AdditionalEffect>(Model.AdditionalEffects.Count);
         // 값 복사
-        foreach(AdditionalEffect additionalEffect in Model.AdditionalEffects)
+        foreach (AdditionalEffect additionalEffect in Model.AdditionalEffects)
         {
             tempList.Add(additionalEffect);
         }
         // 전부 삭제
-        foreach(AdditionalEffect additionalEffect in tempList)
+        foreach (AdditionalEffect additionalEffect in tempList)
         {
             RemoveAdditional(additionalEffect);
         }
@@ -697,7 +695,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
              Layer.EveryThing,
             QueryTriggerInteraction.Ignore))
         {
-            if(hit.transform.gameObject.layer == Layer.Monster)
+            if (hit.transform.gameObject.layer == Layer.Monster)
             {
                 IsGround = false;
                 Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, true);
@@ -714,7 +712,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
                 Physics.IgnoreLayerCollision(Layer.Player, Layer.Monster, false);
             }
 
-          
+
             // 오를 수 있는 경사면 체크
             Vector3 normal = hit.normal;
             if (normal.y > 1 - _slopeAngle)
@@ -753,9 +751,9 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     {
         Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y + 0.31f, transform.position.z);
         if (Physics.SphereCast(
-            CheckPos , 
-            0.3f, 
-            Vector3.down, 
+            CheckPos,
+            0.3f,
+            Vector3.down,
             out RaycastHit hit,
             1f,
             Layer.EveryThing,
@@ -1115,21 +1113,38 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
 
     IEnumerator ControlMousePointer()
     {
+        bool isAudioPlay = true;
         while (true)
         {
+            Debug.Log(InputKey.GetActionMap());
             if (InputKey.GetActionMap() == ActionMap.GamePlay)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 CanOperate = true;
+
+                if (isAudioPlay == false)
+                {
+                    isAudioPlay = true;
+                    Audio.UnPause();
+                }
+
             }
             else if (InputKey.GetActionMap() == ActionMap.UI)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 CanOperate = false;
+
+                if (isAudioPlay == true)
+                {
+
+                    isAudioPlay = false;
+                    Audio.Pause();
+                }
+
             }
-            yield return null;
+            yield return 0.02f.GetRealTimeDelay();
         }
     }
 
@@ -1240,7 +1255,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         Rb = GetComponent<Rigidbody>();
         Collider = GetComponent<Collider>();
         Battle = GetComponent<BattleSystem>();
-        input = GetComponent<PlayerInput>();
+        Audio = GetComponent<AudioSource>();
     }
     private void InitAdditionnal()
     {
@@ -1292,9 +1307,9 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
     #endregion
     #region 콜백
-    public void ThrowObjectResultCallback(ThrowObject throwObject,bool successHit)
+    public void ThrowObjectResultCallback(ThrowObject throwObject, bool successHit)
     {
-        OnThrowObjectResult?.Invoke(throwObject,successHit);
+        OnThrowObjectResult?.Invoke(throwObject, successHit);
     }
     private void TargetAttackCallback(int damage, bool isCritical)
     {
@@ -1303,6 +1318,20 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     private void TakeDamageCallback(int damage, bool isCritical)
     {
 
+    }
+    #endregion
+    #region 오디오 컨트롤
+    public void PlaySFX(AudioClip clip)
+    {
+        if (clip == null)
+            return;
+        Audio.clip = clip;
+        Audio.Play();
+    }
+    public void StopSFX()
+    {
+        Audio.Stop();
+        Audio.clip = null;
     }
     #endregion
 }

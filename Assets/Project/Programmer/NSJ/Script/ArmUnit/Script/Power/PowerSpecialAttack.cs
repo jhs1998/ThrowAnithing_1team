@@ -96,6 +96,8 @@ public class PowerSpecialAttack : ArmSpecialAttack
             ObjectPool.ReturnPool(_chargeEffect);
         }
         #endregion
+        // 사운드 끄기
+        Player.StopSFX();
 
         Model.SpecialChargeGage = 0;
         _index = 0;
@@ -119,7 +121,11 @@ public class PowerSpecialAttack : ArmSpecialAttack
     }
     IEnumerator ChargeRoutine()
     {
+        // 손에 오브젝트 모이는 연출 이펙트 생성
         CreateSpecialObject();
+
+        // 차지 사운드
+        Player.PlaySFX(Player.Sound.Power.Charge);
         while (true)
         {
             Move();
@@ -128,18 +134,16 @@ public class PowerSpecialAttack : ArmSpecialAttack
             if (InputKey.GetButtonUp(InputKey.Special))
             {
                 Model.SpecialChargeGage = 0;
-                #region  차지에 사용한 그래픽 정리
-                //if (_effectObject)
-                //{
-                //    _effectObject.transform.SetParent(Player.RightArmPoint);
-                //}
 
-                #endregion
+
+                // 차지 사운드 종료
                 if (_index != 0)
                 {
                     _index--;
                     Player.LookAtAttackDir();
                     View.SetTrigger(PlayerView.Parameter.ChargeEnd);
+
+                    Player.StopSFX();
                 }
                 else
                 {
@@ -294,9 +298,11 @@ public class PowerSpecialAttack : ArmSpecialAttack
         {
             ObjectPool.GetPool(_effect.FullCharge, _dropPos, Quaternion.identity, 2f);
         }
-
         ObjectPool.ReturnPool(_instanceSpecialRange);
         ObjectPool.ReturnPool(_effectObject,0.5f);
+
+        // 공격 사운드
+        SoundManager.PlaySFX(Player.Sound.Power.SpecialHit);
 
         _instanceSpecialRange = null;
     }

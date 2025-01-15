@@ -12,6 +12,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         public GameObject EffectPrefab;
         [HideInInspector] public GameObject Effect;
         public GameObject StepUpEffectPrefab;
+        public GameObject ChargeEndEffect;
     }
     [System.Serializable]
     struct ChargeStruct
@@ -142,6 +143,9 @@ public class BalanceSpecialAttack : ArmSpecialAttack
             if (InputKey.GetButtonUp(InputKey.Special))
             {
                 ObjectPool.ReturnPool(_chargeEffect.Effect);
+
+                ObjectPool.GetPool(_chargeEffect.ChargeEndEffect, transform, 2f);
+
                 ChangeState(PlayerController.State.SpecialAttack);
                 yield break;
             }
@@ -312,10 +316,15 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         GameObject beforeEffect = ObjectPool.GetPool(_third.BeforeEffect, attackPos, Quaternion.identity);
         beforeEffect.transform.localScale *= _third.MiddleRange;
 
-        yield return _third.AttackDelay.GetDelay();
-        ObjectPool.ReturnPool(beforeEffect);
-        // 공격
+        yield return (_third.AttackDelay-0.3f).GetDelay();
 
+        // 내려치는 사운드
+        SoundManager.PlaySFX(Player.Sound.Balance.Special3Hit);
+        yield return 0.3f.GetDelay();
+        ObjectPool.ReturnPool(beforeEffect);
+        // 루프 사운드
+        SoundManager.PlaySFX(Player.Sound.Balance.Special3Loop);
+        // 공격
         for (int i = 0; i < 8; i++) 
         {
             AttackBombard(attackPos);

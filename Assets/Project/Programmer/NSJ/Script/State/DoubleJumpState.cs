@@ -14,6 +14,8 @@ public class DoubleJumpState : PlayerState
     public override void Enter()
     {
         View.SetTrigger(PlayerView.Parameter.DoubleJump);
+
+        SoundManager.PlaySFX(Player.Sound.Move.DoubleJump);
     }
     public override void Exit()
     {

@@ -105,7 +105,7 @@ public class SoundManager : BaseBinder
     }
     public static void StopBGM()
     {
-        BGM.Pause();
+        BGM.Stop();
     }
 
     public static void PlaySFX(AudioClip clip)
