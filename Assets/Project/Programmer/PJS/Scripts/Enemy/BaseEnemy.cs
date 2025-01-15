@@ -37,6 +37,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     [Header("효과음")]
     [Tooltip("이동 관련")]
     [SerializeField] List<AudioClip> moveClips;
+    [SerializeField] List<AudioClip> voiceClips;
     [Tooltip("사망 관련")]
     [SerializeField] List<AudioClip> deathCilps;
     [Tooltip("피격 관련")]
@@ -49,6 +50,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     [HideInInspector] public BattleSystem Battle;
 
     private int randomMoveClip;
+    private int stepCount = 0;
 
     public int Damage { get { return state.Atk; } }
     public int MaxHp { get { return state.MaxHp; } set { state.MaxHp = value; } }
@@ -75,8 +77,15 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     // 이동 애니메이션 이벤트
     public void BeginStepMove()
     {
+        if (stepCount >= 2)
+        {
+            SoundManager.PlaySFX(voiceClips[Random.Range(0, voiceClips.Count)]);
+            stepCount = 0;
+        }
+
         SoundManager.PlaySFX(moveClips[randomMoveClip]);
         stepMoveParticle.Play();
+        stepCount++;
     }
 
     // 사망 애니메이션 이벤트

@@ -200,7 +200,7 @@ Transform:
   m_GameObject: {fileID: 8576633007122757169}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -287,6 +287,10 @@ MonoBehaviour:
   roundHp: 5
   stepMoveParticle: {fileID: 3062339102050340407}
   dieParticle: {fileID: 0}
+  moveClips: []
+  voiceClips: []
+  deathCilps: []
+  hitCilps: []
   resultDamage: 0
   overLapCollider:
   - {fileID: 0}
@@ -390,6 +394,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Battle: {fileID: 0}
+  attackClips: []
   hitCoolTime: 2.5
   chargeParticle: {fileID: 7869626759990666322}
 --- !u!114 &1759316347773884670
@@ -459,8 +464,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.11
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!95 &6334861820693645044
 Animator:
   serializedVersion: 5
