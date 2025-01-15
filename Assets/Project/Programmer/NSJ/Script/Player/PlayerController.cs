@@ -16,6 +16,7 @@ using Random = UnityEngine.Random;
 public class PlayerController : MonoBehaviour, IHit, IHeal
 {
     [SerializeField] public PlayerEffectData Effect;
+    [SerializeField] public PlayerSoundData Sound;
     [Inject]
     [HideInInspector] public OptionSetting setting;
     [HideInInspector] public PlayerModel Model;
