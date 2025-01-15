@@ -33,7 +33,7 @@ public class EnemyBoom : Action
         if(enemy.CurHp > 0)
             enemy.CurHp = -1;
 
-        SoundManager.PlaySFX(deathClips[Random.Range(0, deathClips.Count)]);
+        SoundManager.PlaySFX(enemy.ChoiceAudioClip(deathClips));
         paticle.Play();
         isBoom.SetValue(true);
 

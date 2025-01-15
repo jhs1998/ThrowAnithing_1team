@@ -6,11 +6,18 @@ public class RangedHit : MonoBehaviour
 {
     [SerializeField] List<AudioClip> trashHitClips;
 
+    private BaseEnemy enemy;
+
+    private void Awake()
+    {
+        enemy = transform.GetComponentInParent<BaseEnemy>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.transform.tag == Tag.Trash)
         {
-            SoundManager.PlaySFX(trashHitClips[Random.Range(0, trashHitClips.Count)]);
+            SoundManager.PlaySFX(enemy.ChoiceAudioClip(trashHitClips));
         }
     }
 }

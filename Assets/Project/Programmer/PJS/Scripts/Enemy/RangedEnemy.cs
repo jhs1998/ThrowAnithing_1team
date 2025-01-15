@@ -33,6 +33,6 @@ public class RangedEnemy : BaseEnemy
         bulletPool.Speed = bulletSpeed;
         bulletPool.Atk = state.Atk;
         bulletPool.Battle = Battle;
-        SoundManager.PlaySFX(bulletClips[Random.Range(0, bulletClips.Count)]);
+        SoundManager.PlaySFX(ChoiceAudioClip(bulletClips));
     }
 }

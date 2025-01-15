@@ -22,7 +22,7 @@ public class EnemyDead : Action
 
     public override void OnStart()
     {
-        SoundManager.PlaySFX(deathClips[Random.Range(0, deathClips.Count)]);
+        SoundManager.PlaySFX(enemy.ChoiceAudioClip(deathClips));
     }
 
     public override TaskStatus OnUpdate()

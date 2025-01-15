@@ -18,7 +18,7 @@ public class MeleeEnemy : BaseEnemy
     public void BeginAttack()
     {
         AttackMelee();
-        SoundManager.PlaySFX(attackClips[Random.Range(0, attackClips.Count)]);
+        SoundManager.PlaySFX(ChoiceAudioClip(attackClips));
     }
     public void EndAttack()
     {
