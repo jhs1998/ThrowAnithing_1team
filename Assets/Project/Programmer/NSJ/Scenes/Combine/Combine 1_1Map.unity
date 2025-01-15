@@ -242,7 +242,8 @@ MonoBehaviour:
   - {fileID: 816024350}
   - {fileID: 1113247388}
   - {fileID: 219145627}
-  spwanCount: 6
+  spwanCount: 4
+  trashCount: 2
   isAlreadySpawn: 0
 --- !u!1001 &7266192
 PrefabInstance:
@@ -2915,6 +2916,7 @@ MonoBehaviour:
   - {fileID: 1029507293}
   - {fileID: 58454625}
   spwanCount: 5
+  trashCount: 0
   isAlreadySpawn: 0
 --- !u!1001 &98106160
 PrefabInstance:
@@ -8560,7 +8562,8 @@ MonoBehaviour:
   - {fileID: 1306384694}
   - {fileID: 503882988}
   - {fileID: 1691089219}
-  spwanCount: 3
+  spwanCount: 4
+  trashCount: 1
   isAlreadySpawn: 0
 --- !u!1001 &269901751
 PrefabInstance:
@@ -12328,6 +12331,7 @@ MonoBehaviour:
   - {fileID: 899355523}
   - {fileID: 13091487}
   spwanCount: 5
+  trashCount: 0
   isAlreadySpawn: 0
 --- !u!1001 &450061347
 PrefabInstance:
@@ -12650,6 +12654,7 @@ MonoBehaviour:
   - {fileID: 1602386688}
   - {fileID: 897418490}
   spwanCount: 6
+  trashCount: 2
   isAlreadySpawn: 0
 --- !u!1001 &457744869
 PrefabInstance:
@@ -14600,6 +14605,7 @@ MonoBehaviour:
   - {fileID: 1305896853}
   - {fileID: 1413158737}
   spwanCount: 7
+  trashCount: 0
   isAlreadySpawn: 0
 --- !u!1001 &558876771
 PrefabInstance:
@@ -19696,7 +19702,8 @@ MonoBehaviour:
   - {fileID: 180079830}
   - {fileID: 1749050595}
   - {fileID: 1266092233}
-  spwanCount: 6
+  spwanCount: 3
+  trashCount: 2
   isAlreadySpawn: 0
 --- !u!1001 &840754017
 PrefabInstance:
@@ -20991,6 +20998,7 @@ MonoBehaviour:
   - {fileID: 779853324}
   - {fileID: 983478417}
   spwanCount: 2
+  trashCount: 2
   isAlreadySpawn: 0
 --- !u!1001 &913784416
 PrefabInstance:
@@ -30204,7 +30212,8 @@ MonoBehaviour:
   - {fileID: 1317766926}
   - {fileID: 1586550003}
   - {fileID: 1900551978}
-  spwanCount: 7
+  spwanCount: 5
+  trashCount: 3
   isAlreadySpawn: 0
 --- !u!1 &1374053131
 GameObject:
@@ -31175,7 +31184,8 @@ MonoBehaviour:
   - {fileID: 1622403541}
   - {fileID: 467339621}
   - {fileID: 1753962197}
-  spwanCount: 5
+  spwanCount: 3
+  trashCount: 3
   isAlreadySpawn: 0
 --- !u!1001 &1438401136
 PrefabInstance:
@@ -33366,6 +33376,7 @@ MonoBehaviour:
   - {fileID: 317638381}
   - {fileID: 342179527}
   spwanCount: 7
+  trashCount: 0
   isAlreadySpawn: 0
 --- !u!1 &1586550002
 GameObject:
@@ -34280,7 +34291,8 @@ MonoBehaviour:
   - {fileID: 1750211744}
   - {fileID: 25325375}
   - {fileID: 864306421}
-  spwanCount: 8
+  spwanCount: 6
+  trashCount: 2
   isAlreadySpawn: 0
 --- !u!1001 &1712669576
 PrefabInstance:
@@ -35266,6 +35278,7 @@ MonoBehaviour:
   - {fileID: 2061768713}
   - {fileID: 765234270}
   spwanCount: 2
+  trashCount: 2
   isAlreadySpawn: 0
 --- !u!1 &1749050594
 GameObject:
@@ -36932,6 +36945,7 @@ Transform:
   - {fileID: 2030387304}
   - {fileID: 603666505}
   - {fileID: 1783410489}
+  - {fileID: 1897816824}
   m_Father: {fileID: 1988015344}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1811005037
@@ -36951,7 +36965,9 @@ MonoBehaviour:
   - {fileID: 2030387304}
   - {fileID: 603666505}
   - {fileID: 1783410489}
-  spwanCount: 3
+  - {fileID: 1897816824}
+  spwanCount: 4
+  trashCount: 1
   isAlreadySpawn: 0
 --- !u!1 &1818391166
 GameObject:
@@ -38515,6 +38531,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4630189950852242, guid: 13f9e3ec642c1904a91f5a3a56506546, type: 3}
   m_PrefabInstance: {fileID: 1896019139}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1897816823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1897816824}
+  m_Layer: 0
+  m_Name: pos (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1897816824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897816823}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -22.43, y: 0, z: 4.57}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1811005036}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1899428346
 GameObject:
   m_ObjectHideFlags: 0
