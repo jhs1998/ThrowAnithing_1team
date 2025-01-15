@@ -1,17 +1,23 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace MKH
 {
     public class UIManager : BaseBinder
     {
-        [SerializeField] GameObject _Inventory;
-        [SerializeField] GameObject _EquipInventory;
-        [SerializeField] GameObject _State;
-        [SerializeField] GameObject _BlueChipPanel;
-        [SerializeField] GameObject _BlueChipChoice;
-        [SerializeField] GameObject _BlueChipChoicePanel;
+        [Header("게임 오브젝트")]
+        [SerializeField] GameObject _Inventory;                 // 인벤토리
+        [SerializeField] GameObject _EquipInventory;            // 장비
+        [SerializeField] GameObject _State;                     // 능력치
+        [SerializeField] GameObject _BlueChipPanel;             // 블루칩 패널
+        [SerializeField] GameObject _BlueChipChoice;            // 블루칩 먹기 전 안내
+        [SerializeField] GameObject _BlueChipChoicePanel;       // 블루칩 선택 패널
+
+        [Header("효과음")]
+        [SerializeField] AudioClip open;                        // 열 때 효과음
+        [SerializeField] AudioClip close;                       // 닫을 때 효과음
+
         private PlayerController _player;
-        [SerializeField]
         PlayerController player
         {
             get
@@ -25,7 +31,6 @@ namespace MKH
             set { _player = value; }
         }
 
-        private bool _isOpenInventory;
         private void Awake()
         {
             Bind();
@@ -54,16 +59,16 @@ namespace MKH
             CloseBlueChip();
         }
 
+        #region 인벤토리
         private void Inventory()
         {
+            // 열기
             if (InputKey.GetButtonDown(InputKey.InvenOpen))
             {
-                if (_Inventory.activeSelf)
-                    return;
                 if (InputKey.GetActionMap() == ActionMap.UI)
                     return;
 
-                _isOpenInventory = true;
+                SoundManager.PlaySFX(open);
                 _Inventory.SetActive(true);
                 _EquipInventory.SetActive(true);
                 _State.SetActive(true);
@@ -71,22 +76,23 @@ namespace MKH
                 InputKey.SetActionMap(ActionMap.UI);
             }
 
+            // 닫기
             if (InputKey.GetButtonDown(InputKey.InvenClose))
             {
                 if (_BlueChipPanel.activeSelf)
                     return;
-                if (_isOpenInventory == false)
-                    return;
 
-
-                _isOpenInventory = false;
                 _Inventory.SetActive(false);
                 _EquipInventory.SetActive(false);
                 _State.SetActive(false);
                 InputKey.SetActionMap(ActionMap.GamePlay);
+                SoundManager.PlaySFX(close);
             }
         }
+        #endregion
 
+        #region 블루칩
+        // 열기
         private void OpenBlueChip()
         {
             if (!_Inventory.activeSelf)
@@ -94,10 +100,13 @@ namespace MKH
 
             if (InputKey.GetButtonDown(InputKey.InvenOpen))
             {
+                SoundManager.PlaySFX(open);
                 _BlueChipPanel.SetActive(true);
+                EventSystem.current.currentSelectedGameObject.SetActive(false);
             }
         }
 
+        // 닫기
         private void CloseBlueChip()
         {
             if (!_Inventory.activeSelf)
@@ -106,7 +115,10 @@ namespace MKH
             if (InputKey.GetButtonDown(InputKey.InvenClose))
             {
                 _BlueChipPanel.SetActive(false);
+                SoundManager.PlaySFX(close);
+                EventSystem.current.currentSelectedGameObject.SetActive(true);
             }
         }
+        #endregion
     }
 }
