@@ -97,6 +97,17 @@ public class DrainState : PlayerState
         ChangeState(PlayerController.State.Idle);
     }
 
+    public override void TriggerCantOperate()
+    {
+        if (Player.CanOperate == false)
+        {
+            ChangeState(PlayerController.State.Idle);
+        }
+    }
+
+
+
+
     IEnumerator DrainRoutine()
     {
         while (true)
