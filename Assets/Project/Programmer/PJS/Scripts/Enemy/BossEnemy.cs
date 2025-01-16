@@ -14,6 +14,8 @@ public class BossEnemy : BaseEnemy, IHit
 
     [Header("공격 효과음")]
     [SerializeField] List<AudioClip> attackClips;
+    [Header("1페이즈 패턴 효과음")]
+
     [Header("2페이즈 패턴 효과음")]
     [Tooltip("진입 효과음")]
     [SerializeField] AudioClip joinClip;
@@ -25,6 +27,11 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] AudioClip shieldBrokenClip;
     [Tooltip("그로기 효과음")]
     [SerializeField] List<AudioClip> groggyClips;
+    [Header("3페이즈 패턴 효과음")]
+    [Tooltip("점프 공격 점프 시 효과음")]
+    [SerializeField] AudioClip jumpClip;
+    [Tooltip("점프 공격 착지 시 효과음")]
+    [SerializeField] AudioClip jumpDownClip;
 
     [Header("현재 페이즈")]
     public PhaseType curPhase = PhaseType.Phase1;
@@ -282,11 +289,13 @@ public class BossEnemy : BaseEnemy, IHit
     {
         jumpParticle.Play();
         StartCoroutine(JumpRoutine(transform.position, playerPos));
+        SoundManager.PlaySFX(jumpClip);
     }
     public void JumpAttackEnd()
     {
         jumpDownParticle.Play();
         TakeChargeBoom(4, 50);
+        SoundManager.PlaySFX(jumpDownClip);
     }
 
     public void LightningNova()
@@ -355,6 +364,9 @@ public class BossEnemy : BaseEnemy, IHit
     {
         playerPos = pos;
     }
+    /// <summary>
+    /// 점프 공격 루틴
+    /// </summary>
     IEnumerator JumpRoutine(Vector3 start, Vector3 end)
     {
         float currentAttackTime = 0f;
