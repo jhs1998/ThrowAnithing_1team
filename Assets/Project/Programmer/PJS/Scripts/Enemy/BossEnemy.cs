@@ -300,11 +300,11 @@ public class BossEnemy : BaseEnemy, IHit
         SoundManager.PlaySFX(novaHitClip);
     }
     /// <summary>
-    /// 범위 커지는 루틴
+    /// 피격 범위 커지는 루틴
     /// </summary>
-    /// <param name="viewModel">범위 오브젝트</param>
-    /// <param name="time">최대 시간</param>
-    /// <param name="maxScale">최대 범위 크기</param>
+    /// <param name="viewModel">피격 범위 오브젝트</param>
+    /// <param name="time">진행되는 최대 시간</param>
+    /// <param name="maxScale">최대 피격 범위 크기</param>
     IEnumerator NovaRangeViewRoutine(Transform viewModel, int time, float maxScale)
     {
         // 정해진 것 - 최대 시간, 최대 크기
