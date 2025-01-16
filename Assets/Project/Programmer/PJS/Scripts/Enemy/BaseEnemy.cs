@@ -126,7 +126,7 @@ public class BaseEnemy : MonoBehaviour, IHit, IDebuff
     // 이동 애니메이션 이벤트
     public void BeginStepMove()
     {
-        if (stepCount >= 2)
+        if (stepCount >= 10)
         {
             SoundManager.PlaySFX(ChoiceAudioClip(voiceClips));
             stepCount = 0;
