@@ -299,21 +299,31 @@ public class BossEnemy : BaseEnemy, IHit
         novaParticle.Play();
         SoundManager.PlaySFX(novaHitClip);
     }
+    /// <summary>
+    /// 범위 커지는 루틴
+    /// </summary>
+    /// <param name="viewModel">범위 오브젝트</param>
+    /// <param name="time">최대 시간</param>
+    /// <param name="maxScale">최대 범위 크기</param>
     IEnumerator NovaRangeViewRoutine(Transform viewModel, int time, float maxScale)
     {
         // 정해진 것 - 최대 시간, 최대 크기
-        float addScale = maxScale / time;
+        float addScale = maxScale / time;   // 커지는 크기
+        Vector3 addScaleVector = new Vector3(addScale, addScale, addScale);
+
         viewModel.gameObject.SetActive(true);
+        viewModel.localScale = Vector3.zero;
+
         while (time > 0)
         {
             yield return 0.3f.GetDelay();
-            viewModel.localScale += new Vector3(addScale, addScale, addScale);
+            viewModel.localScale += addScaleVector;
             time--;
         }
-        yield return 0.2f.GetDelay();
+
+        yield return 0.3f.GetDelay();
         viewModel.gameObject.SetActive(false);
     }
-
 
     /// <summary>
     /// 사망 애니메이션 이벤트
