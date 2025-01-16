@@ -75,6 +75,7 @@ public class BossEnemy : BaseEnemy, IHit
     [Header("체력 UI")]
     public Slider hpSlider;
     public TMP_Text hpPersent;
+    public Transform viewModel;
 
     private Coroutine attackAble;
     private Coroutine globalCoolTime;
@@ -285,6 +286,10 @@ public class BossEnemy : BaseEnemy, IHit
     /// <summary>
     ///  라이트닝 노바 애니메이션 이벤트
     /// </summary>
+    public void NovaRangeView()
+    {
+        StartCoroutine(NovaRangeViewRoutine(viewModel, 3, 10));
+    }
     public void NovaCharge()
     {
         SoundManager.PlaySFX(novaChargeClip);
@@ -294,6 +299,21 @@ public class BossEnemy : BaseEnemy, IHit
         novaParticle.Play();
         SoundManager.PlaySFX(novaHitClip);
     }
+    IEnumerator NovaRangeViewRoutine(Transform viewModel, int time, float maxScale)
+    {
+        // 정해진 것 - 최대 시간, 최대 크기
+        float addScale = maxScale / time;
+        viewModel.gameObject.SetActive(true);
+        while (time > 0)
+        {
+            yield return 0.3f.GetDelay();
+            viewModel.localScale += new Vector3(addScale, addScale, addScale);
+            time--;
+        }
+        yield return 0.2f.GetDelay();
+        viewModel.gameObject.SetActive(false);
+    }
+
 
     /// <summary>
     /// 사망 애니메이션 이벤트
@@ -343,8 +363,6 @@ public class BossEnemy : BaseEnemy, IHit
         TakeChargeBoom(4, 50);
         SoundManager.PlaySFX(jumpDownClip);
     }
-
-
     #endregion
 
     /// <summary>
