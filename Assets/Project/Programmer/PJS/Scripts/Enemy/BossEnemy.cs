@@ -1,6 +1,8 @@
 using BehaviorDesigner.Runtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -72,12 +74,14 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] Transform pos;
     [Header("체력 UI")]
     public Slider hpSlider;
+    public TMP_Text hpPersent;
 
     private Coroutine attackAble;
     private Coroutine globalCoolTime;
     public Coroutine recovery;  // 회복 관련 코루틴
 
     private bool onEntryStop;
+    private float _curHp;
     [HideInInspector] public bool createShield;
     [HideInInspector] public bool breakShield;
     [HideInInspector] public Vector3 playerPos;
@@ -86,8 +90,8 @@ public class BossEnemy : BaseEnemy, IHit
     {
         BaseInit();
         StateInit();
-        StartCoroutine(PassiveOn());
         hpSlider.maxValue = state.MaxHp;
+        StartCoroutine(PassiveOn());
         this.UpdateAsObservable()
             .Select(x => CurHp)
             .Subscribe(x => ChangePhase());
@@ -123,7 +127,14 @@ public class BossEnemy : BaseEnemy, IHit
 
     private void ChangeHp()
     {
+        _curHp = (float)CurHp / state.MaxHp * 100f;
+        float curHpPersent = MathF.Floor(_curHp * 100f) / 100f;
+
         hpSlider.value = CurHp;
+        if (curHpPersent > 0)
+            hpPersent.text = curHpPersent.ToString();
+        else
+            hpPersent.text = "0";
     }
 
     IEnumerator PassiveOn()
@@ -158,7 +169,11 @@ public class BossEnemy : BaseEnemy, IHit
         transform.GetComponent<Animator>().SetBool("Recovery", false);
         SoundManager.PlaySFX(ChoiceAudioClip(groggyClips));
     }
-
+    /// <summary>
+    /// 회복 루틴
+    /// </summary>
+    /// <param name="maxTime">최대 회복 시간</param>
+    /// <param name="recoveryValue">초당 회복하는 양(%)</param>
     IEnumerator RecoveryRoutin(int maxTime, float recoveryValue)
     {
         int time = maxTime;
@@ -202,7 +217,7 @@ public class BossEnemy : BaseEnemy, IHit
 
         if (resultDamage <= 0)
             resultDamage = 0;
-        if (resultDamage < CurHp)
+        else if (resultDamage < CurHp)
             SoundManager.PlaySFX(ChoiceAudioClip(hitCilps));
 
         CurHp -= resultDamage;
@@ -237,7 +252,6 @@ public class BossEnemy : BaseEnemy, IHit
         }
 
         SoundManager.PlaySFX(moveClips[randomMoveClip]);
-        stepMoveParticle.Play();
         stepCount++;
     }
 
