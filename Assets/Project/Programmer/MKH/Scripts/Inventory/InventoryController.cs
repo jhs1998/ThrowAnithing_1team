@@ -165,8 +165,13 @@ namespace MKH
             #endregion
 
             GameObject obj = EventSystem.current.currentSelectedGameObject;
+            // 抗寇贸府
+            if (obj == null)
+                return;
+
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
-            if (slot == null)
+            // 抗寇贸府
+            if (slot == null || slot.isEquip == true)
                 return;
 
             if (slot.Item != null)
@@ -231,12 +236,13 @@ namespace MKH
             #endregion
 
             GameObject obj = EventSystem.current.currentSelectedGameObject;
-
             // 抗寇贸府
-            if (obj == null) return;
+            if (obj == null)
+                return;
 
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
-            if (slot == null)
+            // 抗寇贸府
+            if (slot == null || slot.isEquip == true)
                 return;
 
             if (slot.Item != null)
