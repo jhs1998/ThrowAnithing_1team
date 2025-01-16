@@ -255,11 +255,11 @@ public class PlayerModel : MonoBehaviour
 
 
 
-        if (IsTest == true)
-        {
-            SoundManager.SetVolumeMaster(1);
-            SoundManager.SetVolumeSFX(1);
-        }
+        //if (IsTest == true)
+        //{
+        //    SoundManager.SetVolumeMaster(1);
+        //    SoundManager.SetVolumeSFX(1);
+        //}
     }
     #region 霓焊 包访 企扁等 内靛
     //[System.Serializable]

@@ -221,7 +221,6 @@ public class BattleSystem : MonoBehaviour, IBattle
     /// <summary>
     /// CC±â ¸Â±â
     /// </summary>
-    /// <param name="type"></param>
     public void TakeCrowdControl(CrowdControlType type)
     {
         Hit.TakeCrowdControl(type, 1f);
