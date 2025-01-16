@@ -15,7 +15,8 @@ public class Interactable : MonoBehaviour
     [SerializeField] GameObject[] itemPrefabs;
     Vector3 itemRandomSpawnArea;
 
-    [SerializeField] AudioClip bluechip;
+    [SerializeField] AudioClip bluechip; // 블루칩 생성 효과음
+    [SerializeField] GameObject createEffect; // 블루칩 생성 이펙트
 
     private void Start()
     {
@@ -85,6 +86,10 @@ public class Interactable : MonoBehaviour
         if (itemPrefabs[0])
         {
             SoundManager.PlaySFX(bluechip);
+            Debug.Log("시작");
+            ObjectPool.GetPool(createEffect, itemPrefabs[0].transform.position, Quaternion.Euler(-90, 0, 0), 5f);
+            Debug.Log(ObjectPool.GetPool(createEffect, transform.position, Quaternion.Euler(-90, 0, 0), 5f));
+            Debug.Log("끝");
         }
 
 
