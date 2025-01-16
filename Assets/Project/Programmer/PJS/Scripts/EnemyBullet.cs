@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     [HideInInspector] public BattleSystem Battle;
+    public Transform target;
     public int Atk;     // °ø°Ý·Â
 
     private Rigidbody rigid;
@@ -18,6 +19,7 @@ public class EnemyBullet : MonoBehaviour
 
     private void Start()
     {
+        transform.LookAt(target.position + Vector3.up);
         StartCoroutine(DestroyRoutine());
     }
 
