@@ -106,7 +106,6 @@ public class ArmUnit : ScriptableObject
     {
         foreach(ArmAttackType attackType in _types)
         {
-            Debug.Log(attackType.name);
             Destroy(attackType);
         }
     }

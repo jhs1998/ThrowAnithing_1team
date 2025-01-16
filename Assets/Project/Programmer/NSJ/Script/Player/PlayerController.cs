@@ -1233,7 +1233,8 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         Model.CurManaSubject
             .DistinctUntilChanged()
             .Subscribe(x => panel.MpBar.value = x);
-        panel.MpBar.value = Model.CurHp;
+        panel.MpBar.maxValue = Model.MaxMana;
+        panel.MpBar.value = Model.CurMana;
 
         // 특수공격 차지
         Model.SpecialChargeGageSubject
