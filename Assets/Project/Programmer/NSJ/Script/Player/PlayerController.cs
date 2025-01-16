@@ -486,6 +486,11 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     #region 암유닛 변경
     public void ChangeArmUnit(ArmUnit armUnit)
     {
+        if(Model.Arm != null)
+        {
+            Destroy(Model.Arm);
+        }
+
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
         foreach (PlayerState state in _states)
@@ -495,6 +500,11 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
     public void ChangeArmUnit(GlobalGameData.AmWeapon armUnit)
     {
+        if (Model.Arm != null)
+        {
+            Destroy(Model.Arm);
+        }
+
         Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
         Model.Arm.Init(this);
         foreach (PlayerState state in _states)
@@ -1114,6 +1124,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
     void ControlMousePointer()
     {
+
         if (InputKey.GetActionMap() == InputType.GAMEPLAY)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -1129,8 +1140,16 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         }
         else if (InputKey.GetActionMap() == InputType.UI)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            if (InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
             CanOperate = false;
 
             if (_isAudioPlay == true)
@@ -1141,13 +1160,6 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
             }
 
         }
-
-        if (InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-
     }
 
     private void TriggerCantOperate()
@@ -1223,7 +1235,8 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         Model.CurManaSubject
             .DistinctUntilChanged()
             .Subscribe(x => panel.MpBar.value = x);
-        panel.MpBar.value = Model.CurHp;
+        panel.MpBar.maxValue = Model.MaxMana;
+        panel.MpBar.value = Model.CurMana;
 
         // 특수공격 차지
         Model.SpecialChargeGageSubject

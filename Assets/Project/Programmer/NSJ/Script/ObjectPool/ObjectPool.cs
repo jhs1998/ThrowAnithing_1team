@@ -87,6 +87,8 @@ public class ObjectPool : MonoBehaviour
         else
         {
             GameObject instance = Instantiate(info.Prefab, transform);
+            instance.transform.position = transform.position;
+            instance.transform.rotation = transform.rotation;
             _poolObjectDic.Add(instance, info);
             return instance;
         }
@@ -180,6 +182,8 @@ public class ObjectPool : MonoBehaviour
         {
             GameObject instance = Instantiate(info.Prefab, transform);
             _poolObjectDic.Add(instance, info);
+            instance.transform.position = transform.position;
+            instance.transform.rotation = transform.rotation;
             T component = instance.GetComponent<T>();
             return component;
         }
@@ -273,6 +277,8 @@ public class ObjectPool : MonoBehaviour
         else
         {
             instance = Instantiate(info.Prefab, transform);
+            instance.transform.position = transform.position;
+            instance.transform.rotation = transform.rotation;
             _poolObjectDic.Add(instance, info);
         }
         ReturnPool(instance, returnDelay);
@@ -369,6 +375,8 @@ public class ObjectPool : MonoBehaviour
         {
             GameObject instance = Instantiate(info.Prefab, transform);
             _poolObjectDic.Add(instance, info);
+            instance.transform.position = transform.position;
+            instance.transform.rotation = transform.rotation;
             component = instance.GetComponent<T>();
 
         }

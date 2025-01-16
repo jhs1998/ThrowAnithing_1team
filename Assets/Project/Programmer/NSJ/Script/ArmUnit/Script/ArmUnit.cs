@@ -7,7 +7,7 @@ public class ArmUnit : ScriptableObject
 {
     [SerializeField] public string Name;
     [SerializeField] public GlobalGameData.AmWeapon ArmType;
-    protected enum Type { Throw, Melee, Special, JumpDown,JumpAttack,Size}
+    protected enum Type { Throw, Melee, Special, JumpDown, JumpAttack, Size }
     [HideInInspector] public PlayerController Player;
     public PlayerModel Model => Player.Model;
     public PlayerView View => Player.View;
@@ -21,11 +21,11 @@ public class ArmUnit : ScriptableObject
     [System.Serializable]
     protected struct AttackTypeStruct
     {
-       public ArmThrowAttack ThrowAttack;
-       public ArmMeleeAttack MeleeAttack;
-       public ArmSpecialAttack SpecialAttack;
-       public ArmJumpDown JumpDown;
-       public ArmJumpAttack JumpAttack;
+        public ArmThrowAttack ThrowAttack;
+        public ArmMeleeAttack MeleeAttack;
+        public ArmSpecialAttack SpecialAttack;
+        public ArmJumpDown JumpDown;
+        public ArmJumpAttack JumpAttack;
     }
     public ArmThrowAttack ThrowAttack { get { return _attackType.ThrowAttack; } set { _attackType.ThrowAttack = value; } }
     public ArmMeleeAttack MeleeAttack { get { return _attackType.MeleeAttack; } set { _attackType.MeleeAttack = value; } }
@@ -50,7 +50,7 @@ public class ArmUnit : ScriptableObject
     [SerializeField] InitStruct _init;
     public virtual void Init(PlayerController player)
     {
-        Player = player; 
+        Player = player;
         _types = new ArmAttackType[(int)Type.Size];
 
         Model.DashStamina = (int)(Model.GlobalStateData.dashConsumesStamina * (_init.DashStamina / 100f));
@@ -59,7 +59,7 @@ public class ArmUnit : ScriptableObject
         Model.DrainDistance = Model.Drain.Default.DrainDistance * (_init.DrainDistance / 100f);
         Model.DrainStamina = Model.Drain.Default.DrainStamina * (_init.DrainStamina / 100f);
 
-        Model.MaxMana = Model.GlobalStateData.maxMana + _init.MaxMana - Model.GlobalStateData.maxMana; 
+        Model.MaxMana = Model.GlobalStateData.maxMana + _init.MaxMana - Model.GlobalStateData.maxMana;
 
         InitAllType();
     }
@@ -101,6 +101,13 @@ public class ArmUnit : ScriptableObject
     public virtual void EndCombo()
     {
         SelectType().EndCombo();
+    }
+    public virtual void OnDisable()
+    {
+        foreach(ArmAttackType attackType in _types)
+        {
+            Destroy(attackType);
+        }
     }
     private ArmAttackType SelectType()
     {
