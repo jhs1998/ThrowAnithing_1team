@@ -15,6 +15,8 @@ public class Interactable : MonoBehaviour
     [SerializeField] GameObject[] itemPrefabs;
     Vector3 itemRandomSpawnArea;
 
+    [SerializeField] AudioClip bluechip;
+
     private void Start()
     {
         isInSphere = false;
@@ -80,6 +82,10 @@ public class Interactable : MonoBehaviour
     {
         int itemRandom = Random.Range(0, itemPrefabs.Length);
         Instantiate(itemPrefabs[itemRandom], transform.position, Quaternion.identity);
+        if (itemPrefabs[0])
+        {
+            SoundManager.PlaySFX(bluechip);
+        }
 
 
     }

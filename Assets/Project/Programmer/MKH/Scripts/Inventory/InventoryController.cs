@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,6 +13,7 @@ namespace MKH
         [SerializeField] GameObject mEquipmentSlotsParent;      // 장비 슬롯 모음집
         [SerializeField] InventorySlot[] eqSlots;               // 장비 슬롯들
         [SerializeField] GameObject blueChipPanel;              // 블루칩 패널
+        [SerializeField] GameObject inventory;                  // 인벤토리
         InventoryMain mInventory;                               // 메인 인벤토리
 
         [Header("슬롯")]
@@ -29,9 +29,14 @@ namespace MKH
         [Header("효과음")]
         [SerializeField] public AudioClip ivChoice;             // 장착 효과음
         [SerializeField] public AudioClip ivBreak;              // 분해 효과음
+        [SerializeField] public AudioClip emptyClick;           // 빈 공간 효과음
+        [SerializeField] public AudioClip clickMove;            // 슬롯 이동 효과음
 
         [Header("코인 저장")]
         [SerializeField] SaveSystem saveSystem;                 // 분해한 코인 저장 역활
+
+        [SerializeField] GameObject effectUI;
+        [SerializeField] GameObject click;
 
         private void Awake()
         {
@@ -228,7 +233,7 @@ namespace MKH
             GameObject obj = EventSystem.current.currentSelectedGameObject;
 
             // 예외처리
-            if(obj == null) return;
+            if (obj == null) return;
 
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
             if (slot == null)
@@ -431,10 +436,27 @@ namespace MKH
                  }
              }*/
             #endregion
-            
+
             GameObject obj = EventSystem.current.currentSelectedGameObject;
             if (obj == null)
+            {
+                if (inventory.activeSelf && InputKey.PlayerInput.actions["LeftClick"].WasPressedThisFrame())
+                {
+                    SoundManager.PlaySFX(emptyClick);
+                    Vector2 pos = Input.mousePosition;
+                    GameObject obj1 = ObjectPool.GetPool(click, pos, Quaternion.identity, 1f);
+                    obj1.transform.parent = effectUI.transform;
+                }
                 return;
+            }
+
+            if (obj != null)
+            {
+                if (InputKey.PlayerInput.actions["UIMove"].WasPressedThisFrame())
+                {
+                    SoundManager.PlaySFX(clickMove);
+                }
+            }
 
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
             if (slot == null)

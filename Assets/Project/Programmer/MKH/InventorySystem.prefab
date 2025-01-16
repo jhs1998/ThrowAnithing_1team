@@ -6023,6 +6023,107 @@ MonoBehaviour:
   equipActionManager: {fileID: 4652835971367686274}
   isEquip: 0
   SlotButton: {fileID: 0}
+--- !u!1 &2995010079346251404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7788098073231729272}
+  - component: {fileID: 1194987587780757449}
+  - component: {fileID: 8357769045037636815}
+  - component: {fileID: 9151363728200482549}
+  m_Layer: 5
+  m_Name: EffectUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7788098073231729272
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2995010079346251404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6729941897576958736}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!223 &1194987587780757449
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2995010079346251404}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 7
+  m_TargetDisplay: 0
+--- !u!114 &8357769045037636815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2995010079346251404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!114 &9151363728200482549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2995010079346251404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &3072081259781705000
 GameObject:
   m_ObjectHideFlags: 0
@@ -13535,6 +13636,10 @@ MonoBehaviour:
   blueChipPanel: {fileID: 7111045320518081695}
   blueChipChoicePanel: {fileID: 1959567854795869467}
   blueChipList: {fileID: 11400000, guid: 4a90d170323415343abd0e10470c92f5, type: 2}
+  choiceClip: {fileID: 8300000, guid: ff4f443840eec744a803b030822ec9f2, type: 3}
+  removeClip: {fileID: 8300000, guid: 96033145eeabcc246bd9e9c7fa152747, type: 3}
+  cancelClip: {fileID: 8300000, guid: 2305edf8140827e43b3117a1e0cf086d, type: 3}
+  popUpClip: {fileID: 8300000, guid: 327d29799f604d34f958a55d82e848af, type: 3}
 --- !u!114 &1959567854795869467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15338,6 +15443,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1520655412427260733}
+  - {fileID: 7788098073231729272}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6980536596401916771
@@ -15648,12 +15754,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6e47950b84a1e43805b5af89afca60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 7753465494497118747}
   mInventorySlotsParent: {fileID: 1658402963135947164}
   ivSlots: []
   mEquipmentSlotsParent: {fileID: 5920254522999737806}
   eqSlots: []
   blueChipPanel: {fileID: 480396972268006663}
+  inventory: {fileID: 7753465494497118747}
   slots:
   - {fileID: 4915120362238484859}
   - {fileID: 2476151195940434437}
@@ -15680,9 +15786,13 @@ MonoBehaviour:
   ivDescription: {fileID: 1853607065385555454}
   eqName: {fileID: 3443810087355249103}
   eqDescription: {fileID: 8622892792228804337}
-  ivChoice: {fileID: 8300000, guid: 2dc02952d418892498343b4877110b40, type: 3}
-  ivBreak: {fileID: 8300000, guid: 8e2b33ab2a11cab4ab9b3d57b72b9d7b, type: 3}
+  ivChoice: {fileID: 8300000, guid: ce51e91742c8f254b9d1ac56fa002806, type: 3}
+  ivBreak: {fileID: 8300000, guid: a6a347471e95b5b41b98a44b5073713c, type: 3}
+  emptyClick: {fileID: 8300000, guid: cf0cb955d03f13149a726ba6567bbee4, type: 3}
+  clickMove: {fileID: 0}
   saveSystem: {fileID: 4979082933862745247}
+  effectUI: {fileID: 2995010079346251404}
+  click: {fileID: 2250480940132608699, guid: 0b0758cff732fd74890dd36072a2fda4, type: 3}
 --- !u!114 &4979082933862745247
 MonoBehaviour:
   m_ObjectHideFlags: 0
