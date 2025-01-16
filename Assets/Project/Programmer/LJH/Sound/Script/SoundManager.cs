@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 
 public class SoundManager : BaseBinder
 {
+
     public static SoundManager Instance;
     public static SoundData Data { get { return Instance._data; } }
 
