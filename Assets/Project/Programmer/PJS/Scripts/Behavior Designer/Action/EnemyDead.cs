@@ -11,7 +11,7 @@ public class EnemyDead : BaseAction
     public override void OnAwake()
     {
         anim = GetComponent<Animator>();
-
+        baseEnemy = GetComponent<BaseEnemy>();
         foreach (AudioClip clip in baseEnemy.GetDaethClips())
         {
             deathClips.Add(clip);
