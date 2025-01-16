@@ -445,7 +445,7 @@ namespace MKH
                     SoundManager.PlaySFX(emptyClick);
                     Vector2 pos = Input.mousePosition;
                     GameObject obj1 = ObjectPool.GetPool(click, pos, Quaternion.identity, 1f);
-                    obj1.transform.parent = effectUI.transform;
+                    obj1.transform.SetParent(effectUI.transform);
                 }
                 return;
             }
