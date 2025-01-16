@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,6 +13,7 @@ namespace MKH
         [SerializeField] GameObject mEquipmentSlotsParent;      // 장비 슬롯 모음집
         [SerializeField] InventorySlot[] eqSlots;               // 장비 슬롯들
         [SerializeField] GameObject blueChipPanel;              // 블루칩 패널
+        [SerializeField] GameObject inventory;                  // 인벤토리
         InventoryMain mInventory;                               // 메인 인벤토리
 
         [Header("슬롯")]
@@ -29,9 +29,16 @@ namespace MKH
         [Header("효과음")]
         [SerializeField] public AudioClip ivChoice;             // 장착 효과음
         [SerializeField] public AudioClip ivBreak;              // 분해 효과음
+        [SerializeField] public AudioClip emptyClick;           // 빈 공간 효과음
+        [SerializeField] public AudioClip clickMove;            // 슬롯 이동 효과음
 
         [Header("코인 저장")]
         [SerializeField] SaveSystem saveSystem;                 // 분해한 코인 저장 역활
+
+        [SerializeField] GameObject effectUI;
+        [SerializeField] GameObject clickEffect;
+        [SerializeField] GameObject choiceEffect;
+        [SerializeField] GameObject breakEffect;
 
         private void Awake()
         {
@@ -48,7 +55,7 @@ namespace MKH
 
         private void Update()
         {
-            if (blueChipPanel.activeSelf)
+            if (blueChipPanel.activeSelf || !inventory.activeSelf)
                 return;
 
             if (InputKey.PlayerInput.actions["Choice"].WasPressedThisFrame())
@@ -160,14 +167,21 @@ namespace MKH
             #endregion
 
             GameObject obj = EventSystem.current.currentSelectedGameObject;
+            // 예외처리
+            if (obj == null)
+                return;
+
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
-            if (slot == null)
+            // 예외처리
+            if (slot == null || slot.isEquip == true)
                 return;
 
             if (slot.Item != null)
             {
                 SoundManager.PlaySFX(ivChoice);
                 slot.UseItem();
+                GameObject obj1 = ObjectPool.GetPool(choiceEffect, new Vector3(slot.transform.position.x, slot.transform.position.y, 0), Quaternion.identity, 0.5f);
+                obj1.transform.SetParent(effectUI.transform);
                 mInventory.Sorting();
                 Debug.Log("장비 장착");
             }
@@ -226,17 +240,17 @@ namespace MKH
             #endregion
 
             GameObject obj = EventSystem.current.currentSelectedGameObject;
-
             // 예외처리
-            if(obj == null) return;
+            if (obj == null)
+                return;
 
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
-            if (slot == null)
+            // 예외처리
+            if (slot == null || slot.isEquip == true)
                 return;
 
             if (slot.Item != null)
             {
-                SoundManager.PlaySFX(ivBreak);
                 // 습득 코인 변수
                 int coinsEarned = 0;
                 // 등급에 따라 습득 코인 수 변경
@@ -257,7 +271,10 @@ namespace MKH
                 }
                 saveSystem.GetCoin(coinsEarned);
 
+                SoundManager.PlaySFX(ivBreak);
                 slot.ClearSlot();
+                GameObject obj1 = ObjectPool.GetPool(breakEffect, new Vector3(slot.transform.position.x, slot.transform.position.y, 0), Quaternion.identity, 1f);
+                obj1.transform.SetParent(effectUI.transform);
                 mInventory.Sorting();
                 Debug.Log($"장비 분해");
 
@@ -431,10 +448,24 @@ namespace MKH
                  }
              }*/
             #endregion
-            
+
             GameObject obj = EventSystem.current.currentSelectedGameObject;
             if (obj == null)
+            {
+                if (inventory.activeSelf && InputKey.PlayerInput.actions["LeftClick"].WasPressedThisFrame())
+                {
+                    SoundManager.PlaySFX(emptyClick);
+                    Vector2 pos = Input.mousePosition;
+                    GameObject obj1 = ObjectPool.GetPool(clickEffect, pos, Quaternion.identity, 1f);
+                    obj1.transform.SetParent(effectUI.transform);
+                }
                 return;
+            }
+
+            if (InputKey.PlayerInput.actions["UIMove"].WasPressedThisFrame())
+            {
+                SoundManager.PlaySFX(clickMove);
+            }
 
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();
             if (slot == null)

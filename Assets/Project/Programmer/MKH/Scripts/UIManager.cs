@@ -5,17 +5,17 @@ namespace MKH
 {
     public class UIManager : BaseBinder
     {
-        [Header("���� ������Ʈ")]
-        [SerializeField] GameObject _Inventory;                 // �κ��丮
-        [SerializeField] GameObject _EquipInventory;            // ���
-        [SerializeField] GameObject _State;                     // �ɷ�ġ
-        [SerializeField] GameObject _BlueChipPanel;             // ����Ĩ �г�
-        [SerializeField] GameObject _BlueChipChoice;            // ����Ĩ �Ա� �� �ȳ�
-        [SerializeField] GameObject _BlueChipChoicePanel;       // ����Ĩ ���� �г�
+        [Header("게임 오브젝트")]
+        [SerializeField] GameObject _Inventory;                 // 인벤토리
+        [SerializeField] GameObject _EquipInventory;            // 장비
+        [SerializeField] GameObject _State;                     // 능력치
+        [SerializeField] GameObject _BlueChipPanel;             // 블루칩 패널
+        [SerializeField] GameObject _BlueChipChoice;            // 블루칩 먹기 전 UI
+        [SerializeField] GameObject _BlueChipChoicePanel;       // 블루칩 선택 패널
 
-        [Header("ȿ����")]
-        [SerializeField] AudioClip open;                        // �� �� ȿ����
-        [SerializeField] AudioClip close;                       // ���� �� ȿ����
+        [Header("효과음")]
+        [SerializeField] AudioClip open;                        // 열기 효과음
+        [SerializeField] AudioClip close;                       // 닫기 효과음
 
         private PlayerController _player;
         PlayerController player
@@ -59,10 +59,10 @@ namespace MKH
             CloseBlueChip();
         }
 
-        #region �κ��丮
+        #region 인벤토리
         private void Inventory()
         {
-            // ����
+            // 열기
             if (InputKey.GetButtonDown(InputKey.InvenOpen))
             {
                 if (InputKey.GetActionMap() == InputType.UI)
@@ -76,7 +76,7 @@ namespace MKH
                 InputKey.SetActionMap(InputType.UI);
             }
 
-            // �ݱ�
+            // 닫기
             if (InputKey.GetButtonDown(InputKey.InvenClose))
             {
                 if (_BlueChipPanel.activeSelf)
@@ -93,8 +93,8 @@ namespace MKH
         }
         #endregion
 
-        #region ����Ĩ
-        // ����
+        #region 블루칩
+        // 열기
         private void OpenBlueChip()
         {
             if (!_Inventory.activeSelf)
@@ -108,7 +108,7 @@ namespace MKH
             }
         }
 
-        // �ݱ�
+        // 닫기
         private void CloseBlueChip()
         {
             if (!_Inventory.activeSelf)

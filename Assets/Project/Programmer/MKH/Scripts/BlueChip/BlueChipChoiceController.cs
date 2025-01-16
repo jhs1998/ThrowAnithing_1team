@@ -1,8 +1,10 @@
 using System.Collections;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
+using static UnityEditor.PlayerSettings;
 
 namespace MKH
 {
@@ -18,6 +20,15 @@ namespace MKH
         [SerializeField] BlueChipChoicePanel blueChipChoicePanel;
         [SerializeField] BlueChipList blueChipList;
         int popUpChoice;
+
+        [SerializeField] AudioClip choiceClip;
+        [SerializeField] AudioClip removeClip;
+        [SerializeField] AudioClip cancelClip;
+        [SerializeField] AudioClip popUpClip;
+
+        [SerializeField] GameObject effectUI;
+        [SerializeField] GameObject choiceFinishEffect;
+
         PlayerController m_player;
         PlayerController _player
         {
@@ -32,22 +43,10 @@ namespace MKH
             set { m_player = value; }
         }
 
-        private void Awake()
-        {
-
-        }
-
-        public void Update()
-        {
-
-        }
-
         public void Canecel()
         {
+            SoundManager.PlaySFX(cancelClip);
             CloseUI();
-
-            blueChipPanel = playerData.Inventory.BlueChipPanel;
-            blueChipChoicePanel = playerData.Inventory.BlueChipChoicePanel;
         }
 
         public void Choice(int number)
@@ -56,11 +55,14 @@ namespace MKH
             {
                 if (blueChipPanel.mSlots[i].Effect == null)
                 {
+                    SoundManager.PlaySFX(choiceClip);
                     blueChipPanel.mSlots[i].AddEffect(blueChipChoicePanel.choiceSlots[number].Effect);
                     blueChipChoicePanel.blueChipSlots[i].AddEffect(blueChipChoicePanel.choiceSlots[number].Effect);
                     _player.AddAdditional(blueChipChoicePanel.choiceSlots[number].Effect);
                     blueChipChoicePanel.blueChipList.RemoveAt(blueChipChoicePanel.choiceSlots[number].ListIndex);
 
+                    GameObject obj1 = ObjectPool.GetPool(choiceFinishEffect, effectUI.transform.position, Quaternion.identity, 1f);
+                    obj1.transform.SetParent(effectUI.transform);
 
                     CloseUI();
                     return;
@@ -79,6 +81,7 @@ namespace MKH
         {
             if (blueChipChoicePanel.blueChipSlots[number].Effect != null)
             {
+                SoundManager.PlaySFX(popUpClip);
                 popUp.SetActive(true);
                 popUpChoice = number;
             }
@@ -91,6 +94,7 @@ namespace MKH
 
         public void Remove()
         {
+            SoundManager.PlaySFX(removeClip);
             blueChipChoicePanel.blueChipList.Add(blueChipPanel.mSlots[popUpChoice].Effect);
             _player.RemoveAdditional(blueChipPanel.mSlots[popUpChoice].Effect);
             blueChipPanel.mSlots[popUpChoice].ClearSlot();
@@ -111,6 +115,7 @@ namespace MKH
             yield return 1f.GetDelay();
             errorPopUp.SetActive(false);
         }
+
         private void CloseUI()
         {
             InputKey.SetActionMap(InputType.GAMEPLAY);

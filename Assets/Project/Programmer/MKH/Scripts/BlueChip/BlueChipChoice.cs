@@ -17,6 +17,8 @@ public class BlueChipChoice : MonoBehaviour
     [SerializeField] BlueChipPanel blueChipPanel;
     PlayerController _player;
 
+    [SerializeField] AudioClip OpenClip;
+
     private void Awake()
     {
         _player = GetComponent<PlayerController>();
@@ -61,18 +63,12 @@ public class BlueChipChoice : MonoBehaviour
         {
             if (other.gameObject.tag == Tag.BlueChip)
             {
-                if (InputKey.GetButtonDown(InputKey.Interaction))
+                if (InputKey.PlayerInput.actions["Interaction"].WasPressedThisFrame())
                 {
+                    SoundManager.PlaySFX(OpenClip);
                     choice.SetActive(false);
                     choicePanel.SetActive(true);
                     InputKey.SetActionMap(InputType.UI);
-                    //bool success = blueChipPanel.AcquireEffect(blueChip.Effect);
-
-                    //// 블루칩 플레이어 적용
-                    //if (success == true)
-                    //{
-                    //    _player.AddAdditional(blueChip.Effect);
-                    //}
 
                     _addBlueChipRoutine = null;
                     Destroy(other.gameObject);
