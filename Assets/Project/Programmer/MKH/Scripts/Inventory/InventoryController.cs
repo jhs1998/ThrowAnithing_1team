@@ -36,7 +36,9 @@ namespace MKH
         [SerializeField] SaveSystem saveSystem;                 // 분해한 코인 저장 역활
 
         [SerializeField] GameObject effectUI;
-        [SerializeField] GameObject click;
+        [SerializeField] GameObject clickEffect;
+        [SerializeField] GameObject choiceEffect;
+        [SerializeField] GameObject breakEffect;
 
         private void Awake()
         {
@@ -53,7 +55,7 @@ namespace MKH
 
         private void Update()
         {
-            if (blueChipPanel.activeSelf)
+            if (blueChipPanel.activeSelf || !inventory.activeSelf)
                 return;
 
             if (InputKey.PlayerInput.actions["Choice"].WasPressedThisFrame())
@@ -178,6 +180,8 @@ namespace MKH
             {
                 SoundManager.PlaySFX(ivChoice);
                 slot.UseItem();
+                GameObject obj1 = ObjectPool.GetPool(choiceEffect, new Vector3(slot.transform.position.x, slot.transform.position.y, 0), Quaternion.identity, 0.5f);
+                obj1.transform.SetParent(effectUI.transform);
                 mInventory.Sorting();
                 Debug.Log("장비 장착");
             }
@@ -247,7 +251,6 @@ namespace MKH
 
             if (slot.Item != null)
             {
-                SoundManager.PlaySFX(ivBreak);
                 // 습득 코인 변수
                 int coinsEarned = 0;
                 // 등급에 따라 습득 코인 수 변경
@@ -268,7 +271,10 @@ namespace MKH
                 }
                 saveSystem.GetCoin(coinsEarned);
 
+                SoundManager.PlaySFX(ivBreak);
                 slot.ClearSlot();
+                GameObject obj1 = ObjectPool.GetPool(breakEffect, new Vector3(slot.transform.position.x, slot.transform.position.y, 0), Quaternion.identity, 1f);
+                obj1.transform.SetParent(effectUI.transform);
                 mInventory.Sorting();
                 Debug.Log($"장비 분해");
 
@@ -450,18 +456,15 @@ namespace MKH
                 {
                     SoundManager.PlaySFX(emptyClick);
                     Vector2 pos = Input.mousePosition;
-                    GameObject obj1 = ObjectPool.GetPool(click, pos, Quaternion.identity, 1f);
+                    GameObject obj1 = ObjectPool.GetPool(clickEffect, pos, Quaternion.identity, 1f);
                     obj1.transform.SetParent(effectUI.transform);
                 }
                 return;
             }
 
-            if (obj != null)
+            if (InputKey.PlayerInput.actions["UIMove"].WasPressedThisFrame())
             {
-                if (InputKey.PlayerInput.actions["UIMove"].WasPressedThisFrame())
-                {
-                    SoundManager.PlaySFX(clickMove);
-                }
+                SoundManager.PlaySFX(clickMove);
             }
 
             InventorySlot slot = obj.GetComponentInParent<InventorySlot>();

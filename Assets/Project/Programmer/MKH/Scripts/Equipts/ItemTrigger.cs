@@ -12,6 +12,9 @@ namespace MKH
 
         [SerializeField] private InventoryMain mInventory;      // 인벤토리
 
+        [SerializeField] GameObject effect;
+        [SerializeField] AudioClip clip;
+
         private void Awake()
         {
             mInventory = playerData.Inventory.InventoryMain;
@@ -31,6 +34,8 @@ namespace MKH
                     if (mCurrentItem.Item.Type != ItemType.None && mInventory.mSlots[i].Item == null)
                     {
                         // 인벤토리에 아이템 추가
+                        ObjectPool.GetPool(effect, transform.position + new Vector3(0, 1, 0), Quaternion.identity, 0.3f);
+                        SoundManager.PlaySFX(clip);
                         mInventory.AcquireItem(mCurrentItem.Item);
                         Destroy(other.gameObject);
                         return;
