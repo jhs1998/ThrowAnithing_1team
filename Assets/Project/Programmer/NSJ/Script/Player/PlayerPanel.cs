@@ -15,6 +15,7 @@ public class PlayerPanel : BaseUI
     public Slider ChanrgeStaminaBar => GetUI<Slider>("ChargeStaminaBar");
     [HideInInspector]public List<TMP_Text> StepTexts = new List<TMP_Text>(3);
     [HideInInspector]public List<Slider> StepHandle = new List<Slider>(3);
+    [HideInInspector] public List<GameObject> Step = new List<GameObject>(3);
     private void Awake()
     {
         Bind();
@@ -30,6 +31,10 @@ public class PlayerPanel : BaseUI
         StepHandle.Add(GetUI<Slider>("1StepHandle"));
         StepHandle.Add(GetUI<Slider>("2StepHandle"));
         StepHandle.Add(GetUI<Slider>("3StepHandle"));
+
+        Step.Add(GetUI("1Step"));
+        Step.Add(GetUI("2Step"));
+        Step.Add(GetUI("3Step"));
     }
 
     public void BarValueController(Slider bar,float curValue,float maxValue)

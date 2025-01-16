@@ -42,6 +42,8 @@ public class PowerSpecialAttack : ArmSpecialAttack
     private Vector3 _dropPos;
     Coroutine _chargeRoutine;
 
+
+    Coroutine _checkManaUIRoutien;
     public override void Init(PlayerController player, ArmUnit arm)
     {
         base.Init(player,arm);
@@ -49,10 +51,17 @@ public class PowerSpecialAttack : ArmSpecialAttack
         for (int i = 0; i < _charges.Length; i++)
         {
             _charges[i].Damage = (int)Model.PowerSpecialAttack[i];
-            View.Panel.StepTexts[i].SetText(_charges[i].ObjectCount.GetText());
+            //View.Panel.StepTexts[i].SetText(_charges[i].ObjectCount.GetText());
             _charges[i].ChargeMana = Model.ManaConsumption[i];
             View.Panel.SetChargingMpHandle(i, _charges[i].ChargeMana);
         }
+        // 현재 차지 가능 마나 체크
+        _checkManaUIRoutien = CoroutineHandler.StartRoutine(_checkManaUIRoutien, CheckManaUIRoutine());
+    }
+
+    private void OnDestroy()
+    {
+        _checkManaUIRoutien = CoroutineHandler.StopRoutine(_checkManaUIRoutien);
     }
     public override void Enter()
     {
@@ -320,5 +329,16 @@ public class PowerSpecialAttack : ArmSpecialAttack
         Vector3 originRb = Rb.velocity;
         Vector3 velocityDir = transform.forward * (Model.MoveSpeed * _moveSpeedMultyPlier);
         Rb.velocity = new Vector3(velocityDir.x, originRb.y, velocityDir.z);
+    }
+
+    IEnumerator CheckManaUIRoutine()
+    {
+        while (true)
+        {
+            View.Panel.Step[0].SetActive(Model.CurMana >= _charges[0].ChargeMana && Model.CurThrowables >= _charges[0].ObjectCount);
+            View.Panel.Step[1].SetActive(Model.CurMana >= _charges[1].ChargeMana && Model.CurThrowables >= _charges[1].ObjectCount);
+            View.Panel.Step[2].SetActive(Model.CurMana >= _charges[2].ChargeMana && Model.CurThrowables >= _charges[2].ObjectCount);
+            yield return 0.1f.GetDelay();
+        }
     }
 }

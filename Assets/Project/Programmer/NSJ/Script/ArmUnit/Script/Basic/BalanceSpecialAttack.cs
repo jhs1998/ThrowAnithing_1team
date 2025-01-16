@@ -69,6 +69,8 @@ public class BalanceSpecialAttack : ArmSpecialAttack
     private BalanceArm _balance => arm as BalanceArm;
 
     Coroutine _firstSpecialRoutine;
+
+    Coroutine _checkManaUIRoutien;
     public override void Init(PlayerController player, ArmUnit arm)
     {
         base.Init(player, arm);
@@ -82,7 +84,16 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         // 감전 효과 클론으로 제작(수치 변경하기 위함)
         _third.ElectricShock = Instantiate(_third.ElectricShockOrigin);
         _third.ElectricShock.Duration = _third.ElectricShockDuration;
+
+        // 현재 차지 가능 마나 체크
+        _checkManaUIRoutien = CoroutineHandler.StartRoutine(_checkManaUIRoutien, CheckManaUIRoutine());
     }
+
+    private void OnDestroy()
+    {
+        _checkManaUIRoutien = CoroutineHandler.StopRoutine(_checkManaUIRoutien);
+    }
+
     public override void Enter()
     {
         if (_isSpecialCharge == false
@@ -365,5 +376,16 @@ public class BalanceSpecialAttack : ArmSpecialAttack
             Battle.TargetDebuff(Player.OverLapColliders[i], _third.ElectricShock);
         }
         MiddleHittargets.Clear();
+    }
+
+    IEnumerator CheckManaUIRoutine()
+    {
+        while (true)
+        {
+            View.Panel.Step[0].SetActive(Model.CurMana >= _charges[0].ChargeMana && Model.CurThrowables >= _charges[0].ObjectCount);
+            View.Panel.Step[1].SetActive(Model.CurMana >= _charges[1].ChargeMana && Model.CurThrowables >= _charges[1].ObjectCount);
+            View.Panel.Step[2].SetActive(Model.CurMana >= _charges[2].ChargeMana && Model.CurThrowables >= _charges[2].ObjectCount);
+            yield return 0.1f.GetDelay();
+        }
     }
 }

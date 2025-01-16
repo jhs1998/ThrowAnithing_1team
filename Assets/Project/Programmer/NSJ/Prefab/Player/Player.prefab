@@ -629,7 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7d064cec16dca47b9d07860a6f1d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTest: 0
+  IsTest: 1
   Data:
     Data:
       Hp:
@@ -972,7 +972,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -13770,27 +13770,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2017058483910751680, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2017058483910751680, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2017058483910751680, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2402785465771983882, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2402785465771983882, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2402785465771983882, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4005785589458208536, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMax.x
@@ -13807,6 +13807,18 @@ PrefabInstance:
     - target: {fileID: 4085614491172428708, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231572319811552795, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
+      propertyPath: m_Scale3D.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231572319811552795, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
+      propertyPath: m_Scale3D.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231572319811552795, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
+      propertyPath: m_Scale3D.z
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4819906302033853871, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_Name
@@ -13822,15 +13834,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6581426973020625756, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 6581426973020625756, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6581426973020625756, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 7592179456830177190, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
       propertyPath: m_Pivot.x
@@ -13920,7 +13932,9 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2553537015919399463, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
+    - {fileID: 6931350478842468675, guid: d5f2cc6784d888642ba8faaebaa58321, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

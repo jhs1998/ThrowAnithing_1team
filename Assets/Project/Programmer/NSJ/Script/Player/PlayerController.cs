@@ -486,6 +486,11 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     #region 암유닛 변경
     public void ChangeArmUnit(ArmUnit armUnit)
     {
+        if(Model.Arm != null)
+        {
+            Destroy(Model.Arm);
+        }
+
         Model.Arm = Instantiate(armUnit);
         Model.Arm.Init(this);
         foreach (PlayerState state in _states)
@@ -495,6 +500,11 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     }
     public void ChangeArmUnit(GlobalGameData.AmWeapon armUnit)
     {
+        if (Model.Arm != null)
+        {
+            Destroy(Model.Arm);
+        }
+
         Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
         Model.Arm.Init(this);
         foreach (PlayerState state in _states)
