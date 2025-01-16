@@ -1,11 +1,11 @@
 using BehaviorDesigner.Runtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using TMPro;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class BossEnemy : BaseEnemy, IHit
@@ -14,6 +14,18 @@ public class BossEnemy : BaseEnemy, IHit
 
     [Header("공격 효과음")]
     [SerializeField] List<AudioClip> attackClips;
+    [Header("1페이즈 패턴 효과음")]
+    [Tooltip("일레트릭 아머 시전 시 효과음")]
+    [SerializeField] AudioClip armorShieldStartClip;
+    [Tooltip("일레트릭 아머 해제 시 효과음")]
+    [SerializeField] AudioClip armorShieldReleaseClip;
+    [Tooltip("라이트닝 노바 차징 시 효과음")]
+    [SerializeField] AudioClip novaChargeClip;
+    [Tooltip("라이트닝 노바 바닥 타격 시 효과음")]
+    [SerializeField] AudioClip novaHitClip;
+    [Tooltip("라이트닝 피스트 타격 시 효과음")]
+    [SerializeField] AudioClip fistHitClip;
+
     [Header("2페이즈 패턴 효과음")]
     [Tooltip("진입 효과음")]
     [SerializeField] AudioClip joinClip;
@@ -25,6 +37,11 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] AudioClip shieldBrokenClip;
     [Tooltip("그로기 효과음")]
     [SerializeField] List<AudioClip> groggyClips;
+    [Header("3페이즈 패턴 효과음")]
+    [Tooltip("점프 공격 점프 시 효과음")]
+    [SerializeField] AudioClip jumpClip;
+    [Tooltip("점프 공격 착지 시 효과음")]
+    [SerializeField] AudioClip jumpDownClip;
 
     [Header("현재 페이즈")]
     public PhaseType curPhase = PhaseType.Phase1;
@@ -36,7 +53,7 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] int breakshieldCount = 20;
     [Header("실드 파괴 후 그로기 시간 ( 초 단위)")]
     [SerializeField] float stunTime;
-    [Header("프렌지 패시브 버프량"), Range(0,100)]
+    [Header("프렌지 패시브 버프량"), Range(0, 100)]
     [SerializeField] int frenzyPersent;
     [Header("점프 공격 관련")]
     [Tooltip("점프 애니메이션 모션")]
@@ -57,12 +74,15 @@ public class BossEnemy : BaseEnemy, IHit
     [SerializeField] Transform pos;
     [Header("체력 UI")]
     public Slider hpSlider;
-    
+    public TMP_Text hpPersent;
+    public Transform viewModel;
+
     private Coroutine attackAble;
     private Coroutine globalCoolTime;
     public Coroutine recovery;  // 회복 관련 코루틴
 
     private bool onEntryStop;
+    private float _curHp;
     [HideInInspector] public bool createShield;
     [HideInInspector] public bool breakShield;
     [HideInInspector] public Vector3 playerPos;
@@ -71,8 +91,8 @@ public class BossEnemy : BaseEnemy, IHit
     {
         BaseInit();
         StateInit();
-        StartCoroutine(PassiveOn());
         hpSlider.maxValue = state.MaxHp;
+        StartCoroutine(PassiveOn());
         this.UpdateAsObservable()
             .Select(x => CurHp)
             .Subscribe(x => ChangePhase());
@@ -108,7 +128,14 @@ public class BossEnemy : BaseEnemy, IHit
 
     private void ChangeHp()
     {
+        _curHp = (float)CurHp / state.MaxHp * 100f;
+        float curHpPersent = MathF.Floor(_curHp * 100f) / 100f;
+
         hpSlider.value = CurHp;
+        if (curHpPersent > 0)
+            hpPersent.text = curHpPersent.ToString();
+        else
+            hpPersent.text = "0";
     }
 
     IEnumerator PassiveOn()
@@ -143,12 +170,16 @@ public class BossEnemy : BaseEnemy, IHit
         transform.GetComponent<Animator>().SetBool("Recovery", false);
         SoundManager.PlaySFX(ChoiceAudioClip(groggyClips));
     }
-
+    /// <summary>
+    /// 회복 루틴
+    /// </summary>
+    /// <param name="maxTime">최대 회복 시간</param>
+    /// <param name="recoveryValue">초당 회복하는 양(%)</param>
     IEnumerator RecoveryRoutin(int maxTime, float recoveryValue)
     {
         int time = maxTime;
         int recoveryHp = Mathf.RoundToInt(state.MaxHp * recoveryValue);
-        
+
         while (time > 0)    // 회복 하는 시간
         {
             yield return 1f.GetDelay();
@@ -187,7 +218,7 @@ public class BossEnemy : BaseEnemy, IHit
 
         if (resultDamage <= 0)
             resultDamage = 0;
-        if (resultDamage < CurHp)
+        else if (resultDamage < CurHp)
             SoundManager.PlaySFX(ChoiceAudioClip(hitCilps));
 
         CurHp -= resultDamage;
@@ -215,14 +246,13 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void FootStep()
     {
-        if (stepCount >= 2)
+        if (stepCount >= 5)
         {
             SoundManager.PlaySFX(ChoiceAudioClip(voiceClips));
             stepCount = 0;
         }
 
         SoundManager.PlaySFX(moveClips[randomMoveClip]);
-        stepMoveParticle.Play();
         stepCount++;
     }
 
@@ -241,7 +271,58 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void ThunderStomp()
     {
+        StartCoroutine(ArmorShieldRoutine());
         armorShieldParticle.Play();
+        SoundManager.PlaySFX(armorShieldStartClip);
+    }
+    // 실드 사라지는 소리 루틴
+    IEnumerator ArmorShieldRoutine()
+    {
+        float time = armorShieldParticle.main.duration;
+        yield return time.GetDelay();
+        SoundManager.PlaySFX(armorShieldReleaseClip);
+    }
+
+    /// <summary>
+    ///  라이트닝 노바 애니메이션 이벤트
+    /// </summary>
+    public void NovaRangeView()
+    {
+        StartCoroutine(NovaRangeViewRoutine(viewModel, 3, 10));
+    }
+    public void NovaCharge()
+    {
+        SoundManager.PlaySFX(novaChargeClip);
+    }
+    public void LightningNova()
+    {
+        novaParticle.Play();
+        SoundManager.PlaySFX(novaHitClip);
+    }
+    /// <summary>
+    /// 피격 범위 커지는 루틴
+    /// </summary>
+    /// <param name="viewModel">피격 범위 오브젝트</param>
+    /// <param name="time">진행되는 최대 시간</param>
+    /// <param name="maxScale">최대 피격 범위 크기</param>
+    IEnumerator NovaRangeViewRoutine(Transform viewModel, int time, float maxScale)
+    {
+        // 정해진 것 - 최대 시간, 최대 크기
+        float addScale = maxScale / time;   // 커지는 크기
+        Vector3 addScaleVector = new Vector3(addScale, addScale, addScale);
+
+        viewModel.gameObject.SetActive(true);
+        viewModel.localScale = Vector3.zero;
+
+        while (time > 0)
+        {
+            yield return 0.3f.GetDelay();
+            viewModel.localScale += addScaleVector;
+            time--;
+        }
+
+        yield return 0.3f.GetDelay();
+        viewModel.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -249,6 +330,7 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void DieEff()
     {
+        SoundManager.PlaySFX(ChoiceAudioClip(deathCilps));
     }
     public void ShakingForAni()
     {
@@ -266,11 +348,12 @@ public class BossEnemy : BaseEnemy, IHit
             AttackMelee();
             SoundManager.PlaySFX(ChoiceAudioClip(attackClips));
         }
-        else if(curPhase == PhaseType.Phase1)
+        else if (curPhase == PhaseType.Phase1)
         {
             fistParticle.Play();
             CreateElectricZone electricZone = ObjectPool.GetPool(fistGroundParticle.gameObject, pos.position, pos.rotation, 4.5f).GetComponent<CreateElectricZone>();
             electricZone.battle = Battle;
+            SoundManager.PlaySFX(fistHitClip);
         }
         // 라이트닝 피스트 - 1페이즈에만 존재
     }
@@ -282,16 +365,13 @@ public class BossEnemy : BaseEnemy, IHit
     {
         jumpParticle.Play();
         StartCoroutine(JumpRoutine(transform.position, playerPos));
+        SoundManager.PlaySFX(jumpClip);
     }
     public void JumpAttackEnd()
     {
         jumpDownParticle.Play();
         TakeChargeBoom(4, 50);
-    }
-
-    public void LightningNova()
-    {
-        novaParticle.Play();
+        SoundManager.PlaySFX(jumpDownClip);
     }
     #endregion
 
@@ -355,6 +435,9 @@ public class BossEnemy : BaseEnemy, IHit
     {
         playerPos = pos;
     }
+    /// <summary>
+    /// 점프 공격 루틴
+    /// </summary>
     IEnumerator JumpRoutine(Vector3 start, Vector3 end)
     {
         float currentAttackTime = 0f;

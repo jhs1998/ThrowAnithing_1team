@@ -2,19 +2,17 @@ using BehaviorDesigner.Runtime.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDead : Action
+public class EnemyDead : BaseAction
 {
     [SerializeField] Animator anim;
     public List<AudioClip> deathClips = new List<AudioClip>();
     private bool _isFirst;
-    private BaseEnemy enemy;
 
     public override void OnAwake()
     {
-        enemy = GetComponent<BaseEnemy>();
         anim = GetComponent<Animator>();
-
-        foreach (AudioClip clip in enemy.GetDaethClips())
+        baseEnemy = GetComponent<BaseEnemy>();
+        foreach (AudioClip clip in baseEnemy.GetDaethClips())
         {
             deathClips.Add(clip);
         }
@@ -22,7 +20,7 @@ public class EnemyDead : Action
 
     public override void OnStart()
     {
-        SoundManager.PlaySFX(enemy.ChoiceAudioClip(deathClips));
+        SoundManager.PlaySFX(baseEnemy.ChoiceAudioClip(deathClips));
     }
 
     public override TaskStatus OnUpdate()

@@ -213,7 +213,7 @@ MonoBehaviour:
     Def: 0
     Speed: 0
     AtkDelay: 2
-    AttackDis: 8
+    AttackDis: 15
     TraceDis: 0
   reward: 35
   curHp: 0
@@ -221,6 +221,7 @@ MonoBehaviour:
   stepMoveParticle: {fileID: 0}
   dieParticle: {fileID: 1147432395652580192}
   moveClips: []
+  voiceClips: []
   deathCilps:
   - {fileID: 8300000, guid: 64a2322a47c4f324cbedab9a031a2da5, type: 3}
   - {fileID: 8300000, guid: 6d2eef4a410ae11409a2ccab0396b92a, type: 3}
@@ -347,7 +348,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 99e48be84e6d08f4fb28d699f2b9d142, type: 3}
   - {fileID: 8300000, guid: bf21e2aac16d82c47b56984e39c58ca1, type: 3}
   hitCoolTime: 2.5
-  bulletSpeed: 7
+  bulletSpeed: 12
   bulletPrefab: {fileID: 1415841380596911756, guid: 67fafdf47f1461c44a52ef581e9d1048, type: 3}
   muzzle: {fileID: 3459780639356417389}
 --- !u!114 &417531623798941754
