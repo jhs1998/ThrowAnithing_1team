@@ -1,10 +1,8 @@
 using System.Collections;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
-using static UnityEditor.PlayerSettings;
 
 namespace MKH
 {
