@@ -68,6 +68,12 @@ public class DataContainer : MonoBehaviour
     /// </summary>
     public static GameObject[] ItemPaticle { get { return Instance._itemPaticle; } }
 
+    [SerializeField] AudioClip[] _audioClip;
+    /// <summary>
+    /// 효과음 데이터
+    /// </summary>
+    public static AudioClip[] AudioClip { get { return Instance._audioClip; } }
+
     [SerializeField] float _destroyItemTime = 0;
     /// <summary>
     /// 아이템 사라지는 시간
@@ -213,9 +219,9 @@ public class DataContainer : MonoBehaviour
     
     static IEnumerator CreateItemTable(Vector3 pos, BaseEnemy.MonsterType type)
     {
-        GameObject startEffect = ObjectPool.GetPool(ItemPaticle[0], pos, Quaternion.Euler(-90f, 0, 0));
-        yield return 0.3f.GetDelay();
-        ObjectPool.ReturnPool(startEffect);
+        SoundManager.PlaySFX(AudioClip[0]);
+
+        GameObject startEffect = ObjectPool.GetPool(ItemPaticle[0], pos, Quaternion.Euler(-90f, 0, 0), 0.3f);
 
         switch (type)
         {
@@ -228,10 +234,8 @@ public class DataContainer : MonoBehaviour
                 if (obj != null)
                 {
                     Destroy(obj);
-
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
+                    SoundManager.PlaySFX(AudioClip[1]);
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0), 0.5f);
                 }
                 break;
 
@@ -244,10 +248,8 @@ public class DataContainer : MonoBehaviour
                 if (obj1 != null)
                 {
                     Destroy(obj1);
-
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
+                    SoundManager.PlaySFX(AudioClip[1]);
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0), 0.5f);
                 }
                 break;
 
@@ -260,10 +262,8 @@ public class DataContainer : MonoBehaviour
                 if (obj2 != null)
                 {
                     Destroy(obj2);
-
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
+                    SoundManager.PlaySFX(AudioClip[1]);
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0), 0.5f);
                 }
                 break;
 
@@ -276,12 +276,9 @@ public class DataContainer : MonoBehaviour
                 if (obj3 != null)
                 {
                     Destroy(obj3);
-
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
+                    SoundManager.PlaySFX(AudioClip[1]);
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0), 0.5f);
                 }
-
                 break;
 
             case BaseEnemy.MonsterType.Boss:
@@ -293,12 +290,9 @@ public class DataContainer : MonoBehaviour
                 if (obj4 != null)
                 {
                     Destroy(obj4);
-
-                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0));
-                    yield return 0.5f.GetDelay();
-                    ObjectPool.ReturnPool(endEffect);
+                    SoundManager.PlaySFX(AudioClip[1]);
+                    GameObject endEffect = ObjectPool.GetPool(ItemPaticle[1], pos + new Vector3(0, 1, 0), Quaternion.Euler(-90f, 0, 0), 0.5f);
                 }
-
                 break;
         }
     }
