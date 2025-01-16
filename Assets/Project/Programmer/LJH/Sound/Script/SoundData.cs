@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SoundData", menuName = "Sound/Data")]
 public partial class SoundData : ScriptableObject
 {
+
     [System.Serializable]
     public struct BGMStruct
     {
