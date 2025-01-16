@@ -1,19 +1,13 @@
 using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
 
-public class LightningFist : Action
+public class LightningFist : BossAction
 {
     [SerializeField] BossSkillState skillState;
     [SerializeField] GlobalState globalState;
     [SerializeField] Transform createPos;
 
-    private BossEnemy enemy;
     private RaycastHit[] hits;
-
-    public override void OnStart()
-    {
-        enemy = GetComponent<BossEnemy>();
-    }
 
     public override TaskStatus OnUpdate()
     {
@@ -25,12 +19,12 @@ public class LightningFist : Action
                 continue;
 
             //enemy.Battle.TargetAttack(hits[i].transform, skillState.damage);
-            enemy.Battle.TargetAttackWithDebuff(hit.transform, skillState.damage);
-            enemy.Battle.TargetCrowdControl(hit.transform, CrowdControlType.Stiff);
+            bossEnemy.Battle.TargetAttackWithDebuff(hit.transform, skillState.damage);
+            bossEnemy.Battle.TargetCrowdControl(hit.transform, CrowdControlType.Stiff);
         }
 
-        StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
-        StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
+        StartCoroutine(bossEnemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
+        StartCoroutine(bossEnemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
 
         return TaskStatus.Success;
     }

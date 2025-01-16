@@ -2,22 +2,15 @@ using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class ElectricArmour : Action
+public class ElectricArmour : BossAction
 {
 	[SerializeField] BossSkillState skillState;
 	[SerializeField] GlobalState globalState;
 
-    private BossEnemy enemy;
-
-	public override void OnStart()
-	{
-		enemy = GetComponent<BossEnemy>();
-    }
-
     public override TaskStatus OnUpdate()
 	{
-        StartCoroutine(enemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
-        StartCoroutine(enemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
+        StartCoroutine(bossEnemy.CoolTimeRoutine(skillState.atkAble, skillState.coolTime));
+        StartCoroutine(bossEnemy.CoolTimeRoutine(globalState.Able, globalState.coolTime.Value));
         
         return TaskStatus.Success;
 	}
