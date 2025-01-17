@@ -194,6 +194,11 @@ public class NewOption : BaseUI
         {
             SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
         }
+
+        if (playerInput.actions["LeftClick"].WasPressedThisFrame())
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.ClickNull);
+        }
     }
 
     /// <summary>
