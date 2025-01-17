@@ -23,6 +23,16 @@ public class EnemyBullet : MonoBehaviour
         StartCoroutine(DestroyRoutine());
     }
 
+    private void OnEnable()
+    {
+        // 오브젝트 풀을 사용하기에 오브젝트를 껏다 키는것임으로 Enable로 초기화 작업
+        if(target != null)
+        {
+            transform.LookAt(target.position + Vector3.up);
+            StartCoroutine(DestroyRoutine());
+        }
+    }
+
     private void FixedUpdate()
     {
         rigid.velocity = transform.forward * speed;

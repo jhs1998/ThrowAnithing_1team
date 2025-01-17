@@ -2,7 +2,7 @@ using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class LookAtPlayer : Action
+public class LookAtPlayer : BaseAction
 {
 	public SharedTransform player;
 
@@ -10,11 +10,10 @@ public class LookAtPlayer : Action
 	{
         Vector3 movePos = new(
             player.Value.position.x,
-        transform.position.y,
+			transform.position.y,
             player.Value.position.z);
 
 		transform.LookAt(movePos);
-
 		return TaskStatus.Success;
 	}
 }
