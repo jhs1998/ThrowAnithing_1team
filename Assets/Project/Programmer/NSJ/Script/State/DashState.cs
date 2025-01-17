@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -52,6 +53,7 @@ public class DashState : PlayerState
     {
         Dash();
     }
+
     public override void OnTrigger() 
     {
 
@@ -144,5 +146,4 @@ public class DashState : PlayerState
         yield return null;
         _frontEffect = ObjectPool.GetPool(Effect.Dash_Front, Player.DashFrountPoint, 2f);
     }
-
 }

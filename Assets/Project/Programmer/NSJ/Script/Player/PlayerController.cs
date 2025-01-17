@@ -275,6 +275,10 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     /// </summary>
     public void ChangeState(State state)
     {
+        if (state == State.Dead) return;
+
+
+
         // 스테미나 쓰는 상태
         if (_states[(int)state].UseStamina == true)
         {

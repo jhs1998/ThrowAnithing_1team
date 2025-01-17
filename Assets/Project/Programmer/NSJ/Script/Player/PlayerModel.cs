@@ -643,7 +643,7 @@ public partial class PlayerData
     #endregion
     #region ≈ı√¥π∞
     // ≈ı√¥ø¿∫Í¡ß∆Æ
-    public int MaxThrowables { get { return Data.Throw.MaxThrowables; } set { Data.Throw.MaxThrowables = value; Debug.Log(Data.Throw.MaxThrowables); MaxThrowCountSubject.OnNext(Data.Throw.MaxThrowables); } }
+    public int MaxThrowables { get { return Data.Throw.MaxThrowables; } set { Data.Throw.MaxThrowables = value; MaxThrowCountSubject.OnNext(Data.Throw.MaxThrowables); } }
     public Subject<int> MaxThrowCountSubject = new Subject<int>();
     public int CurThrowables { get { return Data.Throw.CurThrowables; } set { Data.Throw.CurThrowables = value; CurThrowCountSubject.OnNext(Data.Throw.CurThrowables); } }
     public Subject<int> CurThrowCountSubject = new Subject<int>();
