@@ -109,6 +109,7 @@ namespace MKH
 
         IEnumerator Error()
         {
+            SoundManager.PlaySFX(popUpClip);
             errorPopUp.SetActive(true);
             yield return 1f.GetDelay();
             errorPopUp.SetActive(false);
