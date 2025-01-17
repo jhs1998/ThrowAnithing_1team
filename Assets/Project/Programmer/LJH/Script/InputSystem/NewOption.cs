@@ -333,6 +333,12 @@ public class NewOption : BaseUI
                 soundPanel.SetActive(false);
                 InputPanel(true);
             }
+            else if (curButton == exitButton)
+            {
+                gameplayPanel.SetActive(false);
+                soundPanel.SetActive(false);
+                InputPanel(false);
+            }
         }
     }
 
