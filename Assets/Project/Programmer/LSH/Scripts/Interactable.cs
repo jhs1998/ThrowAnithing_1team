@@ -1,4 +1,3 @@
-using EpicToonFX;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour
@@ -25,7 +24,7 @@ public class Interactable : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == Layer.Player)
+        if (other.gameObject.layer == Layer.Player)
         {
             Debug.Log("플레이어 들어옴");
         }
@@ -46,23 +45,21 @@ public class Interactable : MonoBehaviour
 
     private void FixedUpdate()
     {
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, overlapSphereRadius, hitColliders,1<<Layer.Player);
-        for (int i = 0; i < hitCount; i++)
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, overlapSphereRadius, hitColliders, 1 << Layer.Player);
+        if (hitCount != 0)
         {
-            if (hitColliders[i].gameObject.tag == Tag.Player)
+            for(int i = 0; i < hitCount; i++)
             {
-          
+
                 playerCollider = hitColliders[i];
                 isInSphere = true;
                 SetActivePopUpUI(true);
-                return;
             }
-            else
-            {
-                isInSphere = true;
-                SetActivePopUpUI(false);
-            }
-
+        }
+        else
+        {
+            isInSphere = true;
+            SetActivePopUpUI(false);
         }
 
     }
