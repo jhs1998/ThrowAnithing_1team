@@ -19,7 +19,7 @@ namespace MKH
         [SerializeField] public List<AdditionalEffect> blueChipList;
 
         [SerializeField] AudioClip clickMove;
-        [SerializeField] GameObject effect;
+        [SerializeField] public GameObject effect;
         [SerializeField] GameObject clickEffect;
 
 
