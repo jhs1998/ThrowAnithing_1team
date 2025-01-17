@@ -63,7 +63,13 @@ public class ArmUnit : ScriptableObject
 
         InitAllType();
     }
-
+    public virtual void OnDestroy()
+    {
+        foreach (ArmAttackType attackType in _types)
+        {
+            Destroy(attackType);
+        }
+    }
 
 
     public virtual void Enter()
@@ -102,13 +108,7 @@ public class ArmUnit : ScriptableObject
     {
         SelectType().EndCombo();
     }
-    public virtual void OnDisable()
-    {
-        foreach(ArmAttackType attackType in _types)
-        {
-            Destroy(attackType);
-        }
-    }
+
     private ArmAttackType SelectType()
     {
         ArmAttackType attackType = null;

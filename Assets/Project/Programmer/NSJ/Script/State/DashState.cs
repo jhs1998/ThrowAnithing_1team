@@ -101,7 +101,7 @@ public class DashState : PlayerState
         _isDashEnd = true;
         View.SetTrigger(PlayerView.Parameter.DashEnd);
         //Rb.velocity = transform.forward * Model.MoveSpeed;
-        CoroutineHandler.StartRoutine(DashEndRoutine());
+        Player.StartCoroutine(DashEndRoutine());
     }
 
     IEnumerator DashEndRoutine()
