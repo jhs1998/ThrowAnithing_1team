@@ -6,13 +6,14 @@ using System.Collections.Generic;
 public class EnemyBoom : BaseAction
 {
 	[SerializeField] SharedBool isBoom;
-    [SerializeField] SharedFloat attackDist;    // Æø¹ß ¹üÀ§
+    [SerializeField] SharedFloat attackDist;    // í­ë°œ ë²”ìœ„
     [SerializeField] ParticleSystem paticle;
     public List<AudioClip> deathClips = new List<AudioClip>();
 
     public override void OnAwake()
     {
         baseEnemy = GetComponent<BaseEnemy>();
+        
         foreach (AudioClip clip in baseEnemy.GetDaethClips())
         {
             deathClips.Add(clip);
@@ -21,11 +22,11 @@ public class EnemyBoom : BaseAction
 
 	public override TaskStatus OnUpdate()
 	{
-        // Æø¹ß ¿©ºÎ - true => ÀÌ¹Ì ÀÚÆøÇÔ, false => ÀÚÆøÇÏÁö ¾ÊÀ½
+        // í­ë°œ ì—¬ë¶€ - true => ì´ë¯¸ ìí­í•¨, false => ìí­í•˜ì§€ ì•ŠìŒ
         if (isBoom.Value == true) 
             return TaskStatus.Failure;
 
-        // Æø¹ß
+        // í­ë°œ
         baseEnemy.TakeChargeBoom(attackDist.Value, baseEnemy.Damage);
 
         if(baseEnemy.CurHp > 0)

@@ -225,6 +225,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     {
         ExitPlayerAdditional();
         ExiteState(CurState);
+        DeleteArmUnit();
     }
 
     private void Update()
@@ -486,9 +487,9 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     #region 암유닛 변경
     public void ChangeArmUnit(ArmUnit armUnit)
     {
-        if(Model.Arm != null)
+        if (Model.Arm != null)
         {
-            Destroy(Model.Arm);
+            DeleteArmUnit();
         }
 
         Model.Arm = Instantiate(armUnit);
@@ -502,7 +503,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     {
         if (Model.Arm != null)
         {
-            Destroy(Model.Arm);
+            DeleteArmUnit();
         }
 
         Model.Arm = Instantiate(DataContainer.GetArmUnit(armUnit));
@@ -511,6 +512,10 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         {
             state.InitArm();
         }
+    }
+    private void DeleteArmUnit()
+    {
+        Destroy(Model.Arm);
     }
     #endregion
     #region 플레이어 추가효과 관련
