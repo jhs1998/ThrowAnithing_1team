@@ -12,11 +12,17 @@ public class FailPanel : MonoBehaviour
     [SerializeField] Failure failure;
     [SerializeField] Result result;
 
-
+    bool _isFirst;
     private void Start()
     {
         this.UpdateAsObservable()
             .Where(x => playerData.IsDead == true)
-            .Subscribe(x => { failure.gameObject.SetActive(true); SoundManager.PlaySFX(SoundManager.Data.UI.Lose); });
+            .Where(x => _isFirst == false)
+            .Subscribe(x => 
+            { 
+                failure.gameObject.SetActive(true); 
+                SoundManager.PlaySFX(SoundManager.Data.UI.Lose);
+                _isFirst = true;
+            });
     }
 }
