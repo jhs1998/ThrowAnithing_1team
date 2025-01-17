@@ -62,6 +62,8 @@ public class BossEnemy : BaseEnemy, IHit
     public float jumpAttackTime;    // 애니메이션의 재생 시간
     [Tooltip("점프 시 최대 높이")]
     public float jumpHeight;    // 점프 시 최대 높이
+    [Tooltip("점프 공격 범위")]
+    public float jumpRange;    // 점프 공격 범위
     [Header("패턴's 이펙트")]
     [SerializeField] ParticleSystem armorShieldParticle;  // 일레트릭 아머
     [SerializeField] ParticleSystem novaParticle;       // 라이트닝 노바
@@ -73,9 +75,9 @@ public class BossEnemy : BaseEnemy, IHit
     [Space, SerializeField] GameObject fistGroundParticle; // 라이트닝 피스트 바닥효과
     [SerializeField] Transform pos;
     [Header("체력 UI")]
-    public Slider hpSlider;
-    public TMP_Text hpPersent;
-    public Transform viewModel;
+    public Slider hpSlider;         // 체력 바 슬라이드
+    public TMP_Text hpPersentText;  // 체력 바 퍼센트
+    public Transform viewModel;     // 피격 범위 오브젝트
 
     private Coroutine attackAble;
     private Coroutine globalCoolTime;
@@ -133,9 +135,9 @@ public class BossEnemy : BaseEnemy, IHit
 
         hpSlider.value = CurHp;
         if (curHpPersent > 0)
-            hpPersent.text = curHpPersent.ToString();
+            hpPersentText.text = curHpPersent.ToString();
         else
-            hpPersent.text = "0";
+            hpPersentText.text = "0";
     }
 
     IEnumerator PassiveOn()
@@ -288,7 +290,7 @@ public class BossEnemy : BaseEnemy, IHit
     /// </summary>
     public void NovaRangeView()
     {
-        StartCoroutine(NovaRangeViewRoutine(viewModel, 3, 10));
+        StartCoroutine(ViewRangeRoutine(viewModel, 3, 10));
     }
     public void NovaCharge()
     {
@@ -305,11 +307,11 @@ public class BossEnemy : BaseEnemy, IHit
     /// <param name="viewModel">피격 범위 오브젝트</param>
     /// <param name="time">진행되는 최대 시간</param>
     /// <param name="maxScale">최대 피격 범위 크기</param>
-    IEnumerator NovaRangeViewRoutine(Transform viewModel, int time, float maxScale)
+    IEnumerator ViewRangeRoutine(Transform viewModel, int time, float maxScale)
     {
         // 정해진 것 - 최대 시간, 최대 크기
         float addScale = maxScale / time;   // 커지는 크기
-        Vector3 addScaleVector = new Vector3(addScale, addScale, addScale);
+        Vector3 addScaleVector = new Vector2(addScale, addScale);
 
         viewModel.gameObject.SetActive(true);
         viewModel.localScale = Vector3.zero;
@@ -348,6 +350,7 @@ public class BossEnemy : BaseEnemy, IHit
             AttackMelee();
             SoundManager.PlaySFX(ChoiceAudioClip(attackClips));
         }
+        // 라이트닝 피스트 - 1페이즈에만 존재
         else if (curPhase == PhaseType.Phase1)
         {
             fistParticle.Play();
@@ -355,23 +358,57 @@ public class BossEnemy : BaseEnemy, IHit
             electricZone.battle = Battle;
             SoundManager.PlaySFX(fistHitClip);
         }
-        // 라이트닝 피스트 - 1페이즈에만 존재
     }
 
-    /// <summary>
-    /// 점프 공격 애니메이션 이벤트
-    /// </summary>
+    // 점프 공격 애니메이션 이벤트
     public void JumpAttackBegin()
     {
         jumpParticle.Play();
         StartCoroutine(JumpRoutine(transform.position, playerPos));
         SoundManager.PlaySFX(jumpClip);
     }
+    public void JumpAttackRangeView()
+    {
+        GameObject hitRange = Instantiate(viewModel.gameObject, playerPos + (Vector3.up * 0.1f), Quaternion.identity);
+        
+        if(hitRange.activeSelf != true)
+            hitRange.SetActive(true);
+
+        hitRange.transform.localScale = Vector2.one * jumpRange;
+        hitRange.transform.rotation = Quaternion.Euler(90f, 0, 0);
+        Destroy(hitRange, 1f);
+    }
     public void JumpAttackEnd()
     {
+        viewModel.gameObject.SetActive(false);
         jumpDownParticle.Play();
-        TakeChargeBoom(4, 50);
+        TakeChargeBoom(jumpRange, 50);
         SoundManager.PlaySFX(jumpDownClip);
+    }
+    /// <summary>
+    /// 플레이어 현재 위치 가져오기
+    /// </summary>
+    public void SetPlayerPos(Vector3 pos)
+    {
+        playerPos = pos;
+    }
+    /// <summary>
+    /// 점프 공격 루틴
+    /// </summary>
+    IEnumerator JumpRoutine(Vector3 start, Vector3 end)
+    {
+        float currentAttackTime = 0f;   // 현재 재생되는 애니메이션 시간
+        while (currentAttackTime <= jumpAttackTime)
+        {
+            float t = currentAttackTime / jumpAttackTime;
+            Vector3 pos = Vector3.zero;
+            pos.x = Vector3.Lerp(start, end, t).x;
+            pos.z = Vector3.Lerp(start, end, t).z;
+            pos.y = curve.Evaluate(t) * jumpHeight + Mathf.Lerp(start.y, end.y, t);
+            transform.position = pos;
+            currentAttackTime += Time.deltaTime;
+            yield return null;
+        }
     }
     #endregion
 
@@ -401,7 +438,6 @@ public class BossEnemy : BaseEnemy, IHit
             int finalDamage = state.Atk;
             // 데미지 주기
             Battle.TargetAttackWithDebuff(overLapCollider[i], finalDamage);
-            //Battle.TargetAttack(overLapCollider[i], finalDamage, false);
         }
     }
 
@@ -426,32 +462,6 @@ public class BossEnemy : BaseEnemy, IHit
         yield return state.AtkDelay.GetDelay();
         // 공격 딜레이 끝
         tree.SetVariableValue("AttackAble", true);
-    }
-
-    /// <summary>
-    /// 플레이어 현재 위치 가져오기
-    /// </summary>
-    public void SetPlayerPos(Vector3 pos)
-    {
-        playerPos = pos;
-    }
-    /// <summary>
-    /// 점프 공격 루틴
-    /// </summary>
-    IEnumerator JumpRoutine(Vector3 start, Vector3 end)
-    {
-        float currentAttackTime = 0f;
-        while (currentAttackTime <= jumpAttackTime)
-        {
-            float t = currentAttackTime / jumpAttackTime;
-            Vector3 pos = Vector3.zero;
-            pos.x = Vector3.Lerp(start, end, t).x;
-            pos.z = Vector3.Lerp(start, end, t).z;
-            pos.y = curve.Evaluate(t) * jumpHeight + Mathf.Lerp(start.y, end.y, t);
-            transform.position = pos;
-            currentAttackTime += Time.deltaTime;
-            yield return null;
-        }
     }
 
     #region Gizmo
