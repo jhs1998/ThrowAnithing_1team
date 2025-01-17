@@ -643,7 +643,7 @@ public partial class PlayerData
     #endregion
     #region ≈ı√¥π∞
     // ≈ı√¥ø¿∫Í¡ß∆Æ
-    public int MaxThrowables { get { return Data.Throw.MaxThrowables; } set { Data.Throw.MaxThrowables = value; MaxThrowCountSubject.OnNext(Data.Throw.MaxThrowables); } }
+    public int MaxThrowables { get { return Data.Throw.MaxThrowables; } set { Data.Throw.MaxThrowables = value; Debug.Log(Data.Throw.MaxThrowables); MaxThrowCountSubject.OnNext(Data.Throw.MaxThrowables); } }
     public Subject<int> MaxThrowCountSubject = new Subject<int>();
     public int CurThrowables { get { return Data.Throw.CurThrowables; } set { Data.Throw.CurThrowables = value; CurThrowCountSubject.OnNext(Data.Throw.CurThrowables); } }
     public Subject<int> CurThrowCountSubject = new Subject<int>();
@@ -681,61 +681,61 @@ public partial class PlayerData
     public event UnityAction OnChangePlayerDataEvent;
     public void CopyGlobalPlayerData(GlobalPlayerStateData globalData, GlobalGameData gameData)
     {
-        Data.Hp.MaxHp = (int)globalData.maxHp;
-        Data.Hp.CurHp = (int)globalData.maxHp;
-        Data.Attack.AttackPower = (int)globalData.commonAttack;
+        MaxHp = (int)globalData.maxHp;
+        CurHp = (int)globalData.maxHp;
 
-        Data.Attack.PowerMeleeAttack = new float[globalData.shortRangeAttack.Length];
-        Data.Attack.PowerMeleeAttack[0] = (int)globalData.shortRangeAttack[0];
-        Data.Attack.PowerMeleeAttack[1] = (int)globalData.shortRangeAttack[1];
-        Data.Attack.PowerMeleeAttack[2] = (int)globalData.shortRangeAttack[2];
+        AttackPower = (int)globalData.commonAttack;
+        PowerMeleeAttack = new float[globalData.shortRangeAttack.Length];
+        PowerMeleeAttack[0] = (int)globalData.shortRangeAttack[0];
+        PowerMeleeAttack[1] = (int)globalData.shortRangeAttack[1];
+        PowerMeleeAttack[2] = (int)globalData.shortRangeAttack[2];
 
-        Data.Attack.PowerThrowAttack = new float[globalData.longRangeAttack.Length];
-        Data.Attack.PowerThrowAttack[0] = (int)globalData.longRangeAttack[0];
-        Data.Attack.PowerThrowAttack[1] = (int)globalData.longRangeAttack[1];
-        Data.Attack.PowerThrowAttack[2] = (int)globalData.longRangeAttack[2];
-        Data.Attack.PowerThrowAttack[3] = (int)globalData.longRangeAttack[3];
+        PowerThrowAttack = new float[globalData.longRangeAttack.Length];
+        PowerThrowAttack[0] = (int)globalData.longRangeAttack[0];
+        PowerThrowAttack[1] = (int)globalData.longRangeAttack[1];
+        PowerThrowAttack[2] = (int)globalData.longRangeAttack[2];
+        PowerThrowAttack[3] = (int)globalData.longRangeAttack[3];
 
-        Data.Attack.PowerSpecialAttack = new float[globalData.specialAttack.Length];
-        Data.Attack.PowerSpecialAttack[0] = (int)globalData.specialAttack[0];
-        Data.Attack.PowerSpecialAttack[1] = (int)globalData.specialAttack[1];
-        Data.Attack.PowerSpecialAttack[2] = (int)globalData.specialAttack[2];
-        Data.Attack.AttackSpeed = globalData.attackSpeed;
+        PowerSpecialAttack = new float[globalData.specialAttack.Length];
+        PowerSpecialAttack[0] = (int)globalData.specialAttack[0];
+        PowerSpecialAttack[1] = (int)globalData.specialAttack[1];
+        PowerSpecialAttack[2] = (int)globalData.specialAttack[2];
+        AttackSpeed = globalData.attackSpeed;
 
-        Data.Move.MoveSpeed = globalData.movementSpeed;
-        Data.Critical.CriticalChance = globalData.criticalChance;
-        Data.Defense.Defense = (int)globalData.defense;
-        Data.EquipmentDropUpgrade = globalData.equipmentDropUpgrade;
-        Data.DrainLife = globalData.drainLife;
-        Data.Stamina.MaxStamina = globalData.maxStamina;
-        Data.Stamina.RegainStamina = globalData.regainStamina;
-        Data.Stamina.ConsumesStamina = globalData.consumesStamina;
+        MoveSpeed = globalData.movementSpeed;
+        CriticalChance = globalData.criticalChance;
+        Defense = (int)globalData.defense;
+        EquipmentDropUpgrade = globalData.equipmentDropUpgrade;
+        DrainLife = globalData.drainLife;
+        MaxStamina = globalData.maxStamina;
+        RegainStamina = globalData.regainStamina;
+        ConsumesStamina = globalData.consumesStamina;
 
-        Data.Special.RegainMana = new float[globalData.regainMana.Length];
-        Data.Special.RegainMana[0] = globalData.regainMana[0];
-        Data.Special.RegainMana[1] = globalData.regainMana[1];
-        Data.Special.RegainMana[2] = globalData.regainMana[2];
-        Data.Special.RegainMana[3] = globalData.regainMana[3];
+        RegainMana = new float[globalData.regainMana.Length];
+        RegainMana[0] = globalData.regainMana[0];
+        RegainMana[1] = globalData.regainMana[1];
+        RegainMana[2] = globalData.regainMana[2];
+        RegainMana[3] = globalData.regainMana[3];
 
-        Data.Special.ManaConsumption = new float[globalData.manaConsumption.Length];
-        Data.Special.ManaConsumption[0] = globalData.manaConsumption[0];
-        Data.Special.ManaConsumption[1] = globalData.manaConsumption[1];
-        Data.Special.ManaConsumption[2] = globalData.manaConsumption[2];
-        Data.Throw.GainMoreThrowables = globalData.gainMoreThrowables;
-        Data.Throw.MaxThrowables = (int)globalData.maxThrowables;
-        Data.NowWeapon = gameData.nowWeapon;
-        Data.Special.MaxMana = globalData.maxMana;
-        Data.Jump.MaxJumpCount = (int)globalData.maxJumpCount;
-        Data.Jump.JumpPower = globalData.jumpPower;
-        Data.Jump.JumpStamina = (int)globalData.jumpConsumesStamina;
-        Data.Jump.DoubleJumpStamina = (int)globalData.doubleJumpConsumesStamina;
-        Data.Dash.DashDistance = globalData.dashDistance;
-        Data.Dash.DashStamina = (int)globalData.dashConsumesStamina;
+        ManaConsumption = new float[globalData.manaConsumption.Length];
+        ManaConsumption[0] = globalData.manaConsumption[0];
+        ManaConsumption[1] = globalData.manaConsumption[1];
+        ManaConsumption[2] = globalData.manaConsumption[2];
+        GainMoreThrowables = globalData.gainMoreThrowables;
+        MaxThrowables = (int)globalData.maxThrowables;
+        NowWeapon = gameData.nowWeapon;
+        MaxMana = globalData.maxMana;
+        MaxJumpCount = (int)globalData.maxJumpCount;
+        JumpPower = globalData.jumpPower;
+        JumpStamina = (int)globalData.jumpConsumesStamina;
+        DoubleJumpStamina = (int)globalData.doubleJumpConsumesStamina;
+        DashDistance = globalData.dashDistance;
+        DashStamina = (int)globalData.dashConsumesStamina;
 
-        Data.Stamina.MeleeAttackStamina = new float[globalData.shortRangeAttackStamina.Length];
-        Data.Stamina.MeleeAttackStamina[0] = globalData.shortRangeAttackStamina[0];
-        Data.Stamina.MeleeAttackStamina[1] = globalData.shortRangeAttackStamina[1];
-        Data.Stamina.MeleeAttackStamina[2] = globalData.shortRangeAttackStamina[2];
+        MeleeAttackStamina = new float[globalData.shortRangeAttackStamina.Length];
+        MeleeAttackStamina[0] = globalData.shortRangeAttackStamina[0];
+        MeleeAttackStamina[1] = globalData.shortRangeAttackStamina[1];
+        MeleeAttackStamina[2] = globalData.shortRangeAttackStamina[2];
 
         OnChangePlayerDataEvent?.Invoke();
     }
