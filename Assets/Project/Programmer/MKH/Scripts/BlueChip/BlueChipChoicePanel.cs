@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,9 +18,26 @@ namespace MKH
 
         [SerializeField] public List<AdditionalEffect> blueChipList;
 
+        [SerializeField] AudioClip clickMove;
+        [SerializeField] GameObject effect;
+        [SerializeField] GameObject clickEffect;
+
+
         private void OnEnable()
         {
+            InputKey.SetActionMap(InputType.UI);
+            Debug.Log(InputType.UI);
+            Debug.Log("¿€µø");
             EventSystem.current.SetSelectedGameObject(button.gameObject);
+            if (EventSystem.current.currentSelectedGameObject.transform.position == Vector3.zero)
+            {
+                Debug.Log(button.gameObject.transform.position);
+                effect.transform.position = new Vector3(460, 300, 0);
+            }
+            else
+            {
+                effect.transform.position = EventSystem.current.currentSelectedGameObject.transform.position;
+            }
             RandomBlueChip();
         }
 
@@ -31,6 +47,11 @@ namespace MKH
             choiceSlots = choiceSlotsParnet.GetComponentsInChildren<BlueChipSlot>();
             blueChipList = new List<AdditionalEffect>(blueChip.blueChipList);
             Setting();
+        }
+
+        private void Update()
+        {
+            ChoiceMove();
         }
 
         public bool AcquireEffect(AdditionalEffect effect)
@@ -84,6 +105,26 @@ namespace MKH
                 else
                 {
                     choiceSlots[i].ListIndex = index;
+                }
+            }
+        }
+
+        private void ChoiceMove()
+        {
+            GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+            if (obj == null)
+                return;
+            if (obj != null)
+            {
+                if (InputKey.PlayerInput.actions["UIMove"].WasPressedThisFrame())
+                {
+                    SoundManager.PlaySFX(clickMove);
+                    effect.transform.position = obj.transform.position;
+                }
+                else if (InputKey.PlayerInput.actions["LeftClick"].WasPressedThisFrame())
+                {
+                    effect.transform.position = obj.transform.position;
                 }
             }
         }
