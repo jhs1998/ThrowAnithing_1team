@@ -12,6 +12,7 @@ public class EnemyBoom : BaseAction
 
     public override void OnAwake()
     {
+        baseEnemy = GetComponent<BaseEnemy>();
         foreach (AudioClip clip in baseEnemy.GetDaethClips())
         {
             deathClips.Add(clip);
