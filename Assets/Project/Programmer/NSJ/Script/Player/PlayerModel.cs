@@ -52,6 +52,7 @@ public class PlayerModel : MonoBehaviour
     #endregion
     #region ≈ı√¥π∞
     public int MaxThrowables { get { return Data.MaxThrowables; } set { Data.MaxThrowables = value; } }
+    public Subject<int> MaxThrowCountSubject { get { return Data.MaxThrowCountSubject; } set { Data.MaxThrowCountSubject = value; } }
     public int CurThrowables
     {
         get { return Data.CurThrowables; }
@@ -642,7 +643,8 @@ public partial class PlayerData
     #endregion
     #region ≈ı√¥π∞
     // ≈ı√¥ø¿∫Í¡ß∆Æ
-    public int MaxThrowables { get { return Data.Throw.MaxThrowables; } set { Data.Throw.MaxThrowables = value; } }
+    public int MaxThrowables { get { return Data.Throw.MaxThrowables; } set { Data.Throw.MaxThrowables = value; MaxThrowCountSubject.OnNext(Data.Throw.MaxThrowables); } }
+    public Subject<int> MaxThrowCountSubject = new Subject<int>();
     public int CurThrowables { get { return Data.Throw.CurThrowables; } set { Data.Throw.CurThrowables = value; CurThrowCountSubject.OnNext(Data.Throw.CurThrowables); } }
     public Subject<int> CurThrowCountSubject = new Subject<int>();
     public float GainMoreThrowables { get { return Data.Throw.GainMoreThrowables; } set { Data.Throw.GainMoreThrowables = value; } }
