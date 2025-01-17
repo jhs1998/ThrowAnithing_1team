@@ -38,7 +38,7 @@ namespace MKH
             _EquipInventory = GetObject("EquipmentInventory");
             _State = GetObject("State");
             _BlueChipPanel = GetObject("BlueChipPanel");
-            _BlueChipChoice = GetObject("BlueChipChoice");
+            _BlueChipChoice = GetObject("BlueChipChoicePopUp");
             _BlueChipChoicePanel = GetObject("BlueChipChoicePanel");
         }
 

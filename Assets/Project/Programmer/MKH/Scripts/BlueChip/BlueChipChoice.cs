@@ -19,12 +19,17 @@ public class BlueChipChoice : MonoBehaviour
 
     [SerializeField] AudioClip OpenClip;
 
+    [SerializeField] GameObject pcText;
+    [SerializeField] GameObject consoleText;
+
     private void Awake()
     {
         _player = GetComponent<PlayerController>();
         blueChipPanel = playerData.Inventory.BlueChipPanel;
         choice = playerData.Inventory.BlueChipChoice;
         choicePanel = playerData.Inventory.ChoicePanel;
+        pcText = playerData.Inventory.PcText;
+        consoleText = playerData.Inventory.ConsloeText;
     }
     private void Start()
     {       
@@ -34,6 +39,12 @@ public class BlueChipChoice : MonoBehaviour
     {
         if(other.gameObject.tag == Tag.BlueChip)
         {
+            GameObject _pc = pcText;
+            GameObject _console = consoleText;
+            // 각 디바이스에 맞는 텍스트 활성화
+            _pc.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
+            _console.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
+
             choice.SetActive(true);
             if(_addBlueChipRoutine == null)
             {

@@ -10,6 +10,8 @@ public class Interactable : MonoBehaviour
 
     [SerializeField] bool isInSphere; //T오버랩스피어에닿아있음 F아님
     [SerializeField] GameObject pressKeyUI;
+    [SerializeField] GameObject pcText;
+    [SerializeField] GameObject consoleText;
 
     [SerializeField] GameObject[] itemPrefabs;
     Vector3 itemRandomSpawnArea;
@@ -100,6 +102,12 @@ public class Interactable : MonoBehaviour
     {
         if (pressKeyUI == null)
             return;
+
+        GameObject _pc = pcText;
+        GameObject _console = consoleText;
+        // 각 디바이스에 맞는 텍스트 활성화
+        _pc.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.PC);
+        _console.SetActive(InputKey.PlayerInput.currentControlScheme == InputType.CONSOLE);
 
         pressKeyUI.SetActive(isActive);
     }
