@@ -370,6 +370,10 @@ public class BossEnemy : BaseEnemy, IHit
     public void JumpAttackRangeView()
     {
         GameObject hitRange = Instantiate(viewModel.gameObject, playerPos + (Vector3.up * 0.1f), Quaternion.identity);
+        
+        if(hitRange.activeSelf != true)
+            hitRange.SetActive(true);
+
         hitRange.transform.localScale = Vector2.one * jumpRange;
         hitRange.transform.rotation = Quaternion.Euler(90f, 0, 0);
         Destroy(hitRange, 1f);
