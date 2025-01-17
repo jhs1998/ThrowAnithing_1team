@@ -13,11 +13,13 @@ public class EnemyTrace : Action
     public override TaskStatus OnUpdate()
     {
         float dir = (player.Value.position - transform.position).magnitude;
-        
-        if (dir < attackDis.Value)
+
+        if (dir < attackDis.Value)  // 공격 범위에 들어왔을 시
             return TaskStatus.Success;
-        else if (dir > traceDist.Value && onTakeHit.Value == false)
+        else if (dir > traceDist.Value && onTakeHit.Value == false) // 인식 범위 밖이고 피해를 안입었을 시
             return TaskStatus.Failure;
+        else if (dir < traceDist.Value) // 피해를 입어서 인식범위에 들어왔을 시
+            onTakeHit.SetValue(false);
 
         // x,z축만 추적
         Vector3 movePos = new(
