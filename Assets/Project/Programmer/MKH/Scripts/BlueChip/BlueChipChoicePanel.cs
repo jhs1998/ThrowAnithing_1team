@@ -26,8 +26,6 @@ namespace MKH
         private void OnEnable()
         {
             InputKey.SetActionMap(InputType.UI);
-            Debug.Log(InputType.UI);
-            Debug.Log("¿€µø");
             EventSystem.current.SetSelectedGameObject(button.gameObject);
             if (EventSystem.current.currentSelectedGameObject.transform.position == Vector3.zero)
             {
