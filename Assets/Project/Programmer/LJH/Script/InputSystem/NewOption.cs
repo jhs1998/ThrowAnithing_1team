@@ -194,6 +194,11 @@ public class NewOption : BaseUI
         {
             SoundManager.PlaySFX(SoundManager.Data.UI.NaviMove);
         }
+
+        if (playerInput.actions["LeftClick"].WasPressedThisFrame())
+        {
+            SoundManager.PlaySFX(SoundManager.Data.UI.ClickNull);
+        }
     }
 
     /// <summary>
@@ -332,6 +337,12 @@ public class NewOption : BaseUI
                 gameplayPanel.SetActive(false);
                 soundPanel.SetActive(false);
                 InputPanel(true);
+            }
+            else if (curButton == exitButton)
+            {
+                gameplayPanel.SetActive(false);
+                soundPanel.SetActive(false);
+                InputPanel(false);
             }
         }
     }
