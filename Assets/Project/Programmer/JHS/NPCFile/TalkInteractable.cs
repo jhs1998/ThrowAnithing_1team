@@ -119,6 +119,7 @@ public class TalkInteractable : MonoBehaviour
     private void HideDialogueUI()
     {
         dialogueUI.SetActive(false);
+        upPopup.SetActive(false);
         playerInput.SwitchCurrentActionMap(InputType.GAMEPLAY); // 플레이어 조작 활성화
         Debug.Log(playerInput.currentActionMap);
         if (itemPrefab != null && sponPoint != null)

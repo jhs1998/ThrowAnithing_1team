@@ -14,6 +14,8 @@ public class Inventory : MonoBehaviour
     [HideInInspector] public BlueChipChoicePanel BlueChipChoicePanel;
     [SerializeField] public GameObject BlueChipChoice;
     [SerializeField] public GameObject ChoicePanel;
+    [SerializeField] public GameObject PcText;
+    [SerializeField] public GameObject ConsoleText;
 
     [Inject]
     PlayerData playerData;
@@ -51,6 +53,8 @@ public class Inventory : MonoBehaviour
         playerData.Inventory.BlueChipChoicePanel = BlueChipChoicePanel;
         playerData.Inventory.ChoicePanel = ChoicePanel;
         playerData.Inventory.BlueChipChoiceController = BlueChipChoiceController;
+        playerData.Inventory.PcText = PcText;
+        playerData.Inventory.ConsloeText = ConsoleText;
 
     }
 

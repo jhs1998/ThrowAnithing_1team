@@ -226,7 +226,6 @@ public class DataContainer : MonoBehaviour
         switch (type)
         {
             case BaseEnemy.MonsterType.Nomal:
-                Debug.Log(ItemTableList[0]);
                 GameObject obj = ItemTableList[0].DropListTable1(pos + new Vector3(0, 1, 0), Quaternion.identity);
 
                 yield return Instance._destroyItemTime.GetDelay();
@@ -240,7 +239,6 @@ public class DataContainer : MonoBehaviour
                 break;
 
             case BaseEnemy.MonsterType.Mutant:
-                Debug.Log(ItemTableList[1]);
                 GameObject obj1 = ItemTableList[1].DropListTable2(pos + new Vector3(0, 1, 0), Quaternion.identity);
 
                 yield return Instance._destroyItemTime.GetDelay();
@@ -254,7 +252,6 @@ public class DataContainer : MonoBehaviour
                 break;
 
             case BaseEnemy.MonsterType.Elite:
-                Debug.Log(ItemTableList[2]);
                 GameObject obj2 = ItemTableList[2].DropListTable2(pos + new Vector3(0, 1, 0), Quaternion.identity);
 
                 yield return Instance._destroyItemTime.GetDelay();
@@ -268,7 +265,6 @@ public class DataContainer : MonoBehaviour
                 break;
 
             case BaseEnemy.MonsterType.SubBoss:
-                Debug.Log(ItemTableList[3]);
                 GameObject obj3 = ItemTableList[3].DropListTable2(pos + new Vector3(0, 1, 0), Quaternion.identity);
 
                 yield return Instance._destroyItemTime.GetDelay();
@@ -282,7 +278,6 @@ public class DataContainer : MonoBehaviour
                 break;
 
             case BaseEnemy.MonsterType.Boss:
-                Debug.Log(ItemTableList[4]);
                 GameObject obj4 = ItemTableList[4].DropListTable1(pos + new Vector3(0, 1, 0), Quaternion.identity);
 
                 yield return Instance._destroyItemTime.GetDelay();

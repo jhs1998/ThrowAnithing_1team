@@ -19,15 +19,13 @@ namespace MKH
         [SerializeField] public List<AdditionalEffect> blueChipList;
 
         [SerializeField] AudioClip clickMove;
-        [SerializeField] GameObject effect;
+        [SerializeField] public GameObject effect;
         [SerializeField] GameObject clickEffect;
 
 
         private void OnEnable()
         {
             InputKey.SetActionMap(InputType.UI);
-            Debug.Log(InputType.UI);
-            Debug.Log("¿€µø");
             EventSystem.current.SetSelectedGameObject(button.gameObject);
             if (EventSystem.current.currentSelectedGameObject.transform.position == Vector3.zero)
             {

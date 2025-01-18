@@ -26,6 +26,7 @@ namespace MKH
 
         [SerializeField] GameObject effectUI;
         [SerializeField] GameObject choiceFinishEffect;
+        [SerializeField] GameObject removeEffect;
 
         PlayerController m_player;
         PlayerController _player
@@ -92,19 +93,19 @@ namespace MKH
 
         public void Remove()
         {
-            SoundManager.PlaySFX(removeClip);
-            blueChipChoicePanel.blueChipList.Add(blueChipPanel.mSlots[popUpChoice].Effect);
-            _player.RemoveAdditional(blueChipPanel.mSlots[popUpChoice].Effect);
-            blueChipPanel.mSlots[popUpChoice].ClearSlot();
-            blueChipChoicePanel.blueChipSlots[popUpChoice].ClearSlot();
             popUp.SetActive(false);
             EventSystem.current.SetSelectedGameObject(blueChipChoicePanel.button.gameObject);
+            blueChipChoicePanel.effect.transform.position = new Vector3(460, 300, 0);
+
+            StartCoroutine(RemoveCoroutine());
+            
         }
 
         public void ClosePopUp()
         {
             popUp.SetActive(false);
             EventSystem.current.SetSelectedGameObject(blueChipChoicePanel.button.gameObject);
+            blueChipChoicePanel.effect.transform.position = new Vector3(460, 300, 0);
         }
 
         IEnumerator Error()
@@ -140,6 +141,23 @@ namespace MKH
             blueChipPanel.mSlots[index].AddEffect(effect);
             blueChipChoicePanel.blueChipSlots[index].AddEffect(effect);
             return true;
+        }
+
+        IEnumerator RemoveCoroutine()
+        {
+            SoundManager.PlaySFX(removeClip);
+
+            GameObject obj = ObjectPool.GetPool(removeEffect, blueChipChoicePanel.blueChipSlots[popUpChoice].transform.position, Quaternion.identity, 1f);
+            obj.transform.SetParent(effectUI.transform);
+
+            yield return 0.5f.GetDelay();
+
+            blueChipChoicePanel.blueChipList.Add(blueChipPanel.mSlots[popUpChoice].Effect);
+            _player.RemoveAdditional(blueChipPanel.mSlots[popUpChoice].Effect);
+            blueChipPanel.mSlots[popUpChoice].ClearSlot();
+            blueChipChoicePanel.blueChipSlots[popUpChoice].ClearSlot();
+
+            StopCoroutine(RemoveCoroutine());
         }
     }
 }
