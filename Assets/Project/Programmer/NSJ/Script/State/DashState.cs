@@ -53,7 +53,6 @@ public class DashState : PlayerState
     {
         Dash();
     }
-
     public override void OnTrigger() 
     {
 

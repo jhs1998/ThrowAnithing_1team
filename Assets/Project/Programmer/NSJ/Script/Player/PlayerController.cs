@@ -275,7 +275,7 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
     /// </summary>
     public void ChangeState(State state)
     {
-        if (state == State.Dead) return;
+        if (CurState == State.Dead) return;
 
 
 
@@ -296,8 +296,6 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         PrevState = CurState;
         CurState = state;
         EnterState(CurState);
-
-        //Debug.Log(CurState);
     }
     private void EnterState(State state)
     {
