@@ -43,8 +43,8 @@ public class SoundManager : BaseBinder
         _bgm = GetObject<AudioSource>("BGM");
         _sfx = GetObject<AudioSource>("SFX");
         _loopSfx = GetObject<AudioSource>("LoopSFX");
-    }
 
+    }
 
     public static void SetVolumeMaster(float volume)
     {
