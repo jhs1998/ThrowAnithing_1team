@@ -49,7 +49,7 @@ namespace MKH
             mDefenseLabel.text = $"{playerData.Defense}";
             mHPLabel.text = $"{playerData.MaxHp}";
             mCriticalLabel.text = $"{playerData.CriticalChance}%";
-            mAttackSpeedLabel.text = $"{playerData.AttackSpeed}";
+            mAttackSpeedLabel.text = playerData.AttackSpeed.ToString("F2");
             mSteminaLabel.text = $"{playerData.MaxStamina}";
             mEquipRateLabel.text = $"{playerData.EquipmentDropUpgrade}%";
             mSpeedLabel.text = $"{playerData.MoveSpeed}";
