@@ -203,7 +203,7 @@ public class BalanceSpecialAttack : ArmSpecialAttack
         // 차지 사용량만큼 제거
         Model.CurMana -= _charges[_index].ChargeMana;
         Model.SpecialChargeGage = 0;
-        // 사용한 오브젝트만큼 제거
+        // 사용한 오브젝트만큼 제거ㄴ
         for (int i = 0; i < _charges[_index].ObjectCount; i++)
         {
             Model.PopThrowObject();

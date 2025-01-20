@@ -258,6 +258,10 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         CheckIsNearGround();
         FixedPlayerAdditional();
     }
+    void LateUpdate()
+    {
+        LatePlayerAdditional();
+    }
 
     private void OnDrawGizmos()
     {
@@ -655,6 +659,13 @@ public class PlayerController : MonoBehaviour, IHit, IHeal
         foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
         {
             playerAdditional.FixedUpdate();
+        }
+    }
+    public void LatePlayerAdditional()
+    {
+        foreach (PlayerAdditional playerAdditional in Model.PlayerAdditionals)
+        {
+            playerAdditional.LateUpdate();
         }
     }
     public void TriggerPlayerAdditional()

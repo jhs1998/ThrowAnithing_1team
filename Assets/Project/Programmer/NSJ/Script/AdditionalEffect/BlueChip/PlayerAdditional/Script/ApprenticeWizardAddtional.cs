@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ApprenticeWizard", menuName = "AdditionalEffect/Player/ApprenticeWizard")]
@@ -7,16 +10,24 @@ public class ApprenticeWizardAddtional : PlayerAdditional
 {
     [Header("회복 마나량(%)")]
     [SerializeField] private float _recoveryAmount;
-    public override void Trigger()
+
+    private float _prevMana;
+
+    public override void LateUpdate()
     {
-        if (Player.CurState != PlayerController.State.SpecialAttack)
-            return;
-        RecoverMana();
+        if(_prevMana > Model.CurMana)
+        {
+            RecoverMana();
+        }
+
+        _prevMana = Model.CurMana;
     }
 
     private void RecoverMana()
-    {
-        float recoveryMana = Model.MaxMana * (_recoveryAmount / 100);
-        Model.CurMana += recoveryMana;
+    { 
+        float usedMana = _prevMana - Model.CurMana;
+
+        float recoveryMana = usedMana * (_recoveryAmount / 100);
+        Model.CurMana += recoveryMana;  
     }
 }

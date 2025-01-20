@@ -36,6 +36,12 @@ public class AdditionalEffect : ScriptableObject
     /// 프레임마다 호출
     /// </summary>
     public virtual void Update() { }
+
+    public virtual void LateUpdate()
+    {
+
+    }
+
     /// <summary>
     /// 0.02초마다 호출
     /// </summary>
